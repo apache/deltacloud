@@ -65,6 +65,7 @@ module Converters
           when Instance
             builder.instance( :href=>@link_builder.send( :instance_url, obj.id ) ) {
               builder.id( obj.id )
+              builder.name( obj.name )
               builder.owner_id( obj.owner_id )
               builder.image( :href=>@link_builder.send( :image_url, obj.image_id ) )
               builder.flavor( :href=>@link_builder.send( :flavor_url, obj.flavor_id ) )
