@@ -36,22 +36,22 @@ module Converters
         puts "dump #{obj.inspect} #{obj.is_a?( Flavor )}"
         case ( obj )
           when Flavor
-            builder.flavor( :href=>@link_builder.send( :flavor_url,  obj.resource_id ) ) {
-              builder.id( obj.resource_id )
+            builder.flavor( :href=>@link_builder.send( :flavor_url,  obj.id ) ) {
+              builder.id( obj.id )
               builder.architecture( obj.architecture )
               builder.memory( obj.memory )
               builder.storage( obj.storage )
             }
           when Image
-            builder.image( :href=>@link_builder.send( :image_url, obj.resource_id ) ) {
-              builder.id( obj.resource_id )
+            builder.image( :href=>@link_builder.send( :image_url, obj.id ) ) {
+              builder.id( obj.id )
               builder.owner_id( obj.owner_id )
               builder.description( obj.description )
               builder.architecture( obj.architecture )
             }
           when Instance
-            builder.instance( :href=>@link_builder.send( :instance_url, obj.resource_id ) ) {
-              builder.id( obj.resource_id )
+            builder.instance( :href=>@link_builder.send( :instance_url, obj.id ) ) {
+              builder.id( obj.id )
               builder.owner_id( obj.owner_id )
               builder.image( :href=>@link_builder.send( :image_url, obj.image_id ) )
               builder.flavor( :href=>@link_builder.send( :flavor_url, obj.flavor_id ) )
@@ -59,7 +59,7 @@ module Converters
               builder.actions {
                 if ( obj.actions )
                   obj.actions.each do |action|
-                    builder.link( :rel=>action, :href=>@link_builder.send( "#{action}_instance_url", obj.resource_id ) )
+                    builder.link( :rel=>action, :href=>@link_builder.send( "#{action}_instance_url", obj.id ) )
                   end
                 end
               }

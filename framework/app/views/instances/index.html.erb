@@ -24,7 +24,7 @@
   <% for instance in @instances %>
     <tr>
       <td>
-        <%= link_to instance.resource_id, instance_url( instance.resource_id ) %>
+        <%= link_to instance.id, instance_url( instance.id ) %>
       </td>
       <td>
         <%= link_to instance.owner_id, images_url( :owner=>instance.owner_id ) %>
@@ -40,7 +40,7 @@
       </td>
       <td>
         <% instance.actions.each do |action| %>
-          <%= link_to action, self.send( "#{action}_instance_url", instance.resource_id ), :method=>:post %>
+          <%= link_to action, self.send( "#{action}_instance_url", instance.id ), :method=>:post %>
         <% end %>
       </td>
     </tr>

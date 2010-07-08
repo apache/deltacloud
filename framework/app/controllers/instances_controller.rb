@@ -60,13 +60,13 @@ class InstancesController < ApplicationController
                       } )
           render :action=>:new and return 
         end
-        instance = driver.create_instance( credentials, @image.resource_id, params[:flavor_id] )
-        redirect_to instance_url( instance.resource_id )
+        instance = driver.create_instance( credentials, @image.id, params[:flavor_id] )
+        redirect_to instance_url( instance.id )
       }
       format.xml {
-        instance = driver.create_instance( credentials, @image.resource_id, params[:flavor_id] )
+        instance = driver.create_instance( credentials, @image.id, params[:flavor_id] )
         puts "RESULT #{instance.inspect}"
-        render :xml=>convert_to_xml( :instance, instance), :status=>:created, :location=>instance_url( instance.resource_id )
+        render :xml=>convert_to_xml( :instance, instance), :status=>:created, :location=>instance_url( instance.id )
       }
     end
   end

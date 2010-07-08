@@ -45,11 +45,10 @@ module DeltaCloud
       return collection if opts.nil?
       return collection if opts[attribute].nil?
       filter = opts[attribute]
-      method = ( attribute == :id ? :resource_id : attribute )
       if ( filter.is_a?( Array ) )
-        return collection.select{|e| filter.include?( e.send(method) ) }
+        return collection.select{|e| filter.include?( e.send(attribute) ) }
       else
-        return collection.select{|e| puts e.send( method ) ; filter == e.send(method) }
+        return collection.select{|e| filter == e.send(attribute) }
       end
     end
   end

@@ -1,15 +1,15 @@
 <h1>New Instance</h1>
 
-<h2><%= @image.resource_id %></h2>
+<h2><%= @image.id %></h2>
 <h3><%= @image.description %></h3>
 
 <% form_tag instances_url do %>
   <%= hidden_field_tag :image_id, @instance.image_id %>
   <% for flavor in @flavors %>
     <div class="radio-group">
-      <label for="flavor_id_<%=flavor.resource_id%>">
-        <%= radio_button_tag 'flavor_id', flavor.resource_id %>
-        <%= flavor.resource_id %><br/>
+      <label for="flavor_id_<%=flavor.id%>">
+        <%= radio_button_tag 'flavor_id', flavor.id %>
+        <%= flavor.id %><br/>
         <span class="radio-group-details">
           <%= flavor.architecture %>, <%= flavor.memory %> GB, <%= flavor.storage %> GB
         </span>

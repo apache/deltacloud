@@ -1,6 +1,6 @@
 
 <h1>Image</h1>
-<h2><%= @image.resource_id %></h2>
+<h2><%= @image.id %></h2>
 
 <dl>
   <di>
@@ -30,5 +30,5 @@
 </dl>
   
 <div>
-  <%= link_to 'launch', new_instance_url( :image_id=>@image.resource_id ) %>
+  <%= link_to 'launch', new_instance_url( :image_id=>@image.id ) %>
 </div>

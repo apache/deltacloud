@@ -1,5 +1,5 @@
 
-<h1><%= @instance.resource_id %></h1>
+<h1><%= @instance.id %></h1>
 
 <dl>
   <di>
@@ -58,7 +58,7 @@
 
 <div>
   <% @instance.actions.each do |action| %>
-    <%= link_to action, send( "#{action}_instance_url", @instance.resource_id ), :method=>:post %>
+    <%= link_to action, send( "#{action}_instance_url", @instance.id ), :method=>:post %>
   <% end %>
-  <%= link_to 'delete', instance_url( @instance.resource_id ), :method=>:delete %>
+  <%= link_to 'delete', instance_url( @instance.id ), :method=>:delete %>
 </div>

@@ -19,7 +19,7 @@
   <% for flavor in @flavors %>
     <tr>
       <td>
-        <%= link_to flavor.resource_id, flavor_url( flavor.resource_id ) %>
+        <%= link_to flavor.id, flavor_url( flavor.id ) %>
       </td>
       <td>
         <%= flavor.architecture %>
