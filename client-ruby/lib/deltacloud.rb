@@ -3,15 +3,15 @@ require 'net/http'
 require 'logger'
 require 'rexml/document'
 
-require 'models/flavor'
-require 'models/realm'
-require 'models/image'
-require 'models/instance'
-require 'models/storage_volume'
-require 'models/storage_snapshot'
+require 'dcloud/flavor'
+require 'dcloud/realm'
+require 'dcloud/image'
+require 'dcloud/instance'
+require 'dcloud/storage_volume'
+require 'dcloud/storage_snapshot'
 
-require 'models/state'
-require 'models/transition'
+require 'dcloud/state'
+require 'dcloud/transition'
 
 class DeltaCloud
 

@@ -1,4 +1,4 @@
-require 'models/base_model'
+require 'dcloud/base_model'
 
 module DCloud
     class StorageVolume < BaseModel
