@@ -35,6 +35,8 @@ describe "instances" do
         instance.image.should be_a( DCloud::Image )
         instance.flavor.should_not be_nil
         instance.flavor.should be_a( DCloud::Flavor )
+        instance.instance_profile.should_not be_nil
+        instance.instance_profile.should be_a( DCloud::InstanceProfile )
         instance.state.should_not be_nil
         instance.state.should be_a( String )
         instance.public_addresses.should_not be_nil
@@ -60,18 +62,23 @@ describe "instances" do
 
   it "should allow retrieval of a single instance" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.instance( "inst1" )
+      instance = client.instance( "inst0" )
       instance.should_not be_nil
       instance.name.should_not be_nil
-      instance.name.should eql( 'MockUserInstance' )
+      instance.name.should eql( 'Mock Instance With Profile Change' )
       instance.uri.should_not be_nil
       instance.uri.should be_a( String )
       instance.owner_id.should eql( "mockuser" )
-      instance.public_addresses.first.should eql( "img3.inst1.public.com" )
+      instance.public_addresses.first.should eql( "img1.inst0.public.com" )
       instance.image.should_not be_nil
-      instance.image.uri.should eql( API_URL + "/images/img3" )
+      instance.image.uri.should eql( API_URL + "/images/img1" )
       instance.flavor.should_not be_nil
-      instance.flavor.uri.should eql( API_URL + "/flavors/m1-small" )
+      instance.flavor.uri.should eql( API_URL + "/flavors/m1-large" )
+      instance.instance_profile.should_not be_nil
+      instance.instance_profile.hardware_profile.should_not be_nil
+      instance.instance_profile.hardware_profile.uri.should eql( API_URL + "/hardware_profiles/m1-large" )
+      instance.instance_profile[:memory].should eql( "12288" )
+      instance.instance_profile[:storage].should be_nil
       instance.state.should eql( "RUNNING" )
       instance.actions.should_not be_nil
     end
@@ -86,6 +93,7 @@ describe "instances" do
       instance.name.should eql( 'TestInstance' )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-large' )
+      instance.instance_profile.id.should eql( 'm1-large' )
       instance.realm.id.should eql( 'us' )
     end
   end
@@ -98,30 +106,50 @@ describe "instances" do
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-large' )
+      instance.instance_profile.id.should eql( 'm1-large' )
       instance.realm.id.should eql( 'eu' )
     end
   end
 
-  it "should allow creation of new instances with specific flavor" do
+  it "should allow creation of new instances with specific hardware profile" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.create_instance( 'img1', :flavor=>'m1-xlarge' )
+      instance = client.create_instance( 'img1',
+                                         :hardware_profile=>'m1-xlarge' )
       instance.should_not be_nil
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-xlarge' )
+      instance.instance_profile.id.should eql( 'm1-xlarge' )
       instance.realm.id.should eql( 'us' )
     end
   end
 
-  it "should allow creation of new instances with specific realm and flavor" do
+  it "should allow creation of new instances with specific hardware profile overriding memory" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.create_instance( 'img1', :realm=>'eu', :flavor=>'m1-xlarge' )
+      hwp = { :id => 'm1-xlarge', :memory => 32768 }
+      instance = client.create_instance( 'img1', :hardware_profile=> hwp )
       instance.should_not be_nil
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-xlarge' )
+      instance.instance_profile.id.should eql( 'm1-xlarge' )
+      instance.instance_profile[:memory].should eql( "32768" )
+      instance.realm.id.should eql( 'us' )
+    end
+  end
+
+  it "should allow creation of new instances with specific realm and hardware profile" do
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      instance = client.create_instance( 'img1', :realm=>'eu',
+                                         :hardware_profile=>'m1-xlarge' )
+      instance.should_not be_nil
+      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
+      instance.id.should match( /inst[0-9]+/ )
+      instance.image.id.should eql( 'img1' )
+      instance.flavor.id.should eql( 'm1-xlarge' )
+      instance.instance_profile.id.should eql( 'm1-xlarge' )
       instance.realm.id.should eql( 'eu' )
     end
   end

@@ -19,6 +19,7 @@ require 'rest_client'
 require 'rexml/document'
 require 'logger'
 require 'dcloud/flavor'
+require 'dcloud/hardware_profile'
 require 'dcloud/realm'
 require 'dcloud/image'
 require 'dcloud/instance'
@@ -105,6 +106,34 @@ class DeltaCloud
   def fetch_flavor(uri)
     xml = fetch_resource( :flavor, uri )
     return DCloud::Flavor.new( self, uri, xml ) if xml
+    nil
+  end
+
+  def hardware_profiles(opts={})
+    hardware_profiles = []
+    request(entry_points[:hardware_profiles], :get, opts) do |response|
+      doc = REXML::Document.new( response )
+      doc.get_elements( 'hardware-profiles/hardware-profile' ).each do |hwp|
+        uri = hwp.attributes['href']
+        hardware_profiles << DCloud::HardwareProfile.new( self, uri, hwp )
+      end
+    end
+    hardware_profiles
+  end
+
+  def hardware_profile(id)
+    request( entry_points[:hardware_profiles], :get, {:id=>id } ) do |response|
+      doc = REXML::Document.new( response )
+      doc.get_elements( '/hardware-profile' ).each do |hwp|
+        uri = hwp.attributes['href']
+        return DCloud::HardwareProfile.new( self, uri, hwp )
+      end
+    end
+  end
+
+  def fetch_hardware_profile(uri)
+    xml = fetch_resource( :hardware_profile, uri )
+    return DCloud::HardwareProfile.new( self, uri, xml ) if xml
     nil
   end
 
@@ -262,15 +291,31 @@ class DeltaCloud
     nil
   end
 
+  # Create a new instance, using image +image_id+. Possible optiosn are
+  #
+  #   name  - a user-defined name for the instance
+  #   realm - a specific realm for placement of the instance
+  #   hardware_profile - either a string giving the name of the
+  #                      hardware profile or a hash. The hash must have an
+  #                      entry +id+, giving the id of the hardware profile,
+  #                      and may contain additional names of properties,
+  #                      e.g. 'storage', to override entries in the
+  #                      hardware profile
   def create_instance(image_id, opts={})
     name = opts[:name]
     realm_id = opts[:realm]
-    flavor_id = opts[:flavor]
 
     params = {}
     ( params[:realm_id] = realm_id ) if realm_id
-    ( params[:flavor_id] = flavor_id ) if flavor_id
     ( params[:name] = name ) if name
+
+    if opts[:hardware_profile].is_a?(String)
+      params[:hwp_id] = opts[:hardware_profile]
+    elsif opts[:hardware_profile].is_a?(Hash)
+      opts[:hardware_profile].each do |k,v|
+        params[:"hwp_#{k}"] = v
+      end
+    end
 
     params[:image_id] = image_id
     request( entry_points[:instances], :post, {}, params ) do |response|

@@ -19,6 +19,33 @@
 require 'dcloud/base_model'
 
 module DCloud
+
+    class InstanceProfile
+      attr_reader :hardware_profile, :id
+
+      def initialize(client, xml)
+        @hardware_profile = HardwareProfile.new(client, xml.attributes['href'])
+        @properties = {}
+        @id = xml.text("id")
+        xml.get_elements('property').each do |prop|
+          @properties[prop.attributes['name'].to_sym] = {
+            :value => prop.attributes['value'],
+            :unit => prop.attributes['unit'],
+            :kind => prop.attributes['kind'].to_sym
+          }
+        end
+      end
+
+      def [](prop)
+        p = @properties[prop]
+        p ? p[:value] : nil
+      end
+
+      def property(prop)
+        @properties[prop]
+      end
+    end
+
     class Instance < BaseModel
 
       xml_tag_name :instance
@@ -33,6 +60,7 @@ module DCloud
       attribute :flavor
       attribute :realm
       attribute :action_urls
+      attribute :instance_profile
 
       def initialize(client, uri, xml=nil)
         @action_urls = {}
@@ -100,6 +128,8 @@ module DCloud
               realm_uri = xml.get_elements( 'realm' )[0].attributes['href']
               @realm = Realm.new( @client, realm_uri )
           end
+          instance_profile = xml.get_elements( 'hardware-profile' ).first
+          @instance_profile = InstanceProfile.new( @client, instance_profile )
           @state = xml.text( 'state' )
           @actions = []
           xml.get_elements( 'actions/link' ).each do |link|

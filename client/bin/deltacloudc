@@ -70,7 +70,6 @@ client = DeltaCloud.new(url.user, url.password, api_url, { :verbose => options[:
 collections = client.entry_points.keys
 
 # Exclude collection which don't have methods in client library yet
-collections.delete(:hardware_profiles)
 collections.delete(:instance_states)
 
 # If list parameter passed print out available collection
