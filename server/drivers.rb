@@ -1,4 +1,3 @@
-
 DRIVERS = {
   :ec2 => { :name => "EC2" },
   :rackspace => { :name => "Rackspace" },
@@ -19,12 +18,12 @@ def driver_class_name
 end
 
 def driver_source_name
-  "deltacloud/drivers/#{DRIVER}/#{DRIVER}_driver.rb"
+  File.join("deltacloud", "drivers", "#{DRIVER}", "#{DRIVER}_driver.rb")
 end
 
 def driver_mock_source_name
-  return "deltacloud/drivers/#{DRIVER}/#{DRIVER}_driver.rb" if driver_name.eql? 'Mock'
-  "deltacloud/drivers/#{DRIVER}/#{DRIVER}_mock_driver.rb"
+  return File.join('deltacloud', 'drivers', DRIVER, "#{DRIVER}_driver.rb") if driver_name.eql? 'Mock'
+  File.join('deltacloud', 'drivers', DRIVER, "#{DRIVER}_mock_driver.rb")
 end
 
 def driver
@@ -36,4 +35,3 @@ def driver
 
   @driver ||= eval( driver_class_name ).new
 end
-

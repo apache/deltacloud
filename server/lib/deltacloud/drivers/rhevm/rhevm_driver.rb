@@ -24,8 +24,8 @@ module Deltacloud
 
 class RHEVMDriver < Deltacloud::BaseDriver
 
-  SCRIPT_DIR = File.dirname(__FILE__) + '/../scripts'
-  CONFIG = YAML.load_file(RAILS_ROOT + '/config/rhevm_config.yml')
+  SCRIPT_DIR = File.dirname(__FILE__) + '/scripts'
+  CONFIG = YAML.load_file(File.dirname(__FILE__) + '/../../../../config/rhevm_config.yml')
   SCRIPT_DIR_ARG = '"' + SCRIPT_DIR + '"'
   DELIM_BEGIN="<_OUTPUT>"
   DELIM_END="</_OUTPUT>"
@@ -41,6 +41,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def execute(credentials, command, *args)
     args = args.to_a
     argString = genArgString(credentials, args)
+    puts argString
     outputMaps = {}
     output = `#{POWERSHELL} -command "&{#{File.join(SCRIPT_DIR, command)} #{argString}; exit $LASTEXITCODE}`
     exitStatus = $?.exitstatus
