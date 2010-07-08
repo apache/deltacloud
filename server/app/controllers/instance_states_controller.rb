@@ -15,6 +15,8 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+require 'open3'
+
 class InstanceStatesController < ApplicationController
 
   include DriverHelper
@@ -29,6 +31,18 @@ class InstanceStatesController < ApplicationController
       format.html
       format.json
       format.xml
+      format.gv
+      format.png {
+        gv = render_to_string( :file=>'instance_states/show.gv.erb' )
+        png =  ''
+        cmd = 'dot -Gsize="7.7,7" -Tpng'
+        Open3.popen3( cmd ) do |stdin, stdout, stderr|
+          stdin.write( gv )
+          stdin.close()
+          png = stdout.read
+        end
+        render :text=>png, :content_type=>'image/png'
+      }
     end
   end
 

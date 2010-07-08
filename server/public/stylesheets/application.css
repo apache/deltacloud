@@ -89,3 +89,8 @@ input[type='radio'] {
   margin-top: 1ex;
   margin-left: 1ex;
   margin-bottom: 1ex; }
+
+#state_graph {
+  display: block;
+  margin-bottom: 2em;
+  text-align: center; }
