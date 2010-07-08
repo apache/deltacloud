@@ -43,7 +43,39 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
   def instances(credentials, opts=nil)
     rh = new_client(credentials)
     instances = rh.list_nodes.map do | inst |
-      Instance.new({
+      convert_srv_to_instance(inst)
+    end
+    instances = filter_on( instances, :id, opts)
+    instances
+  end
+  def reboot_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.set_server_state(id, :REBOOTING)
+  end
+
+  def stop_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.set_server_state(id, :STOPPED)
+  end
+
+  def destroy_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.delete_server(id)
+  end
+  
+  def create_instance(credentials, image_id, opts)
+    rh = new_client( credentials )
+    # really need to raise an exception here.
+    flavor_id = 1
+    if (opts[:flavor_id]) then flavor_id = opts[:flavor_id] end
+    # really bad, but at least its a fqdn
+    name = Time.now.to_s + '.com'
+    if (opts[:name]) then name = opts[:name] end
+    convert_srv_to_instance(rh.start_server(image_id, flavor_id, name))
+  end
+
+  def convert_srv_to_instance( inst )
+     Instance.new({
                   :id => inst["order_oid"],
                   :name => inst["domain_name"],
                   :image_id => inst["distro"],
@@ -54,25 +86,7 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
                   :flavor_id => "none",
                   :actions => instance_actions_for("RUNNING")
               })
-    end
-    instances = filter_on( instances, :id, opts)
-    instances
   end
-  def reboot_instance(credentials, id)
-    rh = new_client(credentials)
-    rh.reboot_server(id)
-  end
-
-  def stop_instance(credentials, id)
-    rh = new_client(credentials)
-    rh.stop_server(id)
-  end
-
-  def destroy_instance(credentials, id)
-    rh = new_client(credentials)
-    rh.delete_server(id)
-  end
-  
   def instance_states
     [
       [ :begin, { :running => :_auto_ }],

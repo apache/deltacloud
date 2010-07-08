@@ -40,5 +40,11 @@ class RimuHostingClient
   def delete_server(id)
     request('/orders/order-#{id}/vps','', 'DELETE')
   end
+
+  def create_server(image_id, flavor_id, name)
+    json = {:new_vps => {:instantiation_options => {:domain_name => name, :distro => image_id},
+                        :pricing_plan_code => flavor_id}}
+    request('/orders/new-vps',json, 'POST')[:about_order]
+  end
 end
 
