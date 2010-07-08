@@ -35,8 +35,8 @@ World do
       header 'Accept', 'application/xml'
     end
   end
-  
-  prefixes = %W{ @prefix-start, @prefix-reboot, @prefix-stop, @prefix-create, @prefix-create-hwp}
+
+  prefixes = %W{ @prefix-start, @prefix-reboot, @prefix-stop, @prefix-create, @prefix-create-hwp, @prefix-destroy, @prefix-actions}
 
   Before(prefixes.join(',')) do |scenario|
     prefix = scenario.source_tag_names.first.gsub(/@prefix-/, '')

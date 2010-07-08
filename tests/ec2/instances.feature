@@ -77,13 +77,14 @@ Feature: Managing instances
     When client follow hardware-profile href attribute in first instance
     Then client should get valid hardware-profile
 
+  @prefix-actions
   Scenario: Instance actions
     Given URI /api/instances exists
     And authentification is required for this URI
     When client access this URI
     Then client should get root element 'instances'
     And this element contains some instances
-    And each instance should have actions
+    And each running instance should have actions
     And each actions should have some links
     And each link should have valid href attribute
     And each link should have valid method attribute
@@ -98,8 +99,6 @@ Feature: Managing instances
     And this element contains some instances
     When client want to 'reboot' last instance
     And client follow link in actions
-    Then client should get first instance
-    And this instance should be in 'RUNNING' state
 
   @prefix-stop
   Scenario: Stop instance
@@ -108,11 +107,8 @@ Feature: Managing instances
     When client access this URI
     Then client should get root element 'instances'
     And this element contains some instances
-    When client want to 'stop' first instance
+    When client want to 'stop' last instance
     And client follow link in actions
-    Then client should get first instance
-    And this instance should be in 'STOPPED' state
-
 
   @prefix-create
   Scenario: Basic instance creation
@@ -148,13 +144,11 @@ Feature: Managing instances
     When client access this URI
     Then client should get HTML form
 
+  @prefix-destroy
   Scenario: Destroying created instance
     Given URI /api/instances exists
     And authentification is required for this URI
-    When client want to 'stop' created instance
+    When client want to 'stop' first instance
     And client follow link in actions
     Then client should get created instance
-    And this instance should be in 'STOPPED' state
-    When client want to 'destroy' created instance
-    And client follow link in actions
     And this instance should be destroyed

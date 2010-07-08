@@ -7,20 +7,24 @@ Then /^client should get valid ([\w\-]+)$/ do |element|
   output_xml.xpath("/#{element}").first.should_not be_nil
 end
 
-Then /^each instance should have actions$/ do
+Then /^each running instance should have actions$/ do
   output_xml.xpath('/instances/instance').each do |instance|
+    next if instance.xpath('state').text!='RUNNING'
     instance.xpath('actions').first.should_not be_nil
   end
 end
 
 Then /^each actions should have some links$/ do
   output_xml.xpath('/instances/instance').each do |instance|
+    next if instance.xpath('state').text!='RUNNING'
+    puts instance.to_s
     instance.xpath('actions/link').first.should_not be_nil
   end
 end
 
 Then /^each link should have valid (\w+) attribute$/ do |attr|
   output_xml.xpath('/instances/instance').each do |instance|
+    next if instance.xpath('state').text!='RUNNING'
     instance.xpath('actions/link').first[attr].should_not be_nil
   end
 end
@@ -36,17 +40,14 @@ end
 
 When /^client follow link in actions$/ do
 
-  unless @instance
+  unless @instance.xpath('id')
     l = output_xml.xpath('/instances/instance[1]/actions/link[@rel="'+@action+'"]').first
   else
     l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
   end
 
-  if @action=='destroy'
-    delete l[:href], { :id => @instance.xpath('id').first.text }
-  else
-    post l[:href], { :id => @instance.xpath('id').first.text }
-  end
+  post l[:href], { :id => @instance.xpath('id').first.text }
+
   last_response.status.should_not == 500
 end
 
