@@ -1,6 +1,6 @@
 require 'tests/deltacloud_test'
 
-class InstancesTest < Test::Unit::TestCase 
+class InstancesTest < Test::Unit::TestCase
 
   def initialize(*args)
     @collection = 'instances'
@@ -132,6 +132,5 @@ class InstancesTest < Test::Unit::TestCase
   end
 
   include DeltacloudTest
-  
-end
 
+end

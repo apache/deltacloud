@@ -50,10 +50,10 @@ module DeltacloudTest
     end
 
     def rack_headers
-      return { 
-        'HTTP_AUTHORIZATION' => authorization('mockuser', 'mockpassword'), 
-        'SERVER_PORT' => '4040', 
-        'Accept' => 'application/xml;q=1' 
+      return {
+        'HTTP_AUTHORIZATION' => authorization('mockuser', 'mockpassword'),
+        'SERVER_PORT' => '4040',
+        'Accept' => 'application/xml;q=1'
       }
     end
 

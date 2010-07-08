@@ -1,6 +1,6 @@
 require 'tests/deltacloud_test'
 
-class RealmsTest < Test::Unit::TestCase 
+class RealmsTest < Test::Unit::TestCase
 
   def initialize(*args)
     @collection = 'realms'
@@ -52,6 +52,5 @@ class RealmsTest < Test::Unit::TestCase
   end
 
   include DeltacloudTest
-  
-end
 
+end

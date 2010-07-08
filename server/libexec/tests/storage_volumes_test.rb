@@ -1,6 +1,6 @@
 require 'tests/deltacloud_test'
 
-class StorageVolumesTest < Test::Unit::TestCase 
+class StorageVolumesTest < Test::Unit::TestCase
 
   def initialize(*args)
     @collection = 'storage_volumes'
@@ -44,6 +44,5 @@ class StorageVolumesTest < Test::Unit::TestCase
   end
 
   include DeltacloudTest
-  
-end
 
+end
