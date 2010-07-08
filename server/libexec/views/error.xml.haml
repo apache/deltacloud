@@ -1,7 +1,7 @@
 %error{:url => "#{request.env['REQUEST_URI']}"}
   %parameter #{@error.name}
-  %msg #{@error.msg}
-  - unless @error.spec[:options].empty?
+  %message #{@error.message}
+  - unless @error.param.options.empty?
     %valid_options
-      - @error.spec[:options].each do |v|
+      - @error.param.options.each do |v|
         %value #{v}

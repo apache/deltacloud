@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/url_for'
+require 'deltacloud/validation'
 
 module Sinatra
 
@@ -8,10 +9,11 @@ module Sinatra
     class DuplicateParamException < Exception; end
     class DuplicateOperationException < Exception; end
     class DuplicateCollectionException < Exception; end
-    class ValidationFailure < Exception; end
 
     class Operation
       attr_reader :name, :method
+
+      include ::Deltacloud::Validation
 
       STANDARD = {
         :index => { :method => :get, :member => false },
@@ -29,7 +31,6 @@ module Sinatra
         @method = opts[:method].to_sym
         @member = opts[:member]
         @description = ""
-        @params = {}
         instance_eval(&block) if block_given?
         generate_documentation
       end
@@ -54,23 +55,10 @@ module Sinatra
         end
       end
 
-      def param(*args)
-        raise DuplicateParamException if @params[args[0]]
-        spec = {
-          :class => args[1] || :string,
-          :type => args[2] || :optional,
-          :options => args[3] || [],
-          :description => args[4] || '' }
-        @params[args[0]] = spec
-      end
-
-      def params
-        @params
-      end
-
       def control(&block)
+        op = self
         @control = Proc.new do
-          validate_parameters(params, @params)
+          op.validate(params)
           instance_eval(&block)
         end
       end

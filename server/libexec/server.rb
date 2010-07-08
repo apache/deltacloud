@@ -9,8 +9,8 @@ require 'builder'
 require 'drivers'
 require 'sinatra/static_assets'
 require 'sinatra/rabbit'
-require 'sinatra/validation'
 require 'sinatra/lazy_auth'
+require 'deltacloud/validation'
 
 configure do
   set :raise_errors => false
@@ -61,6 +61,19 @@ def show(model)
       format.xml { return convert_to_xml(model, @element) }
       format.html { haml :"#{model.to_s.pluralize}/show" }
     end
+  end
+end
+
+
+#
+# Error handlers
+#
+error Deltacloud::Validation::Failure do
+  @error = request.env['sinatra.error']
+  $stdout.flush
+  response.status = 400
+  respond_to do |format|
+    format.xml { haml :error, :layout => false }
   end
 end
 
