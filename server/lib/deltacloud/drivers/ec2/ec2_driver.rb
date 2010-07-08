@@ -17,7 +17,7 @@
 
 
 require 'deltacloud/base_driver'
-require 'right_aws'
+require 'AWS'
 
 module Deltacloud
   module Drivers
@@ -91,35 +91,19 @@ class EC2Driver < Deltacloud::BaseDriver
   # Images
   #
 
-  def images(credentials, opts=nil )
-    puts(opts)
-    ec2 = new_client( credentials )
-    images = []
+  def images(credentials, opts={} )
+    ec2 = new_client(credentials)
+    img_arr = []
+    config = { :owner_id => "amazon" }
+    config.merge!({ :owner_id => opts[:owner_id] }) if opts and opts[:owner_id]
+    config.merge!({ :image_id => opts[:id] }) if opts and opts[:id]
     safely do
-      if ( opts && opts[:id] )
-        ec2.describe_images(opts[:id]).each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ )
-            images << convert_image( ec2_image )
-          end
-        end
-        filter_on( images, :owner_id, opts )
-      elsif ( opts && opts[:owner_id] )
-        ec2.describe_images_by_owner( opts[:owner_id] ).each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ )
-            images << convert_image( ec2_image )
-          end
-        end
-      else
-        ec2.describe_images().each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ )
-            images << convert_image( ec2_image )
-          end
-        end
+      ec2.describe_images(config).imagesSet.item.each do |image|
+        img_arr << convert_image(image)
       end
     end
-
-    images = filter_on( images, :architecture, opts )
-    images.sort_by{|e| [e.owner_id,e.description]}
+    img_arr = filter_on( img_arr, :architecture, opts )
+    img_arr.sort_by{|e| [e.owner_id, e.name]}
   end
 
   #
@@ -130,7 +114,7 @@ class EC2Driver < Deltacloud::BaseDriver
     ec2 = new_client(credentials)
     realms = []
     safely do
-      ec2.describe_availability_zones.each do |ec2_realm|
+      ec2.describe_availability_zones.availabilityZoneInfo.item.each do |ec2_realm|
         realms << convert_realm( ec2_realm )
       end
     end
@@ -140,14 +124,17 @@ class EC2Driver < Deltacloud::BaseDriver
   #
   # Instances
   #
-
   def instances(credentials, opts=nil)
     ec2 = new_client(credentials)
     instances = []
     safely do
       param = opts.nil? ? nil : opts[:id]
-      ec2.describe_instances( param ).each do |ec2_instance|
-        instances << convert_instance( ec2_instance )
+      ec2_instances = ec2.describe_instances.reservationSet
+      return [] unless ec2_instances
+      ec2_instances.item.each do |item|
+        item.instancesSet.item.each do |ec2_instance|
+          instances << convert_instance( ec2_instance, item.ownerId )
+        end
       end
     end
     instances = filter_on( instances, :id, opts )
@@ -155,42 +142,43 @@ class EC2Driver < Deltacloud::BaseDriver
     instances
   end
 
+
   def create_instance(credentials, image_id, opts)
     ec2 = new_client( credentials )
     realm_id = opts[:realm_id]
-    hwp = find_hardware_profile(credentials, opts[:hwp_id], image_id)
+    image = image(credentials, :id => image_id )
+    hwp = find_hardware_profile(credentials, opts[:hwp_id], image.id)
     ec2_instances = ec2.run_instances(
-                          image_id,
-                          1,1,
-                          [],
-                          nil,
-                          opts[:user_data],
-                          'public',
-                          hwp.name.gsub(/-/, '.'),
-                          nil,
-                          nil,
-                          realm_id )
-    convert_instance( ec2_instances.first )
+      :image_id => image.id,
+      :user_data => opts[:user_data],
+      :key_name => opts[:key_name],
+      :availability_zone => realm_id,
+      :monitoring_enabled => true,
+      :instance_type => hwp.name.tr('-', '.'),
+      :disable_api_termination => false,
+      :instance_initiated_shutdown_behavior => 'terminate'
+    )
+    convert_instance( ec2_instances.instancesSet.item.first, 'pending' )
   end
 
   def reboot_instance(credentials, id)
     ec2 = new_client(credentials)
     safely do
-      ec2.reboot_instances( id )
+      ec2.reboot_instances( :instance_id => id )
     end
   end
 
   def stop_instance(credentials, id)
     ec2 = new_client(credentials)
     safely do
-      ec2.terminate_instances( id )
+      ec2.terminate_instances( :instance_id => id )
     end
   end
 
   def destroy_instance(credentials, id)
     ec2 = new_client(credentials)
     safely do
-      ec2.terminate_instances( id )
+      ec2.terminate_instances( :instance_id => id )
     end
   end
 
@@ -203,11 +191,13 @@ class EC2Driver < Deltacloud::BaseDriver
     volumes = []
     safely do
       if (opts)
-        ec2.describe_volumes(opts[:id]).each do |ec2_volume|
+        ec2.describe_volumes(:volume_id => opts[:id]).volumeSet.item.each do |ec2_volume|
           volumes << convert_volume( ec2_volume )
         end
       else
-        ec2.describe_volumes().each do |ec2_volume|
+        ec2_volumes = ec2.describe_volumes.volumeSet
+        return [] unless ec2_volumes
+        ec2_volumes.item.each do |ec2_volume|
           volumes << convert_volume( ec2_volume )
         end
       end
@@ -224,11 +214,13 @@ class EC2Driver < Deltacloud::BaseDriver
     snapshots = []
     safely do
       if (opts)
-        ec2.describe_snapshots(opts[:id]).each do |ec2_snapshot|
+        ec2.describe_snapshots(:owner => 'self', :snapshot_id => opts[:id]).snapshotSet.item.each do |ec2_snapshot|
           snapshots << convert_snapshot( ec2_snapshot )
         end
       else
-        ec2.describe_snapshots(opts).each do |ec2_snapshot|
+        ec2_snapshots = ec2.describe_snapshots(:owner => 'self').snapshotSet
+        return [] unless ec2_snapshots
+        ec2_snapshots.item.each do |ec2_snapshot|
           snapshots << convert_snapshot( ec2_snapshot )
         end
       end
@@ -239,84 +231,79 @@ class EC2Driver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    RightAws::Ec2.new(credentials.user, credentials.password, :cache=>false )
+    AWS::EC2::Base.new(
+      :access_key_id => credentials.user,
+      :secret_access_key => credentials.password
+    )
   end
 
   def convert_image(ec2_image)
     Image.new( {
-      :id=>ec2_image[:aws_id],
-      :name=>ec2_image[:aws_location],
-      :description=>ec2_image[:aws_location],
-      :owner_id=>ec2_image[:aws_owner],
-      :architecture=>ec2_image[:aws_architecture],
+      :id=>ec2_image['imageId'],
+      :name=>ec2_image['name'] || ec2_image['imageId'],
+      :description=>ec2_image['description'] || ec2_image['imageLocation'] || '',
+      :owner_id=>ec2_image['imageOwnerId'],
+      :architecture=>ec2_image['architecture'],
     } )
   end
 
   def convert_realm(ec2_realm)
     Realm.new( {
-      :id=>ec2_realm[:zone_name],
-      :name=>ec2_realm[:zone_name],
-      :limit=>:unlimited,
-      :state=>ec2_realm[:zone_state].upcase,
+      :id=>ec2_realm['zoneName'],
+      :name=>ec2_realm['regionName'],
+      :limit=>ec2_realm['zoneState'].eql?('available') ? :unlimited : 0,
+      :state=>ec2_realm['zoneState'].upcase,
     } )
   end
 
-  def convert_instance(ec2_instance)
-    state = ec2_instance[:aws_state].upcase
+  def convert_instance(ec2_instance, owner_id)
+    state = ec2_instance['instanceState']['name'].upcase
     state_key = state.downcase.underscore.to_sym
-
-    realm_id = ec2_instance[:aws_availability_zone]
+    realm_id = ec2_instance['placement']['availabilityZone']
     (realm_id = nil ) if ( realm_id == '' )
-
-    hwp_name = ec2_instance[:aws_instance_type].gsub( /\./, '-')
-
+    hwp_name = ec2_instance['instanceType'].gsub( /\./, '-')
     Instance.new( {
-      :id=>ec2_instance[:aws_instance_id],
-      :name => ec2_instance[:aws_image_id],
-      :state=>ec2_instance[:aws_state].upcase,
-      :image_id=>ec2_instance[:aws_image_id],
-      :owner_id=>ec2_instance[:aws_owner],
+      :id=>ec2_instance['instanceId'],
+      :name => ec2_instance['imageId'],
+      :state=>state,
+      :image_id=>ec2_instance['imageId'],
+      :owner_id=>owner_id,
       :realm_id=>realm_id,
-      :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
-      :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
-      :instance_profile => InstanceProfile.new(hwp_name),
-      :actions=>instance_actions_for( ec2_instance[:aws_state].upcase ),
+      :public_addresses=>( ec2_instance['dnsName'] == '' ? [] : [ec2_instance['dnsName']] ),
+      :private_addresses=>( ec2_instance['privateDnsName'] == '' ? [] : [ec2_instance['privateDnsName']] ),
+      :flavor_id=>ec2_instance['instanceType'].gsub( /\./, '-'),
+      :instance_profile =>InstanceProfile.new(hwp_name),
+      :actions=>instance_actions_for( state ),
     } )
   end
 
   def convert_volume(ec2_volume)
     StorageVolume.new( {
-      :id=>ec2_volume[:aws_id],
-      :created=>ec2_volume[:aws_created_at],
-      :state=>ec2_volume[:aws_status].upcase,
-      :capacity=>ec2_volume[:aws_size],
-      :instance_id=>ec2_volume[:aws_instance_id],
-      :device=>ec2_volume[:aws_device],
+      :id=>ec2_volume['volumeId'],
+      :created=>ec2_volume['createTime'],
+      :state=>ec2_volume['status'].upcase,
+      :capacity=>ec2_volume['size'],
+      :instance_id=>ec2_volume['snapshotId'],
+      :device=>ec2_volume['attachmentSet'],
     } )
   end
 
   def convert_snapshot(ec2_snapshot)
     StorageSnapshot.new( {
-      :id=>ec2_snapshot[:aws_id],
-      :state=>ec2_snapshot[:aws_status].upcase,
-      :storage_volume_id=>ec2_snapshot[:aws_volume_id],
-      :created=>ec2_snapshot[:aws_started_at],
+      :id=>ec2_snapshot['snapshotId'],
+      :state=>ec2_snapshot['status'].upcase,
+      :storage_volume_id=>ec2_snapshot['volumeId'],
+      :created=>ec2_snapshot['startTime'],
     } )
   end
 
   def safely(&block)
     begin
       block.call
-    rescue RightAws::AwsError => e
-      if ( e.include?( /SignatureDoesNotMatch/ ) )
+    rescue AWS::AuthFailure => e
         raise Deltacloud::AuthException.new
-      elsif ( e.include?( /InvalidClientTokenId/ ) )
-        raise Deltacloud::AuthException.new
-      else
-        e.errors.each do |error|
-          puts "ERROR #{error.inspect}"
-        end
-      end
+    rescue Exception => e
+        puts "ERROR: #{e.message}"
     end
   end
 
