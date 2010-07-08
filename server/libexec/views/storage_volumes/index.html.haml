@@ -8,7 +8,7 @@
       %th Capacity
       %th Status
   %tbody
-    - @volumes.each do |volume|
+    - @storage_volumes.each do |volume|
       %tr
         %td
           = link_to volume.id, storage_volume_url( volume.id )

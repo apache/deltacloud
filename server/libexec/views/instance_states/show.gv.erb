@@ -1,7 +1,7 @@
 digraph instance_states {
   rankdir=LR;
   <% for state in @machine.states do %>
-    <%= state -%> 
+    <%= state %>
       [
         label="<%= state.to_s.titlecase %>",
         labelloc="c",
@@ -25,8 +25,8 @@ digraph instance_states {
 
   <% for state in @machine.states do %>
     <% for transition in state.transitions do %>
-      <%= state %> -> <%= transition.destination %> 
-        [ 
+      <%= state %> -> <%= transition.destination %>
+        [
           label="<%= transition.automatically? ? 'auto' : transition.action %>",
           fontsize="14.0",
           penwidth="2.0",

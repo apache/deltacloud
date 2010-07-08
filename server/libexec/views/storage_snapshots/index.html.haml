@@ -8,7 +8,7 @@
       %th Created
       %th State
   %tbody
-    - @snapshots.each do |snapshot|
+    - @storage_snapshots.each do |snapshot|
       %tr
         %td
           = link_to snapshot.id, storage_snapshot_url( snapshot.id )

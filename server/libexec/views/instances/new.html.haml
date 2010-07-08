@@ -1,0 +1,31 @@
+%h1 New Instance
+
+%h2= @image.id
+%h3= @image.description
+
+%form{ :action => instances_url, :method => :post }
+  %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
+  %label
+    Instance Name:
+  %input{ :name => 'name', :size => 30 }/
+  - if !@flavors.empty?
+    %h3 What flavor of machine?
+    - for flavor in @flavors
+      .radio-group
+        %label{ :for => "flavor_id_#{flavor.id}" }
+          %input{ :type => :radio, :name => 'flavor_id', :value => flavor.id }/
+          = flavor.id
+          %br/
+          %span.radio-group-details
+            = "#{flavor.architecture}, #{flavor.memory} GB, #{flavor.storage} GB"
+  - if !@realms.empty?
+    %h3 Where do you want it?
+    - for realm in @realms
+      .radio-group
+        %label{ :for => "realm_id_#{realm.id}" }
+          %input{ :type => :radio, :name => 'realm_id', :value => realm.id }/
+          = realm.id
+          %br/
+          %span.radio-group-details
+            = "#{realm.name}, #{realm.limit}"
+  %input{ :type => :submit, :name => "commit", :value => "create" }/

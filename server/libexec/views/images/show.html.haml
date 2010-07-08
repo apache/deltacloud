@@ -18,5 +18,4 @@
       = @image.description
     %dt
     %dd
-      = link_to 'Launch', new_instance_url( :image_id => @image.id )
-
+      = link_to 'Launch', "/api/instances/new?image_id=#{@image.id}"
