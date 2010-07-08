@@ -57,12 +57,32 @@ argv_opts << ['--threaded', '-D', '--stats', '/stats']
 
 argv_opts.flatten!
 
-thin = Thin::Runner.new(argv_opts)
+if options[:env] == "development"
+  use_rerun = false
+  begin
+    require "rerun"
+    use_rerun = true
+  rescue
+    # Do nothing
+  end
+end
 
-begin
-  puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
-  puts
-  thin.run!
-rescue Exception => e
-  puts "ERROR: #{e.message}"
+puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+puts
+
+if use_rerun
+  argv_opts.unshift "thin"
+  command = argv_opts.join(" ")
+  topdir = File::expand_path(File::join(File::dirname(__FILE__), ".."))
+  rerun = Rerun::Runner.new(command, :dir => topdir)
+  rerun.start
+  rerun.join
+else
+  thin = Thin::Runner.new(argv_opts)
+
+  begin
+    thin.run!
+  rescue Exception => e
+    puts "ERROR: #{e.message}"
+  end
 end
