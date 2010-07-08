@@ -59,11 +59,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   end
 
   def genArgString(credentials, args)
-    if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-      raise Deltacloud::AuthException.new
-    end
-    puts CONFIG["domain"]
-    commonArgs = [SCRIPT_DIR_ARG, credentials[:name], credentials[:password], CONFIG["domain"]]
+    commonArgs = [SCRIPT_DIR_ARG, credentials.name, credentials.password, CONFIG["domain"]]
     commonArgs.concat(args)
     commonArgs.join(" ")
   end

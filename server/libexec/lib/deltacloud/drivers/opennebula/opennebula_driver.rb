@@ -178,10 +178,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-	if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-		raise Deltacloud::AuthException.new
-	end
-	OCCIClient::Client.new(nil,	credentials[:name], credentials[:password], false)
+	OCCIClient::Client.new(nil,	credentials.user, credentials.password, false)
   end
 
 
@@ -193,7 +190,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 		:id=>diskhash['ID'].text,
 		:name=>diskhash['NAME'].text,
 		:description=>diskhash['NAME'].text,
-		:owner_id=>credentials[:name],
+		:owner_id=>credentials.user,
 		:architecture=>'Any architecture',
 	} )
   end
@@ -216,7 +213,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 
 	Instance.new( {
 		:id=>computehash['ID'].text,
-		:owner_id=>credentials[:name],
+		:owner_id=>credentials.user,
 		:name=>computehash['NAME'].text,
 		:image_id=>imageid,
 		:flavor_id=>flavor,

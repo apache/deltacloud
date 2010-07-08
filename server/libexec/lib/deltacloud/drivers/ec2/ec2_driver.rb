@@ -272,10 +272,7 @@ class EC2Driver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-      raise Deltacloud::AuthException.new
-    end
-    RightAws::Ec2.new(credentials[:name], credentials[:password], :cache=>false )
+    RightAws::Ec2.new(credentials.user, credentials.password, :cache=>false )
   end
 
   def convert_image(ec2_image)

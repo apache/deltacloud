@@ -31,10 +31,8 @@ class RimuHostingClient
     @uri = URI.parse(baseuri)
     @service = Net::HTTP.new(@uri.host, @uri.port)
     @service.use_ssl = true
-    if(credentials[:password].nil? || credentials[:password] == "")
-      @auth = nil
-    else
-      @auth = "rimuhosting apikey=%s" % [credentials[:password]]  
+    if credentials.provided?
+      @auth = "rimuhosting apikey=#{credentials.password}"
     end
 
   end

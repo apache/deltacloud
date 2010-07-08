@@ -127,10 +127,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
 
   def new_client(credentials)
-    if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-      raise Deltacloud::AuthException.new
-    end
-    RackspaceClient.new(credentials[:name], credentials[:password])
+    RackspaceClient.new(credentials.name, credentials.password)
   end
 
   define_instance_states do

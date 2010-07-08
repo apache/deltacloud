@@ -123,7 +123,7 @@ class MockDriver < Deltacloud::BaseDriver
     images = filter_on( images, :id, opts )
     images = filter_on( images, :architecture, opts )
     if ( opts && opts[:owner_id] == 'self' )
-      images = images.select{|e| e.owner_id == credentials[:name] }
+      images = images.select{|e| e.owner_id == credentials.user }
     else
       images = filter_on( images, :owner_id, opts )
     end
@@ -139,7 +139,7 @@ class MockDriver < Deltacloud::BaseDriver
     instances = []
     Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
       instance = YAML.load( File.read( instance_file ) )
-      if ( instance[:owner_id] == credentials[:name] )
+      if ( instance[:owner_id] == credentials.user )
         instance[:id] = File.basename( instance_file, ".yml" )
         instance[:actions] = instance_actions_for( instance[:state] )
         instances << Instance.new( instance )
@@ -173,7 +173,7 @@ class MockDriver < Deltacloud::BaseDriver
       :name=>name,
       :state=>'RUNNING',
       :image_id=>image_id,
-      :owner_id=>credentials[:name],
+      :owner_id=>credentials.user,
       :public_addresses=>["#{image_id}.#{next_id}.public.com"],
       :private_addresses=>["#{image_id}.#{next_id}.private.com"],
       :flavor_id=>flavor_id,
@@ -234,7 +234,7 @@ class MockDriver < Deltacloud::BaseDriver
     volumes = []
     Dir[ "#{STORAGE_ROOT}/storage_volumes/*.yml" ].each do |storage_volume_file|
       storage_volume = YAML.load( File.read( storage_volume_file ) )
-      if ( storage_volume[:owner_id] == credentials[:name] )
+      if ( storage_volume[:owner_id] == credentials.user )
         storage_volume[:id] = File.basename( storage_volume_file, ".yml" )
         volumes << StorageVolume.new( storage_volume )
       end
@@ -252,7 +252,7 @@ class MockDriver < Deltacloud::BaseDriver
     snapshots = []
     Dir[ "#{STORAGE_ROOT}/storage_snapshots/*.yml" ].each do |storage_snapshot_file|
       storage_snapshot = YAML.load( File.read( storage_snapshot_file ) )
-      if ( storage_snapshot[:owner_id] == credentials[:name] )
+      if ( storage_snapshot[:owner_id] == credentials.user )
         storage_snapshot[:id] = File.basename( storage_snapshot_file, ".yml" )
         snapshots << StorageSnapshot.new( storage_snapshot )
       end
@@ -264,11 +264,11 @@ class MockDriver < Deltacloud::BaseDriver
   private
 
   def check_credentials(credentials)
-    if ( credentials[:name] != 'mockuser' )
+    if ( credentials.user != 'mockuser' )
       raise Deltacloud::AuthException.new
     end
 
-    if ( credentials[:password] != 'mockpassword' )
+    if ( credentials.password != 'mockpassword' )
       raise Deltacloud::AuthException.new
     end
   end
