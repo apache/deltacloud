@@ -9,18 +9,19 @@
   </head>
  
   <body>
-    <div id="doc2" class="yui-t2">
+    <div id="doc" class="yui-t2">
       <div id="hd">
       </div>
       <div id="bd">
         <div id="yui-main">
-          <div id="content" class="yui-b">
+          <div id="content">
             <%= yield %>
           </div>
         </div>
       </div>
       <div id="ft">
         <div style="float: right; text-align: right; font-size: 90%;">
+          DeltaCloud Driver: <%= DRIVER %><br/>
           Copyright 2009 <%= link_to 'Red Hat', 'http://redhat.com' %> <br />
         </div>
       </div>
