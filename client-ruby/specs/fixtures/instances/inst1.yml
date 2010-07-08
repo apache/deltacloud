@@ -1,3 +1,4 @@
+:name: MockUserInstance
 :state: RUNNING
 :image_id: img3
 :owner_id: mockuser

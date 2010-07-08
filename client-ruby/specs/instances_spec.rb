@@ -15,9 +15,9 @@ describe "instances" do
         instance.owner_id.should_not be_nil
         instance.owner_id.should be_a( String )
         instance.image.should_not be_nil
-        instance.image.should be_a( Image )
+        instance.image.should be_a( DCloud::Image )
         instance.flavor.should_not be_nil
-        instance.flavor.should be_a( Flavor )
+        instance.flavor.should be_a( DCloud::Flavor )
         instance.state.should_not be_nil
         instance.state.should be_a( String )
         instance.public_addresses.should_not be_nil
@@ -45,6 +45,8 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.instance( "inst1" )
       instance.should_not be_nil
+      instance.name.should_not be_nil
+      instance.name.should eql( 'MockUserInstance' )
       instance.uri.should_not be_nil
       instance.uri.should be_a( String )
       instance.owner_id.should eql( "mockuser" )
@@ -60,10 +62,11 @@ describe "instances" do
 
   it "should allow creation of new instances with reasonable defaults" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.create_instance( 'img1' )
+      instance = client.create_instance( 'img1', :name=>'TestInstance' )
       instance.should_not be_nil
       instance.uri.should eql( API_URL + '/instances/inst3' )
       instance.id.should eql( 'inst3' )
+      instance.name.should eql( 'TestInstance' )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-large' )
       instance.realm.id.should eql( 'us' )

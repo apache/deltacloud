@@ -6,6 +6,7 @@ module DCloud
 
       xml_tag_name :instance
 
+      attribute :name
       attribute :owner_id
       attribute :public_addresses
       attribute :private_addresses
@@ -46,6 +47,7 @@ module DCloud
         super(xml)
         unless xml.nil?
           @owner_id = xml.text('owner_id')
+          @name     = xml.text('name')
           @public_addresses = []
           xml.get_elements( 'public-addresses/address' ).each do |address|
             @public_addresses << address.text

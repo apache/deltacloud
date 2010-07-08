@@ -22,7 +22,7 @@ describe "instance-states" do
 
       instance_states[0].name.should eql( 'begin' )
       instance_states[0].transitions.size.should eql( 1 )
-      instance_states[0].transitions[0].should be_auto
+      instance_states[0].transitions[0].should_not be_auto
 
       instance_states[1].name.should eql( 'pending' )
       instance_states[1].transitions.size.should eql( 1 )

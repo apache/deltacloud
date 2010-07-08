@@ -175,7 +175,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'instances/instance' ).each do |instance|
           uri = instance.attributes['href']
-          instances << Instance.new( self, uri, instance )
+          instances << DCloud::Instance.new( self, uri, instance )
         end
       end
     end
@@ -206,17 +206,19 @@ class DeltaCloud
 
   def fetch_instance(uri)
     xml = fetch_resource( :instance, uri )
-    return Instance.new( self, uri, xml ) if xml
+    return DCloud::Instance.new( self, uri, xml ) if xml
     nil
   end
 
   def create_instance(image_id, opts={})
+    name = opts[:name]
     realm_id = opts[:realm]
     flavor_id = opts[:flavor]
 
     params = {}
     ( params[:realm_id] = realm_id ) if realm_id
     ( params[:flavor_id] = flavor_id ) if flavor_id
+    ( params[:name] = name ) if name
 
     params[:image_id] = image_id
     request( entry_points[:instances], :post, {}, params ) do |response|
@@ -291,7 +293,7 @@ class DeltaCloud
 
   def fetch_storage_snapshot(uri)
     xml = fetch_resource( :storage_snapshot, uri ) 
-    return StorageSnapshot.new( self, uri, xml ) if xml
+    return DCloud::StorageSnapshot.new( self, uri, xml ) if xml
     nil
   end
 

@@ -1,3 +1,4 @@
+:name: AnotherInstance
 :state: RUNNING
 :image_id: img1
 :owner_id: anotheruser
