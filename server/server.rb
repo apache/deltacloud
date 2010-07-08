@@ -199,7 +199,7 @@ end
 def instance_action(name)
   @instance = driver.send(:"#{name}_instance", credentials, params["id"])
 
-  return redirect(instances_url) if name.eql?(:destroy)
+  return redirect(instances_url) if name.eql?(:destroy) or @instance.class!=Instance
 
   respond_to do |format|
     format.html { haml :"instances/show" }
