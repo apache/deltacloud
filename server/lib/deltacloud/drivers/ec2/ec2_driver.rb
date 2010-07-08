@@ -120,11 +120,11 @@ class EC2Driver < Deltacloud::BaseDriver
       config = { :owner_id => "amazon" }
       config.merge!({ :owner_id => opts[:owner_id] }) if opts and opts[:owner_id]
     end
-    #safely do
+    safely do
       ec2.describe_images(config).imagesSet.item.each do |image|
         img_arr << convert_image(image)
       end
-    #end
+    end
     img_arr = filter_on( img_arr, :architecture, opts )
     img_arr.sort_by{|e| [e.owner_id, e.name]}
   end
@@ -150,7 +150,7 @@ class EC2Driver < Deltacloud::BaseDriver
   def instances(credentials, opts=nil)
     ec2 = new_client(credentials)
     instances = []
-    #safely do
+    safely do
       param = opts.nil? ? nil : opts[:id]
       ec2_instances = ec2.describe_instances.reservationSet
       return [] unless ec2_instances
@@ -159,7 +159,7 @@ class EC2Driver < Deltacloud::BaseDriver
           instances << convert_instance( ec2_instance, item.ownerId )
         end
       end
-    #end
+    end
     instances = filter_on( instances, :id, opts )
     instances = filter_on( instances, :state, opts )
     instances
