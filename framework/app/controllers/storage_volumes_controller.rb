@@ -7,7 +7,6 @@ class StorageVolumesController < ApplicationController
 
   def index
     @volumes = driver.storage_volumes( credentials, :id=>params[:id] )
-    puts @volumes.inspect
     respond_to do |format|
       format.html
       format.json

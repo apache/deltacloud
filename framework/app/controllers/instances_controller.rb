@@ -44,7 +44,6 @@ class InstancesController < ApplicationController
 
   def create
     @image   = driver.image( credentials, :id=>params[:image_id] )
-    puts @image.inspect
     respond_to do |format|
       format.html {
         if ( params[:flavor_id].nil? )
@@ -60,7 +59,6 @@ class InstancesController < ApplicationController
       }
       format.xml {
         instance = driver.create_instance( credentials, @image.id, params[:flavor_id] )
-        puts "RESULT #{instance.inspect}"
         render :xml=>convert_to_xml( :instance, instance), :status=>:created, :location=>instance_url( instance.id )
       }
     end

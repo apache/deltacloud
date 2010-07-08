@@ -27,13 +27,12 @@ module Converters
     def convert(obj, builder=nil)
       builder ||= Builder::XmlMarkup.new( :indent=>2 )
       if ( obj.is_a?( Array ) )
-        builder.__send__( @type.to_s.pluralize.to_sym ) do
+        builder.__send__( @type.to_s.pluralize.gsub( /_/, '-' ).to_sym ) do
           obj.each do |e|
             convert( e, builder )
           end
         end
       else
-        puts "dump #{obj.inspect} #{obj.is_a?( Flavor )}"
         case ( obj )
           when Flavor
             builder.flavor( :href=>@link_builder.send( :flavor_url,  obj.id ) ) {
