@@ -25,7 +25,7 @@ describe "images" do
 
   it "should allow retrieval of my own images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      images = client.images( :owner=>:self )
+      images = client.images( :owner_id=>:self )
       images.should_not be_empty
       images.size.should eql( 1 )
       images.each do |image|
@@ -37,6 +37,30 @@ describe "images" do
         image.architecture.should be_a(String)
         image.owner_id.should_not be_nil
         image.owner_id.should be_a(String)
+      end
+    end
+  end
+
+  describe "filtering by architecture" do
+    it "return matching images" do
+      DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+        images = client.images( :architecture=>'x86_64' )
+        images.should_not be_empty
+        images.each do |image|
+          image.architecture.should eql( 'x86_64' )
+        end
+        images = client.images( :architecture=>'i386' )
+        images.should_not be_empty
+        images.each do |image|
+          image.architecture.should eql( 'i386' )
+        end
+      end
+    end
+
+    it "should return an empty array for no matches" do
+      DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+        images = client.images( :architecture=>'8088' )
+        images.should be_empty
       end
     end
   end

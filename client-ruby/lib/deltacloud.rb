@@ -45,10 +45,7 @@ class DeltaCloud
   def images(opts={})
     images = []
     request_path = entry_points[:images]
-    if ( opts[:owner] )
-      request_path += "?owner_id=#{opts[:owner]}"
-    end
-    request( request_path ) do |response|
+    request( request_path, :get, opts ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'images/image' ).each do |image|
@@ -75,7 +72,7 @@ class DeltaCloud
   end
 
   def instance(id)
-    request( entry_points[:instances], :get, {'id'=>id} ) do |response|
+    request( entry_points[:instances], :get, {:id=>id } ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'instances/instance' ).each do |instance|
@@ -92,7 +89,7 @@ class DeltaCloud
   end
 
   def create_instance(image_id, flavor_id)
-    request( entry_points[:instances], :post, { 'image_id'=>image_id, 'flavor_id'=>flavor_id} ) do |response|
+    request( entry_points[:instances], :post, {}, { 'image_id'=>image_id, 'flavor_id'=>flavor_id} ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         instance = doc.root
@@ -150,12 +147,17 @@ class DeltaCloud
     end
   end
 
-  def request(path='', method=:get, form_data={}, &block)
+  def request(path='', method=:get, query_args={}, form_data={}, &block)
     if ( path =~ /^http/ ) 
       request_path = path
     else
       request_path = "#{api_path}#{path}"
     end
+    query_string = query_args.keys.collect{|key| "#{key}=#{query_args[key]}"}.join("&")
+    if ( query_string != '' )
+      request_path += "?#{query_string}"
+    end
+     
     logger << "Request [#{method.to_s.upcase} #{request_path}]\n"
     request = eval( "Net::HTTP::#{method.to_s.capitalize}" ).new( request_path )
     request.basic_auth( @name, @password )
