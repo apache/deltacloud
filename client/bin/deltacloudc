@@ -1,0 +1,147 @@
+#!/bin/env ruby
+#
+# Copyright (C) 2009  Red Hat, Inc.
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+require 'rubygems'
+require 'optparse'
+require 'uri'
+require 'deltacloud'
+
+options = {}
+
+@optparse = OptionParser.new do |opts|
+
+opts.banner = <<BANNER
+Usage:
+deltacloudc collection operation [options]
+
+URL format:
+API_URL=http://[user]:[password]@[api_url][port][/uri]
+
+Options:
+BANNER
+  opts.on( '-i', '--id ID', 'ID for operation') { |id| options[:id] = id }
+  opts.on( nil, '--image-id ID', 'Image ID') { |id| options[:image_id] = id }
+  opts.on( nil, '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
+  opts.on( nil, '--flavor_id FLAVOR', 'Flavor') { |id| options[:flavor_id] = id }
+  opts.on( nil, '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
+  opts.on( '-u', '--url URL', 'API url ($API_URL variable)') { |url| options[:api_url] = url }
+  opts.on( '-l', '--list', 'List collections/operations') { |id| options[:list] = true }
+  opts.on( '-h', '--help', 'Display this screen' ) { puts opts ; exit }
+  opts.on( '-v', '--version', 'Display API version' ) { options[:version]=true }
+end
+
+def invalid_usage(error_msg='')
+  puts "ERROR: #{error_msg}"
+  exit(1)
+end
+
+@optparse.parse!
+
+# First try to get API_URL from environment
+options[:api_url] = ENV['API_URL'] if options[:api_url].nil?
+
+url = URI.parse(options[:api_url])
+api_url = "http://#{url.host}#{url.port ? ":#{url.port}" : ''}#{url.path}"
+
+options[:collection] = ARGV[0]
+options[:operation] = ARGV[1]
+
+# Connect to Deltacloud API and fetch all entry points
+client = DeltaCloud.new(url.user, url.password, api_url)
+collections = client.entry_points.keys
+
+# Exclude collection which don't have methods in client library yet
+collections.delete(:hardware_profiles)
+collections.delete(:instance_states)
+
+# If list parameter passed print out available collection
+# with API documentation
+if options[:list] and options[:collection].nil?
+  collections.each do |c|
+    doc = client.fetch_documentation(c.to_s)
+    puts sprintf("%-22s: %s", c.to_s[0, 22], doc[:description])
+  end
+  exit(0)
+end
+
+# If collection parameter is present and user requested list
+# print all operation defined for collection with API documentation
+if options[:list] and options[:collection]
+  doc = client.fetch_documentation(options[:collection])
+  doc[:operations].each do |c|
+    puts sprintf("%-20s: %s", c[:name][0, 20], c[:description])
+  end
+  exit(0)
+end
+
+if options[:version]
+  puts "Deltacloud API(#{client.driver_name}) 0.1"
+  exit(0)
+end
+
+# List items from collection (typically /flavors)
+# Do same if 'index' operation is set
+if options[:collection] and ( options[:operation].nil? or options[:operation].eql?('index') )
+  invalid_usage("Unknown collection: #{options[:collection]}") unless collections.include?(options[:collection].to_sym)
+  params = {}
+  params.merge!(:architecture => options[:architecture]) if options[:architecture]
+  params.merge!(:id => options[:id]) if options[:id]
+  client.send(options[:collection].to_s, params).each do |model|
+    puts model.to_plain
+  end
+  exit(0)
+end
+
+if options[:collection] and options[:operation]
+
+  invalid_usage("Unknown collection: #{options[:collection]}") unless collections.include?(options[:collection].to_sym)
+
+  params = {}
+  params.merge!(:id => options[:id]) if options[:id]
+
+  # If collection is set and requested operation is 'show' just 'singularize'
+  # collection name and print item with specified id (-i parameter)
+  if options[:operation].eql?('show')
+    puts client.send(options[:collection].gsub(/s$/, ''), options[:id] ).to_plain
+    exit(0)
+  end
+
+  # If collection is set and requested operation is create new instance,
+  # --image-id, --flavor-id and --name parameters are used
+  # Returns created instance in plain form
+  if options[:collection].eql?('instances') and options[:operation].eql?('create')
+    params.merge!(:name => options[:name]) if options[:name]
+    params.merge!(:image_id => options[:image_id]) if options[:image_id]
+    params.merge!(:flavor_id => options[:flavor_id]) if options[:flavor_id]
+    instance = client.create_instance(options[:image_id], params)
+    puts instance.to_plain
+    exit(0)
+  end
+
+  # All other operations above collections is done there:
+  if options[:collection].eql?('instances')
+    instance = client.instance(options[:id])
+    instance.send("#{options[:operation]}!".to_s)
+    instance = client.instance(options[:id])
+    puts instance.to_plain
+    exit(0)
+  end
+end
+
+# If all above passed (eg. no parameters)
+puts @optparse

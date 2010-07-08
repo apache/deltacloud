@@ -49,6 +49,7 @@ module Sinatra
           @collection, @operation = coll, oper
           respond_to do |format|
             format.html { haml :'docs/operation' }
+            format.xml { haml :'docs/operation' }
           end
         end
       end
@@ -146,6 +147,7 @@ module Sinatra
           @collection, @operations = coll, oper
           respond_to do |format|
             format.html { haml :'docs/collection' }
+            format.xml { haml :'docs/collection' }
           end
         end
       end
@@ -205,6 +207,7 @@ module Sinatra
     get '/api/docs\/?' do
       respond_to do |format|
         format.html { haml :'docs/index' }
+        format.xml { haml :'docs/index' }
       end
     end
 

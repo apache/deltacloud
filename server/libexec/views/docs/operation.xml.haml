@@ -1,0 +1,10 @@
+%docs{:status => "unsupported"}
+  %operation{:url => "/api/docs/#{@collection.name.to_s}", :name => "#{@operation.name.to_s}", :href => "#{@operation.path}", :method => "#{@operation.method}"}
+    %description #{@operation.description}
+    - @operation.params.each_key do |p|
+      %parameter{:name => "#{p}", :type => "#{@operation.params[p][:type]}"}
+        %class #{@operation.params[p][:class]}
+        - unless @operation.params[p][:options].empty?
+          %values
+            - @operation.params[p][:options].each do |v|
+              %value #{v}

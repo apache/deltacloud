@@ -118,6 +118,38 @@ class DeltaCloud
     nil
   end
 
+  def fetch_documentation(collection, operation=nil)
+    response = @http["docs/#{collection}#{operation ? "/#{operation}" : ''}"].get(:accept => "application/xml")
+    doc = REXML::Document.new( response )
+    if operation.nil?
+      docs = {
+        :name => doc.get_elements('docs/collection').first.attributes['name'],
+        :description => doc.get_elements('docs/collection/description').first.text,
+        :operations => []
+      }
+      doc.get_elements('docs/collection/operations/operation').each do |operation|
+        p = {}
+        p[:name] = operation.attributes['name']
+        p[:description] = operation.get_elements('description').first.text
+        p[:parameters] = []
+        operation.get_elements('parameter').each do |param|
+          p[:parameters] << param.attributes['name']
+        end
+        docs[:operations] << p
+      end
+    else
+      docs = {
+        :name => doc.get_elements('docs/operation').attributes['name'],
+        :description => doc.get_elements('docs/operation/description').first.text,
+        :parameters => []
+      }
+      doc.get_elements('docs/operation/parameter').each do |param|
+        docs[:parameters] << param.attributes['name']
+      end
+    end
+    docs
+  end
+
   def instance_states
     states = []
     request( entry_points[:instance_states] ) do |response|
@@ -194,7 +226,7 @@ class DeltaCloud
     nil
   end
 
-  def instances
+  def instances(id=nil)
     instances = []
     request( entry_points[:instances] ) do |response|
       doc = REXML::Document.new( response.body )
@@ -249,7 +281,7 @@ class DeltaCloud
     end
   end
 
-  def storage_volumes
+  def storage_volumes(id=nil)
     storage_volumes = []
     request( entry_points[:storage_volumes] ) do |response|
       doc = REXML::Document.new( response.body )
@@ -278,7 +310,7 @@ class DeltaCloud
     nil
   end
 
-  def storage_snapshots()
+  def storage_snapshots(id=nil)
     storage_snapshots = []
     request( entry_points[:storage_snapshots] ) do |response|
       doc = REXML::Document.new( response.body )
@@ -345,7 +377,7 @@ class DeltaCloud
       :authorization => "Basic "+Base64.encode64("#{@name}:#{@password}"),
       :accept => "application/xml"
     }
-    logger << "Request [#{method.to_s.upcase}] #{request_path}]\n"
+    # logger << "Request [#{method.to_s.upcase}] #{request_path}]\n"
     if method.eql?(:get)
       RestClient.send(method, request_path, headers, &block)
     else

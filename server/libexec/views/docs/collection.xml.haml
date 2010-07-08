@@ -1,0 +1,14 @@
+%docs{:status => "unsupported"}
+  %collection{:url => "/api/docs/#{@collection.name}", :name => "#{@collection.name}"}
+    %description #{@collection.description}
+    %operations
+      - @operations.keys.sort_by { |k| k.to_s }.each do |operation|
+        %operation{:url => "/api/#{@collection.name.to_s}", :name => "#{operation}", :href => "#{@operations[operation].path}", :method => "#{@operations[operation].method}"}
+          %description #{@operations[operation].description}
+          - @operations[operation].params.each_key do |p|
+            %parameter{:name => "#{p}", :type => "#{@operations[operation].params[p][:type]}"}
+              %class #{@operations[operation].params[p][:class]}
+              - unless @operations[operation].params[p][:options].empty?
+                %values
+                  - @operations[operation].params[p][:options].each do |v|
+                    %value #{v}
