@@ -25,28 +25,37 @@ Then /^each link should have valid (\w+) attribute$/ do |attr|
   end
 end
 
-When /^client want to '(\w+)' first instance$/ do |action|
+When /^client want to '(\w+)' (first|last) instance$/ do |action, position|
   @action = action
-  @instance = output_xml.xpath('/instances/instance[1]').first
+  if position=='first'
+    @instance = output_xml.xpath('/instances/instance').first
+  else
+    @instance = output_xml.xpath('/instances/instance').last
+  end
 end
 
 When /^client follow link in actions$/ do
-  unless @instance_url
-    l = output_xml.xpath("/instances/instance[1]/actions/link[@rel = '#{@action}']").first
+
+  unless @instance
+    l = output_xml.xpath('/instances/instance[1]/actions/link[@rel="'+@action+'"]').first
   else
     l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
   end
-  unless @action=='destroy'
-    post l[:href], { :id => @instance.xpath('id').first.text }
-  else
+
+  if @action=='destroy'
     delete l[:href], { :id => @instance.xpath('id').first.text }
+  else
+    post l[:href], { :id => @instance.xpath('id').first.text }
   end
   last_response.status.should_not == 500
 end
 
-Then /^client should get first instance$/ do
-  output_xml.xpath('/instance/id').first.should_not be_nil
-  #output_xml.xpath('/instance/id').first.text.should == @instance.xpath('id').first.text
+Then /^client should get (first|last) instance$/ do |position|
+  if position == 'last'
+    output_xml.xpath('/instance/id').last.should_not be_nil
+  else
+    output_xml.xpath('/instance/id').first.should_not be_nil
+  end
 end
 
 Then /^this instance should be in '(.+)' state$/ do |state|

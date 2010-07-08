@@ -96,7 +96,7 @@ Feature: Managing instances
     When client access this URI
     Then client should get root element 'instances'
     And this element contains some instances
-    When client want to 'reboot' first instance
+    When client want to 'reboot' last instance
     And client follow link in actions
     Then client should get first instance
     And this instance should be in 'RUNNING' state
@@ -113,17 +113,6 @@ Feature: Managing instances
     Then client should get first instance
     And this instance should be in 'STOPPED' state
 
-  @prefix-start
-  Scenario: Start instance
-    Given URI /api/instances exists
-    And authentification is required for this URI
-    When client access this URI
-    Then client should get root element 'instances'
-    And this element contains some instances
-    When client want to 'start' first instance
-    And client follow link in actions
-    Then client should get first instance
-    And this instance should be in 'RUNNING' state
 
   @prefix-create
   Scenario: Basic instance creation
@@ -148,7 +137,7 @@ Feature: Managing instances
     When client request for a new instance
     Then new instance should be created
     And this instance should have chosed image
-    And this instance should be in 'RUNNING' state
+    And this instance should be in 'PENDING' state
     And this instance should have valid id
     And this instance should have last hardware profile
     And this instance should have name
