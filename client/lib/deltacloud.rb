@@ -114,7 +114,7 @@ class DeltaCloud
 
   def fetch_documentation(collection, operation=nil)
     response = @http["docs/#{collection}#{operation ? "/#{operation}" : ''}"].get(:accept => "application/xml")
-    doc = REXML::Document.new( response )
+    doc = REXML::Document.new( response.to_s )
     if operation.nil?
       docs = {
         :name => doc.get_elements('docs/collection').first.attributes['name'],
