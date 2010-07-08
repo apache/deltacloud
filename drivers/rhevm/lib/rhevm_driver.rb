@@ -56,9 +56,10 @@ class RHEVMDriver < DeltaCloud::BaseDriver
 
   def statify(state)
     st = state.nil? ? "" : state.upcase()
-    return :running if st == "UP"
-    return :terminated if st == "DOWN"
-    return :pending if st == "POWERING UP"
+    return "running" if st == "UP"
+    return "terminated" if st == "DOWN"
+    return "pending" if st == "POWERING UP"
+    st
   end
 
   #
@@ -144,13 +145,24 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   # Instances
   #
 
-  STATE_ACTIONS = {
-    :pending=>[],
-    :running=>[ :stop, :reboot ],
-    :shutting_down=>[],
-    :terminated=>[:start, :destroy ]
-  }
+  STATE_ACTIONS = [
+    [ :pending, {
+        :terminated=>:stop,
+        :running=>:_auto_ } ],
+    [ :running, {
+        :running=>:reboot,
+        :terminated=>:stop } ],
+    [ :shutting_down, {
+        :terminated=>:_auto_ } ],
+    [ :terminated, {
+        :running=>:start,
+        :destroyed=>:destroy }],
+  ]
 
+
+  def instance_states()
+    STATE_ACTIONS
+  end
 
   def instances(credentials, opts=nil)
     vms = []
@@ -178,7 +190,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       :image_id => vm["TemplateId"],
       :state => statify(vm["Status"]),
       :flavor_id => "rhevm",
-      :actions => STATE_ACTIONS[statify(vm["Status"])]
+      :actions => instance_actions_for(statify(vm["Status"])),
     })
   end
 
