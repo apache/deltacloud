@@ -67,7 +67,11 @@ class MockDriver < DeltaCloud::BaseDriver
       elsif ( opts[:id] == :self )
         images = images.select{|e| e[:owner_id] == credentials[:name] }
       elsif ( opts[:owner] )
-        images = images.select{|e| e[:owner_id] == opts[:owner] }
+        if ( opts[:owner] == 'self' )
+          images = images.select{|e| e[:owner_id] == credentials[:name] }
+        else
+          images = images.select{|e| e[:owner_id] == opts[:owner] }
+        end
       elsif
         images = []
       end
