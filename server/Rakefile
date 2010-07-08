@@ -37,7 +37,6 @@ Rake::TestTask.new("test") { |t|
   t.warning = false
 }
 
-
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format html --out tmp/cucumber.html"
   t.rcov = false
@@ -47,4 +46,47 @@ Cucumber::Rake::Task.new(:rcov) do |t|
   t.cucumber_opts = "features --format pretty"
   t.rcov = true
   t.rcov_opts << %[-o "tmp/coverage"]
+end
+
+desc "Install API"
+task :install, [:install_dir, :bin_dir] do |t, args|
+
+  require 'fileutils'
+  require 'pp'
+
+  files = FileList[
+    Dir["config/**/**"],
+    Dir["features/**/**"],
+    Dir["lib/**/**"],
+    Dir["public/**/**"],
+    Dir["views/**/**"],
+    "config.ru",
+    "COPYING",
+    "README",
+    "*.rb"
+  ]
+
+  INSTALL_DIR=args.install_dir || "/usr/local/share/deltacloud-core"
+  BIN_DIR=args.bin_dir || "/usr/local/bin"
+
+  exit(1) unless FileUtils.mkdir_p(INSTALL_DIR)
+  exit(1) unless FileUtils.mkdir_p(BIN_DIR)
+
+  files.each do |f|
+    install_path = "#{INSTALL_DIR}/#{File.dirname(f)}"
+    unless File.directory?(install_path)
+      FileUtils.mkdir_p(install_path, :mode => 0755, :verbose => true)
+    end
+    next if File.directory?(f)
+    FileUtils.install(f, "#{INSTALL_DIR}/#{File.dirname(f)}", :verbose => true)
+  end
+
+  FileUtils.install('bin/deltacloudd', BIN_DIR, :verbose => true, :mode => 0755)
+end
+
+desc "Uninstall API"
+task :uninstall do
+  require 'fileutils'
+  INSTALL_DIR="/usr/share/deltacloud-core"
+  FileUtils.rm_rf(INSTALL_DIR)
 end
