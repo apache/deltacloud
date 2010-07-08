@@ -36,11 +36,6 @@
     %dt Private Addresses
     %dd
       = @instance.private_addresses.collect { |address| "<div>#{address}</div>" }.join
-  - unless @instance.launch_time.nil?
-    %di
-      %dt Launch Time
-      %dd
-        = @instance.launch_time
   %di
     %dt
     %dd

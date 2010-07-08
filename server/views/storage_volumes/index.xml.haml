@@ -1,13 +1,13 @@
 !!!XML
-%storage-volumes
+%storage_volumes
   - @elements.each do |volume|
-    %storage-volume{ :href => storage_volume_url(volume.id)}
-      %id<
-        =volume.id
+    %storage_volume{ :href => storage_volume_url(volume.id), :id => volume.id }
       %created<
         =volume.created
       %capacity<
         =volume.capacity
-      %device<
-        =volume.device
-      %instance{:href => volume.instance_id}
+      - unless volume.device.nil?
+        %device<
+          =volume.device
+      - unless volume.instance_id.nil?
+        %instance{:href => instance_url(volume.instance_id), :id => volume.instance_id}

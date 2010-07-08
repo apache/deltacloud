@@ -1,4 +1,4 @@
 !!! XML
-%hardware-profiles
+%hardware_profiles
   - @profiles.each do |prof|
     = haml :'hardware_profiles/show', :locals => { :@profile => prof, :partial => true }

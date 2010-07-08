@@ -1,11 +1,9 @@
 !!!XML
-%storage-snapshots
+%storage_snapshots
   - @elements.each do |snapshot|
-    %storage-snapshot{ :href => storage_snapshot_url(snapshot.id)}
-      %id<
-        =snapshot.id
+    %storage_snapshot{ :href => storage_snapshot_url(snapshot.id), :id => snapshot.id }
       %created<
         =snapshot.created
       %state<
         =snapshot.state
-      %storage-volume{ :href => storage_volume_url(snapshot.storage_volume_id)}
+      %storage_volume{ :href => storage_volume_url(snapshot.storage_volume_id), :id => snapshot.storage_volume_id }

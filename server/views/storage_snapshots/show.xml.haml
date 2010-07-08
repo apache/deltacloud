@@ -1,9 +1,7 @@
 !!!XML
-%storage-snapshot{:href => storage_snapshot_url(@storage_snapshot.id)}
-  %id<
-    =@storage_snapshot.id
+%storage_snapshot{:href => storage_snapshot_url(@storage_snapshot.id), :id => @storage_snapshot.id }
   %created<
     =@storage_snapshot.created
   %state<
     =@storage_snapshot.state
-  %storage-volume{:href => storage_volume_url(@storage_snapshot.storage_volume_id)}
+  %storage_volume{:href => storage_volume_url(@storage_snapshot.storage_volume_id), :id => @storage_snapshot.storage_volume_id}
