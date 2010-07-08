@@ -1,99 +1,164 @@
 Feature: Managing instances
-  In order to manage instances
 
-  Background:
-    Given I want to get XML
+  Scenario: Listing current instances
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    And each instance should have:
+    | id |
+    | name |
+    | owner_id |
+    | image |
+    | realm |
+    | state |
+    | hardware-profile |
+    | actions |
+    | public-addresses |
+    | private-addresses |
+    And each instance should have 'href' attribute with valid URL
+    And this URI should be available in XML, JSON, HTML format
 
-  Scenario: I want to get list of all instances
-    Given I am authorized to list instances
-    When I follow instances link in entry points
-    Then I should see some instance inside instances
-    And each link in instances should point me to valid instance
+  Scenario: Filtering instances by state
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI with parameters:
+    | state | RUNNING |
+    Then client should get some instances
+    And each instance should have 'state' attribute set to 'RUNNING'
 
-  Scenario: I want to create a new instance
-    Given I am authorized to create instance
-    When I request create new instance with:
-      | name     | <INSTANCE_1_NAME> |
-      | image_id | <INSTANCE_IMAGE_ID> |
-    Then I should request this instance
-    And this instance should be 'RUNNING' or 'PENDING'
-    And this instance should have name '<INSTANCE_1_NAME>'
-    And this instance should be image '<INSTANCE_IMAGE_ID>'
+  Scenario: Get details about first instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client want to show first instance
+    Then client follow href attribute in first instance
+    Then client should get this instance
+    And this instance should have:
+    | id |
+    | name |
+    | owner_id |
+    | image |
+    | realm |
+    | state |
+    | hardware-profile |
+    | actions |
+    | public-addresses |
+    | private-addresses |
 
-  Scenario: I want to create a new instance using realm
-    Given I am authorized to create instance
-    When I request create new instance with:
-      | name     | <INSTANCE_2_NAME> |
-      | image_id | <INSTANCE_IMAGE_ID> |
-      | realm    | <INSTANCE_REALM> |
-    Then I should request this instance
-    And this instance should be 'RUNNING' or 'PENDING'
-    And this instance should have name '<INSTANCE_2_NAME>'
-    And this instance should be image '<INSTANCE_IMAGE_ID>'
-    And this instance should have realm  '<INSTANCE_REALM>'
+  Scenario: Following image href in instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client follow image href attribute in first instance
+    Then client should get valid image
 
-  Scenario: I want to show instance details
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    When I request for '<INSTANCE_1_ID>' instance
-    Then I should get this instance
-    And instance should include id parameter
-    And instance should include name parameter
-    #And instance should include owner_id parameter
-    And instance should include state parameter
-    And this instance state should be 'RUNNING' or 'PENDING'
-    When instance state is RUNNING
-    Then instance should have one public address
-    And instance should have one private address
-    When instance state is RUNNING
-    Then instance should include link to 'reboot' action
-    And instance should include link to 'stop' action
+  Scenario: Following realm href in instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client follow realm href attribute in first instance
+    Then client should get valid realm
 
-  Scenario: I want to get instance image
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to get details about instance image
-    Then I could follow image href attribute
-    And this attribute should point me to valid image
+  Scenario: Following hardware profile href in instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client follow hardware-profile href attribute in first instance
+    Then client should get valid hardware-profile
 
-  Scenario: I want to get instance hardware profile
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to get details about instance hardware profile
-    Then I could follow hardware profile href attribute
-    And this attribute should point me to valid hardware profile
+  Scenario: Instance actions
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    And each instance should have actions
+    And each actions should have some links
+    And each link should have valid href attribute
+    And each link should have valid rel attribute
 
-  Scenario: I want to get instance realm
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to get details about instance realm
-    Then I could follow realm href attribute
-    And this attribute should point me to valid realm
+  Scenario: Reboot instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client want to 'reboot' first instance
+    And client follow link in actions
+    Then client should get first instance
+    And this instance should be in 'RUNNING' state
 
-  Scenario: I want to stop instance
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to stop this instance
-    And this instance state is 'RUNNING' or 'PENDING'
-    Then I could follow stop action in actions
-    And this instance state should be 'STOPPED' or 'STOPPING'
+  Scenario: Stop instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client want to 'stop' first instance
+    And client follow link in actions
+    Then client should get first instance
+    And this instance should be in 'STOPPED' state
 
-  Scenario: I want to start instance
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to stop this instance
-    Then I could follow start action in actions
-    And this instance state should be 'RUNNING'
+  Scenario: Start instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get root element 'instances'
+    And this element contains some instances
+    When client want to 'start' first instance
+    And client follow link in actions
+    Then client should get first instance
+    And this instance should be in 'RUNNING' state
 
-  Scenario: I want to reboot instance
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to reboot this instance
-    Then I could follow reboot action in actions
-    And this instance state should be 'RUNNING'
+  Scenario: Basic instance creation
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client want to create a new instance
+    Then client should choose first image
+    When client request for a new instance
+    Then new instance should be created
+    And this instance should have chosed image
+    And this instance should be in 'RUNNING' state
+    And this instance should have valid id
+    And this instance should have name
 
-  Scenario: I want to destroy instance
-    Given I am authorized to show instance '<INSTANCE_1_ID>'
-    Given I request for '<INSTANCE_1_ID>' instance
-    When I want to stop this instance
-    Then I could follow stop action in actions
-    And this instance state should be 'STOPPED'
+  Scenario: Choosing hardware profile for instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client want to create a new instance
+    Then client should choose first image
+    And client choose last hardware profile
+    When client request for a new instance
+    Then new instance should be created
+    And this instance should have chosed image
+    And this instance should be in 'RUNNING' state
+    And this instance should have valid id
+    And this instance should have last hardware profile
+    And this instance should have name
+
+  Scenario: Create instance using HTML form
+    Given URI /api/instances/new exists in HTML format
+    And authentification is required for this URI
+    When client access this URI
+    Then client should get HTML form
+
+  Scenario: Destroying created instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client want to 'stop' created instance
+    And client follow link in actions
+    Then client should get created instance
+    And this instance should be in 'STOPPED' state
+    When client want to 'destroy' created instance
+    And client follow link in actions
+    And this instance should be destroyed

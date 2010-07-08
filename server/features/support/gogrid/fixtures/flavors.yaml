@@ -1,7 +1,0 @@
----
-- name:  512MB
-  description: Server with 512MB RAM
-- name:  1GB
-  description: Server with 1GB RAM
-- name:  2GB
-  description: Server with 2GB RAM

@@ -1,45 +1,103 @@
-When /^I request for entry points$/ do
-  get "/api", { }
-  last_response.status.should == 200
+Given /^URI ([\w\/\-_]+) exists$/ do |uri|
+  get uri, {}
+  last_response.status.should_not == 404
+  last_response.status.should_not == 500
+  @uri = uri
 end
 
-Then /^I should see these entry points:$/ do |table|
-  Nokogiri::XML(last_response.body).xpath('/api/link').each do |entry_point|
-    table.raw.flatten.include?(entry_point[:rel]).should == true
+Given /^URI ([\w\/\-_]+) exists in (.+) format$/ do |uri, format|
+  @uri = "#{uri}.#{format.downcase}"
+  get @uri, {}
+  last_response.status.should_not == 404
+  last_response.status.should_not == 500
+end
+
+Given /^authentification is not required for this URI$/ do
+  last_response.status.should_not == 401
+end
+
+When /^client access this URI$/ do
+  get @uri, {}
+  last_response.status.should_not == 404
+end
+
+Then /^client should get root element '(.+)'$/ do |element|
+  @last_element = output_xml.xpath('/'+element).first
+  @last_element.should_not be_nil
+  @last_element.name.should == element
+end
+
+Then /^this element should have attribute '(.+)' with value '(.+)'$/ do |atr, val|
+  @last_element[atr.to_sym].should == val
+end
+
+Then /^client should get list of valid entry points:$/ do |table|
+  @entry_points = table.raw.flatten.sort
+  links = []
+  output_xml.xpath('/api/link').each do |entry_point|
+    links << entry_point['rel']
   end
+  @entry_points.should == links.sort
 end
 
-Then /^I should get valid HTML response$/ do
-  Nokogiri::HTML(last_response.body).root.name.should == 'html'
-end
-
-Then /^I should see these entry points in page:$/ do |table|
-  @links = []
-  Nokogiri::HTML(last_response.body).css('div#content ul li a').each do |link|
-    @links << link[:href]
-  end
-  table.raw.flatten.each do |link|
-    @links.include?("/api/#{link}").should == true
-  end
-end
-
-When /^I follow this entry points$/ do
-  @responses = []
-  authorize CONFIG[:username], CONFIG[:password]
-  @links.each do |link|
-    get link, {}
-    @responses << last_response.status
-  end
-end
-
-Then /^I should get valid HTML response for each$/ do
-  @responses.uniq.should == [200]
-end
-
-Then /^each entry points should have documentation$/ do
-  @links.each do |link|
-    next if link.eql?('/api/docs')
-    get link.to_s.gsub(/\/api\//, '/api/docs/'), {}
+Then /^this URI should be available in (.+) format$/ do |formats|
+  @no_header = true
+  formats.split(',').each do |format|
+    get "#{@uri}.#{format.strip.downcase}", {}
     last_response.status.should == 200
   end
+  @no_header = false
+end
+
+Then /^client should get list of valid entry points$/ do
+  links = []
+  output_xml.xpath('/api/link').each do |entry_point|
+    links << entry_point['rel']
+  end
+  @entry_points.should == links.sort
+end
+
+Then /^each (\w+) should have '(.+)' attribute with valid (.+)$/ do |el, attr, t|
+  case el
+    when 'link':
+      path = '/api/link'
+    when 'image':
+      path = '/images/image'
+  end
+  output_xml.xpath(path).each do |entry_point|
+    @entry_points.include?(entry_point[attr]).should == true if t=='name'
+    if t=='URL'
+      entry_point[:href].should_not be_nil
+    end
+  end
+  @last_attribute = attr
+end
+
+Then /^each ([\w\-]+) should have '(.+)' attribute set to '(.+)'$/ do |el, attr, v|
+  case el
+    when 'image':
+      path = "/image/images"
+  end
+  output_xml.xpath(path).each do |element|
+    element[attr].should == v
+  end
+end
+
+When /^client follow this attribute$/ do
+  output_xml.xpath('/api/link').each do |entry_point|
+    get entry_point[@last_attribute], {}
+  end
+end
+
+Then /^client should get a valid response$/ do
+  last_response.status.should_not == 500
+end
+
+Then /^client should get list of features inside '(.+)':$/ do |element,table|
+  features = table.raw.flatten.sort
+  instance_features = []
+  output_xml.xpath('/api/link[@rel="'+element+'"]/feature').each do |feature|
+    instance_features << feature[:name]
+  end
+  features.should == instance_features.sort
 end

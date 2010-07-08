@@ -1,23 +1,29 @@
-Feature: Working with hardware profiles
-  In order to work with hardware profiles
-
-  Background:
-    Given I want to get XML
+Feature: Accessing hardware profiles
 
   Scenario: I want to get list of all hardware profiles
-    When I follow hardware profiles link in entry points
-    Then I should see <HARDWARE_PROFILE_COUNT> hardware profile inside hardware profiles
-    And each link in hardware profiles should point me to valid hardware profile
+    Given URI /api/hardware_profiles exists
+    And authentification is not required for this URI
+    When client access this URI
+    Then client should get root element 'hardware-profiles'
+    And this URI should be available in XML, HTML, JSON format
 
   Scenario: I want to show hardware profile details
-    When I request for '<HARDWARE_PROFILE_ID>' hardware profile
-    Then I should get this hardware profile
+    Given URI /api/hardware_profiles exists
+    And authentification is not required for this URI
+    When client access this URI
+    Then client should get root element 'hardware-profiles'
+    When client want to show 'm1-large' hardware-profile
+    And client should get this hardware-profile
     And it should have a href attribute
-    And hardware profile should include id parameter
     And it should have a fixed property 'cpu'
     And it should have a range property 'memory'
     And it should have a enum property 'storage'
+    And this URI should be available in XML, HTML, JSON format
 
-  Scenario: I want filter hardware profiles by architecture
-    When I want hardware profiles with '<HARDWARE_PROFILE_ARCH>' architecture
-    Then the returned hardware profiles should have architecture '<HARDWARE_PROFILE_ARCH>'
+  Scenario: Filtering images by architecture
+    Given URI /api/hardware_profiles exists
+    And authentification is required for this URI
+    When client access this URI with parameters:
+    | architecture | i386 |
+    Then client should get some hardware-profiles
+    And each hardware-profile should have 'architecture' attribute set to 'i386'
