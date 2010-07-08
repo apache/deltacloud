@@ -10,6 +10,9 @@
       Owner
     </th>
     <th>
+      Architecture
+    </th>
+    <th>
       Description
     </th>
   </tr>
@@ -20,6 +23,9 @@
       </td>
       <td>
         <%= link_to image[:owner_id], images_url( :owner=>image[:owner_id] ) %>
+      </td>
+      <td>
+        <%= image[:architecture] %>
       </td>
       <td>
         <%= image[:description] %>

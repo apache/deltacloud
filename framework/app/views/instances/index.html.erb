@@ -12,6 +12,9 @@
       Image
     </th>
     <th>
+      Flavor
+    </th>
+    <th>
       State
     </th>
     <th>
@@ -28,6 +31,9 @@
       </td>
       <td>
         <%= link_to instance[:image_id], image_url( instance[:image_id] ) %>
+      </td>
+      <td>
+        <%= link_to instance[:flavor_id], flavor_url( instance[:flavor_id] ) %>
       </td>
       <td>
         <%= instance[:state] %>

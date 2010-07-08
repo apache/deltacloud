@@ -76,6 +76,7 @@ module Drivers
     # 
 
     def instances(credentials, ids=nil)
+      check_credentials( credentials )
       instances = []
       Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
         instance = YAML.load( File.read( instance_file ) )
@@ -91,12 +92,30 @@ module Drivers
     end
 
     def create_instance(credentials, image_id, flavor_id)
+      check_credentials( credentials )
+      ids = Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].collect{|e| File.basename( e, ".yml" )}
+      next_id = ids.sort.last.succ
+      instance = {
+        :state=>'running',
+        :image_id=>image_id,
+        :owner_id=>credentials[:name],
+        :public_address=>"#{image_id}.#{next_id}.public.com",
+        :private_address=>"#{image_id}.#{next_id}.private.com",
+        :flavor_id=>flavor_id,
+      }
+      File.open( "#{STORAGE_ROOT}/instances/#{next_id}.yml", 'w' ) {|f|
+        YAML.dump( instance, f )
+      }
+      instance[:id] = next_id
+      instance
     end
 
     def reboot_instance(credentials, id)
     end
 
     def delete_instance(credentials, id)
+      check_credentials( credentials )
+      FileUtils.rm( "#{STORAGE_ROOT}/instances/#{id}.yml" )
     end
 
     # 
