@@ -46,10 +46,18 @@ class MockDriver < DeltaCloud::BaseDriver
     return FLAVORS if ( opts.nil? )
     results = FLAVORS
     if ( opts[:id] )
-      results = results.select{|f| opts[:id] == f[:id]}
+      if ( opts[:id].is_a?( Array ) )
+        results = results.select{|f| opts[:id].include?( f[:id] )}
+      else
+        results = results.select{|f| opts[:id] == f[:id]}
+      end
     end
     if ( opts[:architecture] )
-      results = results.select{|f| opts[:architecture] == f[:architecture]}
+      if ( opts[:architecture].is_a?( Array ) )
+        results = results.select{|f| opts[:architecture].include?( f[:architecture] )}
+      else
+        results = results.select{|f| opts[:architecture] == f[:architecture]}
+      end
     end
     results
   end
@@ -69,13 +77,11 @@ class MockDriver < DeltaCloud::BaseDriver
     if (opts)
       if ( opts[:id] )
         images = images.select{|e| e[:id] == opts[:id]}
-      elsif ( opts[:id] == :self )
-        images = images.select{|e| e[:owner_id] == credentials[:name] }
-      elsif ( opts[:owner] )
-        if ( opts[:owner] == 'self' )
+      elsif ( opts[:owner_id] )
+        if ( opts[:owner_id] == 'self' )
           images = images.select{|e| e[:owner_id] == credentials[:name] }
         else
-          images = images.select{|e| e[:owner_id] == opts[:owner] }
+          images = images.select{|e| e[:owner_id] == opts[:owner_id] }
         end
       elsif
         images = []
@@ -93,13 +99,22 @@ class MockDriver < DeltaCloud::BaseDriver
     instances = []
     Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
       instance = YAML.load( File.read( instance_file ) )
+      puts "opts ==> #{opts.inspect}"
       if ( instance[:owner_id] == credentials[:name] )
         instance[:id] = File.basename( instance_file, ".yml" )
-        instances << instance
+        if ( opts.nil? || ( opts[:id].nil? ) )
+          instances << instance
+        else 
+          if ( opts[:id].is_a?( Array ) )
+            if ( opts[:id].include?( instance[:id] )  )
+              puts "1D"
+              instances << instance
+            end
+          elsif ( opts[:id] == instance[:id] )
+            instances << instance
+          end
+        end
       end
-    end
-    if ( opts )
-      instances = instances.select{|e| opts[:id] == e[:id] }
     end
     instances
   end
