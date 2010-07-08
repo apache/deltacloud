@@ -19,6 +19,16 @@ describe "initializing the client" do
     end  
   end
 
+  it "should provide the current driver name via client" do
+    DeltaCloud.new( "name", "password", API_URL ) do |client|
+      client.driver_name.should eql( 'mock' )
+    end
+  end
+
+  it "should provide the current driver name without client" do
+    DeltaCloud.driver_name( API_URL ).should eql( 'mock' )
+  end
+
   describe "without a block" do
     before( :each ) do
       reload_fixtures

@@ -15,9 +15,16 @@ require 'models/transition'
 
 class DeltaCloud
 
+  def self.driver_name(url)
+    DeltaCloud.new( nil, nil, url) do |client|
+      return client.driver_name
+    end
+  end
+
   attr_accessor :logger
   attr_reader :api_uri
   attr_reader :entry_points
+  attr_reader :driver_name
 
   def initialize(name, password, api_uri, &block)
     @logger       = Logger.new( STDERR ) 
@@ -337,6 +344,7 @@ class DeltaCloud
     request do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
+        @driver_name = doc.root.attributes['driver']
         doc.get_elements( 'api/link' ).each do |link|
           rel = link.attributes['rel']
           uri = link.attributes['href']
