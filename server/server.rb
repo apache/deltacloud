@@ -256,7 +256,10 @@ collection :instances do
           @instance = instance
           haml :"instances/show"
         end
-        format.html { redirect instance_url(instance.id) }
+        format.html do
+          redirect instance_url(instance.id) if instance and instance.id
+          redirect instances_url
+        end
       end
     end
   end

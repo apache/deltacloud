@@ -19,12 +19,23 @@
 require 'deltacloud/base_driver'
 require 'AWS'
 
+class Instance
+  attr_accessor :keyname
+  attr_accessor :authn_error
+
+  def authn_feature_failed?
+    return true unless authn_error.nil?
+  end
+
+end
+
 module Deltacloud
   module Drivers
     module EC2
 class EC2Driver < Deltacloud::BaseDriver
 
   feature :instances, :user_data
+  feature :instances, :authentication_key
 
   define_hardware_profile('m1-small') do
     cpu              1
@@ -156,7 +167,7 @@ class EC2Driver < Deltacloud::BaseDriver
     ec2_instances = ec2.run_instances(
       :image_id => image.id,
       :user_data => opts[:user_data],
-      :key_name => opts[:key_name],
+      :key_name => opts[:keyname],
       :availability_zone => realm_id,
       :monitoring_enabled => true,
       :instance_type => hwp.name.tr('-', '.'),
@@ -267,7 +278,7 @@ class EC2Driver < Deltacloud::BaseDriver
     realm_id = ec2_instance['placement']['availabilityZone']
     (realm_id = nil ) if ( realm_id == '' )
     hwp_name = ec2_instance['instanceType'].gsub( /\./, '-')
-    Instance.new( {
+    instance = Instance.new( {
       :id=>ec2_instance['instanceId'],
       :name => ec2_instance['imageId'],
       :state=>state,
@@ -279,7 +290,10 @@ class EC2Driver < Deltacloud::BaseDriver
       :flavor_id=>ec2_instance['instanceType'].gsub( /\./, '-'),
       :instance_profile =>InstanceProfile.new(hwp_name),
       :actions=>instance_actions_for( state ),
+      :keyname => ec2_instance['keyName']
     } )
+    instance.authn_error = "Key not set for instance" unless ec2_instance['keyName']
+    return instance
   end
 
   def convert_volume(ec2_volume)

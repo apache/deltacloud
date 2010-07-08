@@ -5,9 +5,15 @@
 
 %form{ :action => instances_url, :method => :post }
   %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
-  %label
-    Instance Name:
-  %input{ :name => 'name', :size => 30 }/
+  %p
+    %label
+      Instance Name:
+      %input{ :name => 'name', :size => 30 }/
+  -if driver_has_feature?(:authentication_key)
+    %p
+      %label
+        Instance Keyname:
+        %input{:name => 'keyname', :size => 30 }
   - if !@hardware_profiles.empty?
     %h3 What size machine?
     - for hwp in @hardware_profiles

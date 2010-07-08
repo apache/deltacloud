@@ -44,4 +44,13 @@ module ApplicationHelper
     not driver.features(:instances).select{ |f| f.name.eql?(feature_name) }.empty?
   end
 
+  def driver_has_auth_features?
+    driver_has_feature?(:authentication_password) || driver_has_feature?(:authentication_key)
+  end
+
+  def driver_auth_feature_name
+    return 'key' if driver_has_feature?(:authentication_key)
+    return 'password' if driver_has_feature?(:authentication_password)
+  end
+
 end

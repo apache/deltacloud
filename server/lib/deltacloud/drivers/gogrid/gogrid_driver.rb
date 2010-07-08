@@ -18,11 +18,23 @@
 require 'deltacloud/base_driver'
 require 'deltacloud/drivers/gogrid/gogrid_client'
 
+class Instance
+  attr_accessor :username
+  attr_accessor :password
+  attr_accessor :authn_error
+
+  def authn_feature_failed?
+    return true unless auth_error.nil?
+  end
+end
+
 module Deltacloud
   module Drivers
     module Gogrid
 
 class GogridDriver < Deltacloud::BaseDriver
+
+  feature :instances, :authentication_password
 
   define_hardware_profile 'server' do
     cpu            2
@@ -76,14 +88,29 @@ class GogridDriver < Deltacloud::BaseDriver
     else
       server_ram = "512MB"
     end
+    client = new_client(credentials)
     name = (opts[:name] && opts[:name]!='') ? opts[:name] : get_random_instance_name
     safely do
-      convert_instance(new_client(credentials).request('grid/server/add', {
+      instance = client.request('grid/server/add', {
         'name' => name,
         'image' => image_id,
         'server.ram' => server_ram,
         'ip' => get_next_free_ip(credentials)
-      })['list'].first, credentials.user)
+      })['list'].first
+      if instance
+        login_data = get_login_data(client, instance[:id])
+        if login_data['username'] and login_data['password']
+          instance['username'] = login_data['username']
+          instance['password'] = login_data['password']
+          inst = convert_instance(instance, credentials.user)
+        else
+          inst = convert_instance(instance, credentials.user)
+          inst.authn_error = "Unable to fetch password"
+        end
+        return inst
+      else
+        return nil
+      end
     end
   end
 
@@ -91,8 +118,18 @@ class GogridDriver < Deltacloud::BaseDriver
     instances = []
     if opts and opts[:id]
       safely do
-        instance = new_client(credentials).request('grid/server/get', { 'id' => opts[:id]})['list'].first
-        instances = [convert_instance(instance, credentials.user)]
+        client = new_client(credentials)
+        instance = client.request('grid/server/get', { 'id' => opts[:id] })['list'].first
+        login_data = get_login_data(client, instance['id'])
+        if login_data['username'] and login_data['password']
+          instance['username'] = login_data['username']
+          instance['password'] = login_data['password']
+          inst = convert_instance(instance, credentials.user)
+        else
+          inst = convert_instance(instance, credentials.user)
+          inst.authn_error = "Unable to fetch password"
+        end
+        instances = [inst]
       end
     else
       safely do
@@ -111,15 +148,21 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
+  def destroy_instance(credentials, id)
+    safely do
+      new_client(credentials).request('grid/server/delete', { 'id' => id})
+    end
+  end
+
   def stop_instance(credentials, id)
     safely do
       new_client(credentials).request('grid/server/power', { 'id' => id, 'power' => 'off'})
     end
   end
 
-  def destroy_instance(credentials, id)
+  def start_instance(credentials, id)
     safely do
-      new_client(credentials).request('grid/server/delete', { 'id' => id})
+      new_client(credentials).request('grid/server/power', { 'id' => id, 'power' => 'on'})
     end
   end
 
@@ -128,13 +171,30 @@ class GogridDriver < Deltacloud::BaseDriver
     pending.to( :running )       .automatically
     running.to( :stopped )       .on( :stop )
     stopped.to( :running )       .on( :start )
-    stopped.to( :finish )        .automatically
+    running.to( :finish )       .on( :destroy )
+    stopped.to( :finish )       .on( :destroy )
   end
 
   private
 
   def new_client(credentials)
     GoGridClient.new('https://api.gogrid.com/api', credentials.user, credentials.password)
+  end
+
+  def get_login_data(client, instance_id)
+    login_data = {}
+    begin
+      client.request('support/password/list')['list'].each do |passwd|
+        next unless passwd['server']
+        if passwd['server']['id'] == instance_id
+          login_data['username'], login_data['password'] = passwd['username'], passwd['password']
+          break
+        end
+      end
+    rescue Exception => e
+      login_data[:error] = e.message
+    end
+    return login_data
   end
 
   def convert_image(gg_image, owner_id=nil)
@@ -190,7 +250,7 @@ class GogridDriver < Deltacloud::BaseDriver
     prof = InstanceProfile.new("server", opts)
 
     Instance.new(
-      :id => instance['name'],
+      :id => instance['id'],
       :owner_id => owner_id,
       :image_id => instance['image']['id'],
       :flavor_id => instance['ram']['id'],
@@ -200,7 +260,9 @@ class GogridDriver < Deltacloud::BaseDriver
       :state => convert_server_state(instance['state']['name'], instance['id']),
       :actions => instance_actions_for(convert_server_state(instance['state']['name'], instance['id'])),
       :public_addresses => [ instance['ip']['ip'] ],
-      :private_addresses => []
+      :private_addresses => [],
+      :username => instance['username'],
+      :password => instance['password']
     )
   end
 

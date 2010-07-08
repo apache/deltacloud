@@ -136,6 +136,21 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :authentication_key do
+      operation :create do
+        param :keyname, :string,  :optional, nil
+        "EC2 key authentification method"
+      end
+      operation :show do
+      end
+    end
+
+    declare_feature :instances, :authentication_password do
+      operation :create do
+        param :password, :string, :optional
+      end
+    end
+
     declare_feature :instances, :hardware_profiles do
       description "Size instances according to changes to a hardware profile"
       # The parameters are filled in from the hardware profiles
