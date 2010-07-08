@@ -42,25 +42,21 @@ def filter_all(model)
     filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
     filter.merge!(:state => params[:state]) if params[:state]
     filter = nil if filter.keys.size.eql?(0)
-    safely do
-      singular = model.to_s.singularize.to_sym
-      @elements = driver.send(model.to_sym, credentials, filter)
-      instance_variable_set(:"@#{model}", @elements)
-      respond_to do |format|
-        format.xml  { return convert_to_xml(singular, @elements) }
-        format.html { haml :"#{model}/index" }
-      end
+    singular = model.to_s.singularize.to_sym
+    @elements = driver.send(model.to_sym, credentials, filter)
+    instance_variable_set(:"@#{model}", @elements)
+    respond_to do |format|
+      format.xml  { return convert_to_xml(singular, @elements) }
+      format.html { haml :"#{model}/index" }
     end
 end
 
 def show(model)
-  safely do
-    @element = driver.send(model, credentials, { :id => params[:id]} )
-    instance_variable_set("@#{model}", @element)
-    respond_to do |format|
-      format.xml { return convert_to_xml(model, @element) }
-      format.html { haml :"#{model.to_s.pluralize}/show" }
-    end
+  @element = driver.send(model, credentials, { :id => params[:id]} )
+  instance_variable_set("@#{model}", @element)
+  respond_to do |format|
+    format.xml { return convert_to_xml(model, @element) }
+    format.html { haml :"#{model.to_s.pluralize}/show" }
   end
 end
 
@@ -209,12 +205,10 @@ get "/api/instances/new" do
 end
 
 def instance_action(name)
-  safely do
-    @instance = driver.send(:"#{name}_instance", credentials, params[:id])
-    respond_to do |format|
-      format.xml { return convert_to_xml(:instance, @instance) }
-      format.html { haml :"instances/show" }
-    end
+  @instance = driver.send(:"#{name}_instance", credentials, params[:id])
+  respond_to do |format|
+    format.xml { return convert_to_xml(:instance, @instance) }
+    format.html { haml :"instances/show" }
   end
 end
 
