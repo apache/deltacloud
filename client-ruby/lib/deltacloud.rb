@@ -50,7 +50,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'flavors/flavor' ).each do |flavor|
           uri = flavor.attributes['href']
-          flavors << Flavor.new( self, uri, flavor )
+          flavors << DCloud::Flavor.new( self, uri, flavor )
         end
       end
     end
@@ -63,7 +63,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'flavors/flavor' ).each do |flavor|
           uri = flavor.attributes['href']
-          return Flavor.new( self, uri, flavor )
+          return DCloud::Flavor.new( self, uri, flavor )
         end
       end
     end
@@ -72,7 +72,7 @@ class DeltaCloud
 
   def fetch_flavor(uri)
     xml = fetch_resource( :flavor, uri )
-    return Flavor.new( self, uri, xml ) if xml
+    return DCloud::Flavor.new( self, uri, xml ) if xml
     nil
   end
 
@@ -82,9 +82,9 @@ class DeltaCloud
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'states/state' ).each do |state_elem|
-          state = State.new( state_elem.attributes['name'] )
+          state = DCloud::State.new( state_elem.attributes['name'] )
           state_elem.get_elements( 'transition' ).each do |transition_elem|
-            state.transitions << Transition.new( 
+            state.transitions << DCloud::Transition.new( 
                                    transition_elem.attributes['to'],
                                    transition_elem.attributes['action']
                                  )
@@ -108,7 +108,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'realms/realm' ).each do |realm|
           uri = realm.attributes['href']
-          realms << Realm.new( self, uri, realm )
+          realms << DCloud::Realm.new( self, uri, realm )
         end
       end
     end
@@ -121,7 +121,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'realms/realm' ).each do |realm|
           uri = realm.attributes['href']
-          return Realm.new( self, uri, realm )
+          return DCloud::Realm.new( self, uri, realm )
         end
       end
     end
@@ -130,7 +130,7 @@ class DeltaCloud
 
   def fetch_realm(uri)
     xml = fetch_resource( :realm, uri )
-    return Realm.new( self, uri, xml ) if xml
+    return DCloud::Realm.new( self, uri, xml ) if xml
     nil
   end
 
@@ -142,7 +142,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'images/image' ).each do |image|
           uri = image.attributes['href']
-          images << Image.new( self, uri, image )
+          images << DCloud::Image.new( self, uri, image )
         end
       end
     end
@@ -155,7 +155,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'images/image' ).each do |instance|
           uri = instance.attributes['href']
-          return Image.new( self, uri, instance )
+          return DCloud::Image.new( self, uri, instance )
         end
       end
     end
@@ -164,7 +164,7 @@ class DeltaCloud
 
   def fetch_image(uri)
     xml = fetch_resource( :image, uri )
-    return Image.new( self, uri, xml ) if xml
+    return DCloud::Image.new( self, uri, xml ) if xml
     nil
   end
 
@@ -188,7 +188,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'instances/instance' ).each do |instance|
           uri = instance.attributes['href']
-          return Instance.new( self, uri, instance )
+          return DCloud::Instance.new( self, uri, instance )
         end
       end
     end
@@ -224,7 +224,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         instance = doc.root
         uri = instance.attributes['href']
-        return Instance.new( self, uri, instance )
+        return DCloud::Instance.new( self, uri, instance )
       end
     end  
   end
@@ -236,7 +236,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'storage-volumes/storage-volume' ).each do |instance|
           uri = instance.attributes['href']
-          storage_volumes << StorageVolume.new( self, uri, instance )
+          storage_volumes << DCloud::StorageVolume.new( self, uri, instance )
         end
       end
     end
@@ -249,7 +249,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'storage-volumes/storage-volume' ).each do |storage_volume|
           uri = storage_volume.attributes['href']
-          return StorageVolume.new( self, uri, storage_volume )
+          return DCloud::StorageVolume.new( self, uri, storage_volume )
         end
       end
     end
@@ -258,7 +258,7 @@ class DeltaCloud
 
   def fetch_storage_volume(uri)
     xml = fetch_resource( :storage_volume, uri ) 
-    return StorageVolume.new( self, uri, xml ) if xml
+    return DCloud::StorageVolume.new( self, uri, xml ) if xml
     nil
   end
 
@@ -269,7 +269,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'storage-snapshots/storage-snapshot' ).each do |instance|
           uri = instance.attributes['href']
-          storage_snapshots << StorageSnapshot.new( self, uri, instance )
+          storage_snapshots << DCloud::StorageSnapshot.new( self, uri, instance )
         end
       end
     end
@@ -282,7 +282,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'storage-snapshots/storage-snapshot' ).each do |storage_snapshot|
           uri = storage_snapshot.attributes['href']
-          return StorageSnapshot.new( self, uri, storage_snapshot )
+          return DCloud::StorageSnapshot.new( self, uri, storage_snapshot )
         end
       end
     end

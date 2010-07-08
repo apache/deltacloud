@@ -1,16 +1,18 @@
 
-class Transition
+module DCloud
+    class Transition
 
-  attr_accessor :to
-  attr_accessor :action
+      attr_accessor :to
+      attr_accessor :action
 
-  def initialize(to, action)
-    @to = to
-    @action = action
-  end
+      def initialize(to, action)
+        @to = to
+        @action = action
+      end
 
-  def auto?()
-    @action.nil?
-  end
+      def auto?()
+        @action.nil?
+      end
 
+    end
 end
