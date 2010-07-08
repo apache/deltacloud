@@ -3,13 +3,15 @@ require 'deltacloud/base_driver'
 
 class MockDriver < DeltaCloud::BaseDriver
 
-  STORAGE_ROOT = File.dirname(__FILE__) + '/../data'
+  ( STORAGE_ROOT = MOCK_STORAGE_ROOT ) unless defined?( STORAGE_ROOT )
+  puts "Storage Root #{STORAGE_ROOT}"
+  puts Dir[ "#{STORAGE_ROOT}/*" ].inspect
 
   # 
   # Flavors
   # 
 
-  FLAVORS = [ 
+  ( FLAVORS = [ 
     { 
       :id=>'m1-small',
       :memory=>1.7,
@@ -40,7 +42,7 @@ class MockDriver < DeltaCloud::BaseDriver
       :storage=>1690,
       :architecture=>'x86_64',
     },
-  ]
+  ] ) unless defined?( FLAVORS )
 
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
