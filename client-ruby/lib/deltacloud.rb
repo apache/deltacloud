@@ -161,6 +161,10 @@ class DeltaCloud
     nil
   end
 
+  def fetch_storage_volume(uri)
+    return StorageVolume.new( self, uri, fetch_resource( :storage_volume, uri ) )
+  end
+
   ##
   ##
   ##
@@ -169,7 +173,7 @@ class DeltaCloud
   def fetch_resource(type, uri)
     request( uri ) do |response|
       doc = REXML::Document.new( response.body )
-      if ( doc.root.name == type.to_s )
+      if ( doc.root.name == type.to_s.gsub( /_/, '-' ) )
         return doc.root 
       end
     end
