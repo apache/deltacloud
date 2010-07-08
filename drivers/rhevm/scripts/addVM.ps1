@@ -2,12 +2,13 @@ param([string]$scriptsDir,
         [string]$username,
         [string]$password,
         [string]$domain,
-        [string]$id)
+        [string]$templateId,
+        [string]$name,
+        [string]$storageId)
 # Get the common functions
 . "$scriptsDir\common.ps1"
 verifyLogin $username $password $domain
-$vm = get-vm $id 
+$templ = get-template $templateId
 beginOutput
-# The AppliacationList causes the YAML pain, so Omit it
-$vm | format-list -Property $VM_PROPERTY_LIST
+add-vm -TemplateObject $templ -Name $name -StorageDomainId $storageId
 endOutput

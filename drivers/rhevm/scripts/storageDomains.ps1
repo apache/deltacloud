@@ -1,13 +1,11 @@
 param([string]$scriptsDir,
         [string]$username,
         [string]$password,
-        [string]$domain,
-        [string]$id)
+        [string]$domain)
 # Get the common functions
 . "$scriptsDir\common.ps1"
 verifyLogin $username $password $domain
-$vm = get-vm $id 
 beginOutput
 # The AppliacationList causes the YAML pain, so Omit it
-$vm | format-list -Property $VM_PROPERTY_LIST
+select-storagedomain * 
 endOutput

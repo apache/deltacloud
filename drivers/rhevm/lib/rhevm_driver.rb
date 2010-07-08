@@ -9,35 +9,20 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   DELIM_BEGIN="<_OUTPUT>"
   DELIM_END="</_OUTPUT>"
   POWERSHELL="c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
-
-  #
-  # Flavors
-  #
-  FLAVORS = [
-    Flavor.new({
-      :id=>"rhevm",
-      :memory=>"Any",
-      :storage=>"Any",
-      :architecture=>"Any",
-    })
-  ]
-
-  def flavors(credentials, opts=nil)
-    return FLAVORS if ( opts.nil? )
-    FLAVORS.select{|f| opts[:id] == f.id}
-  end
+  NO_OWNER=""
 
   #
   # Execute a Powershell command, and convert the output
   # to YAML in order to get back an array of maps.
   #
-  def execute(credentials, command, args=[])
+  def execute(credentials, command, *args)
     args = args.to_a
     argString = genArgString(credentials, args)
     outputMaps = {}
     output = `#{POWERSHELL} -command "&{#{File.join(SCRIPT_DIR, command)} #{argString}; exit $LASTEXITCODE}`
     exitStatus = $?.exitstatus
     puts(output)
+    puts("EXITSTATUS #{exitStatus}")
     st = output.index(DELIM_BEGIN)
     if (st)
       st += DELIM_BEGIN.length
@@ -73,12 +58,50 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     return :pending if st == "POWERING UP"
   end
 
-  STATE_ACTIONS = {
-    :pending=>[],
-    :running=>[ :stop, :reboot ],
-    :shutting_down=>[],
-    :terminated=>[:start ]
-  }
+  #
+  # Flavors
+  #
+  FLAVORS = [
+    Flavor.new({
+      :id=>"rhevm",
+      :memory=>"Any Memory",
+      :storage=>"Any Storage",
+      :architecture=>"Any Architecture",
+    })
+  ]
+
+  def flavors(credentials, opts=nil)
+    return FLAVORS if ( opts.nil? || (! opts[:id]))
+    FLAVORS.select{|f| opts[:id] == f.id}
+  end
+
+
+  #
+  # Realms
+  #
+
+  def realms(credentials, opts=nil)
+    domains = execute(credentials, "storageDomains.ps1")
+    if (!opts.nil? && opts[:id])
+        domains = domains.select{|d| opts[:id] == d["StorageId"]}
+    end
+
+    realms = []
+    domains.each do |dom|
+      realms << domain_to_realm(dom)
+    end
+    realms
+  end
+
+  def domain_to_realm(dom)
+    Realm.new({
+      :id => dom["StorageId"],
+      :name => dom["Name"],
+      :limit => dom["AvailableDiskSize"]
+    })
+  end
+
+
 
   #
   # Images
@@ -106,7 +129,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       :name => templ["Name"],
       :description => templ["Description"],
       :architecture => templ["OperatingSystem"],
-      :owner_id => "Jar Jar Binks",
+      :owner_id => NO_OWNER,
       :mem_size_md => templ["MemSizeMb"],
       :instance_count => templ["ChildCount"],
       :state => templ["Status"],
@@ -117,6 +140,14 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   #
   # Instances
   #
+
+  STATE_ACTIONS = {
+    :pending=>[],
+    :running=>[ :stop, :reboot ],
+    :shutting_down=>[],
+    :terminated=>[:start, :destroy ]
+  }
+
 
   def instances(credentials, opts=nil)
     vms = []
@@ -140,7 +171,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       :description => vm["Description"],
       :name => vm["Name"],
       :architecture => vm["OperatingSystem"],
-      :owner_id => "Jar Jar Binks",
+      :owner_id => NO_OWNER,
       :image_id => vm["TemplateId"],
       :state => statify(vm["Status"]),
       :flavor_id => "rhevm",
@@ -158,21 +189,29 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     vm_to_instance(vm[0])
   end
 
-  def create_instance(credentials, image_id, flavor_id)
-    check_credentials( credentials )
+  def create_instance(credentials, image_id, opts)
+    puts(opts[:realm_id])
+    puts(opts[:flavor_id])
+    puts(opts[:name])
+    vm = execute(credentials, "addVm.ps1", image_id, opts[:name], opts[:realm_id])
+    vm_to_instance(vm[0])
   end
 
-  def reboot_instance(credentials, id)
+  def reboot_instance(credentials, image_id)
+    vm = execute(credentials, "rebootVm.ps1", image_id)
+    vm_to_instance(vm[0])
   end
 
-  def delete_instance(credentials, id)
+  def destroy_instance(credentials, image_id)
+    vm = execute(credentials, "deleteVm.ps1", image_id)
+    vm_to_instance(vm[0])
   end
 
   #
   # Storage Volumes
   #
 
-  def volumes(credentials, ids=nil)
+  def storage_volumes(credentials, ids=nil)
     volumes = []
     volumes
   end
@@ -181,7 +220,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   # Storage Snapshots
   #
 
-  def snapshots(credentials, ids=nil)
+  def storage_snapshots(credentials, ids=nil)
     snapshots = []
     snapshots
   end
