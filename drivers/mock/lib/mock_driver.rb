@@ -59,7 +59,7 @@ class MockDriver < DeltaCloud::BaseDriver
 
   ( INSTANCE_STATES = [
     [ :begin, {
-       :pending=>:_auto_
+       :pending=>:create
      } ],
     [ :pending, {
        :running=>:_auto_
