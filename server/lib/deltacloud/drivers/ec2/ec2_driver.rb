@@ -201,7 +201,7 @@ class EC2Driver < Deltacloud::BaseDriver
                           1,1,
                           [],
                           nil,
-                          params[:user_data],
+                          opts[:user_data],
                           'public',
                           flavor_id,
                           nil,
