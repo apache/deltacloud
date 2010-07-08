@@ -57,6 +57,22 @@ class MockDriver < DeltaCloud::BaseDriver
     }),
   ] ) unless defined?( REALMS )
 
+  ( INSTANCE_STATES = [
+    [ :pending, {
+       :running=>:_auto_
+     } ],
+     [ :running, {
+       :running=>:reboot,
+       :terminated=>:stop
+     } ],
+     [ :terminated, {
+     } ],
+  ] ) unless defined?( STATES )
+
+
+  def instance_states()
+    return INSTANCE_STATES
+  end
 
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
@@ -107,7 +123,7 @@ class MockDriver < DeltaCloud::BaseDriver
       instance = YAML.load( File.read( instance_file ) )
       if ( instance[:owner_id] == credentials[:name] )
         instance[:id] = File.basename( instance_file, ".yml" )
-        instance[:actions] = [ :reboot ]
+        instance[:actions] = instance_actions_for( instance[:state] )
         instances << Instance.new( instance )
       end
     end
@@ -139,13 +155,9 @@ class MockDriver < DeltaCloud::BaseDriver
       :owner_id=>credentials[:name],
       :public_addresses=>["#{image_id}.#{next_id}.public.com"],
       :private_addresses=>["#{image_id}.#{next_id}.private.com"],
-<<<<<<< HEAD
-      :flavor_id=>opts[:flavor_id],
-=======
       :flavor_id=>flavor_id,
       :realm_id=>realm_id,
->>>>>>> Add realm support.
-      :actions=>[ :reboot ],
+      :actions=>instance_actions_for( 'RUNNING' )
     }
     File.open( "#{STORAGE_ROOT}/instances/#{next_id}.yml", 'w' ) {|f|
       YAML.dump( instance, f )
