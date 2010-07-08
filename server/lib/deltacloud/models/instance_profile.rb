@@ -15,24 +15,33 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+# Model to store the hardware profile applied to an instance together with
+# any instance-specific overrides
+class InstanceProfile < BaseModel
+  attr_accessor :memory
+  attr_accessor :storage
+  attr_accessor :architecture
+  attr_accessor :cpu
 
-class Instance < BaseModel
+  def initialize(hwp_name, args = {})
+    opts = args.inject({ :id => hwp_name.to_s }) do |m, e|
+      k, v = e
+      m[$1] = v if k.to_s =~ /^hwp_(.*)$/
+      m
+    end
+    super(opts)
+  end
 
-  attr_accessor :owner_id
-  attr_accessor :image_id
-  attr_accessor :flavor_id
-  attr_accessor :name
-  attr_accessor :realm_id
-  attr_accessor :state
-  attr_accessor :actions
-  attr_accessor :public_addresses
-  attr_accessor :private_addresses
-  attr_accessor :instance_profile
+  def name
+    id
+  end
 
- def initialize(init=nil)
-   super(init)
-   self.actions = [] if self.actions.nil?
-   self.public_addresses = [] if self.public_addresses.nil?
-   self.private_addresses = [] if self.private_addresses.nil?
+  def overrides
+    [:memory, :storage, :architecture, :cpu].inject({}) do |h, p|
+      if v = instance_variable_get("@#{p}")
+        h[p] = v
+      end
+      h
+    end
   end
 end
