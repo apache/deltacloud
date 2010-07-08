@@ -3,6 +3,8 @@ require 'specs/spec_helper'
 
 describe "images" do
 
+  it_should_behave_like "all resources"
+
   it "should allow retrieval of all images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       images = client.images

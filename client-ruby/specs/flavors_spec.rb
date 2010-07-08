@@ -1,8 +1,9 @@
 
 require 'specs/spec_helper'
 
-
 describe "flavors" do
+
+  it_should_behave_like "all resources"
 
   it "should allow retrieval of all flavors" do
     DeltaCloud.new( "name", "password", API_URL ) do |client|
