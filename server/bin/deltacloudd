@@ -7,7 +7,7 @@ require 'thin'
 options = {
   :env => 'development',
   :host => 'localhost',
-  :port => '3000'
+  :port => '3001'
 }
 optparse = OptionParser.new do |opts|
 
@@ -21,9 +21,15 @@ BANNER
   opts.on( '-r', '--hostname HOSTNAME', 'Bind to HOST address (default: localhost)') { |host| options[:host] = host }
   opts.on( '-p', '--port PORT', 'Use PORT (default: 3000)') { |port| options[:port] = port }
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+  opts.on( '-h', '--help', '') { options[:help] = true }
 end
 
 optparse.parse!
+
+if options[:help]
+ puts optparse
+ exit(0)
+end
 
 unless options[:driver]
   puts "You need to specify a driver to use (-i <driver>)"

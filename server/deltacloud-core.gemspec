@@ -15,7 +15,6 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-require 'rubygems' unless defined?(Gem)
 require 'rake'
 
 Gem::Specification.new do |s|
@@ -50,27 +49,17 @@ Gem::Specification.new do |s|
     'bin/deltacloudd'
   ].to_a
 
-  s.has_rdoc = false
-
   s.bindir = 'bin'
   s.executables = 'deltacloudd'
-  s.default_executable = 'deltacloudd'
-
   s.test_files= Dir.glob("tests/*_test.rb")
   s.extra_rdoc_files = Dir["COPYING"]
-
   s.required_ruby_version = '>= 1.8.1'
   s.add_dependency('rake', '>= 0.8.7')
   s.add_dependency('eventmachine', '>= 0.12.10')
   s.add_dependency('haml', '>= 2.2.17')
   s.add_dependency('sinatra', '>= 0.9.4')
-  s.add_dependency('right_http_connection', '>= 1.2.4')
-  s.add_dependency('right_aws', '>= 1.10.0')
-  s.add_dependency('right_rackspace', '>= 0.0.0.1')
- #s.add_dependency('right_gogrid', '>= 0.1.0')  <- This dependecny will be needed for GoGrid
-  s.add_dependency('rack', '>= 1.1.0')
+  s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('thin', '>= 1.2.5')
-
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1')
   s.add_development_dependency('rack-test', '>= 0.5.3')
