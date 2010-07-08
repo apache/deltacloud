@@ -75,6 +75,30 @@ class MockDriver < Deltacloud::BaseDriver
     }),
   ] ) unless defined?( REALMS )
 
+  define_hardware_profile('m1-small') do
+    cpu              1
+    memory         1.7 * 1024
+    storage        160
+    architecture 'i386'
+  end
+
+  define_hardware_profile('m1-large') do
+    cpu                2
+    memory           (7.5*1024 .. 15*1024), :default => 10 * 1024
+    storage          [ 850, 1024 ]
+    architecture     'x86_64'
+  end
+
+  define_hardware_profile('m1-xlarge') do
+    cpu              4
+    memory           (12*1024 .. 32*1024)
+    storage          [ 1024, 2048, 4096 ]
+    architecture     'x86_64'
+  end
+
+  # Some clouds tell us nothing about hardware profiles (e.g., OpenNebula)
+  define_hardware_profile 'opaque'
+
   define_instance_states do
     start.to( :pending )       .on( :create )
 
