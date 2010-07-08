@@ -24,8 +24,8 @@ api_host = ENV['API_HOST']
 ( api_host = 'localhost' ) if api_host == ''
 
 api_port = ENV['API_PORT']
-( api_port = 3000 ) if api_port.nil?
-( api_port = 3000 ) if api_port == ''
+( api_port = 3001 ) if api_port.nil?
+( api_port = 3001 ) if api_port == ''
 
 API_HOST = api_host
 API_PORT = api_port
