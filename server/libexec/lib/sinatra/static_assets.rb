@@ -68,7 +68,7 @@ module Sinatra
 
       def extract_options(a)
         opts = a.last.is_a?(::Hash) ? a.pop : {}
-        [a, opts]  
+        [a, opts]
       end
 
     end
