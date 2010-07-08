@@ -10,7 +10,7 @@ class RimuHostingClient
 
     @service = Net::HTTP.new(@uri.host, @uri.port)
     @service.use_ssl = false
-    @auth = "rimuhosting username=%s;password=%s" % [name, password]
+    @auth = "rimuhosting apikey=" % [password]
   end
 
   def request(resource, data='', method='GET')
@@ -30,6 +30,15 @@ class RimuHostingClient
 
   def list_nodes
     request('/orders;include_inactive=N')["about_orders"]
+  end
+
+  def set_server_state(id, state)
+    json = {:reboot_request => {:running_state => state}}
+    request('/orders/order-#{id}/vps/running-state', json, 'PUT')
+  end
+
+  def delete_server(id)
+    request('/orders/order-#{id}/vps','', 'DELETE')
   end
 end
 

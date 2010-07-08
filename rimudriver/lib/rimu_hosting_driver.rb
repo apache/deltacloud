@@ -4,7 +4,7 @@ require "deltacloud/base_driver"
 class RimuHostingDriver < DeltaCloud::BaseDriver
   def images(credentails, opts=nil)
     rh = new_client(credentails)
-    res = rh.list_images.map do | image |
+    images = rh.list_images.map do | image |
       Image.new({
                   :id => image["distro_code"],
                   :name => image["distro_code"],
@@ -13,18 +13,14 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
                   :architecture => "x86"
               })
     end
-    #res.sort_by{|e| [e.description]}
-    res  
+    images.sort_by{|e| [e.description]}
+    images = filter_on( images, :id, opts)
+    images
   end
 
-  def flavor(credentials, opts=nil)
-    flav = flavors(credentials, opts)  
-    flav.each { |x| return x if x.id == opts[:id] }
-    nil
-  end
   def flavors(credentials, opts=nil)
     rh = new_client(credentials)
-    res = rh.list_plans.map do | flavor |
+    flavors = rh.list_plans.map do | flavor |
       Flavor.new({
                   :id => flavor["pricing_plan_code"],
                   :memory => flavor["minimum_memory_mb"].to_f/1024,
@@ -32,11 +28,21 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
                   :architecture => "x86"
                 })
     end
+    flavors = filter_on( flavors, :id, opts)
+    flavors
   end
 
+  def realms(credentials, opts=nil)
+    [Realm.new( {
+      :id=>"rimu",
+      :name=>"RimuHosting",
+      :state=> "AVAILABLE"
+    } )]
+  end
+  
   def instances(credentials, opts=nil)
     rh = new_client(credentials)
-    res = rh.list_nodes.map do | inst |
+    instances = rh.list_nodes.map do | inst |
       Instance.new({
                   :id => inst["order_oid"],
                   :name => inst["domain_name"],
@@ -49,8 +55,24 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
                   :actions => instance_actions_for("RUNNING")
               })
     end
+    instances = filter_on( instances, :id, opts)
+    instances
+  end
+  def reboot_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.reboot_server(id)
   end
 
+  def stop_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.stop_server(id)
+  end
+
+  def destroy_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.delete_server(id)
+  end
+  
   def instance_states
     [
       [ :begin, { :running => :_auto_ }],
