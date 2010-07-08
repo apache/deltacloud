@@ -70,33 +70,6 @@ module Drivers
       convert_instance( ec2_instances.first )
     end
 
-    def accounts(credentials, *ids)
-      ec2 = new_client( credentials )
-      accounts = {}
-      safely do
-        ec2.describe_images(*ids).each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ )
-            unless ( accounts[ec2_image[:aws_owner]] ) 
-              accounts[ec2_image[:aws_owner]] = { :id=>ec2_image[:aws_owner] }
-            end
-          end
-        end
-      end
-      accounts.values.sort!{|l,r| l[:id] <=> r[:id]}
-    end
-
-    def account(credentials, id)
-      ec2 = new_client( credentials )
-      image_ids = []
-      ec2.describe_images_by_owner(id).each do |ec2_image|
-        image_ids << ec2_image[:aws_id]
-      end
-      {
-        :id=>id,
-        :image_ids=>image_ids,
-      } 
-    end
-
     def create_instance(credentials, image_id)
       ec2 = new_client( credentials )
       ec2_instances = ec2.run_instances( 
@@ -123,6 +96,37 @@ module Drivers
       ec2 = new_client(credentials)
       ec2.terminate_instances( id )
     end
+
+    def volumes(credentials, ids=nil)
+      ec2 = new_client( credentials ) 
+      volumes = []
+      ec2.describe_volumes(ids).each do |ec2_volume|
+        volumes << convert_volume( ec2_volume )
+      end
+      volumes
+    end
+
+    def volume(credentials, id)
+      volumes = volumes( credentials, [ id] )
+      return volumes.first unless volumes.empty?
+      nil
+    end
+
+    def snapshots(credentials, ids=nil)
+      ec2 = new_client( credentials ) 
+      snapshots = []
+      ec2.describe_snapshots(ids).each do |ec2_snapshot|
+        snapshots << convert_snapshot( ec2_snapshot )
+      end
+      snapshots
+    end
+
+    def snapshot(credentials, id)
+      snapshots = snapshots( credentials, [ id ] )
+      return snapshots.first unless snapshots.empty?
+      nil
+    end
+
 
     private
 
@@ -151,6 +155,25 @@ module Drivers
         :public_address=>( ec2_instance[:dns_name] == '' ? nil : ec2_instance[:dns_name] ),
         :private_address=>( ec2_instance[:private_dns_name] == '' ? nil : ec2_instance[:private_dns_name] ),
       } 
+    end
+
+    def convert_volume(ec2_volume)
+      {
+        :id=>ec2_volume[:aws_id],
+        :created_at=>ec2_volume[:aws_created_at],
+        :state=>ec2_volume[:aws_status].upcase,
+        :capacity=>ec2_volume[:aws_size],
+        :instance_id=>ec2_volume[:aws_instance_id],
+        :device=>ec2_volume[:aws_device],
+      }
+    end
+
+    def convert_snapshot(ec2_snapshot)
+      { 
+        :id=>ec2_snapshot[:aws_id],
+        :state=>ec2_snapshot[:aws_status].upcase,
+        :volume_id=>ec2_snapshot[:aws_volume_id],
+      }
     end
 
   end

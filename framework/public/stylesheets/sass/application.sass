@@ -30,20 +30,26 @@ body
     :font-size     120%
     :margin-bottom 1ex
   dl
+    :font-size 90%
     :margin-bottom 1em
     di
       :display block
       :margin-bottom 1em
+      dt, dd
+        :padding .5ex
       dt
         :font-weight bold
+        :background-color = !th_bg
       dd
-        :margin-left 1em
+        :padding-left 1em
+        :background-color = !td_bg
 
 
 table
   :width 100%
   th, td
     :padding .5ex
+    :font-size 90%
   th
     :font-weight bold
     :background-color = !th_bg

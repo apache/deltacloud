@@ -12,7 +12,10 @@ ActionController::Routing::Routes.draw do |map|
       :reboot=>:post,
     }
 
-  map.resources :accounts
+  map.resource :storage do |s|
+    s.resources :volumes, :controller=>'StorageVolumes'
+    s.resources :snapshots, :controller=>'StorageSnapshots'
+  end
 
 
   #####

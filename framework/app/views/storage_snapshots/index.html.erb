@@ -1,0 +1,17 @@
+
+<h1>Storage Snapshots</h1>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+  </tr>
+  <% for snapshot in @snapshots %>
+    <tr>
+      <td>
+        <%= link_to snapshot[:id], storage_snapshot_url( snapshot[:id] ) %>
+      </td>
+    </tr>
+  <% end %>
+</table>

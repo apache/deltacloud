@@ -25,10 +25,14 @@ class InstancesController < ApplicationController
   def show
     @instance = driver.instance( credentials, params[:id] )
 
+
     respond_to do |format|
-      format.html
+      format.html {
+        render :text=>'resource not found', :status=>404 and return unless @instance
+      }
       format.json
       format.xml { 
+        render :nothing=>true, :status=>404 and return unless @instance
         render :xml=>convert_to_xml( :instance, @instance )
       }
     end

@@ -1,0 +1,35 @@
+
+<h1>Storage Volumes</h1>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Created
+    </th>
+    <th>
+      Capacity
+    </th>
+    <th>
+      Status
+    </th>
+  </tr>
+  <% for volume in @volumes %>
+    <tr>
+      <td>
+        <%= link_to volume[:id], storage_volume_url( volume[:id] ) %>
+      </td>
+      <td>
+        <%= volume[:created_at] %>
+      </td>
+      <td>
+        <%= volume[:capacity] %> GB
+      </td>
+      <td>
+        <%= volume[:state] %>
+      </td>
+    </tr>
+  <% end %>
+</table>

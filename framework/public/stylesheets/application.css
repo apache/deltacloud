@@ -23,19 +23,25 @@ body {
   font-size: 120%;
   margin-bottom: 1ex; }
 #bd dl {
+  font-size: 90%;
   margin-bottom: 1em; }
   #bd dl di {
     display: block;
     margin-bottom: 1em; }
+    #bd dl di dt, #bd dl di dd {
+      padding: .5ex; }
     #bd dl di dt {
-      font-weight: bold; }
+      font-weight: bold;
+      background-color: #cccccc; }
     #bd dl di dd {
-      margin-left: 1em; }
+      padding-left: 1em;
+      background-color: #eeeeee; }
 
 table {
   width: 100%; }
   table th, table td {
-    padding: .5ex; }
+    padding: .5ex;
+    font-size: 90%; }
   table th {
     font-weight: bold;
     background-color: #cccccc; }

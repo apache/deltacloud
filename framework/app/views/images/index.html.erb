@@ -19,7 +19,7 @@
         <%= link_to image[:id], image_url( image[:id] ) %>
       </td>
       <td>
-        <%= link_to image[:owner_id], account_url( image[:owner_id] ) %>
+        <%= link_to image[:owner_id], images_url( :owner=>image[:owner_id] ) %>
       </td>
       <td>
         <%= image[:description] %>

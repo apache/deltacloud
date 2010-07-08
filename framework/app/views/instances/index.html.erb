@@ -24,7 +24,7 @@
         <%= link_to instance[:id], instance_url( instance[:id] ) %>
       </td>
       <td>
-        <%= link_to instance[:owner_id], account_url( instance[:owner_id] ) %>
+        <%= link_to instance[:owner_id], images_url( :owner=>instance[:owner_id] ) %>
       </td>
       <td>
         <%= link_to instance[:image_id], image_url( instance[:image_id] ) %>

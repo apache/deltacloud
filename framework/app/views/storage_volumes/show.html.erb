@@ -1,0 +1,37 @@
+
+<h1><%= @volume[:id] %></h1>
+
+<dl>
+  <di>
+    <dt>
+      Created
+    </dt>
+    <dd>
+      <%= @volume[:created_at] %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Capacity
+    </dt>
+    <dd>
+      <%= @volume[:capacity] %> GB
+    </dd>
+  </di>
+  <di>
+    <dt>
+      State
+    </dt>
+    <dd>
+      <%= @volume[:state] %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Attached
+    </dt>
+    <dd>
+      <%= @volume[:instance_id] %> <%= @volume[:device] %>
+    </dd>
+  </di>
+</dl>
