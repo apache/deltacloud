@@ -208,7 +208,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
 
   def create_instance(credentials, image_id, opts)
     name = opts[:name]
-    name = "NewInstance" if (name.nil? or name.empty?)
+    name = "Inst-#{rand(10000)}" if (name.nil? or name.empty?)
     realm_id = opts[:realm_id]
     if (realm_id.nil?)
         realms = filter_on(realms(credentials, opts), :name, :name => "data")
