@@ -232,12 +232,14 @@ class Ec2Driver < DeltaCloud::BaseDriver
     state = ec2_instance[:aws_state].upcase
     state_key = state.downcase.underscore.to_sym
 
+    realm_id = ec2_instance[:aws_availability_zone]
+    (realm_id = nil ) if ( realm_id == '' )
     Instance.new( {
       :id=>ec2_instance[:aws_instance_id],
       :state=>ec2_instance[:aws_state].upcase,
       :image_id=>ec2_instance[:aws_image_id],
       :owner_id=>ec2_instance[:aws_owner],
-      :realm_id=>ec2_instance[:aws_availability_zone],
+      :realm_id=>realm_id,
       :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
       :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
       :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
