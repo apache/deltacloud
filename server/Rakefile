@@ -51,6 +51,11 @@ begin
     t.rcov = true
     t.rcov_opts << %[-o "tmp/coverage"]
   end
+
+  Cucumber::Rake::Task.new(:junit) do |t|
+    t.cucumber_opts = "features --format junit --out tmp/junit"
+  end
+
 rescue LoadError
   desc 'Cucumber rake task not available'
   task :features do
