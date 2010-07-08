@@ -30,7 +30,7 @@ require 'rake'
     which implements the REST interface.
   EOF
 
-  s.version = '0.0.2'
+  s.version = '0.0.1'
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
   s.files = FileList[
@@ -39,6 +39,7 @@ require 'rake'
     '*.rb',
     'log',
     'tmp',
+    'support/fedora/**',
     'lib/**/*.rb',
     'views/**/*.haml',
     'views/instance_states/*.erb',
@@ -63,7 +64,6 @@ require 'rake'
   s.add_dependency('rerun', '>= 0.5.2')
   s.add_dependency('builder', '>= 2.1.2')
   s.add_dependency('json', '>= 1.2.3')
-  s.add_dependency('rack-accept-media-types', '>= 0.9')
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1')
   s.add_development_dependency('rack-test', '>= 0.5.3')

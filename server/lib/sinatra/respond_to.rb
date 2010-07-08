@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require 'rack/accept_media_types'
+require 'sinatra/accept_media_types'
 
 # Accept header parsing was looked at but deemed
 # too much of an irregularity to deal with.  Problems with the header
