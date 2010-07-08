@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+if ( ARGV.size != 1 )
+  puts "Usage: deltacloudd <drivername>"
+  exit 1
+end
+
+DRIVER=ARGV[0].to_sym
+
+puts "Booting with driver #{DRIVER}"
+require File.dirname(__FILE__) + '/../libexec/config/boot'
+require 'commands/server'

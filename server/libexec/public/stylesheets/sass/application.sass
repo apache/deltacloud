@@ -1,6 +1,3 @@
-@import partials/base.sass
-@import screen
-
 !main_bg = #ffffff
 
 !th_bg = #cccccc
@@ -11,30 +8,22 @@ html
 
 body
   :font-family "Trebuchet MS"
-  :font-size 90%
   a
-    :color=  #6498c5 - #444
+    :color = #411
 
-#wrapper
-  +container
-
-#header
+#hd
   :padding 1em
   :background-image url('/images/topbar-bg.png')
+  :margin-bottom 2em
   img
     :margin-bottom 1em
 
-#content
+#bd
   :margin-bottom 2em
 
-#footer
-  :border-top 1px solid #BBB
-  :padding-top 1ex
-  :text-align right
-  :color #BBB
-  :font-size 70%
+#ft
 
-#content
+#bd
   h1
     :font-size     160%
     :margin-bottom 1ex
@@ -69,12 +58,8 @@ body
 
 ul.breadcrumb 
   :background-color #eee
-  :border 1px solid #6498c5
+  :border 1px solid #46A
   :padding 1ex
-  :font-size 90%
-  :margin-bottom 1em
-  a
-    :text-decoration none
   li 
     :display inline
 
@@ -97,11 +82,6 @@ table.states
     :border-bottom = 1px solid !th_bg - #111
   th, td
     :vertical-align top
-
-table
-  tr
-    td
-      :border-bottom 1px solid white
 
 .radio-group
   :font-size 90%

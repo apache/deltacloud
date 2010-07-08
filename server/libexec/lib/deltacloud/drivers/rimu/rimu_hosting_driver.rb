@@ -16,10 +16,14 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-require "rimuhosting_client"
 require "deltacloud/base_driver"
+require "deltacloud/drivers/rimu/rimu_hosting_client"
 
-class RimuHostingDriver < DeltaCloud::BaseDriver
+module Deltacloud
+  module Drivers
+    module Rimu
+
+class RimuHostingDriver < Deltacloud::BaseDriver
   def images(credentails, opts=nil)
     rh = RimuHostingClient.new(credentails)
     images = rh.list_images.map do | image |
@@ -116,14 +120,22 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
     })
   end
 
-  def instance_states
-    [
-            [ :begin, { :running => :_auto_ }],
-            [ :pending, { :running => :_auto_ }],
-            [ :running, { :running => :reboot, :shutting_down => :stop}],
-            [ :shutting_down, { :stopped => :_auto_}],
-            [ :stopped, { :end => :_auto_}]
-    ]
+  define_instance_states do
+    start.to( :pending )          .automatically
+
+    pending.to( :running )        .automatically
+
+    running.to( :running )        .on(:reboot)
+    running.to( :shutting_down )  .on(:stop)
+
+    shutting_down.to( :stopped )  .automatically
+
+    stopped.to( :finish )         .automatically
   end
 
+
+end
+
+    end
+  end
 end

@@ -22,6 +22,10 @@ require "rubygems"
 require "json"
 require "deltacloud/base_driver"
 
+module Deltacloud
+  module Drivers
+    module Rimu
+
 class RimuHostingClient
   def initialize(credentials ,baseuri = 'https://rimuhosting.com/r')
     @uri = URI.parse(baseuri)
@@ -80,3 +84,6 @@ class RimuHostingClient
   end
 end
 
+    end
+  end
+end
