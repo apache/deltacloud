@@ -206,12 +206,7 @@ class MockDriver < Deltacloud::BaseDriver
       ( realm_id = realm.id ) if realm
     end
 
-    flavor_id = opts[:flavor_id]
-    if ( flavor_id.nil? )
-      image = image(credentials, :id=>image_id )
-      flavor = flavors(credentials, :architecture=>image.architecture).first
-      (flavor_id = flavor.id ) if flavor
-    end
+    hwp = find_hardware_profile(credentials, opts[:hwp_id], image_id)
 
     name = opts[:name] || "i-#{Time.now.to_i}"
 
@@ -222,7 +217,8 @@ class MockDriver < Deltacloud::BaseDriver
       :owner_id=>credentials.user,
       :public_addresses=>["#{image_id}.#{next_id}.public.com"],
       :private_addresses=>["#{image_id}.#{next_id}.private.com"],
-      :flavor_id=>flavor_id,
+      :flavor_id=>hwp.name,
+      :instance_profile => InstanceProfile.new(hwp.name, opts),
       :realm_id=>realm_id,
       :actions=>instance_actions_for( 'RUNNING' )
     }

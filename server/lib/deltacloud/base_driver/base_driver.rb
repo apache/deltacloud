@@ -72,6 +72,24 @@ module Deltacloud
       profiles
     end
 
+    def find_hardware_profile(credentials, name, image_id)
+      hwp = nil
+      if name
+        unless hwp = hardware_profiles(credentials, :name => name).first
+          raise BackendError.new(400, "bad-hardware-profile-name",
+            "Hardware profile '#{name}' does not exist", nil)
+        end
+      else
+        unless image = image(credentials, :id=>image_id)
+          raise BackendError.new(400, "bad-image-id",
+              "Image with ID '#{image_id}' does not exist", nil)
+        end
+        hwp = hardware_profiles(credentials,
+                                :architecture=>image.architecture).first
+      end
+      return hwp
+    end
+
     def self.define_instance_states(&block)
       machine = ::Deltacloud::StateMachine.new(&block)
       @instance_state_machine = machine
