@@ -1,0 +1,35 @@
+
+<h1>Flavors</h1>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Architecture
+    </th>
+    <th>
+      Memory
+    </th>
+    <th>
+      Storage
+    </th>
+  </tr>
+  <% for flavor in @flavors %>
+    <tr>
+      <td>
+        <%= link_to flavor[:id], flavor_url( flavor[:id] ) %>
+      </td>
+      <td>
+        <%= flavor[:architecture] %>
+      </td>
+      <td>
+        <%= flavor[:memory] %> GB
+      </td>
+      <td>
+        <%= flavor[:storage] %> GB
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -17,6 +17,8 @@ ActionController::Routing::Routes.draw do |map|
     s.resources :snapshots, :controller=>'StorageSnapshots'
   end
 
+  map.resources :flavors
+
 
   #####
 

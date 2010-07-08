@@ -5,6 +5,13 @@ module Drivers
   end
 
   class BaseDriver
+
+    def flavor(credentials, id)
+      flavors = flavors(credentials, [id]) 
+      return flavors.first unless flavors.empty?
+      nil
+    end
+
     def image(credentials, id)
       images = images(credentials, [id])
       return images.first unless images.empty?

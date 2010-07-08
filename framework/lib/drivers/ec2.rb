@@ -6,6 +6,47 @@ module Drivers
   class Ec2 < BaseDriver
 
     # 
+    # Flavors
+    # 
+    FLAVORS = [ 
+      { 
+        :id=>'m1-small',
+        :memory=>1.7,
+        :storage=>160,
+        :architecture=>'i386',
+      },
+      {
+        :id=>'m1-large', 
+        :memory=>7.5,
+        :storage=>850,
+        :architecture=>'x86_64',
+      },
+      { 
+        :id=>'m1-xlarge', 
+        :memory=>15,
+        :storage=>1690,
+        :architecture=>'x86_64',
+      },
+      { 
+        :id=>'c1-medium', 
+        :memory=>1.7,
+        :storage=>350,
+        :architecture=>'x86_64',
+      },
+      { 
+        :id=>'c1-xlarge', 
+        :memory=>7,
+        :storage=>1690,
+        :architecture=>'x86_64',
+      },
+    ]
+
+    def flavors(credentials, ids=nil)
+      return FLAVORS if ( ids.nil? )
+      FLAVORS.select{|f| ids.include?(f[:id])}
+    end
+
+    # 
     # Images
     # 
 
@@ -120,6 +161,7 @@ module Drivers
         :owner_id=>ec2_instance[:aws_owner],
         :public_address=>( ec2_instance[:dns_name] == '' ? nil : ec2_instance[:dns_name] ),
         :private_address=>( ec2_instance[:private_dns_name] == '' ? nil : ec2_instance[:private_dns_name] ),
+        :flavor=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
       } 
     end
 
