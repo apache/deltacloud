@@ -17,7 +17,7 @@ In deltacloud-framework/config/environment.rb, near the bottom, ensure it says
 
 	DEFAULT_DRIVER=:mock
 
-In client-ruby/ run "rake fixtures" to install some mock test data.
+In client-ruby/ run "rake fixtures" to install some mock test data. Note that you will need to rspec ruby gem installed before doing this.
 
 Back in framework/, run it like a normal rails app.  If you have other
 rails apps running, just pick another port
