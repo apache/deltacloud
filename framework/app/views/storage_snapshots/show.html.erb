@@ -1,5 +1,5 @@
 
-<h1><%= @snapshot[:id] %></h1>
+<h1><%= @snapshot.id %></h1>
 
 <dl>
   <di>
@@ -7,7 +7,7 @@
       Volume
     </dt>
     <dd>
-      <%= @snapshot[:volume_id] %>
+      <%= @snapshot.storage_volume_id %>
     </dd>
   </di>
   <di>
@@ -15,7 +15,7 @@
       Created
     </dt>
     <dd>
-      <%= @snapshot[:created] %>
+      <%= @snapshot.created %>
     </dd>
   </di>
   <di>
@@ -23,7 +23,7 @@
       State
     </dt>
     <dd>
-      <%= @snapshot[:state] %>
+      <%= @snapshot.state %>
     </dd>
   </di>
 </dl>

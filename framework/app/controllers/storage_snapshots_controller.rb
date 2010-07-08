@@ -6,7 +6,7 @@ class StorageSnapshotsController < ApplicationController
   around_filter :catch_auth
 
   def index
-    @snapshots = driver.snapshots( credentials )
+    @snapshots = driver.storage_snapshots( credentials, :id=>params[:id] )
     respond_to do |format|
       format.html
       format.json
@@ -17,7 +17,7 @@ class StorageSnapshotsController < ApplicationController
   end
 
   def show
-    @snapshot = driver.snapshot( credentials, :id => params[:id] )
+    @snapshot = driver.storage_snapshot( credentials, :id=>params[:id] )
     respond_to do |format|
       format.html
       format.json

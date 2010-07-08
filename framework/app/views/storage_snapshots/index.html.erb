@@ -19,16 +19,16 @@
   <% for snapshot in @snapshots %>
     <tr>
       <td>
-        <%= link_to snapshot[:id], storage_snapshot_url( snapshot[:id] ) %>
+        <%= link_to snapshot.id, storage_snapshot_url( snapshot.id ) %>
       </td>
       <td>
-        <%= link_to snapshot[:volume_id], storage_volume_url( snapshot[:volume_id] ) %>
+        <%= link_to snapshot.storage_volume_id, storage_volume_url( snapshot.storage_volume_id ) %>
       </td>
       <td>
-        <%= snapshot[:created] %>
+        <%= snapshot.created %>
       </td>
       <td>
-        <%= snapshot[:state] %>
+        <%= snapshot.state %>
       </td>
     </tr>
   <% end %>

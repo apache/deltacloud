@@ -86,6 +86,17 @@ module Converters
                 builder.instance()
               end
             }
+          when StorageSnapshot
+            builder.__send__('storage-snapshot', :href=>@link_builder.send( :storage_snapshot_url, obj.id )) {
+              builder.id( obj.id )
+              builder.created( obj.created )
+              builder.state( obj.state )
+              if ( obj.storage_volume_id )
+                builder.__send__('storage-volume', :href=>@link_builder.send( :storage_volume_url, obj.storage_volume_id ) )
+              else
+                builder.__send( 'storage-volume' )
+              end
+            }
         end
       end
       return builder.target!
