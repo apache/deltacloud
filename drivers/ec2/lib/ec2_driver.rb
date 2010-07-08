@@ -1,5 +1,6 @@
 
 require 'deltacloud/base_driver'
+require 'right_aws'
 
 class Ec2Driver < DeltaCloud::BaseDriver
 
@@ -41,7 +42,22 @@ class Ec2Driver < DeltaCloud::BaseDriver
 
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
-    FLAVORS.select{|f| opts[:id] == f[:id]}
+    results = FLAVORS
+    if ( opts[:id] ) 
+      if ( opts[:id].is_a?( Array ) )
+        results = results.select{|f| opts[:id].include?( f[:id] ) }
+      else
+        results = results.select{|f| opts[:id] == f[:id]}
+      end
+    end
+    if ( opts[:architecture] ) 
+      if ( opts[:architecture].is_a?( Array ) )
+        results = results.select{|f| opts[:architecture].include?( f[:architecture] ) }
+      else
+        results = results.select{|f| opts[:architecture] == f[:architecture]}
+      end
+    end
+    results
   end
 
   # 
@@ -60,7 +76,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
           end
         end
       else
-        param = opts.nil? ? nil : opts[:owner]
+        param = opts.nil? ? nil : opts[:owner_id]
         ec2.describe_images_by_owner( param ).each do |ec2_image|
           if ( ec2_image[:aws_id] =~ /^ami-/ ) 
             images << convert_image( ec2_image )
