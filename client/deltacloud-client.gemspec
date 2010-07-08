@@ -24,7 +24,7 @@
   s.description = %q{Deltacloud REST Client for API}
   s.version = '0.0.3'
   s.summary = %q{Deltacloud REST Client}
-  s.files = Dir['Rakefile', 'credentials.yml', 'lib/**/*.rb', 'init.rb', 'bin/deltacloudc']
+  s.files = Dir['Rakefile', 'lib/**/*.rb', 'init.rb', 'bin/deltacloudc']
   s.bindir = 'bin'
   s.executables = 'deltacloudc'
   s.default_executable = 'deltacloudc'
@@ -32,5 +32,6 @@
   s.extra_rdoc_files = Dir["COPYING"]
 
   s.add_dependency('rest-client', '>= 1.3.1')
-  s.add_dependency('rspec', '>= 1.3.0')
+  s.add_dependency('nokogiri', '>= 1.4.1')
+  s.add_development_dependency('rspec', '>= 1.3.0')
 end
