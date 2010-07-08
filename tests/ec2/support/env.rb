@@ -5,7 +5,6 @@ require 'sinatra'
 require 'rack/test'
 require 'nokogiri'
 require '../server/server'
-require 'ap'
 
 Sinatra::Application.set :environment, :test
 Sinatra::Application.set :root, SERVER_DIR
