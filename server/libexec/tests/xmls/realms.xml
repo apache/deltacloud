@@ -1,0 +1,14 @@
+<realms>
+  <realm href="http://localhost:3000/api/realms/us">
+    <id>us</id>
+    <name>United States</name>
+    <state>AVAILABLE</state>
+    <limit/>
+  </realm>
+  <realm href="http://localhost:3000/api/realms/eu">
+    <id>eu</id>
+    <name>Europe</name>
+    <state>AVAILABLE</state>
+    <limit/>
+  </realm>
+</realms>
