@@ -24,17 +24,34 @@ class DeltaCloud
     block.call( self ) if block
   end
 
-  def flavors(opts={}, &block)
+  def flavors(opts={})
     flavors = []
     request( entry_points[:flavors] ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'flavors/flavor' ).each do |flavor|
-          flavors << convert_to_hash( flavor )
+          flavors << convert( :flavor, flavor )
         end
       end
     end
     flavors 
+  end
+
+  def images(opts={})
+    images = []
+    request_path = entry_points[:images]
+    if ( opts[:owner] )
+      request_path += "?owner=#{opts[:owner]}"
+    end
+    request( request_path ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'images/image' ).each do |image|
+          images << convert( :image, image )
+        end
+      end
+    end
+    images
   end
 
   def api_host
@@ -51,12 +68,24 @@ class DeltaCloud
 
   private
 
+  CONVERSIONS = {
+    :flavor=>{
+      :storage=>:to_f,
+      :memory=>:to_f,
+    }
+  }
+
   attr_reader :http
 
-  def convert_to_hash(elem)
+  def convert(type, elem)
     hash = {}
     elem.elements.each do |element|
-      hash[element.name] = element.text
+      key = element.name.to_sym
+      value = element.text
+      conversions = CONVERSIONS[type]
+      ( conversion = conversions[key] ) if conversions
+      ( value = value.send( conversion ) ) if conversion
+      hash[key] = value
     end
     hash
   end
