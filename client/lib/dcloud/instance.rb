@@ -71,6 +71,13 @@ module DCloud
         unload
       end
 
+      def destroy!()
+        url = action_urls['destroy']
+        throw Exception.new( "Unable to destroy" ) unless url
+        client.post_instance( url )
+        unload
+      end
+
       def load_payload(xml=nil)
         super(xml)
         unless xml.nil?
