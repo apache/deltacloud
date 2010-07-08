@@ -73,7 +73,20 @@ module Converters
                   builder.address( address )
                 end 
               }
-          }
+            }
+          when StorageVolume
+            builder.__send__('storage-volume', :href=>@link_builder.send( :storage_volume_url, obj.id )) {
+              builder.id( obj.id )
+              builder.created( obj.created )
+              builder.state( obj.state )
+              builder.capacity( obj.capacity )
+              builder.device( obj.device )
+              if ( obj.instance_id )
+                builder.instance( :href=>@link_builder.send( :instance_url, obj.instance_id ) )
+              else
+                builder.instance()
+              end
+            }
         end
       end
       return builder.target!

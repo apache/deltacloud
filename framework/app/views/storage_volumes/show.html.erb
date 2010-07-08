@@ -1,5 +1,5 @@
 
-<h1><%= @volume[:id] %></h1>
+<h1><%= @volume.id %></h1>
 
 <dl>
   <di>
@@ -7,7 +7,7 @@
       Created
     </dt>
     <dd>
-      <%= @volume[:created] %>
+      <%= @volume.created %>
     </dd>
   </di>
   <di>
@@ -15,7 +15,7 @@
       Capacity
     </dt>
     <dd>
-      <%= @volume[:capacity] %> GB
+      <%= @volume.capacity %> GB
     </dd>
   </di>
   <di>
@@ -23,7 +23,7 @@
       State
     </dt>
     <dd>
-      <%= @volume[:state] %>
+      <%= @volume.state %>
     </dd>
   </di>
   <di>
@@ -31,7 +31,9 @@
       Attached
     </dt>
     <dd>
-      <%= @volume[:instance_id] %> <%= @volume[:device] %>
+      <% if ( @volume.instance_id ) %>
+        <%= link_to @volume.instance_id, instance_url( @volume.instance_id ) %> - <%= @volume.device %>
+      <% end %>
     </dd>
   </di>
 </dl>

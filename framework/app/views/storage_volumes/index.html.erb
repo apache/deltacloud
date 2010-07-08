@@ -19,16 +19,16 @@
   <% for volume in @volumes %>
     <tr>
       <td>
-        <%= link_to volume[:id], storage_volume_url( volume[:id] ) %>
+        <%= link_to volume.id, storage_volume_url( volume.id ) %>
       </td>
       <td>
-        <%= volume[:created] %>
+        <%= volume.created %>
       </td>
       <td>
-        <%= volume[:capacity] %> GB
+        <%= volume.capacity %> GB
       </td>
       <td>
-        <%= volume[:state] %>
+        <%= volume.state %>
       </td>
     </tr>
   <% end %>
