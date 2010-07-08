@@ -3,6 +3,7 @@ param([string]$scriptsDir,
         [string]$password,
         [string]$domain,
         [string]$id)
+
 # Get the common functions
 . "$scriptsDir\common.ps1"
 verifyLogin $username $password $domain

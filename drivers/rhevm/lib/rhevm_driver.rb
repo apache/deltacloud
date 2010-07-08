@@ -13,42 +13,18 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   # 
   # Flavors
   # 
-  FLAVORS = [ 
-    { 
-      :id=>'m1-small',
-      :memory=>1.7,
-      :storage=>160,
-      :architecture=>'i386',
-    },
-    {
-      :id=>'m1-large', 
-      :memory=>7.5,
-      :storage=>850,
-      :architecture=>'x86_64',
-    },
-    { 
-      :id=>'m1-xlarge', 
-      :memory=>15,
-      :storage=>1690,
-      :architecture=>'x86_64',
-    },
-    { 
-      :id=>'c1-medium', 
-      :memory=>1.7,
-      :storage=>350,
-      :architecture=>'x86_64',
-    },
-    { 
-      :id=>'c1-xlarge', 
-      :memory=>7,
-      :storage=>1690,
-      :architecture=>'x86_64',
-    },
+  FLAVORS = [
+    Flavor.new({ 
+      :resource_id=>"rhevm",
+      :memory=>"Any",
+      :storage=>"Any",
+      :architecture=>"Any",
+    })
   ]
-
-  def flavors(credentials, ids=nil)
-    return FLAVORS if ( ids.nil? )
-    FLAVORS.select{|f| ids.include?(f[:id])}
+  
+  def flavors(credentials, opts=nil)
+    return FLAVORS if ( opts.nil? )
+    FLAVORS.select{|f| opts[:id] == f.resource_id}
   end
 
   #
@@ -83,10 +59,16 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   
   def toYAML(output)
     yOutput = "- \n" + output
-    yOutput.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:]*)/,' \1: "\2"')
+    yOutput.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:{}]*)/,' \1: "\2"')
     yOutput.gsub!(/^[ ]*$/,"- ")
+    puts(yOutput)
     yOutput
   end
+  
+  
+  #
+  # Images
+  #
   
   def images(credentials, opts=nil )
     templates = []
@@ -105,21 +87,51 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   end
   
   def template_to_image(templ)
-    {
-      :id => templ["TemplateId"],
+    Image.new({
+      :resource_id => templ["TemplateId"],
+      :name => templ["Name"],
       :description => templ["Description"],
       :architecture => templ["OperatingSystem"],
-      :owner_id => "Jar jar Binks"      
-    }
+      :owner_id => "Jar Jar Binks",
+      :mem_size_md => templ["MemSizeMb"],
+      :instance_count => templ["ChildCount"],
+      :state => templ["Status"],
+      :capacity => templ["SizeGB"]
+    })
   end
 
   # 
   # Instances
   # 
 
-  def instances(credentials, ids=nil)
+  def instances(credentials, opts=nil)
+    vms = []
+    if (opts.nil?)
+      vms = execute(credentials, "vms.ps1")     
+    else
+      if (opts[:id]) 
+        vms = execute(credentials, "vmsById.ps1", [opts[:id]])
+      end
+    end
     instances = []
+    vms.each do |vm|
+      instances << vm_to_instance(vm)
+    end
+    instances
   end
+  
+  def vm_to_instance(vm)
+    Instance.new({
+      :resource_id => vm["VmId"],
+      :description => vm["Description"],
+      :name => vm["Name"],      
+      :architecture => vm["OperatingSystem"],
+      :owner_id => "Jar Jar Binks",
+      :image_id => vm["TemplateId"],
+      :state => vm["Status"],
+      :flavor_id => "rhevm",      
+    })
+  end  
 
   def create_instance(credentials, image_id, flavor_id)
     check_credentials( credentials )
