@@ -1,7 +1,3 @@
-#load 'representations/xml'
-load 'drivers/ec2.rb'
-#require 'right_aws'
-
 class ImagesController < ApplicationController
 
   include DriverHelper

@@ -1,5 +1,3 @@
-load 'drivers/ec2.rb'
-
 class StorageVolumesController < ApplicationController
 
   include DriverHelper

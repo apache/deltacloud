@@ -2,7 +2,8 @@
 module DriverHelper
 
   def driver
-    @driver ||= Drivers::EC2.new
+    load "drivers/#{DRIVER}.rb"
+    @driver ||= eval( "Drivers::" + DRIVER.to_s.camelcase ).new
   end
 
   def catch_auth

@@ -1,5 +1,3 @@
-load 'drivers/ec2.rb'
-
 class StorageSnapshotsController < ApplicationController
 
   include DriverHelper

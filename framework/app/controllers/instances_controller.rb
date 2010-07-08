@@ -1,8 +1,3 @@
-
-load 'drivers/ec2.rb'
-
-require 'ostruct'
-
 class InstancesController < ApplicationController
 
   include DriverHelper

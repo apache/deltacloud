@@ -1,10 +1,9 @@
 
+require 'drivers'
+
 module Drivers
 
-  class AuthException < Exception
-  end
-
-  class EC2
+  class Ec2
 
     def safely(&block) 
       begin
