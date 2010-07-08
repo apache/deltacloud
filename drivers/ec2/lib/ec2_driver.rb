@@ -91,11 +91,11 @@ class Ec2Driver < DeltaCloud::BaseDriver
   # Instances
   # 
 
-  def instances(credentials, ids=nil)
+  def instances(credentials, opts=nil)
     ec2 = new_client(credentials)
     instances = []
     safely do
-      ec2.describe_instances(ids).each do |ec2_instance|
+      ec2.describe_instances(opts[:id]).each do |ec2_instance|
         instances << convert_instance( ec2_instance )
       end
     end
