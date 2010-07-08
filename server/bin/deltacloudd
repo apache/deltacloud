@@ -1,69 +1,55 @@
-#!/bin/bash
+#!/bin/env ruby
 
-usage()
-{
-cat << EOF
-usage: $0 options
+require 'rubygems'
+require 'optparse'
+require 'thin'
 
-Deltacloud API
-
-OPTIONS:
-   -h                Show this message
-   -i <driver>       Use driver
-   -r <hostname>     Server hostname (default: localhost)
-   -p <port>         Server port (default: 3000)
-EOF
+options = {
+  :env => 'development',
+  :host => 'localhost',
+  :port => '3000'
 }
+optparse = OptionParser.new do |opts|
 
-[ "$API_PORT" == "" ] && API_PORT='3000'
-[ "$API_HOST" == "" ] && API_HOST='localhost'
+opts.banner = <<BANNER
+Usage:
+deltacloudd -i <driver> [options]
 
-API_DRIVER=
+Options:
+BANNER
+  opts.on( '-i', '--driver DRIVER', 'Driver to use') { |driver| options[:driver] = driver }
+  opts.on( '-r', '--hostname HOSTNAME', 'Bind to HOST address (default: localhost)') { |host| options[:host] = host }
+  opts.on( '-p', '--port PORT', 'Use PORT (default: 3000)') { |port| options[:port] = port }
+  opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+end
 
-while getopts "hr:p:i:" OPTION
-do
-     case $OPTION in
-         h)
-             usage
-             exit 1
-             ;;
-         i)
-             API_DRIVER=$OPTARG
-             ;;
-         r)
-             API_HOST=$OPTARG
-             ;;
-         p)
-             API_PORT=$OPTARG
-             ;;
-         ?)
-             usage
-             exit
-             ;;
-     esac
-done
+optparse.parse!
 
-if [[ -z $API_DRIVER ]]
-then
-  echo "empty"
-  usage
-  exit 1
-fi
+unless options[:driver]
+  puts "You need to specify a driver to use (-i <driver>)"
+  exit(1)
+end
 
-topdir=$(cd $(dirname $0)/.. && pwd)
-rerun=$(which rerun 2>/dev/null)
+dirname="#{File.dirname(__FILE__)}/.."
 
-if [ -z "$rerun" ]; then
-  echo "Can not find 'rerun' (gem install rerun)"
-  exit 1
-fi
+argv_opts = ARGV.clone
+argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
+argv_opts << ['--address', options[:host] ]
+argv_opts << ['--port', options[:port] ]
+argv_opts << ['--rackup', 'config.ru' ]
+argv_opts << ['--chdir', dirname ]
+argv_opts << ['-e', options[:env] ]
+argv_opts << ['--threaded', '-D', '--stats', '/stats']
 
-[ -z "$RACK_ENV" ] && RACK_ENV=development
+argv_opts.flatten!
 
-export API_DRIVER
-export API_HOST
-export API_PORT
+thin = Thin::Runner.new(argv_opts)
 
-echo "Starting Deltacloud API :: '$API_DRIVER' driver :: http://$API_HOST:$API_PORT/api"
+begin
+  puts "Starting Deltacloud API :: #{options[:driver]} :: http://#{options[:host]}:#{options[:port]}/api"
+  puts
+  thin.run!
+rescue Exception => e
+  puts "ERROR: #{e.message}"
+end
 
-rerun "thin start --debug --port=$API_PORT --address=$API_HOST -e $RACK_ENV -c '$topdir' -R config.ru"
