@@ -23,7 +23,7 @@ require 'logger'
 module DeltaCloud
 
   # Get a new API client instance
-  # 
+  #
   # @param [String, user_name] API user name
   # @param [String, password] API password
   # @param [String, user_name] API URL (eg. http://localhost:3001/api)
@@ -39,17 +39,30 @@ module DeltaCloud
     API.new(nil, nil, url).driver_name
   end
 
+  def self.define_class(name)
+    @defined_classes ||= []
+    if @defined_classes.include?(name)
+      self.module_eval("API::#{name}")
+    else
+      @defined_classes << name unless @defined_classes.include?(name)
+      API.const_set(name, Class.new)
+    end
+  end
+
+  def self.classes
+    @defined_classes || []
+  end
+
   class API
     attr_accessor :logger
     attr_reader   :api_uri, :driver_name, :api_version, :features, :entry_points
-    attr_reader   :classes
 
     def initialize(user_name, password, api_url, opts={}, &block)
+      opts[:version] = true
       @logger = opts[:verbose] ? Logger.new(STDERR) : []
       @username, @password = user_name, password
       @api_uri = URI.parse(api_url)
       @features, @entry_points = {}, {}
-      @classes = []
       @verbose = opts[:verbose] || false
       discover_entry_points
       yield self if block_given?
@@ -77,7 +90,7 @@ module DeltaCloud
           define_method model do |*args|
             request(:get, "/#{model}", args.first) do |response|
               # Define a new class based on model name
-              c = Kernel.define_class("#{model.to_s.classify}")
+              c = DeltaCloud.define_class("#{model.to_s.classify}")
               # Create collection from index operation
               base_object_collection(c, model, response)
             end
@@ -86,7 +99,7 @@ module DeltaCloud
           define_method :"#{model.to_s.singularize}" do |*args|
             request(:get, "/#{model}/#{args[0]}") do |response|
               # Define a new class based on model name
-              c = Kernel.define_class("#{model.to_s.classify}")
+              c = DeltaCloud.define_class("#{model.to_s.classify}")
               # Build class for returned object
               base_object(c, model, response)
             end
@@ -201,7 +214,6 @@ module DeltaCloud
           end
         end
       end
-      add_class_record(obj)
       return obj
     end
 
@@ -260,7 +272,7 @@ module DeltaCloud
       instance = nil
 
       request(:post, entry_points[:instances], {}, params) do |response|
-        c = Kernel.define_class("Instance")
+        c = DeltaCloud.define_class("Instance")
         instance = base_object(c, :instance, response)
         yield instance if block_given?
       end
@@ -356,11 +368,6 @@ module DeltaCloud
       }
     end
 
-    def add_class_record(obj)
-      return if self.classes.include?(obj.class)
-      self.classes << obj.class
-    end
-
   end
 
   class Documentation
@@ -429,7 +436,7 @@ module DeltaCloud
       attr_reader :name, :unit, :value, :kind
 
       def initialize(xml, name)
-        @kind, @value, @unit = xml['kind'].to_sym, xml['value'], xml['unit']
+        @name, @kind, @value, @unit = xml['name'], xml['kind'].to_sym, xml['value'], xml['unit']
         declare_ranges(xml)
         self
       end
@@ -470,19 +477,25 @@ end
 
 class String
 
-  # Create a class name from string
-  def classify
-    self.singularize.camelize
+  unless method_defined?(:classify)
+    # Create a class name from string
+    def classify
+      self.singularize.camelize
+    end
   end
 
-  # Camelize converts strings to UpperCamelCase
-  def camelize
-    self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
+  unless method_defined?(:camelize)
+    # Camelize converts strings to UpperCamelCase
+    def camelize
+      self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
+    end
   end
 
-  # Strip 's' character from end of string
-  def singularize
-    self.gsub(/s$/, '')
+  unless method_defined?(:singularize)
+    # Strip 's' character from end of string
+    def singularize
+      self.gsub(/s$/, '')
+    end
   end
 
   # Convert string to float if string value seems like Float
@@ -494,15 +507,6 @@ class String
   # Simply converts whitespaces and - symbols to '_' which is safe for Ruby
   def sanitize
     self.gsub(/(\W+)/, '_')
-  end
-
-end
-
-module Kernel
-
-  # Get defined class or declare a new one, when class was not declared before
-  def define_class(name)
-    DeltaCloud.const_get(name) rescue DeltaCloud.const_set(name, Class.new)
   end
 
 end
