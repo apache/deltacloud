@@ -41,15 +41,23 @@ class Ec2Driver < DeltaCloud::BaseDriver
   ]
 
   INSTANCE_STATES = [
+    [ :begin, { 
+        :pending=>:_auto_,
+    } ],
     [ :pending, { 
-        :terminated=>:stop, 
-        :running=>:_auto_ } ],
+        :running=>:_auto_,
+        :stopped=>:stop, 
+    } ],
     [ :running, { 
         :running=>:reboot, 
-        :terminated=>:stop } ],
+        :shutting_down=>:stop,
+    } ],
     [ :shutting_down, { 
-        :terminated=>:_auto_ } ],
-    [ :terminated, {} ],
+        :stopped=>:_auto_,
+    } ],
+    [ :stopped, {
+        :end=>:_auto_,
+    } ],
   ]
 
   def instance_states()
