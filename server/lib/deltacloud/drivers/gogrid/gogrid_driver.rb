@@ -114,12 +114,24 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
+  def list_instances(credentials, id)
+    instances = []
+    safely do
+      new_client(credentials).request('grid/server/list')['list'].collect do |instance|
+        if id.nil? or instance['name'] == id
+          instances << convert_instance(instance, credentials.user)
+        end
+      end
+    end
+    instances
+  end
+
   def instances(credentials, opts=nil)
     instances = []
     if opts and opts[:id]
-      safely do
+      begin
         client = new_client(credentials)
-        instance = client.request('grid/server/get', { 'id' => opts[:id] })['list'].first
+        instance = client.request('grid/server/get', { 'name' => opts[:id] })['list'].first
         login_data = get_login_data(client, instance['id'])
         if login_data['username'] and login_data['password']
           instance['username'] = login_data['username']
@@ -130,13 +142,18 @@ class GogridDriver < Deltacloud::BaseDriver
           inst.authn_error = "Unable to fetch password"
         end
         instances = [inst]
-      end
-    else
-      safely do
-        instances = new_client(credentials).request('grid/server/list')['list'].collect do |instance|
-          convert_instance(instance, credentials.user)
+      rescue Exception => e
+        if e.message == "400 Bad Request"
+          # in the case of a VM that we just made, the grid/server/get method
+          # throws a "400 Bad Request error".  In this case we try again by
+          # getting a full listing a filtering on the id.  This could
+          # potentially take a long time, but I don't see another way to get
+          # information about a newly created instance
+          instances = list_instances(credentials, opts[:id])
         end
       end
+    else
+      instances = list_instances(credentials, nil)
     end
     instances = filter_on( instances, :state, opts )
     instances
