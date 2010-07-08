@@ -81,8 +81,8 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :name=>'TestInstance' )
       instance.should_not be_nil
-      instance.uri.should eql( API_URL + '/instances/inst3' )
-      instance.id.should eql( 'inst3' )
+      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
+      instance.id.should match( /inst[0-9]+/ )
       instance.name.should eql( 'TestInstance' )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-large' )
@@ -94,8 +94,8 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :realm=>'eu' )
       instance.should_not be_nil
-      instance.uri.should eql( API_URL + '/instances/inst3' )
-      instance.id.should eql( 'inst3' )
+      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
+      instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-large' )
       instance.realm.id.should eql( 'eu' )
@@ -106,8 +106,8 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :flavor=>'m1-xlarge' )
       instance.should_not be_nil
-      instance.uri.should eql( API_URL + '/instances/inst3' )
-      instance.id.should eql( 'inst3' )
+      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
+      instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-xlarge' )
       instance.realm.id.should eql( 'us' )
@@ -118,8 +118,8 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :realm=>'eu', :flavor=>'m1-xlarge' )
       instance.should_not be_nil
-      instance.uri.should eql( API_URL + '/instances/inst3' )
-      instance.id.should eql( 'inst3' )
+      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
+      instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.flavor.id.should eql( 'm1-xlarge' )
       instance.realm.id.should eql( 'eu' )
