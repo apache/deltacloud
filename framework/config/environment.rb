@@ -50,5 +50,16 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-#DRIVER = :ec2
-DRIVER = :mock
+
+DRIVER=:ec2
+
+DRIVER_ROOT = File.dirname( __FILE__ ) + "/../../deltacloud-driver-#{DRIVER}"
+$: << DRIVER_ROOT+'/lib'
+
+case DRIVER
+  when :mock
+    DRIVER_CLASS_NAME = "MockDriver"
+  when :ec2
+    DRIVER_CLASS_NAME = "Ec2Driver"
+end
+

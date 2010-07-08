@@ -1,5 +1,5 @@
 
-module Drivers
+module DeltaCloud
 
   class AuthException < Exception
   end

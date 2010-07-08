@@ -2,14 +2,14 @@
 module DriverHelper
 
   def driver
-    load "drivers/#{DRIVER}.rb"
-    @driver ||= eval( "Drivers::" + DRIVER.to_s.camelcase ).new
+    load "#{DRIVER_CLASS_NAME.underscore}.rb"
+    @driver ||= eval( DRIVER_CLASS_NAME ).new
   end
 
   def catch_auth
     begin
       yield
-    rescue Drivers::AuthException => e
+    rescue DeltaCloud::AuthException => e
       authenticate_or_request_with_http_basic() do |n,p|
       end
     end
