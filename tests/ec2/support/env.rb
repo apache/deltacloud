@@ -5,6 +5,7 @@ require 'sinatra'
 require 'rack/test'
 require 'nokogiri'
 require '../server/server'
+require 'ap'
 
 Sinatra::Application.set :environment, :test
 Sinatra::Application.set :root, SERVER_DIR
@@ -35,7 +36,7 @@ World do
       header 'Accept', 'application/xml'
     end
   end
-
+  
   prefixes = %W{ @prefix-start, @prefix-reboot, @prefix-stop, @prefix-create, @prefix-create-hwp}
 
   Before(prefixes.join(',')) do |scenario|

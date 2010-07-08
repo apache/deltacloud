@@ -137,7 +137,7 @@ Feature: Managing instances
     When client request for a new instance
     Then new instance should be created
     And this instance should have chosed image
-    And this instance should be in 'PENDING' state
+    And this instance should be in 'RUNNING' state
     And this instance should have valid id
     And this instance should have last hardware profile
     And this instance should have name
