@@ -1,0 +1,17 @@
+- unless defined?(partial)
+  !!! XML
+%hardware-profile{ :href => hardware_profile_url(@profile.name) }
+  %id= @profile.name
+  - @profile.each_property do |prop|
+    - attr = { :name => prop.name, :kind => prop.kind, :unit => prop.unit }
+    - if prop.kind == :fixed
+      %property{ attr, :value => prop.value }/
+    - else
+      %property{ attr, :value => prop.default }
+        %param{ :operation => "create", :href => instances_url, :method => "post", :name  => prop.param }
+        - if prop.kind == :range
+          %range{ :first => prop.first, :last => prop.last }/
+        - elsif prop.kind == :enum
+          %enum
+            - prop.values.each do |v|
+              %entry{ :value => v }/

@@ -290,15 +290,21 @@ collection :instances do
 end
 
 collection :hardware_profiles do
-  description "Hardware profiles"
+  description <<END
+ A hardware profile represents a configuration of resources upon which a
+ machine may be deployed. It defines aspects such as local disk storage,
+ available RAM, and architecture. Each provider is free to define as many
+ (or as few) hardware profiles as desired.
+END
 
   operation :index do
     description "List of available hardware profiles"
     param :id,          :string
+    param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control do
-        @profiles = driver.hardware_profiles
+        @profiles = driver.hardware_profiles(credentials, params)
         respond_to do |format|
-          format.xml  { convert_to_xml(:hardware_profiles, @profiles) }
+          format.xml  { haml :'hardware_profiles/index' }
           format.html  { haml :'hardware_profiles/index' }
         end
     end
