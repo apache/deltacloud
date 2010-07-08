@@ -3,16 +3,16 @@
 
 %html
   %head
-    = stylesheet_link_tag 'compiled/screen.css', :media => 'screen, projection'
-    = stylesheet_link_tag 'compiled/print.css', :media => 'print'
+    = stylesheet_link_tag '/stylesheets/compiled/screen.css', :media => 'screen, projection'
+    = stylesheet_link_tag '/stylesheets/compiled/print.css', :media => 'print'
     /[if lt IE 8]
-      = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
-    = stylesheet_link_tag 'compiled/application.css', :media => 'screen, projection'
+      = stylesheet_link_tag '/stylesheets/compiled/ie.css', :media => 'screen, projection'
+    = stylesheet_link_tag '/stylesheets/compiled/application.css', :media => 'screen, projection'
   %body
     #wrapper
       #header
-        = link_to image_tag( "logo-wide.png" ), root_url
-      = bread_crumb 
+        = link_to image_tag( "/images/logo-wide.png" ), root_url
+      = bread_crumb
       #content
         = yield
       #footer
@@ -21,5 +21,3 @@
         #copyright
           Copyright 2009, 2010
           #{link_to 'Red Hat', 'http://redhat.com'} and individual contributors.
-      
-  
