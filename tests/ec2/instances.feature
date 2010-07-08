@@ -35,16 +35,15 @@ Feature: Managing instances
     Then client should get root element 'instances'
     And this element contains some instances
     And each instance should have:
-    | id |
     | name |
     | owner_id |
     | image |
     | realm |
     | state |
-    | hardware-profile |
+    | hardware_profile |
     | actions |
-    | public-addresses |
-    | private-addresses |
+    | public_addresses |
+    | private_addresses |
     And each instance should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 
@@ -66,18 +65,17 @@ Feature: Managing instances
     Then client follow href attribute in first instance
     Then client should get this instance
     And this instance should have:
-    | id |
     | name |
     | owner_id |
     | image |
     | realm |
     | state |
-    | hardware-profile |
+    | hardware_profile |
     | actions |
-    | public-addresses |
-    | private-addresses |
+    | public_addresses |
+    | private_addresses |
     | authentication |
-    | launch-time |
+    | launch_time |
 
   Scenario: Following image href in instance
     Given URI /api/instances exists
@@ -103,8 +101,8 @@ Feature: Managing instances
     When client access this URI
     Then client should get root element 'instances'
     And this element contains some instances
-    When client follow hardware-profile href attribute in first instance
-    Then client should get valid hardware-profile
+    When client follow hardware_profile href attribute in first instance
+    Then client should get valid hardware_profile
 
   @prefix-actions
   Scenario: Instance actions

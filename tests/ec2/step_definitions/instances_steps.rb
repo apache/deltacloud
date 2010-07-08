@@ -46,7 +46,7 @@ When /^client follow link in actions$/ do
     l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
   end
 
-  post l[:href], { :id => @instance.xpath('id').first.text }
+  post l[:href], { :id => @instance.xpath('@id').first.text }
 
   last_response.status.should_not == 500
 end
@@ -78,7 +78,7 @@ end
 
 When /^client request for a new instance$/ do
   params = {
-    :image_id => @image.xpath('id').first.text
+    :image_id => @image.xpath('@id').first.text
   }
   params[:hwp_id] = @hwp_id if @hwp_id
   post "#{@uri}", params
@@ -93,7 +93,7 @@ Then /^this instance should have chosed image$/ do
 end
 
 Then /^this instance should have valid id$/ do
-  output_xml.xpath('instance/id').first.should_not be_nil
+  output_xml.xpath('instance/@id').first.should_not be_nil
 end
 
 Then /^this instance should have name$/ do
@@ -124,14 +124,14 @@ end
 When /^client choose (\w+) hardware profile$/ do |position|
   get '/api/hardware_profiles', {}
   if position=='last'
-    @hwp_id = output_xml.xpath('/hardware-profiles/hardware-profile/id').last.text
+    @hwp_id = output_xml.xpath('/hardware_profiles/hardware_profile/@id').last.text
   else
-    @hwp_id = output_xml.xpath('/hardware-profiles/hardware-profile/id').first.text
+    @hwp_id = output_xml.xpath('/hardware_profiles/hardware_profile/@id').first.text
   end
 end
 
 Then /^this instance should have last hardware profile$/ do
-  output_xml.xpath('instance/hardware-profile/id').first.text.should == @hwp_id
+  output_xml.xpath('instance/hardware_profile/@id').first.text.should == @hwp_id
 end
 
 Given /^I set mock scenario to (\w+)$/ do |scenario|

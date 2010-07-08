@@ -14,6 +14,9 @@
   %actions
     - @instance.actions.compact.each do |instance_action|
       %link{:rel => instance_action, :method => instance_action_method(instance_action), :href => self.send("#{instance_action}_instance_url", @instance.id)}
+  - if @instance.instance_variables.include?("@launch_time")
+    %launch_time<
+      =@instance.launch_time
   %public_addresses
     - @instance.public_addresses.each do |address|
       %address<

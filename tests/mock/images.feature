@@ -7,7 +7,6 @@ Feature: Listing and showing images
     Then client should get root element 'images'
     And this element contains some images
     And each image should have:
-    | id |
     | name |
     | description |
     | architecture |
@@ -25,7 +24,6 @@ Feature: Listing and showing images
     Then client should follow href attribute in image
     And client should get valid response with requested image
     And this image should have:
-    | id |
     | name |
     | description |
     | architecture |

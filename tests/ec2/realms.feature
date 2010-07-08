@@ -7,7 +7,6 @@ Feature: Accessing realms
     Then client should get root element 'realms'
     And this element contains some realms
     And each realm should have:
-    | id |
     | name |
     | state |
     | limit |
@@ -24,8 +23,6 @@ Feature: Accessing realms
     Then client should follow href attribute in realm
     And client should get valid response with requested realm
     And this realm should have:
-    | id |
     | name |
     | state |
-    | limit |
     And this URI should be available in XML, JSON, HTML format

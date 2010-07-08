@@ -68,7 +68,7 @@ end
 
 Then /^client should get valid response with requested (\w+)$/ do |element|
   last_response.status.should == 200
-  output_xml.xpath('/'+element+'/id').first.text.should == @element.xpath('id').text
+  output_xml.xpath('/'+element+'/@id').first.text.should == @element.xpath('@id').text
 end
 
 When /^client access this URI with parameters:$/ do |table|

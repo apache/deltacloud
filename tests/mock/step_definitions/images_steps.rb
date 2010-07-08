@@ -33,12 +33,12 @@ When /^client want to show first (.+)$/ do |element|
       path = '/instances/instance'
     when 'realm':
       path = '/realms/realm'
-    when 'hardware-profile'
-      path = '/hardware-profiles/hardware-profile'
-    when 'storage-volume':
-      path = '/storage-volumes/storage-volume'
-    when 'storage-snapshot':
-      path = '/storage-snapshots/storage-snapshot'
+    when 'hardware_profile'
+      path = '/hardware_profiles/hardware_profile'
+    when 'storage_volume':
+      path = '/storage_volumes/storage_volume'
+    when 'storage_snapshot':
+      path = '/storage_snapshots/storage_snapshot'
   end
   @element = output_xml.xpath(path).first
   @element.should_not be_nil
@@ -68,7 +68,7 @@ end
 
 Then /^client should get valid response with requested (\w+)$/ do |element|
   last_response.status.should == 200
-  output_xml.xpath('/'+element+'/id').first.text.should == @element.xpath('id').text
+  output_xml.xpath('/'+element).first['id'].to_s.should == @element.xpath('@id').text
 end
 
 When /^client access this URI with parameters:$/ do |table|

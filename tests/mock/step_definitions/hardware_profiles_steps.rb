@@ -1,10 +1,10 @@
 Then /^it should have a (\w+) attribute$/ do |name|
-  attr = output_xml.xpath('/hardware-profile').first[name]
+  attr = output_xml.xpath('/hardware_profile').first[name]
   attr.should_not be_nil
 end
 
 Then /^it should have a (\w+) property '(.+)'$/ do |kind, name|
-  props = output_xml.xpath("/hardware-profile/property[@name = '#{name}']")
+  props = output_xml.xpath("/hardware_profile/property[@name = '#{name}']")
   props.size.should == 1
   prop = props.first
   prop['kind'].should == kind
