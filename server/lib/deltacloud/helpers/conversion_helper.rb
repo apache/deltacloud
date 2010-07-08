@@ -17,7 +17,6 @@
 
 
 require 'deltacloud/base_driver'
-require 'converters/xml_converter'
 
 module ConversionHelper
 
