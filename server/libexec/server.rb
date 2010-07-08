@@ -12,6 +12,16 @@ require 'sinatra/rabbit'
 require 'sinatra/validation'
 require 'sinatra/lazy_auth'
 
+configure do
+  set :raise_errors => false
+end
+
+configure :development do
+  # So we can just use puts for logging
+  $stdout.sync = true
+  $stderr.sync = true
+end
+
 DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
 
 # You could use $API_HOST environment variable to change your hostname to
