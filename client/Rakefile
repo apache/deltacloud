@@ -16,7 +16,6 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 require 'rake/gempackagetask'
-require 'spec/rake/spectask'
 
 load 'deltacloud-client.gemspec'
 
@@ -29,9 +28,12 @@ Rake::GemPackageTask.new(@spec) do |pkg|
   pkg.need_tar = true
 end
 
-desc "Run all examples"
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_files = FileList['specs/**/*_spec.rb']
+if Gem.available?('rspec')
+  require 'spec/rake/spectask'
+  desc "Run all examples"
+  Spec::Rake::SpecTask.new('spec') do |t|
+    t.spec_files = FileList['specs/**/*_spec.rb']
+  end
 end
 
 desc "Setup Fixtures"
