@@ -5,7 +5,6 @@ module Deltacloud
 
   class FeatureError < StandardError; end
   class DuplicateFeatureDeclError < FeatureError; end
-  class DuplicateFeatureError < FeatureError; end
   class UndeclaredFeatureError < FeatureError; end
 
   class BaseDriver
@@ -40,8 +39,15 @@ module Deltacloud
         @description
       end
 
+      # Add a new operation or modify an existing one through BLOCK
       def operation(name, &block)
-        @operations << Operation.new(name, &block)
+        unless op = @operations.find { |op| op.name == name }
+          op = Operation.new(name, &block)
+          @operations << op
+        else
+          op.instance_eval(&block) if block_given?
+        end
+        op
       end
     end
 
@@ -92,10 +98,14 @@ module Deltacloud
     end
 
     # Declare in a driver that it supports a specific feature
+    #
+    # The same feature can be declared multiple times in a driver, so that
+    # it can be changed successively by passing in different blocks.
     def self.feature(collection, name, &block)
       features[collection] ||= []
-      if features[collection].find { |f| f.name == name }
-        raise DuplicateFeatureError
+      if f = features[collection].find { |f| f.name == name }
+        f.instance_eval(&block) if block_given?
+        return f
       end
       unless decl = feature_decl_for(collection, name)
         raise UndeclaredFeatureError, "No feature #{name} for #{collection}"
