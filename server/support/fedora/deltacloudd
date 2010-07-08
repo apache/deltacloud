@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'optparse'
+require 'thin'
+
+options = {
+  :env => 'production'
+}
+optparse = OptionParser.new do |opts|
+
+opts.banner = <<BANNER
+Usage:
+deltacloudd -i <driver> [options]
+
+Options:
+BANNER
+  opts.on( '-i', '--driver DRIVER', 'Driver to use') do |driver|
+    ENV["API_DRIVER"] = driver
+  end
+  opts.on( '-r', '--hostname HOSTNAME',
+           'Bind to HOST address (default: localhost)') do |host|
+    ENV["API_HOST"] = host
+  end
+  opts.on( '-p', '--port PORT', 'Use PORT (default: 3001)') do |port|
+    ENV["API_PORT"] = port
+  end
+  opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+  opts.on( '-h', '--help', '') { options[:help] = true }
+end
+
+optparse.parse!
+
+if options[:help]
+ puts optparse
+ exit(0)
+end
+
+unless ENV["API_DRIVER"]
+  puts "You need to specify a driver to use (-i <driver>)"
+  exit(1)
+end
+
+ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
+ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
+
+dirname="#{File.dirname(__FILE__)}/.."
+
+argv_opts = ARGV.clone
+argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
+argv_opts << ['--address', ENV["API_HOST"] ]
+argv_opts << ['--port', ENV["API_PORT"] ]
+argv_opts << ['--rackup', 'config.ru' ]
+argv_opts << ['--chdir', dirname ]
+argv_opts << ['-e', options[:env] ]
+argv_opts << ['--threaded', '-D', '--stats', '/stats']
+
+argv_opts.flatten!
+
+puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+puts
+
+thin = Thin::Runner.new(argv_opts)
+begin
+  thin.run!
+rescue Exception => e
+  puts "ERROR: #{e.message}"
+end
