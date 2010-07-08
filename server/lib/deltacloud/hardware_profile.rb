@@ -117,6 +117,28 @@ module Deltacloud
       p && p.default.to_s == v
     end
 
+    def to_hash
+      props = []
+      self.each_property do |p|
+        if p.kind.eql? :fixed
+          props << { :kind => p.kind, :value => p.value, :name => p.name, :unit => p.unit } 
+        else
+          param = { :operation => "create", :method => "post", :name => p.name }
+          if p.kind.eql? :range
+            param[:range] = { :first => p.first, :last => p.last }
+          elsif p.kind.eql? :enum
+            param[:enum] = p.values.collect { |v| { :entry => v } }
+          end
+          param
+          props << { :kind => p.kind, :value => p.default, :name => p.name, :unit => p.unit, :param => param }
+        end
+      end
+      {
+        :id => self.name,
+        :properties => props
+      }
+    end
+
     def include?(prop, v)
       p = @properties[prop]
       p.nil? || p.include?(v)

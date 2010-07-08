@@ -299,6 +299,7 @@ END
         respond_to do |format|
           format.xml  { haml :'hardware_profiles/index' }
           format.html  { haml :'hardware_profiles/index' }
+          format.json { convert_to_json(:hardware_profile, @profiles) }
         end
     end
   end
@@ -311,6 +312,7 @@ END
       respond_to do |format|
         format.xml { haml :'hardware_profiles/show', :layout => false }
         format.html { haml :'hardware_profiles/show' }
+        format.json { convert_to_json(:hardware_profile, @profile) }
       end
     end
   end
