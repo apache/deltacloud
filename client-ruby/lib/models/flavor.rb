@@ -3,6 +3,8 @@ require 'models/base_model'
 
 class Flavor < BaseModel
 
+  xml_tag_name :flavor
+
   attribute :memory
   attribute :storage
   attribute :architecture

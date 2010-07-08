@@ -1,6 +1,14 @@
 
 class BaseModel
 
+  def self.xml_tag_name(name=nil)
+    unless ( name.nil? ) 
+      @xml_tag_name = name
+    end
+    @xml_tag_name || self.class.name.downcase.to_sym
+  end
+
+
   def self.attribute(attr)
     build_reader attr
   end
@@ -30,7 +38,7 @@ class BaseModel
 
   def check_load_payload()
     return if @loaded
-    xml = @client.fetch_resource( self.class.name.downcase.to_sym, @uri )
+    xml = @client.fetch_resource( self.class.xml_tag_name.to_sym, @uri )
     load_payload(xml)
   end
 

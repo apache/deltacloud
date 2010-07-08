@@ -7,6 +7,7 @@ require 'models/flavor'
 require 'models/image'
 require 'models/instance'
 require 'models/storage_volume'
+require 'models/storage_snapshot'
 
 class DeltaCloud
 
@@ -170,6 +171,39 @@ class DeltaCloud
   def fetch_storage_volume(uri)
     xml = fetch_resource( :storage_volume, uri ) 
     return StorageVolume.new( self, uri, xml ) if xml
+    nil
+  end
+
+  def storage_snapshots()
+    storage_snapshots = []
+    request( entry_points[:storage_snapshots] ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'storage-snapshots/storage-snapshot' ).each do |instance|
+          uri = instance.attributes['href']
+          storage_snapshots << StorageSnapshot.new( self, uri, instance )
+        end
+      end
+    end
+    storage_snapshots
+  end
+
+  def storage_snapshot(id)
+    request( entry_points[:storage_snapshots], :get, {:id=>id } ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'storage-snapshots/storage-snapshot' ).each do |storage_snapshot|
+          uri = storage_snapshot.attributes['href']
+          return StorageSnapshot.new( self, uri, storage_snapshot )
+        end
+      end
+    end
+    nil
+  end
+
+  def fetch_storage_snapshot(uri)
+    xml = fetch_resource( :storage_snapshot, uri ) 
+    return StorageSnapshot.new( self, uri, xml ) if xml
     nil
   end
 

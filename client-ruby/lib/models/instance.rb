@@ -3,6 +3,8 @@ require 'models/base_model'
 
 class Instance < BaseModel
 
+  xml_tag_name :instance
+
   attribute :owner_id
   attribute :public_addresses
   attribute :private_addresses

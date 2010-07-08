@@ -3,6 +3,8 @@ require 'models/base_model'
 
 class Image < BaseModel
 
+  xml_tag_name :image
+
   attribute :description
   attribute :owner_id
   attribute :architecture

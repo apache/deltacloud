@@ -2,6 +2,8 @@ require 'models/base_model'
 
 class StorageVolume < BaseModel
 
+  xml_tag_name :storage_volume
+
   attribute :created
   attribute :state
   attribute :capacity
