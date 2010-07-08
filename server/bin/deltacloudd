@@ -66,4 +66,4 @@ export API_PORT
 
 echo "Starting Deltacloud API :: '$API_DRIVER' driver :: http://$API_HOST:$API_PORT/api"
 
-rerun "thin start --debug --port=$API_PORT --address=$API_HOST -e $RACK_ENV -c '$topdir/libexec' -R config.ru"
+rerun "thin start --debug --port=$API_PORT --address=$API_HOST -e $RACK_ENV -c '$topdir' -R config.ru"
