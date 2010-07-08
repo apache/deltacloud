@@ -70,13 +70,13 @@ unless defined?( DRIVER )
 end
 
 
-DRIVER_ROOT = File.dirname( __FILE__ ) + "/../../deltacloud-driver-#{DRIVER}"
+DRIVER_ROOT = File.dirname( __FILE__ ) + "/../../driver-#{DRIVER}"
 $: << DRIVER_ROOT+'/lib'
 
 case DRIVER
   when :mock
     DRIVER_CLASS_NAME = "MockDriver"
-    MOCK_STORAGE_ROOT = File.dirname( __FILE__ ) + "/../../deltacloud-client-ruby/specs/data"
+    MOCK_STORAGE_ROOT = File.dirname( __FILE__ ) + "/../../client-ruby/specs/data"
   when :ec2
     DRIVER_CLASS_NAME = "Ec2Driver"
   when :rhevm
