@@ -50,12 +50,16 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
   end
   def reboot_instance(credentials, id)
     rh = new_client(credentials)
-    rh.set_server_state(id, :REBOOTING)
+    rh.set_server_state(id, :RESTARTING)
+  end
+
+  def start_instance(credentials, id)
+    rh = new_client(credentials)
+    rh.set_server_state(id, :STARTED)
   end
 
   def stop_instance(credentials, id)
-    rh = new_client(credentials)
-    rh.set_server_state(id, :STOPPED)
+    destroy_instance(credentials, id)
   end
 
   def destroy_instance(credentials, id)
@@ -72,13 +76,15 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
     name = Time.now.to_s + '.com'
     if (opts[:name]) then name = opts[:name] end
     convert_srv_to_instance(rh.start_server(image_id, flavor_id, name))
+
+    
   end
 
   def convert_srv_to_instance( inst )
      Instance.new({
-                  :id => inst["order_oid"],
+                  :id => inst["order_oid"].to_s,
                   :name => inst["domain_name"],
-                  :image_id => inst["distro"],
+                  :image_id => "lenny",
                   :state => "RUNNING",
                   :name => inst["domain_name"],
                   :realm_id => "RH",
@@ -100,7 +106,7 @@ class RimuHostingDriver < DeltaCloud::BaseDriver
     if (credentials[:password].nil? || credentials[:password] == '' || credentials[:name].nil? || credentials[:name] == '')
       raise DeltaCloud::AuthException.new
     end
-
+ 
     RimuHostingClient.new(credentials[:name], credentials[:password])
   end
 end

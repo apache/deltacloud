@@ -5,18 +5,17 @@ require "json"
 
 
 class RimuHostingClient
-  def initialize(name, password ,baseuri = 'http://localhost:8080/rimuhosting/r')
+  def initialize(name, password ,baseuri = 'https://rimuhosting.com/r')
     @uri = URI.parse(baseuri)
-
     @service = Net::HTTP.new(@uri.host, @uri.port)
-    @service.use_ssl = false
-    @auth = "rimuhosting apikey=" % [password]
+    @service.use_ssl = true
+    @auth = "rimuhosting apikey=%s" % [password]  
   end
 
   def request(resource, data='', method='GET')
     headers = {"Accept" => "application/json", "Content-Type" => "application/json", "Authorization" => @auth}
     r = @service.send_request(method, @uri.path + resource, data, headers)
-    res = JSON.parse(r.body)  
+    res = JSON.parse(r.body)
     res[res.keys[0]]
   end
 
@@ -33,17 +32,17 @@ class RimuHostingClient
   end
 
   def set_server_state(id, state)
-    json = {:reboot_request => {:running_state => state}}
-    request('/orders/order-#{id}/vps/running-state', json, 'PUT')
+    json = {"reboot_request" => {"running_state" => state}}.to_json
+    request("/orders/order-#{id}-a/vps/running-state", json, 'PUT')
   end
 
   def delete_server(id)
-    request('/orders/order-#{id}/vps','', 'DELETE')
+    request("/orders/order-#{id}-a/vps",'', 'DELETE')
   end
 
   def create_server(image_id, flavor_id, name)
     json = {:new_vps => {:instantiation_options => {:domain_name => name, :distro => image_id},
-                        :pricing_plan_code => flavor_id}}
+                        :pricing_plan_code => flavor_id}}.to_json
     request('/orders/new-vps',json, 'POST')[:about_order]
   end
 end
