@@ -5,6 +5,10 @@ class InstancesController < ApplicationController
 
   around_filter :catch_auth
 
+  def states
+    @states = driver.states( credentials )
+  end
+
   def index
     build_filter( :id )
     @instances = driver.instances( credentials, @filter )

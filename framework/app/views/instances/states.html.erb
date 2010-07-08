@@ -1,0 +1,46 @@
+
+<h1>States</h1>
+
+<table class="states">
+  <tr>
+    <th>
+      Origin
+    </th>
+    <th>
+      Action
+    </th>
+    <th>
+      Destination
+    </th>
+  </tr>
+  <% @states.each do |state| %>
+    <% origin      = state.first %>
+    <% transitions = state.last %>
+    <tr>
+      <td rowspan="<%= transitions.empty? ? 2 : transitions.size + 1 %>" class="origin">
+        <%= origin %>
+      </td>
+    </tr>
+    <% if ( transitions.empty? ) %>
+      <tr> 
+        <td>
+          --
+        </td>
+        <td>
+          --
+        </td>
+      </tr> 
+    <% else %>
+      <% transitions.each do |destination, action| %>
+        <tr>
+          <td>
+            <%= action %>
+          </td>
+          <td>
+            <%= destination %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  <% end %>
+</table>

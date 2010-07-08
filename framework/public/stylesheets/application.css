@@ -40,6 +40,11 @@ body {
   list-style-type: square;
   margin-left: 1em; }
 
+ul.breadcrumb li {
+  display: inline; }
+  ul.breadcrumb li.subsequent:before {
+    content: " >> "; }
+
 table {
   width: 100%; }
   table th, table td {
@@ -50,6 +55,11 @@ table {
     background-color: #cccccc; }
   table td {
     background-color: #eeeeee; }
+
+table.states tr {
+  border-bottom: 1px solid #bbbbbb; }
+table.states th, table.states td {
+  vertical-align: top; }
 
 .radio-group {
   font-size: 90%;
@@ -69,10 +79,3 @@ input[type='radio'] {
   margin-top: 1ex;
   margin-left: 1ex;
   margin-bottom: 1ex; }
-
-ul.breadcrumb li {
-  display:inline;
-}
-ul.breadcrumb li.subsequent:before {
-  content: " >> "
-}

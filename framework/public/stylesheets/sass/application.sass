@@ -49,6 +49,13 @@ body
       :margin-left 1em
 
 
+ul.breadcrumb 
+  li 
+    :display inline
+
+    &.subsequent:before 
+      content: " >> "
+
 table
   :width 100%
   th, td
@@ -60,6 +67,11 @@ table
   td
     :background-color = !td_bg
 
+table.states
+  tr
+    :border-bottom = 1px solid !th_bg - #111
+  th, td
+    :vertical-align top
 
 .radio-group
   :font-size 90%

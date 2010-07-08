@@ -10,6 +10,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :realms, :path_prefix=>'api'
   map.resources :images, :path_prefix=>'api'
   map.resources :instances, :path_prefix=>'api',
+    :collection=>{
+      :states=>:get,
+    },
     :member=>{
       :destroy=>:post,
       :stop=>:post,

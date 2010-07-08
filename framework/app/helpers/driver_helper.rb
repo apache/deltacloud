@@ -1,4 +1,6 @@
 
+require 'deltacloud/base_driver'
+
 module DriverHelper
 
   def driver
