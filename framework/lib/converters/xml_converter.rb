@@ -24,7 +24,7 @@ module Converters
     def initialize(link_builder, type)
       @link_builder = link_builder
       @type         = type
-    end 
+    end
 
     def convert(obj, builder=nil)
       builder ||= Builder::XmlMarkup.new( :indent=>2 )
@@ -47,6 +47,7 @@ module Converters
             builder.image( :href=>@link_builder.send( :image_url, obj.id ) ) {
               builder.id( obj.id )
               builder.owner_id( obj.owner_id )
+              builder.name( obj.name )
               builder.description( obj.description )
               builder.architecture( obj.architecture )
             }
@@ -79,12 +80,12 @@ module Converters
               builder.__send__( 'public-addresses' ) {
                 obj.public_addresses.each do |address|
                   builder.address( address )
-                end 
+                end
               }
               builder.__send__( 'private-addresses' ) {
                 obj.private_addresses.each do |address|
                   builder.address( address )
-                end 
+                end
               }
             }
           when StorageVolume
