@@ -28,20 +28,13 @@ require 'dcloud/state'
 require 'dcloud/transition'
 require 'base64'
 
-module RestClient
-  class Response
-    def body
-      self.to_s
-    end
-  end
-end
-
 class DeltaCloud
 
   attr_accessor :logger
   attr_reader   :api_uri
   attr_reader   :entry_points
   attr_reader   :driver_name
+  attr_reader   :last_request_xml
 
   def self.driver_name(url)
     DeltaCloud.new( nil, nil, url) do |client|
@@ -95,7 +88,7 @@ class DeltaCloud
 
   def flavor(id)
     request( entry_points[:flavors], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( '/flavor' ).each do |flavor|
         uri = flavor.attributes['href']
         return DCloud::Flavor.new( self, uri, flavor )
@@ -111,7 +104,7 @@ class DeltaCloud
 
   def fetch_resource(type, uri)
     request( uri ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       if ( doc.root && ( doc.root.name == type.to_s.gsub( /_/, '-' ) ) )
         return doc.root
       end
@@ -154,7 +147,7 @@ class DeltaCloud
   def instance_states
     states = []
     request( entry_points[:instance_states] ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'states/state' ).each do |state_elem|
         state = DCloud::State.new( state_elem.attributes['name'] )
         state_elem.get_elements( 'transition' ).each do |transition_elem|
@@ -177,7 +170,7 @@ class DeltaCloud
   def realms(opts={})
     realms = []
     request( entry_points[:realms], :get, opts ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'realms/realm' ).each do |realm|
         uri = realm.attributes['href']
         realms << DCloud::Realm.new( self, uri, realm )
@@ -188,7 +181,7 @@ class DeltaCloud
 
   def realm(id)
     request( entry_points[:realms], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'realm' ).each do |realm|
         uri = realm.attributes['href']
         return DCloud::Realm.new( self, uri, realm )
@@ -207,7 +200,7 @@ class DeltaCloud
     images = []
     request_path = entry_points[:images]
     request( request_path, :get, opts ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'images/image' ).each do |image|
         uri = image.attributes['href']
         images << DCloud::Image.new( self, uri, image )
@@ -218,7 +211,7 @@ class DeltaCloud
 
   def image(id)
     request( entry_points[:images], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'image' ).each do |instance|
         uri = instance.attributes['href']
         return DCloud::Image.new( self, uri, instance )
@@ -230,7 +223,7 @@ class DeltaCloud
   def instances(opts={})
     instances = []
     request( entry_points[:instances], :get, opts ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'instances/instance' ).each do |instance|
         uri = instance.attributes['href']
         instances << DCloud::Instance.new( self, uri, instance )
@@ -241,7 +234,7 @@ class DeltaCloud
 
   def instance(id)
     request( entry_points[:instances], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'instance' ).each do |instance|
         uri = instance.attributes['href']
         return DCloud::Instance.new( self, uri, instance )
@@ -275,7 +268,7 @@ class DeltaCloud
 
     params[:image_id] = image_id
     request( entry_points[:instances], :post, {}, params ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       instance = doc.root
       uri = instance.attributes['href']
       return DCloud::Instance.new( self, uri, instance )
@@ -285,7 +278,7 @@ class DeltaCloud
   def storage_volumes(opts={})
     storage_volumes = []
     request( entry_points[:storage_volumes] ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'storage-volumes/storage-volume' ).each do |instance|
         uri = instance.attributes['href']
         storage_volumes << DCloud::StorageVolume.new( self, uri, instance )
@@ -296,7 +289,7 @@ class DeltaCloud
 
   def storage_volume(id)
     request( entry_points[:storage_volumes], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'storage-volume' ).each do |storage_volume|
         uri = storage_volume.attributes['href']
         return DCloud::StorageVolume.new( self, uri, storage_volume )
@@ -314,7 +307,7 @@ class DeltaCloud
   def storage_snapshots(opts={})
     storage_snapshots = []
     request( entry_points[:storage_snapshots] ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'storage-snapshots/storage-snapshot' ).each do |instance|
         uri = instance.attributes['href']
         storage_snapshots << DCloud::StorageSnapshot.new( self, uri, instance )
@@ -325,7 +318,7 @@ class DeltaCloud
 
   def storage_snapshot(id)
     request( entry_points[:storage_snapshots], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       doc.get_elements( 'storage-snapshot' ).each do |storage_snapshot|
         uri = storage_snapshot.attributes['href']
         return DCloud::StorageSnapshot.new( self, uri, storage_snapshot )
@@ -352,7 +345,7 @@ class DeltaCloud
 
   def discover_entry_points
     request(api_uri.to_s) do |response|
-      doc = REXML::Document.new( response.body )
+      doc = REXML::Document.new( response )
       @driver_name = doc.root.attributes['driver']
       doc.get_elements( 'api/link' ).each do |link|
         rel = link.attributes['rel']
@@ -378,11 +371,19 @@ class DeltaCloud
       :authorization => "Basic "+Base64.encode64("#{@name}:#{@password}"),
       :accept => "application/xml"
     }
+
     logger << "Request [#{method.to_s.upcase}] #{request_path}]\n"  if @verbose
+
     if method.eql?(:get)
-      RestClient.send(method, request_path, headers, &block)
+      RestClient.send(method, request_path, headers) do |response|
+        @last_request_xml = response
+        yield response.to_s
+      end
     else
-      RestClient.send(method, request_path, form_data, headers, &block)
+      RestClient.send(method, request_path, form_data, headers) do |response|
+        @last_request_xml = response
+        yield response.to_s
+      end
     end
   end
 
