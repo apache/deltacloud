@@ -146,17 +146,19 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   #
 
   STATE_ACTIONS = [
+    [ :begin, {
+        :stopped => :create}],
     [ :pending, {
-        :stopped=>:stop,
+        :shutting_down=>:stop,
         :running=>:_auto_ } ],
     [ :running, {
-        :running=>:reboot,
-        :stopped=>:stop } ],
+        :pending=>:reboot,
+        :shutting_down=>:stop } ],
     [ :shutting_down, {
         :stopped=>:_auto_ } ],
     [ :stopped, {
-        :running=>:start,
-        :terminated=>:destroy }],
+        :pending=>:start,
+        :end=>:destroy }],
   ]
 
 
@@ -207,7 +209,12 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   def create_instance(credentials, image_id, opts)
     name = opts[:name]
     name = "NewInstance" if (name.nil? or name.empty?)
-    vm = execute(credentials, "addVm.ps1", image_id, name, opts[:realm_id])
+    realm_id = opts[:realm_id]
+    if (realm_id.nil?)
+        realms = filter_on(realms(credentials, opts), :name, :name => "data")
+        realm_id = realms[0].id
+    end
+    vm = execute(credentials, "addVm.ps1", image_id, name, realm_id)
     vm_to_instance(vm[0])
   end
 
