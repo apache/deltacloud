@@ -282,6 +282,7 @@ class EC2Driver < Deltacloud::BaseDriver
   def convert_image(ec2_image)
     Image.new( {
       :id=>ec2_image[:aws_id],
+      :name=>ec2_image[:aws_location],
       :description=>ec2_image[:aws_location],
       :owner_id=>ec2_image[:aws_owner],
       :architecture=>ec2_image[:aws_architecture],
