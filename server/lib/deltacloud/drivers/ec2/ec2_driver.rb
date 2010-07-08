@@ -64,37 +64,51 @@ class EC2Driver < Deltacloud::BaseDriver
 
   define_hardware_profile('m1-small') do
     cpu              1
-    memory         1.7
+    memory         1.7 * 1024
     storage        160
     architecture 'i386'
   end
 
   define_hardware_profile('m1-large') do
-    cpu                2
-    memory           (7.5..15)
-    storage          [ 850, 1024 ]
+    cpu                4
+    memory           7.5 * 1024
+    storage          850
     architecture 'x86_64'
   end
 
   define_hardware_profile('m1-xlarge') do
-    cpu                2
-    memory            15
+    cpu                8
+    memory            15 * 1024
     storage         1690
     architecture 'x86_64'
   end
 
   define_hardware_profile('c1-medium') do
-    cpu                2
-    memory           1.7
+    cpu                5
+    memory           1.7 * 1024
     storage          350
-    architecture 'x86_64'
+    architecture 'i386'
   end
 
   define_hardware_profile('c1-xlarge') do
-    cpu               2
-    memory            7
+    cpu              20
+    memory            7 * 1024
     storage        1690
     architecture 'x86_64'
+  end
+
+  define_hardware_profile('m2-xlarge') do
+    cpu               6.5
+    memory           17.1 * 1024
+    storage         420
+    architecture    'x86_64'
+  end
+
+  define_hardware_profile('m2-2xlarge') do
+    cpu              13
+    memory           34.2 * 1024
+    storage         850
+    architecture    'x86_64'
   end
 
   define_instance_states do
@@ -188,13 +202,7 @@ class EC2Driver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts)
     ec2 = new_client( credentials )
     realm_id = opts[:realm_id]
-    flavor_id = opts[:flavor_id]
-    unless ( flavor_id )
-      image = image(credentials, :id=>image_id )
-      flavor = flavor( credentials, :architecture=>image.architecture )
-      ( flavor_id = flavor.id ) if ( flavor )
-    end
-    flavor_id.gsub!( /-/, '.' ) if flavor_id
+    hwp = find_hardware_profile(credentials, opts[:hwp_id], image_id)
     ec2_instances = ec2.run_instances(
                           image_id,
                           1,1,
@@ -202,7 +210,7 @@ class EC2Driver < Deltacloud::BaseDriver
                           nil,
                           opts[:user_data],
                           'public',
-                          flavor_id,
+                          hwp.name.gsub(/-/, '.'),
                           nil,
                           nil,
                           realm_id )
@@ -303,6 +311,9 @@ class EC2Driver < Deltacloud::BaseDriver
 
     realm_id = ec2_instance[:aws_availability_zone]
     (realm_id = nil ) if ( realm_id == '' )
+
+    hwp_name = ec2_instance[:aws_instance_type].gsub( /\./, '-')
+
     Instance.new( {
       :id=>ec2_instance[:aws_instance_id],
       :name => ec2_instance[:aws_image_id],
@@ -313,6 +324,7 @@ class EC2Driver < Deltacloud::BaseDriver
       :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
       :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
       :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
+      :instance_profile => InstanceProfile.new(hwp_name),
       :actions=>instance_actions_for( ec2_instance[:aws_state].upcase ),
     } )
   end
