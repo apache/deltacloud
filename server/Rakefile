@@ -39,7 +39,11 @@ Rake::TestTask.new("test") { |t|
 
 
 Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "features --format html --out cucumber.html"
+  t.rcov = false
+end
+
+Cucumber::Rake::Task.new(:rcow) do |t|
   t.cucumber_opts = "features --format pretty"
   t.rcov = true
 end
-
