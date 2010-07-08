@@ -5,6 +5,14 @@
 <dl>
   <di>
     <dt>
+      Name
+    </dt>
+    <dd>
+      <%= @image.name %>
+    </dd>
+  </di>
+  <di>
+    <dt>
       Owner
     </dt>
     <dd>
@@ -28,7 +36,7 @@
     </dd>
   </di>
 </dl>
-  
+
 <div>
   <%= link_to 'launch', new_instance_url( :image_id=>@image.id ) %>
 </div>

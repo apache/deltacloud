@@ -7,6 +7,9 @@
       ID
     </th>
     <th>
+      Name
+    </th>
+    <th>
       Owner
     </th>
     <th>
@@ -20,6 +23,9 @@
     <tr>
       <td>
         <%= link_to image.id, image_url( image.id ) %>
+      </td>
+      <td>
+        <%= image.name %>
       </td>
       <td>
         <%= link_to image.owner_id, images_url( :owner_id=>image.owner_id ) %>
