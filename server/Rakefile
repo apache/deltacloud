@@ -19,10 +19,10 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require 'rake'
-require 'cucumber'
 require 'rake/testtask'
 require 'rake/gempackagetask'
-require 'cucumber/rake/task'
+
+
 
 desc "Run basic unit tests"
 Rake::TestTask.new("test") { |t|
@@ -37,16 +37,27 @@ Rake::TestTask.new("test") { |t|
   t.warning = false
 }
 
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "features --format html --out tmp/cucumber.html"
-  t.rcov = false
+begin
+  require 'cucumber'
+  require 'cucumber/rake/task'
+
+  Cucumber::Rake::Task.new(:features) do |t|
+    t.cucumber_opts = "features --format html --out tmp/cucumber.html"
+    t.rcov = false
+  end
+
+  Cucumber::Rake::Task.new(:rcov) do |t|
+    t.cucumber_opts = "features --format pretty"
+    t.rcov = true
+    t.rcov_opts << %[-o "tmp/coverage"]
+  end
+rescue LoadError
+  desc 'Cucumber rake task not available'
+  task :features do
+    abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem'
+  end
 end
 
-Cucumber::Rake::Task.new(:rcov) do |t|
-  t.cucumber_opts = "features --format pretty"
-  t.rcov = true
-  t.rcov_opts << %[-o "tmp/coverage"]
-end
 
 load 'deltacloud-core.gemspec'
 Rake::GemPackageTask.new(@spec) do |pkg|
