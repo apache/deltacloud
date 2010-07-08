@@ -57,6 +57,21 @@ class RimuHostingDriver < Deltacloud::BaseDriver
     flavors
   end
 
+  def hardware_profiles(credentials, opts = nil)
+    rh = RimuHostingClient.new(credentials)
+    results = rh.list_plans.map do |plan|
+      # FIXME: x86 is not a valid architecture; what is Rimu offering ?
+      # FIXME: VPS plans offer a range of memory/storage, but that's
+      #        not contained in hte pricing_plan_infos
+      HardwareProfile.new(plan["pricing_plan_code"]) do
+        memory plan["minimum_memory_mb"].to_f
+        storage => plan["minimum_disk_gb"].to_i
+        architecture => "x86"
+      end
+    end
+    filter_hardware_profiles(results, opts)
+  end
+
   def realms(credentials, opts=nil)
     [Realm.new( {
             :id=>"rimu",
@@ -97,16 +112,13 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts)
      rh = RimuHostingClient.new(credentials)
     # really need to raise an exception here.
-    flavor_id = 1
-    if (opts[:flavor_id]) then
-      flavor_id = opts[:flavor_id]
-    end
+    hwp_id = opts[:hwp_id] || 1
     # really bad, but at least its a fqdn
     name = Time.now.to_s + '.com'
     if (opts[:name]) then
       name = opts[:name]
     end
-    convert_srv_to_instance(rh.create_server(image_id, flavor_id, name))
+    convert_srv_to_instance(rh.create_server(image_id, hwp_id, name))
 
   end
 
