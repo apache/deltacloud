@@ -43,6 +43,15 @@ module Deltacloud::Validation
     @params
   end
 
+  # Add the parameters in hash +new+ to already existing parameters. If
+  # +new+ contains a parameter with an already existing name, the old
+  # definition is clobbered.
+  def add_params(new)
+    # We do not check for duplication on purpose: multiple calls
+    # to add_params should be cumulative
+    new.each { |p|  @params[p.name] = p }
+  end
+
   def each_param(&block)
     params.each_value { |p| yield p }
   end
