@@ -1,35 +1,554 @@
 --- 
-- :aws_instance_id: i-123f1234
-  :aws_groups: 
-  - default
+- &id001 
   :aws_ramdisk_id: ari-ce34gad7
-  :aws_image_id: ami-e4b6538e
-  :dns_name: domU-12-34-67-89-01-C9.usma2.compute.amazonaws.com
-  :ssh_key_name: staging
-  :aws_state_code: "16"
-  :private_dns_name: domU-12-34-67-89-01-C9.usma2.compute.amazonaws.com
-  :aws_reason: ""
-  :aws_state: running
-  :aws_launch_time: 2010-1-1T00:00:00.000Z
   :aws_instance_type: m1.small
-  :aws_reservation_id: r-aabbccdd
   :aws_availability_zone: us-east-1b
-  :aws_kernel_id: aki-be3adfd7
   :aws_owner: "522821470517"
-- :aws_instance_id: i-123f1234
+  :aws_instance_id: i-123f1234
+  :ssh_key_name: staging
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538e
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-12-34-67-89-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-18T16:42:06.000Z"
   :aws_groups: 
   - default
-  :aws_ramdisk_id: ari-ce34gad7
-  :aws_image_id: ami-e4b6538d
-  :dns_name: domU-11-34-67-89-01-C9.usma2.compute.amazonaws.com
-  :ssh_key_name: staging
-  :aws_state_code: "16"
-  :private_dns_name: domU-11-34-67-89-01-C9.usma2.compute.amazonaws.com
-  :aws_reason: ""
-  :aws_state: running
-  :aws_launch_time: 2010-1-1T00:00:00.000Z
-  :aws_instance_type: m1.xlarge
-  :aws_reservation_id: r-aabbccdd
-  :aws_availability_zone: us-west-1a
   :aws_kernel_id: aki-be3adfd7
-  :aws_owner: "522821470517"
+  :private_dns_name: domU-12-34-67-89-01-C9.usma2.compute.amazonaws.com
+  :aws_state: stopped
+- *id001
+- &id002 
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-6377f773
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-91-76-73-68-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T09:48:51.000Z"
+  :aws_groups: 
+  - default
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :private_dns_name: domU-57-52-86-34-02-P9.usma2.compute.amazonaws.com
+  :aws_state: stopped
+- *id002
+- &id003 
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-6768f867
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "16"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-74-77-69-68-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T09:49:03.000Z"
+  :aws_groups: 
+  - default
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :private_dns_name: domU-61-93-88-56-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- *id003
+- &id004 
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-7201f102
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-43-15-73-97-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-18T16:46:41.000Z"
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-18-41-28-55-02-P9.usma2.compute.amazonaws.com
+  :aws_state: stopped
+- *id004
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-7282f282
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-79-17-68-63-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-18T16:48:03.000Z"
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-93-34-45-41-02-P9.usma2.compute.amazonaws.com
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-7283f382
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "16"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-46-61-29-30-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T09:54:38.000Z"
+  :aws_groups: 
+  - default
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :private_dns_name: domU-36-34-13-90-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-7465f564
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-92-41-94-17-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-18T16:51:06.000Z"
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-16-99-39-83-02-P9.usma2.compute.amazonaws.com
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-7466f664
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "16"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-10-71-56-70-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-18T16:51:06.000Z"
+  :aws_groups: 
+  - default
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :private_dns_name: domU-42-35-40-70-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- &id005 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9136f631
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-58-45-69-89-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T09:58:57.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-79-86-67-19-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id005
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9256f652
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-87-37-33-34-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:00:57.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-60-64-50-99-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9257f752
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:00:57.000Z"
+  :dns_name: domU-77-28-21-13-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-43-42-47-85-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- &id006 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9359f953
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-18-95-79-18-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:02:40.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-53-74-74-42-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id006
+- &id007 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9436f634
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-75-77-57-39-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:03:57.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-33-69-74-87-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id007
+- &id008 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9475f574
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-97-96-15-98-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:04:36.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-74-85-20-18-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id008
+- &id009 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9625f526
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-59-86-36-78-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:07:06.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-83-51-83-95-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id009
+- &id010 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9688f886
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-47-88-15-64-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:08:09.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-33-66-67-24-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id010
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9765f567
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-62-26-48-64-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:09:27.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-63-42-48-61-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9766f667
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:09:26.000Z"
+  :dns_name: domU-89-64-98-94-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-68-34-67-95-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9851f158
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-14-49-66-52-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:10:53.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-98-79-48-18-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9852f258
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:10:52.000Z"
+  :dns_name: domU-30-53-87-88-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-15-86-96-87-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9968f869
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-92-92-86-58-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:12:50.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-19-24-57-78-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9969f969
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:12:49.000Z"
+  :dns_name: domU-63-53-77-14-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-68-47-52-46-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- &id011 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9986f689
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-59-57-57-43-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:13:08.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-12-44-70-79-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id011
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0055f550
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-87-70-13-70-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:14:17.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-64-65-21-50-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0056f650
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:14:16.000Z"
+  :dns_name: domU-39-94-46-66-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-47-44-34-75-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- &id012 
+  :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0287f782
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-98-60-65-13-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:18:09.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-30-14-55-46-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- *id012
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0368f863
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-53-63-17-47-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:19:31.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-91-91-50-62-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0369f963
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:19:29.000Z"
+  :dns_name: domU-85-56-97-91-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-10-91-12-47-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- :aws_instance_type: m1.small
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0421f124
+  :aws_reason: ""
+  :aws_image_id: ami-e4b6538d
+  :aws_state_code: "80"
+  :aws_reservation_id: r-aabbccdd
+  :dns_name: domU-69-48-22-72-01-C9.usma2.compute.amazonaws.com
+  :aws_launch_time: "2010-03-19T10:20:24.000Z"
+  :aws_groups: 
+  - default
+  :private_dns_name: domU-60-27-24-24-02-P9.usma2.compute.amazonaws.com
+  :aws_key_name: staging
+  :aws_kernel_id: aki-be3adfd7
+  :aws_state: stopped
+- :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-0422f224
+  :aws_reason: ""
+  :aws_state_code: "16"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-19T10:20:22.000Z"
+  :dns_name: domU-79-23-17-84-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-43-61-93-57-02-P9.usma2.compute.amazonaws.com
+  :aws_state: running
+- &id013 
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_instance_type: m1.small
+  :aws_availability_zone: us-east-1a
+  :aws_owner: 
+  :aws_instance_id: i-9707f707
+  :aws_reason: ""
+  :aws_state_code: "80"
+  :aws_image_id: ami-e4b6538d
+  :aws_reservation_id: r-aabbccdd
+  :aws_launch_time: "2010-03-22T10:21:50.000Z"
+  :dns_name: domU-13-17-27-20-01-C9.usma2.compute.amazonaws.com
+  :aws_groups: 
+  - default
+  :aws_kernel_id: aki-be3adfd7
+  :aws_key_name: staging
+  :private_dns_name: domU-26-64-22-19-02-P9.usma2.compute.amazonaws.com
+  :aws_state: stopping
+- *id013

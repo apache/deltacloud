@@ -15,9 +15,9 @@ Feature: Working with storage snapshots
     When I request for '<STORAGE_SNAPSHOT_ID>' storage snapshot
     Then I should get this storage snapshot
     And storage snapshot should have valid href parameter
-    And storage snapshot should contain id parameter
-    And storage snapshot should contain created parameter
-    And storage snapshot should contain state parameter
+    And storage snapshot should include id parameter
+    And storage snapshot should include created parameter
+    And storage snapshot should include state parameter
     And storage snapshot should have storage-volume with valid href attribute
     When I want to get details about storage volume
     Then I could follow storage volume href attribute

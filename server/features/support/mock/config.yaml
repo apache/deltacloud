@@ -1,4 +1,6 @@
 --- 
+:username: mockuser
+:password: mockpassword
 :storage_snapshot_id: snap2
 :driver_name: mock
 :instances_count: 180

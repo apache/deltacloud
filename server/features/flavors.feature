@@ -13,10 +13,10 @@ Feature: Working with flavors
     When I request for '<FLAVOR_ID>' flavor
     Then I should get this flavor
     And flavor should have valid href parameter
-    And flavor should contain id parameter
-    And flavor should contain architecture parameter
-    And flavor should contain memory parameter
-    And flavor should contain storage parameter
+    And flavor should include id parameter
+    And flavor should include architecture parameter
+    And flavor should include memory parameter
+    And flavor should include storage parameter
 
   Scenario: I want filter flavors by architecture
     When I want flavors with '<FLAVOR_ARCH>' architecture

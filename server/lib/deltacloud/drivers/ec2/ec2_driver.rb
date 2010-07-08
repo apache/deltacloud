@@ -98,16 +98,15 @@ class EC2Driver < Deltacloud::BaseDriver
   end
 
   define_instance_states do
-    start.to( :pending )         .automatically
-
-    pending.to( :running )       .automatically
-    pending.to( :stopped )       .on( :stop )
-
-    running.to( :running )       .on( :reboot )
-    running.to( :shutting_down ) .on( :stop )
-
-    shutting_down.to( :stopped ) .automatically
-    stopped.to( :finish )        .automatically
+    start.to( :pending )          .automatically
+    pending.to( :running )        .automatically
+    pending.to( :stopping )       .on( :stop )
+    pending.to( :stopped )        .automatically
+    stopped.to( :running )        .on( :start )
+    running.to( :running )        .on( :reboot )
+    running.to( :stopping )       .on( :stop )
+    shutting_down.to( :stopped )  .automatically
+    stopped.to( :finish )         .automatically
   end
 
   def flavors(credentials, opts=nil)
@@ -306,6 +305,7 @@ class EC2Driver < Deltacloud::BaseDriver
     (realm_id = nil ) if ( realm_id == '' )
     Instance.new( {
       :id=>ec2_instance[:aws_instance_id],
+      :name => ec2_instance[:aws_image_id],
       :state=>ec2_instance[:aws_state].upcase,
       :image_id=>ec2_instance[:aws_image_id],
       :owner_id=>ec2_instance[:aws_owner],

@@ -16,7 +16,7 @@ Feature: Managing instances
       | name     | <INSTANCE_1_NAME> |
       | image_id | <INSTANCE_IMAGE_ID> |
     Then I should request this instance
-    And this instance should be 'RUNNING'
+    And this instance should be 'RUNNING' or 'PENDING'
     And this instance should have name '<INSTANCE_1_NAME>'
     And this instance should be image '<INSTANCE_IMAGE_ID>'
 
@@ -27,7 +27,7 @@ Feature: Managing instances
       | image_id | <INSTANCE_IMAGE_ID> |
       | realm    | <INSTANCE_REALM> |
     Then I should request this instance
-    And this instance should be 'RUNNING'
+    And this instance should be 'RUNNING' or 'PENDING'
     And this instance should have name '<INSTANCE_2_NAME>'
     And this instance should be image '<INSTANCE_IMAGE_ID>'
     And this instance should have realm  '<INSTANCE_REALM>'
@@ -36,11 +36,11 @@ Feature: Managing instances
     Given I am authorized to show instance '<INSTANCE_1_ID>'
     When I request for '<INSTANCE_1_ID>' instance
     Then I should get this instance
-    And instance should contain id parameter
-    And instance should contain name parameter
-    And instance should contain owner_id parameter
-    And instance should contain state parameter
-    And instance state should be RUNNING
+    And instance should include id parameter
+    And instance should include name parameter
+    #And instance should include owner_id parameter
+    And instance should include state parameter
+    And this instance state should be 'RUNNING' or 'PENDING'
     When instance state is RUNNING
     Then instance should have one public address
     And instance should have one private address
@@ -73,8 +73,9 @@ Feature: Managing instances
     Given I am authorized to show instance '<INSTANCE_1_ID>'
     Given I request for '<INSTANCE_1_ID>' instance
     When I want to stop this instance
+    And this instance state is 'RUNNING' or 'PENDING'
     Then I could follow stop action in actions
-    And this instance state should be 'STOPPED'
+    And this instance state should be 'STOPPED' or 'STOPPING'
 
   Scenario: I want to start instance
     Given I am authorized to show instance '<INSTANCE_1_ID>'

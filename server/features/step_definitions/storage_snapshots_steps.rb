@@ -10,14 +10,14 @@ end
 
 When /^I want to get details about storage volume$/ do
   @storage_volume_url=Nokogiri::XML(last_response.body).xpath('/storage-snapshot/storage-volume').first[:href]
+  @storage_volume_url.should_not == nil
 end
 
 Then /^I could follow storage volume href attribute$/ do
-  url=URI.parse(@storage_volume_url)
-  get url.path, {}
-  last_response.should_not == nil
+  get URI.parse(@storage_volume_url).path, {}
+  last_response.status.should == 200
 end
 
 Then /^this attribute should point me to valid storage volume$/ do
-  Nokogiri::XML(last_response.body).xpath("/storage-volume").size.should == 1
+  Nokogiri::XML(last_response.body).root.name.should == "storage-volume"
 end

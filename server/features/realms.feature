@@ -16,9 +16,9 @@ Feature: Working with realms
     When I request for '<REALM_ID>' realm
     Then I should get this realm
     And realm should have valid href parameter
-    And realm should contain id parameter
-    And realm should contain name parameter
-    And realm should contain state parameter
+    And realm should include id parameter
+    And realm should include name parameter
+    And realm should include state parameter
 
   Scenario: I want filter realms by state
     When I want realms with '<REALM_STATE>' state

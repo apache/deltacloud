@@ -15,12 +15,18 @@ Feature: Working with storage volumes
     When I request for '<STORAGE_VOLUME_ID>' storage volume
     Then I should get this storage volume
     And storage volume should have valid href parameter
-    And storage volume should contain id parameter
-    And storage volume should contain created parameter
-    And storage volume should contain state parameter
-    And storage volume should contain capacity parameter
-    And storage volume should contain device parameter
-    And storage volume should contain instance parameter
+    And storage volume should include id parameter
+    And storage volume should include created parameter
+    And storage volume should include state parameter
+    And storage volume should include capacity parameter
+    And storage volume should include device parameter
+
+  Scenario: I want to get storage volume instance
+    Given I am authorized to show storage volume '<STORAGE_VOLUME_ID>'
+    When I request for '<STORAGE_VOLUME_ID>' storage volume
+    Then I should get this storage volume
+    And I could follow instance href attribute
+    And this attribute should point me to valid instance
 
   Scenario: I want filter storage volumes by state
     Given I am authorized to list storage volumes

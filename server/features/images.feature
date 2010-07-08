@@ -17,11 +17,11 @@ Feature: Working with images
     When I request for '<IMAGE_ID>' image
     Then I should get this image
     And image should have valid href parameter
-    And image should contain id parameter
-    And image should contain name parameter
-    And image should contain owner_id parameter
-    And image should contain description parameter
-    And image should contain architecture parameter
+    And image should include id parameter
+    And image should include name parameter
+    And image should include owner_id parameter
+    And image should include description parameter
+    And image should include architecture parameter
 
   Scenario: I want filter images by owner_id
     When I want images with '<IMAGE_OWNER>' owner_id
