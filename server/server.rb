@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'deltacloud'
+require 'json'
 require 'sinatra'
 require 'sinatra/respond_to'
 require 'erb'
@@ -47,7 +48,8 @@ def filter_all(model)
     @elements = driver.send(model.to_sym, credentials, filter)
     instance_variable_set(:"@#{model}", @elements)
     respond_to do |format|
-      format.xml  { return convert_to_xml(singular, @elements) }
+      format.xml  { convert_to_xml(singular, @elements) }
+      format.json { convert_to_json(singular, @elements) }
       format.html { haml :"#{model}/index" }
     end
 end
@@ -56,7 +58,8 @@ def show(model)
   @element = driver.send(model, credentials, { :id => params[:id]} )
   instance_variable_set("@#{model}", @element)
   respond_to do |format|
-    format.xml { return convert_to_xml(model, @element) }
+    format.xml { convert_to_xml(model, @element) }
+    format.json { convert_to_json(model, @element) }
     format.html { haml :"#{model.to_s.pluralize}/show" }
   end
 end
@@ -93,6 +96,14 @@ get '/api\/?' do
     @version = 1.0
     respond_to do |format|
         format.xml { haml :"api/show" }
+        format.json do
+          { :api => {
+            :version => @version,
+            :driver => DRIVER,
+            :links => entry_points.collect { |l| { :rel => l[0], :href => l[1]} }
+            }
+          }.to_json
+        end
         format.html { haml :"api/show" }
     end
 end
@@ -212,7 +223,8 @@ end
 def instance_action(name)
   @instance = driver.send(:"#{name}_instance", credentials, params[:id])
   respond_to do |format|
-    format.xml { return convert_to_xml(:instance, @instance) }
+    format.xml { convert_to_xml(:instance, @instance) }
+    format.json {convert_to_json(:instance, @instance) }
     format.html { haml :"instances/show" }
   end
 end

@@ -27,8 +27,32 @@ class BaseModel
     end
   end
 
+  def self.attr_accessor(*vars)
+    @attributes ||= [:id]
+    @attributes.concat vars
+    super
+  end
+
+  def self.attributes
+    @attributes
+  end
+
+  def attributes
+    self.class.attributes
+  end
+
   def id
     @id
+  end
+
+  def to_hash
+    out = {}
+    self.attributes.each { |attribute| out.merge!({ attribute => self.send(:"#{attribute}") } ) }
+    out
+  end
+
+  def to_json
+    self.to_hash.to_json
   end
 
 end

@@ -26,4 +26,20 @@ module DriverHelper
       Converters::XMLConverter.new( self, type ).convert(obj)
     end
   end
+
+  def convert_to_json(type, obj)
+    if ( [ :flavor, :account, :image, :realm, :instance, :storage_volume, :storage_snapshot ].include?( type ) )
+      if Array.eql?(obj.class)
+        data = obj.collect do |o|
+          o.to_hash.merge({ :href => self.send(:"#{type}_url", o.id ) })
+        end
+        type = type.to_s.pluralize
+      else
+        data = obj.to_hash
+        data.merge!({ :href => self.send(:"#{type}_url", data[:id]) })
+      end
+      return { :"#{type}" => data }.to_json
+    end
+  end
+
 end
