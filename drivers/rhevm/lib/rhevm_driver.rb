@@ -9,19 +9,19 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   DELIM_BEGIN="<_OUTPUT>"
   DELIM_END="</_OUTPUT>"
   POWERSHELL="c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
-  
-  # 
+
+  #
   # Flavors
-  # 
+  #
   FLAVORS = [
-    Flavor.new({ 
+    Flavor.new({
       :id=>"rhevm",
       :memory=>"Any",
       :storage=>"Any",
       :architecture=>"Any",
     })
   ]
-  
+
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
     FLAVORS.select{|f| opts[:id] == f.id}
@@ -32,10 +32,11 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   # to YAML in order to get back an array of maps.
   #
   def execute(credentials, command, args=[])
+    args = args.to_a
     argString = genArgString(credentials, args)
     outputMaps = {}
     output = `#{POWERSHELL} -command "&{#{File.join(SCRIPT_DIR, command)} #{argString}; exit $LASTEXITCODE}`
-    exitStatus = $?.exitstatus 
+    exitStatus = $?.exitstatus
     puts(output)
     st = output.index(DELIM_BEGIN)
     if (st)
@@ -44,19 +45,19 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       output = output.slice(st, (ed-st))
       # Lets make it yaml
       output.strip!
-      if (output.length > 0)     
-        outputMaps = YAML.load(self.toYAML(output))            
+      if (output.length > 0)
+        outputMaps = YAML.load(self.toYAML(output))
       end
     end
-    outputMaps 
+    outputMaps
   end
-  
+
   def genArgString(credentials, args)
     commonArgs = [SCRIPT_DIR_ARG, "vdcadmin", "123456", "demo"]
     commonArgs.concat(args)
     commonArgs.join(" ")
   end
-  
+
   def toYAML(output)
     yOutput = "- \n" + output
     yOutput.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:{}]*)/,' \1: "\2"')
@@ -64,19 +65,32 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     puts(yOutput)
     yOutput
   end
-  
-  
+
+  def statify(state)
+    st = state.nil? ? "" : state.upcase()
+    return :running if st == "UP"
+    return :terminated if st == "DOWN"
+    return :pending if st == "POWERING UP"
+  end
+
+  STATE_ACTIONS = {
+    :pending=>[],
+    :running=>[ :stop, :reboot ],
+    :shutting_down=>[],
+    :terminated=>[:start ]
+  }
+
   #
   # Images
   #
-  
+
   def images(credentials, opts=nil )
     templates = []
     if (opts.nil?)
-      templates = execute(credentials, "templates.ps1")     
+      templates = execute(credentials, "templates.ps1")
     else
-      if (opts[:id]) 
-        templates = execute(credentials, "templateById.ps1", [opts[:id]])
+      if (opts[:id])
+        templates = execute(credentials, "templateById.ps1", opts[:id])
       end
     end
     images = []
@@ -85,7 +99,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     end
     images
   end
-  
+
   def template_to_image(templ)
     Image.new({
       :id => templ["TemplateId"],
@@ -100,17 +114,17 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     })
   end
 
-  # 
+  #
   # Instances
-  # 
+  #
 
   def instances(credentials, opts=nil)
     vms = []
     if (opts.nil?)
-      vms = execute(credentials, "vms.ps1")     
+      vms = execute(credentials, "vms.ps1")
     else
-      if (opts[:id]) 
-        vms = execute(credentials, "vmsById.ps1", [opts[:id]])
+      if (opts[:id])
+        vms = execute(credentials, "vmById.ps1", opts[:id])
       end
     end
     instances = []
@@ -119,19 +133,30 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     end
     instances
   end
-  
+
   def vm_to_instance(vm)
     Instance.new({
       :id => vm["VmId"],
       :description => vm["Description"],
-      :name => vm["Name"],      
+      :name => vm["Name"],
       :architecture => vm["OperatingSystem"],
       :owner_id => "Jar Jar Binks",
       :image_id => vm["TemplateId"],
-      :state => vm["Status"],
-      :flavor_id => "rhevm",      
+      :state => statify(vm["Status"]),
+      :flavor_id => "rhevm",
+      :actions => STATE_ACTIONS[statify(vm["Status"])]
     })
-  end  
+  end
+
+  def start_instance(credentials, image_id)
+    vm = execute(credentials, "startVm.ps1", image_id)
+    vm_to_instance(vm[0])
+  end
+
+  def stop_instance(credentials, image_id)
+    vm = execute(credentials, "stopVm.ps1", image_id)
+    vm_to_instance(vm[0])
+  end
 
   def create_instance(credentials, image_id, flavor_id)
     check_credentials( credentials )
@@ -143,18 +168,18 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   def delete_instance(credentials, id)
   end
 
-  # 
+  #
   # Storage Volumes
-  # 
+  #
 
   def volumes(credentials, ids=nil)
     volumes = []
     volumes
   end
 
-  # 
+  #
   # Storage Snapshots
-  # 
+  #
 
   def snapshots(credentials, ids=nil)
     snapshots = []
