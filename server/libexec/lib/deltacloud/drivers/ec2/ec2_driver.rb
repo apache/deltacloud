@@ -189,7 +189,7 @@ class EC2Driver < Deltacloud::BaseDriver
     unless ( flavor_id )
       image = image(credentials, :id=>image_id )
       flavor = flavor( credentials, :architecture=>image.architecture )
-      ( flavor_id = flavor.id ) if ( flavor ) 
+      ( flavor_id = flavor.id ) if ( flavor )
     end
     flavor_id.gsub!( /-/, '.' ) if flavor_id
     ec2_instances = ec2.run_instances(
@@ -356,4 +356,3 @@ end
     end
   end
 end
-

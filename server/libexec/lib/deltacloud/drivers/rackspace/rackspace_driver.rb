@@ -32,7 +32,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
                     :memory=>flav["ram"].to_f/1024,
                     :storage=>flav["disk"].to_i,
                     :architecture=>'x86_64'
-                  } )    
+                  } )
     end
     results = filter_on( results, :id, opts )
     results = filter_on( results, :architecture, opts )
@@ -51,11 +51,11 @@ class RackspaceDriver < Deltacloud::BaseDriver
                  } )
     end
     results.sort_by{|e| [e.description]}
-    results = filter_on( results, :id, opts )    
+    results = filter_on( results, :id, opts )
     results
   end
 
-  #rackspace does not at this stage have realms... its all US/TX, all the time (at least at time of writing) 
+  #rackspace does not at this stage have realms... its all US/TX, all the time (at least at time of writing)
   def realms(credentials, opts=nil)
     [Realm.new( {
       :id=>"us",
@@ -81,15 +81,15 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
   #
   # create instance. Default to flavor 1 - really need a name though...
-  # In rackspace, all flavors work with all images. 
-  # 
+  # In rackspace, all flavors work with all images.
+  #
   def create_instance(credentials, image_id, opts)
     racks = new_client( credentials )
     flavor_id = 1
     if (opts[:flavor_id]) then flavor_id = opts[:flavor_id] end
     name = Time.now.to_s
     if (opts[:name]) then name = opts[:name] end
-    convert_srv_to_instance(racks.start_server(image_id, flavor_id, name)) 
+    convert_srv_to_instance(racks.start_server(image_id, flavor_id, name))
   end
 
   #
@@ -99,10 +99,10 @@ class RackspaceDriver < Deltacloud::BaseDriver
     racks = new_client(credentials)
     instances = []
     if (opts.nil?)
-      instances = racks.list_servers.map do |srv| 
+      instances = racks.list_servers.map do |srv|
         convert_srv_to_instance(srv)
       end
-    else 
+    else
       instances << convert_srv_to_instance(racks.load_server_details(opts[:id]))
     end
     instances = filter_on( instances, :id, opts )
@@ -110,7 +110,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
   end
 
 
-  def convert_srv_to_instance(srv) 
+  def convert_srv_to_instance(srv)
             Instance.new( {
                             :id=>srv["id"],
                             :state=>srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING",
@@ -133,7 +133,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
     RackspaceClient.new(credentials[:name], credentials[:password])
   end
 
-  define_instance_states do 
+  define_instance_states do
     start.to( :pending )          .on( :create )
 
     pending.to( :running )        .automatically
