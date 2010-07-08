@@ -310,7 +310,7 @@ class DeltaCloud
     nil
   end
 
-  def storage_snapshots(opts{})
+  def storage_snapshots(opts={})
     storage_snapshots = []
     request( entry_points[:storage_snapshots] ) do |response|
       doc = REXML::Document.new( response.body )
