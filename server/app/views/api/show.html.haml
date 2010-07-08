@@ -1,0 +1,7 @@
+%h1
+  API v#{@version}
+
+%ul
+  - for entry_point in @entry_points
+    %li 
+      = link_to entry_point[0].to_s.titlecase, entry_point[1]

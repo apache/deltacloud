@@ -3,18 +3,23 @@ digraph instance_states {
   <% for state in @machine.states do %>
     <%= state -%> 
       [
-        label="<%= state %>",
-        labelloc="t",
+        label="<%= state.to_s.titlecase %>",
+        labelloc="c",
+        fontsize="12.0",
         <% if ( state.name == :start || state.name == :finish ) %>
           fontname="Liberation Sans Bold",
-          color="<%= state.name == :start ? 'darkgreen' : 'red' %>",
-          style="bold",
-          fontsize="15.0",
+          color="<%= state.name == :start ? '#449944' : '#994444' %>",
+          fillcolor="<%= state.name == :start ? '#88DD88' : '#DD8888' %>",
+          style="filled",
+          shape="doublecircle",
         <% else %>
-          fontname="Liberation Sans",
-          shape="rectangle",
-          fontsize="20.0",
+          fontname="Liberation Sans Bold",
+          shape="rect",
+          color="#999999",
+          fillcolor="#DDDDDD",
+          style="filled",
         <% end %>
+        height=0.5
       ]
   <% end %>
 
@@ -23,12 +28,15 @@ digraph instance_states {
       <%= state %> -> <%= transition.destination %> 
         [ 
           label="<%= transition.automatically? ? 'auto' : transition.action %>",
-          fontsize="20",
+          fontsize="14.0",
+          penwidth="2.0",
           labelloc="t",
+          color="#CCCCCC",
           <% if transition.automatically? %>
-          fontcolor="darkgreen",
+          fontcolor="#227722",
           fontname="Liberation Sans Bold Italic",
           <% else %>
+          fontcolor="#333333",
           fontname="Liberation Sans Bold",
           <% end %>
         ];

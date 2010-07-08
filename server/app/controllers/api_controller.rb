@@ -21,6 +21,7 @@ class ApiController < ApplicationController
     @version = 1.0
     @entry_points = [
       [ :flavors, flavors_url ],
+      [ :hardware_profiles, hardware_profiles_url ],
       [ :instance_states, instance_states_url ],
       [ :realms, realms_url ],
       [ :images, images_url ],

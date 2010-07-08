@@ -60,6 +60,41 @@ class EC2Driver < Deltacloud::BaseDriver
     } ),
   ]
 
+  define_hardware_profile('m1-small') do
+    cpu              1
+    memory         1.7
+    storage        160
+    architecture 'i386'
+  end
+
+  define_hardware_profile('m1-large') do
+    cpu                2
+    memory           (7.5..15)
+    storage          [ 850, 1024 ]
+    architecture 'x86_64'
+  end
+
+  define_hardware_profile('m1-xlarge') do
+    cpu                2
+    memory            15
+    storage         1690
+    architecture 'x86_64'
+  end
+
+  define_hardware_profile('c1-medium') do
+    cpu                2
+    memory           1.7
+    storage          350
+    architecture 'x86_64'
+  end
+
+  define_hardware_profile('c1-xlarge') do
+    cpu               2
+    memory            7
+    storage        1690
+    architecture 'x86_64'
+  end
+
   define_instance_states do
     start.to( :pending )         .automatically
 

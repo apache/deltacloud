@@ -22,8 +22,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :api, :controller=>'Api'
 
   map.resources :flavors, :path_prefix=>'api'
-  map.resources :realms, :path_prefix=>'api'
-  map.resources :images, :path_prefix=>'api'
+  map.resources :hardware_profiles, :path_prefix=>'api',
+    :as=>'hardware-profiles',
+    :only=>[ :index, :show ]
+
+  map.resources :realms,  :path_prefix=>'api'
+  map.resources :images,  :path_prefix=>'api'
 
   map.resource :instance_states, :path_prefix=>'api',
     :as=>'instance-states',

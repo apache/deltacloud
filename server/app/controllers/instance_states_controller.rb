@@ -35,7 +35,7 @@ class InstanceStatesController < ApplicationController
       format.png {
         gv = render_to_string( :file=>'instance_states/show.gv.erb' )
         png =  ''
-        cmd = 'dot -Gsize="7.7,7" -Tpng'
+        cmd = 'dot -Kdot -Gpad="0.2,0.2" -Gsize="5.0,8.0" -Gdpi="180" -Tpng'
         Open3.popen3( cmd ) do |stdin, stdout, stderr|
           stdin.write( gv )
           stdin.close()

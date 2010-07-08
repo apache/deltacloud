@@ -23,6 +23,28 @@ module Deltacloud
 
   class BaseDriver
 
+    def self.define_hardware_profile(name,&block)
+      @hardware_profiles ||= []
+      hw_profile = @hardware_profiles.find{|e| e.name == name}
+      return if hw_profile
+      hw_profile = ::Deltacloud::HardwareProfile.new( name, &block )
+      puts hw_profile.inspect
+      @hardware_profiles << hw_profile
+    end
+
+    def self.hardware_profiles
+      @hardware_profiles ||= []
+      @hardware_profiles
+    end
+
+    def hardware_profiles
+      self.class.hardware_profiles
+    end
+
+    def hardware_profile(name)
+      self.class.hardware_profiles.find{|e| e.name == name }
+    end
+
     def self.define_instance_states(&block)
       machine = ::Deltacloud::StateMachine.new(&block)
       @instance_state_machine = machine
@@ -35,7 +57,7 @@ module Deltacloud
     def instance_state_machine
       self.class.instance_state_machine
     end
-    
+
     def instance_actions_for(state)
       actions = []
       state_key = state.downcase.to_sym

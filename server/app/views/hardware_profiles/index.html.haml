@@ -1,0 +1,27 @@
+%h1
+  Hardware Profiles
+ 
+%table
+  %tr
+    %th
+      Name
+    %th
+      Architecture
+    %th
+      Memory
+    %th
+      Storage
+    %th
+      Mutable
+  - for profile in @profiles
+    %tr
+      %td
+        = link_to profile.name, hardware_profile_url( profile.name )
+      %td
+        = profile.architecture
+      %td
+        = format_hardware_aspect profile.memory
+      %td
+        = format_hardware_aspect profile.storage
+      %td
+        = profile.mutable?
