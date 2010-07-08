@@ -1,5 +1,33 @@
 Feature: Managing instances
 
+  @prefix-create
+  Scenario: Basic instance creation
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client want to create a new instance
+    Then client should choose first image
+    When client request for a new instance
+    Then new instance should be created
+    And this instance should have chosed image
+    And this instance should be in 'PENDING' state
+    And this instance should have valid id
+    And this instance should have name
+
+  @prefix-create-hwp
+  Scenario: Choosing hardware profile for instance
+    Given URI /api/instances exists
+    And authentification is required for this URI
+    When client want to create a new instance
+    Then client should choose first image
+    And client choose first hardware profile
+    When client request for a new instance
+    Then new instance should be created
+    And this instance should have chosed image
+    And this instance should be in 'PENDING' state
+    And this instance should have valid id
+    And this instance should have last hardware profile
+    And this instance should have name
+
   Scenario: Listing current instances
     Given URI /api/instances exists
     And authentification is required for this URI
@@ -24,7 +52,7 @@ Feature: Managing instances
     Given URI /api/instances exists
     And authentification is required for this URI
     When client access this URI with parameters:
-    | state | RUNNING |
+    | state | TERMINATED |
     Then client should get some instances
     And each instance should have 'state' attribute set to 'RUNNING'
 
@@ -49,6 +77,7 @@ Feature: Managing instances
     | public-addresses |
     | private-addresses |
     | authentication |
+    | launch-time |
 
   Scenario: Following image href in instance
     Given URI /api/instances exists
@@ -110,34 +139,6 @@ Feature: Managing instances
     When client want to 'stop' last instance
     And client follow link in actions
 
-  @prefix-create
-  Scenario: Basic instance creation
-    Given URI /api/instances exists
-    And authentification is required for this URI
-    When client want to create a new instance
-    Then client should choose first image
-    When client request for a new instance
-    Then new instance should be created
-    And this instance should have chosed image
-    And this instance should be in 'RUNNING' state
-    And this instance should have valid id
-    And this instance should have name
-
-  @prefix-create-hwp
-  Scenario: Choosing hardware profile for instance
-    Given URI /api/instances exists
-    And authentification is required for this URI
-    When client want to create a new instance
-    Then client should choose first image
-    And client choose first hardware profile
-    When client request for a new instance
-    Then new instance should be created
-    And this instance should have chosed image
-    And this instance should be in 'RUNNING' state
-    And this instance should have valid id
-    And this instance should have last hardware profile
-    And this instance should have name
-
   Scenario: Create instance using HTML form
     Given URI /api/instances/new exists in HTML format
     And authentification is required for this URI
@@ -148,7 +149,7 @@ Feature: Managing instances
   Scenario: Destroying created instance
     Given URI /api/instances exists
     And authentification is required for this URI
-    When client want to 'stop' first instance
+    When client want to 'stop' last instance
     And client follow link in actions
     Then client should get created instance
     And this instance should be destroyed

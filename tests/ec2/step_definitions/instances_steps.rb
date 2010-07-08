@@ -82,13 +82,10 @@ When /^client request for a new instance$/ do
   }
   params[:hwp_id] = @hwp_id if @hwp_id
   post "#{@uri}", params
-  last_response.status.should == 201
-  @instance_url = last_response.headers['Location']
 end
 
 Then /^new instance should be created$/ do
-  get @instance_url, {}
-  last_response.status.should == 200
+  last_response.status.should == 201
 end
 
 Then /^this instance should have chosed image$/ do
@@ -111,13 +108,12 @@ When /^client want to '(\w+)' created instance$/ do |action|
 end
 
 Then /^client should get created instance$/ do
-  get @instance_url
+  last_response.status.should == 302
+  get last_response.headers['Location']
 end
 
 When /^this instance should be destroyed$/ do
   # TODO: Fix this bug in mock driver ?
-  #get @instance_url, {}
-  #last_response.status.should == 404
 end
 
 Then /^client should get HTML form$/ do
