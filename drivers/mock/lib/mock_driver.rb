@@ -154,7 +154,10 @@ class MockDriver < DeltaCloud::BaseDriver
       (flavor_id = flavor.id ) if flavor
     end
 
+    name = opts[:name] || "i-#{Time.now.to_i}"
+
     instance = {
+      :name=>name,
       :state=>'RUNNING',
       :image_id=>image_id,
       :owner_id=>credentials[:name],
