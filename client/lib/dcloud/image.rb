@@ -42,5 +42,15 @@ module DCloud
         end
       end
 
+      def to_plain
+        sprintf("%-10s | %-20s | %-6s | %-20s | %15s",
+          self.id[0,10],
+          self.name ? self.name[0, 20]: 'unknown',
+          self.architecture[0,6],
+          self.description[0,20],
+          self.owner_id[0,15]
+        )
+      end
+
     end
 end

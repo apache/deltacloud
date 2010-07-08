@@ -39,5 +39,11 @@ module DCloud
           @architecture = xml.text( 'architecture' )
         end
       end
+
+      def to_plain
+        sprintf("%-15s | %-6s | %10s GB | %10s GB", self.id[0, 15], self.architecture[0,6],
+          self.memory.to_s[0,10], self.storage.to_s[0,10])
+      end
+
     end
 end

@@ -32,6 +32,16 @@ module DCloud
         super( client, uri, xml )
       end
 
+      def to_plain
+        sprintf("%-10s | %15s GB | %-10s | %-10s | %-15s",
+          self.id[0,10],
+          self.capacity ? self.capacity.to_s[0,15] : 'unknown',
+          self.device ? self.device[0,10] : 'unknown',
+          self.state ? self.state[0,10] : 'unknown',
+          self.instance ? self.instance.name[0,15] : 'unknown'
+        )
+      end
+
       def load_payload(xml=nil)
         super(xml)
         unless xml.nil?

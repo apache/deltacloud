@@ -27,6 +27,15 @@ module DCloud
       attribute :state
       attribute :storage_volume
 
+      def to_plain
+        sprintf("%-10s | %-15s | %-6s | %15s",
+          self.id[0,10],
+          self.storage_volume.name ? self.storage_volume.name[0, 15] : 'unknown',
+          self.state ? self.state[0,6] : 'unknown',
+          self.created ? self.created[0,15] : 'unknown'
+        )
+      end
+
       def initialize(client, uri, xml=nil)
         super( client, uri, xml )
       end
