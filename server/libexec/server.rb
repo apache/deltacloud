@@ -77,17 +77,17 @@ end
 # Rabbit DSL
 
 collection :flavors do
-  description "Flavors are yummy"
+  description "Within a cloud provider a flavor represents a configuration of resources upon which a machine may be deployed. A flavor defines aspects such as local disk storage, available RAM, and architecture. A future revision of the Deltacloud API will include more aspects, including number and speed of CPUs available. Each provider is free to define as many (or as few) flavors as desired."
 
   operation :index do
-    description 'This action will do...'
+    description 'Operation will list all available flavors. For specific architecture use "architecture" parameter.'
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     param :id,            :string,  :optional
     control { filter_all(:flavors) }
   end
 
   operation :show do
-    description "Show a flavor"
+    description 'Show an flavor identified by "id" parameter.'
     param :id,           :string, :required
     control { show(:flavor) }
   end
@@ -95,10 +95,10 @@ collection :flavors do
 end
 
 collection :realms do
-  description "Realms are usefull"
+  description "Within a cloud provider a realm represents a boundary containing resources. The exact definition of a realm is left to the cloud provider. In some cases, a realm may represent different datacenters, different continents, or different pools of resources within a single datacenter. A cloud provider may insist that resources must all exist within a single realm in order to cooperate. For instance, storage volumes may only be allowed to be mounted to instances within the same realm."
 
   operation :index do
-    description "List all realms"
+    description 'Operation will list all available realms. For specific architecture use "architecture" parameter.'
     param :id,            :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control { filter_all(:realms) }
@@ -106,7 +106,7 @@ collection :realms do
 
   #FIXME: It always shows whole list
   operation :show do
-    description "Show a realm"
+    description 'Show an realm identified by "id" parameter.'
     param :id,           :string, :required
     control { show(:realm) }
   end
@@ -114,10 +114,10 @@ collection :realms do
 end
 
 collection :images do
-  description "Operating system Images"
+  description "An image is a platonic form of a machine. Images are not directly executable, but are a template for creating actual instances of machines."
 
   operation :index do
-    description "List of all deployable images"
+    description 'The instances collection will return a set of all images available to the current use. You can filter images using "owner_id" and "architecture" parameter'
     param :id,            :string
     param :owner_id,      :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
@@ -125,7 +125,7 @@ collection :images do
   end
 
   operation :show do
-    description "Show an image"
+    description 'Show an image identified by "id" parameter.'
     param :id,           :string, :required
     control { show(:image) }
   end
@@ -197,16 +197,16 @@ def instance_action(name)
 end
 
 collection :instances do
-  description "Instances description will go here"
+  description "An instance is a concrete machine realized from an image. The images collection may be obtained by following the link from the primary entry-point."
 
   operation :index do
-    description "List of instances"
+    description "List all instances"
     param :id,            :string
     control { filter_all(:instances) }
   end
 
   operation :show do
-    description "Show an instance"
+    description 'Show an image identified by "id" parameter.'
     param :id,           :string, :required
     control { show(:instance) }
   end
