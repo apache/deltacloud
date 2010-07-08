@@ -43,6 +43,8 @@ class InstancesController < ApplicationController
                   :id=>params[:id],
                   :image_id=>params[:image_id],
                 } 
+    @image   = driver.image( credentials, params[:image_id] )
+    @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
   end
 
   def create

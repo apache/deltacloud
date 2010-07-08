@@ -12,6 +12,11 @@ module Drivers
       nil
     end
 
+    def flavors_by_architecture(credentials, architecture)
+      flavors(credentials).select{|f| f[:architecture] == architecture}
+    end
+
+
     def image(credentials, id)
       images = images(credentials, [id])
       return images.first unless images.empty?

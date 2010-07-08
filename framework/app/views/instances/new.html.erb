@@ -4,5 +4,8 @@
 
 <% form_tag instances_url do %>
   <%= hidden_field_tag :image_id, @instance[:image_id] %>
+  <select>
+    <%= options_for_select @flavors, nil %>
+  </select>
   <%= submit_tag 'create' %>
 <% end %>
