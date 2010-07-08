@@ -35,11 +35,11 @@ API_URL=http://[user]:[password]@[api_url][port][/uri]
 Options:
 BANNER
   opts.on( '-i', '--id ID', 'ID for operation') { |id| options[:id] = id }
-  opts.on( nil, '--image-id ID', 'Image ID') { |id| options[:image_id] = id }
-  opts.on( nil, '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
-  opts.on( nil, '--flavor_id FLAVOR', 'Flavor') { |id| options[:flavor_id] = id }
-  opts.on( nil, '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
-  opts.on( '-s STATE', '--state STATE', 'Instance state (RUNNING, STOPPED)') { |state| options[:state] = state }
+  opts.on( '-d', '--image-id ID', 'Image ID') { |id| options[:image_id] = id }
+  opts.on( '-a', '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
+  opts.on( '-f', '--flavor_id FLAVOR', 'Flavor') { |id| options[:flavor_id] = id }
+  opts.on( '-n', '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
+  opts.on( '-s', '--state STATE', 'Instance state (RUNNING, STOPPED)') { |state| options[:state] = state }
   opts.on( '-u', '--url URL', 'API url ($API_URL variable)') { |url| options[:api_url] = url }
   opts.on( '-l', '--list', 'List collections/operations') { |id| options[:list] = true }
   opts.on( '-h', '--help', 'Display this screen' ) { puts opts ; exit }
