@@ -40,6 +40,17 @@ module DeltaCloud
       return snapshots.first unless snapshots.empty?
       nil
     end
+
+    def filter_on(collection, attribute, opts)
+      return collection if opts.nil?
+      return collection if opts[attribute].nil?
+      filter = opts[attribute]
+      if ( filter.is_a?( Array ) )
+        return collection.select{|e| filter.include?( e[attribute] ) }
+      else
+        return collection.select{|e| filter == e[attribute] }
+      end
+    end
   end
 
 end

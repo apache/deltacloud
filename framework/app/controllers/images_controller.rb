@@ -8,6 +8,7 @@ class ImagesController < ApplicationController
   def index
     build_filter( :id )
     build_filter( :owner_id )
+    build_filter( :architecture )
     @images = driver.images( credentials, @filter )
 
     respond_to do |format|
