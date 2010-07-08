@@ -1,0 +1,35 @@
+--- 
+- :aws_instance_id: i-123f1234
+  :aws_groups: 
+  - default
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_image_id: ami-e4b6538e
+  :dns_name: domU-12-34-67-89-01-C9.usma2.compute.amazonaws.com
+  :ssh_key_name: staging
+  :aws_state_code: "16"
+  :private_dns_name: domU-12-34-67-89-01-C9.usma2.compute.amazonaws.com
+  :aws_reason: ""
+  :aws_state: running
+  :aws_launch_time: 2010-1-1T00:00:00.000Z
+  :aws_instance_type: m1.small
+  :aws_reservation_id: r-aabbccdd
+  :aws_availability_zone: us-east-1b
+  :aws_kernel_id: aki-be3adfd7
+  :aws_owner: "522821470517"
+- :aws_instance_id: i-123f1234
+  :aws_groups: 
+  - default
+  :aws_ramdisk_id: ari-ce34gad7
+  :aws_image_id: ami-e4b6538d
+  :dns_name: domU-11-34-67-89-01-C9.usma2.compute.amazonaws.com
+  :ssh_key_name: staging
+  :aws_state_code: "16"
+  :private_dns_name: domU-11-34-67-89-01-C9.usma2.compute.amazonaws.com
+  :aws_reason: ""
+  :aws_state: running
+  :aws_launch_time: 2010-1-1T00:00:00.000Z
+  :aws_instance_type: m1.xlarge
+  :aws_reservation_id: r-aabbccdd
+  :aws_availability_zone: us-west-1a
+  :aws_kernel_id: aki-be3adfd7
+  :aws_owner: "522821470517"

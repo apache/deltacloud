@@ -6,8 +6,9 @@ Feature: Working with storage volumes
 
   Scenario: I want to get list of all storage volumes
     Given I am authorized to list storage volumes
-    When I request index operation for storage volumes collection
+    When I follow storage volumes link in entry points
     Then I should see <STORAGE_VOLUME_COUNT> storage volume inside storage volumes
+    And each link in storage volumes should point me to valid storage volume
 
   Scenario: I want to show storage volume details
     Given I am authorized to show storage volume '<STORAGE_VOLUME_ID>'

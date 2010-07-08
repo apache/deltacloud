@@ -6,15 +6,15 @@ Feature: Managing instances
 
   Scenario: I want to get list of all instances
     Given I am authorized to list instances
-    When I request index operation for instances collection
-    # FIXME: Add starting number here
+    When I follow instances link in entry points
     Then I should see some instance inside instances
+    And each link in instances should point me to valid instance
 
   Scenario: I want to create a new instance
     Given I am authorized to create instance
     When I request create new instance with:
-      | name     | <INSTANCE_1_NAME> | 
-      | image_id | <INSTANCE_IMAGE_ID> | 
+      | name     | <INSTANCE_1_NAME> |
+      | image_id | <INSTANCE_IMAGE_ID> |
     Then I should request this instance
     And this instance should be 'RUNNING'
     And this instance should have name '<INSTANCE_1_NAME>'
@@ -23,9 +23,9 @@ Feature: Managing instances
   Scenario: I want to create a new instance using realm
     Given I am authorized to create instance
     When I request create new instance with:
-      | name     | <INSTANCE_2_NAME> | 
-      | image_id | <INSTANCE_IMAGE_ID> | 
-      | realm    | <INSTANCE_REALM> | 
+      | name     | <INSTANCE_2_NAME> |
+      | image_id | <INSTANCE_IMAGE_ID> |
+      | realm    | <INSTANCE_REALM> |
     Then I should request this instance
     And this instance should be 'RUNNING'
     And this instance should have name '<INSTANCE_2_NAME>'

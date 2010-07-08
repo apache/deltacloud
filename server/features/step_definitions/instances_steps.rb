@@ -53,10 +53,10 @@ end
 When /^I request create new instance with:$/ do |table|
   params = {}
   table.raw.map { |a,b| params[:"#{a}"] = replace_variables(b) }
-  post '/api/instances.xml', params
+  post '/api/instances', params
   @instance_id = Nokogiri::XML(last_response.body).xpath("/instance/id").first.text
   @instance_id.should_not == nil
-  CONFIG[$DRIVER][:instance_1_id] = @instance_id unless CONFIG[$DRIVER][:instance_1_id]
+  CONFIG[:instance_1_id] = @instance_id unless CONFIG[:instance_1_id]
 end
 
 Then /^I should request this instance$/ do

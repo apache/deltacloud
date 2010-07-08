@@ -1,0 +1,10 @@
+--- 
+- :region_name: us-east-1
+  :zone_name: us-east-1a
+  :zone_state: available
+- :region_name: us-east-1
+  :zone_name: us-east-1b
+  :zone_state: available
+- :region_name: us-west-1
+  :zone_name: us-west-1a
+  :zone_state: available

@@ -5,11 +5,12 @@ Feature: Working with images
     Given I want to get XML
 
   Scenario: I want to get list of all images
-    When I request index operation for images collection
+    When I follow images link in entry points
     Then I in order to see list of images I need to be authorized
     When I enter correct username and password
-    And I request index operation for images collection
+    And I follow images link in entry points
     Then I should see <IMAGE_COUNT> image inside images
+    And each link in images should point me to valid image
 
   Scenario: I want to show image details
     Given I am authorized to show image '<IMAGE_ID>'

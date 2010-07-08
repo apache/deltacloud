@@ -1,0 +1,11 @@
+--- 
+- :aws_progress: 100%
+  :aws_status: completed
+  :aws_id: snap-72a5401b
+  :aws_volume_id: vol-60957009
+  :aws_started_at: "2008-02-23T02:50:48.000Z"
+- :aws_progress: 100%
+  :aws_status: completed
+  :aws_id: snap-75a5401c
+  :aws_volume_id: vol-5582673c
+  :aws_started_at: "2008-02-23T16:23:19.000Z"

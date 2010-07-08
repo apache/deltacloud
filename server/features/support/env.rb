@@ -7,19 +7,18 @@ SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../.."))
 Sinatra::Application.set :environment, :test
 Sinatra::Application.set :root, SERVER_DIR
 
-CONFIG = {}
-load "features/support/configuration_mock.rb"
+ENV['API_DRIVER'] = "mock" unless ENV['API_DRIVER']
+CONFIG = YAML::load_file(File::join('features', 'support', ENV['API_DRIVER'], 'config.yaml'))
 
 World do
   def app
     @app = Rack::Builder.new do
-      ENV['API_DRIVER'] = "mock"
       run Sinatra::Application
     end
   end
 
   def replace_variables(str)
-    CONFIG[$DRIVER].keys.collect { |k| str.gsub!(/\<#{k.to_s.upcase}\>/, "#{CONFIG[$DRIVER][k]}") }
+    CONFIG.keys.collect { |k| str.gsub!(/\<#{k.to_s.upcase}\>/, "#{CONFIG[k]}") }
     return str
   end
 

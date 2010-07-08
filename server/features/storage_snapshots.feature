@@ -6,8 +6,9 @@ Feature: Working with storage snapshots
 
   Scenario: I want to get list of all storage snapshots
     Given I am authorized to list storage snapshots
-    When I request index operation for storage snapshots collection
+    When I follow storage snapshots link in entry points
     Then I should see <STORAGE_SNAPSHOT_COUNT> storage snapshot inside storage snapshots
+    And each link in storage snapshots should point me to valid storage snapshot
 
   Scenario: I want to show storage snapshot details
     Given I am authorized to show storage snapshot '<STORAGE_SNAPSHOT_ID>'

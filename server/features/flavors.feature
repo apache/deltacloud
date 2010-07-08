@@ -5,8 +5,9 @@ Feature: Working with flavors
     Given I want to get XML
 
   Scenario: I want to get list of all flavors
-    When I request index operation for flavors collection
+    When I follow flavors link in entry points
     Then I should see <FLAVOR_COUNT> flavor inside flavors
+    And each link in flavors should point me to valid flavor
 
   Scenario: I want to show flavor details
     When I request for '<FLAVOR_ID>' flavor

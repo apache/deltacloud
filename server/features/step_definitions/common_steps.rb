@@ -7,13 +7,6 @@ When /^I want to get (HTML|XML)$/ do |format|
   end
 end
 
-When /^I request (.+) operation for (.+) collection$/ do |operation, collection|
-  operation = '/'+operation
-  operation = operation.eql?('/index') ? '' : operation
-  collection.tr!(' ', '_')
-  get '/api/'+collection+operation, {}
-end
-
 Then /^I should see ([\w\<\>_\-]+) (.+) inside (.+)$/ do |count, model, collection|
   collection.tr!(' ', '-')
   model.tr!(' ', '-')
@@ -98,4 +91,20 @@ Given /^I am authorized to (list) (.+)$/ do |operation, collection|
   collection.tr!(' ', '_')
   get '/api/'+collection, {}
   last_response.body.strip.should_not == 'Not authorized'
+end
+
+When /^I follow (.+) link in entry points$/ do |entry_point|
+  get '/api', {}
+  entry_point.tr!(' ', '_')
+  get URI.parse(Nokogiri::XML(last_response.body).xpath("/api/link[@rel='#{entry_point}']").first[:href]).path, {}
+end
+
+Then /^each link in (.+) should point me to valid (.+)$/ do |collection, model|
+  collection.tr!(' ', '_')
+  model.tr!(' ', '_')
+  Nokogiri::XML(last_response.body).xpath("/#{collection}/#{model}").each do |m|
+    get URI.parse(m[:href]).path, {}
+    Nokogiri::XML(last_response.body).root.name.should == model
+    Nokogiri::XML(last_response.body).xpath("/#{model}").size.should == 1
+  end
 end

@@ -1,3 +1,4 @@
+
 DRIVERS = {
   :ec2 => { :name => "EC2" },
   :rackspace => { :name => "Rackspace" },
@@ -18,12 +19,21 @@ def driver_class_name
 end
 
 def driver_source_name
-  name = DRIVER.to_s
-  "deltacloud/drivers/#{name}/#{name}_driver.rb"
+  "deltacloud/drivers/#{DRIVER}/#{DRIVER}_driver.rb"
+end
+
+def driver_mock_source_name
+  return "deltacloud/drivers/#{DRIVER}/#{DRIVER}_driver.rb" if driver_name.eql? 'Mock'
+  "deltacloud/drivers/#{DRIVER}/#{DRIVER}_mock_driver.rb"
 end
 
 def driver
   require driver_source_name
+
+  if Sinatra::Application.environment.eql? :test
+    require driver_mock_source_name
+  end
+
   @driver ||= eval( driver_class_name ).new
 end
 

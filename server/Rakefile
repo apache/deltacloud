@@ -43,7 +43,8 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.rcov = false
 end
 
-Cucumber::Rake::Task.new(:rcow) do |t|
+Cucumber::Rake::Task.new(:rcov) do |t|
   t.cucumber_opts = "features --format pretty"
   t.rcov = true
+  t.rcov_opts << %[-o "tmp/coverage"]
 end
