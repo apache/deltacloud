@@ -1,4 +1,4 @@
---- 
+---
 :username: mockuser
 :password: mockpassword
 :storage_snapshot_id: snap2
@@ -19,7 +19,10 @@
 :image_id: img2
 :storage_volume_state: AVAILABLE
 :flavor_id: m1-small
+:hardware_profile_id: m1-large
 :instance_realm: us
 :image_count: 3
 :storage_volume_count: 2
 :flavor_count: 5
+:hardware_profile_count: 4
+:hardware_profile_arch: x86_64
