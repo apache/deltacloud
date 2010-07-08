@@ -58,6 +58,11 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 	} ),
   ] ) unless defined?( FLAVORS )
 
+  define_hardware_profile 'small'
+
+  define_hardware_profile 'medium'
+
+  define_hardware_profile 'large'
 
   def flavors(credentials, opts=nil)
 	return FLAVORS if ( opts.nil? )
@@ -150,7 +155,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts=nil)
 	occi_client = new_client(credentials)
 
-	flavor_id = opts[:flavor_id].nil? ? 'small' : opts[:flavor_id]
+	hwp_id = opts[:hwp_id] || 'small'
 
 	instancexml = ERB.new(OCCI_VM).result(binding)
 	instancefile = "|echo '#{instancexml}'"
@@ -206,7 +211,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 
 	state = (computehash['STATE'].text == 'ACTIVE') ? 'RUNNING' : computehash['STATE'].text
 
-	flavor = computehash['INSTANCE_TYPE'].nil? ? 'small' : computehash['INSTANCE_TYPE'].text
+	hwp_name = computehash['INSTANCE_TYPE'] || 'small'
 
 	networks = []
 	(computehash['NETWORK'].each do |n|
@@ -219,6 +224,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 		:name=>computehash['NAME'].text,
 		:image_id=>imageid,
 		:flavor_id=>flavor,
+        :instance_profile=>InstanceProfile.new(hwp_name),
 		:realm_id=>'Any realm',
 		:state=>state,
 		:public_addreses=>networks,
@@ -243,7 +249,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
   (OCCI_VM = %q{
 	<COMPUTE>
 		<NAME><%=opts[:name]%></NAME>
-		<INSTANCE_TYPE><%= flavor_id %></INSTANCE_TYPE>
+		<INSTANCE_TYPE><%= hwp_id %></INSTANCE_TYPE>
 		<STORAGE>
 			<DISK image="<%= image_id %>" dev="sda1" />
 		</STORAGE>
