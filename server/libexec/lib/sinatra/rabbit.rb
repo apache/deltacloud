@@ -130,9 +130,9 @@ module Sinatra
       end
 
       def generate_documentation
-        coll, oper = self, @operations
+        coll, oper, features = self, @operations, driver.features(name)
         ::Sinatra::Application.get("/api/docs/#{@name}") do
-          @collection, @operations = coll, oper
+          @collection, @operations, @features = coll, oper, features
           respond_to do |format|
             format.html { haml :'docs/collection' }
             format.xml { haml :'docs/collection' }
@@ -174,6 +174,22 @@ module Sinatra
           end
         end
       end
+
+      def add_feature_params(features)
+        features.each do |f|
+          f.operations.each do |fop|
+            if cop = operations[fop.name]
+              fop.params.each_key do |k|
+                if cop.params.has_key?(k)
+                  raise DuplicateParamException, "Parameter '#{k}' for operation #{fop.name} defined by collection #{@name} and by feature #{f.name}"
+                else
+                  cop.params[k] = fop.params[k]
+                end
+              end
+            end
+          end
+        end
+      end
     end
 
     def collections
@@ -188,6 +204,7 @@ module Sinatra
     def collection(name, &block)
       raise DuplicateCollectionException if collections[name]
       collections[name] = Collection.new(name, &block)
+      collections[name].add_feature_params(driver.features(name))
       collections[name].generate
     end
 

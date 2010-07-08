@@ -18,3 +18,20 @@
         %td{:style => "width:15em"}
           %a{:href => "/api/docs/#{@collection.name.to_s}/#{operation}"} #{operation}
         %td{:style => "width:10em"} #{@operations[operation].description}
+
+%h3 Features:
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Modified Operations
+  %tbody
+    - @features.sort_by { |f| f.name.to_s }.each do |feature|
+      %tr
+        %td= feature.name
+        %td= feature.description
+        %td
+          - feature.operations.each do |op|
+            %a{:href => "/api/docs/#{@collection.name.to_s}/#{op.name}"} #{op.name}
