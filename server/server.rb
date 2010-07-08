@@ -214,10 +214,14 @@ end
 
 def instance_action(name)
   @instance = driver.send(:"#{name}_instance", credentials, params[:id])
-  respond_to do |format|
-    format.html { haml :"instances/show" }
-    format.xml { haml :"instances/show" }
-    format.json {convert_to_json(:instance, @instance) }
+  if name==:destroy
+    redirect instances_url
+  else
+    respond_to do |format|
+      format.html { haml :"instances/show" }
+      format.xml { haml :"instances/show" }
+      format.json {convert_to_json(:instance, @instance) }
+    end
   end
 end
 
