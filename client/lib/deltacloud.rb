@@ -199,16 +199,15 @@ module DeltaCloud
                   end
                 # Public and private addresses are returned as Array
                 when "public_addresses", "private_addresses":
-                  define_method :"#{attribute.name.sanitize}" do
-                    attribute.xpath('address').collect { |address| address.text }
-                  end
+                  attr_accessor :"#{attribute.name.sanitize}"
+                  obj.send(:"#{attribute.name.sanitize}=",
+                    attribute.xpath('address').collect { |address| address.text })
                 # Value for other attributes are just returned using
                 # method with same name as attribute (eg. .owner_id, .state)
                 else
-                  define_method :"#{attribute.name.sanitize}" do
-                    attribute.text.convert
-                  end
-                  logger << "[DC] Added method #{attribute.name} to #{obj.class.name}\n"
+                  attr_accessor :"#{attribute.name.sanitize}"
+                  obj.send(:"#{attribute.name.sanitize}=", attribute.text.convert)
+                  logger << "[DC] Added method #{attribute.name}[#{attribute.text}] to #{obj.class.name}\n"
               end
             end
           end
