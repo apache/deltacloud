@@ -24,7 +24,7 @@ module Converters
     end 
 
     def convert(obj, builder=nil)
-      builder ||= Builder::XmlMarkup.new
+      builder ||= Builder::XmlMarkup.new( :indent=>2 )
       if ( obj.is_a?( Array ) )
         builder.__send__( @type.to_s.pluralize.to_sym ) do
           obj.each do |e|
