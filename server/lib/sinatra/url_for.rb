@@ -32,7 +32,13 @@ module Sinatra
       end
       "#{base}#{url_fragment}"
     end
+
+    def root_url
+      url_for '/'
+    end
   end
+
+
 
   helpers UrlForHelper
 end
