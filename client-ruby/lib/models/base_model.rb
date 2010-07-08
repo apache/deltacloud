@@ -24,6 +24,7 @@ class BaseModel
   end
 
   def id()
+    check_load_payload
     @id
   end
 

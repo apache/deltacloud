@@ -6,6 +6,7 @@ require 'rexml/document'
 require 'models/flavor'
 require 'models/image'
 require 'models/instance'
+require 'models/storage_volume'
 
 class DeltaCloud
 
@@ -132,6 +133,38 @@ class DeltaCloud
       end
     end  
   end
+
+  def storage_volumes()
+    storage_volumes = []
+    request( entry_points[:storage_volumes] ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'storage-volumes/storage-volume' ).each do |instance|
+          uri = instance.attributes['href']
+          storage_volumes << StorageVolume.new( self, uri, instance )
+        end
+      end
+    end
+    storage_volumes
+  end
+
+  def storage_volume(id)
+    request( entry_points[:storage_volumes], :get, {:id=>id } ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'storage-volumes/storage-volume' ).each do |storage_volume|
+          uri = storage_volume.attributes['href']
+          return StorageVolume.new( self, uri, storage_volume )
+        end
+      end
+    end
+    nil
+  end
+
+  ##
+  ##
+  ##
+  ##
 
   def fetch_resource(type, uri)
     request( uri ) do |response|

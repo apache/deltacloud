@@ -20,7 +20,6 @@ def clean_fixtures
 end
 
 def reload_fixtures
-  puts "reloading fixtures"
   clean_fixtures
   FileUtils.cp_r( File.dirname( __FILE__) + '/fixtures', File.dirname( __FILE__ ) + '/data' )
 end
