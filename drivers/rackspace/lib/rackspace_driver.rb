@@ -57,6 +57,19 @@ class RackspaceDriver < DeltaCloud::BaseDriver
 
 
   #
+  # create instance. Default to flavor 1 - really need a name though...
+  # In rackspace, all flavors work with all images. 
+  # 
+  def create_instance(credentials, image_id, opts)
+    racks = new_client( credentials )
+    flavor_id = 1
+    if (opts[:flavor_id]) then flavor_id = opts[:flavor_id] end
+    name = Time.now.to_s
+    if (opts[:name]) then name = opts[:name] end
+    convert_srv_to_instance(racks.start_server(image_id, flavor_id, name)) 
+  end
+
+  #
   # Instances
   #
   def instances(credentials, opts=nil)
