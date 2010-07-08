@@ -24,40 +24,10 @@ module Deltacloud
 
 class GogridDriver < Deltacloud::BaseDriver
 
-  # Storage capacity is same on all machines (10gb), it could be extended using 'Cloud Storage'
-  define_hardware_profile('server-with-512mb-ram') do
-    cpu              2
-    memory         0.5
-    storage        10
-    architecture 'i386'
-  end
-
-  define_hardware_profile('server-with-1gb-ram') do
+  define_hardware_profile 'server' do
     cpu            2
-    memory         1
+    memory         [512, 1024, 2048, 4096, 8192]
     storage        10
-    architecture   'i386'
-  end
-
-  define_hardware_profile('server-with-2gb-ram') do
-    cpu            2
-    memory         2
-    storage        10
-    architecture   'i386'
-  end
-
-  define_hardware_profile('server-with-4gb-ram') do
-    cpu            2
-    memory         4
-    storage        10
-    architecture   'i386'
-  end
-
-  define_hardware_profile('server-with-8gb-ram') do
-    cpu            2
-    memory         8
-    storage        10
-    architecture   'i386'
   end
 
   # The only valid option for flavors is server RAM for now
@@ -99,13 +69,19 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def create_instance(credentials, image_id, opts=nil)
-    flavor_id = opts[:flavor_id] || '1'
+    server_ram = nil
+    if opts[:hwp_memory]
+      mem = opts[:hwp_memory].to_i
+      server_ram = (mem == 512) ? "512MB" : "#{mem / 1024}GB"
+    else
+      server_ram = "512MB"
+    end
     name = (opts[:name] && opts[:name]!='') ? opts[:name] : get_random_instance_name
     safely do
-      convert_instance(new_client(credentials).request('grid/server/add', { 
+      convert_instance(new_client(credentials).request('grid/server/add', {
         'name' => name,
         'image' => image_id,
-        'server.ram' => flavor_id,
+        'server.ram' => server_ram,
         'ip' => get_next_free_ip(credentials)
       })['list'].first, credentials.user)
     end
@@ -122,7 +98,7 @@ class GogridDriver < Deltacloud::BaseDriver
       safely do
         instances = new_client(credentials).request('grid/server/list')['list'].collect do |instance|
           convert_instance(instance, credentials.user)
-        end 
+        end
       end
     end
     instances = filter_on( instances, :state, opts )
@@ -202,11 +178,23 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def convert_instance(instance, owner_id)
+    opts = {}
+    unless instance['ram']['id'] == "1"
+      mem = instance['ram']['name']
+      if mem == "512MB"
+        opts[:hwp_memory] = "512"
+      else
+        opts[:hwp_memory] = (mem.to_i * 1024).to_s
+      end
+    end
+    prof = InstanceProfile.new("server", opts)
+
     Instance.new(
-      :id => instance['id'],
+      :id => instance['name'],
       :owner_id => owner_id,
       :image_id => instance['image']['id'],
       :flavor_id => instance['ram']['id'],
+      :instance_profile => prof,
       :name => instance['name'],
       :realm_id => instance['type']['id'],
       :state => convert_server_state(instance['state']['name'], instance['id']),
@@ -228,7 +216,7 @@ class GogridDriver < Deltacloud::BaseDriver
   def get_next_free_ip(credentials)
     ip = ""
     safely do
-      ip = new_client(credentials).request('grid/ip/list', { 
+      ip = new_client(credentials).request('grid/ip/list', {
         'ip.type' => '1',
         'ip.state' => '1'
       })['list'].first['ip']
@@ -249,5 +237,3 @@ end
     end
   end
 end
-
-
