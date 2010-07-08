@@ -20,6 +20,7 @@ require 'rackspace_client'
 
 module Deltacloud
   module Drivers
+    module Rackspace
 
 class RackspaceDriver < DeltaCloud::BaseDriver
 
@@ -162,5 +163,6 @@ class RackspaceDriver < DeltaCloud::BaseDriver
 
 end
 
+    end
   end
 end

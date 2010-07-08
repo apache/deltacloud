@@ -20,6 +20,7 @@ require 'yaml'
 
 module Deltacloud
   module Drivers
+    module RHEVM
 
 class RHEVMDriver < DeltaCloud::BaseDriver
 
@@ -270,5 +271,6 @@ class RHEVMDriver < DeltaCloud::BaseDriver
 
 end
 
+    end
   end
 end

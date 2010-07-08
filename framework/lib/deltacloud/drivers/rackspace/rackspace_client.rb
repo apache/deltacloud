@@ -26,6 +26,7 @@ require 'json'
 #
 module Deltacloud
   module Drivers
+    module Rackspace
 
 class RackspaceClient
 
@@ -84,6 +85,7 @@ class RackspaceClient
 
 end
 
+    end
   end
 end
 

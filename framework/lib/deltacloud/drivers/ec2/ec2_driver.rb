@@ -21,7 +21,8 @@ require 'right_aws'
 
 module Deltacloud
   module Drivers
-class Ec2Driver < DeltaCloud::BaseDriver
+    module EC2
+class EC2Driver < DeltaCloud::BaseDriver
 
   #
   # Flavors
@@ -328,6 +329,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
 
 end
 
+    end
   end
 end
 
