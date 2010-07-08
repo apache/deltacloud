@@ -69,3 +69,10 @@ input[type='radio'] {
   margin-top: 1ex;
   margin-left: 1ex;
   margin-bottom: 1ex; }
+
+ul.breadcrumb li {
+  display:inline;
+}
+ul.breadcrumb li.subsequent:before {
+  content: ">> "
+}
