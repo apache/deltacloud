@@ -49,20 +49,7 @@ module Deltacloud
     def initialize(name,&block)
       @properties   = {}
       @name         = name
-      @mutable      = false
       instance_eval &block if block_given?
-    end
-
-    def mutable
-      @mutable = true
-    end
-
-    def immutable
-      @mutable = false
-    end
-
-    def mutable?
-      @mutable
     end
 
     def each_property(&block)

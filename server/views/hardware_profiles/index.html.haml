@@ -12,8 +12,6 @@
         Memory
       %th
         Storage
-      %th
-        Mutable
   %tbody
     - for profile in @profiles
       %tr
@@ -25,5 +23,3 @@
           = format_hardware_property profile.memory
         %td
           = format_hardware_property profile.storage
-        %td
-          = profile.mutable?
