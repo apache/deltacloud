@@ -17,7 +17,12 @@
 
 
 require 'deltacloud/base_driver'
-require 'AWS'
+begin
+  require 'AWS'
+rescue LoadError
+  puts "ERROR: Please install Amazon-EC2 gem first. (gem install amazon-ec2)"
+  exit(1)
+end
 
 module Deltacloud
   module Drivers
