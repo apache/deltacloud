@@ -16,3 +16,4 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 require 'deltacloud/base_driver/base_driver'
+require 'deltacloud/base_driver/features'
