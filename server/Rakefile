@@ -21,6 +21,7 @@
 require 'rake'
 require 'cucumber'
 require 'rake/testtask'
+require 'rake/gempackagetask'
 require 'cucumber/rake/task'
 
 desc "Run basic unit tests"
@@ -46,6 +47,11 @@ Cucumber::Rake::Task.new(:rcov) do |t|
   t.cucumber_opts = "features --format pretty"
   t.rcov = true
   t.rcov_opts << %[-o "tmp/coverage"]
+end
+
+load 'deltacloud-core.gemspec'
+Rake::GemPackageTask.new(@spec) do |pkg|
+  pkg.need_tar = true
 end
 
 desc "Install API"
