@@ -21,7 +21,7 @@ module Sinatra
                        :csv, :cxx, :diff, :dtd, :f, :f77, :f90, :for, :gemspec, :h, :hh, :htm,
                        :log, :mathml, :mml, :p, :pas, :pl, :pm, :py, :rake, :rb, :rdf, :rtf, :ru,
                        :s, :sgm, :sgml, :sh, :svg, :svgz, :text, :wsdl, :xhtml, :xsl, :xslt, :yaml,
-                       :yml, :ics]
+                       :yml, :ics, :png]
 
     def self.registered(app)
       app.helpers RespondTo::Helpers
@@ -45,19 +45,24 @@ module Sinatra
         next if self.class.development? && request.path_info =~ %r{/__sinatra__/.*?.png}
 
         unless options.static? && options.public? && (request.get? || request.head?) && static_file?(request.path_info)
-          request.path_info.sub! %r{\.([^\./]+)$}, ''
+          rpi = request.path_info.sub(%r{\.([^\./]+)$}, '')
 
-          ext = nil
-          if request.xhr? && options.assume_xhr_is_js?
-            ext = :js
-          elsif ! $1.nil?
-            ext = $1
-          elsif env['HTTP_ACCEPT'].nil? || env['HTTP_ACCEPT'].empty?
-            ext = options.default_content
-          end
-          if ext
-            @mime_types = [ Helpers::mime_type(ext) ]
-            format ext
+          if (not $1) or ($1 and TEXT_MIME_TYPES.include?($1.to_sym))
+
+            request.path_info=rpi
+            ext = nil
+
+            if request.xhr? && options.assume_xhr_is_js?
+              ext = :js
+            elsif ! $1.nil?
+              ext = $1
+            elsif env['HTTP_ACCEPT'].nil? || env['HTTP_ACCEPT'].empty?
+              ext = options.default_content
+            end
+            if ext
+              @mime_types = [ Helpers::mime_type(ext) ]
+              format ext
+            end
           end
         end
       end
@@ -198,7 +203,7 @@ module Sinatra
 
           @_format = val.to_sym
           response['Content-Type'].sub!(/^[^;]+/, mime_type)
-          charset options.default_charset if Sinatra::RespondTo::TEXT_MIME_TYPES.include? format
+          charset options.default_charset if Sinatra::RespondTo::TEXT_MIME_TYPES.include?(format) and format!=:png
         end
 
         @_format
