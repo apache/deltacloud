@@ -19,7 +19,9 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require 'rake'
+require 'cucumber'
 require 'rake/testtask'
+require 'cucumber/rake/task'
 
 desc "Run basic unit tests"
 Rake::TestTask.new("test") { |t|
@@ -34,3 +36,10 @@ Rake::TestTask.new("test") { |t|
   t.verbose = false
   t.warning = false
 }
+
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "features --format pretty"
+  t.rcov = true
+end
+
