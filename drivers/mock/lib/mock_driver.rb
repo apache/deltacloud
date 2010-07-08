@@ -65,6 +65,9 @@ class MockDriver < DeltaCloud::BaseDriver
        :running=>:reboot,
        :terminated=>:stop
      } ],
+     [ :stopped, {
+       :running=>:start,
+     } ],
      [ :terminated, {
      } ],
   ] ) unless defined?( STATES )
@@ -166,8 +169,38 @@ class MockDriver < DeltaCloud::BaseDriver
     Instance.new( instance )
   end
 
-  def reboot_instance(credentials, id)
+  def start_instance(credentials, id)
+    instance_file = "#{STORAGE_ROOT}/instances/#{id}.yml"
+    instance_yml  = YAML.load( File.read( instance_file ) )
+    instance_yml[:state] = 'RUNNING'
+    File.open( instance_file, 'w' ) do |f|
+      f << YAML.dump( instance_yml ) 
+    end
+    Instance.new( instance_yml )
   end
+
+  def reboot_instance(credentials, id)
+    instance_file = "#{STORAGE_ROOT}/instances/#{id}.yml"
+    instance_yml  = YAML.load( File.read( instance_file ) )
+    instance_yml[:state] = 'RUNNING'
+    File.open( instance_file, 'w' ) do |f|
+      f << YAML.dump( instance_yml ) 
+    end
+    Instance.new( instance_yml )
+  end
+
+  def stop_instance(credentials, id)
+    puts "STOP INSTANCE #{id}"
+    instance_file = "#{STORAGE_ROOT}/instances/#{id}.yml"
+    instance_yml  = YAML.load( File.read( instance_file ) )
+    instance_yml[:state] = 'STOPPED'
+    File.open( instance_file, 'w' ) do |f|
+      f << YAML.dump( instance_yml )
+    end
+    puts "returning #{instance_yml.inspect}"
+    Instance.new( instance_yml )
+  end
+
 
   def destroy_instance(credentials, id)
     check_credentials( credentials )
