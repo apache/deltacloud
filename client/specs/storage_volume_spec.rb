@@ -46,7 +46,7 @@ describe "storage volumes" do
       storage_volume.device.should eql( '/dev/sda1' )
       storage_volume.instance.should_not be_nil
       storage_volume.instance.id.should eql( 'inst1' )
-      ip = storage_volume.instance.instance_profile
+      ip = storage_volume.instance
       ip.hardware_profile.architecture.value.should eql( 'i386' )
     end
   end
@@ -63,7 +63,7 @@ describe "storage volumes" do
       storage_volume.device.should eql( '/dev/sda1' )
       storage_volume.instance.should_not be_nil
       storage_volume.instance.id.should eql( 'inst1' )
-      ip = storage_volume.instance.instance_profile
+      ip = storage_volume.instance
       ip.hardware_profile.architecture.value.should eql( 'i386' )
     end
   end

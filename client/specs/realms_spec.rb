@@ -44,13 +44,11 @@ describe "realms" do
       realm.id.should eql( 'us' )
       realm.name.should eql( 'United States' )
       realm.state.should eql( 'AVAILABLE' )
-      realm.limit.should eql( :unlimited )
       realm = client.realm( 'eu' )
       realm.should_not be_nil
       realm.id.should eql( 'eu' )
       realm.name.should eql( 'Europe' )
       realm.state.should eql( 'AVAILABLE' )
-      realm.limit.should eql( :unlimited )
     end
   end
 

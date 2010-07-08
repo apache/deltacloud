@@ -32,9 +32,9 @@ describe "instances" do
         instance.owner_id.should_not be_nil
         instance.owner_id.should be_a( String )
         instance.image.should_not be_nil
-        instance.image.should be_a( DCloud::Image )
-        instance.instance_profile.should_not be_nil
-        instance.instance_profile.should be_a( DCloud::InstanceProfile )
+        instance.image.should be_a( DeltaCloud::Image )
+        instance.hardware_profile.should_not be_nil
+        instance.hardware_profile.should be_a( DeltaCloud::HardwareProfile )
         instance.state.should_not be_nil
         instance.state.should be_a( String )
         instance.public_addresses.should_not be_nil
@@ -70,11 +70,11 @@ describe "instances" do
       instance.public_addresses.first.should eql( "img1.inst0.public.com" )
       instance.image.should_not be_nil
       instance.image.uri.should eql( API_URL + "/images/img1" )
-      instance.instance_profile.should_not be_nil
-      instance.instance_profile.hardware_profile.should_not be_nil
-      instance.instance_profile.hardware_profile.uri.should eql( API_URL + "/hardware_profiles/m1-large" )
-      instance.instance_profile[:memory].should eql( "12288" )
-      instance.instance_profile[:storage].should be_nil
+      instance.hardware_profile.should_not be_nil
+      instance.hardware_profile.should_not be_nil
+      instance.hardware_profile.uri.should eql( API_URL + "/hardware_profiles/m1-large" )
+      instance.hardware_profile.memory.value.should eql(10240.0)
+      instance.hardware_profile.storage.value.should eql(850.0)
       instance.state.should eql( "RUNNING" )
       instance.actions.should_not be_nil
     end
@@ -88,7 +88,7 @@ describe "instances" do
       instance.id.should match( /inst[0-9]+/ )
       instance.name.should eql( 'TestInstance' )
       instance.image.id.should eql( 'img1' )
-      instance.instance_profile.id.should eql( 'm1-large' )
+      instance.hardware_profile.id.should eql( 'm1-large' )
       instance.realm.id.should eql( 'us' )
     end
   end
@@ -100,7 +100,7 @@ describe "instances" do
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
-      instance.instance_profile.id.should eql( 'm1-large' )
+      instance.hardware_profile.id.should eql( 'm1-large' )
       instance.realm.id.should eql( 'eu' )
     end
   end
@@ -113,7 +113,7 @@ describe "instances" do
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
-      instance.instance_profile.id.should eql( 'm1-xlarge' )
+      instance.hardware_profile.id.should eql( 'm1-xlarge' )
       instance.realm.id.should eql( 'us' )
     end
   end
@@ -126,8 +126,8 @@ describe "instances" do
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
-      instance.instance_profile.id.should eql( 'm1-xlarge' )
-      instance.instance_profile[:memory].should eql( "32768" )
+      instance.hardware_profile.id.should eql( 'm1-xlarge' )
+      instance.hardware_profile.memory.value.should eql(12288.0)
       instance.realm.id.should eql( 'us' )
     end
   end
@@ -140,7 +140,7 @@ describe "instances" do
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
-      instance.instance_profile.id.should eql( 'm1-xlarge' )
+      instance.hardware_profile.id.should eql( 'm1-xlarge' )
       instance.realm.id.should eql( 'eu' )
     end
   end
