@@ -1,0 +1,6 @@
+:state: running
+:image_id: img1
+:owner_id: anotheruser
+:public_address: 123.123.123.123
+:private_address: 10.10.10.10
+:flavor_id: m1-small

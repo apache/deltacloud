@@ -5,6 +5,8 @@ module Drivers
 
   class Mock < BaseDriver
 
+    STORAGE_ROOT = RAILS_ROOT + '/mock'
+
     # 
     # Flavors
     # 
@@ -52,7 +54,20 @@ module Drivers
     # 
 
     def images(credentials, ids_or_owner=nil )
+      check_credentials( credentials )
       images = []
+      Dir[ "#{STORAGE_ROOT}/images/*.yml" ].each do |image_file|
+        image = YAML.load( File.read( image_file ) )
+        image[:id] = File.basename( image_file, ".yml" )
+        images << image
+      end
+      if ( ids_or_owner.is_a?( Array ) )
+        images = images.select{|e| ids_or_owner.include?( e[:id] )} 
+      elsif ( ids_or_owner == 'self' )
+        images = images.select{|e| e[:owner_id] == credentials[:name] }
+      elsif ( ! ids_or_owner.nil? )
+        images = images.select{|e| e[:owner_id] == ids_or_owner }
+      end
       images.sort_by{|e| [e[:owner_id],e[:description]]}
     end
 
@@ -62,6 +77,16 @@ module Drivers
 
     def instances(credentials, ids=nil)
       instances = []
+      Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
+        instance = YAML.load( File.read( instance_file ) )
+        if ( instance[:owner_id] == credentials[:name] )
+          instance[:id] = File.basename( instance_file, ".yml" )
+          instances << instance
+        end
+      end
+      unless ( ids.nil? || ids.empty? )
+        instances = instances.select{|e| ids.include?( e[:id] )} 
+      end
       instances
     end
 
@@ -93,6 +118,16 @@ module Drivers
     end
 
     private
+
+    def check_credentials(credentials)
+      if ( credentials[:name] != 'mockuser' )
+        raise Drivers::AuthException.new
+      end
+
+      if ( credentials[:password] != 'mockpassword' )
+        raise Drivers::AuthException.new
+      end
+    end
 
 
   end
