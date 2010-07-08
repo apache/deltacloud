@@ -114,20 +114,21 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
 
   def convert_srv_to_instance(srv)
-            Instance.new( {
-                            :id=>srv["id"],
-                            :state=>srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING",
-                            :name=>srv["name"],
-                            :image_id=>srv["imageId"],
-                            :owner_id=>"root",
-                            :realm_id=>"us",
-                            :public_addresses=>( srv["addresses"]["public"] ),
-                            :private_addresses=>( srv["addresses"]["private"] ),
-                            :flavor_id=>srv["flavorId"],
-                            :actions=>instance_actions_for(srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING"),
-                          } )
+    status = srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING"
+    inst = Instance.new(:id => srv["id"].to_s,
+                        :owner_id => "root",
+                        :realm_id => "us")
+    inst.name = srv["name"]
+    inst.state = srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING"
+    inst.actions = instance_actions_for(inst.state)
+    inst.image_id = srv["imageId"].to_s
+    inst.flavor_id = srv["flavorId"].to_s
+    if srv["addresses"]
+      inst.public_addresses  = srv["addresses"]["public"]
+      inst.private_addresses = srv["addresses"]["private"]
+    end
+    inst
   end
-
 
   def new_client(credentials)
     RackspaceClient.new(credentials.user, credentials.password)
