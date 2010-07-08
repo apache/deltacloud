@@ -12,3 +12,19 @@
       %tr
         %td
           = link_to instance_id, instance_url( instance_id )
+
+%h2 Images
+
+%table
+  %thead
+    %tr
+      %th Image ID
+      %th Description
+  %tbody
+    %tbody
+      - @images.each do |image|
+        %tr
+          %td
+            = link_to image[:id], image_url( image[:id] )
+          %td
+            = image[:description]

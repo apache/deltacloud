@@ -17,11 +17,11 @@
   %di
     %dt Flavor
     %dd
-      = @instance.flavor_id ? link_to(@instance.flavor_id, flavor_url(@instance.flavor_id)) ? default
+      = @instance.flavor_id ? link_to(@instance.flavor_id, flavor_url(@instance.flavor_id)) ? 'default'
   %di
     %dt Realm
     %dd
-      = @instance.realm_id ? link_to(@instance.realm_id, realm_url(@instance.realm_id)) ? default
+      = @instance.realm_id ? link_to(@instance.realm_id, realm_url(@instance.realm_id)) ? 'default'
   %di
     %dt State
     %dd
