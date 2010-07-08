@@ -121,7 +121,7 @@ collection :images do
     description 'The instances collection will return a set of all images available to the current use. You can filter images using "owner_id" and "architecture" parameter'
     param :id,            :string
     param :owner_id,      :string
-    param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
+    param :architecture,  :string,  :optional
     control { filter_all(:images) }
   end
 
