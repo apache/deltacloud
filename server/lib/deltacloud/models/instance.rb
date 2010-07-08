@@ -27,7 +27,7 @@ class Instance < BaseModel
   attr_accessor :public_addresses
   attr_accessor :private_addresses
   attr_accessor :instance_profile
-
+  attr_accessor :launch_time
  def initialize(init=nil)
    super(init)
    self.actions = [] if self.actions.nil?

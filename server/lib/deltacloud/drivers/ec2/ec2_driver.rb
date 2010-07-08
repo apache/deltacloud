@@ -298,7 +298,8 @@ class EC2Driver < Deltacloud::BaseDriver
       :private_addresses=>( ec2_instance['privateDnsName'] == '' ? [] : [ec2_instance['privateDnsName']] ),
       :instance_profile =>InstanceProfile.new(hwp_name),
       :actions=>instance_actions_for( state ),
-      :keyname => ec2_instance['keyName']
+      :keyname => ec2_instance['keyName'],
+      :launch_time => ec2_instance['launchTime']
     } )
     instance.authn_error = "Key not set for instance" unless ec2_instance['keyName']
     return instance

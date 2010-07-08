@@ -26,6 +26,9 @@
     - @instance.private_addresses.each do |address|
       %address<
         =address
+  - unless @instance.launch_time.nil?
+    %launch-time<
+      =@instance.launch_time
   - if driver_has_auth_features?
     %authentication{ :type => driver_auth_feature_name }
       - if @instance.authn_feature_failed?
