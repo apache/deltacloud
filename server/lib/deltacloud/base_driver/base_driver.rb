@@ -37,7 +37,6 @@ module Deltacloud
       hw_profile = @hardware_profiles.find{|e| e.name == name}
       return if hw_profile
       hw_profile = ::Deltacloud::HardwareProfile.new( name, &block )
-      puts hw_profile.inspect
       @hardware_profiles << hw_profile
     end
 

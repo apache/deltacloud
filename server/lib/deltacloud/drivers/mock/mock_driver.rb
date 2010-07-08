@@ -230,14 +230,12 @@ class MockDriver < Deltacloud::BaseDriver
   end
 
   def stop_instance(credentials, id)
-    puts "STOP INSTANCE #{id}"
     instance_file = "#{@storage_root}/instances/#{id}.yml"
     instance_yml  = YAML.load( File.read( instance_file ) )
     instance_yml[:state] = 'STOPPED'
     File.open( instance_file, 'w' ) do |f|
       f << YAML.dump( instance_yml )
     end
-    puts "returning #{instance_yml.inspect}"
     Instance.new( instance_yml )
   end
 
