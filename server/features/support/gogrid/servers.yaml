@@ -1,0 +1,4 @@
+---
+- name: 'From API'
+  os:
+    name: RHEL

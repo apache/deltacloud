@@ -14,6 +14,7 @@ World do
   def app
     @app = Rack::Builder.new do
       set :logging, true
+      set :raise_errors, true
       run Sinatra::Application
     end
  end

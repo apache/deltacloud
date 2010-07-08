@@ -1,0 +1,13 @@
+---
+- id: 1
+  name: w2k8_32_iis_php_mysql
+  description: Windows 2008 (32-bit) w/ IIS 7.0 + PHP 5.2 + MySQL 5.0
+  friendlyName: Windows 2008 IIS
+- id: 2
+  name: GSI-95aa2817-7267-3325-ad01-1387a25f31ff
+  description: My second GSI
+  friendlyName: Test second GSI
+- id: 3
+  name: RHEL 5.1 (64-bit)
+  description: RHEL Linux 5.1 (64-bit)
+  friendlyName: RHEL
