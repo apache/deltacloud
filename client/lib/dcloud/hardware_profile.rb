@@ -22,7 +22,33 @@ module DCloud
     class HardwareProfile < BaseModel
 
       class Property
-        attr_reader :name, :unit, :value
+        class Range
+          attr_reader :first, :last
+          def initialize(element)
+            if element
+              @first = element.attributes['first']
+              @last = element.attributes['last']
+            end
+          end
+          def present?
+            ! @first.nil?
+          end
+        end
+        class Enum
+          attr_reader :entries
+          def initialize(element)
+            @entries = []
+            if element
+              element.get_elements( 'entry' ).each do |entry|
+                @entries << entry.attributes['value']
+              end
+            end
+          end
+          def present?
+            ! @entries.empty?
+          end
+        end
+        attr_reader :name, :kind, :unit, :value, :range, :enum
 
         def initialize(xml, name)
           @name = name
@@ -30,6 +56,9 @@ module DCloud
           if p
             @value = p.attributes['value']
             @unit = p.attributes['unit']
+            @kind = p.attributes['kind']
+            @range = Range.new(p.get_elements('range')[0]) if @kind=='range'
+            @enum = Enum.new(p.get_elements('enum')[0]) if @kind=='enum'
           end
         end
 
@@ -37,6 +66,7 @@ module DCloud
           ! @value.nil?
         end
 
+        # FIXME: how to  range/enum/kind bits fit into this?
         def to_s
           v = @value || "---"
           u = @unit || ""
@@ -52,10 +82,18 @@ module DCloud
         end
       end
 
+      class IntegerProperty < Property
+        def initialize(xml, name)
+          super(xml, name)
+          @value = @value.to_i if @value
+        end
+      end
+
       xml_tag_name :hardware_profile
 
       attribute :memory
       attribute :storage
+      attribute :cpu
       attribute :architecture
 
       def initialize(client, uri, xml=nil)
@@ -67,6 +105,7 @@ module DCloud
         unless xml.nil?
           @memory = FloatProperty.new(xml, 'memory')
           @storage = FloatProperty.new(xml, 'storage')
+          @cpu = IntegerProperty.new(xml, 'cpu')
           @architecture = Property.new(xml, 'architecture')
         end
       end
