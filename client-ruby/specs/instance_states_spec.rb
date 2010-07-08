@@ -20,14 +20,18 @@ describe "instance-states" do
       instance_states.should_not be_nil
       instance_states.should_not be_empty
 
-      instance_states[0].name.should eql( 'pending' )
+      instance_states[0].name.should eql( 'begin' )
       instance_states[0].transitions.size.should eql( 1 )
       instance_states[0].transitions[0].should be_auto
 
-      instance_states[1].name.should eql( 'running' )
-      instance_states[1].transitions.size.should eql( 2 )
-      includes_transition( instance_states[1].transitions, :reboot, :running ).should be_true
-      includes_transition( instance_states[1].transitions, :stop, :terminated ).should be_true
+      instance_states[1].name.should eql( 'pending' )
+      instance_states[1].transitions.size.should eql( 1 )
+      instance_states[1].transitions[0].should be_auto
+
+      instance_states[2].name.should eql( 'running' )
+      instance_states[2].transitions.size.should eql( 2 )
+      includes_transition( instance_states[2].transitions, :reboot, :running ).should be_true
+      includes_transition( instance_states[2].transitions, :stop, :stopped ).should be_true
     end
   end 
 
@@ -43,7 +47,7 @@ describe "instance-states" do
       instance_state.name.should eql( 'running' )
       instance_state.transitions.size.should eql( 2 )
       includes_transition( instance_state.transitions, :reboot, :running ).should be_true
-      includes_transition( instance_state.transitions, :stop, :terminated ).should be_true
+      includes_transition( instance_state.transitions, :stop, :stopped ).should be_true
     end
   end
 
