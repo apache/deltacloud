@@ -193,7 +193,7 @@ get "/api/instances/:id/:action" do
    respond_to do |format|
      format.html do
        driver.send(meth, credentials, params[:id])
-       if params[:action] == 'destroy'
+	if ( (params[:action] == 'destroy') or (params[:action] == 'stop') )
          redirect instances_url
        else
          redirect instance_url(params[:id])
