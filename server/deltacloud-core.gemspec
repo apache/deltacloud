@@ -17,7 +17,7 @@
 
 require 'rake'
 
-Gem::Specification.new do |s|
+@spec=Gem::Specification.new do |s|
   s.author = 'Red Hat, Inc.'
   s.homepage = "http://www.deltacloud.org"
   s.email = 'deltacloud-users@lists.fedorahosted.org'
