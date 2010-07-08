@@ -5,16 +5,24 @@ load 'drivers/ec2.rb'
 class ImagesController < ApplicationController
 
   include DriverHelper
+  include ConversionHelper
 
   around_filter :catch_auth
 
   def index
-    @images = driver.images( credentials, [ 'ami-015db968', 'ami-015dba68' ])
+    if ( params[:owner].nil? ) 
+      @images = driver.images( credentials )
+    else
+      @images = driver.images( credentials, params[:owner] )
+    end
 
     respond_to do |format|
       format.html 
       format.json
-      format.xml { render :xml=>@images.to_xml(:skip_types=>true, :link_builder=>self) }
+      #format.xml { render :xml=>@images.to_xml(:skip_types=>true, :link_builder=>self) }
+      format.xml { 
+        render :xml=>convert_to_xml( :image, @images ) 
+      }
     end
   end
 

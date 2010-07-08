@@ -22,13 +22,21 @@ module Drivers
       end
     end
 
-    def images(credentials, *ids)
+    def images(credentials, ids_or_owner=nil )
       ec2 = new_client( credentials )
       images = []
       safely do
-        ec2.describe_images(*ids).each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ ) 
-            images << convert_image( ec2_image )
+        if ( ids_or_owner.is_a?( Array ) ) 
+          ec2.describe_images(ids_or_owner).each do |ec2_image|
+            if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+              images << convert_image( ec2_image )
+            end
+          end
+        else
+          ec2.describe_images_by_owner( ids_or_owner ).each do |ec2_image|
+            if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+              images << convert_image( ec2_image )
+            end
           end
         end
       end
