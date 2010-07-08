@@ -161,7 +161,7 @@ module Drivers
         :owner_id=>ec2_instance[:aws_owner],
         :public_address=>( ec2_instance[:dns_name] == '' ? nil : ec2_instance[:dns_name] ),
         :private_address=>( ec2_instance[:private_dns_name] == '' ? nil : ec2_instance[:private_dns_name] ),
-        :flavor=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
+        :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
       } 
     end
 
