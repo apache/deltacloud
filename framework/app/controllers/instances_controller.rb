@@ -18,7 +18,7 @@ class InstancesController < ApplicationController
   end
 
   def show
-    @instance = driver.instance( credentials, params[:id] )
+    @instance = driver.instance( credentials, :id => params[:id] )
 
     respond_to do |format|
       format.html {
@@ -33,7 +33,7 @@ class InstancesController < ApplicationController
   end
 
   def destroy
-    driver.delete_instance( credentials, params[:id] )
+    driver.delete_instance( credentials, :id=> params[:id] )
     redirect_to :action=>:show
   end
 
@@ -42,12 +42,12 @@ class InstancesController < ApplicationController
                   :id=>params[:id],
                   :image_id=>params[:image_id],
                 } 
-    @image   = driver.image( credentials, params[:image_id] )
+    @image   = driver.image( credentials, :id => params[:image_id] )
     @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
   end
 
   def create
-    @image   = driver.image( credentials, params[:image_id] )
+    @image   = driver.image( credentials, :id => params[:image_id] )
     if ( params[:flavor_id].nil? )
       @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
       @instance = {

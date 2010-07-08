@@ -9,7 +9,7 @@ class ImagesController < ApplicationController
     if ( params[:owner].nil? ) 
       @images = driver.images( credentials )
     else
-      @images = driver.images( credentials, params[:owner] )
+      @images = driver.images( credentials, :owner => params[:owner] )
     end
 
     respond_to do |format|
@@ -22,7 +22,7 @@ class ImagesController < ApplicationController
   end
 
   def show
-    @image = driver.image( credentials, params[:id] )
+    @image = driver.image( credentials, :id => params[:id]  )
 
     respond_to do |format|
       format.html

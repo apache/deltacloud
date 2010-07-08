@@ -6,37 +6,37 @@ module DeltaCloud
 
   class BaseDriver
 
-    def flavor(credentials, id)
-      flavors = flavors(credentials, [id]) 
+    def flavor(credentials, opts)
+      flavors = flavors(credentials, opts)
       return flavors.first unless flavors.empty?
       nil
     end
 
     def flavors_by_architecture(credentials, architecture)
-      flavors(credentials).select{|f| f[:architecture] == architecture}
+      flavors(credentials, :architecture => architecture)
     end
 
 
-    def image(credentials, id)
-      images = images(credentials, [id])
+    def image(credentials, opts)
+      images = images(credentials, opts)
       return images.first unless images.empty?
       nil
     end
     
-    def instance(credentials, id)
-      instances = instances(credentials, [id])
+    def instance(credentials, opts)
+      instances = instances(credentials, opts)
       return instances.first unless instances.empty?
       nil
     end
 
-    def volume(credentials, id)
-      volumes = volumes(credentials, [id])
+    def volume(credentials, opts)
+      volumes = volumes(credentials, opts)
       return volumes.first unless volumes.empty?
       nil
     end
 
-    def snapshot(credentials, id)
-      snapshots = snapshots(credentials, [id])
+    def snapshot(credentials, opts)
+      snapshots = snapshots(credentials, opts)
       return snapshots.first unless snapshots.empty?
       nil
     end

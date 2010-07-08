@@ -27,7 +27,7 @@ Rails::Initializer.run do |config|
   #config.gem "torquebox-gem"
 
   #config.gem "torquebox-rails"
-  config.gem "right_aws"
+  #config.gem "right_aws"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -51,7 +51,7 @@ Rails::Initializer.run do |config|
 end
 
 
-DRIVER=:mock
+DRIVER=:ec2
 
 DRIVER_ROOT = File.dirname( __FILE__ ) + "/../../deltacloud-driver-#{DRIVER}"
 $: << DRIVER_ROOT+'/lib'
@@ -61,5 +61,7 @@ case DRIVER
     DRIVER_CLASS_NAME = "MockDriver"
   when :ec2
     DRIVER_CLASS_NAME = "Ec2Driver"
+  when :rhevm
+    DRIVER_CLASS_NAME = "RHEVMDriver"
 end
 

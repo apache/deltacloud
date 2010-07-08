@@ -16,7 +16,7 @@ class FlavorsController < ApplicationController
   end
 
   def show
-    @flavor = driver.flavor( credentials, params[:id] )
+    @flavor = driver.flavor( credentials, :id => params[:id] )
     respond_to do |format|
       format.html
       format.json

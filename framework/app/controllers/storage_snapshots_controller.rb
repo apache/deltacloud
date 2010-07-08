@@ -17,7 +17,7 @@ class StorageSnapshotsController < ApplicationController
   end
 
   def show
-    @snapshot = driver.snapshot( credentials, params[:id] )
+    @snapshot = driver.snapshot( credentials, :id => params[:id] )
     respond_to do |format|
       format.html
       format.json

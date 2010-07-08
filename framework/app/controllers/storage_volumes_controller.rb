@@ -18,7 +18,7 @@ class StorageVolumesController < ApplicationController
   end
 
   def show
-    @volume = driver.volume( credentials, params[:id] )
+    @volume = driver.volume( credentials, :id => params[:id] )
     respond_to do |format|
       format.html
       format.json
