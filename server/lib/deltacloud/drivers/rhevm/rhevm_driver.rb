@@ -61,7 +61,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   end
 
   def genArgString(credentials, args)
-    commonArgs = [SCRIPT_DIR_ARG, credentials.name, credentials.password, CONFIG["domain"]]
+    commonArgs = [SCRIPT_DIR_ARG, credentials.user, credentials.password, CONFIG["domain"]]
     commonArgs.concat(args)
     commonArgs.join(" ")
   end

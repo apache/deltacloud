@@ -130,7 +130,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
 
   def new_client(credentials)
-    RackspaceClient.new(credentials.name, credentials.password)
+    RackspaceClient.new(credentials.user, credentials.password)
   end
 
   define_instance_states do
