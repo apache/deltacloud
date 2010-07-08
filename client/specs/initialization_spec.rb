@@ -28,7 +28,7 @@ describe "initializing the client" do
 
   it "should discover entry points upon connection" do
     DeltaCloud.new( "name", "password", API_URL ) do |client|
-      client.entry_points[:flavors].should           eql( "#{API_URL}/flavors" )
+      client.entry_points[:hardware_profiles].should eql( "#{API_URL}/hardware_profiles" )
       client.entry_points[:images].should            eql( "#{API_URL}/images" )
       client.entry_points[:instances].should         eql( "#{API_URL}/instances" )
       client.entry_points[:storage_volumes].should   eql( "#{API_URL}/storage_volumes" )

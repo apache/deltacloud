@@ -153,7 +153,7 @@ module Sinatra
       #            operation is the element URL with the name of the operation
       #            appended
       #
-      # This also defines a helper method like show_flavor_url that returns
+      # This also defines a helper method like show_instance_url that returns
       # the URL to this operation (in request context)
       def operation(name, opts = {}, &block)
         raise DuplicateOperationException if @operations[name]

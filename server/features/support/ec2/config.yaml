@@ -1,10 +1,10 @@
---- 
+---
 :username: mockuser
 :password: mockpassword
 :storage_snapshot_id: snap-72a5401b
 :driver_name: ec2
 :instances_count: 2
-:flavor_arch: x86_64
+:hardware_profile_arch: x86_64
 :storage_snapshot_state: AVAILABLE
 :realm_id: us-east-1a
 :instance_1_name: ami-e4b6538d
@@ -19,8 +19,8 @@
 :instance_image_id: ami-e4b6538d
 :image_id: ami-e4b6538d
 :storage_volume_state: AVAILABLE
-:flavor_id: m1-small
+:hardware_profile_id: m1-small
 :instance_realm: us-east-1a
 :image_count: 2
 :storage_volume_count: 2
-:flavor_count: 5
+:hardware_profile_count: 5

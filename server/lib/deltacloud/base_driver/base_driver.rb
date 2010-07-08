@@ -115,20 +115,6 @@ module Deltacloud
       actions
     end
 
-    def flavor(credentials, opts)
-      flavors = flavors(credentials, opts)
-      return flavors.first unless flavors.empty?
-      nil
-    end
-
-    def flavors(credentials, ops)
-      []
-    end
-
-    def flavors_by_architecture(credentials, architecture)
-      flavors(credentials, :architecture => architecture)
-    end
-
     def realm(credentials, opts)
       realms = realms(credentials, opts)
       return realms.first unless realms.empty?

@@ -27,7 +27,6 @@ require 'cucumber/rake/task'
 desc "Run basic unit tests"
 Rake::TestTask.new("test") { |t|
   t.test_files = FileList[
-    'tests/flavors_test.rb',
     'tests/realms_test.rb',
     'tests/images_test.rb',
     'tests/instances_test.rb',

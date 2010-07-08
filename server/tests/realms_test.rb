@@ -21,8 +21,8 @@ class RealmsTest < Test::Unit::TestCase
     send :define_method, method_name do
       get '/api/realms.xml', @params, rack_headers
       doc = Nokogiri::XML.parse(last_response.body)
-      flavor = doc.xpath('/realms/realm[1]').first
-      assert_not_nil flavor.xpath(option.to_s).first
+      realm = doc.xpath('/realms/realm[1]').first
+      assert_not_nil realm.xpath(option.to_s).first
     end
   end
 
@@ -31,8 +31,8 @@ class RealmsTest < Test::Unit::TestCase
     send :define_method, method_name do
       get '/api/realms/us.xml', @params, rack_headers
       doc = Nokogiri::XML.parse(last_response.body)
-      flavor = doc.xpath('/realm').first
-      assert_not_nil flavor.xpath(option.to_s).first
+      realm = doc.xpath('/realm').first
+      assert_not_nil realm.xpath(option.to_s).first
     end
   end
 

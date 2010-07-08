@@ -18,7 +18,6 @@
 require 'rest_client'
 require 'rexml/document'
 require 'logger'
-require 'dcloud/flavor'
 require 'dcloud/hardware_profile'
 require 'dcloud/realm'
 require 'dcloud/image'
@@ -79,34 +78,6 @@ class DeltaCloud
 
   def feature?(collection, name)
     @features.has_key?(collection) && @features[collection].include?(name)
-  end
-
-  def flavors(opts={})
-    flavors = []
-    request(entry_points[:flavors], :get, opts) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'flavors/flavor' ).each do |flavor|
-        uri = flavor.attributes['href']
-        flavors << DCloud::Flavor.new( self, uri, flavor )
-      end
-    end
-    flavors
-  end
-
-  def flavor(id)
-    request( entry_points[:flavors], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( '/flavor' ).each do |flavor|
-        uri = flavor.attributes['href']
-        return DCloud::Flavor.new( self, uri, flavor )
-      end
-    end
-  end
-
-  def fetch_flavor(uri)
-    xml = fetch_resource( :flavor, uri )
-    return DCloud::Flavor.new( self, uri, xml ) if xml
-    nil
   end
 
   def hardware_profiles(opts={})

@@ -83,23 +83,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     st
   end
 
-  #
-  # Flavors
-  #
-  FLAVORS = [
-    Flavor.new({
-      :id=>"rhevm",
-      :memory=>"Any Memory",
-      :storage=>"Any Storage",
-      :architecture=>"Any Architecture",
-    })
-  ]
-
-  def flavors(credentials, opts=nil)
-    return FLAVORS if ( opts.nil? || (! opts[:id]))
-    FLAVORS.select{|f| opts[:id] == f.id}
-  end
-
+  define_hardware_profile 'rhevm'
 
   #
   # Realms
@@ -207,7 +191,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :owner_id => NO_OWNER,
       :image_id => vm["TemplateId"],
       :state => statify(vm["Status"]),
-      :flavor_id => "rhevm",
+      :instance_profile => InstanceProfile.new("rhevm"),
       :actions => instance_actions_for(statify(vm["Status"])),
     })
   end

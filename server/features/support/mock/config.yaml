@@ -4,7 +4,6 @@
 :storage_snapshot_id: snap2
 :driver_name: mock
 :instances_count: 180
-:flavor_arch: x86_64
 :storage_snapshot_state: AVAILABLE
 :realm_id: us
 :instance_1_name: 1268827277 testing instance
@@ -18,11 +17,9 @@
 :instance_image_id: img2
 :image_id: img2
 :storage_volume_state: AVAILABLE
-:flavor_id: m1-small
 :hardware_profile_id: m1-large
 :instance_realm: us
 :image_count: 3
 :storage_volume_count: 2
-:flavor_count: 5
 :hardware_profile_count: 4
 :hardware_profile_arch: x86_64

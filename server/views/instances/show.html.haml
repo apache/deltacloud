@@ -15,10 +15,6 @@
     %dd
       = @instance.name
   %di
-    %dt Flavor
-    %dd
-      = @instance.flavor_id ? link_to(@instance.flavor_id, flavor_url(@instance.flavor_id)) : 'default'
-  %di
     %dt Hardware Profile
     %dd
       - prof = @instance.instance_profile

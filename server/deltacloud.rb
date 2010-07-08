@@ -6,7 +6,6 @@ require 'deltacloud/hardware_profile'
 require 'deltacloud/state_machine'
 
 require 'deltacloud/models/base_model'
-require 'deltacloud/models/flavor'
 require 'deltacloud/models/realm'
 require 'deltacloud/models/image'
 require 'deltacloud/models/instance'

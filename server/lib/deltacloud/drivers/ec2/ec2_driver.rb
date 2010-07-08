@@ -24,42 +24,6 @@ module Deltacloud
     module EC2
 class EC2Driver < Deltacloud::BaseDriver
 
-  #
-  # Flavors
-  #
-  FLAVORS = [
-    Flavor.new( {
-      :id=>'m1-small',
-      :memory=>1.7,
-      :storage=>160,
-      :architecture=>'i386',
-    } ),
-    Flavor.new( {
-      :id=>'m1-large',
-      :memory=>7.5,
-      :storage=>850,
-      :architecture=>'x86_64',
-    } ),
-    Flavor.new( {
-      :id=>'m1-xlarge',
-      :memory=>15,
-      :storage=>1690,
-      :architecture=>'x86_64',
-    } ),
-    Flavor.new( {
-      :id=>'c1-medium',
-      :memory=>1.7,
-      :storage=>350,
-      :architecture=>'x86_64',
-    } ),
-    Flavor.new( {
-      :id=>'c1-xlarge',
-      :memory=>7,
-      :storage=>1690,
-      :architecture=>'x86_64',
-    } ),
-  ]
-
   feature :instances, :user_data
 
   define_hardware_profile('m1-small') do
@@ -121,14 +85,6 @@ class EC2Driver < Deltacloud::BaseDriver
     running.to( :stopping )       .on( :stop )
     shutting_down.to( :stopped )  .automatically
     stopped.to( :finish )         .automatically
-  end
-
-  def flavors(credentials, opts=nil)
-    return FLAVORS if ( opts.nil? )
-    results = FLAVORS
-    results = filter_on( results, :id, opts )
-    results = filter_on( results, :architecture, opts )
-    results
   end
 
   #
@@ -323,7 +279,6 @@ class EC2Driver < Deltacloud::BaseDriver
       :realm_id=>realm_id,
       :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
       :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
-      :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
       :instance_profile => InstanceProfile.new(hwp_name),
       :actions=>instance_actions_for( ec2_instance[:aws_state].upcase ),
     } )

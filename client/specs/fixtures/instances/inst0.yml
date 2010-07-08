@@ -7,7 +7,6 @@
 :private_addresses:
 - img1.inst0.private.com
 :image_id: img1
-:flavor_id: m1-large
 :instance_profile: !ruby/object:InstanceProfile
   id: m1-large
   memory: "12288"

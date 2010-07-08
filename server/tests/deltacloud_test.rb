@@ -26,7 +26,7 @@ module DeltacloudTest
     end
 
     def test_if_http_status_is_correct_with_wrong_credentials
-      return if ['flavors', 'realms'].include?(@collection)
+      return if ['realms'].include?(@collection)
       wrong_header = rack_headers
       wrong_header['HTTP_AUTHORIZATION'] = authorization('wronguser', 'wrongpassword')
       get '/api/'+@collection+'.xml', @params, wrong_header

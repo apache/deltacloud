@@ -34,43 +34,14 @@ module Deltacloud
 class OpennebulaDriver < Deltacloud::BaseDriver
 
   ######################################################################
-  # Flavors
+  # Hardware profiles
   ######################################################################
-
-  (FLAVORS = [
-	Flavor.new( {
-		:id=>'small',
-		:memory=>'small-memory',
-		:storage=>'small-storage',
-		:architecture=>'Any architecture',
-	} ),
-	Flavor.new( {
-		:id=>'medium',
-		:memory=>'medium-memory',
-		:storage=>'medium-storage',
-		:architecture=>'Any architecture',
-	} ),
-	Flavor.new( {
-		:id=>'large',
-		:memory=>'large-memory',
-		:storage=>'large-storage',
-		:architecture=>'Any architecture',
-	} ),
-  ] ) unless defined?( FLAVORS )
 
   define_hardware_profile 'small'
 
   define_hardware_profile 'medium'
 
   define_hardware_profile 'large'
-
-  def flavors(credentials, opts=nil)
-	return FLAVORS if ( opts.nil? )
-	results = FLAVORS
-	results = filter_on( results, :id, opts )
-	results
-  end
-
 
   ######################################################################
   # Realms
@@ -223,8 +194,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 		:owner_id=>credentials.user,
 		:name=>computehash['NAME'].text,
 		:image_id=>imageid,
-		:flavor_id=>flavor,
-        :instance_profile=>InstanceProfile.new(hwp_name),
+		:instance_profile=>InstanceProfile.new(hwp_name),
 		:realm_id=>'Any realm',
 		:state=>state,
 		:public_addreses=>networks,

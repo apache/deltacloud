@@ -39,7 +39,7 @@ BANNER
   opts.on( '-i', '--id ID', 'ID for operation') { |id| options[:id] = id }
   opts.on( '-d', '--image-id ID', 'Image ID') { |id| options[:image_id] = id }
   opts.on( '-a', '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
-  opts.on( '-f', '--flavor_id FLAVOR', 'Flavor') { |id| options[:flavor_id] = id }
+  opts.on( '-p', '--hardware-profile HARDWARE_PROFILE', 'Hardware Profile') { |id| options[:hwp_id] = id }
   opts.on( '-n', '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
   opts.on( '-s', '--state STATE', 'Instance state (RUNNING, STOPPED)') { |state| options[:state] = state }
   opts.on( '-u', '--url URL', 'API url ($API_URL variable)') { |url| options[:api_url] = url }
@@ -97,7 +97,7 @@ if options[:version]
   exit(0)
 end
 
-# List items from collection (typically /flavors)
+# List items from collection (typically /instances)
 # Do same if 'index' operation is set
 if options[:collection] and ( options[:operation].nil? or options[:operation].eql?('index') )
   invalid_usage("Unknown collection: #{options[:collection]}") unless collections.include?(options[:collection].to_sym)
@@ -126,7 +126,7 @@ if options[:collection] and options[:operation]
   end
 
   # If collection is set and requested operation is create new instance,
-  # --image-id, --flavor-id and --name parameters are used
+  # --image-id, --hardware-profile and --name parameters are used
   # Returns created instance in plain form
   if options[:collection].eql?('instances') and options[:operation].eql?('create')
     invalid_usage("Missing image-id") unless options[:image_id]
@@ -135,7 +135,7 @@ if options[:collection] and options[:operation]
     end
     params.merge!(:name => options[:name]) if options[:name]
     params.merge!(:image_id => options[:image_id]) if options[:image_id]
-    params.merge!(:flavor_id => options[:flavor_id]) if options[:flavor_id]
+    params.merge!(:hwp_id => options[:hwp_id]) if options[:hwp_id]
     instance = client.create_instance(options[:image_id], params)
     puts instance.to_plain
     exit(0)

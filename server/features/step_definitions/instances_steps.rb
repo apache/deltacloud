@@ -24,17 +24,20 @@ end
 When /^I want to get details about instance (.+)$/ do |model|
 end
 
-Then /^I could follow (image|realm|flavor) href attribute$/ do |model|
+Then /^I could follow (image|realm|hardware profile) href attribute$/ do |model|
+  model.tr!(' ', '-')
   m = Nokogiri::XML(last_response.body).xpath("/instance/#{model}").first
   model_url = URI.parse(m[:href]).path
   get model_url, {}
   last_response.status.should == 200
 end
 
-Then /^this attribute should point me to valid (image|realm|flavor)$/ do |model|
-  attribute = Nokogiri::XML(last_response.body).xpath("/#{model}").first
+Then /^this attribute should point me to valid (image|realm|hardware profile)$/ do |model|
+  model_tag = model.tr(' ', '-')
+  model.tr!(' ', '_')
+  attribute = Nokogiri::XML(last_response.body).xpath("/#{model_tag}").first
   attribute.should_not == nil
-  attribute.name.should == model
+  attribute.name.should == model_tag
 end
 
 When /^I want to (.+) this instance$/ do |action|

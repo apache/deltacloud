@@ -49,13 +49,6 @@ module Converters
         end
       else
         case ( obj )
-          when Flavor
-            builder.flavor( :href=>@link_builder.send( :flavor_url,  obj.id ) ) {
-              builder.id( obj.id )
-              builder.architecture( obj.architecture )
-              builder.memory( obj.memory )
-              builder.storage( obj.storage )
-            }
           when Image
             builder.image( :href=>@link_builder.send( :image_url, obj.id ) ) {
               builder.id( obj.id )
@@ -81,7 +74,6 @@ module Converters
               builder.name( obj.name )
               builder.owner_id( obj.owner_id )
               builder.image( :href=>@link_builder.send( :image_url, obj.image_id ) )
-              builder.flavor( :href=>@link_builder.send( :flavor_url, obj.flavor_id ) )
               builder.__send__( 'hardware-profile', :href=>@link_builder.send( :hardware_profile_url, obj.instance_profile.name) ) do
                 builder.id( obj.instance_profile.name )
                 obj.instance_profile.overrides.each do |p, v|

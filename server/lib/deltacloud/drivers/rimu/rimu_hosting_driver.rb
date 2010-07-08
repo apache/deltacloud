@@ -43,20 +43,6 @@ class RimuHostingDriver < Deltacloud::BaseDriver
     images
   end
 
-  def flavors(credentials, opts=nil)
-    rh = RimuHostingClient.new(credentials)
-    flavors = rh.list_plans.map do | flavor |
-      Flavor.new({
-              :id => flavor["pricing_plan_code"],
-              :memory => flavor["minimum_memory_mb"].to_f/1024,
-              :storage => flavor["minimum_disk_gb"].to_i,
-              :architecture => "x86"
-      })
-    end
-    flavors = filter_on( flavors, :id, opts)
-    flavors
-  end
-
   def hardware_profiles(credentials, opts = nil)
     rh = RimuHostingClient.new(credentials)
     results = rh.list_plans.map do |plan|
@@ -131,7 +117,7 @@ class RimuHostingDriver < Deltacloud::BaseDriver
             :name => inst["domain_name"],
             :realm_id => "RH",
             :owner_id => "root",
-            :flavor_id => "none",
+            :instance_profile => InstanceProfile.new("none"),
             :actions => instance_actions_for("RUNNING")
     })
   end

@@ -110,24 +110,6 @@ end
 
 # Rabbit DSL
 
-collection :flavors do
-  description "Within a cloud provider a flavor represents a configuration of resources upon which a machine may be deployed. A flavor defines aspects such as local disk storage, available RAM, and architecture. A future revision of the Deltacloud API will include more aspects, including number and speed of CPUs available. Each provider is free to define as many (or as few) flavors as desired."
-
-  operation :index do
-    description 'Operation will list all available flavors. For specific architecture use "architecture" parameter.'
-    param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
-    param :id,            :string,  :optional
-    control { filter_all(:flavors) }
-  end
-
-  operation :show do
-    description 'Show an flavor identified by "id" parameter.'
-    param :id,           :string, :required
-    control { show(:flavor) }
-  end
-
-end
-
 collection :realms do
   description "Within a cloud provider a realm represents a boundary containing resources. The exact definition of a realm is left to the cloud provider. In some cases, a realm may represent different datacenters, different continents, or different pools of resources within a single datacenter. A cloud provider may insist that resources must all exist within a single realm in order to cooperate. For instance, storage volumes may only be allowed to be mounted to instances within the same realm."
 
@@ -213,7 +195,6 @@ end
 get "/api/instances/new" do
   @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
   @image   = driver.image( credentials, :id => params[:image_id] )
-  @flavors = driver.flavors( credentials, { :architecture=>@image.architecture } )
   @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
   @realms = driver.realms(credentials)
   respond_to do |format|
@@ -250,13 +231,8 @@ collection :instances do
     description "Create a new instance"
     param :image_id,     :string, :required
     param :realm_id,     :string, :optional
-    param :flavor_id,    :string, :optional
     param :hwp_id,       :string, :optional
     control do
-      # FIXME: Strictly speaking, we'd need to check that only either
-      # hwp_id or flavor_id are set, but not both. Since flavors will go
-      # away shortly, we can be a little sloppy
-      params[:hwp_id] = params[:flavor_id] if params[:flavor_id]
       @image = driver.image(credentials, :id => params[:image_id])
       instance = driver.create_instance(credentials, @image.id, params)
       respond_to do |format|

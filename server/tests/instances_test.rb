@@ -19,7 +19,7 @@ class InstancesTest < Test::Unit::TestCase
     assert_not_equal 0, doc.xpath('/instances/instance').size
   end
 
-  [:id, :name, :owner_id, :image, :flavor, :realm, :state, :actions, :'public-addresses', :'private-addresses'].each do |option|
+  [:id, :name, :owner_id, :image, :realm, :state, :actions, :'public-addresses', :'private-addresses'].each do |option|
     method_name = :"test_if_instances_index_contain_#{option}"
     send :define_method, method_name do
       get '/api/instances.xml', @params, rack_headers
@@ -29,7 +29,7 @@ class InstancesTest < Test::Unit::TestCase
     end
   end
 
-  [:id, :name, :owner_id, :image, :flavor, :realm, :state, :actions, :'public-addresses', :'private-addresses'].each do |option|
+  [:id, :name, :owner_id, :image, :realm, :state, :actions, :'public-addresses', :'private-addresses'].each do |option|
     method_name = :"test_if_instance_show_contain_#{option}"
     send :define_method, method_name do
       get '/api/instances/inst1.xml', @params, rack_headers
@@ -77,19 +77,19 @@ class InstancesTest < Test::Unit::TestCase
     assert_equal @params[:image_id], image_id
   end
 
-  def test_create_instance_with_flavor_id
+  def test_create_instance_with_hwp_id
 
     @params = {
       :name     => '_test-instance',
       :image_id => 'img1',
-      :flavor_id => 'm1-xlarge'
+      :hwp_id => 'm1-xlarge'
     }
 
     post '/api/instances.xml', @params, rack_headers
     doc = Nokogiri::XML.parse(last_response.body)
-    flavor_href = doc.xpath('/instance/flavor').first[:href].to_s
-    flavor_id = flavor_href.gsub(/.*\/([\w\-]+)$/, '\1')
-    assert_equal @params[:flavor_id], flavor_id
+    hwp_href = doc.xpath('/instance/hardware_profile').first[:href].to_s
+    hwp_id = hwp_href.gsub(/.*\/([\w\-]+)$/, '\1')
+    assert_equal @params[:hwp_id], hwp_id
   end
 
   def test_create_instance_with_realm_id

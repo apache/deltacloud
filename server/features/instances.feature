@@ -55,12 +55,12 @@ Feature: Managing instances
     Then I could follow image href attribute
     And this attribute should point me to valid image
 
-  Scenario: I want to get instance flavor
+  Scenario: I want to get instance hardware profile
     Given I am authorized to show instance '<INSTANCE_1_ID>'
     Given I request for '<INSTANCE_1_ID>' instance
-    When I want to get details about instance flavor
-    Then I could follow flavor href attribute
-    And this attribute should point me to valid flavor
+    When I want to get details about instance hardware profile
+    Then I could follow hardware profile href attribute
+    And this attribute should point me to valid hardware profile
 
   Scenario: I want to get instance realm
     Given I am authorized to show instance '<INSTANCE_1_ID>'

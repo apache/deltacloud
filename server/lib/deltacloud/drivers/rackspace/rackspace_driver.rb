@@ -26,21 +26,6 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name
 
-  def flavors(credentials, opts=nil)
-    racks = new_client( credentials )
-    results = racks.list_flavors.map do |flav|
-      Flavor.new( {
-                    :id=> flav["id"].to_s,
-                    :memory=>flav["ram"].to_f/1024,
-                    :storage=>flav["disk"].to_i,
-                    :architecture=>'x86_64'
-                  } )
-    end
-    results = filter_on( results, :id, opts )
-    results = filter_on( results, :architecture, opts )
-    results
-  end
-
   def hardware_profiles(credentials, opts = nil)
     racks = new_client( credentials )
     results = racks.list_flavors.map do |flav|
@@ -133,7 +118,6 @@ class RackspaceDriver < Deltacloud::BaseDriver
     inst.state = srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING"
     inst.actions = instance_actions_for(inst.state)
     inst.image_id = srv["imageId"].to_s
-    inst.flavor_id = srv["flavorId"].to_s
     inst.instance_profile = InstanceProfile.new(srv["flavorId"].to_s)
     if srv["addresses"]
       inst.public_addresses  = srv["addresses"]["public"]

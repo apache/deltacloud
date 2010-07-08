@@ -22,7 +22,7 @@ require 'converters/xml_converter'
 module DriverHelper
 
   def convert_to_xml(type, obj)
-    if ( [ :flavor, :account, :image, :realm, :instance, :storage_volume, :storage_snapshot ].include?( type ) )
+    if ( [ :account, :image, :realm, :instance, :storage_volume, :storage_snapshot ].include?( type ) )
       Converters::XMLConverter.new( self, type ).convert(obj)
     end
   end

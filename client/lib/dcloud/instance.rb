@@ -57,7 +57,6 @@ module DCloud
       attribute :state
       attribute :actions
       attribute :image
-      attribute :flavor
       attribute :realm
       attribute :action_urls
       attribute :instance_profile
@@ -121,8 +120,6 @@ module DCloud
           end
           image_uri = xml.get_elements( 'image' )[0].attributes['href']
           @image = Image.new( @client, image_uri )
-          flavor_uri = xml.get_elements( 'flavor' )[0].attributes['href']
-          @flavor = Flavor.new( @client, flavor_uri )
           # Only use realms if they are there
           if (!xml.get_elements( 'realm' ).empty?)
               realm_uri = xml.get_elements( 'realm' )[0].attributes['href']

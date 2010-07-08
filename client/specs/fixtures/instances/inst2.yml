@@ -4,7 +4,6 @@
 :owner_id: anotheruser
 :public_addresses: [ img1.inst2.public.com ]
 :private_addresses: [ img1.inst2.private.com ]
-:flavor_id: m1-small
 :realm_id: us
 :instance_profile: !ruby/object:InstanceProfile
   id: m1-large

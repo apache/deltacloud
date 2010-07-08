@@ -5,7 +5,6 @@ Feature: Working with API
     Given I want to get XML
     When I request for entry points
     Then I should see these entry points:
-    | flavors    |
     | realms     |
     | instances  |
     | images     |
@@ -19,7 +18,6 @@ Feature: Working with API
     When I request for entry points
     Then I should get valid HTML response
     And I should see these entry points in page:
-    | flavors    |
     | realms     |
     | instances  |
     | images     |

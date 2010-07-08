@@ -7,7 +7,6 @@
       %th Owner
       %th Name
       %th Image
-      %th Flavor
       %th Realm
       %th State
       %th Actions
@@ -22,8 +21,6 @@
           = instance.name
         %td
           = link_to instance.image_id, image_url( instance.image_id )
-        %td
-          = instance.flavor_id ? link_to(instance.flavor_id, flavor_url(instance.flavor_id)) : 'default'
         %td
           = instance.realm_id ? link_to(instance.realm_id, realm_url( instance.realm_id )) : 'default'
         %td

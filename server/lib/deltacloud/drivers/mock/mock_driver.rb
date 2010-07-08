@@ -23,43 +23,6 @@ module Deltacloud
     module Mock
 class MockDriver < Deltacloud::BaseDriver
 
-  #
-  # Flavors
-  #
-
-  ( FLAVORS = [
-    Flavor.new({
-      :id=>'m1-small',
-      :memory=>1.7,
-      :storage=>160,
-      :architecture=>'i386',
-    }),
-    Flavor.new({
-      :id=>'m1-large',
-      :memory=>7.5,
-      :storage=>850,
-      :architecture=>'x86_64',
-    }),
-    Flavor.new({
-      :id=>'m1-xlarge',
-      :memory=>15,
-      :storage=>1690,
-      :architecture=>'x86_64',
-    }),
-    Flavor.new({
-      :id=>'c1-medium',
-      :memory=>1.7,
-      :storage=>350,
-      :architecture=>'x86_64',
-    }),
-    Flavor.new({
-      :id=>'c1-xlarge',
-      :memory=>7,
-      :storage=>1690,
-      :architecture=>'x86_64',
-    }),
-  ] ) unless defined?( FLAVORS )
-
   ( REALMS = [
     Realm.new({
       :id=>'us',
@@ -127,14 +90,6 @@ class MockDriver < Deltacloud::BaseDriver
       data = Dir::glob(File::join(File::dirname(__FILE__), "data", "*"))
       FileUtils::cp_r(data, @storage_root)
     end
-  end
-
-  def flavors(credentials, opts=nil)
-    return FLAVORS if ( opts.nil? )
-    results = FLAVORS
-    results = filter_on( results, :id, opts )
-    results = filter_on( results, :architecture, opts )
-    results
   end
 
   def realms(credentials, opts=nil)
@@ -217,7 +172,6 @@ class MockDriver < Deltacloud::BaseDriver
       :owner_id=>credentials.user,
       :public_addresses=>["#{image_id}.#{next_id}.public.com"],
       :private_addresses=>["#{image_id}.#{next_id}.private.com"],
-      :flavor_id=>hwp.name,
       :instance_profile => InstanceProfile.new(hwp.name, opts),
       :realm_id=>realm_id,
       :actions=>instance_actions_for( 'RUNNING' )

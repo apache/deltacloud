@@ -20,8 +20,8 @@ class ImagesTest < Test::Unit::TestCase
     send :define_method, method_name do
       get '/api/images.xml', @params, rack_headers
       doc = Nokogiri::XML.parse(last_response.body)
-      flavor = doc.xpath('/images/image[1]').first
-      assert_not_nil flavor.xpath(option.to_s).first
+      elt = doc.xpath('/images/image[1]').first
+      assert_not_nil elt.xpath(option.to_s).first
     end
   end
 
@@ -30,8 +30,8 @@ class ImagesTest < Test::Unit::TestCase
     send :define_method, method_name do
       get '/api/images/img1.xml', @params, rack_headers
       doc = Nokogiri::XML.parse(last_response.body)
-      flavor = doc.xpath('/image').first
-      assert_not_nil flavor.xpath(option.to_s).first
+      elt = doc.xpath('/image').first
+      assert_not_nil elt.xpath(option.to_s).first
     end
   end
 
