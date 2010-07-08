@@ -5,16 +5,34 @@
 
 <% form_tag instances_url do %>
   <%= hidden_field_tag :image_id, @instance.image_id %>
-  <% for flavor in @flavors %>
-    <div class="radio-group">
-      <label for="flavor_id_<%=flavor.id%>">
-        <%= radio_button_tag 'flavor_id', flavor.id %>
-        <%= flavor.id %><br/>
-        <span class="radio-group-details">
-          <%= flavor.architecture %>, <%= flavor.memory %> GB, <%= flavor.storage %> GB
-        </span>
-      </label>
-    </div>
+  <label>Instance Name: </label><%= text_field_tag 'name', '', :size => 30 %>
+  <% if !@flavors.empty? %>
+    <h3>Pick Yer Flavor</h3>
+    <% for flavor in @flavors %>
+      <div class="radio-group">
+        <label for="flavor_id_<%=flavor.id%>">
+          <%= radio_button_tag 'flavor_id', flavor.id %>
+          <%= flavor.id %><br/>
+          <span class="radio-group-details">
+            <%= flavor.architecture %>, <%= flavor.memory %> GB, <%= flavor.storage %> GB
+          </span>
+        </label>
+      </div>
+    <% end %>
+  <% end %>
+  <% if !@realms.empty? %>
+    <h3>Where do you want it?</h3>
+    <% for realm in @realms %>
+      <div class="radio-group">
+        <label for="realm_id_<%=realm.id%>">
+          <%= radio_button_tag 'realm_id', realm.id %>
+          <%= realm.id %><br/>
+          <span class="radio-group-details">
+            <%= realm.name %>, <%= realm.limit %>
+          </span>
+        </label>
+      </div>
+    <% end %>
   <% end %>
   <%= submit_tag 'create' %>
 <% end %>

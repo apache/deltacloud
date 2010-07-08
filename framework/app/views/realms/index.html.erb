@@ -1,0 +1,29 @@
+
+<h1>Realms</h1>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Name
+    </th>
+    <th>
+      Limit
+    </th>
+  </tr>
+  <% for realm in @realms %>
+    <tr>
+      <td>
+        <%= link_to realm.id, realm_url( realm.id ) %>
+      </td>
+      <td>
+        <%= realm.name %>
+      </td>
+      <td>
+        <%= realm.limit %>
+      </td>
+    </tr>
+  <% end %>
+</table>

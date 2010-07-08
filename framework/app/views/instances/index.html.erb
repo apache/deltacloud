@@ -9,6 +9,9 @@
       Owner
     </th>
     <th>
+      Name
+    </th>
+    <th>
       Image
     </th>
     <th>
@@ -28,6 +31,9 @@
       </td>
       <td>
         <%= link_to instance.owner_id, images_url( :owner=>instance.owner_id ) %>
+      </td>
+      <td>
+        <%= instance.name %>
       </td>
       <td>
         <%= link_to instance.image_id, image_url( instance.image_id ) %>

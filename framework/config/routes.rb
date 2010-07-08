@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :api, :controller=>'Api'
 
   map.resources :flavors, :path_prefix=>'api'
-
+  map.resources :realms, :path_prefix=>'api'
   map.resources :images, :path_prefix=>'api'
   map.resources :instances, :path_prefix=>'api',
     :member=>{
