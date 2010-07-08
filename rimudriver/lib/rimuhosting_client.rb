@@ -2,21 +2,35 @@ require "net/http"
 require "net/https"
 require "rubygems"
 require "json"
-
+require "deltacloud/base_driver"
 
 class RimuHostingClient
-  def initialize(name, password ,baseuri = 'https://rimuhosting.com/r')
+  def initialize(credentials ,baseuri = 'https://rimuhosting.com/r')
     @uri = URI.parse(baseuri)
     @service = Net::HTTP.new(@uri.host, @uri.port)
     @service.use_ssl = true
-    @auth = "rimuhosting apikey=%s" % [password]  
+    if(credentials[:password].nil? || credentials[:password] == "")
+      @auth = nil
+    else
+      @auth = "rimuhosting apikey=%s" % [credentials[:password]]  
+    end
+
   end
 
   def request(resource, data='', method='GET')
-    headers = {"Accept" => "application/json", "Content-Type" => "application/json", "Authorization" => @auth}
+    headers = {"Accept" => "application/json", "Content-Type" => "application/json"}
+    if(!@auth.nil?)
+      headers["Authorization"] = @auth
+    end
     r = @service.send_request(method, @uri.path + resource, data, headers)
+         puts r.body
     res = JSON.parse(r.body)
-    res[res.keys[0]]
+    res = res[res.keys[0]]
+
+    if(res['response_type'] == "ERROR" and res['error_info']['error_class'] == "PermissionException")
+      raise DeltaCloud::AuthException.new
+    end
+    res
   end
 
   def list_images
@@ -24,6 +38,7 @@ class RimuHostingClient
   end
 
   def list_plans
+    puts "testsdasfdsf"
     request('/pricing-plans;server-type=VPS')["pricing_plan_infos"]
   end
 
