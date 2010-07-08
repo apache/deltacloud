@@ -35,4 +35,13 @@ module ApplicationHelper
     end
     s+="</ul>"
   end
+
+  def instance_action_method(action)
+    collections[:instances].operations[action.to_sym].method
+  end
+
+  def driver_has_feature?(feature_name)
+    not driver.features(:instances).select{ |f| f.name.eql?(feature_name) }.empty?
+  end
+
 end

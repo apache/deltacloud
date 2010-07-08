@@ -85,6 +85,7 @@ Feature: Managing instances
     And each instance should have actions
     And each actions should have some links
     And each link should have valid href attribute
+    And each link should have valid method attribute
     And each link should have valid rel attribute
 
   Scenario: Reboot instance
