@@ -20,4 +20,11 @@ class ApplicationController < ActionController::Base
     creds
   end
 
+  def build_filter(param_name)
+    if ( params[param_name] )
+      @filter ||= {}
+      @filter[param_name] = params[param_name]
+    end
+  end
+
 end

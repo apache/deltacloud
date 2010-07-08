@@ -6,11 +6,9 @@ class ImagesController < ApplicationController
   around_filter :catch_auth
 
   def index
-    if ( params[:owner].nil? ) 
-      @images = driver.images( credentials )
-    else
-      @images = driver.images( credentials, :owner => params[:owner] )
-    end
+    build_filter( :id )
+    build_filter( :owner_id )
+    @images = driver.images( credentials, @filter )
 
     respond_to do |format|
       format.html 

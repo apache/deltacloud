@@ -6,7 +6,8 @@ class InstancesController < ApplicationController
   around_filter :catch_auth
 
   def index
-    @instances = driver.instances( credentials )
+    build_filter( :id )
+    @instances = driver.instances( credentials, @filter )
 
     respond_to do |format|
       format.html 
@@ -43,21 +44,31 @@ class InstancesController < ApplicationController
                   :image_id=>params[:image_id],
                 } 
     @image   = driver.image( credentials, :id => params[:image_id] )
-    @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
+    puts "ARCH #{@image[:architecture]}"
+    @flavors = driver.flavors( credentials, { :architecture=>@image[:architecture] } )
   end
 
   def create
+
     @image   = driver.image( credentials, :id => params[:image_id] )
-    if ( params[:flavor_id].nil? )
-      @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
-      @instance = {
-                    :id=>params[:id],
-                    :image_id=>params[:image_id],
-                  } 
-      render :action=>:new and return 
+    respond_to do |format|
+      format.html {
+        if ( params[:flavor_id].nil? )
+          @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
+          @instance = {
+                        :id=>params[:id],
+                        :image_id=>params[:image_id],
+                      } 
+          render :action=>:new and return 
+        end
+        instance = driver.create_instance( credentials, @image[:id], params[:flavor_id] )
+        redirect_to instance_url( instance[:id] )
+      }
+      format.xml {
+        instance = driver.create_instance( credentials, @image[:id], params[:flavor_id] )
+        render :xml=>convert_to_xml( :instance, instance), :status=>:created, :location=>instance_url( instance[:id] )
+      }
     end
-    instance = driver.create_instance( credentials, @image[:id], params[:flavor_id] )
-    redirect_to instance_url( instance[:id] )
   end
 
   ##

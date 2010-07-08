@@ -6,7 +6,9 @@ class FlavorsController < ApplicationController
   around_filter :catch_auth
 
   def index
-    @flavors = driver.flavors( credentials )
+    build_filter( :id )
+    build_filter( :architecture )
+    @flavors = driver.flavors( credentials, @filter )
     respond_to do |format|
       format.html
       format.xml {
