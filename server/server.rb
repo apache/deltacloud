@@ -92,8 +92,8 @@ get '/' do redirect '/api'; end
 get '/api\/?' do
     @version = 1.0
     respond_to do |format|
-        format.html { haml :"api/show" }
         format.xml { haml :"api/show" }
+        format.html { haml :"api/show" }
     end
 end
 
@@ -242,12 +242,12 @@ collection :instances do
       @image = driver.image(credentials, :id => params[:image_id])
       instance = driver.create_instance(credentials, @image.id, params)
       respond_to do |format|
-        format.html { redirect instance_url(instance.id) }
         format.xml do
           response.status = 201  # Created
           response['Location'] = instance_url(instance.id)
           convert_to_xml(:instance, instance)
         end
+        format.html { redirect instance_url(instance.id) }
       end
     end
   end
