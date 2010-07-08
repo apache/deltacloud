@@ -60,6 +60,8 @@ class EC2Driver < Deltacloud::BaseDriver
     } ),
   ]
 
+  feature :instances, :user_data
+
   define_hardware_profile('m1-small') do
     cpu              1
     memory         1.7
@@ -199,7 +201,7 @@ class EC2Driver < Deltacloud::BaseDriver
                           1,1,
                           [],
                           nil,
-                          '',
+                          params[:user_data],
                           'public',
                           flavor_id,
                           nil,

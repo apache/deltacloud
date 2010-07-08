@@ -117,5 +117,14 @@ module Deltacloud
         "The user-defined name"
       end
     end
+
+    declare_feature :instances, :user_data do
+      description "Make user-defined data available on a special webserver"
+      operation :create do
+        param :user_data, :string, :optional, nil,
+        "Base64 encoded user data will be published to internal webserver"
+      end
+    end
+
   end
 end
