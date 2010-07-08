@@ -55,8 +55,13 @@ describe "images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', 'm1-small' )
       instance.should_not be_nil
-      instance.uri.should_not be_nil
-      instance.uri.should be_a( String )
+      instance.uri.should eql( API_URL + '/instances/inst3' )
+      instance.resource_id.should eql( 'inst3' )
+
+      instance = client.create_instance( 'img1', 'm1-small' )
+      instance.should_not be_nil
+      instance.uri.should eql( API_URL + '/instances/inst4' )
+      instance.resource_id.should eql( 'inst4' )
     end
   end
 
