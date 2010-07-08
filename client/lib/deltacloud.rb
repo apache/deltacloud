@@ -226,7 +226,7 @@ class DeltaCloud
     nil
   end
 
-  def instances(id=nil)
+  def instances(opts={})
     instances = []
     request( entry_points[:instances] ) do |response|
       doc = REXML::Document.new( response.body )
@@ -281,7 +281,7 @@ class DeltaCloud
     end
   end
 
-  def storage_volumes(id=nil)
+  def storage_volumes(opts={})
     storage_volumes = []
     request( entry_points[:storage_volumes] ) do |response|
       doc = REXML::Document.new( response.body )
@@ -310,7 +310,7 @@ class DeltaCloud
     nil
   end
 
-  def storage_snapshots(id=nil)
+  def storage_snapshots(opts{})
     storage_snapshots = []
     request( entry_points[:storage_snapshots] ) do |response|
       doc = REXML::Document.new( response.body )
