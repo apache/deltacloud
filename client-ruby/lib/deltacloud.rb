@@ -10,6 +10,9 @@ require 'models/instance'
 require 'models/storage_volume'
 require 'models/storage_snapshot'
 
+require 'models/state'
+require 'models/transition'
+
 class DeltaCloud
 
   attr_accessor :logger
@@ -62,6 +65,31 @@ class DeltaCloud
     xml = fetch_resource( :flavor, uri )
     return Flavor.new( self, uri, xml ) if xml
     nil
+  end
+
+  def instance_states()
+    states = []
+    request( entry_points[:instance_states] ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'states/state' ).each do |state_elem|
+          state = State.new( state_elem.attributes['name'] )
+          state_elem.get_elements( 'transition' ).each do |transition_elem|
+            state.transitions << Transition.new( 
+                                   transition_elem.attributes['to'],
+                                   transition_elem.attributes['action']
+                                 )
+          end
+          states << state
+        end
+      end
+    end
+    states
+  end
+
+  def instance_state(name)
+    found = instance_states.find{|e| e.name.to_s == name.to_s}
+    found
   end
 
   def realms(opts={})
