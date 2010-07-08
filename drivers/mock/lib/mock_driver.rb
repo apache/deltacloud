@@ -58,17 +58,19 @@ class MockDriver < DeltaCloud::BaseDriver
   ] ) unless defined?( REALMS )
 
   ( INSTANCE_STATES = [
+    [ :begin, {
+       :pending=>:_auto_
+     } ],
     [ :pending, {
        :running=>:_auto_
      } ],
      [ :running, {
        :running=>:reboot,
-       :terminated=>:stop
+       :stopped=>:stop
      } ],
      [ :stopped, {
        :running=>:start,
-     } ],
-     [ :terminated, {
+       :end=>:destroy
      } ],
   ] ) unless defined?( STATES )
 
