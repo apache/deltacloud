@@ -136,5 +136,9 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :hardware_profiles do
+      description "Size instances according to changes to a hardware profile"
+      # The parameters are filled in from the hardware profiles
+    end
   end
 end

@@ -38,6 +38,12 @@ module Deltacloud
       return if hw_profile
       hw_profile = ::Deltacloud::HardwareProfile.new( name, &block )
       @hardware_profiles << hw_profile
+      hw_params = hw_profile.params
+      unless hw_params.empty?
+        feature :instances, :hardware_profiles do
+          decl.operation(:create) { add_params(hw_params) }
+        end
+      end
     end
 
     def self.hardware_profiles
