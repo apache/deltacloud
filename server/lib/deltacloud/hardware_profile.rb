@@ -63,6 +63,16 @@ module Deltacloud
         end
         Validation::Param.new(args)
       end
+
+      def include?(v)
+        if kind == :fixed
+          return v == value
+        elsif kind == :range
+          return v >= first && v <= last
+        else
+          return values.include?(v)
+        end
+      end
     end
 
     class << self
@@ -105,6 +115,11 @@ module Deltacloud
     def default?(prop, v)
       p = @properties[prop.to_sym]
       p && p.default.to_s == v
+    end
+
+    def include?(prop, v)
+      p = @properties[prop]
+      p.nil? || p.include?(v)
     end
 
     def params

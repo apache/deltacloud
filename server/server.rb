@@ -314,7 +314,7 @@ END
     description "Show specific hardware profile"
     param :id,          :string,    :required
     control do
-      @profile =  driver.hardware_profile(params[:id])
+      @profile =  driver.hardware_profile(credentials, params[:id])
       respond_to do |format|
         format.xml { haml :'hardware_profiles/show', :layout => false }
         format.html { haml :'hardware_profiles/show' }

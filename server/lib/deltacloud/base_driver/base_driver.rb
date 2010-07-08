@@ -51,12 +51,25 @@ module Deltacloud
       @hardware_profiles
     end
 
-    def hardware_profiles
-      self.class.hardware_profiles
+    def hardware_profiles(credentials, opts = nil)
+      results = self.class.hardware_profiles
+      filter_hardware_profiles(results, opts)
     end
 
-    def hardware_profile(name)
-      self.class.hardware_profiles.find{|e| e.name == name }
+    def hardware_profile(credentials, name)
+      hardware_profiles(credentials, :name => name).first
+    end
+
+    def filter_hardware_profiles(profiles, opts)
+      if opts
+        if v = opts[:architecture]
+          profiles = profiles.select { |hwp| hwp.include?(:architecture, v) }
+        end
+        if v = opts[:name]
+          profiles = profiles.select { |hwp| hwp.name == v }
+        end
+      end
+      profiles
     end
 
     def self.define_instance_states(&block)
