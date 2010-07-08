@@ -54,7 +54,6 @@ end
 #DRIVER=:ec2
 DRIVER=:mock
 #DRIVER=:rhevm
->>>>>>> Add realms into the model
 
 DRIVER_ROOT = File.dirname( __FILE__ ) + "/../../deltacloud-driver-#{DRIVER}"
 $: << DRIVER_ROOT+'/lib'

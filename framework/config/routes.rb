@@ -11,7 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :images, :path_prefix=>'api'
   map.resources :instances, :path_prefix=>'api',
     :member=>{
-      :delete=>:post,
+      :destroy=>:post,
       :stop=>:post,
       :start=>:post,
       :reboot=>:post,

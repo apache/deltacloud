@@ -8,6 +8,7 @@ class InstancesController < ApplicationController
   def index
     build_filter( :id )
     @instances = driver.instances( credentials, @filter )
+    @id = params[:id]
 
     respond_to do |format|
       format.html
@@ -71,7 +72,7 @@ class InstancesController < ApplicationController
   end
 
   def destroy
-    driver.delete_instance( credentials, params[:id] )
+    driver.destroy_instance( credentials, params[:id] )
     redirect_to :action=>:show
   end
 

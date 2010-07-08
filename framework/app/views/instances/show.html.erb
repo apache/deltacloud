@@ -1,4 +1,5 @@
 
+
 <h1><%= @instance.id %></h1>
 
 <dl>
@@ -68,5 +69,4 @@
   <% @instance.actions.each do |action| %>
     <%= link_to action, send( "#{action}_instance_url", @instance.id ), :method=>:post %>
   <% end %>
-  <%= link_to 'delete', instance_url( @instance.id ), :method=>:delete %>
 </div>
