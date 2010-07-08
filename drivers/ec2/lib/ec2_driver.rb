@@ -39,27 +39,29 @@ class Ec2Driver < DeltaCloud::BaseDriver
     },
   ]
 
-  def flavors(credentials, ids=nil)
-    return FLAVORS if ( ids.nil? )
-    FLAVORS.select{|f| ids.include?(f[:id])}
+  def flavors(credentials, opts=nil)
+    return FLAVORS if ( opts.nil? )
+    FLAVORS.select{|f| opts[:id] == f[:id]}
   end
 
   # 
   # Images
   # 
 
-  def images(credentials, ids_or_owner=nil )
+  def images(credentials, opts=nil )
+    puts(opts)
     ec2 = new_client( credentials )
     images = []
     safely do
-      if ( ids_or_owner.is_a?( Array ) ) 
-        ec2.describe_images(ids_or_owner).each do |ec2_image|
+      if ( opts && opts[:id] )
+        ec2.describe_images(opts[:id]).each do |ec2_image|
           if ( ec2_image[:aws_id] =~ /^ami-/ ) 
             images << convert_image( ec2_image )
           end
         end
       else
-        ec2.describe_images_by_owner( ids_or_owner ).each do |ec2_image|
+        param = opts.nil? ? nil : opts[:owner]
+        ec2.describe_images_by_owner( param ).each do |ec2_image|
           if ( ec2_image[:aws_id] =~ /^ami-/ ) 
             images << convert_image( ec2_image )
           end
@@ -111,11 +113,17 @@ class Ec2Driver < DeltaCloud::BaseDriver
   # Storage Volumes
   # 
 
-  def volumes(credentials, ids=nil)
+  def volumes(credentials, opts=nil)
     ec2 = new_client( credentials ) 
     volumes = []
-    ec2.describe_volumes(ids).each do |ec2_volume|
-      volumes << convert_volume( ec2_volume )
+    if (opts)
+      ec2.describe_volumes(opts[:id]).each do |ec2_volume|
+        volumes << convert_volume( ec2_volume )
+      end
+    else
+      ec2.describe_volumes(opts).each do |ec2_volume|
+        volumes << convert_volume( ec2_volume )
+      end
     end
     volumes
   end
@@ -124,11 +132,17 @@ class Ec2Driver < DeltaCloud::BaseDriver
   # Storage Snapshots
   # 
 
-  def snapshots(credentials, ids=nil)
+  def snapshots(credentials, opts=nil)
     ec2 = new_client( credentials ) 
     snapshots = []
-    ec2.describe_snapshots(ids).each do |ec2_snapshot|
-      snapshots << convert_snapshot( ec2_snapshot )
+    if (opts)
+      ec2.describe_snapshots(opts[:id]).each do |ec2_snapshot|
+        snapshots << convert_snapshot( ec2_snapshot )
+      end
+    else
+      ec2.describe_snapshots(opts).each do |ec2_snapshot|
+        snapshots << convert_snapshot( ec2_snapshot )
+      end
     end
     snapshots
   end
