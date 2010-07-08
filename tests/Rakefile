@@ -25,7 +25,7 @@ require 'cucumber/rake/task'
 DRIVER=ENV['API_DRIVER'] || 'mock'
 
 Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "../tests/#{DRIVER} --format html --out ../tests/tmp/cucumber_#{DRIVER}.html"
+  t.cucumber_opts = "../tests/#{DRIVER} --format html --out tmp/cucumber_#{DRIVER}.html"
   t.rcov = false
 end
 
@@ -41,5 +41,5 @@ Cucumber::Rake::Task.new(:rcov) do |t|
 end
 
 Cucumber::Rake::Task.new(:junit) do |t|
-  t.cucumber_opts = "../tests/#{DRIVER} --format junit --out ../tests/tmp/junit_#{DRIVER}"
+  t.cucumber_opts = "../tests/#{DRIVER} --format junit --out tmp/junit_#{DRIVER}"
 end
