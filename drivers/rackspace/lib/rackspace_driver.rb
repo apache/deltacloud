@@ -14,6 +14,7 @@ class RackspaceDriver < DeltaCloud::BaseDriver
                   } )    
     end
     results = filter_on( results, :id, opts )
+    results = filter_on( results, :architecture, opts )
     results
   end
 
@@ -29,6 +30,7 @@ class RackspaceDriver < DeltaCloud::BaseDriver
                  } )
     end
     results.sort_by{|e| [e.description]}
+    results = filter_on( results, :id, opts )    
     results
   end
 
@@ -82,6 +84,7 @@ class RackspaceDriver < DeltaCloud::BaseDriver
     else 
       instances << convert_srv_to_instance(racks.load_server_details(opts[:id]))
     end
+    instances = filter_on( instances, :id, opts )
     instances
   end
 
