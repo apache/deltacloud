@@ -1,8 +1,16 @@
 require 'yaml'
 require 'fileutils'
 
-API_HOST = 'localhost'
-API_PORT = 3000
+api_host = ENV['API_HOST']
+( api_host = 'localhost' ) if api_host.nil?
+( api_host = 'localhost' ) if api_host == ''
+
+api_port = ENV['API_PORT']
+( api_port = 3000 ) if api_port.nil?
+( api_port = 3000 ) if api_port == ''
+
+API_HOST = api_host
+API_PORT = api_port
 API_PATH = '/api'
 
 API_URL = "http://#{API_HOST}:#{API_PORT}#{API_PATH}"

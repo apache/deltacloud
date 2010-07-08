@@ -3,10 +3,10 @@ require 'specs/spec_helper'
 describe "initializing the client" do
 
   it "should parse valid API URIs" do
-    client = DeltaCloud.new( "name", "password", API_URL )
-    client.api_host.should eql( "localhost" )
-    client.api_port.should eql( 3000 )
-    client.api_path.should eql( "/api" )
+    client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
+    client.api_host.should eql( API_HOST )
+    client.api_port.should eql( API_PORT.to_i )
+    client.api_path.should eql( API_PATH )
   end
 
   it "should discover entry points upon connection" do

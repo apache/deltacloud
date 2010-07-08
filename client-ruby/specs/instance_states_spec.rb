@@ -1,12 +1,14 @@
 
 require 'specs/spec_helper'
 
+=begin
 Spec::Matchers.define :include_transition do |action,to|
   match do |transitions|
     found = transitions.find{|e| e.action.to_s == action.to_s && e.to.to_s == to.to_s }
     ! found.nil?
   end
 end
+=end
 
 describe "instance-states" do
 
@@ -24,8 +26,8 @@ describe "instance-states" do
 
       instance_states[1].name.should eql( 'running' )
       instance_states[1].transitions.size.should eql( 2 )
-      instance_states[1].transitions.should include_transition( :reboot, :running )
-      instance_states[1].transitions.should include_transition( :stop, :terminated )
+      includes_transition( instance_states[1].transitions, :reboot, :running ).should be_true
+      includes_transition( instance_states[1].transitions, :stop, :terminated ).should be_true
     end
   end 
 
@@ -40,9 +42,14 @@ describe "instance-states" do
       instance_state = client.instance_state( :running )
       instance_state.name.should eql( 'running' )
       instance_state.transitions.size.should eql( 2 )
-      instance_state.transitions.should include_transition( :reboot, :running )
-      instance_state.transitions.should include_transition( :stop, :terminated )
+      includes_transition( instance_state.transitions, :reboot, :running ).should be_true
+      includes_transition( instance_state.transitions, :stop, :terminated ).should be_true
     end
+  end
+
+  def includes_transition( transitions, action, to )
+    found = transitions.find{|e| e.action.to_s == action.to_s && e.to.to_s == to.to_s }
+    ! found.nil?
   end
 
 
