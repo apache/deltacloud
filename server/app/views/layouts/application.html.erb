@@ -11,6 +11,7 @@
   <body>
     <div id="doc" class="yui-t2">
       <div id="hd">
+        <%= link_to image_tag( "logo-wide.png" ), root_url %>
       <%= bread_crumb -%>
       </div>
       <div id="bd">
@@ -22,7 +23,7 @@
       </div>
       <div id="ft">
         <div style="float: right; text-align: right; font-size: 90%;">
-          Driver <%= DRIVER %><br/>
+          Driver: <%= DRIVER %><br/>
           Copyright 2009 <%= link_to 'Red Hat', 'http://redhat.com' %> <br />
         </div>
       </div>
