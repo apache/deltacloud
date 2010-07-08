@@ -81,7 +81,6 @@ class MockDriver < DeltaCloud::BaseDriver
     instances = []
     Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
       instance = YAML.load( File.read( instance_file ) )
-      puts "opts ==> #{opts.inspect}"
       if ( instance[:owner_id] == credentials[:name] )
         instance[:id] = File.basename( instance_file, ".yml" )
         instance[:actions] = [ :reboot ]
