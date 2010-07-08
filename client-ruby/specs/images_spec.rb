@@ -7,7 +7,7 @@ describe "images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       images = client.images
       images.should_not be_empty
-      images.size.should be > 100
+      images.size.should eql( 3 )
       images.each do |image|
         image[:id].should_not be_nil
         image[:id].should be_a(String)
@@ -25,7 +25,7 @@ describe "images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       images = client.images( :owner=>:self )
       images.should_not be_empty
-      images.size.should be < 100
+      images.size.should eql( 1 )
       images.each do |image|
         image[:id].should_not be_nil
         image[:id].should be_a(String)

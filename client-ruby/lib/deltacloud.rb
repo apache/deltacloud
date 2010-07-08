@@ -54,6 +54,19 @@ class DeltaCloud
     images
   end
 
+  def instances(opts={})
+    instances = []
+    request( entry_points[:instances] ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'instances/instance' ).each do |instance|
+          instances << convert( :instance, instance )
+        end
+      end
+    end
+    instances
+  end
+
   def api_host
     @api_uri.host
   end
@@ -80,7 +93,7 @@ class DeltaCloud
   def convert(type, elem)
     hash = {}
     elem.elements.each do |element|
-      key = element.name.to_sym
+      key = element.name.gsub( /-/, '_' ).to_sym
       value = element.text
       conversions = CONVERSIONS[type]
       ( conversion = conversions[key] ) if conversions
