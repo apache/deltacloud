@@ -2,14 +2,4 @@
 <!-- <h1>&#x3B4;-cloud-framework</h1> -->
 <h1>DeltaCloud: <%= DRIVER.to_s.titlecase %></h1>
 
-<ul>
-  <li><%= link_to 'Flavors',     flavors_url %></li>
-  <li><%= link_to 'Images',      images_url %></li>
-  <li><%= link_to 'Instances',   instances_url %></li>
-  <li>Storage
-    <ul>
-      <li><%= link_to 'Volumes', storage_volumes_url %></li>
-      <li><%= link_to 'Snapshots', storage_snapshots_url %></li>
-    </ul>
-  </li>
-</ul>
+<%= link_to 'API', api_url %>

@@ -4,6 +4,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller=>'root'
 
+  map.resource :api, :controller=>'Api'
+
   map.resources :images
 
   map.resources :instances,

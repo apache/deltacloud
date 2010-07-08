@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
 
+  protected 
+
   def credentials
     creds = {}
     authenticate_with_http_basic do |name,password|
