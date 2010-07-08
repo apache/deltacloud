@@ -41,6 +41,26 @@ describe "images" do
     end
   end
 
+  it "should allow retrieval of a single image by ID" do
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      image = client.image( 'img1' )
+      image.should_not be_nil
+      image.uri.should eql( API_URL + '/images/img1' )
+      image.resource_id.should eql( 'img1' )
+      image.architecture.should eql( 'x86_64' )
+    end
+  end
+
+  it "should allow retrieval of a single image by URI" do
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      image = client.fetch_image( API_URL + '/images/img1' )
+      image.should_not be_nil
+      image.uri.should eql( API_URL + '/images/img1' )
+      image.resource_id.should eql( 'img1' )
+      image.architecture.should eql( 'x86_64' )
+    end
+  end
+
   describe "filtering by architecture" do
     it "return matching images" do
       DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|

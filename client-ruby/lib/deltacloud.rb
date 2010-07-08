@@ -35,7 +35,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'flavors/flavor' ).each do |flavor|
           uri = flavor.attributes['href']
-          flavors << Flavor.new( self, uri, build_hash( flavor ) )
+          flavors << Flavor.new( self, uri, flavor )
         end
       end
     end
@@ -50,11 +50,28 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'images/image' ).each do |image|
           uri = image.attributes['href']
-          images << Image.new( self, uri, build_hash( image ) )
+          images << Image.new( self, uri, image )
         end
       end
     end
     images
+  end
+
+  def image(id)
+    request( entry_points[:images], :get, {:id=>id } ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'images/image' ).each do |instance|
+          uri = instance.attributes['href']
+          return Image.new( self, uri, instance )
+        end
+      end
+    end
+    nil
+  end
+
+  def fetch_image(uri)
+    return Image.new( self, uri, fetch_resource( :image, uri ) )
   end
 
   def instances()
@@ -64,7 +81,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'instances/instance' ).each do |instance|
           uri = instance.attributes['href']
-          instances << Instance.new( self, uri, build_hash( instance ) )
+          instances << Instance.new( self, uri, instance )
         end
       end
     end
@@ -77,7 +94,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'instances/instance' ).each do |instance|
           uri = instance.attributes['href']
-          return Instance.new( self, uri, build_hash( instance ) )
+          return Instance.new( self, uri, instance )
         end
       end
     end
@@ -85,7 +102,7 @@ class DeltaCloud
   end
 
   def fetch_instance(uri)
-    return Instance.new( self, uri, fetch( uri ) )
+    return Instance.new( self, uri, fetch_resource( :instance, uri ) )
   end
 
   def create_instance(image_id, flavor_id)
@@ -94,16 +111,19 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         instance = doc.root
         uri = instance.attributes['href']
-        return Instance.new( self, uri, build_hash( instance ) )
+        return Instance.new( self, uri, instance )
       end
     end  
   end
 
-  def fetch(uri)
+  def fetch_resource(type, uri)
     request( uri ) do |response|
       doc = REXML::Document.new( response.body )
-      return build_hash( doc.root )
+      if ( doc.root.name == type.to_s )
+        return doc.root 
+      end
     end
+    nil
   end
 
   def api_host
@@ -126,7 +146,7 @@ class DeltaCloud
     hash = {}
     elem.elements.each do |element|
       key = element.name.gsub( /-/, '_' ).to_sym
-      value = element.text
+      value = element.text || element.attributes['href']
       hash[key] = value
     end
     hash
@@ -140,7 +160,7 @@ class DeltaCloud
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'api/link' ).each do |link|
           rel = link.attributes['rel']
-          uri = link.text
+          uri = link.attributes['href']
           @entry_points[rel.to_sym] = uri
         end
       end

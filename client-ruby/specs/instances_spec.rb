@@ -1,7 +1,7 @@
 
 require 'specs/spec_helper'
 
-describe "images" do
+describe "instances" do
 
   it_should_behave_like "all resources"
 
@@ -20,10 +20,12 @@ describe "images" do
         instance.flavor.should be_a( Flavor )
         instance.state.should_not be_nil
         instance.state.should be_a( String )
-        instance.public_address.should_not be_nil
-        instance.public_address.should be_a( String )
-        instance.private_address.should_not be_nil
-        instance.private_address.should be_a( String )
+        instance.public_addresses.should_not be_nil
+        instance.public_addresses.should_not be_empty
+        instance.public_addresses.should be_a( Array )
+        instance.private_addresses.should_not be_nil
+        instance.private_addresses.should_not be_empty
+        instance.private_addresses.should be_a( Array )
       end
     end
   end 
@@ -46,7 +48,13 @@ describe "images" do
       instance.uri.should_not be_nil
       instance.uri.should be_a( String )
       instance.owner_id.should eql( "mockuser" )
-      instance.public_address.should eql( "img3.inst1.public.com" )
+      instance.public_addresses.first.should eql( "img3.inst1.public.com" )
+      instance.image.should_not be_nil
+      instance.image.uri.should eql( API_URL + "/images/img3" )
+      instance.flavor.should_not be_nil
+      instance.flavor.uri.should eql( API_URL + "/flavors/m1-small" )
+      instance.state.should eql( "RUNNING" )
+      instance.actions.should_not be_nil
     end
   
   end
