@@ -15,7 +15,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   # 
   FLAVORS = [
     Flavor.new({ 
-      :resource_id=>"rhevm",
+      :id=>"rhevm",
       :memory=>"Any",
       :storage=>"Any",
       :architecture=>"Any",
@@ -24,7 +24,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
-    FLAVORS.select{|f| opts[:id] == f.resource_id}
+    FLAVORS.select{|f| opts[:id] == f.id}
   end
 
   #
@@ -88,7 +88,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   
   def template_to_image(templ)
     Image.new({
-      :resource_id => templ["TemplateId"],
+      :id => templ["TemplateId"],
       :name => templ["Name"],
       :description => templ["Description"],
       :architecture => templ["OperatingSystem"],
@@ -122,7 +122,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   
   def vm_to_instance(vm)
     Instance.new({
-      :resource_id => vm["VmId"],
+      :id => vm["VmId"],
       :description => vm["Description"],
       :name => vm["Name"],      
       :architecture => vm["OperatingSystem"],
