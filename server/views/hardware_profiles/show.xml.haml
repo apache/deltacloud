@@ -1,6 +1,8 @@
 - unless defined?(partial)
   !!! XML
 %hardware_profile{ :href => hardware_profile_url(@profile.name), :id => @profile.name }
+  %name<
+    =@profile.name
   - @profile.each_property do |prop|
     - attr = { :name => prop.name, :kind => prop.kind, :unit => prop.unit }
     - if prop.kind == :fixed
