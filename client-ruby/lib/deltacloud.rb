@@ -25,13 +25,15 @@ class DeltaCloud
     @password     = password
     @api_uri      = URI.parse( api_uri )
     @entry_points = {}
-    connect( &block ) if ( block )
+    connect( &block ) 
+    self
   end
 
   def connect(&block)
     @http = Net::HTTP.new( api_host, api_port )
     discover_entry_points
     block.call( self ) if block
+    self
   end
 
   def flavors(opts={})

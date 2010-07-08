@@ -10,13 +10,22 @@ describe "initializing the client" do
   end
 
   it "should discover entry points upon connection" do
-    client = DeltaCloud.new( "name", "password", API_URL )
-    client.connect do |client|
+    DeltaCloud.new( "name", "password", API_URL ) do |client|
       client.entry_points[:flavors].should           eql( "#{API_URL}/flavors" )
       client.entry_points[:images].should            eql( "#{API_URL}/images" )
       client.entry_points[:instances].should         eql( "#{API_URL}/instances" )
       client.entry_points[:storage_volumes].should   eql( "#{API_URL}/storage/volumes" )
       client.entry_points[:storage_snapshots].should eql( "#{API_URL}/storage/snapshots" )
+    end  
+  end
+
+  describe "without a block" do
+    before( :each ) do
+      reload_fixtures
+    end
+    it "should connect without a block" do
+      client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
+      client.images.should_not be_nil
     end
   end
 
