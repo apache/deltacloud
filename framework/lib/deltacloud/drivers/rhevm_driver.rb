@@ -18,6 +18,9 @@
 require 'deltacloud/base_driver'
 require 'yaml'
 
+module Deltacloud
+  module Drivers
+
 class RHEVMDriver < DeltaCloud::BaseDriver
 
   SCRIPT_DIR = File.dirname(__FILE__) + '/../scripts'
@@ -265,4 +268,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     snapshots
   end
 
+end
+
+  end
 end

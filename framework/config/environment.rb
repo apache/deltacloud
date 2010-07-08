@@ -92,10 +92,12 @@ $: << DRIVER_ROOT+'/lib'
 
 case DRIVER
   when :mock
-    DRIVER_CLASS_NAME = "MockDriver"
+    DRIVER_CLASS_NAME = "Deltacloud::Drivers::MockDriver"
     MOCK_STORAGE_ROOT = File.dirname( __FILE__ ) + "/../../client-ruby/specs/data"
   when :ec2
-    DRIVER_CLASS_NAME = "Ec2Driver"
+    DRIVER_CLASS_NAME = "Deltacloud::Drivers::Ec2Driver"
+  when :rackspace
+    DRIVER_CLASS_NAME = "Deltacloud::Drivers::Ec2Driver"
   when :rhevm
-    DRIVER_CLASS_NAME = "RHEVMDriver"
+    DRIVER_CLASS_NAME = "Deltacloud::Drivers::RHEVMDriver"
 end

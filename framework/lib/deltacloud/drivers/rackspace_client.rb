@@ -24,6 +24,9 @@ require 'json'
 # author: Michael Neale
 # TODO: catch generic errors in JSON response and throw (probably)
 #
+module Deltacloud
+  module Drivers
+
 class RackspaceClient
 
   @@AUTH_API = URI.parse('https://auth.api.rackspacecloud.com/v1.0')
@@ -79,10 +82,9 @@ class RackspaceClient
     {"Accept" => "application/json", "X-Auth-Token" => @auth_token, "Content-Type" => "application/json"}
   end
 
+end
 
-
-
-
+  end
 end
 
 

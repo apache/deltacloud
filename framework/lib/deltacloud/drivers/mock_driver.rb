@@ -18,6 +18,9 @@
 
 require 'deltacloud/base_driver'
 
+module Deltacloud
+  module Drivers
+
 class MockDriver < DeltaCloud::BaseDriver
 
   ( STORAGE_ROOT = MOCK_STORAGE_ROOT ) unless defined?( STORAGE_ROOT )
@@ -278,4 +281,7 @@ class MockDriver < DeltaCloud::BaseDriver
   end
 
 
+end
+
+  end
 end

@@ -18,6 +18,9 @@
 require 'deltacloud/base_driver'
 require 'rackspace_client'
 
+module Deltacloud
+  module Drivers
+
 class RackspaceDriver < DeltaCloud::BaseDriver
 
   def flavors(credentials, opts=nil)
@@ -157,4 +160,7 @@ class RackspaceDriver < DeltaCloud::BaseDriver
 #STOPPED
 #RUNNING
 
+end
+
+  end
 end
