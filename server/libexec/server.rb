@@ -231,8 +231,6 @@ collection :instances do
     param :image_id,     :string, :required
     param :realm_id,     :string, :optional
     param :flavor_id,    :string, :optional
-    # FIXME: name is really a driver-specific feature
-    param :name,         :string, :optional
     control do
       @image = driver.image(credentials, :id => params[:image_id])
       instance = driver.create_instance(credentials, @image.id, params)

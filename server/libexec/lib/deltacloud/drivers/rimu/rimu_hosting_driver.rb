@@ -24,6 +24,9 @@ module Deltacloud
     module Rimu
 
 class RimuHostingDriver < Deltacloud::BaseDriver
+
+  feature :instances, :user_name
+
   def images(credentails, opts=nil)
     rh = RimuHostingClient.new(credentails)
     images = rh.list_images.map do | image |

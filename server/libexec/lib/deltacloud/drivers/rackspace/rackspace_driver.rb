@@ -24,6 +24,8 @@ module Deltacloud
 
 class RackspaceDriver < Deltacloud::BaseDriver
 
+  feature :instances, :user_name
+
   def flavors(credentials, opts=nil)
     racks = new_client( credentials )
     results = racks.list_flavors.map do |flav|

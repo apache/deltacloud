@@ -32,6 +32,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
   POWERSHELL="c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
   NO_OWNER=""
 
+  feature :instances, :user_name
+
   #
   # Execute a Powershell command, and convert the output
   # to YAML in order to get back an array of maps.

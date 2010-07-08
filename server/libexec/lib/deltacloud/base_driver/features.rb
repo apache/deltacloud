@@ -110,5 +110,12 @@ module Deltacloud
     #
     # Declaration of optional features
     #
+    declare_feature :instances, :user_name do
+      description "Accept a user-defined name on instance creation"
+      operation :create do
+        param :name, :string, :optional, nil,
+        "The user-defined name"
+      end
+    end
   end
 end

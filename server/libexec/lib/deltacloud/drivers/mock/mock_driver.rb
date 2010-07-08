@@ -87,6 +87,8 @@ class MockDriver < Deltacloud::BaseDriver
     stopped.to( :finish )      .on( :destroy )
   end
 
+  feature :instances, :user_name
+
   def initialize
     if ENV["DELTACLOUD_MOCK_STORAGE"]
       @storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
