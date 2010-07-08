@@ -30,14 +30,19 @@ class RackspaceClient
     JSON.parse(get('/images/detail'))['images']
   end
 
-  def list_servers #probably could take single ID, BUT rackspace was giving an error last I checked...
+  def list_servers 
       JSON.parse(get('/servers/detail'))['servers']
   end
 
+
+  def load_server_details( server_id ) 
+    JSON.parse(get("/servers/#{server_id}"))['server']
+  end
+
+
   def start_server(image_id, flavor_id, name)
     json = { :server => { :name => name, :imageId => image_id, :flavorId => flavor_id }}.to_json
-    resp = @service.post(@service_uri.path + "/servers", json, headers).body
-    JSON.parse(resp)
+    JSON.parse(@service.post(@service_uri.path + "/servers", json, headers).body)
   end
 
   def delete_server(server_id)
@@ -46,7 +51,6 @@ class RackspaceClient
 
   def reboot_server(server_id)
     json = { :reboot => { :type => :SOFT }}.to_json
-    puts json
     @service.post(@service_uri.path + "/servers/#{server_id}/action", json, headers)
   end
 
