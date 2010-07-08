@@ -1,0 +1,21 @@
+%h1 Storage Volumes
+
+%table.display
+  %thead
+    %tr
+      %th ID
+      %th Created
+      %th Capacity
+      %th Status
+  %tbody
+    - @volumes.each do |volume|
+      %tr
+        %td
+          = link_to volume.id, storage_volume_url( volume.id )
+        %td
+          = volume.created
+        %td
+          = "#{volume.capacity} GB"
+        %td
+          = "#{volume.state}"
+

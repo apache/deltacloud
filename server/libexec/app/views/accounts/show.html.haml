@@ -1,0 +1,14 @@
+%h1
+  = @account[:id]
+
+%h2 Instances
+
+%table
+  %thead
+    %tr
+      %th Instance ID
+  %tbody
+    - @account[:instance_ids].each do |instance_id|
+      %tr
+        %td
+          = link_to instance_id, instance_url( instance_id )

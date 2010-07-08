@@ -1,0 +1,20 @@
+%h1 Storage Snapshots
+
+%table
+  %thead
+    %tr
+      %th ID
+      %th Volume
+      %th Created
+      %th State
+  %tbody
+    - @snapshots.each do |snapshot|
+      %tr
+        %td
+          = link_to snapshot.id, storage_snapshot_url( snapshot.id )
+        %td
+          = link_to snapshot.storage_volume_id, storage_volume_url( snapshot.storage_volume_id )
+        %td
+          = snapshot.created
+        %td
+          = snapshot.state

@@ -1,0 +1,31 @@
+%h1 Instance States
+
+%div#state_graph
+  = image_tag url_for( :format => :png )
+
+%table.states
+  %thead
+    %tr
+      %th Origin
+      %th Action
+      %th Destination
+  %tbody
+    - @machine.states.each do |state|
+      %tr
+        %td.origin{:rowspan => "#{state.transitions.empty? ? 2 : (state.transitions.size + 1)}"}
+          = state
+      - if state.transitions.empty?
+        %tr
+          %td --
+          %td --
+      - else
+        - state.transitions.each do |transition|
+          %tr
+            %td
+              - if transition.automatically?
+                %em auto
+              - else
+                = transition.action
+            %td
+              = transition.destination
+

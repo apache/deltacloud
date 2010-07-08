@@ -1,0 +1,20 @@
+%h1
+  = @volume.id
+
+%dl
+  %di
+    %dt Created
+    %dd
+      = @volume.created
+  %di
+    %dt Capacity
+    %dd
+      = "#{@volume.capacity} GB"
+  %di
+    %dt State
+    %dd
+      = @volume.state
+  %di
+    %dt Attached
+    %dd
+      = link_to(@volume.instance_id, instance_url( @volume.instance_id)) + ' - ' + @volume.device.to_s if @volume.instance_id

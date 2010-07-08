@@ -1,0 +1,33 @@
+%h1 Instances
+
+%table.display
+  %thead
+    %tr
+      %th ID
+      %th Owner
+      %th Name
+      %th Image
+      %th Flavor
+      %th Realm
+      %th State
+      %th Actions
+  %tbody
+    - @instances.each do |instance|
+      %tr
+        %td 
+          = link_to instance.id, instance_url( instance.id )
+        %td 
+          = link_to instance.owner_id, images_url( instance.owner_id )
+        %td
+          = instance.name
+        %td
+          = link_to instance.image_id, image_url( instance.image_id )
+        %td
+          = instance.flavor_id ? link_to(instance.flavor_id, flavor_url(instance.flavor_url)) : default
+        %td 
+          = instance.realm_id ? link_to(instance.realm_id, realm_url( instance.realm_id )) : default
+        %td
+          = instance.state
+        %td
+          = instance.actions.collect { |a| link_to(a, self.send("#{a}_instance_url", instance.id), :method => :post)}.join(' ')
+
