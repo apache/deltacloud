@@ -7,7 +7,7 @@
   <%= hidden_field_tag :image_id, @instance.image_id %>
   <label>Instance Name: </label><%= text_field_tag 'name', '', :size => 30 %>
   <% if !@flavors.empty? %>
-    <h3>Pick Yer Flavor</h3>
+    <h3>What flavor of machine?</h3>
     <% for flavor in @flavors %>
       <div class="radio-group">
         <label for="flavor_id_<%=flavor.id%>">

@@ -1,11 +1,13 @@
 require 'flavor'
 
+require 'realm'
+
 module Converters
 
-  ALIASES = {
+  ( ALIASES = {
     :owner=>nil,
     :volume=>:storage_volume,
-  }
+  } ) unless defined?( ALIASES )
 
   def self.url_type(type)
     type = type.to_sym
@@ -25,6 +27,7 @@ module Converters
     end 
 
     def convert(obj, builder=nil)
+      puts "CONVERT #{obj.inspect} #{obj.class} #{obj.class == Realm} #{obj.class == Flavor}"
       builder ||= Builder::XmlMarkup.new( :indent=>2 )
       if ( obj.is_a?( Array ) )
         builder.__send__( @type.to_s.pluralize.gsub( /_/, '-' ).to_sym ) do

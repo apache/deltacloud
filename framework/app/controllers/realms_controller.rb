@@ -19,6 +19,7 @@ class RealmsController < ApplicationController
 
   def show
     @realm = driver.realm( credentials, :id => params[:id] )
+    puts "REALM IS #{@realm.inspect}"
     respond_to do |format|
       format.html
       format.json

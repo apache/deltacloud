@@ -18,6 +18,9 @@
       Flavor
     </th>
     <th>
+      Realm
+    </th>
+    <th>
       State
     </th>
     <th>
@@ -39,7 +42,18 @@
         <%= link_to instance.image_id, image_url( instance.image_id ) %>
       </td>
       <td>
-        <%= link_to instance.flavor_id, flavor_url( instance.flavor_id ) %>
+        <% if ( instance.flavor_id ) %>
+          <%= link_to instance.flavor_id, flavor_url( instance.flavor_id ) %>
+        <% else %>
+          default
+        <% end %>
+      </td>
+      <td>
+        <% if ( instance.realm_id ) %>
+          <%= link_to instance.realm_id, realm_url( instance.realm_id ) %>
+        <% else %>
+          default
+        <% end %>
       </td>
       <td>
         <%= instance.state %>

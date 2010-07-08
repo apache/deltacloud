@@ -32,7 +32,23 @@
       Flavor
     </dt>
     <dd>
-      <%= link_to @instance.flavor_id, flavor_url( @instance.flavor_id ) %>
+      <% if ( @instance.flavor_id ) %>
+        <%= link_to @instance.flavor_id, flavor_url( @instance.flavor_id ) %>
+      <% else %>
+        default
+      <% end %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Realm
+    </dt>
+    <dd>
+      <% if ( @instance.realm_id ) %>
+        <%= link_to @instance.realm_id, realm_url( @instance.realm_id ) %>
+      <% else %>
+        default
+      <% end %>
     </dd>
   </di>
   <di>

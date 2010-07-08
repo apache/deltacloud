@@ -26,7 +26,7 @@ module DeltaCloud
       nil
     end
 
-    def realms(credentials, ops)
+    def realms(credentials, opts=nil)
       []
     end
 

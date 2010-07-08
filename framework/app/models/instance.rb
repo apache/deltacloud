@@ -5,6 +5,7 @@ class Instance < BaseModel
   attr_accessor :image_id
   attr_accessor :flavor_id
   attr_accessor :name
+  attr_accessor :realm_id
   attr_accessor :state
   attr_accessor :actions
   attr_accessor :public_addresses
