@@ -15,13 +15,18 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+
 Gem::Specification.new do |s|
   s.author = 'Red Hat, Inc.'
   s.homepage = "http://www.deltacloud.org"
-  s.name = 'deltacloud-client-ruby'
+  s.email = 'deltacloud-users@lists.fedorahosted.org'
+  s.name = 'deltacloud-client'
   s.description = %q{Deltacloud REST Client}
-  s.version = '0.0.1'
-  s.summary = %q{Deltacloud Client}
-  s.files = Dir['Rakefile', 'credentials.yml', 'lib/**/*.rb', 'init.rb' ]
+  s.version = '0.0.2'
+  s.summary = %q{Deltacloud REST Client}
+  s.files = Dir['Rakefile', 'credentials.yml', 'lib/**/*.rb', 'init.rb']
   s.test_files= Dir.glob("specs/**/**")
+  s.extra_rdoc_files = Dir["COPYING"]
+
+  s.add_dependency('rest-client', '>= 1.3.1')
 end
