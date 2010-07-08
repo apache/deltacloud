@@ -68,7 +68,7 @@ module Drivers
           end
         end
       end
-      images
+      images.sort_by{|e| [e[:owner_id],e[:description]]}
     end
 
     # 
