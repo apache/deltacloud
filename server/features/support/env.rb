@@ -13,15 +13,21 @@ CONFIG = YAML::load_file(File::join('features', 'support', ENV['API_DRIVER'], 'c
 World do
   def app
     @app = Rack::Builder.new do
+      set :logging, true
       run Sinatra::Application
     end
-  end
+ end
 
   def replace_variables(str)
     CONFIG.keys.collect { |k| str.gsub!(/\<#{k.to_s.upcase}\>/, "#{CONFIG[k]}") }
     return str
   end
 
+  Before do
+    header 'Accept', 'application/xml'
+  end
+
   include Rack::Test::Methods
+
 end
 

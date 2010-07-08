@@ -130,6 +130,7 @@ class MockDriver < Deltacloud::BaseDriver
     Dir[ "#{@storage_root}/images/*.yml" ].each do |image_file|
       image = YAML.load( File.read( image_file ) )
       image[:id] = File.basename( image_file, ".yml" )
+      image[:name] = image[:description]
       images << Image.new( image )
     end
     images = filter_on( images, :id, opts )

@@ -85,7 +85,9 @@ end
 
 Then /^(.+) should include (.+) parameter$/ do |model, parameter|
   Nokogiri::XML(last_response.body).xpath("/#{model.tr(' ', '-')}/#{parameter}").first.should_not == nil
-  Nokogiri::XML(last_response.body).xpath("/#{model.tr(' ', '-')}/#{parameter}").first.text.should_not == ''
+  unless ['device'].include?(parameter)
+    Nokogiri::XML(last_response.body).xpath("/#{model.tr(' ', '-')}/#{parameter}").text.should_not == ""
+  end
 end
 
 Given /^I am authorized to (list) (.+)$/ do |operation, collection|

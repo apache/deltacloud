@@ -25,8 +25,6 @@ Feature: Working with storage volumes
     Given I am authorized to show storage volume '<STORAGE_VOLUME_ID>'
     When I request for '<STORAGE_VOLUME_ID>' storage volume
     Then I should get this storage volume
-    And I could follow instance href attribute
-    And this attribute should point me to valid instance
 
   Scenario: I want filter storage volumes by state
     Given I am authorized to list storage volumes
