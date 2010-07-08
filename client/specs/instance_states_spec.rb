@@ -37,7 +37,7 @@ describe "instance-states" do
       instance_states.should_not be_nil
       instance_states.should_not be_empty
 
-      instance_states[0].name.should eql( 'begin' )
+      instance_states[0].name.should eql( 'start' )
       instance_states[0].transitions.size.should eql( 1 )
       instance_states[0].transitions[0].should_not be_auto
 

@@ -39,11 +39,11 @@ module Deltacloud
     def instance_actions_for(state)
       actions = []
       state_key = state.downcase.to_sym
-      states = instance_states()
-      current_state = states.find{|e| e.first == state.downcase.to_sym }
+      states = instance_state_machine.states()
+      current_state = states.find{|e| e.name == state.underscore.to_sym }
       if ( current_state )
-        actions = current_state.last.values.uniq
-        actions.reject!{|e| e == :_auto_}
+        actions = current_state.transitions.collect{|e|e.action}
+        actions.reject!{|e| e.nil?}
       end
       actions
     end
