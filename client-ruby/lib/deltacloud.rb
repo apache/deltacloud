@@ -4,6 +4,7 @@ require 'logger'
 require 'rexml/document'
 
 require 'models/flavor'
+require 'models/realm'
 require 'models/image'
 require 'models/instance'
 require 'models/storage_volume'
@@ -60,6 +61,39 @@ class DeltaCloud
   def fetch_flavor(uri)
     xml = fetch_resource( :flavor, uri )
     return Flavor.new( self, uri, xml ) if xml
+    nil
+  end
+
+  def realms(opts={})
+    realms = []
+    request( entry_points[:realms], :get, opts ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'realms/realm' ).each do |realm|
+          uri = realm.attributes['href']
+          realms << Realm.new( self, uri, realm )
+        end
+      end
+    end
+    realms
+  end
+
+  def realm(id)
+    request( entry_points[:realms], :get, {:id=>id } ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'realms/realm' ).each do |realm|
+          uri = realm.attributes['href']
+          return Realm.new( self, uri, realm )
+        end
+      end
+    end
+    nil
+  end
+
+  def fetch_realm(uri)
+    xml = fetch_resource( :realm, uri )
+    return Realm.new( self, uri, xml ) if xml
     nil
   end
 
