@@ -40,7 +40,7 @@ module DCloud
       end
 
       def to_plain
-        sprintf("%-15s | %-15s | %-15s | %10s | %32s | %32s", 
+        sprintf("%-15s | %-15s | %-15s | %10s | %32s | %32s",
           self.id ? self.id[0,15] : '-',
           self.name ? self.name[0,15] : 'unknown',
           self.image.name ? self.image.name[0,15] : 'unknown',

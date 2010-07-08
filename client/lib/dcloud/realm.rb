@@ -45,10 +45,10 @@ module DCloud
       end
 
       def to_plain
-        sprintf("%-10s | %-15s | %-5s | %10s GB", 
-          self.id[0, 10], 
-          self.name[0, 15], 
-          self.state[0,5], 
+        sprintf("%-10s | %-15s | %-5s | %10s GB",
+          self.id[0, 10],
+          self.name[0, 15],
+          self.state[0,5],
           self.limit.to_s[0,10]
         )
       end
