@@ -14,7 +14,7 @@
           %property{:kind => 'fixed', :name => p, :value => v, :unit => Deltacloud::HardwareProfile::unit(p)}
       %actions
         - instance.actions.compact.each do |action|
-          %link{:rel => action, :href => self.send("#{action}_instance_url", action.id)}
+          %link{:rel => action, :href => self.send("#{action}_instance_url", instance.id)}
       - haml_tag :"public-addresses" do
         - instance.public_addresses.each do |address|
           %address  #{address}
