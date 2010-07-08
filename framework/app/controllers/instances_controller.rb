@@ -10,9 +10,9 @@ class InstancesController < ApplicationController
     @instances = driver.instances( credentials, @filter )
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json
-      format.xml { 
+      format.xml {
         render :xml=>convert_to_xml( :instance, @instances )
       }
     end
@@ -26,16 +26,11 @@ class InstancesController < ApplicationController
         render :text=>'resource not found', :status=>404 and return unless @instance
       }
       format.json
-      format.xml { 
+      format.xml {
         render :nothing=>true, :status=>404 and return unless @instance
         render :xml=>convert_to_xml( :instance, @instance )
       }
     end
-  end
-
-  def destroy
-    driver.delete_instance( credentials, params[:id] )
-    redirect_to :action=>:show
   end
 
   def new
@@ -58,7 +53,7 @@ class InstancesController < ApplicationController
                         :id=>params[:id],
                         :image_id=>params[:image_id],
                       } )
-          render :action=>:new and return 
+          render :action=>:new and return
         end
         instance = driver.create_instance( credentials, @image.id, params[:flavor_id] )
         redirect_to instance_url( instance.id )
@@ -73,9 +68,20 @@ class InstancesController < ApplicationController
 
   ##
 
-  def stop
+  def start
+    driver.start_instance(credentials, params[:id])
+    redirect_to :action=>:show
   end
 
+  def stop
+    driver.stop_instance(credentials, params[:id])
+    redirect_to :action=>:show
+  end
+
+  def destroy
+    driver.delete_instance( credentials, params[:id] )
+    redirect_to :action=>:show
+  end
 
   def reboot
     driver.reboot_instance( credentials, params[:id] )

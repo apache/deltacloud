@@ -22,11 +22,18 @@ module DeltaCloud
       return images.first unless images.empty?
       nil
     end
-    
+
     def instance(credentials, opts)
       instances = instances(credentials, opts)
       return instances.first unless instances.empty?
       nil
+    end
+
+    def start_instance(credentials, id)
+    end
+    def stop_instance(credentials, id)
+    end
+    def reboot_instance(credentials, id)
     end
 
     def volume(credentials, opts)

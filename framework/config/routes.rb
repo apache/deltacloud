@@ -4,14 +4,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller=>'root'
 
-  map.resource :api, :controller=>'Api' 
+  map.resource :api, :controller=>'Api'
 
   map.resources :flavors, :path_prefix=>'api'
 
   map.resources :images, :path_prefix=>'api'
   map.resources :instances, :path_prefix=>'api',
-    :member=>{ 
-      :stop=>:put,
+    :member=>{
+      :delete=>:post,
+      :stop=>:post,
+      :start=>:post,
       :reboot=>:post,
     }
   map.resource :storage, :path_prefix=>'api' do |s|
@@ -38,7 +40,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # Sample resource route with sub-resources:
   #   map.resources :products, :has_many => [ :comments, :sales ], :has_one => :seller
-  
+
   # Sample resource route with more complex sub-resources
   #   map.resources :products do |products|
   #     products.resources :comments
