@@ -19,11 +19,14 @@ class AccountsController < ApplicationController
 
   def show
     @account = driver.account( credentials, params[:id] )
-    puts @account.inspect
     respond_to do |format|
-      format.html
+      format.html { 
+        @images = driver.images( credentials, @account[:image_ids] )
+      }
       format.json
-      format.xml { render :xml=>@account.to_xml( :link_builder=>self ) }
+      format.xml { 
+        render :xml=>@account.to_xml( :link_builder=>self ) 
+      }
     end
   end
 

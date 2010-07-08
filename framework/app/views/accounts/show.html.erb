@@ -1,4 +1,4 @@
-<h1><%= @account.id %></h1>
+<h1><%= @account[:id] %></h1>
 
 <h2>Instances</h2>
 
@@ -8,10 +8,10 @@
       Instance ID
     </th>
   </tr>
-  <% for instance in @account.instances %>
+  <% for instance_id in @account[:instance_ids] %>
     <tr>
       <td>
-        <%= link_to instance, instance %>
+        <%= link_to instance_id, instance_url( instance_id ) %>
       </td>
     </tr>
   <% end %>
@@ -24,11 +24,17 @@
     <th>
       Image ID
     </th>
+    <th>
+      Description
+    </th>
   </tr>
-  <% for image in @account.images %>
+  <% for image in @images %>
     <tr>
       <td>
-        <%= link_to image, image %>
+        <%= link_to image[:id], image_url( image[:id] ) %>
+      </td>
+      <td>
+        <%= image[:description] %>
       </td>
     </tr>
   <% end %>

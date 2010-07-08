@@ -24,9 +24,9 @@ Rails::Initializer.run do |config|
   #config.gem "activerecord-jdbc-adapter",
              #:lib=>'jdbc_adapter'
 
-  config.gem "torquebox-gem"
+  #config.gem "torquebox-gem"
 
-  config.gem "torquebox-rails"
+  #config.gem "torquebox-rails"
   config.gem "right_aws"
 
   # Only load the plugins named here, in the order given (default is alphabetical).

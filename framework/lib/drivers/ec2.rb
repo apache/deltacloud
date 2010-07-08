@@ -79,16 +79,16 @@ module Drivers
 
     def account(credentials, id)
       ec2 = new_client( credentials )
-      images = []
+      image_ids = []
       ec2.describe_images_by_owner(id).each do |ec2_image|
-        images << convert_image( ec2_image )
+        image_ids << ec2_image[:aws_id]
       end
-      instances = []
-      Account.new( {
+      instance_ids = []
+      {
         :id=>id,
-        :images=>images,
-        :instances=>instances,
-      } )
+        :image_ids=>image_ids,
+        :instance_ids=>instance_ids,
+      } 
     end
 
     def create_instance(credentials, image_id)
@@ -128,20 +128,20 @@ module Drivers
     end
 
     def convert_image(ec2_image)
-      Image.new( {
+      {
         :id=>ec2_image[:aws_id], 
         :description=>ec2_image[:aws_location],
-        :owner=>Account.new( :id=>ec2_image[:aws_owner] ),
+        :owner_id=>ec2_image[:aws_owner],
         :architecture=>ec2_image[:aws_architecture],
-      } )
+      } 
     end
    
     def convert_instance(ec2_instance)
       {
         :id=>ec2_instance[:aws_instance_id], 
         :state=>ec2_instance[:aws_state].upcase,
-        :image_id=>Image.new( :id=>ec2_instance[:aws_image_id] ),
-        :owner=>Account.new( :id=>ec2_instance[:aws_owner] ),
+        :image_id=>ec2_instance[:aws_image_id],
+        :owner_id=>ec2_instance[:aws_owner],
         :public_address=>( ec2_instance[:dns_name] == '' ? nil : ec2_instance[:dns_name] ),
         :private_address=>( ec2_instance[:private_dns_name] == '' ? nil : ec2_instance[:private_dns_name] ),
       } 

@@ -35,16 +35,16 @@ class InstancesController < ApplicationController
   end
 
   def new
-    @instance = Instance.new( {
+    @instance = {
                   :new_record=>true,
                   :id=>params[:id],
-                  :image=>Image.new( :id=>params[:image_id] ),
-                } )
+                  :image_id=>params[:image_id],
+                } 
   end
 
   def create
-    instance = driver.create_instance( credentials, params[:instance][:image] )
-    redirect_to instance
+    instance = driver.create_instance( credentials, params[:image_id] )
+    redirect_to instance_url( instance[:id] )
   end
 
   ##

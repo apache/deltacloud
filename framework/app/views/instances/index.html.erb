@@ -21,21 +21,21 @@
   <% for instance in @instances %>
     <tr>
       <td>
-        <%= link_to instance.id, instance %>
+        <%= link_to instance[:id], instance_url( instance[:id] ) %>
       </td>
       <td>
-        <%= link_to instance.owner.id, instance.owner %>
+        <%= link_to instance[:owner_id], account_url( instance[:owner_id] ) %>
       </td>
       <td>
-        <%= link_to instance.image.id, instance.image %>
+        <%= link_to instance[:image_id], image_url( instance[:image_id] ) %>
       </td>
       <td>
-        <%= instance.state %>
+        <%= instance[:state] %>
       </td>
       <td>
-        <% instance.class.actions.each do |action| %>
-          <%= link_to action, polymorphic_url( instance, :action=>action ), :method=>:post %>
-        <% end %>
+        <%# instance.class.actions.each do |action| %>
+          <%#= link_to action, polymorphic_url( instance, :action=>action ), :method=>:post %>
+        <%# end %>
       </td>
     </tr>
   <% end %>

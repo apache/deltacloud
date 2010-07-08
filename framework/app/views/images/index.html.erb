@@ -16,13 +16,13 @@
   <% for image in @images %>
     <tr>
       <td>
-        <%= link_to image, image %>
+        <%= link_to image[:id], image_url( image[:id] ) %>
       </td>
       <td>
-        <%= link_to image.owner, image.owner %>
+        <%= link_to image[:owner_id], account_url( image[:owner_id] ) %>
       </td>
       <td>
-        <%= image.description %>
+        <%= image[:description] %>
       </td>
     </tr>
   <% end %>
