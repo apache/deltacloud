@@ -27,7 +27,15 @@ def driver_mock_source_name
 end
 
 def driver
-  require driver_source_name
+
+  begin
+    require driver_source_name
+  rescue LoadError => e
+    gem_name = e.message.match(/ -- (.+)$/).to_a.last
+    gem_name = "amazon-ec2" if gem_name.eql?('AWS')
+    $stderr.puts "ERROR: Please install required gem first. (gem install #{gem_name})"
+    exit 1
+  end
 
   if Sinatra::Application.environment.eql? :test
     require driver_mock_source_name
