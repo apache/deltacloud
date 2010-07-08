@@ -12,5 +12,3 @@ require 'deltacloud/models/image'
 require 'deltacloud/models/instance'
 require 'deltacloud/models/storage_snapshot'
 require 'deltacloud/models/storage_volume'
-
-require 'deltacloud/helpers'

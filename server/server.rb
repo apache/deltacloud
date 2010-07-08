@@ -11,6 +11,7 @@ require 'sinatra/static_assets'
 require 'sinatra/rabbit'
 require 'sinatra/lazy_auth'
 require 'deltacloud/validation'
+require 'deltacloud/helpers'
 
 configure do
   set :raise_errors => false
