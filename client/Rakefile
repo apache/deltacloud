@@ -20,6 +20,11 @@ require 'spec/rake/spectask'
 
 load 'deltacloud-client.gemspec'
 
+desc "Generate documentation"
+task 'documentation' do
+  load 'lib/documentation.rb'
+end
+
 Rake::GemPackageTask.new(@spec) do |pkg|
   pkg.need_tar = true
 end
@@ -27,9 +32,6 @@ end
 desc "Run all examples"
 Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_files = FileList['specs/**/*_spec.rb']
-  t.spec_opts = [
-    '--format html:spec_report.html'
-  ]
 end
 
 desc "Setup Fixtures"
