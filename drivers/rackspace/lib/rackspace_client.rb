@@ -3,7 +3,10 @@ require "net/https"
 require 'rubygems'
 require 'json'
 
-
+#
+# author: Michael Neale
+# TODO: catch generic errors in JSON response and throw (probably)
+#
 class RackspaceClient
 
   @@AUTH_API = URI.parse('https://auth.api.rackspacecloud.com/v1.0')
