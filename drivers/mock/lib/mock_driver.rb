@@ -42,11 +42,34 @@ class MockDriver < DeltaCloud::BaseDriver
     }),
   ] ) unless defined?( FLAVORS )
 
+  ( REALMS = [
+    Realm.new({
+      :id=>'us',
+      :name=>'United States',
+      :limit=>:unlimited,
+      :state=>'AVAILABLE',
+    }),
+    Realm.new({
+      :id=>'eu',
+      :name=>'Europe',
+      :limit=>:unlimited,
+      :state=>'AVAILABLE',
+    }),
+  ] ) unless defined?( REALMS )
+
+
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
     results = FLAVORS
     results = filter_on( results, :id, opts )
     results = filter_on( results, :architecture, opts )
+    results
+  end
+
+  def realms(credentials, opts=nil)
+    return REALMS if ( opts.nil? )
+    results = REALMS
+    results = filter_on( results, :id, opts )
     results
   end
 
@@ -96,13 +119,32 @@ class MockDriver < DeltaCloud::BaseDriver
     check_credentials( credentials )
     ids = Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].collect{|e| File.basename( e, ".yml" )}
     next_id = ids.sort.last.succ
+
+    realm_id = opts[:realm_id]
+    if ( realm_id.nil? )
+      realm = realms(credentials).first
+      ( realm_id = realm.id ) if realm
+    end
+
+    flavor_id = opts[:flavor_id]
+    if ( flavor_id.nil? )
+      image = image(credentials, :id=>image_id )
+      flavor = flavors(credentials, :architecture=>image.architecture).first
+      (flavor_id = flavor.id ) if flavor
+    end
+
     instance = {
       :state=>'RUNNING',
       :image_id=>image_id,
       :owner_id=>credentials[:name],
       :public_addresses=>["#{image_id}.#{next_id}.public.com"],
       :private_addresses=>["#{image_id}.#{next_id}.private.com"],
+<<<<<<< HEAD
       :flavor_id=>opts[:flavor_id],
+=======
+      :flavor_id=>flavor_id,
+      :realm_id=>realm_id,
+>>>>>>> Add realm support.
       :actions=>[ :reboot ],
     }
     File.open( "#{STORAGE_ROOT}/instances/#{next_id}.yml", 'w' ) {|f|
