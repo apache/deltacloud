@@ -3,6 +3,10 @@ require 'net/http'
 require 'logger'
 require 'rexml/document'
 
+require 'models/flavor'
+require 'models/image'
+require 'models/instance'
+
 class DeltaCloud
 
   attr_accessor :logger
@@ -30,7 +34,8 @@ class DeltaCloud
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'flavors/flavor' ).each do |flavor|
-          flavors << convert( :flavor, flavor )
+          uri = flavor.attributes['href']
+          flavors << Flavor.new( self, uri, build_hash( flavor ) )
         end
       end
     end
@@ -47,7 +52,8 @@ class DeltaCloud
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'images/image' ).each do |image|
-          images << convert( :image, image )
+          uri = image.attributes['href']
+          images << Image.new( self, uri, build_hash( image ) )
         end
       end
     end
@@ -60,11 +66,19 @@ class DeltaCloud
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'instances/instance' ).each do |instance|
-          instances << convert( :instance, instance )
+          uri = instance.attributes['href']
+          instances << Instance.new( self, uri, build_hash( instance ) )
         end
       end
     end
     instances
+  end
+
+  def fetch(uri)
+    request( uri ) do |response|
+      doc = REXML::Document.new( response.body )
+      return build_hash( doc.root )
+    end
   end
 
   def api_host
@@ -81,23 +95,13 @@ class DeltaCloud
 
   private
 
-  CONVERSIONS = {
-    :flavor=>{
-      :storage=>:to_f,
-      :memory=>:to_f,
-    }
-  }
-
   attr_reader :http
 
-  def convert(type, elem)
+  def build_hash(elem)
     hash = {}
     elem.elements.each do |element|
       key = element.name.gsub( /-/, '_' ).to_sym
       value = element.text
-      conversions = CONVERSIONS[type]
-      ( conversion = conversions[key] ) if conversions
-      ( value = value.send( conversion ) ) if conversion
       hash[key] = value
     end
     hash

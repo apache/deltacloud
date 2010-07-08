@@ -9,14 +9,14 @@ describe "images" do
       images.should_not be_empty
       images.size.should eql( 3 )
       images.each do |image|
-        image[:id].should_not be_nil
-        image[:id].should be_a(String)
-        image[:description].should_not be_nil
-        image[:description].should be_a(String)
-        image[:architecture].should_not be_nil
-        image[:architecture].should be_a(String)
-        image[:owner_id].should_not be_nil
-        image[:owner_id].should be_a(String)
+        image.uri.should_not be_nil
+        image.uri.should be_a(String)
+        image.description.should_not be_nil
+        image.description.should be_a(String)
+        image.architecture.should_not be_nil
+        image.architecture.should be_a(String)
+        image.owner_id.should_not be_nil
+        image.owner_id.should be_a(String)
       end
     end
   end 
@@ -27,14 +27,14 @@ describe "images" do
       images.should_not be_empty
       images.size.should eql( 1 )
       images.each do |image|
-        image[:id].should_not be_nil
-        image[:id].should be_a(String)
-        image[:description].should_not be_nil
-        image[:description].should be_a(String)
-        image[:architecture].should_not be_nil
-        image[:architecture].should be_a(String)
-        image[:owner_id].should_not be_nil
-        image[:owner_id].should be_a(String)
+        image.uri.should_not be_nil
+        image.uri.should be_a(String)
+        image.description.should_not be_nil
+        image.description.should be_a(String)
+        image.architecture.should_not be_nil
+        image.architecture.should be_a(String)
+        image.owner_id.should_not be_nil
+        image.owner_id.should be_a(String)
       end
     end
   end
