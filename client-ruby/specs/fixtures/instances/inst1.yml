@@ -4,3 +4,4 @@
 :public_addresses: [ img3.inst1.public.com ]
 :private_addresses: [ img3.inst1.private.com ]
 :flavor_id: m1-small
+:realm_id: us

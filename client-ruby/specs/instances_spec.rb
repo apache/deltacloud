@@ -58,17 +58,51 @@ describe "instances" do
     end
   end
 
-  it "should allow creation of new instances" do
+  it "should allow creation of new instances with reasonable defaults" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.create_instance( 'img1', 'm1-small' )
+      instance = client.create_instance( 'img1' )
       instance.should_not be_nil
       instance.uri.should eql( API_URL + '/instances/inst3' )
       instance.id.should eql( 'inst3' )
+      instance.image.id.should eql( 'img1' )
+      instance.flavor.id.should eql( 'm1-large' )
+      instance.realm.id.should eql( 'us' )
+    end
+  end
 
-      instance = client.create_instance( 'img1', 'm1-small' )
+  it "should allow creation of new instances with specific realm" do
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      instance = client.create_instance( 'img1', :realm=>'eu' )
       instance.should_not be_nil
-      instance.uri.should eql( API_URL + '/instances/inst4' )
-      instance.id.should eql( 'inst4' )
+      instance.uri.should eql( API_URL + '/instances/inst3' )
+      instance.id.should eql( 'inst3' )
+      instance.image.id.should eql( 'img1' )
+      instance.flavor.id.should eql( 'm1-large' )
+      instance.realm.id.should eql( 'eu' )
+    end
+  end
+
+  it "should allow creation of new instances with specific flavor" do
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      instance = client.create_instance( 'img1', :flavor=>'m1-xlarge' )
+      instance.should_not be_nil
+      instance.uri.should eql( API_URL + '/instances/inst3' )
+      instance.id.should eql( 'inst3' )
+      instance.image.id.should eql( 'img1' )
+      instance.flavor.id.should eql( 'm1-xlarge' )
+      instance.realm.id.should eql( 'us' )
+    end
+  end
+
+  it "should allow creation of new instances with specific realm and flavor" do
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      instance = client.create_instance( 'img1', :realm=>'eu', :flavor=>'m1-xlarge' )
+      instance.should_not be_nil
+      instance.uri.should eql( API_URL + '/instances/inst3' )
+      instance.id.should eql( 'inst3' )
+      instance.image.id.should eql( 'img1' )
+      instance.flavor.id.should eql( 'm1-xlarge' )
+      instance.realm.id.should eql( 'eu' )
     end
   end
 

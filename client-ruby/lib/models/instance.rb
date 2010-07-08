@@ -12,6 +12,7 @@ class Instance < BaseModel
   attribute :actions
   attribute :image
   attribute :flavor
+  attribute :realm
 
   def initialize(client, uri, xml=nil)
     super( client, uri, xml )
@@ -33,6 +34,8 @@ class Instance < BaseModel
       @image = Image.new( @client, image_uri )
       flavor_uri = xml.get_elements( 'flavor' )[0].attributes['href']
       @flavor = Flavor.new( @client, flavor_uri )
+      realm_uri = xml.get_elements( 'realm' )[0].attributes['href']
+      @realm = Realm.new( @client, realm_uri )
       @state = xml.text( 'state' )
       @actions = []
       xml.get_elements( 'actions/link' ).each do |link|

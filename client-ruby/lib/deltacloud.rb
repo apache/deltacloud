@@ -192,8 +192,16 @@ class DeltaCloud
     nil
   end
 
-  def create_instance(image_id, flavor_id)
-    request( entry_points[:instances], :post, {}, { 'image_id'=>image_id, 'flavor_id'=>flavor_id} ) do |response|
+  def create_instance(image_id, opts={})
+    realm_id = opts[:realm]
+    flavor_id = opts[:flavor]
+
+    params = {}
+    ( params[:realm_id] = realm_id ) if realm_id
+    ( params[:flavor_id] = flavor_id ) if flavor_id
+
+    params[:image_id] = image_id
+    request( entry_points[:instances], :post, {}, params ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         instance = doc.root
