@@ -34,7 +34,7 @@ module Drivers
     # Instances
     # 
 
-    def instances(credentials, *ids)
+    def instances(credentials, ids)
       ec2 = new_client(credentials)
       instances = []
       safely do

@@ -2,12 +2,13 @@
 module Converters
 
   ALIASES = {
-    :owner=>:account
+    :owner=>nil
   }
 
-  def self.get_url_type(type)
+  def self.url_type(type)
     type = type.to_sym
-    ALIASES[type] || type
+    return ALIASES[type] if ( ALIASES.keys.include?( type ) )
+    type
   end
 
   def self.tag_name(type)
@@ -44,8 +45,12 @@ module Converters
               end
             elsif ( k.to_s =~/^(.*)_id$/ )
               type = $1
-              url_type = Converters.get_type( $1 )
-              builder.__send__( type, :href=>@link_builder.send( "#{url_type}_url", v ) )
+              url_type = Converters.url_type( $1 )
+              unless ( url_type.nil? )
+                builder.__send__( type, :href=>@link_builder.send( "#{url_type}_url", v ) )
+              else
+                builder.__send__( "#{type}_id", v )
+              end
             else
               builder.__send__( Converters.tag_name( k ), v )
             end
