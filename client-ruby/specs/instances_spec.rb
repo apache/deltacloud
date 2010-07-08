@@ -56,7 +56,6 @@ describe "instances" do
       instance.state.should eql( "RUNNING" )
       instance.actions.should_not be_nil
     end
-  
   end
 
   it "should allow creation of new instances" do

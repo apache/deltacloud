@@ -30,7 +30,7 @@ class DeltaCloud
 
   def flavors(opts={})
     flavors = []
-    request( entry_points[:flavors] ) do |response|
+    request( entry_points[:flavors], :get, opts ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         doc.get_elements( 'flavors/flavor' ).each do |flavor|
@@ -40,6 +40,23 @@ class DeltaCloud
       end
     end
     flavors 
+  end
+
+  def flavor(id)
+    request( entry_points[:flavors], :get, {:id=>id } ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'flavors/flavor' ).each do |flavor|
+          uri = flavor.attributes['href']
+          return Flavor.new( self, uri, flavor )
+        end
+      end
+    end
+    nil
+  end
+
+  def fetch_flavor(uri)
+    return Flavor.new( self, uri, fetch_resource( :flavor, uri ) )
   end
 
   def images(opts={})
