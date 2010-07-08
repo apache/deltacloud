@@ -20,7 +20,7 @@ module DCloud
     class BaseModel
 
       def self.xml_tag_name(name=nil)
-        unless ( name.nil? ) 
+        unless ( name.nil? )
           @xml_tag_name = name
         end
         @xml_tag_name || self.class.name.downcase.to_sym
@@ -54,7 +54,7 @@ module DCloud
         @id
       end
 
-     
+
       protected
 
       attr_reader :client
@@ -68,7 +68,7 @@ module DCloud
       def load_payload(xml=nil)
         unless ( xml.nil? )
           @loaded = true
-          @id = xml.text( 'id' ) 
+          @id = xml.text( 'id' )
         end
       end
 

@@ -45,7 +45,7 @@ describe "instances" do
         instance.private_addresses.should be_a( Array )
       end
     end
-  end 
+  end
 
   it "should allow navigation from instance to image" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|

@@ -38,7 +38,7 @@ describe "images" do
         image.owner_id.should be_a(String)
       end
     end
-  end 
+  end
 
   it "should allow retrieval of my own images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|

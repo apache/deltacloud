@@ -27,7 +27,7 @@ module Deltacloud
 
     def method_missing(sym,*args)
       return state( sym ) if ( args.empty? )
-      super( sym, *args )  
+      super( sym, *args )
     end
 
     class State
@@ -40,13 +40,13 @@ module Deltacloud
         @name    = name
         @transitions = []
       end
-     
+
       def to_s
         self.name.to_s
       end
 
       def to(destination_name)
-        destination = @machine.state(destination_name) 
+        destination = @machine.state(destination_name)
         transition = Transition.new( @machine, destination )
         @transitions << transition
         transition
@@ -77,7 +77,7 @@ module Deltacloud
       def on(action)
         @action = action
       end
-    
+
     end
 
   end

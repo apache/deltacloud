@@ -37,7 +37,7 @@ describe "flavors" do
         flavor.memory.should be_a(Float)
       end
     end
-  end 
+  end
 
   it "should allow filtering of flavors by architecture" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|

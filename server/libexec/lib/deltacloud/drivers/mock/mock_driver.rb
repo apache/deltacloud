@@ -192,7 +192,7 @@ class MockDriver < Deltacloud::BaseDriver
     instance_yml  = YAML.load( File.read( instance_file ) )
     instance_yml[:state] = 'RUNNING'
     File.open( instance_file, 'w' ) do |f|
-      f << YAML.dump( instance_yml ) 
+      f << YAML.dump( instance_yml )
     end
     Instance.new( instance_yml )
   end
@@ -202,7 +202,7 @@ class MockDriver < Deltacloud::BaseDriver
     instance_yml  = YAML.load( File.read( instance_file ) )
     instance_yml[:state] = 'RUNNING'
     File.open( instance_file, 'w' ) do |f|
-      f << YAML.dump( instance_yml ) 
+      f << YAML.dump( instance_yml )
     end
     Instance.new( instance_yml )
   end

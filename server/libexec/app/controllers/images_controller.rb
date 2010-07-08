@@ -29,10 +29,10 @@ class ImagesController < ApplicationController
     @images = driver.images( credentials, @filter )
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json
-      format.xml { 
-        render :xml=>convert_to_xml( :image, @images ) 
+      format.xml {
+        render :xml=>convert_to_xml( :image, @images )
       }
     end
   end
@@ -43,8 +43,8 @@ class ImagesController < ApplicationController
     respond_to do |format|
       format.html
       format.json
-      format.xml { 
-        render :xml=>convert_to_xml( :image, @image ) 
+      format.xml {
+        render :xml=>convert_to_xml( :image, @image )
       }
     end
   end

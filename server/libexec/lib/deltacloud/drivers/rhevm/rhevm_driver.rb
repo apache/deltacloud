@@ -162,7 +162,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   #
   # Instances
   #
-  
+
   define_instance_states do
     start.to(:stopped)            .on( :create )
 

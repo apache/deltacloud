@@ -37,7 +37,7 @@ module DCloud
         unless xml.nil?
           @description = xml.text( 'description' )
           @owner_id = xml.text( 'owner_id' )
-          @name = xml.text( 'name' )          
+          @name = xml.text( 'name' )
           @architecture = xml.text( 'architecture' )
         end
       end

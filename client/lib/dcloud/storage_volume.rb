@@ -43,7 +43,7 @@ module DCloud
           if ( ! instances.empty? )
             instance = instances.first
             instance_href = instance.attributes['href']
-            if ( instance_href ) 
+            if ( instance_href )
               @instance = Instance.new( @client, instance_href )
             end
           end

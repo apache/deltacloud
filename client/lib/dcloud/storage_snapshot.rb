@@ -40,7 +40,7 @@ module DCloud
           if ( ! storage_volumes.empty? )
             storage_volume = storage_volumes.first
             storage_volume_href = storage_volume.attributes['href']
-            if ( storage_volume_href ) 
+            if ( storage_volume_href )
               @storage_volume = StorageVolume.new( @client, storage_volume_href )
             end
           end

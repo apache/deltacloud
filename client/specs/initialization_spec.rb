@@ -33,7 +33,7 @@ describe "initializing the client" do
       client.entry_points[:instances].should         eql( "#{API_URL}/instances" )
       client.entry_points[:storage_volumes].should   eql( "#{API_URL}/storage/volumes" )
       client.entry_points[:storage_snapshots].should eql( "#{API_URL}/storage/snapshots" )
-    end  
+    end
   end
 
   it "should provide the current driver name via client" do

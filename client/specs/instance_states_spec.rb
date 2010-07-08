@@ -50,7 +50,7 @@ describe "instance-states" do
       includes_transition( instance_states[2].transitions, :reboot, :running ).should be_true
       includes_transition( instance_states[2].transitions, :stop, :stopped ).should be_true
     end
-  end 
+  end
 
   it "should allow retrieval of a single instance-state blob" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|

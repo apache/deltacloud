@@ -31,7 +31,7 @@ module Deltacloud
 class RackspaceClient
 
   @@AUTH_API = URI.parse('https://auth.api.rackspacecloud.com/v1.0')
-  
+
   def initialize(username, auth_key)
     http = Net::HTTP.new(@@AUTH_API.host,@@AUTH_API.port)
     http.use_ssl = true
@@ -42,7 +42,7 @@ class RackspaceClient
     @service.use_ssl = true
   end
 
-  def get(path) 
+  def get(path)
     @service.get(@service_uri.path + path, {"Accept" => "application/json", "X-Auth-Token" => @auth_token}).body
   end
 
@@ -50,16 +50,16 @@ class RackspaceClient
     JSON.parse(get('/flavors/detail'))['flavors']
   end
 
-  def list_images 
+  def list_images
     JSON.parse(get('/images/detail'))['images']
   end
 
-  def list_servers 
+  def list_servers
       JSON.parse(get('/servers/detail'))['servers']
   end
 
 
-  def load_server_details( server_id ) 
+  def load_server_details( server_id )
     JSON.parse(get("/servers/#{server_id}"))['server']
   end
 
@@ -79,7 +79,7 @@ class RackspaceClient
   end
 
 
-  def headers 
+  def headers
     {"Accept" => "application/json", "X-Auth-Token" => @auth_token, "Content-Type" => "application/json"}
   end
 

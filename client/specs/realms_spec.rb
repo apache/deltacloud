@@ -34,7 +34,7 @@ describe "realms" do
         realm.name.should be_a(String)
       end
     end
-  end 
+  end
 
 
   it "should allow fetching a realm by id" do

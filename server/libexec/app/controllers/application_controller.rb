@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   # filter_parameter_logging :password
 
 
-  protected 
+  protected
 
   def credentials
     creds = {}

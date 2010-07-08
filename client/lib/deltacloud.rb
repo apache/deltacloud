@@ -44,12 +44,12 @@ class DeltaCloud
   attr_reader :driver_name
 
   def initialize(name, password, api_uri, &block)
-    @logger       = Logger.new( STDERR ) 
+    @logger       = Logger.new( STDERR )
     @name         = name
     @password     = password
     @api_uri      = URI.parse( api_uri )
     @entry_points = {}
-    connect( &block ) 
+    connect( &block )
     self
   end
 
@@ -71,7 +71,7 @@ class DeltaCloud
         end
       end
     end
-    flavors 
+    flavors
   end
 
   def flavor(id)
@@ -101,7 +101,7 @@ class DeltaCloud
         doc.get_elements( 'states/state' ).each do |state_elem|
           state = DCloud::State.new( state_elem.attributes['name'] )
           state_elem.get_elements( 'transition' ).each do |transition_elem|
-            state.transitions << DCloud::Transition.new( 
+            state.transitions << DCloud::Transition.new(
                                    transition_elem.attributes['to'],
                                    transition_elem.attributes['action']
                                  )
@@ -245,7 +245,7 @@ class DeltaCloud
         uri = instance.attributes['href']
         return DCloud::Instance.new( self, uri, instance )
       end
-    end  
+    end
   end
 
   def storage_volumes()
@@ -276,7 +276,7 @@ class DeltaCloud
   end
 
   def fetch_storage_volume(uri)
-    xml = fetch_resource( :storage_volume, uri ) 
+    xml = fetch_resource( :storage_volume, uri )
     return DCloud::StorageVolume.new( self, uri, xml ) if xml
     nil
   end
@@ -309,7 +309,7 @@ class DeltaCloud
   end
 
   def fetch_storage_snapshot(uri)
-    xml = fetch_resource( :storage_snapshot, uri ) 
+    xml = fetch_resource( :storage_snapshot, uri )
     return DCloud::StorageSnapshot.new( self, uri, xml ) if xml
     nil
   end
@@ -324,7 +324,7 @@ class DeltaCloud
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
         if ( doc.root && ( doc.root.name == type.to_s.gsub( /_/, '-' ) ) )
-          return doc.root 
+          return doc.root
         end
       end
     end
@@ -374,7 +374,7 @@ class DeltaCloud
   end
 
   def request(path='', method=:get, query_args={}, form_data={}, &block)
-    if ( path =~ /^http/ ) 
+    if ( path =~ /^http/ )
       request_path = path
     else
       request_path = "#{api_path}#{path}"
@@ -383,7 +383,7 @@ class DeltaCloud
     if ( query_string != '' )
       request_path += "?#{query_string}"
     end
-     
+
     logger << "Request [#{method.to_s.upcase} #{request_path}]\n"
     request = eval( "Net::HTTP::#{method.to_s.capitalize}" ).new( request_path )
     request.basic_auth( @name, @password )
