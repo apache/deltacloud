@@ -57,7 +57,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   def statify(state)
     st = state.nil? ? "" : state.upcase()
     return "running" if st == "UP"
-    return "terminated" if st == "DOWN"
+    return "stopped" if st == "DOWN"
     return "pending" if st == "POWERING UP"
     st
   end
@@ -156,7 +156,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
         :stopped=>:_auto_ } ],
     [ :stopped, {
         :running=>:start,
-        :destroyed=>:destroy }],
+        :terminated=>:destroy }],
   ]
 
 
