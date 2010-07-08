@@ -141,8 +141,17 @@ class MockDriver < DeltaCloud::BaseDriver
   # Storage Snapshots
   # 
 
-  def snapshots(credentials, opts=nil)
+  def storage_snapshots(credentials, opts=nil)
+    check_credentials( credentials )
     snapshots = []
+    Dir[ "#{STORAGE_ROOT}/storage_snapshots/*.yml" ].each do |storage_snapshot_file|
+      storage_snapshot = YAML.load( File.read( storage_snapshot_file ) )
+      if ( storage_snapshot[:owner_id] == credentials[:name] )
+        storage_snapshot[:id] = File.basename( storage_snapshot_file, ".yml" )
+        snapshots << StorageSnapshot.new( storage_snapshot )
+      end
+    end
+    snapshots = filter_on( snapshots, :id, opts )
     snapshots
   end
 
