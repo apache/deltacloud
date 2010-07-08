@@ -48,10 +48,7 @@ module Sinatra
           rpi = request.path_info.sub(%r{\.([^\./]+)$}, '')
 
           if (not $1) or ($1 and TEXT_MIME_TYPES.include?($1.to_sym))
-
-            request.path_info=rpi
-            ext = nil
-
+            request.path_info, ext = rpi, nil
             if ! $1.nil?
               ext = $1
             elsif env['HTTP_ACCEPT'].nil? || env['HTTP_ACCEPT'].empty?
@@ -240,6 +237,13 @@ module Sinatra
       def match_accept_type(mime_types, format)
         selected = []
         accepted_types = mime_types.map {|type| Regexp.escape(type).gsub(/\\\*/,'.*') }
+        # Fix for Chrome based browsers which returns XML when 'xhtml' is requested.
+        if env['HTTP_USER_AGENT'] =~ /Chrome/ and accepted_types.size>1
+          accepted_types[0], accepted_types[1] = accepted_types[1], accepted_types[0]
+          if accepted_types[0].eql?('application/xhtml\\+xml')
+            accepted_types[0] = 'text/html'
+          end
+        end
         accepted_types.each do |at|
           format.each do |fmt, ht, handler|
             (selected = [fmt, ht, handler]) and break if ht.match(at)
