@@ -1,13 +1,16 @@
+SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
+Dir.chdir(SERVER_DIR)
+
 require 'sinatra'
-require 'server'
 require 'rack/test'
 require 'nokogiri'
+require '../server/server'
+require 'ap'
 
-SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../.."))
 Sinatra::Application.set :environment, :test
 Sinatra::Application.set :root, SERVER_DIR
 
-ENV['API_DRIVER'] = "mock" unless ENV['API_DRIVER']
+require '../server/lib/deltacloud/base_driver/mock_driver'
 
 CONFIG = {
   :username => 'mockuser',
@@ -32,6 +35,17 @@ World do
     unless @no_header
       header 'Accept', 'application/xml'
     end
+  end
+  
+  prefixes = %W{ @prefix-start, @prefix-reboot, @prefix-stop, @prefix-create, @prefix-create-hwp}
+
+  Before(prefixes.join(',')) do |scenario|
+    prefix = scenario.source_tag_names.first.gsub(/@prefix-/, '')
+    $scenario_prefix = prefix
+  end
+
+  After(prefixes.join(',')) do |scenario|
+    $scenario_prefix = nil
   end
 
   include Rack::Test::Methods

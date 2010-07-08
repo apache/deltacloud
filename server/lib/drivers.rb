@@ -24,14 +24,14 @@ end
 
 def driver_mock_source_name
   return File.join('deltacloud', 'drivers', DRIVER.to_s, "#{DRIVER}_driver.rb") if driver_name.eql? 'Mock'
-  File.join('deltacloud', 'drivers', DRIVER, "#{DRIVER}_mock_driver.rb")
 end
 
 def driver
   require driver_source_name
+  #require 'deltacloud/base_driver/mock_driver.rb'
 
   if Sinatra::Application.environment.eql? :test
-    require driver_mock_source_name
+    require driver_mock_source_name if driver_mock_source_name
   end
 
   @driver ||= eval( driver_class_name ).new
