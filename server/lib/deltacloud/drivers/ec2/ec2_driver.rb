@@ -94,9 +94,14 @@ class EC2Driver < Deltacloud::BaseDriver
   def images(credentials, opts={} )
     ec2 = new_client(credentials)
     img_arr = []
-    config = { :owner_id => "amazon" }
-    config.merge!({ :owner_id => opts[:owner_id] }) if opts and opts[:owner_id]
-    config.merge!({ :image_id => opts[:id] }) if opts and opts[:id]
+    # if we know the image_id, we don't want to limit by owner_id, since this
+    # will exclude public images
+    if (opts and opts[:id])
+      config = { :image_id => opts[:id] }
+    else
+      config = { :owner_id => "amazon" }
+      config.merge!({ :owner_id => opts[:owner_id] }) if opts and opts[:owner_id]
+    end
     safely do
       ec2.describe_images(config).imagesSet.item.each do |image|
         img_arr << convert_image(image)
