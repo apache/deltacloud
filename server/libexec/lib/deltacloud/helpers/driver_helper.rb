@@ -17,12 +17,14 @@
 
 
 require 'deltacloud/base_driver'
+require 'converters/xml_converter'
 
 module DriverHelper
 
-  def driver
-    load "#{DRIVER_CLASS_NAME.underscore}.rb"
-    @driver ||= eval( DRIVER_CLASS_NAME ).new
+  def convert_to_xml(type, obj)
+    if ( [ :flavor, :account, :image, :realm, :instance, :storage_volume, :storage_snapshot ].include?( type ) )
+      Converters::XMLConverter.new( self, type ).convert(obj)
+    end
   end
 
   def catch_auth
@@ -31,6 +33,15 @@ module DriverHelper
     rescue Deltacloud::AuthException => e
       authenticate_or_request_with_http_basic() do |n,p|
       end
+    end
+  end
+
+  def safely(&block)
+    begin
+      block.call
+    rescue Deltacloud::AuthException => e
+      @response.status=403
+      "<error>#{e.message}</error>"
     end
   end
 
