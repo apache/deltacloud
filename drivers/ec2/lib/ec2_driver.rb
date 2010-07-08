@@ -4,36 +4,36 @@ require 'right_aws'
 
 class Ec2Driver < DeltaCloud::BaseDriver
 
-  # 
+  #
   # Flavors
-  # 
-  FLAVORS = [ 
-    Flavor.new( { 
+  #
+  FLAVORS = [
+    Flavor.new( {
       :id=>'m1-small',
       :memory=>1.7,
       :storage=>160,
       :architecture=>'i386',
     } ),
     Flavor.new( {
-      :id=>'m1-large', 
+      :id=>'m1-large',
       :memory=>7.5,
       :storage=>850,
       :architecture=>'x86_64',
     } ),
-    Flavor.new( { 
-      :id=>'m1-xlarge', 
+    Flavor.new( {
+      :id=>'m1-xlarge',
       :memory=>15,
       :storage=>1690,
       :architecture=>'x86_64',
     } ),
-    Flavor.new( { 
-      :id=>'c1-medium', 
+    Flavor.new( {
+      :id=>'c1-medium',
       :memory=>1.7,
       :storage=>350,
       :architecture=>'x86_64',
     } ),
-    Flavor.new( { 
-      :id=>'c1-xlarge', 
+    Flavor.new( {
+      :id=>'c1-xlarge',
       :memory=>7,
       :storage=>1690,
       :architecture=>'x86_64',
@@ -55,9 +55,9 @@ class Ec2Driver < DeltaCloud::BaseDriver
     results
   end
 
-  # 
+  #
   # Images
-  # 
+  #
 
   def images(credentials, opts=nil )
     puts(opts)
@@ -66,20 +66,20 @@ class Ec2Driver < DeltaCloud::BaseDriver
     safely do
       if ( opts && opts[:id] )
         ec2.describe_images(opts[:id]).each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+          if ( ec2_image[:aws_id] =~ /^ami-/ )
             images << convert_image( ec2_image )
           end
         end
         filter_on( images, :owner_id, opts )
-      elsif ( opts && opts[:owner_id] ) 
+      elsif ( opts && opts[:owner_id] )
         ec2.describe_images_by_owner( opts[:owner_id] ).each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+          if ( ec2_image[:aws_id] =~ /^ami-/ )
             images << convert_image( ec2_image )
           end
         end
       else
         ec2.describe_images().each do |ec2_image|
-          if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+          if ( ec2_image[:aws_id] =~ /^ami-/ )
             images << convert_image( ec2_image )
           end
         end
@@ -90,9 +90,9 @@ class Ec2Driver < DeltaCloud::BaseDriver
     images.sort_by{|e| [e.owner_id,e.description]}
   end
 
-  # 
+  #
   # Instances
-  # 
+  #
 
   def instances(credentials, opts=nil)
     ec2 = new_client(credentials)
@@ -106,16 +106,16 @@ class Ec2Driver < DeltaCloud::BaseDriver
     instances
   end
 
-  def create_instance(credentials, image_id, flavor_id)
+  def create_instance(credentials, image_id, opts)
     ec2 = new_client( credentials )
-    ec2_instances = ec2.run_instances( 
-                          image_id, 
+    ec2_instances = ec2.run_instances(
+                          image_id,
                           1,1,
                           [],
                           nil,
                           '',
                           'public',
-                          flavor_id.gsub( /-/, '.' ) )
+                          opts[:flavor_id].gsub( /-/, '.' ) )
     convert_instance( ec2_instances.first )
   end
 
@@ -129,12 +129,12 @@ class Ec2Driver < DeltaCloud::BaseDriver
     ec2.terminate_instances( id )
   end
 
-  # 
+  #
   # Storage Volumes
-  # 
+  #
 
   def storage_volumes(credentials, opts=nil)
-    ec2 = new_client( credentials ) 
+    ec2 = new_client( credentials )
     volumes = []
     safely do
       if (opts)
@@ -150,12 +150,12 @@ class Ec2Driver < DeltaCloud::BaseDriver
     volumes
   end
 
-  # 
+  #
   # Storage Snapshots
-  # 
+  #
 
   def storage_snapshots(credentials, opts=nil)
-    ec2 = new_client( credentials ) 
+    ec2 = new_client( credentials )
     snapshots = []
     safely do
       if (opts)
@@ -174,7 +174,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
   private
 
   def new_client(credentials)
-    if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' ) 
+    if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
       raise DeltaCloud::AuthException.new
     end
     RightAws::Ec2.new(credentials[:name], credentials[:password], :cache=>false )
@@ -182,19 +182,19 @@ class Ec2Driver < DeltaCloud::BaseDriver
 
   def convert_image(ec2_image)
     Image.new( {
-      :id=>ec2_image[:aws_id], 
+      :id=>ec2_image[:aws_id],
       :description=>ec2_image[:aws_location],
       :owner_id=>ec2_image[:aws_owner],
       :architecture=>ec2_image[:aws_architecture],
     } )
   end
- 
+
   def convert_instance(ec2_instance)
     state = ec2_instance[:aws_state].upcase
     state_key = state.downcase.underscore.to_sym
 
     Instance.new( {
-      :id=>ec2_instance[:aws_instance_id], 
+      :id=>ec2_instance[:aws_instance_id],
       :state=>ec2_instance[:aws_state].upcase,
       :image_id=>ec2_instance[:aws_image_id],
       :owner_id=>ec2_instance[:aws_owner],
@@ -217,7 +217,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
   end
 
   def convert_snapshot(ec2_snapshot)
-    StorageSnapshot.new( { 
+    StorageSnapshot.new( {
       :id=>ec2_snapshot[:aws_id],
       :state=>ec2_snapshot[:aws_status].upcase,
       :storage_volume_id=>ec2_snapshot[:aws_volume_id],
@@ -225,7 +225,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
     } )
   end
 
-  def safely(&block) 
+  def safely(&block)
     begin
       block.call
     rescue RightAws::AwsError => e
