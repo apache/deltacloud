@@ -42,16 +42,16 @@ class MockDriver < DeltaCloud::BaseDriver
     },
   ]
 
-  def flavors(credentials, ids=nil)
-    return FLAVORS if ( ids.nil? )
-    FLAVORS.select{|f| ids.include?(f[:id])}
+  def flavors(credentials, opts=nil)
+    return FLAVORS if ( opts.nil? )
+    FLAVORS.select{|f| opts[:id] == f[:id]}
   end
 
   # 
   # Images
   # 
 
-  def images(credentials, ids_or_owner=nil )
+  def images(credentials, opts=nil )
     check_credentials( credentials )
     images = []
     Dir[ "#{STORAGE_ROOT}/images/*.yml" ].each do |image_file|
@@ -59,12 +59,16 @@ class MockDriver < DeltaCloud::BaseDriver
       image[:id] = File.basename( image_file, ".yml" )
       images << image
     end
-    if ( ids_or_owner.is_a?( Array ) )
-      images = images.select{|e| ids_or_owner.include?( e[:id] )} 
-    elsif ( ids_or_owner == 'self' )
-      images = images.select{|e| e[:owner_id] == credentials[:name] }
-    elsif ( ! ids_or_owner.nil? )
-      images = images.select{|e| e[:owner_id] == ids_or_owner }
+    if (opts)
+      if ( opts[:id] )
+        images = images.select{|e| e[:id] == opts[:id]}
+      elsif ( opts[:id] == :self )
+        images = images.select{|e| e[:owner_id] == credentials[:name] }
+      elsif ( opts[:owner] )
+        images = images.select{|e| e[:owner_id] == opts[:owner] }
+      elsif
+        images = []
+      end
     end
     images.sort_by{|e| [e[:owner_id],e[:description]]}
   end
@@ -73,7 +77,7 @@ class MockDriver < DeltaCloud::BaseDriver
   # Instances
   # 
 
-  def instances(credentials, ids=nil)
+  def instances(credentials, opts=nil)
     check_credentials( credentials )
     instances = []
     Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
@@ -83,8 +87,8 @@ class MockDriver < DeltaCloud::BaseDriver
         instances << instance
       end
     end
-    unless ( ids.nil? || ids.empty? )
-      instances = instances.select{|e| ids.include?( e[:id] )} 
+    if ( opts )
+      instances = instances.select{|e| opts[:id] == e[:id] }
     end
     instances
   end
@@ -120,7 +124,7 @@ class MockDriver < DeltaCloud::BaseDriver
   # Storage Volumes
   # 
 
-  def volumes(credentials, ids=nil)
+  def volumes(credentials, opts=nil)
     volumes = []
     volumes
   end
@@ -129,7 +133,7 @@ class MockDriver < DeltaCloud::BaseDriver
   # Storage Snapshots
   # 
 
-  def snapshots(credentials, ids=nil)
+  def snapshots(credentials, opts=nil)
     snapshots = []
     snapshots
   end
