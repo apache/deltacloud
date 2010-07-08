@@ -60,6 +60,7 @@ module DCloud
           @image = Image.new( @client, image_uri )
           flavor_uri = xml.get_elements( 'flavor' )[0].attributes['href']
           @flavor = Flavor.new( @client, flavor_uri )
+          puts xml.get_elements( 'realm' )          
           if (xml.get_elements( 'realm' ))
               realm_uri = xml.get_elements( 'realm' )[0].attributes['href']
               @realm = Realm.new( @client, realm_uri )
