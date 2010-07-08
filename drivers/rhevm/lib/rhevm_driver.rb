@@ -147,14 +147,14 @@ class RHEVMDriver < DeltaCloud::BaseDriver
 
   STATE_ACTIONS = [
     [ :pending, {
-        :terminated=>:stop,
+        :stopped=>:stop,
         :running=>:_auto_ } ],
     [ :running, {
         :running=>:reboot,
-        :terminated=>:stop } ],
+        :stopped=>:stop } ],
     [ :shutting_down, {
-        :terminated=>:_auto_ } ],
-    [ :terminated, {
+        :stopped=>:_auto_ } ],
+    [ :stopped, {
         :running=>:start,
         :destroyed=>:destroy }],
   ]
