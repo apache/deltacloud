@@ -35,7 +35,7 @@ describe "flavors" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       flavor = client.flavor( 'm1-small' )
       flavor.should_not be_nil
-      flavor.resource_id.should eql( 'm1-small' )
+      flavor.id.should eql( 'm1-small' )
     end
   end
 
@@ -43,7 +43,7 @@ describe "flavors" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       flavor = client.fetch_flavor( API_URL + '/flavors/m1-small' )
       flavor.should_not be_nil
-      flavor.resource_id.should eql( 'm1-small' )
+      flavor.id.should eql( 'm1-small' )
     end
   end
 

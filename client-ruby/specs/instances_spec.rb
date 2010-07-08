@@ -63,12 +63,12 @@ describe "instances" do
       instance = client.create_instance( 'img1', 'm1-small' )
       instance.should_not be_nil
       instance.uri.should eql( API_URL + '/instances/inst3' )
-      instance.resource_id.should eql( 'inst3' )
+      instance.id.should eql( 'inst3' )
 
       instance = client.create_instance( 'img1', 'm1-small' )
       instance.should_not be_nil
       instance.uri.should eql( API_URL + '/instances/inst4' )
-      instance.resource_id.should eql( 'inst4' )
+      instance.id.should eql( 'inst4' )
     end
   end
 
@@ -86,7 +86,7 @@ describe "instances" do
       instance = client.fetch_instance( API_URL + '/instances/inst1' )
       instance.should_not be_nil
       instance.uri.should eql( API_URL + '/instances/inst1' )
-      instance.resource_id.should eql( 'inst1' )
+      instance.id.should eql( 'inst1' )
     end
   end
 end

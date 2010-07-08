@@ -15,13 +15,16 @@ class BaseModel
   end
 
   attr_reader :uri
-  attr_reader :resource_id
 
   def initialize(client, uri=nil, xml=nil)
     @client      = client
     @uri         = uri
     @loaded      = false
     load_payload( xml )
+  end
+
+  def id()
+    @id
   end
 
   def check_load_payload()
@@ -33,7 +36,7 @@ class BaseModel
   def load_payload(xml=nil)
     unless ( xml.nil? )
       @loaded = true
-      @resource_id = xml.text( 'id' ) 
+      @id = xml.text( 'id' ) 
     end
   end
 

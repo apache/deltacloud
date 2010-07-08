@@ -46,7 +46,7 @@ describe "images" do
       image = client.image( 'img1' )
       image.should_not be_nil
       image.uri.should eql( API_URL + '/images/img1' )
-      image.resource_id.should eql( 'img1' )
+      image.id.should eql( 'img1' )
       image.architecture.should eql( 'x86_64' )
     end
   end
@@ -56,7 +56,7 @@ describe "images" do
       image = client.fetch_image( API_URL + '/images/img1' )
       image.should_not be_nil
       image.uri.should eql( API_URL + '/images/img1' )
-      image.resource_id.should eql( 'img1' )
+      image.id.should eql( 'img1' )
       image.architecture.should eql( 'x86_64' )
     end
   end
