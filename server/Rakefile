@@ -54,6 +54,8 @@ begin
 
   Cucumber::Rake::Task.new(:junit) do |t|
     t.cucumber_opts = "features --format junit --out tmp/junit"
+    t.rcov = true
+    t.rcov_opts << %[-o "tmp/coverage"]
   end
 
 rescue LoadError
