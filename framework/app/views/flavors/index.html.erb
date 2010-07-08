@@ -19,16 +19,16 @@
   <% for flavor in @flavors %>
     <tr>
       <td>
-        <%= link_to flavor[:id], flavor_url( flavor[:id] ) %>
+        <%= link_to flavor.resource_id, flavor_url( flavor.resource_id ) %>
       </td>
       <td>
-        <%= flavor[:architecture] %>
+        <%= flavor.architecture %>
       </td>
       <td>
-        <%= flavor[:memory] %> GB
+        <%= flavor.memory %> GB
       </td>
       <td>
-        <%= flavor[:storage] %> GB
+        <%= flavor.storage %> GB
       </td>
     </tr>
   <% end %>

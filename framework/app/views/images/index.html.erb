@@ -19,16 +19,16 @@
   <% for image in @images %>
     <tr>
       <td>
-        <%= link_to image[:id], image_url( image[:id] ) %>
+        <%= link_to image.resource_id, image_url( image.resource_id ) %>
       </td>
       <td>
-        <%= link_to image[:owner_id], images_url( :owner=>image[:owner_id] ) %>
+        <%= link_to image.owner_id, images_url( :owner=>image.owner_id ) %>
       </td>
       <td>
-        <%= image[:architecture] %>
+        <%= image.architecture %>
       </td>
       <td>
-        <%= image[:description] %>
+        <%= image.description %>
       </td>
     </tr>
   <% end %>

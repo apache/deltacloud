@@ -24,24 +24,24 @@
   <% for instance in @instances %>
     <tr>
       <td>
-        <%= link_to instance[:id], instance_url( instance[:id] ) %>
+        <%= link_to instance.resource_id, instance_url( instance.resource_id ) %>
       </td>
       <td>
-        <%= link_to instance[:owner_id], images_url( :owner=>instance[:owner_id] ) %>
+        <%= link_to instance.owner_id, images_url( :owner=>instance.owner_id ) %>
       </td>
       <td>
-        <%= link_to instance[:image_id], image_url( instance[:image_id] ) %>
+        <%= link_to instance.image_id, image_url( instance.image_id ) %>
       </td>
       <td>
-        <%= link_to instance[:flavor_id], flavor_url( instance[:flavor_id] ) %>
+        <%= link_to instance.flavor_id, flavor_url( instance.flavor_id ) %>
       </td>
       <td>
-        <%= instance[:state] %>
+        <%= instance.state %>
       </td>
       <td>
-        <%# instance.class.actions.each do |action| %>
-          <%#= link_to action, polymorphic_url( instance, :action=>action ), :method=>:post %>
-        <%# end %>
+        <% instance.actions.each do |action| %>
+          <%= link_to action, self.send( "#{action}_instance_url", instance.resource_id ), :method=>:post %>
+        <% end %>
       </td>
     </tr>
   <% end %>

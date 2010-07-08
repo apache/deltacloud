@@ -1,3 +1,4 @@
+require 'flavor'
 
 module Converters
 
@@ -31,39 +32,48 @@ module Converters
             convert( e, builder )
           end
         end
-      elsif ( obj.is_a?( Hash ) )
-        obj = obj.dup
-        obj_id = obj.delete(:id)
-        builder.__send__( Converters.tag_name( @type ), :href=>@link_builder.send( "#{@type}_url", obj_id ) ) do
-          builder.id( obj_id )
-          obj.each do |k,v|
-            if ( k.to_s =~ /^(.*)_ids$/ )
-              type = $1 
-              builder.__send__( type.pluralize ) do
-                v.each do |each_id|
-                  builder.__send__( type, @link_builder.send( "#{type}_url", each_id ) )
+      else
+        puts "dump #{obj.inspect} #{obj.is_a?( Flavor )}"
+        case ( obj )
+          when Flavor
+            builder.flavor( :href=>@link_builder.send( :flavor_url,  obj.resource_id ) ) {
+              builder.id( obj.resource_id )
+              builder.architecture( obj.architecture )
+              builder.memory( obj.memory )
+              builder.storage( obj.storage )
+            }
+          when Image
+            builder.image( :href=>@link_builder.send( :image_url, obj.resource_id ) ) {
+              builder.id( obj.resource_id )
+              builder.owner_id( obj.owner_id )
+              builder.description( obj.description )
+              builder.architecture( obj.architecture )
+            }
+          when Instance
+            builder.instance( :href=>@link_builder.send( :instance_url, obj.resource_id ) ) {
+              builder.id( obj.resource_id )
+              builder.owner_id( obj.owner_id )
+              builder.image( :href=>@link_builder.send( :image_url, obj.image_id ) )
+              builder.flavor( :href=>@link_builder.send( :flavor_url, obj.flavor_id ) )
+              builder.state( obj.state )
+              builder.actions {
+                if ( obj.actions )
+                  obj.actions.each do |action|
+                    builder.link( :rel=>action, :href=>@link_builder.send( "#{action}_instance_url", obj.resource_id ) )
+                  end
                 end
-              end
-            elsif ( k.to_s =~/^(.*)_id$/ )
-              type = $1
-              url_type = Converters.url_type( $1 )
-              unless ( url_type.nil? )
-                if ( v.nil? )
-                  builder.__send__( type )
-                else
-                  builder.__send__( type, @link_builder.send( "#{url_type}_url", v ) )
-                end
-              else
-                if ( v.nil? )
-                  builder.__send__( "#{type}_id" )
-                else
-                  builder.__send__( "#{type}_id", v )
-                end
-              end
-            else
-              builder.__send__( Converters.tag_name( k ), v )
-            end
-          end
+              }
+              builder.__send__( 'public-addresses' ) {
+                obj.public_addresses.each do |address|
+                  builder.address( address )
+                end 
+              }
+              builder.__send__( 'private-addresses' ) {
+                obj.private_addresses.each do |address|
+                  builder.address( address )
+                end 
+              }
+          }
         end
       end
       return builder.target!

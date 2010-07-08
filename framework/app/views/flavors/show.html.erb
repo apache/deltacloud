@@ -1,4 +1,4 @@
-<h1><%= @flavor[:id] %></h1>
+<h1><%= @flavor.resource_id %></h1>
 
 <dl>
   <di>
@@ -6,7 +6,7 @@
       Architecture
     </dt>
     <dd>
-      <%= @flavor[:architecture] %>
+      <%= @flavor.architecture %>
     </dd>
   </di>
   <di>
@@ -14,7 +14,7 @@
       Memory
     </dt>
     <dd>
-      <%= @flavor[:memory] %> GB
+      <%= @flavor.memory %> GB
     </dd>
   </di>
   <di>
@@ -22,7 +22,7 @@
       Storage
     </dt>
     <dd>
-      <%= @flavor[:storage] %> GB
+      <%= @flavor.storage %> GB
     </dd>
   </di>
 </dl>

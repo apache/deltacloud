@@ -1,6 +1,6 @@
 
 <h1>Image</h1>
-<h2><%= @image[:id] %></h2>
+<h2><%= @image.resource_id %></h2>
 
 <dl>
   <di>
@@ -8,7 +8,7 @@
       Owner
     </dt>
     <dd>
-      <%= link_to @image[:owner_id], images_url( :owner=>@image[:owner_id] ) %>
+      <%= link_to @image.owner_id, images_url( :owner=>@image.owner_id ) %>
     </dd>
   </di>
   <di>
@@ -16,7 +16,7 @@
       Architecture
     </dt>
     <dd>
-      <%= @image[:architecture] %>
+      <%= @image.architecture %>
     </dd>
   </di>
   <di>
@@ -24,11 +24,11 @@
       Description
     </dt>
     <dd>
-      <%= @image[:description] %>
+      <%= @image.description %>
     </dd>
   </di>
 </dl>
   
 <div>
-  <%= link_to 'launch', new_instance_url( :image_id=>@image[:id] ) %>
+  <%= link_to 'launch', new_instance_url( :image_id=>@image.resource_id ) %>
 </div>
