@@ -24,6 +24,19 @@ class DeltaCloud
     block.call( self ) if block
   end
 
+  def flavors(opts={}, &block)
+    flavors = []
+    request( entry_points[:flavors] ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'flavors/flavor' ).each do |flavor|
+          flavors << convert_to_hash( flavor )
+        end
+      end
+    end
+    flavors 
+  end
+
   def api_host
     @api_uri.host
   end
@@ -40,9 +53,17 @@ class DeltaCloud
 
   attr_reader :http
 
+  def convert_to_hash(elem)
+    hash = {}
+    elem.elements.each do |element|
+      hash[element.name] = element.text
+    end
+    hash
+  end
+
   def discover_entry_points()
     @entry_points = {}
-    logger << "Discoverying entry points at #{@api_uri}"
+    logger << "Discoverying entry points at #{@api_uri}\n"
     request do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
         doc = REXML::Document.new( response.body )
@@ -51,13 +72,18 @@ class DeltaCloud
           uri = link.text
           @entry_points[rel.to_sym] = uri
         end
-
       end
     end
   end
 
-  def request(method=:get, path='', &block)
-    request = eval( "Net::HTTP::#{method.to_s.capitalize}" ).new( api_path + path )
+  def request(path='', method=:get, &block)
+    if ( path =~ /^http/ ) 
+      request_path = path
+    else
+      request_path = "#{api_path}#{path}"
+    end
+    logger << "Request [#{request_path}]\n"
+    request = eval( "Net::HTTP::#{method.to_s.capitalize}" ).new( request_path )
     request.basic_auth( @name, @password )
     request['Accept'] = 'text/xml'
     http.request( request, &block )
