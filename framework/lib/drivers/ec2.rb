@@ -1,25 +1,13 @@
 
-require 'drivers'
+load 'drivers.rb'
 
 module Drivers
 
-  class Ec2
+  class Ec2 < BaseDriver
 
-    def safely(&block) 
-      begin
-        block.call
-      rescue RightAws::AwsError => e
-        if ( e.include?( /SignatureDoesNotMatch/ ) )
-          raise AuthException.new
-        elsif ( e.include?( /InvalidClientTokenId/ ) )
-          raise AuthException.new
-        else
-          e.errors.each do |error|
-            puts "ERROR #{error.inspect}"
-          end
-        end
-      end
-    end
+    # 
+    # Images
+    # 
 
     def images(credentials, ids_or_owner=nil )
       ec2 = new_client( credentials )
@@ -42,14 +30,9 @@ module Drivers
       images
     end
 
-    def image(credentials, id)
-      ec2 = new_client(credentials)
-      safely do
-        ec2_images = ec2.describe_images(id)
-        return nil if ec2_images.empty?
-        convert_image( ec2_images.first )
-      end
-    end
+    # 
+    # Instances
+    # 
 
     def instances(credentials, *ids)
       ec2 = new_client(credentials)
@@ -60,13 +43,6 @@ module Drivers
         end
       end
       instances
-    end
-
-    def instance(credentials, id)
-      ec2 = new_client(credentials)
-      ec2_instances = ec2.describe_instances(id)
-      return nil if ec2_instances.empty?
-      convert_instance( ec2_instances.first )
     end
 
     def create_instance(credentials, image_id)
@@ -82,10 +58,6 @@ module Drivers
       convert_instance( ec2_instances.first )
     end
 
-
-    def machine_types(image_id=nil)
-    end
-
     def reboot_instance(credentials, id)
       ec2 = new_client(credentials)
       ec2.reboot_instances( id )
@@ -96,6 +68,10 @@ module Drivers
       ec2.terminate_instances( id )
     end
 
+    # 
+    # Storage Volumes
+    # 
+
     def volumes(credentials, ids=nil)
       ec2 = new_client( credentials ) 
       volumes = []
@@ -105,11 +81,9 @@ module Drivers
       volumes
     end
 
-    def volume(credentials, id)
-      volumes = volumes( credentials, [ id] )
-      return volumes.first unless volumes.empty?
-      nil
-    end
+    # 
+    # Storage Snapshots
+    # 
 
     def snapshots(credentials, ids=nil)
       ec2 = new_client( credentials ) 
@@ -119,13 +93,6 @@ module Drivers
       end
       snapshots
     end
-
-    def snapshot(credentials, id)
-      snapshots = snapshots( credentials, [ id ] )
-      return snapshots.first unless snapshots.empty?
-      nil
-    end
-
 
     private
 
@@ -174,6 +141,23 @@ module Drivers
         :volume_id=>ec2_snapshot[:aws_volume_id],
       }
     end
+
+    def safely(&block) 
+      begin
+        block.call
+      rescue RightAws::AwsError => e
+        if ( e.include?( /SignatureDoesNotMatch/ ) )
+          raise AuthException.new
+        elsif ( e.include?( /InvalidClientTokenId/ ) )
+          raise AuthException.new
+        else
+          e.errors.each do |error|
+            puts "ERROR #{error.inspect}"
+          end
+        end
+      end
+    end
+
 
   end
 

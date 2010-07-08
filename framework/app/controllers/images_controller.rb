@@ -22,7 +22,6 @@ class ImagesController < ApplicationController
   end
 
   def show
-    driver = Drivers::EC2.new
     @image = driver.image( credentials, params[:id] )
 
     respond_to do |format|
