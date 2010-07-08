@@ -1,2 +1,4 @@
-log/*
+log/*.log
+*.swp
+*.kpf
 tmp/*
