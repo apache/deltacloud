@@ -68,14 +68,21 @@ end
 #
 # Error handlers
 #
-error Deltacloud::Validation::Failure do
+def report_error(status, template)
   @error = request.env['sinatra.error']
-  $stdout.flush
-  response.status = 400
+  response.status = status
   respond_to do |format|
-    format.xml { haml :"errors/validation_failure", :layout => false }
-    format.html { haml :"errors/validation_failure" }
+    format.xml { haml :"errors/#{template}", :layout => false }
+    format.html { haml :"errors/#{template}" }
   end
+end
+
+error Deltacloud::Validation::Failure do
+  report_error(400, "validation_failure")
+end
+
+error Deltacloud::AuthException do
+  report_error(403, "auth_exception")
 end
 
 # Redirect to /api

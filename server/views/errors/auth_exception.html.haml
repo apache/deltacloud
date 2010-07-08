@@ -1,0 +1,8 @@
+%h1 Authentication Failure
+
+%p= @error.message
+
+%dl
+  %di
+    %dt Request URL
+    %dd= request.env['REQUEST_URI']
