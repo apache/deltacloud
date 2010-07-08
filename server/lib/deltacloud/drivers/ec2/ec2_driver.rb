@@ -37,53 +37,60 @@ class EC2Driver < Deltacloud::BaseDriver
   feature :instances, :user_data
   feature :instances, :authentication_key
 
-  define_hardware_profile('m1-small') do
-    cpu              1
-    memory         1.7 * 1024
-    storage        160
-    architecture 'i386'
+  define_hardware_profile('m1.small') do
+    cpu                1
+    memory             1.7 * 1024
+    storage            160
+    architecture       'i386'
   end
 
-  define_hardware_profile('m1-large') do
+  define_hardware_profile('m1.large') do
     cpu                4
-    memory           7.5 * 1024
-    storage          850
-    architecture 'x86_64'
+    memory             7.5 * 1024
+    storage            850
+    architecture       'x86_64'
   end
 
-  define_hardware_profile('m1-xlarge') do
+  define_hardware_profile('m1.xlarge') do
     cpu                8
-    memory            15 * 1024
-    storage         1690
-    architecture 'x86_64'
+    memory             15 * 1024
+    storage            1690
+    architecture       'x86_64'
   end
 
-  define_hardware_profile('c1-medium') do
+  define_hardware_profile('c1.medium') do
     cpu                5
-    memory           1.7 * 1024
-    storage          350
-    architecture 'i386'
+    memory             1.7 * 1024
+    storage            350
+    architecture       'i386'
   end
 
-  define_hardware_profile('c1-xlarge') do
-    cpu              20
-    memory            7 * 1024
-    storage        1690
-    architecture 'x86_64'
+  define_hardware_profile('c1.xlarge') do
+    cpu                20
+    memory             7 * 1024
+    storage            1690
+    architecture       'x86_64'
   end
 
-  define_hardware_profile('m2-xlarge') do
-    cpu               6.5
-    memory           17.1 * 1024
-    storage         420
-    architecture    'x86_64'
+  define_hardware_profile('m2.xlarge') do
+    cpu                6.5
+    memory             17.1 * 1024
+    storage            420
+    architecture       'x86_64'
   end
 
-  define_hardware_profile('m2-2xlarge') do
-    cpu              13
-    memory           34.2 * 1024
-    storage         850
-    architecture    'x86_64'
+  define_hardware_profile('m2.2xlarge') do
+    cpu                13
+    memory             34.2 * 1024
+    storage            850
+    architecture       'x86_64'
+  end
+
+  define_hardware_profile('m2.4xlarge') do
+    cpu                26
+    memory             68.4 * 1024
+    storage            1690
+    architecture       'x86_64'
   end
 
   define_instance_states do
@@ -170,7 +177,7 @@ class EC2Driver < Deltacloud::BaseDriver
       :key_name => opts[:keyname],
       :availability_zone => realm_id,
       :monitoring_enabled => true,
-      :instance_type => hwp.name.tr('-', '.'),
+      :instance_type => hwp.name,
       :disable_api_termination => false,
       :instance_initiated_shutdown_behavior => 'terminate'
     )
@@ -277,7 +284,7 @@ class EC2Driver < Deltacloud::BaseDriver
     state_key = state.downcase.underscore.to_sym
     realm_id = ec2_instance['placement']['availabilityZone']
     (realm_id = nil ) if ( realm_id == '' )
-    hwp_name = ec2_instance['instanceType'].gsub( /\./, '-')
+    hwp_name = ec2_instance['instanceType']
     instance = Instance.new( {
       :id=>ec2_instance['instanceId'],
       :name => ec2_instance['imageId'],
@@ -287,7 +294,6 @@ class EC2Driver < Deltacloud::BaseDriver
       :realm_id=>realm_id,
       :public_addresses=>( ec2_instance['dnsName'] == '' ? [] : [ec2_instance['dnsName']] ),
       :private_addresses=>( ec2_instance['privateDnsName'] == '' ? [] : [ec2_instance['privateDnsName']] ),
-      :flavor_id=>ec2_instance['instanceType'].gsub( /\./, '-'),
       :instance_profile =>InstanceProfile.new(hwp_name),
       :actions=>instance_actions_for( state ),
       :keyname => ec2_instance['keyName']
