@@ -66,7 +66,7 @@ options[:collection] = ARGV[0]
 options[:operation] = ARGV[1]
 
 # Connect to Deltacloud API and fetch all entry points
-client = DeltaCloud.new(url.user, url.password, api_url, { :verbose => options[:verbose] })
+client = DeltaCloud.new(url.user || ENV['API_USER'], url.password || ENV['API_PASSWORD'], api_url, { :verbose => options[:verbose] })
 collections = client.entry_points.keys
 
 # Exclude collection which don't have methods in client library yet
