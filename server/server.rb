@@ -156,6 +156,16 @@ collection :instance_states do
       @machine = driver.instance_state_machine
       respond_to do |format|
         format.xml { haml :'instance_states/show', :layout => false }
+        format.json do
+          out = []
+          @machine.states.each do |state|
+            transitions = state.transitions.collect do |t|
+              t.automatically? ? {:to => t.destination, :auto => 'true'} : {:to => t.destination, :action => t.action}
+            end
+            out << { :name => state, :transitions => transitions }
+          end
+          out.to_json
+        end
         format.html { haml :'instance_states/show'}
         format.gv { erb :"instance_states/show" }
         format.png do
