@@ -28,12 +28,7 @@ module ApplicationHelper
            (level == levels[levels.size-2] && levels[levels.size-1].to_i > 0)
           s += "<li class='subsequent'>#{level.gsub(/_/, ' ')}</li>\n" unless level.to_i > 0
         else
-            link = "/"
-            i = 1
-            while i <= index
-              link += "#{levels[i]}/"
-              i+=1
-            end
+            link = levels.slice(0, index+1).join("/")
             s += "<li class='subsequent'><a href=\"#{link}\">#{level.gsub(/_/, ' ')}</a></li>\n"
         end
       end
