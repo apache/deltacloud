@@ -36,14 +36,15 @@ class RackspaceClient
     http = Net::HTTP.new(@@AUTH_API.host,@@AUTH_API.port)
     http.use_ssl = true
     authed = http.get(@@AUTH_API.path, {'X-Auth-User' => username, 'X-Auth-Key' => auth_key})
+    if authed.is_a?(Net::HTTPUnauthorized)
+      raise Deltacloud::AuthException, "Failed to authenticate to Rackspace"
+    elsif !authed.is_a?(Net::HTTPSuccess)
+      backend_error!(resp)
+    end
     @auth_token  = authed.header['X-Auth-Token']
     @service_uri = URI.parse(authed.header['X-Server-Management-Url'])
     @service = Net::HTTP.new(@service_uri.host, @service_uri.port)
     @service.use_ssl = true
-  end
-
-  def get(path)
-    @service.get(@service_uri.path + path, {"Accept" => "application/json", "X-Auth-Token" => @auth_token}).body
   end
 
   def list_flavors
@@ -65,17 +66,22 @@ class RackspaceClient
 
 
   def start_server(image_id, flavor_id, name)
-    json = { :server => { :name => name, :imageId => image_id, :flavorId => flavor_id }}.to_json
-    JSON.parse(@service.post(@service_uri.path + "/servers", json, headers).body)
+    json = { :server => { :name => name,
+                          :imageId => image_id.to_i,
+                          :flavorId => flavor_id.to_i }}.to_json
+    # FIXME: The response has the root password in 'adminPass'; we somehow
+    # need to communicate this back since it's the only place where we can
+    # get it from
+    JSON.parse(post("/servers", json, headers).body)["server"]
   end
 
   def delete_server(server_id)
-    @service.delete(@service_uri.path + "/servers/#{server_id}", headers)
+    delete("/servers/#{server_id}", headers)
   end
 
   def reboot_server(server_id)
     json = { :reboot => { :type => :SOFT }}.to_json
-    @service.post(@service_uri.path + "/servers/#{server_id}/action", json, headers)
+    post("/servers/#{server_id}/action", json, headers)
   end
 
 
@@ -83,12 +89,41 @@ class RackspaceClient
     {"Accept" => "application/json", "X-Auth-Token" => @auth_token, "Content-Type" => "application/json"}
   end
 
-end
+  private
+  def get(path)
+    resp = @service.get(@service_uri.path + path, {"Accept" => "application/json", "X-Auth-Token" => @auth_token})
+    unless resp.is_a?(Net::HTTPSuccess)
+      backend_error!(resp)
+    end
+    resp.body
+  end
 
+  def post(path, json, headers)
+    resp = @service.post(@service_uri.path + path, json, headers)
+    unless resp.is_a?(Net::HTTPSuccess)
+      backend_error!(resp)
+    end
+    resp
+  end
+
+  def delete(path, headers)
+    resp = @service.delete(@service_uri.path + path, headers)
+    unless resp.is_a?(Net::HTTPSuccess)
+      backend_error!(resp)
+    end
+    resp
+  end
+
+  def backend_error!(resp)
+    json = JSON.parse(resp.body)
+    cause = json.keys[0]
+    code = json[cause]["code"]
+    message = json[cause]["message"]
+    details = json[cause]["details"]
+    raise Deltacloud::BackendError.new(code, cause, message, details)
+  end
+
+end
     end
   end
 end
-
-
-
-
