@@ -56,7 +56,7 @@ module Sinatra
             ext = options.default_content
           end
           if ext
-            @mime_types = [ mime_type(ext) ]
+            @mime_types = [ Helpers::mime_type(ext) ]
             format ext
           end
         end
