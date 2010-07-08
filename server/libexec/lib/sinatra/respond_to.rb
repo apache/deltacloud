@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'rack/accept_media_types'
 
 # Accept header parsing was looked at but deemed
 # too much of an irregularity to deal with.  Problems with the header
@@ -46,9 +47,18 @@ module Sinatra
         unless options.static? && options.public? && (request.get? || request.head?) && static_file?(request.path_info)
           request.path_info.sub! %r{\.([^\./]+)$}, ''
 
-          format request.xhr? && options.assume_xhr_is_js? ? :js : $1 || options.default_content
-
-          charset options.default_charset if Sinatra::RespondTo::TEXT_MIME_TYPES.include? format
+          ext = nil
+          if request.xhr? && options.assume_xhr_is_js?
+            ext = :js
+          elsif ! $1.nil?
+            ext = $1
+          elsif env['HTTP_ACCEPT'].nil? || env['HTTP_ACCEPT'].empty?
+            ext = options.default_content
+          end
+          if ext
+            @mime_types = [ mime_type(ext) ]
+            format ext
+          end
         end
       end
 
@@ -130,6 +140,10 @@ module Sinatra
 
       app.class_eval do
         private
+          def accept_list
+            @mime_types || Rack::AcceptMediaTypes.new(env['HTTP_ACCEPT'] || '')
+          end
+
           # Changes in 1.0 Sinatra reuse render for layout so we store
           # the original value to tell us if this is an automatic attempt
           # to do a layout call.  If it is, it might fail with Errno::ENOENT
@@ -174,7 +188,7 @@ module Sinatra
       end
 
       def self.mime_type(sym)
-        ::Sinatra::Base.respond_to?(:media_type) && ::Sinatra::Base.media_type(sym) || ::Sinatra::Base.mime_type(sym)
+        ::Sinatra::Base.respond_to?(:mime_type) && ::Sinatra::Base.mime_type(sym) || ::Sinatra::Base.mime_type(sym)
       end
 
       def format(val=nil)
@@ -184,6 +198,7 @@ module Sinatra
 
           @_format = val.to_sym
           response['Content-Type'].sub!(/^[^;]+/, mime_type)
+          charset options.default_charset if Sinatra::RespondTo::TEXT_MIME_TYPES.include? format
         end
 
         @_format
@@ -211,16 +226,36 @@ module Sinatra
       end
 
       def respond_to(&block)
-        wants = {}
-        def wants.method_missing(type, *args, &handler)
-          ::Sinatra::Base.send(:fail, "Unknown media type for respond_to: #{type}\nTry registering the extension with a mime type") if ::Sinatra::RespondTo::Helpers.mime_type(type).nil?
-          self[type] = handler
-        end
-
+        wants = Format.new
         yield wants
+        fmt, type, handler = match_accept_type(accept_list, wants)
+        raise UnhandledFormat if fmt.nil?
+        format fmt
+        handler.nil? ? nil : handler.call
+      end
 
-        raise UnhandledFormat  if wants[format].nil?
-        wants[format].call
+      def match_accept_type(mime_types, format)
+        selected = []
+        accepted_types = mime_types.map {|type| Regexp.escape(type).gsub(/\\\*/,'.*') }
+        accepted_types.each do |at|
+          format.each do |fmt, ht, handler|
+            (selected = [fmt, ht, handler]) and break if ht.match(at)
+          end
+          break unless selected.empty?
+        end
+        selected
+      end
+
+      # NOTE Array instead of hash because order matters (wildcard type
+      # matches first handler)
+      class Format < Array #:nodoc:
+        def method_missing(format, *args, &handler)
+          mt = Sinatra::RespondTo::Helpers.mime_type(format)
+          if mt.nil?
+            Sinatra::Base.send(:fail, "Unknown media type for respond_to: #{format}\nTry registering the extension with a mime type")
+          end
+          self << [format.to_s, mt, handler]
+        end
       end
     end
   end
