@@ -267,7 +267,11 @@ class GogridDriver < Deltacloud::BaseDriver
     prof = InstanceProfile.new("server", opts)
 
     Instance.new(
-      :id => instance['id'],
+       # note that we use 'name' as the id here, because newly created instances
+       # don't get a real ID until later on.  The name is good enough; from
+       # what I can tell, 'name' per user is unique, so it should be sufficient
+       # to uniquely identify this instance.
+      :id => instance['name'],
       :owner_id => owner_id,
       :image_id => instance['image']['id'],
       :flavor_id => instance['ram']['id'],
