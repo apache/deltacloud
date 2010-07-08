@@ -6,6 +6,22 @@ module DeltaCloud
 
   class BaseDriver
 
+    def instance_states()
+      []
+    end
+
+    def instance_actions_for(state)
+      actions = []
+      state_key = state.downcase.to_sym
+      states = instance_states()
+      current_state = states.find{|e| e.first == state.downcase.to_sym }
+      if ( current_state )
+        actions = current_state.last.values.uniq
+        actions.reject!{|e| e == :_auto_}
+      end
+      actions
+    end
+
     def flavor(credentials, opts)
       flavors = flavors(credentials, opts)
       return flavors.first unless flavors.empty?

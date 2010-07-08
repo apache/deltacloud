@@ -1,0 +1,8 @@
+%states
+  - for state in @states
+    %state{ :name=>state.first }
+      - state.last.each do |destination, action|
+        - if ( action == :_auto_ )
+          %transition{ :to=>destination, :auto=>'true'}
+        - else
+          %transition{ :to=>destination, :action=>action }

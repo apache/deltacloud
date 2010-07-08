@@ -39,6 +39,8 @@ body {
 #bd ul li {
   list-style-type: square;
   margin-left: 1em; }
+#bd em {
+  font-style: italic; }
 
 ul.breadcrumb li {
   display: inline; }

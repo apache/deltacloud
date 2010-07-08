@@ -34,7 +34,11 @@
       <% transitions.each do |destination, action| %>
         <tr>
           <td>
-            <%= action %>
+            <% if ( action == :_auto_ ) %>
+              <em>auto</em>
+            <% else %>
+              <%= action %>
+            <% end %>
           </td>
           <td>
             <%= destination %>

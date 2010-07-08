@@ -6,7 +6,12 @@ class InstancesController < ApplicationController
   around_filter :catch_auth
 
   def states
-    @states = driver.states( credentials )
+    @states = driver.instance_states()
+    respond_to do |format|
+      format.html
+      format.json
+      format.xml
+    end
   end
 
   def index
