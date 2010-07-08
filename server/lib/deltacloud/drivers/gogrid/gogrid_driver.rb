@@ -24,7 +24,7 @@ class Instance
   attr_accessor :authn_error
 
   def authn_feature_failed?
-    return true unless auth_error.nil?
+    return true unless authn_error.nil?
   end
 end
 

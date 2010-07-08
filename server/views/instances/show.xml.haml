@@ -29,7 +29,7 @@
   - if driver_has_auth_features?
     %authentication{ :type => driver_auth_feature_name }
       - if @instance.authn_feature_failed?
-        %error  #{@instance.auth_error}
+        %error  #{@instance.authn_error}
       - else
         - if driver_auth_feature_name == 'password'
           %login
