@@ -124,8 +124,17 @@ class MockDriver < DeltaCloud::BaseDriver
   # Storage Volumes
   # 
 
-  def volumes(credentials, opts=nil)
+  def storage_volumes(credentials, opts=nil)
+    check_credentials( credentials )
     volumes = []
+    Dir[ "#{STORAGE_ROOT}/storage_volumes/*.yml" ].each do |storage_volume_file|
+      storage_volume = YAML.load( File.read( storage_volume_file ) )
+      if ( storage_volume[:owner_id] == credentials[:name] )
+        storage_volume[:id] = File.basename( storage_volume_file, ".yml" )
+        volumes << StorageVolume.new( storage_volume )
+      end
+    end
+    volumes = filter_on( volumes, :id, opts )
     volumes
   end
 

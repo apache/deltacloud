@@ -1,6 +1,0 @@
-:state: RUNNING
-:image_id: img1
-:owner_id: anotheruser
-:public_address: img1.inst2.public.com
-:private_address: img1.inst2.private.com
-:flavor_id: m1-small
