@@ -49,12 +49,13 @@ class DeltaCloud
     end
   end
 
-  def initialize(name, password, api_uri, &block)
+  def initialize(name, password, api_uri, opts={}, &block)
     @logger       = Logger.new( STDERR )
     @name         = name
     @password     = password
     @api_uri      = URI.parse( api_uri )
     @entry_points = {}
+    @verbose      = opts[:verbose]
     discover_entry_points
     connect( &block )
     self
@@ -377,7 +378,7 @@ class DeltaCloud
       :authorization => "Basic "+Base64.encode64("#{@name}:#{@password}"),
       :accept => "application/xml"
     }
-    # logger << "Request [#{method.to_s.upcase}] #{request_path}]\n"
+    logger << "Request [#{method.to_s.upcase}] #{request_path}]\n"  if @verbose
     if method.eql?(:get)
       RestClient.send(method, request_path, headers, &block)
     else

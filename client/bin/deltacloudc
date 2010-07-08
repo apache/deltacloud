@@ -21,7 +21,9 @@ require 'optparse'
 require 'uri'
 require 'deltacloud'
 
-options = {}
+options = {
+  :verbose => false
+}
 
 @optparse = OptionParser.new do |opts|
 
@@ -44,6 +46,7 @@ BANNER
   opts.on( '-l', '--list', 'List collections/operations') { |id| options[:list] = true }
   opts.on( '-h', '--help', 'Display this screen' ) { puts opts ; exit }
   opts.on( '-v', '--version', 'Display API version' ) { options[:version]=true }
+  opts.on( '-V', '--verbose', 'Print verbose messages' ) { options[:verbose]=true }
 end
 
 def invalid_usage(error_msg='')
@@ -63,7 +66,7 @@ options[:collection] = ARGV[0]
 options[:operation] = ARGV[1]
 
 # Connect to Deltacloud API and fetch all entry points
-client = DeltaCloud.new(url.user, url.password, api_url)
+client = DeltaCloud.new(url.user, url.password, api_url, { :verbose => options[:verbose] })
 collections = client.entry_points.keys
 
 # Exclude collection which don't have methods in client library yet
