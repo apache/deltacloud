@@ -130,6 +130,10 @@ if options[:collection] and options[:operation]
   # --image-id, --flavor-id and --name parameters are used
   # Returns created instance in plain form
   if options[:collection].eql?('instances') and options[:operation].eql?('create')
+    invalid_usage("Missing image-id") unless options[:image_id]
+    if options[:name] and ! client.feature?(:instances, :user_name)
+      invalid_usage("Driver does not support user-supplied name")
+    end
     params.merge!(:name => options[:name]) if options[:name]
     params.merge!(:image_id => options[:image_id]) if options[:image_id]
     params.merge!(:flavor_id => options[:flavor_id]) if options[:flavor_id]
