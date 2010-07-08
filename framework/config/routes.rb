@@ -4,22 +4,20 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller=>'root'
 
-  map.resource :api, :controller=>'Api'
+  map.resource :api, :controller=>'Api' 
 
-  map.resources :images
+  map.resources :flavors, :path_prefix=>'api'
 
-  map.resources :instances,
+  map.resources :images, :path_prefix=>'api'
+  map.resources :instances, :path_prefix=>'api',
     :member=>{ 
       :stop=>:put,
       :reboot=>:post,
     }
-
-  map.resource :storage do |s|
+  map.resource :storage, :path_prefix=>'api' do |s|
     s.resources :volumes, :controller=>'StorageVolumes'
     s.resources :snapshots, :controller=>'StorageSnapshots'
   end
-
-  map.resources :flavors
 
 
   #####
