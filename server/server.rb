@@ -214,6 +214,7 @@ get "/api/instances/new" do
   @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
   @image   = driver.image( credentials, :id => params[:image_id] )
   @flavors = driver.flavors( credentials, { :architecture=>@image.architecture } )
+  @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
   @realms = driver.realms(credentials)
   respond_to do |format|
     format.html { haml :"instances/new" }
@@ -250,7 +251,12 @@ collection :instances do
     param :image_id,     :string, :required
     param :realm_id,     :string, :optional
     param :flavor_id,    :string, :optional
+    param :hwp_id,       :string, :optional
     control do
+      # FIXME: Strictly speaking, we'd need to check that only either
+      # hwp_id or flavor_id are set, but not both. Since flavors will go
+      # away shortly, we can be a little sloppy
+      params[:hwp_id] = params[:flavor_id] if params[:flavor_id]
       @image = driver.image(credentials, :id => params[:image_id])
       instance = driver.create_instance(credentials, @image.id, params)
       respond_to do |format|

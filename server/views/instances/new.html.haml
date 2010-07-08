@@ -8,16 +8,34 @@
   %label
     Instance Name:
   %input{ :name => 'name', :size => 30 }/
-  - if !@flavors.empty?
-    %h3 What flavor of machine?
-    - for flavor in @flavors
+  - if !@hardware_profiles.empty?
+    %h3 What size machine?
+    - for hwp in @hardware_profiles
       .radio-group
-        %label{ :for => "flavor_id_#{flavor.id}" }
-          %input{ :type => :radio, :name => 'flavor_id', :value => flavor.id }/
-          = flavor.id
+        %label{ :for => "hwp_id_#{hwp.name}" }
+          %input{ :type => :radio, :name => 'hwp_id', :value => hwp.name }/
+          = hwp.name
           %br/
           %span.radio-group-details
-            = "#{flavor.architecture}, #{flavor.memory} GB, #{flavor.storage} GB"
+            - first = true
+            - hwp.properties.select { |prop| prop.fixed? }.each do |prop|
+              - unless first
+                ,
+              - first = false
+              = format_hardware_property prop
+          - hwp.properties.reject { |prop| prop.fixed? }.each do |prop|
+            %span.radio-group-details
+              %label{ :for => "#{prop.param}_#{hwp.name}" }
+                = prop.name
+              - if prop.kind == :enum
+                %select{ :size => 1, :name => prop.param }
+                  - for v in prop.values
+                    %option= v
+                = prop.unit
+              - else
+                %input{ :name => prop.param, :size => 10, :value => "#{prop.default}" }
+                = prop.unit
+                (value must be between #{prop.first} #{prop.unit} and #{prop.last} #{prop.unit})
   - if !@realms.empty?
     %h3 Where do you want it?
     - for realm in @realms

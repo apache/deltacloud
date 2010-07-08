@@ -82,6 +82,13 @@ module Converters
               builder.owner_id( obj.owner_id )
               builder.image( :href=>@link_builder.send( :image_url, obj.image_id ) )
               builder.flavor( :href=>@link_builder.send( :flavor_url, obj.flavor_id ) )
+              builder.__send__( 'hardware-profile', :href=>@link_builder.send( :hardware_profile_url, obj.instance_profile.name) ) do
+                builder.id( obj.instance_profile.name )
+                obj.instance_profile.overrides.each do |p, v|
+                  u = ::Deltacloud::HardwareProfile::unit(p)
+                  builder.property( :kind=>:fixed, :name=>p, :unit=>u, :value=>v )
+                end
+              end
               builder.realm( :href=>@link_builder.send( :realm_url, obj.realm_id ) ) if obj.realm_id
               builder.state( obj.state )
               builder.actions {
