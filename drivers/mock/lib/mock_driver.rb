@@ -138,11 +138,11 @@ class MockDriver < DeltaCloud::BaseDriver
 
   def check_credentials(credentials)
     if ( credentials[:name] != 'mockuser' )
-      raise Drivers::AuthException.new
+      raise DeltaCloud::AuthException.new
     end
 
     if ( credentials[:password] != 'mockpassword' )
-      raise Drivers::AuthException.new
+      raise DeltaCloud::AuthException.new
     end
   end
 
