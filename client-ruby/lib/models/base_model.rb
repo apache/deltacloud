@@ -43,6 +43,7 @@ class BaseModel
   end
 
   attr_reader :uri
+  attr_reader :resource_id
 
   def initialize(client, uri=nil, init=nil)
     @client      = client
@@ -60,6 +61,7 @@ class BaseModel
   def load_payload(init=nil)
     unless ( init.nil? )
       @loaded = true
+      @resource_id = init[:id] 
       self.class.attributes.each{|attr,type| 
         value = convert( init[attr], type )
         self.send( "#{attr}=", value )

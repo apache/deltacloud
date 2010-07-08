@@ -46,7 +46,7 @@ class DeltaCloud
     images = []
     request_path = entry_points[:images]
     if ( opts[:owner] )
-      request_path += "?owner=#{opts[:owner]}"
+      request_path += "?owner_id=#{opts[:owner]}"
     end
     request( request_path ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
@@ -60,7 +60,7 @@ class DeltaCloud
     images
   end
 
-  def instances(opts={})
+  def instances()
     instances = []
     request( entry_points[:instances] ) do |response|
       if ( response.is_a?( Net::HTTPSuccess ) )
@@ -72,6 +72,34 @@ class DeltaCloud
       end
     end
     instances
+  end
+
+  def instance(id)
+    request( entry_points[:instances], :get, {'id'=>id} ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        doc.get_elements( 'instances/instance' ).each do |instance|
+          uri = instance.attributes['href']
+          return Instance.new( self, uri, build_hash( instance ) )
+        end
+      end
+    end
+    nil
+  end
+
+  def fetch_instance(uri)
+    return Instance.new( self, uri, fetch( uri ) )
+  end
+
+  def create_instance(image_id, flavor_id)
+    request( entry_points[:instances], :post, { 'image_id'=>image_id, 'flavor_id'=>flavor_id} ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        instance = doc.root
+        uri = instance.attributes['href']
+        return Instance.new( self, uri, build_hash( instance ) )
+      end
+    end  
   end
 
   def fetch(uri)
@@ -122,15 +150,18 @@ class DeltaCloud
     end
   end
 
-  def request(path='', method=:get, &block)
+  def request(path='', method=:get, form_data={}, &block)
     if ( path =~ /^http/ ) 
       request_path = path
     else
       request_path = "#{api_path}#{path}"
     end
-    logger << "Request [#{request_path}]\n"
+    logger << "Request [#{method.to_s.upcase} #{request_path}]\n"
     request = eval( "Net::HTTP::#{method.to_s.capitalize}" ).new( request_path )
     request.basic_auth( @name, @password )
+    if ( method == :post )
+      request.set_form_data( form_data )
+    end
     request['Accept'] = 'text/xml'
     http.request( request, &block )
   end

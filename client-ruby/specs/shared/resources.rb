@@ -6,7 +6,7 @@ shared_examples_for "all resources" do
   end
 
   after(:each) do
-    clean_fixtures
+    #clean_fixtures
   end
 
 end
