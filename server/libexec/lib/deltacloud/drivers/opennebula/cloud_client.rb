@@ -23,13 +23,6 @@ require 'uri'
 require 'net/https'
 
 begin
-    require 'curb'
-    CURL_LOADED=true
-rescue LoadError
-    CURL_LOADED=false
-end
-
-begin
     require 'net/http/post/multipart'
 rescue LoadError
 end

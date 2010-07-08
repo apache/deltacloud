@@ -246,7 +246,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 			<DISK image="<%= image_id %>" dev="sda1" />
 		</STORAGE>
 	</COMPUTE>
-  }.gsub(/^        /, '') ) unless defined?( DELTA_VM )
+  }.gsub(/^        /, '') ) unless defined?( OCCI_VM )
 
 
   (OCCI_ACTION = %q{
@@ -254,7 +254,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 		<ID><%= id %></ID>
 		<STATE><%= strstate %></STATE>
 	</COMPUTE>
-  }.gsub(/^        /, '') ) unless defined?( DELTA_ACTION )
+  }.gsub(/^        /, '') ) unless defined?( OCCI_ACTION )
 
  end
 
