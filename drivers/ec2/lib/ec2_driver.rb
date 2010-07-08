@@ -124,7 +124,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
     ec2.reboot_instances( id )
   end
 
-  def delete_instance(credentials, id)
+  def destroy_instance(credentials, id)
     ec2 = new_client(credentials)
     ec2.terminate_instances( id )
   end
