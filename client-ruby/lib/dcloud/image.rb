@@ -9,6 +9,7 @@ module DCloud
       attribute :description
       attribute :owner_id
       attribute :architecture
+      attribute :name
 
       def initialize(client, uri, xml=nil)
         super( client, uri, xml )
@@ -19,6 +20,7 @@ module DCloud
         unless xml.nil?
           @description = xml.text( 'description' )
           @owner_id = xml.text( 'owner_id' )
+          @name = xml.text( 'name' )          
           @architecture = xml.text( 'architecture' )
         end
       end
