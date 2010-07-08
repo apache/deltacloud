@@ -1,0 +1,8 @@
+:name: AnotherInstance
+:state: RUNNING
+:image_id: img1
+:owner_id: anotheruser
+:public_addresses: [ img1.inst2.public.com ]
+:private_addresses: [ img1.inst2.private.com ]
+:flavor_id: m1-small
+:realm_id: us
