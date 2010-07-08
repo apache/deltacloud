@@ -1,0 +1,6 @@
+:owner_id: mockuser
+:created: Thu Jul 30 14:35:11 UTC 2009
+:state: IN-USE
+:capacity: 1
+:device: /dev/sda
+:instance_id: inst1
