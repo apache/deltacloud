@@ -45,20 +45,8 @@ class MockDriver < DeltaCloud::BaseDriver
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
     results = FLAVORS
-    if ( opts[:id] )
-      if ( opts[:id].is_a?( Array ) )
-        results = results.select{|f| opts[:id].include?( f[:id] )}
-      else
-        results = results.select{|f| opts[:id] == f[:id]}
-      end
-    end
-    if ( opts[:architecture] )
-      if ( opts[:architecture].is_a?( Array ) )
-        results = results.select{|f| opts[:architecture].include?( f[:architecture] )}
-      else
-        results = results.select{|f| opts[:architecture] == f[:architecture]}
-      end
-    end
+    results = filter_on( results, :id, opts )
+    results = filter_on( results, :architecture, opts )
     results
   end
 
@@ -74,18 +62,12 @@ class MockDriver < DeltaCloud::BaseDriver
       image[:id] = File.basename( image_file, ".yml" )
       images << image
     end
-    if (opts)
-      if ( opts[:id] )
-        images = images.select{|e| e[:id] == opts[:id]}
-      elsif ( opts[:owner_id] )
-        if ( opts[:owner_id] == 'self' )
-          images = images.select{|e| e[:owner_id] == credentials[:name] }
-        else
-          images = images.select{|e| e[:owner_id] == opts[:owner_id] }
-        end
-      elsif
-        images = []
-      end
+    images = filter_on( images, :id, opts )
+    images = filter_on( images, :architecture, opts )
+    if ( opts && opts[:owner_id] == 'self' )
+       images = images.select{|e| e[:owner_id] == credentials[:name] }
+    else
+      images = filter_on( images, :owner_id, opts )
     end
     images.sort_by{|e| [e[:owner_id],e[:description]]}
   end
@@ -102,20 +84,10 @@ class MockDriver < DeltaCloud::BaseDriver
       puts "opts ==> #{opts.inspect}"
       if ( instance[:owner_id] == credentials[:name] )
         instance[:id] = File.basename( instance_file, ".yml" )
-        if ( opts.nil? || ( opts[:id].nil? ) )
-          instances << instance
-        else 
-          if ( opts[:id].is_a?( Array ) )
-            if ( opts[:id].include?( instance[:id] )  )
-              puts "1D"
-              instances << instance
-            end
-          elsif ( opts[:id] == instance[:id] )
-            instances << instance
-          end
-        end
+        instances << instance
       end
     end
+    instances = filter_on( instances, :id, opts )
     instances
   end
 
