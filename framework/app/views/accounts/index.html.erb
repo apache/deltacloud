@@ -1,0 +1,16 @@
+<h1>Accounts</h1>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+  </tr>
+  <% for account in @accounts %>
+    <tr>
+      <td>
+        <%= link_to account, account %>
+      </td>
+    </tr>
+  <% end %>
+</table>

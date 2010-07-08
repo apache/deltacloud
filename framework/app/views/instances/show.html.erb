@@ -1,0 +1,52 @@
+
+<h1><%= @instance.id %></h1>
+
+<dl>
+  <di>
+    <dt>
+      Image
+    </dt>
+    <dd>
+      <%= link_to @instance.image, @instance.image %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Owner
+    </dt>
+    <dd>
+      <%= link_to @instance.owner, @instance.owner %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      State
+    </dt>
+    <dd>
+      <%= @instance.state %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Public Address
+    </dt>
+    <dd>
+      <%= @instance.public_address || '-' %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Private Address
+    </dt>
+    <dd>
+      <%= @instance.private_address || '-' %>
+    </dd>
+  </di>
+</dl>
+
+<div>
+  <% @instance.class.actions.each do |action| %>
+    <%= link_to action, polymorphic_url( @instance, :action=>action ), :method=>:post %>
+  <% end %>
+  <%= link_to 'delete', @instance, :method=>:delete %>
+</div>

@@ -1,0 +1,35 @@
+<h1><%= @account.id %></h1>
+
+<h2>Instances</h2>
+
+<table>
+  <tr>
+    <th>
+      Instance ID
+    </th>
+  </tr>
+  <% for instance in @account.instances %>
+    <tr>
+      <td>
+        <%= link_to instance, instance %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<h2>Images</h2>
+
+<table>
+  <tr>
+    <th>
+      Image ID
+    </th>
+  </tr>
+  <% for image in @account.images %>
+    <tr>
+      <td>
+        <%= link_to image, image %>
+      </td>
+    </tr>
+  <% end %>
+</table>

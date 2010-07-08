@@ -1,0 +1,34 @@
+
+<h1>Image</h1>
+<h2><%= @image.id %></h2>
+
+<dl>
+  <di>
+    <dt>
+      Owner
+    </dt>
+    <dd>
+      <%= link_to @image.owner, @image.owner %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Architecture
+    </dt>
+    <dd>
+      <%= @image.architecture %>
+    </dd>
+  </di>
+  <di>
+    <dt>
+      Description
+    </dt>
+    <dd>
+      <%= @image.description %>
+    </dd>
+  </di>
+</dl>
+  
+<div>
+  <%= link_to 'launch', new_instance_url( :image_id=>@image.id ) %>
+</div>

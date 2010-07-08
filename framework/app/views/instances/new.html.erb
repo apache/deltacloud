@@ -1,0 +1,8 @@
+<h1>New Instance</h1>
+
+<h2><%= @instance.image.id %></h2>
+
+<% form_for @instance do |f| %>
+  <%= f.hidden_field :image %>
+  <%= submit_tag 'create' %>
+<% end %>

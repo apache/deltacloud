@@ -1,0 +1,29 @@
+
+<h1>Images</h1>
+
+<table>
+  <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Owner
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  <% for image in @images %>
+    <tr>
+      <td>
+        <%= link_to image, image %>
+      </td>
+      <td>
+        <%= link_to image.owner, image.owner %>
+      </td>
+      <td>
+        <%= image.description %>
+      </td>
+    </tr>
+  <% end %>
+</table>
