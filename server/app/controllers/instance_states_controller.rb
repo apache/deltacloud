@@ -23,7 +23,8 @@ class InstanceStatesController < ApplicationController
   around_filter :catch_auth
 
   def show
-    @states = driver.instance_states()
+    #@states = driver.instance_states()
+    @machine = driver.instance_state_machine()
     respond_to do |format|
       format.html
       format.json

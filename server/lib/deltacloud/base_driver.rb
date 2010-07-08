@@ -16,17 +16,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 
-module DeltaCloud
+module Deltacloud
 
   class AuthException < Exception
   end
 
   class BaseDriver
 
-    def instance_states()
-      []
+    def self.define_instance_states(&block)
+      machine = ::Deltacloud::StateMachine.new(&block)
+      @instance_state_machine = machine
     end
 
+    def self.instance_state_machine
+      @instance_state_machine
+    end
+
+    def instance_state_machine
+      self.class.instance_state_machine
+    end
+    
     def instance_actions_for(state)
       actions = []
       state_key = state.downcase.to_sym

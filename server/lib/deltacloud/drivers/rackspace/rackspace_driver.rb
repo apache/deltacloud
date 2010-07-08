@@ -16,13 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 require 'deltacloud/base_driver'
-require 'rackspace_client'
+require 'deltacloud/drivers/rackspace/rackspace_client'
 
 module Deltacloud
   module Drivers
     module Rackspace
 
-class RackspaceDriver < DeltaCloud::BaseDriver
+class RackspaceDriver < Deltacloud::BaseDriver
 
   def flavors(credentials, opts=nil)
     racks = new_client( credentials )
@@ -128,38 +128,23 @@ class RackspaceDriver < DeltaCloud::BaseDriver
 
   def new_client(credentials)
     if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-      raise DeltaCloud::AuthException.new
+      raise Deltacloud::AuthException.new
     end
     RackspaceClient.new(credentials[:name], credentials[:password])
   end
 
-  @@INSTANCE_STATES = [
-    [ :begin, { 
-        :pending=>:create,
-    } ],
-    [ :pending, { 
-        :running=>:_auto_, 
-    } ],
-    [ :running, { 
-        :running=>:reboot, 
-        :shutting_down=>:stop
-    } ],
-    [ :shutting_down, { 
-        :stopped=>:_auto_,
-    } ],
-    [ :stopped, {
-        :end=>:_auto_,
-    } ],
-  ]
+  define_instance_states do 
+    start.to( :pending )          .on( :create )
 
-  def instance_states()
-    @@INSTANCE_STATES 
+    pending.to( :running )        .automatically
+
+    running.to( :running )        .on( :reboot )
+    running.to( :shutting_down )  .on( :stop )
+
+    shutting_down.to( :stopped )  .automatically
+
+    stopped.to( :finish )         .automatically
   end
-
-
-#PENDING
-#STOPPED
-#RUNNING
 
 end
 

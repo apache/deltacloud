@@ -13,15 +13,13 @@
       Destination
     </th>
   </tr>
-  <% @states.each do |state| %>
-    <% origin      = state.first %>
-    <% transitions = state.last %>
+  <% @machine.states.each do |state| %>
     <tr>
-      <td rowspan="<%= transitions.empty? ? 2 : transitions.size + 1 %>" class="origin">
-        <%= origin %>
+      <td rowspan="<%= state.transitions.empty? ? 2 : state.transitions.size + 1 %>" class="origin">
+        <%= state %>
       </td>
     </tr>
-    <% if ( transitions.empty? ) %>
+    <% if ( state.transitions.empty? ) %>
       <tr> 
         <td>
           --
@@ -31,17 +29,17 @@
         </td>
       </tr> 
     <% else %>
-      <% transitions.each do |destination, action| %>
+      <% state.transitions.each do |transition| %>
         <tr>
           <td>
-            <% if ( action == :_auto_ ) %>
+            <% if ( transition.automatically? ) %>
               <em>auto</em>
             <% else %>
-              <%= action %>
+              <%= transition.action %>
             <% end %>
           </td>
           <td>
-            <%= destination %>
+            <%= transition.destination %>
           </td>
         </tr>
       <% end %>

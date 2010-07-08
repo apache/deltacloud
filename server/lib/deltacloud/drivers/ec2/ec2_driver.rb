@@ -22,7 +22,7 @@ require 'right_aws'
 module Deltacloud
   module Drivers
     module EC2
-class EC2Driver < DeltaCloud::BaseDriver
+class EC2Driver < Deltacloud::BaseDriver
 
   #
   # Flavors
@@ -60,28 +60,17 @@ class EC2Driver < DeltaCloud::BaseDriver
     } ),
   ]
 
-  INSTANCE_STATES = [
-    [ :begin, { 
-        :pending=>:create,
-    } ],
-    [ :pending, { 
-        :running=>:_auto_,
-        :stopped=>:stop, 
-    } ],
-    [ :running, { 
-        :running=>:reboot, 
-        :shutting_down=>:stop,
-    } ],
-    [ :shutting_down, { 
-        :stopped=>:_auto_,
-    } ],
-    [ :stopped, {
-        :end=>:_auto_,
-    } ],
-  ]
+  define_instance_states do
+    start.to( :pending )         .automatically
 
-  def instance_states()
-    INSTANCE_STATES 
+    pending.to( :running )       .automatically
+    pending.to( :stopped )       .on( :stop )
+
+    running.to( :running )       .on( :reboot )
+    running.to( :shutting_down ) .on( :stop )
+
+    shutting_down.to( :stopped ) .automatically
+    stopped.to( :finish )        .automatically
   end
 
   def flavors(credentials, opts=nil)
@@ -249,7 +238,7 @@ class EC2Driver < DeltaCloud::BaseDriver
 
   def new_client(credentials)
     if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-      raise DeltaCloud::AuthException.new
+      raise Deltacloud::AuthException.new
     end
     RightAws::Ec2.new(credentials[:name], credentials[:password], :cache=>false )
   end
@@ -316,9 +305,9 @@ class EC2Driver < DeltaCloud::BaseDriver
       block.call
     rescue RightAws::AwsError => e
       if ( e.include?( /SignatureDoesNotMatch/ ) )
-        raise DeltaCloud::AuthException.new
+        raise Deltacloud::AuthException.new
       elsif ( e.include?( /InvalidClientTokenId/ ) )
-        raise DeltaCloud::AuthException.new
+        raise Deltacloud::AuthException.new
       else
         e.errors.each do |error|
           puts "ERROR #{error.inspect}"

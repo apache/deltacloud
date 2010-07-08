@@ -28,7 +28,7 @@ module DriverHelper
   def catch_auth
     begin
       yield
-    rescue DeltaCloud::AuthException => e
+    rescue Deltacloud::AuthException => e
       authenticate_or_request_with_http_basic() do |n,p|
       end
     end

@@ -22,10 +22,10 @@ module Deltacloud
   module Drivers
     module RHEVM
 
-class RHEVMDriver < DeltaCloud::BaseDriver
+class RHEVMDriver < Deltacloud::BaseDriver
 
   SCRIPT_DIR = File.dirname(__FILE__) + '/../scripts'
-  CONFIG = YAML.load_file(File.dirname(__FILE__) + '/../config/rhevm_config.yaml')
+  CONFIG = YAML.load_file(RAILS_ROOT + '/config/rhevm_config.yml')
   SCRIPT_DIR_ARG = '"' + SCRIPT_DIR + '"'
   DELIM_BEGIN="<_OUTPUT>"
   DELIM_END="</_OUTPUT>"
@@ -60,7 +60,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
 
   def genArgString(credentials, args)
     if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
-      raise DeltaCloud::AuthException.new
+      raise Deltacloud::AuthException.new
     end
     puts CONFIG["domain"]
     commonArgs = [SCRIPT_DIR_ARG, credentials[:name], credentials[:password], CONFIG["domain"]]
@@ -166,26 +166,19 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   #
   # Instances
   #
+  
+  define_instance_states do
+    start.to(:stopped)            .on( :create )
 
-  STATE_ACTIONS = [
-    [ :begin, {
-        :stopped => :create}],
-    [ :pending, {
-        :shutting_down=>:stop,
-        :running=>:_auto_ } ],
-    [ :running, {
-        :pending=>:reboot,
-        :shutting_down=>:stop } ],
-    [ :shutting_down, {
-        :stopped=>:_auto_ } ],
-    [ :stopped, {
-        :pending=>:start,
-        :end=>:destroy }],
-  ]
+    pending.to(:shutting_down)    .on( :stop )
+    pending.to(:running)          .automatically
 
+    running.to(:pending)          .on( :reboot )
+    running.to(:shutting_down)    .on( :stop )
 
-  def instance_states()
-    STATE_ACTIONS
+    shutting_down.to(:stopped)    .automatically
+    stopped.to(:pending)          .on( :start )
+    stopped.to(:finish)           .on( :destroy )
   end
 
   def instances(credentials, opts=nil)

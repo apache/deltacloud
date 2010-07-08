@@ -21,7 +21,7 @@ require 'deltacloud/base_driver'
 module Deltacloud
   module Drivers
     module Mock
-class MockDriver < DeltaCloud::BaseDriver
+class MockDriver < Deltacloud::BaseDriver
 
   ( STORAGE_ROOT = MOCK_STORAGE_ROOT ) unless defined?( STORAGE_ROOT )
 
@@ -77,26 +77,16 @@ class MockDriver < DeltaCloud::BaseDriver
     }),
   ] ) unless defined?( REALMS )
 
-  ( INSTANCE_STATES = [
-    [ :begin, {
-       :pending=>:create
-     } ],
-    [ :pending, {
-       :running=>:_auto_
-     } ],
-     [ :running, {
-       :running=>:reboot,
-       :stopped=>:stop
-     } ],
-     [ :stopped, {
-       :running=>:start,
-       :end=>:destroy
-     } ],
-  ] ) unless defined?( STATES )
+  define_instance_states do
+    start.to( :pending )       .on( :create )
 
+    pending.to( :running )     .automatically
 
-  def instance_states()
-    return INSTANCE_STATES
+    running.to( :running )     .on( :reboot )
+    running.to( :stopped )     .on( :stop )
+
+    stopped.to( :running )     .on( :start )
+    stopped.to( :finish )      .on( :destroy )
   end
 
   def flavors(credentials, opts=nil)
@@ -272,11 +262,11 @@ class MockDriver < DeltaCloud::BaseDriver
 
   def check_credentials(credentials)
     if ( credentials[:name] != 'mockuser' )
-      raise DeltaCloud::AuthException.new
+      raise Deltacloud::AuthException.new
     end
 
     if ( credentials[:password] != 'mockpassword' )
-      raise DeltaCloud::AuthException.new
+      raise Deltacloud::AuthException.new
     end
   end
 

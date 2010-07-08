@@ -1,8 +1,8 @@
 %states
-  - for state in @states
-    %state{ :name=>state.first }
-      - state.last.each do |destination, action|
-        - if ( action == :_auto_ )
-          %transition{ :to=>destination, :auto=>'true'}
+  - for state in @machine.states
+    %state{ :name=>state }
+      - for transition in state.transitions
+        - if ( transition.automatically? )
+          %transition{ :to=>transition.destination, :auto=>'true'}
         - else
-          %transition{ :to=>destination, :action=>action }
+          %transition{ :to=>transition.destination, :action=>transition.action }
