@@ -25,9 +25,11 @@ module Drivers
     def images(credentials, *ids)
       ec2 = new_client( credentials )
       images = []
-      ec2.describe_images(*ids).each do |ec2_image|
-        if ( ec2_image[:aws_id] =~ /^ami-/ ) 
-          images << convert_image( ec2_image )
+      safely do
+        ec2.describe_images(*ids).each do |ec2_image|
+          if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+            images << convert_image( ec2_image )
+          end
         end
       end
       images

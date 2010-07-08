@@ -5,6 +5,8 @@ class AccountsController < ApplicationController
 
   include DriverHelper
 
+  around_filter :catch_auth
+
   def index
     @accounts = driver.accounts( credentials )
     respond_to do |format|

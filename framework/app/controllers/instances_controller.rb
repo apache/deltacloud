@@ -7,6 +7,8 @@ class InstancesController < ApplicationController
 
   include DriverHelper
 
+  around_filter :catch_auth
+
   def index
     @instances = driver.instances( credentials )
 
