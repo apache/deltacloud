@@ -10,6 +10,10 @@ class StorageVolumesController < ApplicationController
     puts @volumes.inspect
     respond_to do |format|
       format.html
+      format.json
+      format.xml {
+        render :xml=>convert_to_xml( :storage_volume, @volumes )
+      }
     end
   end
 
@@ -19,6 +23,7 @@ class StorageVolumesController < ApplicationController
       format.html
       format.json
       format.xml {
+        render :xml=>convert_to_xml( :storage_volume, @volume )
       }
     end
   end

@@ -9,6 +9,10 @@ class StorageSnapshotsController < ApplicationController
     @snapshots = driver.snapshots( credentials )
     respond_to do |format|
       format.html
+      format.json
+      format.xml {
+        render :xml=>convert_to_xml( :storage_snapshot, @snapshots )
+      }
     end
   end
 

@@ -2,7 +2,8 @@
 module Converters
 
   ALIASES = {
-    :owner=>nil
+    :owner=>nil,
+    :volume=>:storage_volume,
   }
 
   def self.url_type(type)
@@ -40,16 +41,24 @@ module Converters
               type = $1 
               builder.__send__( type.pluralize ) do
                 v.each do |each_id|
-                  builder.__send__( type, :href=>@link_builder.send( "#{type}_url", each_id ) )
+                  builder.__send__( type, @link_builder.send( "#{type}_url", each_id ) )
                 end
               end
             elsif ( k.to_s =~/^(.*)_id$/ )
               type = $1
               url_type = Converters.url_type( $1 )
               unless ( url_type.nil? )
-                builder.__send__( type, :href=>@link_builder.send( "#{url_type}_url", v ) )
+                if ( v.nil? )
+                  builder.__send__( type )
+                else
+                  builder.__send__( type, @link_builder.send( "#{url_type}_url", v ) )
+                end
               else
-                builder.__send__( "#{type}_id", v )
+                if ( v.nil? )
+                  builder.__send__( "#{type}_id" )
+                else
+                  builder.__send__( "#{type}_id", v )
+                end
               end
             else
               builder.__send__( Converters.tag_name( k ), v )

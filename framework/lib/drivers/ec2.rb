@@ -168,7 +168,7 @@ module Drivers
     def convert_volume(ec2_volume)
       {
         :id=>ec2_volume[:aws_id],
-        :created_at=>ec2_volume[:aws_created_at],
+        :created=>ec2_volume[:aws_created_at],
         :state=>ec2_volume[:aws_status].upcase,
         :capacity=>ec2_volume[:aws_size],
         :instance_id=>ec2_volume[:aws_instance_id],
@@ -181,6 +181,7 @@ module Drivers
         :id=>ec2_snapshot[:aws_id],
         :state=>ec2_snapshot[:aws_status].upcase,
         :volume_id=>ec2_snapshot[:aws_volume_id],
+        :created=>ec2_snapshot[:aws_started_at],
       }
     end
 
