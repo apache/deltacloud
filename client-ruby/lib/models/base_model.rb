@@ -36,6 +36,11 @@ class BaseModel
     @id
   end
 
+ 
+  protected
+
+  attr_reader :client
+
   def check_load_payload()
     return if @loaded
     xml = @client.fetch_resource( self.class.xml_tag_name.to_sym, @uri )
@@ -47,6 +52,10 @@ class BaseModel
       @loaded = true
       @id = xml.text( 'id' ) 
     end
+  end
+
+  def unload
+    @loaded = false
   end
 
 end

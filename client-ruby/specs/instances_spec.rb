@@ -123,4 +123,29 @@ describe "instances" do
       instance.id.should eql( 'inst1' )
     end
   end
+
+  describe "performing actions on instances" do
+    it "should allow actions that are valid" do
+      DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+        instance = client.instance( 'inst1' )
+        instance.should_not be_nil
+        instance.state.should eql( "RUNNING" )
+        instance.uri.should eql( API_URL + '/instances/inst1' )
+        instance.id.should eql( 'inst1' )
+        instance.stop!
+        instance.state.should eql( "STOPPED" )
+        instance.start!
+        instance.state.should eql( "RUNNING" )
+      end
+    end
+
+    it "should not allow actions that are invalid" do
+      DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+        instance = client.instance( 'inst1' )
+        instance.should_not be_nil
+        instance.state.should eql( "RUNNING" )
+        lambda{instance.start}.should raise_error
+      end
+    end
+  end
 end

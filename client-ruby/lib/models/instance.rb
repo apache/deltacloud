@@ -13,9 +13,32 @@ class Instance < BaseModel
   attribute :image
   attribute :flavor
   attribute :realm
+  attribute :action_urls
 
   def initialize(client, uri, xml=nil)
+    @action_urls = {}
     super( client, uri, xml )
+  end
+
+  def start!()
+    url = action_urls['start']
+    throw Exception.new( "Unable to start" ) unless url
+    client.post_instance( url )
+    unload
+  end
+
+  def reboot!()
+    url = action_urls['reboot']
+    throw Exception.new( "Unable to reboot" ) unless url
+    client.post_instance( url )
+    unload
+  end
+
+  def stop!()
+    url = action_urls['stop']
+    throw Exception.new( "Unable to stop" ) unless url
+    client.post_instance( url )
+    unload
   end
 
   def load_payload(xml=nil)
@@ -39,7 +62,11 @@ class Instance < BaseModel
       @state = xml.text( 'state' )
       @actions = []
       xml.get_elements( 'actions/link' ).each do |link|
-        @actions << link.attributes['rel']
+        action_name = link.attributes['rel']
+        if ( action_name )
+          @actions << link.attributes['rel']
+          @action_urls[ link.attributes['rel'] ] = link.attributes['href']
+        end
       end
     end
   end

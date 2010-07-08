@@ -188,6 +188,15 @@ class DeltaCloud
     nil
   end
 
+  def post_instance(uri)
+    request( uri, :post ) do |response|
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        return true
+      end
+    end
+    return false
+  end
+
   def fetch_instance(uri)
     xml = fetch_resource( :instance, uri )
     return Instance.new( self, uri, xml ) if xml
