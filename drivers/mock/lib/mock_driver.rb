@@ -4,8 +4,6 @@ require 'deltacloud/base_driver'
 class MockDriver < DeltaCloud::BaseDriver
 
   ( STORAGE_ROOT = MOCK_STORAGE_ROOT ) unless defined?( STORAGE_ROOT )
-  puts "Storage Root #{STORAGE_ROOT}"
-  puts Dir[ "#{STORAGE_ROOT}/*" ].inspect
 
   # 
   # Flavors
@@ -46,7 +44,14 @@ class MockDriver < DeltaCloud::BaseDriver
 
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
-    FLAVORS.select{|f| opts[:id] == f[:id]}
+    results = FLAVORS
+    if ( opts[:id] )
+      results = results.select{|f| opts[:id] == f[:id]}
+    end
+    if ( opts[:architecture] )
+      results = results.select{|f| opts[:architecture] == f[:architecture]}
+    end
+    results
   end
 
   # 
