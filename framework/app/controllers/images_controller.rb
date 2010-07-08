@@ -19,7 +19,6 @@ class ImagesController < ApplicationController
     respond_to do |format|
       format.html 
       format.json
-      #format.xml { render :xml=>@images.to_xml(:skip_types=>true, :link_builder=>self) }
       format.xml { 
         render :xml=>convert_to_xml( :image, @images ) 
       }
@@ -33,7 +32,9 @@ class ImagesController < ApplicationController
     respond_to do |format|
       format.html
       format.json
-      format.xml { render :xml=>@image.to_xml( :link_builder=>self ) }
+      format.xml { 
+        render :xml=>convert_to_xml( :image, @image ) 
+      }
     end
   end
 

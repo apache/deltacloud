@@ -4,6 +4,7 @@ load 'drivers/ec2.rb'
 class AccountsController < ApplicationController
 
   include DriverHelper
+  include ConversionHelper
 
   around_filter :catch_auth
 
@@ -12,7 +13,9 @@ class AccountsController < ApplicationController
     respond_to do |format|
       format.html
       format.json
-      format.xml { render :xml=>@accounts.to_xml( :skip_types=>true, :link_builder=>self ) }
+      format.xml { 
+        render :xml=>convert_to_xml( :account, @accounts )
+      }
     end
   end
 
@@ -25,7 +28,7 @@ class AccountsController < ApplicationController
       }
       format.json
       format.xml { 
-        render :xml=>@account.to_xml( :link_builder=>self ) 
+        render :xml=>convert_to_xml( :account, @account )
       }
     end
   end

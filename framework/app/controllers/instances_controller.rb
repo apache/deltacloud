@@ -6,6 +6,7 @@ require 'ostruct'
 class InstancesController < ApplicationController
 
   include DriverHelper
+  include ConversionHelper
 
   around_filter :catch_auth
 
@@ -15,7 +16,9 @@ class InstancesController < ApplicationController
     respond_to do |format|
       format.html 
       format.json
-      format.xml { render :xml=>@instances.to_xml(:skip_types=>true, :link_builder=>self) }
+      format.xml { 
+        render :xml=>convert_to_xml( :instance, @instances )
+      }
     end
   end
 
@@ -25,7 +28,9 @@ class InstancesController < ApplicationController
     respond_to do |format|
       format.html
       format.json
-      format.xml { render :xml=>@instance.to_xml( :link_builder=>self ) }
+      format.xml { 
+        render :xml=>convert_to_xml( :instance, @instance )
+      }
     end
   end
 

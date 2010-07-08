@@ -77,12 +77,12 @@ module Drivers
         ec2.describe_images(*ids).each do |ec2_image|
           if ( ec2_image[:aws_id] =~ /^ami-/ )
             unless ( accounts[ec2_image[:aws_owner]] ) 
-              accounts[ec2_image[:aws_owner]] = Account.new( :id=>ec2_image[:aws_owner] )
+              accounts[ec2_image[:aws_owner]] = { :id=>ec2_image[:aws_owner] }
             end
           end
         end
       end
-      accounts.values.sort!{|l,r| l.id <=> r.id}
+      accounts.values.sort!{|l,r| l[:id] <=> r[:id]}
     end
 
     def account(credentials, id)
@@ -91,11 +91,9 @@ module Drivers
       ec2.describe_images_by_owner(id).each do |ec2_image|
         image_ids << ec2_image[:aws_id]
       end
-      instance_ids = []
       {
         :id=>id,
         :image_ids=>image_ids,
-        :instance_ids=>instance_ids,
       } 
     end
 
