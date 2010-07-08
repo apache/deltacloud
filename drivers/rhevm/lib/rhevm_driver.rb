@@ -5,6 +5,7 @@ require 'yaml'
 class RHEVMDriver < DeltaCloud::BaseDriver
 
   SCRIPT_DIR = File.dirname(__FILE__) + '/../scripts'
+  CONFIG = YAML.load_file(File.dirname(__FILE__) + '/../config/rhevm_config.yaml')
   SCRIPT_DIR_ARG = '"' + SCRIPT_DIR + '"'
   DELIM_BEGIN="<_OUTPUT>"
   DELIM_END="</_OUTPUT>"
@@ -41,7 +42,8 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
       raise DeltaCloud::AuthException.new
     end
-    commonArgs = [SCRIPT_DIR_ARG, credentials[:name], credentials[:password], "demo"]
+    puts CONFIG["domain"]
+    commonArgs = [SCRIPT_DIR_ARG, credentials[:name], credentials[:password], CONFIG["domain"]]
     commonArgs.concat(args)
     commonArgs.join(" ")
   end
@@ -212,6 +214,7 @@ class RHEVMDriver < DeltaCloud::BaseDriver
     realm_id = opts[:realm_id]
     if (realm_id.nil?)
         realms = filter_on(realms(credentials, opts), :name, :name => "data")
+        puts realms[0]
         realm_id = realms[0].id
     end
     vm = execute(credentials, "addVm.ps1", image_id, name, realm_id)
