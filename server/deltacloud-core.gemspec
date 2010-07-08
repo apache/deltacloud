@@ -62,9 +62,12 @@ require 'rake'
   s.add_dependency('thin', '>= 1.2.5')
   s.add_dependency('rerun', '>= 0.5.2')
   s.add_dependency('builder', '>= 2.1.2')
+  s.add_dependency('json', '>= 1.2.3')
   s.add_dependency('rack-accept-media-types', '>= 0.9')
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1')
   s.add_development_dependency('rack-test', '>= 0.5.3')
+  s.add_development_dependency('cucumber', '>= 0.6.3')
+  s.add_development_dependency('rcov', '>= 0.9.8')
 
 end
