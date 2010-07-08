@@ -1,5 +1,6 @@
 
 require 'deltacloud/base_driver'
+require 'yaml'
 
 class RHEVMDriver < DeltaCloud::BaseDriver
 
@@ -40,6 +41,9 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       :architecture=>'x86_64',
     },
   ]
+  
+  DELIM_BEGIN="<_OUTPUT>"
+  DELIM_END="</_OUTPUT>"  
 
   def flavors(credentials, ids=nil)
     return FLAVORS if ( ids.nil? )
@@ -49,11 +53,41 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   # 
   # Images
   # 
-
+  
+  def execute(command, args=[])
+    output = `c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe #{File.join(SCRIPT_DIR, command)}`
+    result = $?
+    st = output.index(DELIM_BEGIN)
+    if (st)
+      st += DELIM_BEGIN.length
+      ed = output.index(DELIM_END)
+      output = output.slice(st, (ed-st))
+      # Lets make it yaml
+      output.strip!
+      output = "- \n" + output
+      output.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:]*)/,' \1: "\2"')
+      output.gsub!(/^[ ]*$/,"- ")
+    end
+    outputMaps = YAML.load(output)    
+    outputMaps 
+  end
+  
   def images(credentials, ids_or_owner=nil )
-    foo = `c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe #{File.join(SCRIPT_DIR, "instances.ps1")}`
-    puts(foo) 
+    templates = execute("images.ps1") 
     images = []
+    templates.each do |templ|
+      images << template_to_image(templ)
+    end
+    images
+  end
+  
+  def template_to_image(templ)
+    {
+      :id => templ["TemplateId"],
+      :description => templ["Description"],
+      :architecture => templ["OperatingSystem"],
+      :owner_id => "Jar jar Binks"      
+    }
   end
 
   # 
