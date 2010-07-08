@@ -41,8 +41,8 @@ class Ec2Driver < DeltaCloud::BaseDriver
   ]
 
   INSTANCE_STATES = {
-    :pending=>[],
-    :running=>[ :reboot ],
+    :pending=>[ :stop ],
+    :running=>[ :reboot, :stop ],
     :shutting_down=>[],
     :terminated=>[]
   }
@@ -91,6 +91,21 @@ class Ec2Driver < DeltaCloud::BaseDriver
   end
 
   #
+  # Realms
+  #
+
+  def realms(credentials, opts=nil)
+    ec2 = new_client(credentials)
+    realms = []
+    safely do
+      ec2.describe_availability_zones.each do |ec2_realm|
+        realms << convert_realm( ec2_realm )
+      end
+    end
+    realms
+  end
+
+  #
   # Instances
   #
 
@@ -108,6 +123,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
 
   def create_instance(credentials, image_id, opts)
     ec2 = new_client( credentials )
+    realm_id = opts[:realm_id]
     ec2_instances = ec2.run_instances(
                           image_id,
                           1,1,
@@ -115,18 +131,32 @@ class Ec2Driver < DeltaCloud::BaseDriver
                           nil,
                           '',
                           'public',
-                          opts[:flavor_id].gsub( /-/, '.' ) )
+                          opts[:flavor_id].gsub( /-/, '.' ),
+                          nil,
+                          nil,
+                          realm_id )
     convert_instance( ec2_instances.first )
   end
 
   def reboot_instance(credentials, id)
     ec2 = new_client(credentials)
-    ec2.reboot_instances( id )
+    safely do
+      ec2.reboot_instances( id )
+    end
+  end
+
+  def stop_instance(credentials, id)
+    ec2 = new_client(credentials)
+    safely do
+      ec2.terminate_instances( id )
+    end
   end
 
   def destroy_instance(credentials, id)
     ec2 = new_client(credentials)
-    ec2.terminate_instances( id )
+    safely do
+      ec2.terminate_instances( id )
+    end
   end
 
   #
@@ -189,6 +219,15 @@ class Ec2Driver < DeltaCloud::BaseDriver
     } )
   end
 
+  def convert_realm(ec2_realm)
+    Realm.new( {
+      :id=>ec2_realm[:zone_name],
+      :name=>ec2_realm[:zone_name],
+      :limit=>:unlimited,
+      :state=>ec2_realm[:zone_state].upcase,
+    } )
+  end
+
   def convert_instance(ec2_instance)
     state = ec2_instance[:aws_state].upcase
     state_key = state.downcase.underscore.to_sym
@@ -198,6 +237,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
       :state=>ec2_instance[:aws_state].upcase,
       :image_id=>ec2_instance[:aws_image_id],
       :owner_id=>ec2_instance[:aws_owner],
+      :realm_id=>ec2_instance[:aws_availability_zone],
       :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
       :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
       :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
