@@ -25,7 +25,8 @@ module Sinatra
         else
           port = ":#{request.port}"
         end
-        base = "#{scheme}://#{request.host}#{port}#{request.script_name}"
+        request_host = HOSTNAME ? HOSTNAME : request.host
+        base = "#{scheme}://#{request_host}#{port}#{request.script_name}"
       else
         raise TypeError, "Unknown url_for mode #{mode}"
       end
