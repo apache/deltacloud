@@ -188,7 +188,7 @@ module Sinatra
       end
 
       def self.mime_type(sym)
-        ::Sinatra::Base.respond_to?(:mime_type) && ::Sinatra::Base.mime_type(sym) || ::Sinatra::Base.mime_type(sym)
+        ::Sinatra::Base.respond_to?(:mime_type) && ::Sinatra::Base.mime_type(sym) || ::Sinatra::Base.media_type(sym)
       end
 
       def format(val=nil)
