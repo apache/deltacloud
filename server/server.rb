@@ -73,7 +73,8 @@ error Deltacloud::Validation::Failure do
   $stdout.flush
   response.status = 400
   respond_to do |format|
-    format.xml { haml :error, :layout => false }
+    format.xml { haml :"errors/validation_failure", :layout => false }
+    format.html { haml :"errors/validation_failure" }
   end
 end
 

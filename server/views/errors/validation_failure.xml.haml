@@ -1,4 +1,4 @@
-%error{:url => "#{request.env['REQUEST_URI']}"}
+%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
   %parameter #{@error.name}
   %message #{@error.message}
   - unless @error.param.options.empty?
