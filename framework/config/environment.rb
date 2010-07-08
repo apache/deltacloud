@@ -50,9 +50,9 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-#DRIVER=:ec2
-#DRIVER=:mock
-#DRIVER=:rhevm
+#DEFAULT_DRIVER=:ec2
+DEFAULT_DRIVER=:mock
+#DEFAULT_DRIVER=:rhevm
 
 
 unless defined?( DRIVER )
@@ -62,7 +62,11 @@ unless defined?( DRIVER )
 end
 
 unless defined?( DRIVER )
-  raise Exception.new( "DRIVER must be defined through environment variable or config/environment.rb" )
+  if ( defined?( DEFAULT_DRIVER ) )
+    DRIVER=DEFAULT_DRIVER
+  else
+    raise Exception.new( "DRIVER must be defined through environment variable or DEFAULT_DRIVER through config/environment.rb" )
+  end
 end
 
 
