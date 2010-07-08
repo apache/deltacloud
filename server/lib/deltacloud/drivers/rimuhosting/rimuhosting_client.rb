@@ -24,7 +24,7 @@ require "deltacloud/base_driver"
 
 module Deltacloud
   module Drivers
-    module Rimu
+    module RimuHosting
 
 class RimuHostingClient
   def initialize(credentials ,baseuri = 'https://rimuhosting.com/r')

@@ -3,7 +3,7 @@ DRIVERS = {
   :rackspace => { :name => "Rackspace" },
   :gogrid => { :name => "Gogrid" },
   :rhevm => { :name => "RHEVM" },
-  :rimu => { :name => "Rimu", :class => "RimuHostingDriver"},
+  :rimuhosting => { :name => "RimuHosting"},
   :opennebula => { :name => "Opennebula", :class => "OpennebulaDriver" },
   :terremark => { :name => "Terremark"},
   :mock => { :name => "Mock" }

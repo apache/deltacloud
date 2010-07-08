@@ -17,11 +17,11 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 require "deltacloud/base_driver"
-require "deltacloud/drivers/rimu/rimu_hosting_client"
+require "deltacloud/drivers/rimuhosting/rimuhosting_client"
 
 module Deltacloud
   module Drivers
-    module Rimu
+    module RimuHosting
 
 class RimuHostingDriver < Deltacloud::BaseDriver
 
