@@ -1,0 +1,43 @@
+
+digraph instance_states {
+  
+    start [label="start"];
+  
+    pending [label="pending"];
+  
+    running [label="running"];
+  
+    shutting_down [label="shutting_down"];
+  
+    stopped [label="stopped"];
+  
+    finish [label="finish"];
+  
+
+  
+    
+      start -> pending [ label="create" ];
+    
+  
+    
+      pending -> running [ label="auto" ];
+    
+  
+    
+      running -> running [ label="reboot" ];
+    
+      running -> shutting_down [ label="stop" ];
+    
+  
+    
+      shutting_down -> stopped [ label="auto" ];
+    
+  
+    
+      stopped -> finish [ label="auto" ];
+    
+  
+    
+  
+}
+
