@@ -115,7 +115,7 @@ class MockDriver < DeltaCloud::BaseDriver
   def reboot_instance(credentials, id)
   end
 
-  def delete_instance(credentials, id)
+  def destroy_instance(credentials, id)
     check_credentials( credentials )
     FileUtils.rm( "#{STORAGE_ROOT}/instances/#{id}.yml" )
   end
