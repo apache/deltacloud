@@ -2,8 +2,19 @@
 module Deltacloud
   class HardwareProfile
 
+    UNITS = {
+      :memory => "MB",
+      :storage => "GB",
+      :architecture => "label",
+      :cpu => "count"
+    }
+
+    def self.unit(name)
+      UNITS[name]
+    end
+
     class Property
-      attr_reader :name, :kind
+      attr_reader :name, :kind, :default
       # kind == :range
       attr_reader :first, :last
       # kind == :enum
@@ -11,29 +22,45 @@ module Deltacloud
       # kind == :fixed
       attr_reader :value
 
-      def initialize(name, values)
+      def initialize(name, values, opts = {})
         @name = name
         if values.is_a?(Range)
           @kind = :range
           @first = values.first
           @last = values.last
+          @default = values.first
         elsif values.is_a?(Array)
           @kind = :enum
           @values = values
+          @default = values.first
         else
           @kind = :fixed
           @value = values
+          @default = @value
         end
+        @default = opts[:default] if opts[:default]
+      end
+
+      def unit
+        HardwareProfile.unit(name)
+      end
+
+      def param
+        "hwp_#{name}"
+      end
+
+      def fixed?
+        kind == :fixed
       end
     end
 
     class << self
       def property(prop)
         define_method(prop) do |*args|
-          values, *ignored = *args
+          values, opts, *ignored = *args
           instvar = :"@#{prop}"
           unless values.nil?
-            @properties[prop] = Property.new(prop, values)
+            @properties[prop] = Property.new(prop, values, opts || {})
           end
           @properties[prop]
         end
@@ -54,6 +81,19 @@ module Deltacloud
 
     def each_property(&block)
       @properties.each_value { |prop| yield prop }
+    end
+
+    def properties
+      @properties.values
+    end
+
+    def property(name)
+      @properties[name.to_sym]
+    end
+
+    def default?(prop, v)
+      p = @properties[prop.to_sym]
+      p && p.default.to_s == v
     end
   end
 end

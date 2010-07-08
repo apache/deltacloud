@@ -4,9 +4,9 @@ module HardwareProfilesHelper
     return "&empty;" unless prop
     case prop.kind
       when :range
-        "#{prop.first} - #{prop.last}"
+      "#{prop.first} - #{prop.last} (default: #{prop.default})"
       when :enum
-        prop.values.join(', ')
+      prop.values.join(', ') + " (default: #{prop.default})"
       else
         prop.value.to_s
     end
