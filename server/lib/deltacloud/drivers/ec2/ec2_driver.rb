@@ -254,10 +254,12 @@ class EC2Driver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    AWS::EC2::Base.new(
+    opts = {
       :access_key_id => credentials.user,
       :secret_access_key => credentials.password
-    )
+    }
+    opts[:server] = ENV['DCLOUD_EC2_URL'] if ENV['DCLOUD_EC2_URL']
+    AWS::EC2::Base.new(opts)
   end
 
   def convert_image(ec2_image)
