@@ -31,10 +31,7 @@ class RimuHostingClient
     @uri = URI.parse(baseuri)
     @service = Net::HTTP.new(@uri.host, @uri.port)
     @service.use_ssl = true
-    if credentials.provided?
-      @auth = "rimuhosting apikey=#{credentials.password}"
-    end
-
+    @auth = "rimuhosting apikey=#{credentials.password}"
   end
 
   def request(resource, data='', method='GET')
@@ -47,8 +44,9 @@ class RimuHostingClient
     res = JSON.parse(r.body)
     res = res[res.keys[0]]
 
-    if(res['response_type'] == "ERROR" and res['error_info']['error_class'] == "PermissionException")
-      raise DeltaCloud::AuthException.new
+    if(res['response_type'] == "ERROR" and ( (res['error_info']['error_class'] == "PermissionException") or
+					     (res['error_info']['error_class'] == "LoginRequired") )) 
+      raise Deltacloud::AuthException.new
     end
     res
   end
@@ -58,7 +56,6 @@ class RimuHostingClient
   end
 
   def list_plans
-    puts "testsdasfdsf"
     request('/pricing-plans;server-type=VPS')["pricing_plan_infos"]
   end
 

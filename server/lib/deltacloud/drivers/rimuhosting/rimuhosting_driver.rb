@@ -51,8 +51,8 @@ class RimuHostingDriver < Deltacloud::BaseDriver
       #        not contained in hte pricing_plan_infos
       HardwareProfile.new(plan["pricing_plan_code"]) do
         memory plan["minimum_memory_mb"].to_f
-        storage => plan["minimum_disk_gb"].to_i
-        architecture => "x86"
+        storage plan["minimum_disk_gb"].to_i
+        architecture "x86"
       end
     end
     filter_hardware_profiles(results, opts)
@@ -118,7 +118,8 @@ class RimuHostingDriver < Deltacloud::BaseDriver
             :realm_id => "RH",
             :owner_id => "root",
             :instance_profile => InstanceProfile.new("none"),
-            :actions => instance_actions_for("RUNNING")
+            :actions => instance_actions_for("RUNNING"),
+            :public_addresses => inst["allocated_ips"]["primary_ip"]
     })
   end
 
