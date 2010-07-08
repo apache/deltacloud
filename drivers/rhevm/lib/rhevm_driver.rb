@@ -38,7 +38,10 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   end
 
   def genArgString(credentials, args)
-    commonArgs = [SCRIPT_DIR_ARG, "vdcadmin", "123456", "demo"]
+    if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' )
+      raise DeltaCloud::AuthException.new
+    end
+    commonArgs = [SCRIPT_DIR_ARG, credentials[:name], credentials[:password], "demo"]
     commonArgs.concat(args)
     commonArgs.join(" ")
   end
@@ -191,8 +194,8 @@ class RHEVMDriver < DeltaCloud::BaseDriver
 
   def create_instance(credentials, image_id, opts)
     name = opts[:name]
-    name ||= "New Instance"
-    vm = execute(credentials, "addVm.ps1", image_id, opts[:name], opts[:realm_id])
+    name = "NewInstance" if (name.nil? or name.empty?)
+    vm = execute(credentials, "addVm.ps1", image_id, name, opts[:realm_id])
     vm_to_instance(vm[0])
   end
 
