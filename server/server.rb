@@ -81,6 +81,10 @@ error Deltacloud::AuthException do
   report_error(403, "auth_exception")
 end
 
+error Deltacloud::BackendError do
+  report_error(500, "backend_error")
+end
+
 # Redirect to /api
 get '/' do redirect '/api'; end
 

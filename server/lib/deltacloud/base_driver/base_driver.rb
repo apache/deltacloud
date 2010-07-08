@@ -20,6 +20,16 @@ module Deltacloud
   class AuthException < Exception
   end
 
+  class BackendError < StandardError
+    attr_reader :code, :cause, :details
+    def initialize(code, cause, message, details)
+      super(message)
+      @code = code
+      @cause = cause
+      @details = details
+    end
+  end
+
   class BaseDriver
 
     def self.define_hardware_profile(name,&block)

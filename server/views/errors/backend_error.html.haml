@@ -1,0 +1,17 @@
+%h1 Backend Error
+
+%p= @error.message
+
+%dl
+  %di
+    %dt Request URL
+    %dd= request.env['REQUEST_URI']
+  %di
+    %dt Code
+    %dd= @error.code
+  %di
+    %dt Cause
+    %dd= @error.cause
+  %di
+    %dt Details
+    %dd= @error.details
