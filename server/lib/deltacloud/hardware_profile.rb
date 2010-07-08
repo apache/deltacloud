@@ -2,40 +2,55 @@
 module Deltacloud
   class HardwareProfile
 
+    class Property
+      attr_reader :name, :kind
+      # kind == :range
+      attr_reader :first, :last
+      # kind == :enum
+      attr_reader :values
+      # kind == :fixed
+      attr_reader :value
+
+      def initialize(name, values)
+        @name = name
+        if values.is_a?(Range)
+          @kind = :range
+          @first = values.first
+          @last = values.last
+        elsif values.is_a?(Array)
+          @kind = :enum
+          @values = values
+        else
+          @kind = :fixed
+          @value = values
+        end
+      end
+    end
+
+    class << self
+      def property(prop)
+        define_method(prop) do |*args|
+          values, *ignored = *args
+          instvar = :"@#{prop}"
+          unless values.nil?
+            @properties[prop] = Property.new(prop, values)
+          end
+          @properties[prop]
+        end
+      end
+    end
+
     attr_reader :name
-    attr_reader :cpu
-    attr_reader :architecture
-    attr_reader :memory
-    attr_reader :storage
+    property :cpu
+    property :architecture
+    property :memory
+    property :storage
 
     def initialize(name,&block)
+      @properties   = {}
       @name         = name
-      @cpu          = 1
-      @memory       = 0
-      @storage      = 0
-      @architecture = 1
       @mutable      = false
-      instance_eval &block
-    end
-
-    def cpu(values=nil)
-      ( @cpu = values ) unless values.nil?
-      @cpu
-    end
-
-    def architecture(values=nil)
-      ( @architecture = values ) unless values.nil?
-      @architecture
-    end
-
-    def memory(values=nil)
-      ( @memory = values ) unless values.nil?
-      @memory
-    end
-
-    def storage(values=nil)
-      ( @storage = values ) unless values.nil?
-      @storage
+      instance_eval &block if block_given?
     end
 
     def mutable
@@ -50,5 +65,8 @@ module Deltacloud
       @mutable
     end
 
+    def each_property(&block)
+      @properties.each_value { |prop| yield prop }
+    end
   end
 end

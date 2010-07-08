@@ -20,10 +20,10 @@
         %td
           = link_to profile.name, hardware_profile_url( profile.name )
         %td
-          = profile.architecture
+          = format_hardware_property profile.architecture
         %td
-          = format_hardware_aspect profile.memory
+          = format_hardware_property profile.memory
         %td
-          = format_hardware_aspect profile.storage
+          = format_hardware_property profile.storage
         %td
           = profile.mutable?

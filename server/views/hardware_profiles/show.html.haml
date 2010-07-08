@@ -6,17 +6,17 @@
     %dt
       Architecture
     %dd
-      = @profile.architecture
+      = format_hardware_property @profile.architecture
   %di
     %dt
       Memory
     %dd
-      = format_hardware_aspect @profile.memory
+      = format_hardware_property @profile.memory
   %di
     %dt
       Storage
     %dd
-      = format_hardware_aspect @profile.storage
+      = format_hardware_property @profile.storage
   %di
     %dt
       Mutable

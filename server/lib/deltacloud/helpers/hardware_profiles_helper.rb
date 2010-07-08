@@ -1,16 +1,15 @@
 module HardwareProfilesHelper
 
-  def format_hardware_aspect(values)
-    f = ''
-    case ( values )
-      when Range
-        f = "#{values.begin} - #{values.end}"
-      when Array
-        f = values.join( ', ' )
+  def format_hardware_property(prop)
+    return "&empty;" unless prop
+    case prop.kind
+      when :range
+        "#{prop.first} - #{prop.last}"
+      when :enum
+        prop.values.join(', ')
       else
-        f = values.to_s
+        prop.value.to_s
     end
-    f
   end
 
 end
