@@ -30,9 +30,7 @@ HOSTNAME=ENV['API_HOST'] ? ENV['API_HOST'] : nil
 
 Rack::Mime::MIME_TYPES.merge!({ ".gv" => "text/plain" })
 
-module Sinatra
-  register Sinatra::RespondTo
-end
+Sinatra::Application.register Sinatra::RespondTo
 
 # Common actions
 #
