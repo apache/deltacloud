@@ -23,7 +23,10 @@ module Deltacloud
     module Mock
 class MockDriver < Deltacloud::BaseDriver
 
-  ( STORAGE_ROOT = MOCK_STORAGE_ROOT ) unless defined?( STORAGE_ROOT )
+  unless defined?(STORAGE_ROOT)
+    STORAGE_ROOT = File::join(File::dirname(__FILE__),
+                              "../../../../../../client/specs/data")
+  end
 
   #
   # Flavors
