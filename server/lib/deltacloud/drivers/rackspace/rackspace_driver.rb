@@ -41,6 +41,18 @@ class RackspaceDriver < Deltacloud::BaseDriver
     results
   end
 
+  def hardware_profiles(credentials, opts = nil)
+    racks = new_client( credentials )
+    results = racks.list_flavors.map do |flav|
+      HardwareProfile.new(flav["id"].to_s) do
+        architecture 'x86_64'
+        memory flav["ram"].to_i
+        storage flav["disk"].to_i
+      end
+    end
+    filter_hardware_profiles(results, opts)
+  end
+
   def images(credentials, opts=nil)
     racks = new_client( credentials )
     results = racks.list_images.map do |img|
@@ -87,11 +99,10 @@ class RackspaceDriver < Deltacloud::BaseDriver
   #
   def create_instance(credentials, image_id, opts)
     racks = new_client( credentials )
-    flavor_id = 1
-    if (opts[:flavor_id]) then flavor_id = opts[:flavor_id] end
+    hwp_id = opts[:hwp_id] || 1
     name = Time.now.to_s
     if (opts[:name]) then name = opts[:name] end
-    convert_srv_to_instance(racks.start_server(image_id, flavor_id, name))
+    convert_srv_to_instance(racks.start_server(image_id, hwp_id, name))
   end
 
   #
@@ -123,6 +134,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
     inst.actions = instance_actions_for(inst.state)
     inst.image_id = srv["imageId"].to_s
     inst.flavor_id = srv["flavorId"].to_s
+    inst.instance_profile = InstanceProfile.new(srv["flavorId"].to_s)
     if srv["addresses"]
       inst.public_addresses  = srv["addresses"]["public"]
       inst.private_addresses = srv["addresses"]["private"]
