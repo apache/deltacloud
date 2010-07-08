@@ -9,6 +9,8 @@ DRIVERS = {
   :mock => { :name => "Mock" }
 }
 
+DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
+
 def driver_name
   DRIVERS[DRIVER][:name]
 end

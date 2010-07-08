@@ -267,3 +267,6 @@ module Sinatra
     end
   end
 end
+
+Rack::Mime::MIME_TYPES.merge!({ ".gv" => "text/plain" })
+Sinatra::Application.register Sinatra::RespondTo

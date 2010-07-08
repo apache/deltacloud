@@ -1,21 +1,18 @@
-require 'rubygems'
 require 'deltacloud'
+require 'drivers'
 require 'json'
 require 'sinatra'
 require 'sinatra/respond_to'
-require 'erb'
-require 'haml'
-require 'open3'
-require 'builder'
-require 'drivers'
 require 'sinatra/static_assets'
 require 'sinatra/rabbit'
 require 'sinatra/lazy_auth'
-require 'deltacloud/validation'
-require 'deltacloud/helpers'
+require 'erb'
+require 'haml'
+require 'open3'
 
 configure do
   set :raise_errors => false
+  set :show_exceptions, false
 end
 
 configure :development do
@@ -24,58 +21,9 @@ configure :development do
   $stderr.sync = true
 end
 
-DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
-
 # You could use $API_HOST environment variable to change your hostname to
 # whatever you want (eg. if you running API behind NAT)
 HOSTNAME=ENV['API_HOST'] ? ENV['API_HOST'] : nil
-
-Rack::Mime::MIME_TYPES.merge!({ ".gv" => "text/plain" })
-
-Sinatra::Application.register Sinatra::RespondTo
-
-# Common actions
-#
-
-def filter_all(model)
-    filter = {}
-    filter.merge!(:id => params[:id]) if params[:id]
-    filter.merge!(:architecture => params[:architecture]) if params[:architecture]
-    filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
-    filter.merge!(:state => params[:state]) if params[:state]
-    filter = nil if filter.keys.size.eql?(0)
-    singular = model.to_s.singularize.to_sym
-    @elements = driver.send(model.to_sym, credentials, filter)
-    instance_variable_set(:"@#{model}", @elements)
-    respond_to do |format|
-      format.html { haml :"#{model}/index" }
-      format.xml { haml :"#{model}/index" }
-      format.json { convert_to_json(singular, @elements) }
-    end
-end
-
-def show(model)
-  @element = driver.send(model, credentials, { :id => params[:id]} )
-  instance_variable_set("@#{model}", @element)
-  respond_to do |format|
-    format.html { haml :"#{model.to_s.pluralize}/show" }
-    format.xml { haml :"#{model.to_s.pluralize}/show" }
-    format.json { convert_to_json(model, @element) }
-  end
-end
-
-
-#
-# Error handlers
-#
-def report_error(status, template)
-  @error = request.env['sinatra.error']
-  response.status = status
-  respond_to do |format|
-    format.xml { haml :"errors/#{template}", :layout => false }
-    format.html { haml :"errors/#{template}" }
-  end
-end
 
 error Deltacloud::Validation::Failure do
   report_error(400, "validation_failure")
@@ -93,7 +41,7 @@ end
 get '/' do redirect '/api'; end
 
 get '/api\/?' do
-    @version = 1.0
+    @version = 0.1
     respond_to do |format|
         format.xml { haml :"api/show" }
         format.json do
@@ -111,10 +59,20 @@ end
 # Rabbit DSL
 
 collection :realms do
-  description "Within a cloud provider a realm represents a boundary containing resources. The exact definition of a realm is left to the cloud provider. In some cases, a realm may represent different datacenters, different continents, or different pools of resources within a single datacenter. A cloud provider may insist that resources must all exist within a single realm in order to cooperate. For instance, storage volumes may only be allowed to be mounted to instances within the same realm."
+  description <<END
+  Within a cloud provider a realm represents a boundary containing resources.
+  The exact definition of a realm is left to the cloud provider.
+  In some cases, a realm may represent different datacenters, different continents,
+  or different pools of resources within a single datacenter.
+  A cloud provider may insist that resources must all exist within a single realm in
+  order to cooperate. For instance, storage volumes may only be allowed to be mounted to
+  instances within the same realm.
+END
 
   operation :index do
-    description 'Operation will list all available realms. For specific architecture use "architecture" parameter.'
+    description <<END
+    Operation will list all available realms. For specific architecture use "architecture" parameter.
+END
     param :id,            :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control { filter_all(:realms) }
@@ -130,10 +88,17 @@ collection :realms do
 end
 
 collection :images do
-  description "An image is a platonic form of a machine. Images are not directly executable, but are a template for creating actual instances of machines."
+  description <<END
+  An image is a platonic form of a machine. Images are not directly executable,
+  but are a template for creating actual instances of machines."
+END
 
   operation :index do
-    description 'The instances collection will return a set of all images available to the current use. You can filter images using "owner_id" and "architecture" parameter'
+    description <<END
+    The instances collection will return a set of all images
+    available to the current use. You can filter images using
+    "owner_id" and "architecture" parameter
+END
     param :id,            :string
     param :owner_id,      :string
     param :architecture,  :string,  :optional
@@ -196,20 +161,11 @@ get "/api/instances/new" do
   end
 end
 
-def instance_action(name)
-  @instance = driver.send(:"#{name}_instance", credentials, params["id"])
-
-  return redirect(instances_url) if name.eql?(:destroy) or @instance.class!=Instance
-
-  respond_to do |format|
-    format.html { haml :"instances/show" }
-    format.xml { haml :"instances/show" }
-    format.json {convert_to_json(:instance, @instance) }
-  end
-end
-
 collection :instances do
-  description "An instance is a concrete machine realized from an image. The images collection may be obtained by following the link from the primary entry-point."
+  description <<END
+  An instance is a concrete machine realized from an image.
+  The images collection may be obtained by following the link from the primary entry-point."
+END
 
   operation :index do
     description "List all instances"

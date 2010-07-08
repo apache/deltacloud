@@ -62,7 +62,6 @@ require 'rake'
   s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('thin', '>= 1.2.5')
   s.add_dependency('rerun', '>= 0.5.2')
-  s.add_dependency('builder', '>= 2.1.2')
   s.add_dependency('json', '>= 1.2.3')
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1')

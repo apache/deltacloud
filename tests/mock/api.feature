@@ -6,7 +6,7 @@ Feature: Accessing API entry points
     When client access this URI
     Then client should get root element 'api'
     And this element should have attribute 'driver' with value 'mock'
-    And this element should have attribute 'version' with value '1.0'
+    And this element should have attribute 'version' with value '0.1'
 
   Scenario: List of entry points
     Given URI /api exists

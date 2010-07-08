@@ -53,4 +53,52 @@ module ApplicationHelper
     return 'password' if driver_has_feature?(:authentication_password)
   end
 
+  def filter_all(model)
+      filter = {}
+      filter.merge!(:id => params[:id]) if params[:id]
+      filter.merge!(:architecture => params[:architecture]) if params[:architecture]
+      filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
+      filter.merge!(:state => params[:state]) if params[:state]
+      filter = nil if filter.keys.size.eql?(0)
+      singular = model.to_s.singularize.to_sym
+      @elements = driver.send(model.to_sym, credentials, filter)
+      instance_variable_set(:"@#{model}", @elements)
+      respond_to do |format|
+        format.html { haml :"#{model}/index" }
+        format.xml { haml :"#{model}/index" }
+        format.json { convert_to_json(singular, @elements) }
+      end
+  end
+
+  def show(model)
+    @element = driver.send(model, credentials, { :id => params[:id]} )
+    instance_variable_set("@#{model}", @element)
+    respond_to do |format|
+      format.html { haml :"#{model.to_s.pluralize}/show" }
+      format.xml { haml :"#{model.to_s.pluralize}/show" }
+      format.json { convert_to_json(model, @element) }
+    end
+  end
+
+  def report_error(status, template)
+    @error = request.env['sinatra.error']
+    response.status = status
+    respond_to do |format|
+      format.xml { haml :"errors/#{template}", :layout => false }
+      format.html { haml :"errors/#{template}" }
+    end
+  end
+
+  def instance_action(name)
+    @instance = driver.send(:"#{name}_instance", credentials, params["id"])
+
+    return redirect(instances_url) if name.eql?(:destroy) or @instance.class!=Instance
+
+    respond_to do |format|
+      format.html { haml :"instances/show" }
+      format.xml { haml :"instances/show" }
+      format.json {convert_to_json(:instance, @instance) }
+    end
+  end
+
 end

@@ -12,3 +12,6 @@ require 'deltacloud/models/instance'
 require 'deltacloud/models/instance_profile'
 require 'deltacloud/models/storage_snapshot'
 require 'deltacloud/models/storage_volume'
+
+require 'deltacloud/validation'
+require 'deltacloud/helpers'
