@@ -15,404 +15,494 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+require 'nokogiri'
 require 'rest_client'
-require 'rexml/document'
-require 'logger'
-require 'dcloud/hardware_profile'
-require 'dcloud/realm'
-require 'dcloud/image'
-require 'dcloud/instance'
-require 'dcloud/storage_volume'
-require 'dcloud/storage_snapshot'
-require 'dcloud/state'
-require 'dcloud/transition'
 require 'base64'
+require 'logger'
 
-class DeltaCloud
+module DeltaCloud
 
-  attr_accessor :logger
-  attr_reader   :api_uri
-  attr_reader   :entry_points
-  attr_reader   :driver_name
-  attr_reader   :last_request_xml
-  attr_reader   :features
-
-  def self.driver_name(url)
-    DeltaCloud.new( nil, nil, url) do |client|
-      return client.driver_name
-    end
+  # Get a new API client instance
+  # 
+  # @param [String, user_name] API user name
+  # @param [String, password] API password
+  # @param [String, user_name] API URL (eg. http://localhost:3001/api)
+  # @return [DeltaCloud::API]
+  def self.new(user_name, password, api_url, &block)
+    API.new(user_name, password, api_url, &block)
   end
 
-  def initialize(name, password, api_uri, opts={}, &block)
-    @logger       = Logger.new( STDERR )
-    @name         = name
-    @password     = password
-    @api_uri      = URI.parse( api_uri )
-    @entry_points = {}
-    @verbose      = opts[:verbose]
-    @features = {}
-    discover_entry_points
-    connect( &block )
-    self
-  end
-
-
-  def connect(&block)
-    @http = RestClient::Resource.new( api_uri.to_s , :accept => 'application/xml' )
-    discover_entry_points
-    block.call( self ) if block
-    self
-  end
-
-  def api_host
-    @api_uri.host
-  end
-
-  def api_port
-    @api_uri.port
-  end
-
-  def api_path
-    @api_uri.path
-  end
-
-  def feature?(collection, name)
-    @features.has_key?(collection) && @features[collection].include?(name)
-  end
-
-  def hardware_profiles(opts={})
-    hardware_profiles = []
-    request(entry_points[:hardware_profiles], :get, opts) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'hardware-profiles/hardware-profile' ).each do |hwp|
-        uri = hwp.attributes['href']
-        hardware_profiles << DCloud::HardwareProfile.new( self, uri, hwp )
-      end
-    end
-    hardware_profiles
-  end
-
-  def hardware_profile(id)
-    request( entry_points[:hardware_profiles], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( '/hardware-profile' ).each do |hwp|
-        uri = hwp.attributes['href']
-        return DCloud::HardwareProfile.new( self, uri, hwp )
-      end
-    end
-  end
-
-  def fetch_hardware_profile(uri)
-    xml = fetch_resource( :hardware_profile, uri )
-    return DCloud::HardwareProfile.new( self, uri, xml ) if xml
-    nil
-  end
-
-  def fetch_resource(type, uri)
-    request( uri ) do |response|
-      doc = REXML::Document.new( response )
-      if ( doc.root && ( doc.root.name == type.to_s.gsub( /_/, '-' ) ) )
-        return doc.root
-      end
-    end
-    nil
-  end
-
-  def fetch_documentation(collection, operation=nil)
-    response = @http["docs/#{collection}#{operation ? "/#{operation}" : ''}"].get(:accept => "application/xml")
-    doc = REXML::Document.new( response.to_s )
-    if operation.nil?
-      docs = {
-        :name => doc.get_elements('docs/collection').first.attributes['name'],
-        :description => doc.get_elements('docs/collection/description').first.text,
-        :operations => []
-      }
-      doc.get_elements('docs/collection/operations/operation').each do |operation|
-        p = {}
-        p[:name] = operation.attributes['name']
-        p[:description] = operation.get_elements('description').first.text
-        p[:parameters] = []
-        operation.get_elements('parameter').each do |param|
-          p[:parameters] << param.attributes['name']
-        end
-        docs[:operations] << p
-      end
-    else
-      docs = {
-        :name => doc.get_elements('docs/operation').attributes['name'],
-        :description => doc.get_elements('docs/operation/description').first.text,
-        :parameters => []
-      }
-      doc.get_elements('docs/operation/parameter').each do |param|
-        docs[:parameters] << param.attributes['name']
-      end
-    end
-    docs
-  end
-
-  def instance_states
-    states = []
-    request( entry_points[:instance_states] ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'states/state' ).each do |state_elem|
-        state = DCloud::State.new( state_elem.attributes['name'] )
-        state_elem.get_elements( 'transition' ).each do |transition_elem|
-          state.transitions << DCloud::Transition.new(
-                                 transition_elem.attributes['to'],
-                                 transition_elem.attributes['action']
-                               )
-        end
-        states << state
-      end
-    end
-    states
-  end
-
-  def instance_state(name)
-    found = instance_states.find{|e| e.name.to_s == name.to_s}
-    found
-  end
-
-  def realms(opts={})
-    realms = []
-    request( entry_points[:realms], :get, opts ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'realms/realm' ).each do |realm|
-        uri = realm.attributes['href']
-        realms << DCloud::Realm.new( self, uri, realm )
-      end
-    end
-    realms
-  end
-
-  def realm(id)
-    request( entry_points[:realms], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'realm' ).each do |realm|
-        uri = realm.attributes['href']
-        return DCloud::Realm.new( self, uri, realm )
-      end
-    end
-    nil
-  end
-
-  def fetch_realm(uri)
-    xml = fetch_resource( :realm, uri )
-    return DCloud::Realm.new( self, uri, xml ) if xml
-    nil
-  end
-
-  def images(opts={})
-    images = []
-    request_path = entry_points[:images]
-    request( request_path, :get, opts ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'images/image' ).each do |image|
-        uri = image.attributes['href']
-        images << DCloud::Image.new( self, uri, image )
-      end
-    end
-    images
-  end
-
-  def image(id)
-    request( entry_points[:images], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'image' ).each do |instance|
-        uri = instance.attributes['href']
-        return DCloud::Image.new( self, uri, instance )
-      end
-    end
-    nil
-  end
-
-  def instances(opts={})
-    instances = []
-    request( entry_points[:instances], :get, opts ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'instances/instance' ).each do |instance|
-        uri = instance.attributes['href']
-        instances << DCloud::Instance.new( self, uri, instance )
-      end
-    end
-    instances
-  end
-
-  def instance(id)
-    request( entry_points[:instances], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'instance' ).each do |instance|
-        uri = instance.attributes['href']
-        return DCloud::Instance.new( self, uri, instance )
-      end
-    end
-    nil
-  end
-
-  def post_instance(uri)
-    request( uri, :post ) do |response|
-      return true
-    end
-    return false
-  end
-
-  def fetch_instance(uri)
-    xml = fetch_resource( :instance, uri )
-    return DCloud::Instance.new( self, uri, xml ) if xml
-    nil
-  end
-
-  # Create a new instance, using image +image_id+. Possible optiosn are
+  # Return a API driver for specified URL
   #
-  #   name  - a user-defined name for the instance
-  #   realm - a specific realm for placement of the instance
-  #   hardware_profile - either a string giving the name of the
-  #                      hardware profile or a hash. The hash must have an
-  #                      entry +id+, giving the id of the hardware profile,
-  #                      and may contain additional names of properties,
-  #                      e.g. 'storage', to override entries in the
-  #                      hardware profile
-  def create_instance(image_id, opts={})
-    name = opts[:name]
-    realm_id = opts[:realm]
+  # @param [String, url] API URL (eg. http://localhost:3001/api)
+  def self.driver_name(url)
+    API.new(nil, nil, url).driver_name
+  end
 
-    params = {}
-    ( params[:realm_id] = realm_id ) if realm_id
-    ( params[:name] = name ) if name
+  class API
+    attr_accessor :logger
+    attr_reader   :api_uri, :driver_name, :api_version, :features, :entry_points
+    attr_reader   :classes
 
-    if opts[:hardware_profile].is_a?(String)
-      params[:hwp_id] = opts[:hardware_profile]
-    elsif opts[:hardware_profile].is_a?(Hash)
-      opts[:hardware_profile].each do |k,v|
-        params[:"hwp_#{k}"] = v
-      end
+    def initialize(user_name, password, api_url, opts={}, &block)
+      @logger = opts[:verbose] ? Logger.new(STDERR) : []
+      @username, @password = user_name, password
+      @api_uri = URI.parse(api_url)
+      @features, @entry_points = {}, {}
+      @classes = []
+      @verbose = opts[:verbose] || false
+      discover_entry_points
+      yield self if block_given?
     end
 
-    params[:image_id] = image_id
-    request( entry_points[:instances], :post, {}, params ) do |response|
-      doc = REXML::Document.new( response )
-      instance = doc.root
-      uri = instance.attributes['href']
-      return DCloud::Instance.new( self, uri, instance )
+    def connect(&block)
+      yield self
     end
-  end
 
-  def storage_volumes(opts={})
-    storage_volumes = []
-    request( entry_points[:storage_volumes] ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'storage-volumes/storage-volume' ).each do |instance|
-        uri = instance.attributes['href']
-        storage_volumes << DCloud::StorageVolume.new( self, uri, instance )
-      end
-    end
-    storage_volumes
-  end
+    # Return API hostname
+    def api_host; @api_uri.host ; end
 
-  def storage_volume(id)
-    request( entry_points[:storage_volumes], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'storage-volume' ).each do |storage_volume|
-        uri = storage_volume.attributes['href']
-        return DCloud::StorageVolume.new( self, uri, storage_volume )
-      end
-    end
-    nil
-  end
+    # Return API port
+    def api_port; @api_uri.port ; end
 
-  def fetch_storage_volume(uri)
-    xml = fetch_resource( :storage_volume, uri )
-    return DCloud::StorageVolume.new( self, uri, xml ) if xml
-    nil
-  end
+    # Return API path
+    def api_path; @api_uri.path ; end
 
-  def storage_snapshots(opts={})
-    storage_snapshots = []
-    request( entry_points[:storage_snapshots] ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'storage-snapshots/storage-snapshot' ).each do |instance|
-        uri = instance.attributes['href']
-        storage_snapshots << DCloud::StorageSnapshot.new( self, uri, instance )
-      end
-    end
-    storage_snapshots
-  end
-
-  def storage_snapshot(id)
-    request( entry_points[:storage_snapshots], :get, {:id=>id } ) do |response|
-      doc = REXML::Document.new( response )
-      doc.get_elements( 'storage-snapshot' ).each do |storage_snapshot|
-        uri = storage_snapshot.attributes['href']
-        return DCloud::StorageSnapshot.new( self, uri, storage_snapshot )
-      end
-    end
-    nil
-  end
-
-  def fetch_storage_snapshot(uri)
-    xml = fetch_resource( :storage_snapshot, uri )
-    return DCloud::StorageSnapshot.new( self, uri, xml ) if xml
-    nil
-  end
-
-  def fetch_image(uri)
-    xml = fetch_resource( :image, uri )
-    return DCloud::Image.new( self, uri, xml ) if xml
-    nil
-  end
-
-  private
-
-  attr_reader :http
-
-  def discover_entry_points
-    return if @discovered
-    request(api_uri.to_s) do |response|
-      doc = REXML::Document.new( response )
-      @driver_name = doc.root.attributes['driver']
-      doc.get_elements( 'api/link' ).each do |link|
-        rel = link.attributes['rel'].to_sym
-        uri = link.attributes['href']
-        @entry_points[rel] = uri
-        @features[rel] ||= []
-        link.get_elements('feature').each do |feature|
-          @features[rel] << feature.attributes['name'].to_sym
+    # Define methods based on 'rel' attribute in entry point
+    # Two methods are declared: 'images' and 'image'
+    def declare_entry_points_methods(entry_points)
+      logger = @logger
+      API.instance_eval do
+        entry_points.keys.select {|k| [:instance_states].include?(k)==false }.each do |model|
+          define_method model do |*args|
+            request(:get, "/#{model}", args.first) do |response|
+              # Define a new class based on model name
+              c = Kernel.define_class("#{model.to_s.classify}")
+              # Create collection from index operation
+              base_object_collection(c, model, response)
+            end
+          end
+          logger << "[API] Added method #{model}\n"
+          define_method :"#{model.to_s.singularize}" do |*args|
+            request(:get, "/#{model}/#{args[0]}") do |response|
+              # Define a new class based on model name
+              c = Kernel.define_class("#{model.to_s.classify}")
+              # Build class for returned object
+              base_object(c, model, response)
+            end
+          end
+          logger << "[API] Added method #{model.to_s.singularize}\n"
+          define_method :"fetch_#{model.to_s.singularize}" do |url|
+            id = url.grep(/\/#{model}\/(.*)$/)
+            self.send(model.to_s.singularize.to_sym, $1)
+          end
         end
       end
     end
-    @discovered = true
+
+    def base_object_collection(c, model, response)
+      collection = []
+      Nokogiri::XML(response).xpath("#{model}/#{model.to_s.singularize}").each do |item|
+        c.instance_eval do
+          attr_accessor :id
+          attr_accessor :uri
+        end
+        collection << xml_to_class(c, item)
+      end
+      return collection
+    end
+
+    # Add default attributes [id and href] to class
+    def base_object(c, model, response)
+      obj = nil
+      Nokogiri::XML(response).xpath("#{model.to_s.singularize}").each do |item|
+        c.instance_eval do
+          attr_accessor :id
+          attr_accessor :uri
+        end
+        obj = xml_to_class(c, item)
+      end
+      return obj
+    end
+
+    # Convert XML response to defined Ruby Class
+    def xml_to_class(c, item)
+      obj = c.new
+      # Set default attributes
+      obj.id = item['id']
+      api = self
+      c.instance_eval do
+        define_method :client do
+          api
+        end
+      end
+      obj.uri = item['href']
+      logger = @logger
+      logger << "[DC] Creating class #{obj.class.name}\n"
+      obj.instance_eval do
+        # Declare methods for all attributes in object
+        item.xpath('./*').each do |attribute|
+          # If attribute is a link to another object then
+          # create a method which request this object from API
+          if api.entry_points.keys.include?(:"#{attribute.name}s")
+            c.instance_eval do
+              define_method :"#{attribute.name.sanitize}" do
+                client.send(:"#{attribute.name}", attribute['id'] )
+              end
+              logger << "[DC] Added #{attribute.name} to class #{obj.class.name}\n"
+            end
+          else
+            # Define methods for other attributes
+            c.instance_eval do
+              case attribute.name
+                # When response cointains 'link' block, declare
+                # methods to call links inside. This is used for instance
+                # to dynamicaly create .stop!, .start! methods
+                when "actions":
+                  actions = []
+                  attribute.xpath('link').each do |link|
+                    actions << [link['rel'], link[:href]]
+                    define_method :"#{link['rel'].sanitize}!" do
+                      client.request(:"#{link['method']}", link['href'], {}, {})
+                      client.send(:"#{item.name}", item['id'])
+                    end
+                  end
+                  define_method :actions do
+                    actions.collect { |a| a.first }
+                  end
+                  define_method :actions_urls do
+                    urls = {}
+                    actions.each { |a| urls[a.first] = a.last }
+                    urls
+                  end
+                # Property attribute is handled differently
+                when "property":
+                  define_method :"#{attribute['name'].sanitize}" do
+                    if attribute['value'] =~ /^(\d+)$/
+                      DeltaCloud::HWP::FloatProperty.new(attribute, attribute['name'])
+                    else
+                      DeltaCloud::HWP::Property.new(attribute, attribute['name'])
+                    end
+                  end
+                # Public and private addresses are returned as Array
+                when "public_addresses", "private_addresses":
+                  define_method :"#{attribute.name.sanitize}" do
+                    attribute.xpath('address').collect { |address| address.text }
+                  end
+                # Value for other attributes are just returned using
+                # method with same name as attribute (eg. .owner_id, .state)
+                else
+                  define_method :"#{attribute.name.sanitize}" do
+                    attribute.text.convert
+                  end
+                  logger << "[DC] Added method #{attribute.name} to #{obj.class.name}\n"
+              end
+            end
+          end
+        end
+      end
+      add_class_record(obj)
+      return obj
+    end
+
+    # Get /api and parse entry points
+    def discover_entry_points
+      return if discovered?
+      request(:get, @api_uri.to_s) do |response|
+        api_xml = Nokogiri::XML(response)
+        @driver_name = api_xml.xpath('/api').first['driver']
+        @api_version = api_xml.xpath('/api').first['version']
+        logger << "[API] Version #{@api_version}\n"
+        logger << "[API] Driver #{@driver_name}\n"
+        api_xml.css("api > link").each do |entry_point|
+          rel, href = entry_point['rel'].to_sym, entry_point['href']
+          @entry_points.store(rel, href)
+          logger << "[API] Entry point '#{rel}' added\n"
+          entry_point.css("feature").each do |feature|
+            @features[rel] ||= []
+            @features[rel] << feature['name'].to_sym
+            logger << "[API] Feature #{feature['name']} added to #{rel}\n"
+          end
+        end
+      end
+      declare_entry_points_methods(@entry_points)
+    end
+
+    # Create a new instance, using image +image_id+. Possible optiosn are
+    #
+    #   name  - a user-defined name for the instance
+    #   realm - a specific realm for placement of the instance
+    #   hardware_profile - either a string giving the name of the
+    #                      hardware profile or a hash. The hash must have an
+    #                      entry +id+, giving the id of the hardware profile,
+    #                      and may contain additional names of properties,
+    #                      e.g. 'storage', to override entries in the
+    #                      hardware profile
+    def create_instance(image_id, opts={}, &block)
+      name = opts[:name]
+      realm_id = opts[:realm]
+      user_data = opts[:user_data]
+
+      params = {}
+      ( params[:realm_id] = realm_id ) if realm_id
+      ( params[:name] = name ) if name
+      ( params[:user_data] = user_data ) if user_data
+
+      if opts[:hardware_profile].is_a?(String)
+        params[:hwp_id] = opts[:hardware_profile]
+      elsif opts[:hardware_profile].is_a?(Hash)
+        opts[:hardware_profile].each do |k,v|
+          params[:"hwp_#{k}"] = v
+        end
+      end
+
+      params[:image_id] = image_id
+      instance = nil
+
+      request(:post, entry_points[:instances], {}, params) do |response|
+        c = Kernel.define_class("Instance")
+        instance = base_object(c, :instance, response)
+        yield instance if block_given?
+      end
+
+      return instance
+    end
+
+    # Basic request method
+    #
+    def request(*args, &block)
+      conf = {
+        :method => (args[0] || 'get').to_sym,
+        :path => (args[1]=~/^http/) ? args[1] : "#{api_uri.to_s}#{args[1]}",
+        :query_args => args[2] || {},
+        :form_data => args[3] || {}
+      }
+      if conf[:query_args] != {}
+        conf[:path] += '?' + URI.escape(conf[:query_args].collect{ |key, value| "#{key}=#{value}" }.join('&')).to_s
+      end
+      logger << "[#{conf[:method].to_s.upcase}] #{conf[:path]}\n"
+      if conf[:method].eql?(:post)
+        RestClient.send(:post, conf[:path], conf[:form_data], default_headers) do |response|
+          yield response.body if block_given?
+        end
+      else
+        RestClient.send(conf[:method], conf[:path], default_headers) do |response|
+          yield response.body if block_given?
+        end
+      end
+    end
+
+    # Check if specified collection have wanted feature
+    def feature?(collection, name)
+      @feature.has_key?(collection) && @feature[collection].include?(name)
+    end
+
+    # List available instance states and transitions between them
+    def instance_states
+      states = []
+      request(:get, entry_points[:instance_states]) do |response|
+        Nokogiri::XML(response).xpath('states/state').each do |state_el|
+          state = DeltaCloud::InstanceState::State.new(state_el['name'])
+          state_el.xpath('transition').each do |transition_el|
+            state.transitions << DeltaCloud::InstanceState::Transition.new(
+              transition_el['to'],
+              transition_el['action']
+            )
+          end
+          states << state
+        end
+      end
+      states
+    end
+
+    # Select instance state specified by name
+    def instance_state(name)
+      instance_states.select { |s| s.name.to_s.eql?(name.to_s) }.first
+    end
+
+    # Skip parsing /api when we already got entry points
+    def discovered?
+      true if @entry_points!={}
+    end
+
+    def documentation(collection, operation=nil)
+      data = {}
+      request(:get, "/docs/#{collection}") do |body|
+        document = Nokogiri::XML(body)
+        if operation
+          data[:description] = document.xpath('/docs/collection/operations/operation[@name = "'+operation+'"]/description').first
+          return false unless data[:description]
+          data[:params] = []
+          (document/"/docs/collection/operations/operation[@name='#{operation}']/parameter").each do |param|
+            data[:params] << {
+              :name => param['name'],
+              :required => param['type'] == 'optional',
+              :type => (param/'class').text
+            }
+          end
+        else
+          data[:description] = (document/'/docs/collection/description').text
+        end
+      end
+      return Documentation.new(data)
+    end
+
+    private
+
+    def default_headers
+      {
+        :authorization => "Basic "+Base64.encode64("#{@username}:#{@password}"),
+        :accept => "application/xml"
+      }
+    end
+
+    def add_class_record(obj)
+      return if self.classes.include?(obj.class)
+      self.classes << obj.class
+    end
+
   end
 
-  def request(path='', method=:get, query_args={}, form_data={}, &block)
-    if ( path =~ /^http/ )
-      request_path = path
-    else
-      request_path = "#{api_uri.to_s}#{path}"
-    end
-    if query_args[:id]
-      request_path += "/#{query_args[:id]}"
-      query_args.delete(:id)
-    end
-    query_string = URI.escape(query_args.collect{|k,v| "#{k}=#{v}"}.join('&'))
-    request_path += "?#{query_string}" unless query_string==''
-    headers = {
-      :authorization => "Basic "+Base64.encode64("#{@name}:#{@password}"),
-      :accept => "application/xml"
-    }
+  class Documentation
+    attr_reader :description
+    attr_reader :params
 
-    logger << "Request [#{method.to_s.upcase}] #{request_path}]\n"  if @verbose
+    def initialize(opts={})
+      @description = opts[:description]
+      @params = parse_parameters(opts[:params]) if opts[:params]
+      self
+    end
 
-    if method.eql?(:get)
-      RestClient.send(method, request_path, headers) do |response|
-        @last_request_xml = response
-        yield response.to_s
+    class OperationParameter
+      attr_reader :name
+      attr_reader :type
+      attr_reader :required
+      attr_reader :description
+
+      def initialize(data)
+        @name, @type, @required, @description = data[:name], data[:type], data[:required], data[:description]
       end
-    else
-      RestClient.send(method, request_path, form_data, headers) do |response|
-        @last_request_xml = response
-        yield response.to_s
+
+      def to_comment
+        "   # @param [#{@type}, #{@name}] #{@description}"
+      end
+
+    end
+
+    private
+
+    def parse_parameters(params)
+      params.collect { |p| OperationParameter.new(p) }
+    end
+
+  end
+
+  module InstanceState
+
+    class State
+      attr_reader :name
+      attr_reader :transitions
+
+      def initialize(name)
+        @name, @transitions = name, []
       end
     end
+
+    class Transition
+      attr_reader :to
+      attr_reader :action
+
+      def initialize(to, action)
+        @to = to
+        @action = action
+      end
+
+      def auto?
+        @action.nil?
+      end
+    end
+  end
+
+  module HWP
+
+   class Property
+      attr_reader :name, :unit, :value, :kind
+
+      def initialize(xml, name)
+        @kind, @value, @unit = xml['kind'].to_sym, xml['value'], xml['unit']
+        declare_ranges(xml)
+        self
+      end
+
+      def present?
+        ! @value.nil?
+      end
+
+      private
+
+      def declare_ranges(xml)
+        case xml['kind']
+          when 'range':
+            self.class.instance_eval do
+              attr_reader :range
+            end
+            @range = { :from => xml.xpath('range').first['first'], :to => xml.xpath('range').first['last'] }
+          when 'enum':
+            self.class.instance_eval do
+              attr_reader :options
+            end
+            @options = xml.xpath('enum/entry').collect { |e| e['value'] }
+        end
+      end
+
+    end
+
+    # FloatProperty is like Property but return value is Float instead of String.
+    class FloatProperty < Property
+      def initialize(xml, name)
+        super(xml, name)
+        @value = @value.to_f if @value
+      end
+    end
+  end
+
+end
+
+class String
+
+  # Create a class name from string
+  def classify
+    self.singularize.camelize
+  end
+
+  # Camelize converts strings to UpperCamelCase
+  def camelize
+    self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
+  end
+
+  # Strip 's' character from end of string
+  def singularize
+    self.gsub(/s$/, '')
+  end
+
+  # Convert string to float if string value seems like Float
+  def convert
+    return self.to_f if self.strip =~ /^([\d\.]+$)/
+    self
+  end
+
+  # Simply converts whitespaces and - symbols to '_' which is safe for Ruby
+  def sanitize
+    self.gsub(/(\W+)/, '_')
+  end
+
+end
+
+module Kernel
+
+  # Get defined class or declare a new one, when class was not declared before
+  def define_class(name)
+    DeltaCloud.const_get(name) rescue DeltaCloud.const_set(name, Class.new)
   end
 
 end
