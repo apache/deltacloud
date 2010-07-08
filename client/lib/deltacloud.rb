@@ -35,6 +35,7 @@ class DeltaCloud
   attr_reader   :entry_points
   attr_reader   :driver_name
   attr_reader   :last_request_xml
+  attr_reader   :features
 
   def self.driver_name(url)
     DeltaCloud.new( nil, nil, url) do |client|
@@ -49,6 +50,7 @@ class DeltaCloud
     @api_uri      = URI.parse( api_uri )
     @entry_points = {}
     @verbose      = opts[:verbose]
+    @features = {}
     discover_entry_points
     connect( &block )
     self
@@ -72,6 +74,10 @@ class DeltaCloud
 
   def api_path
     @api_uri.path
+  end
+
+  def feature?(collection, name)
+    @features.has_key?(collection) && @features[collection].include?(name)
   end
 
   def flavors(opts={})
@@ -344,15 +350,21 @@ class DeltaCloud
   attr_reader :http
 
   def discover_entry_points
+    return if @discovered
     request(api_uri.to_s) do |response|
       doc = REXML::Document.new( response )
       @driver_name = doc.root.attributes['driver']
       doc.get_elements( 'api/link' ).each do |link|
-        rel = link.attributes['rel']
+        rel = link.attributes['rel'].to_sym
         uri = link.attributes['href']
-        @entry_points[rel.to_sym] = uri
+        @entry_points[rel] = uri
+        @features[rel] ||= []
+        link.get_elements('feature').each do |feature|
+          @features[rel] << feature.attributes['name'].to_sym
+        end
       end
     end
+    @discovered = true
   end
 
   def request(path='', method=:get, query_args={}, form_data={}, &block)
