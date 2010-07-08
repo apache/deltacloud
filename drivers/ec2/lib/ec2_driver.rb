@@ -8,55 +8,50 @@ class Ec2Driver < DeltaCloud::BaseDriver
   # Flavors
   # 
   FLAVORS = [ 
-    { 
+    Flavor.new( { 
       :id=>'m1-small',
       :memory=>1.7,
       :storage=>160,
       :architecture=>'i386',
-    },
-    {
+    } ),
+    Flavor.new( {
       :id=>'m1-large', 
       :memory=>7.5,
       :storage=>850,
       :architecture=>'x86_64',
-    },
-    { 
+    } ),
+    Flavor.new( { 
       :id=>'m1-xlarge', 
       :memory=>15,
       :storage=>1690,
       :architecture=>'x86_64',
-    },
-    { 
+    } ),
+    Flavor.new( { 
       :id=>'c1-medium', 
       :memory=>1.7,
       :storage=>350,
       :architecture=>'x86_64',
-    },
-    { 
+    } ),
+    Flavor.new( { 
       :id=>'c1-xlarge', 
       :memory=>7,
       :storage=>1690,
       :architecture=>'x86_64',
-    },
+    } ),
   ]
+
+  INSTANCE_STATES = {
+    :pending=>[],
+    :running=>[ :reboot ],
+    :shutting_down=>[],
+    :terminated=>[]
+  }
 
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
     results = FLAVORS
-    if ( opts[:id] ) 
-      if ( opts[:id].is_a?( Array ) )
-        results = results.select{|f| opts[:id].include?( f[:id] ) }
-      else
-        results = results.select{|f| opts[:id] == f[:id]}
-      end
-    end
-    if ( opts[:architecture] ) 
-      if ( opts[:architecture].is_a?( Array ) )
-        results = results.select{|f| opts[:architecture].include?( f[:architecture] ) }
-      else
-        results = results.select{|f| opts[:architecture] == f[:architecture]}
-      end
-    end
+    results = filter_on( results, :id, opts )
+    results = filter_on( results, :architecture, opts )
     results
   end
 
@@ -75,16 +70,24 @@ class Ec2Driver < DeltaCloud::BaseDriver
             images << convert_image( ec2_image )
           end
         end
+        filter_on( images, :owner_id, opts )
+      elsif ( opts && opts[:owner_id] ) 
+        ec2.describe_images_by_owner( opts[:owner_id] ).each do |ec2_image|
+          if ( ec2_image[:aws_id] =~ /^ami-/ ) 
+            images << convert_image( ec2_image )
+          end
+        end
       else
-        param = opts.nil? ? nil : opts[:owner_id]
-        ec2.describe_images_by_owner( param ).each do |ec2_image|
+        ec2.describe_images().each do |ec2_image|
           if ( ec2_image[:aws_id] =~ /^ami-/ ) 
             images << convert_image( ec2_image )
           end
         end
       end
     end
-    images.sort_by{|e| [e[:owner_id],e[:description]]}
+
+    images = filter_on( images, :architecture, opts )
+    images.sort_by{|e| [e.owner_id,e.description]}
   end
 
   # 
@@ -95,7 +98,8 @@ class Ec2Driver < DeltaCloud::BaseDriver
     ec2 = new_client(credentials)
     instances = []
     safely do
-      ec2.describe_instances(opts[:id]).each do |ec2_instance|
+      param = opts.nil? ? nil : opts[:id]
+      ec2.describe_instances( param ).each do |ec2_instance|
         instances << convert_instance( ec2_instance )
       end
     end
@@ -173,24 +177,28 @@ class Ec2Driver < DeltaCloud::BaseDriver
   end
 
   def convert_image(ec2_image)
-    {
+    Image.new( {
       :id=>ec2_image[:aws_id], 
       :description=>ec2_image[:aws_location],
       :owner_id=>ec2_image[:aws_owner],
       :architecture=>ec2_image[:aws_architecture],
-    } 
+    } )
   end
  
   def convert_instance(ec2_instance)
-    {
+    state = ec2_instance[:aws_state].upcase
+    state_key = state.downcase.underscore.to_sym
+
+    Instance.new( {
       :id=>ec2_instance[:aws_instance_id], 
       :state=>ec2_instance[:aws_state].upcase,
       :image_id=>ec2_instance[:aws_image_id],
       :owner_id=>ec2_instance[:aws_owner],
-      :public_address=>( ec2_instance[:dns_name] == '' ? nil : ec2_instance[:dns_name] ),
-      :private_address=>( ec2_instance[:private_dns_name] == '' ? nil : ec2_instance[:private_dns_name] ),
+      :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
+      :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
       :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
-    } 
+      :actions=>INSTANCE_STATES[ state_key ]
+    } )
   end
 
   def convert_volume(ec2_volume)
