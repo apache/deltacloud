@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 
-Gem::Specification.new do |s|
+@spec=Gem::Specification.new do |s|
   s.author = 'Red Hat, Inc.'
   s.homepage = "http://www.deltacloud.org"
   s.email = 'deltacloud-users@lists.fedorahosted.org'
@@ -32,4 +32,5 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = Dir["COPYING"]
 
   s.add_dependency('rest-client', '>= 1.3.1')
+  s.add_dependency('rspec', '>= 1.3.0')
 end
