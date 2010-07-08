@@ -1,5 +1,5 @@
 
-<h1><%= @instance.id %></h1>
+<h1><%= @instance[:id] %></h1>
 
 <dl>
   <di>
@@ -7,7 +7,7 @@
       Image
     </dt>
     <dd>
-      <%= link_to @instance.image, @instance.image %>
+      <%= link_to @instance[:image_id], image_url( @instance[:image_id] ) %>
     </dd>
   </di>
   <di>
@@ -15,7 +15,7 @@
       Owner
     </dt>
     <dd>
-      <%= link_to @instance.owner, @instance.owner %>
+      <%= link_to @instance[:owner], @instance[:owner] %>
     </dd>
   </di>
   <di>
@@ -23,7 +23,7 @@
       State
     </dt>
     <dd>
-      <%= @instance.state %>
+      <%= @instance[:state] %>
     </dd>
   </di>
   <di>
@@ -31,7 +31,7 @@
       Public Address
     </dt>
     <dd>
-      <%= @instance.public_address || '-' %>
+      <%= @instance[:public_address] %>
     </dd>
   </di>
   <di>
@@ -39,14 +39,14 @@
       Private Address
     </dt>
     <dd>
-      <%= @instance.private_address || '-' %>
+      <%= @instance[:private_address] %>
     </dd>
   </di>
 </dl>
 
 <div>
-  <% @instance.class.actions.each do |action| %>
-    <%= link_to action, polymorphic_url( @instance, :action=>action ), :method=>:post %>
-  <% end %>
-  <%= link_to 'delete', @instance, :method=>:delete %>
+  <%# @instance.class.actions.each do |action| %>
+    <%#= link_to action, polymorphic_url( @instance, :action=>action ), :method=>:post %>
+  <%# end %>
+  <%= link_to 'delete', instance_url( @instance[:id] ), :method=>:delete %>
 </div>
