@@ -46,6 +46,9 @@ module MethodSerializer
     end
 
     def args_hash(args)
+      if args.class == Hash
+        args = args.to_a.collect {|i| [i[0].to_s, i[1]]}.sort
+      end
       Digest::SHA1.hexdigest(args.to_s)
     end
 
