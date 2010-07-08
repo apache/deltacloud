@@ -228,7 +228,7 @@ class DeltaCloud
 
   def instances(opts={})
     instances = []
-    request( entry_points[:instances] ) do |response|
+    request( entry_points[:instances], :get, opts ) do |response|
       doc = REXML::Document.new( response.body )
       doc.get_elements( 'instances/instance' ).each do |instance|
         uri = instance.attributes['href']
