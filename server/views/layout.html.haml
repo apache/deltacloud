@@ -8,6 +8,8 @@
     /[if lt IE 8]
       = stylesheet_link_tag '/stylesheets/compiled/ie.css', :media => 'screen, projection'
     = stylesheet_link_tag '/stylesheets/compiled/application.css', :media => 'screen, projection'
+    %script{:type => "text/javascript", :src => "/javascripts/jquery-1.4.2.min.js" }
+    %script{:type => "text/javascript", :src => "/javascripts/application.js" }
   %body
     #wrapper
       #header

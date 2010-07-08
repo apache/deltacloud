@@ -39,4 +39,5 @@
   %di
     %dt
     %dd
-      = @instance.actions.collect { |action| link_to(action, "/api/instances/#{@instance.id}/#{action}") }.join("&nbsp;")
+      -@instance.actions.each do |action|
+        =link_to action, self.send(:"#{action}_instance_url", @instance.id), :class => instance_action_method(action)
