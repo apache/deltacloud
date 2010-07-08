@@ -49,7 +49,7 @@ describe "storage snapshot" do
   it "should allow fetching of storage volume by URI"  do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     client.connect do |client|
-      storage_snapshot = client.fetch_storage_snapshot( API_URL + '/storage/snapshots/snap2' )
+      storage_snapshot = client.fetch_storage_snapshot( API_URL + '/storage_snapshots/snap2' )
       storage_snapshot.should_not be_nil
       storage_snapshot.id.should eql( 'snap2' )
       storage_snapshot.storage_volume.capacity.should eql( 1.0 )
@@ -68,7 +68,7 @@ describe "storage snapshot" do
   it "should return nil for unknown storage volume by URI" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     client.connect do |client|
-      storage_snapshot = client.fetch_storage_snapshot( API_URL + '/storage/snapshots/bogus' )
+      storage_snapshot = client.fetch_storage_snapshot( API_URL + '/storage_snapshots/bogus' )
       storage_snapshot.should be_nil
     end
   end
