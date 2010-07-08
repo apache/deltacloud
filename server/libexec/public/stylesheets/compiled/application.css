@@ -607,3 +607,7 @@ input[type='radio'] {
   display: block;
   margin-bottom: 2em;
   text-align: center; }
+
+table.docs { border : 1px solid #ccc }
+table.docs td { border : 1px solid #ccc }
+table.docs table td { border : none }

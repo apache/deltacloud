@@ -1,0 +1,20 @@
+%h2
+  = @collection.name.to_s.titlecase
+
+%p #{@collection.description}
+
+%br
+
+%h3 Operations:
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+  %tbody
+    - @operations.keys.sort_by { |k| k.to_s }.each do |operation|
+      %tr
+        %td{:style => "width:15em"}
+          %a{:href => "/api/docs/#{@collection.name.to_s}/#{operation}"} #{operation}
+        %td{:style => "width:10em"} #{@operations[operation].description}

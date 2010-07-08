@@ -1,0 +1,15 @@
+%h2 API Documentation
+
+%h3 Collections:
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+  %tbody
+    - collections.keys.sort_by { |k| k.to_s }.each do |collection|
+      %tr
+        %td{:style => "width:15em"}
+          %a{:href => "/api/docs/#{collection}"} #{collection}
+        %td{:style => "width:10em"} #{collections[collection].description}

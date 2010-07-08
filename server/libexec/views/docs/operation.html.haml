@@ -1,0 +1,31 @@
+%h2
+  %a{:href => "/api/docs/#{@collection.name.to_s}"} #{@collection.name.to_s.titlecase}
+  #{'::'}
+  #{@operation.name}
+
+%p #{@operation.description}
+
+%br
+%h3
+  URL:
+  %u
+    = "/api/#{@collection.name.to_s}/#{@operation.name.to_s}"
+%br
+%h3 Parameters:
+
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Type
+      %th Class
+      %th Valid values
+  %tbody
+    - @operation.params.each_key do |p|
+      %tr
+        %td{:style => "width:15em"}
+          %em #{p}
+        %td{:style => "width:10em"} #{@operation.params[p][:type]}
+        %td #{@operation.params[p][:class]}
+        %td{:style => "width:10em"} #{@operation.params[p][:options].join(',')}

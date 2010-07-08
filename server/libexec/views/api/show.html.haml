@@ -2,6 +2,14 @@
   API v#{@version}
 
 %ul
-  - for entry_point in @entry_points
-    %li 
-      = link_to entry_point[0].to_s.titlecase, entry_point[1]
+  - collections.keys.sort_by { |k| k.to_s }.each do |key|
+    %li
+      = link_to key.to_s.gsub('_', ' ').titlecase, url_for("/api/#{key}")
+      %dl
+        - collections[key].operations.each_key do |op|
+          - next if [:index, :show].include?(op)
+          %dt
+            = op
+  %li
+    %strong
+      %a{:href => "/api/docs"} Documentation (v#{@version})
