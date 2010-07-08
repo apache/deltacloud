@@ -39,6 +39,7 @@ BANNER
   opts.on( nil, '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
   opts.on( nil, '--flavor_id FLAVOR', 'Flavor') { |id| options[:flavor_id] = id }
   opts.on( nil, '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
+  opts.on( '-s STATE', '--state STATE', 'Instance state (RUNNING, STOPPED)') { |state| options[:state] = state }
   opts.on( '-u', '--url URL', 'API url ($API_URL variable)') { |url| options[:api_url] = url }
   opts.on( '-l', '--list', 'List collections/operations') { |id| options[:list] = true }
   opts.on( '-h', '--help', 'Display this screen' ) { puts opts ; exit }
@@ -101,6 +102,7 @@ if options[:collection] and ( options[:operation].nil? or options[:operation].eq
   params = {}
   params.merge!(:architecture => options[:architecture]) if options[:architecture]
   params.merge!(:id => options[:id]) if options[:id]
+  params.merge!(:state => options[:state]) if options[:state]
   client.send(options[:collection].to_s, params).each do |model|
     puts model.to_plain
   end

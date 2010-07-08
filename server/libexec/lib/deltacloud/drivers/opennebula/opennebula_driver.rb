@@ -141,6 +141,8 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 
 		instances << convert_instance(computexml.to_s(), credentials)
 	end
+        instances = filter_on( instances, :id, opts )
+        instances = filter_on( instances, :state, opts )
 	instances
   end
 

@@ -68,6 +68,7 @@ class RimuHostingDriver < Deltacloud::BaseDriver
       convert_srv_to_instance(inst)
     end
     instances = filter_on( instances, :id, opts)
+    instances = filter_on( instances, :state, opts )
     instances
   end
 

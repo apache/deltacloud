@@ -179,6 +179,8 @@ class EC2Driver < Deltacloud::BaseDriver
         instances << convert_instance( ec2_instance )
       end
     end
+    instances = filter_on( instances, :id, opts )
+    instances = filter_on( instances, :state, opts )
     instances
   end
 

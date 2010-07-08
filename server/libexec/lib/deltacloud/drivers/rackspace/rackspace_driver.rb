@@ -106,6 +106,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
       instances << convert_srv_to_instance(racks.load_server_details(opts[:id]))
     end
     instances = filter_on( instances, :id, opts )
+    instances = filter_on( instances, :state, opts )
     instances
   end
 

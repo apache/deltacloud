@@ -40,6 +40,7 @@ def filter_all(model)
     filter.merge!(:id => params[:id]) if params[:id]
     filter.merge!(:architecture => params[:architecture]) if params[:architecture]
     filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
+    filter.merge!(:state => params[:state]) if params[:state]
     filter = nil if filter.keys.size.eql?(0)
     safely do
       singular = model.to_s.singularize.to_sym
@@ -201,7 +202,8 @@ collection :instances do
 
   operation :index do
     description "List all instances"
-    param :id,            :string
+    param :id,            :string,  :optional
+    param :state,         :string,  :optional
     control { filter_all(:instances) }
   end
 

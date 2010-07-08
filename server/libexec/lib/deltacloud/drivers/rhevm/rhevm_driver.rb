@@ -190,6 +190,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
     vms.each do |vm|
       instances << vm_to_instance(vm)
     end
+    instances = filter_on( instances, :id, opts )
+    instances = filter_on( instances, :state, opts )
     instances
   end
 

@@ -135,6 +135,7 @@ class MockDriver < Deltacloud::BaseDriver
   #
 
   def instances(credentials, opts=nil)
+    $stderr.puts opts.inspect
     check_credentials( credentials )
     instances = []
     Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].each do |instance_file|
@@ -146,6 +147,7 @@ class MockDriver < Deltacloud::BaseDriver
       end
     end
     instances = filter_on( instances, :id, opts )
+    instances = filter_on( instances, :state, opts )
     instances
   end
 
