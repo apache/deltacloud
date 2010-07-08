@@ -18,12 +18,19 @@
 # Add your own tasks in files placed in lib/tasks ending in .rake,
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-require(File.join(File.dirname(__FILE__), 'config', 'boot'))
-
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
 
-require 'tasks/rails'
-
-#require 'torquebox/tasks'
+desc "Run basic unit tests"
+Rake::TestTask.new("test") { |t|
+  t.test_files = FileList[
+    'tests/flavors_test.rb',
+    'tests/realms_test.rb',
+    'tests/images_test.rb',
+    'tests/instances_test.rb',
+    'tests/storage_volumes_test.rb',
+    'tests/storage_snapshots_test.rb',
+  ]
+  t.verbose = false
+  t.warning = false
+}

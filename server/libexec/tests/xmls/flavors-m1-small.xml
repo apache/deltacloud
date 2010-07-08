@@ -1,6 +1,0 @@
-<flavor href="http://localhost:3000/api/flavors/m1-small">
-  <id>m1-small</id>
-  <architecture>i386</architecture>
-  <memory>1.7</memory>
-  <storage>160</storage>
-</flavor>
