@@ -154,7 +154,15 @@ class MockDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts)
     check_credentials( credentials )
     ids = Dir[ "#{STORAGE_ROOT}/instances/*.yml" ].collect{|e| File.basename( e, ".yml" )}
-    next_id = ids.sort.last.succ
+
+    count = 0
+    while true
+      next_id = "inst" + count.to_s
+      if not ids.include?(next_id)
+        break
+      end
+      count = count + 1
+    end
 
     realm_id = opts[:realm_id]
     if ( realm_id.nil? )
