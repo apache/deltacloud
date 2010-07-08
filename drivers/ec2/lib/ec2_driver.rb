@@ -136,13 +136,15 @@ class Ec2Driver < DeltaCloud::BaseDriver
   def storage_volumes(credentials, opts=nil)
     ec2 = new_client( credentials ) 
     volumes = []
-    if (opts)
-      ec2.describe_volumes(opts[:id]).each do |ec2_volume|
-        volumes << convert_volume( ec2_volume )
-      end
-    else
-      ec2.describe_volumes().each do |ec2_volume|
-        volumes << convert_volume( ec2_volume )
+    safely do
+      if (opts)
+        ec2.describe_volumes(opts[:id]).each do |ec2_volume|
+          volumes << convert_volume( ec2_volume )
+        end
+      else
+        ec2.describe_volumes().each do |ec2_volume|
+          volumes << convert_volume( ec2_volume )
+        end
       end
     end
     volumes
@@ -155,13 +157,15 @@ class Ec2Driver < DeltaCloud::BaseDriver
   def storage_snapshots(credentials, opts=nil)
     ec2 = new_client( credentials ) 
     snapshots = []
-    if (opts)
-      ec2.describe_snapshots(opts[:id]).each do |ec2_snapshot|
-        snapshots << convert_snapshot( ec2_snapshot )
-      end
-    else
-      ec2.describe_snapshots(opts).each do |ec2_snapshot|
-        snapshots << convert_snapshot( ec2_snapshot )
+    safely do
+      if (opts)
+        ec2.describe_snapshots(opts[:id]).each do |ec2_snapshot|
+          snapshots << convert_snapshot( ec2_snapshot )
+        end
+      else
+        ec2.describe_snapshots(opts).each do |ec2_snapshot|
+          snapshots << convert_snapshot( ec2_snapshot )
+        end
       end
     end
     snapshots
@@ -213,12 +217,12 @@ class Ec2Driver < DeltaCloud::BaseDriver
   end
 
   def convert_snapshot(ec2_snapshot)
-    { 
+    StorageSnapshot.new( { 
       :id=>ec2_snapshot[:aws_id],
       :state=>ec2_snapshot[:aws_status].upcase,
-      :volume_id=>ec2_snapshot[:aws_volume_id],
+      :storage_volume_id=>ec2_snapshot[:aws_volume_id],
       :created=>ec2_snapshot[:aws_started_at],
-    }
+    } )
   end
 
   def safely(&block) 
