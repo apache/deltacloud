@@ -1,1 +1,40 @@
-== deltacloud framework is this thing, you see..
+Hooray, you've successfully checked out the framework.
+
+Now you need to check out a driver or two alongside it.
+
+Might as well go ahead and check everything out, so you end up with:
+
+  deltacloud/
+    deltacloud-framework/
+    deltacloud-driver-ec2/
+    deltacloud-driver-rhevm/
+    deltacloud-driver-mock/
+    deltacloud-client-ruby/
+
+We're going to assume you're using the mock driver, though.
+
+In deltacloud-framework/config/environment.rb, near the bottom, ensure it says
+
+	DRIVER=:mock
+
+In deltacloud-client/ run "rake fixtures" to install some mock test data.
+
+Back in detlacloud-framework/, run it like a normal rails app.  If you have other
+rails apps running, just pick another port
+
+    ./script/server             # implies port 3000
+    ./script/server -p 3001     # runs on port 3001
+
+To sanity-check, you can run the client specs from deltacloud-client-ruby/
+
+	rake spec
+
+If you're running the framework on not-localhost or not-port-3000, you can use
+environment variables to point the specs at the right place
+
+	API_PORT=3001 rake spec
+
+	API_HOST=laptop.local rake spec
+
+The specs in deltacloud-client-ruby/specs/**_spec.rb are useful examples of how 
+to use the client.
