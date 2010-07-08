@@ -22,7 +22,7 @@ def driver_source_name
 end
 
 def driver_mock_source_name
-  return File.join('deltacloud', 'drivers', DRIVER, "#{DRIVER}_driver.rb") if driver_name.eql? 'Mock'
+  return File.join('deltacloud', 'drivers', DRIVER.to_s, "#{DRIVER}_driver.rb") if driver_name.eql? 'Mock'
   File.join('deltacloud', 'drivers', DRIVER, "#{DRIVER}_mock_driver.rb")
 end
 
