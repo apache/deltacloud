@@ -186,22 +186,6 @@ collection :instance_states do
   end
 end
 
-# Special instance get operations that we only allow for HTML
-get "/api/instances/:id/:action" do
-   meth = :"#{params[:action]}_instance"
-   not_found unless driver.respond_to?(meth)
-   respond_to do |format|
-     format.html do
-       driver.send(meth, credentials, params[:id])
-	if ( (params[:action] == 'destroy') or (params[:action] == 'stop') )
-         redirect instances_url
-       else
-         redirect instance_url(params[:id])
-       end
-     end
-   end
-end
-
 get "/api/instances/new" do
   @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
   @image   = driver.image( credentials, :id => params[:image_id] )
@@ -213,15 +197,14 @@ get "/api/instances/new" do
 end
 
 def instance_action(name)
-  @instance = driver.send(:"#{name}_instance", credentials, params[:id])
-  if name==:destroy
-    redirect instances_url
-  else
-    respond_to do |format|
-      format.html { haml :"instances/show" }
-      format.xml { haml :"instances/show" }
-      format.json {convert_to_json(:instance, @instance) }
-    end
+  @instance = driver.send(:"#{name}_instance", credentials, params["id"])
+
+  return redirect(instances_url) if name.eql?(:destroy)
+
+  respond_to do |format|
+    format.html { haml :"instances/show" }
+    format.xml { haml :"instances/show" }
+    format.json {convert_to_json(:instance, @instance) }
   end
 end
 
