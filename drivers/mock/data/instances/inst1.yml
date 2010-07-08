@@ -1,0 +1,6 @@
+:state: RUNNING
+:image_id: img3
+:owner_id: mockuser
+:public_address: img3.inst1.public.com
+:private_address: img3.inst1.private.com
+:flavor_id: m1-small
