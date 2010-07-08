@@ -1,0 +1,7 @@
+!!! XML
+%images
+  - @elements.each do |image|
+    %image{:href => image_url(image.id)}
+      - image.attributes.each do |attribute|
+        - haml_tag(attribute, :<) do
+          - haml_concat image.send(attribute)

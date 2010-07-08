@@ -1,0 +1,13 @@
+!!!XML
+%storage-volumes
+  - @elements.each do |volume|
+    %storage-volume{ :href => storage_volume_url(volume.id)}
+      %id<
+        =volume.id
+      %created<
+        =volume.created
+      %capacity<
+        =volume.capacity
+      %device<
+        =volume.device
+      %instance{:href => volume.instance_id}

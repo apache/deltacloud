@@ -48,9 +48,9 @@ def filter_all(model)
     @elements = driver.send(model.to_sym, credentials, filter)
     instance_variable_set(:"@#{model}", @elements)
     respond_to do |format|
-      format.xml  { convert_to_xml(singular, @elements) }
       format.json { convert_to_json(singular, @elements) }
       format.html { haml :"#{model}/index" }
+      format.xml { haml :"#{model}/index" }
     end
 end
 
@@ -58,9 +58,9 @@ def show(model)
   @element = driver.send(model, credentials, { :id => params[:id]} )
   instance_variable_set("@#{model}", @element)
   respond_to do |format|
-    format.xml { convert_to_xml(model, @element) }
     format.json { convert_to_json(model, @element) }
     format.html { haml :"#{model.to_s.pluralize}/show" }
+    format.xml { haml :"#{model.to_s.pluralize}/show" }
   end
 end
 
@@ -205,9 +205,9 @@ end
 def instance_action(name)
   @instance = driver.send(:"#{name}_instance", credentials, params[:id])
   respond_to do |format|
-    format.xml { convert_to_xml(:instance, @instance) }
     format.json {convert_to_json(:instance, @instance) }
     format.html { haml :"instances/show" }
+    format.xml { haml :"instances/show" }
   end
 end
 
@@ -239,7 +239,8 @@ collection :instances do
         format.xml do
           response.status = 201  # Created
           response['Location'] = instance_url(instance.id)
-          convert_to_xml(:instance, instance)
+          @instance = instance
+          haml :"instances/show"
         end
         format.html { redirect instance_url(instance.id) }
       end

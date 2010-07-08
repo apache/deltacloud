@@ -1,0 +1,12 @@
+!!!XML
+%realms
+  - @elements.each do |realm|
+    %realm{:href => realm_url(realm.id)}
+      %id<
+        =realm.id
+      %name<
+        =realm.name
+      %state<
+        =realm.state
+      %limit<
+        =realm.limit.eql?(:unlimited) ? '' : realm.limit

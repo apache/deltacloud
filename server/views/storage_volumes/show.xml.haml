@@ -1,0 +1,13 @@
+!!!XML
+%storage-volume{ :href => storage_volume_url(@storage_volume.id)}
+  %id<
+    =@storage_volume.id
+  %created<
+    =@storage_volume.created
+  %capacity<
+    =@storage_volume.capacity
+  %device<
+    =@storage_volume.device
+  %state<
+    =@storage_volume.state
+  %instance{:href => @storage_volume.instance_id}

@@ -1,0 +1,28 @@
+!!! XML
+%instance{:href => instance_url(@instance.id)}
+  %id<
+    =@instance.id
+  %name<
+    =@instance.name
+  %owner_id<
+    =@instance.owner_id
+  %image{:href => image_url(@instance.image_id)}
+  %realm{:href => realm_url(@instance.realm_id)}
+  %state<
+    =@instance.state
+  - haml_tag :"hardware-profile", {:href => hardware_profile_url(@instance.instance_profile.id)} do
+    %id<
+      =@instance.instance_profile.id
+    - @instance.instance_profile.overrides.each do |p, v|
+      %property{:kind => 'fixed', :name => p, :value => v, :unit => Deltacloud::HardwareProfile::unit(p)}
+  %actions
+    - @instance.actions.compact.each do |action|
+      %link{:rel => action, :href => self.send("#{action}_instance_url", action.id)}
+  - haml_tag :"public-addresses" do
+    - @instance.public_addresses.each do |address|
+      %address<
+        =address
+  - haml_tag :"private-addresses" do
+    - @instance.private_addresses.each do |address|
+      %address<
+        =address
