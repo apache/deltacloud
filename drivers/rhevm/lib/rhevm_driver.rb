@@ -190,9 +190,8 @@ class RHEVMDriver < DeltaCloud::BaseDriver
   end
 
   def create_instance(credentials, image_id, opts)
-    puts(opts[:realm_id])
-    puts(opts[:flavor_id])
-    puts(opts[:name])
+    name = opts[:name]
+    name ||= "New Instance"
     vm = execute(credentials, "addVm.ps1", image_id, opts[:name], opts[:realm_id])
     vm_to_instance(vm[0])
   end
