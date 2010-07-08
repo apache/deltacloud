@@ -2,7 +2,7 @@
 module ApplicationHelper
 
   def bread_crumb
-    s = "<ul class='breadcrumb'><li class='first'><a href='/'>dCloud</a></li>"
+    s = "<ul class='breadcrumb'><li class='first'><a href='/'>&#948</a></li>"
     url = request.path.split('?')  #remove extra query string parameters
     levels = url[0].split('/') #break up url into different levels
     levels.each_with_index do |level, index|

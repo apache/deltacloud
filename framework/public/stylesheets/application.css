@@ -74,5 +74,5 @@ ul.breadcrumb li {
   display:inline;
 }
 ul.breadcrumb li.subsequent:before {
-  content: ">> "
+  content: " >> "
 }
