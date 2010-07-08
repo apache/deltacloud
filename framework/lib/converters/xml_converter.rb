@@ -48,6 +48,17 @@ module Converters
               builder.description( obj.description )
               builder.architecture( obj.architecture )
             }
+          when Realm
+            builder.realm( :href=>@link_builder.send( :realm_url, obj.id ) ) {
+              builder.id( obj.id )
+              builder.name( obj.name )
+              builder.state( obj.state )
+              if ( obj.limit == :unlimited )
+                builder.limit()
+              else
+                builder.limit( obj.limit )
+              end
+            }
           when Instance
             builder.instance( :href=>@link_builder.send( :instance_url, obj.id ) ) {
               builder.id( obj.id )
