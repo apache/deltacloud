@@ -52,6 +52,17 @@ module Deltacloud
       def fixed?
         kind == :fixed
       end
+
+      def to_param
+        return nil if kind == :fixed
+        if kind == :range
+          # FIXME: We can't validate ranges currently
+          args = [param, :string, :optional]
+        else
+          args = [param, :string, :optional, values.collect { |v| v.to_s} ]
+        end
+        Validation::Param.new(args)
+      end
     end
 
     class << self
@@ -94,6 +105,12 @@ module Deltacloud
     def default?(prop, v)
       p = @properties[prop.to_sym]
       p && p.default.to_s == v
+    end
+
+    def params
+      @properties.values.inject([]) { |m, prop|
+        m << prop.to_param
+      }.compact
     end
   end
 end
