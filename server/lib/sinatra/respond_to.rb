@@ -52,9 +52,7 @@ module Sinatra
             request.path_info=rpi
             ext = nil
 
-            if request.xhr? && options.assume_xhr_is_js?
-              ext = :js
-            elsif ! $1.nil?
+            if ! $1.nil?
               ext = $1
             elsif env['HTTP_ACCEPT'].nil? || env['HTTP_ACCEPT'].empty?
               ext = options.default_content
