@@ -4,7 +4,6 @@ load 'drivers/ec2.rb'
 class AccountsController < ApplicationController
 
   include DriverHelper
-  include CredentialsHelper
 
   def index
     @accounts = driver.accounts( credentials )

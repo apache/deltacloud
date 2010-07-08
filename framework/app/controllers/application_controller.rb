@@ -8,7 +8,14 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
 
-  before_filter do |controller|
-    controller.session[:credentials] ||= {}
+
+  def credentials
+    creds = {}
+    authenticate_with_http_basic do |name,password|
+      creds[:name]     = name
+      creds[:password] = password
+    end
+    creds
   end
+
 end

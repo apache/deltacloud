@@ -1,21 +1,25 @@
 
 module Drivers
 
+  class AuthException < Exception
+  end
+
   class EC2
 
-    def credentials_definition()
-      return [ 
-        { 
-          :name=>:access_key,
-          :type=>:string,
-          :required=>true,
-        },
-        {
-          :name=>:secret_access_key,
-          :type=>:string,
-          :required=>true,
-        }
-      ]
+    def safely(&block) 
+      begin
+        block.call
+      rescue RightAws::AwsError => e
+        if ( e.include?( /SignatureDoesNotMatch/ ) )
+          raise AuthException.new
+        elsif ( e.include?( /InvalidClientTokenId/ ) )
+          raise AuthException.new
+        else
+          e.errors.each do |error|
+            puts "ERROR #{error.inspect}"
+          end
+        end
+      end
     end
 
     def images(credentials, *ids)
@@ -31,9 +35,11 @@ module Drivers
 
     def image(credentials, id)
       ec2 = new_client(credentials)
-      ec2_images = ec2.describe_images(id)
-      return nil if ec2_images.empty?
-      convert_image( ec2_images.first )
+      safely do
+        ec2_images = ec2.describe_images(id)
+        return nil if ec2_images.empty?
+        convert_image( ec2_images.first )
+      end
     end
 
     def instances(credentials, *ids)
@@ -109,7 +115,10 @@ module Drivers
     private
 
     def new_client(credentials)
-      RightAws::Ec2.new(credentials[:access_key], credentials[:secret_access_key], :cache=>false )
+      if ( credentials[:name].nil? || credentials[:password].nil? || credentials[:name] == '' || credentials[:password] == '' ) 
+        raise AuthException.new
+      end
+      RightAws::Ec2.new(credentials[:name], credentials[:password], :cache=>false )
     end
 
     def convert_image(ec2_image)

@@ -5,7 +5,17 @@ load 'drivers/ec2.rb'
 class ImagesController < ApplicationController
 
   include DriverHelper
-  include CredentialsHelper
+
+  around_filter :catch_auth
+
+  def catch_auth
+    begin
+      yield
+    rescue Drivers::AuthException => e
+      authenticate_or_request_with_http_basic() do |n,p|
+      end
+    end
+  end
 
   def index
     @images = driver.images( credentials, [ 'ami-015db968', 'ami-015dba68' ])

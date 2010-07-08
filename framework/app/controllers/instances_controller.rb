@@ -6,7 +6,6 @@ require 'ostruct'
 class InstancesController < ApplicationController
 
   include DriverHelper
-  include CredentialsHelper
 
   def index
     @instances = driver.instances( credentials )
