@@ -40,12 +40,21 @@ class Ec2Driver < DeltaCloud::BaseDriver
     } ),
   ]
 
-  INSTANCE_STATES = {
-    :pending=>[ :stop ],
-    :running=>[ :reboot, :stop ],
-    :shutting_down=>[],
-    :terminated=>[]
-  }
+  INSTANCE_STATES = [
+    [ :pending, { 
+        :terminated=>:stop, 
+        :running=>:_auto_ } ],
+    [ :running, { 
+        :running=>:reboot, 
+        :terminated=>:stop } ],
+    [ :shutting_down, { 
+        :terminated=>:_auto_ } ],
+    [ :terminated, {} ],
+  ]
+
+  def instance_states()
+    INSTANCE_STATES 
+  end
 
   def flavors(credentials, opts=nil)
     return FLAVORS if ( opts.nil? )
@@ -124,6 +133,13 @@ class Ec2Driver < DeltaCloud::BaseDriver
   def create_instance(credentials, image_id, opts)
     ec2 = new_client( credentials )
     realm_id = opts[:realm_id]
+    flavor_id = opts[:flavor_id]
+    unless ( flavor_id )
+      image = image(credentials, :id=>image_id )
+      flavor = flavor( credentials, :architecture=>image.architecture )
+      ( flavor_id = flavor.id ) if ( flavor ) 
+    end
+    flavor_id.gsub!( /-/, '.' ) if flavor_id
     ec2_instances = ec2.run_instances(
                           image_id,
                           1,1,
@@ -131,7 +147,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
                           nil,
                           '',
                           'public',
-                          opts[:flavor_id].gsub( /-/, '.' ),
+                          flavor_id,
                           nil,
                           nil,
                           realm_id )
@@ -243,7 +259,7 @@ class Ec2Driver < DeltaCloud::BaseDriver
       :public_addresses=>( ec2_instance[:dns_name] == '' ? [] : [ec2_instance[:dns_name]] ),
       :private_addresses=>( ec2_instance[:private_dns_name] == '' ? [] : [ec2_instance[:private_dns_name]] ),
       :flavor_id=>ec2_instance[:aws_instance_type].gsub( /\./, '-'),
-      :actions=>INSTANCE_STATES[ state_key ]
+      :actions=>instance_actions_for( ec2_instance[:aws_state].upcase ),
     } )
   end
 
