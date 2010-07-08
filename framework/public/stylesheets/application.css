@@ -50,3 +50,22 @@ table {
     background-color: #cccccc; }
   table td {
     background-color: #eeeeee; }
+
+.radio-group {
+  font-size: 90%;
+  margin-bottom: 1em;
+  background-color: #cccccc; }
+  .radio-group label {
+    font-weight: bold; }
+
+.radio-group-details {
+  font-weight: normal;
+  display: block;
+  padding-left: 1em;
+  background-color: #eeeeee;
+  padding: 1ex; }
+
+input[type='radio'] {
+  margin-top: 1ex;
+  margin-left: 1ex;
+  margin-bottom: 1ex; }

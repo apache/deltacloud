@@ -86,7 +86,7 @@ module Drivers
       instances
     end
 
-    def create_instance(credentials, image_id)
+    def create_instance(credentials, image_id, flavor_id)
       ec2 = new_client( credentials )
       ec2_instances = ec2.run_instances( 
                             image_id, 
@@ -95,7 +95,7 @@ module Drivers
                             nil,
                             '',
                             'public',
-                            'm1.small' )
+                            flavor_id.gsub( /-/, '.' ) )
       convert_instance( ec2_instances.first )
     end
 

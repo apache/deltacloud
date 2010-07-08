@@ -39,7 +39,6 @@ class InstancesController < ApplicationController
 
   def new
     @instance = {
-                  :new_record=>true,
                   :id=>params[:id],
                   :image_id=>params[:image_id],
                 } 
@@ -48,7 +47,16 @@ class InstancesController < ApplicationController
   end
 
   def create
-    instance = driver.create_instance( credentials, params[:image_id] )
+    @image   = driver.image( credentials, params[:image_id] )
+    if ( params[:flavor_id].nil? )
+      @flavors = driver.flavors_by_architecture( credentials, @image[:architecture] )
+      @instance = {
+                    :id=>params[:id],
+                    :image_id=>params[:image_id],
+                  } 
+      render :action=>:new and return 
+    end
+    instance = driver.create_instance( credentials, @image[:id], params[:flavor_id] )
     redirect_to instance_url( instance[:id] )
   end
 

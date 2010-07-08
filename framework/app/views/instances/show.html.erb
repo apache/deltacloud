@@ -23,7 +23,7 @@
       Flavor
     </dt>
     <dd>
-      <%= @instance[:flavor] %>
+      <%= link_to @instance[:flavor_id], flavor_url( @instance[:flavor_id] ) %>
     </dd>
   </di>
   <di>
