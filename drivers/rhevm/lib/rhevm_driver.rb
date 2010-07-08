@@ -5,10 +5,14 @@ require 'yaml'
 class RHEVMDriver < DeltaCloud::BaseDriver
 
   SCRIPT_DIR = File.dirname(__FILE__) + '/../scripts'
+  SCRIPT_DIR_ARG = '"' + SCRIPT_DIR + '"'
+  DELIM_BEGIN="<_OUTPUT>"
+  DELIM_END="</_OUTPUT>"
+  POWERSHELL="c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
+  
   # 
   # Flavors
   # 
-
   FLAVORS = [ 
     { 
       :id=>'m1-small',
@@ -41,22 +45,22 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       :architecture=>'x86_64',
     },
   ]
-  
-  DELIM_BEGIN="<_OUTPUT>"
-  DELIM_END="</_OUTPUT>"  
 
   def flavors(credentials, ids=nil)
     return FLAVORS if ( ids.nil? )
     FLAVORS.select{|f| ids.include?(f[:id])}
   end
 
-  # 
-  # Images
-  # 
-  
-  def execute(command, args=[])
-    output = `c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe #{File.join(SCRIPT_DIR, command)}`
-    result = $?
+  #
+  # Execute a Powershell command, and convert the output
+  # to YAML in order to get back an array of maps.
+  #
+  def execute(credentials, command, args=[])
+    argString = genArgString(credentials, args)
+    outputMaps = {}
+    output = `#{POWERSHELL} -command "&{#{File.join(SCRIPT_DIR, command)} #{argString}; exit $LASTEXITCODE}`
+    exitStatus = $?.exitstatus 
+    puts(output)
     st = output.index(DELIM_BEGIN)
     if (st)
       st += DELIM_BEGIN.length
@@ -64,16 +68,35 @@ class RHEVMDriver < DeltaCloud::BaseDriver
       output = output.slice(st, (ed-st))
       # Lets make it yaml
       output.strip!
-      output = "- \n" + output
-      output.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:]*)/,' \1: "\2"')
-      output.gsub!(/^[ ]*$/,"- ")
+      if (output.length > 0)     
+        outputMaps = YAML.load(self.toYAML(output))            
+      end
     end
-    outputMaps = YAML.load(output)    
     outputMaps 
   end
   
-  def images(credentials, ids_or_owner=nil )
-    templates = execute("images.ps1") 
+  def genArgString(credentials, args)
+    commonArgs = [SCRIPT_DIR_ARG, "vdcadmin", "123456", "demo"]
+    commonArgs.concat(args)
+    commonArgs.join(" ")
+  end
+  
+  def toYAML(output)
+    yOutput = "- \n" + output
+    yOutput.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:]*)/,' \1: "\2"')
+    yOutput.gsub!(/^[ ]*$/,"- ")
+    yOutput
+  end
+  
+  def images(credentials, opts=nil )
+    templates = []
+    if (opts.nil?)
+      templates = execute(credentials, "templates.ps1")     
+    else
+      if (opts[:id]) 
+        templates = execute(credentials, "templateById.ps1", [opts[:id]])
+      end
+    end
     images = []
     templates.each do |templ|
       images << template_to_image(templ)
