@@ -57,7 +57,9 @@ class DeltaCloud
   end
 
   def fetch_flavor(uri)
-    return Flavor.new( self, uri, fetch_resource( :flavor, uri ) )
+    xml = fetch_resource( :flavor, uri )
+    return Flavor.new( self, uri, xml ) if xml
+    nil
   end
 
   def images(opts={})
@@ -89,7 +91,9 @@ class DeltaCloud
   end
 
   def fetch_image(uri)
-    return Image.new( self, uri, fetch_resource( :image, uri ) )
+    xml = fetch_resource( :image, uri )
+    return Image.new( self, uri, xml ) if xml
+    nil
   end
 
   def instances()
@@ -120,7 +124,9 @@ class DeltaCloud
   end
 
   def fetch_instance(uri)
-    return Instance.new( self, uri, fetch_resource( :instance, uri ) )
+    xml = fetch_resource( :instance, uri )
+    return Instance.new( self, uri, xml ) if xml
+    nil
   end
 
   def create_instance(image_id, flavor_id)
@@ -162,7 +168,9 @@ class DeltaCloud
   end
 
   def fetch_storage_volume(uri)
-    return StorageVolume.new( self, uri, fetch_resource( :storage_volume, uri ) )
+    xml = fetch_resource( :storage_volume, uri ) 
+    return StorageVolume.new( self, uri, xml ) if xml
+    nil
   end
 
   ##
@@ -172,9 +180,11 @@ class DeltaCloud
 
   def fetch_resource(type, uri)
     request( uri ) do |response|
-      doc = REXML::Document.new( response.body )
-      if ( doc.root.name == type.to_s.gsub( /_/, '-' ) )
-        return doc.root 
+      if ( response.is_a?( Net::HTTPSuccess ) )
+        doc = REXML::Document.new( response.body )
+        if ( doc.root && ( doc.root.name == type.to_s.gsub( /_/, '-' ) ) )
+          return doc.root 
+        end
       end
     end
     nil
