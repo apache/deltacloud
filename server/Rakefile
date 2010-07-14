@@ -23,6 +23,11 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/gempackagetask'
 
+begin
+  require 'ci/reporter/rake/test_unit'
+rescue LoadError
+end
+
 desc "Run basic unit tests"
 Rake::TestTask.new("test") { |t|
   t.test_files = FileList[
