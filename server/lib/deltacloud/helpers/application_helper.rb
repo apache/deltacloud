@@ -74,10 +74,14 @@ module ApplicationHelper
   def show(model)
     @element = driver.send(model, credentials, { :id => params[:id]} )
     instance_variable_set("@#{model}", @element)
-    respond_to do |format|
-      format.html { haml :"#{model.to_s.pluralize}/show" }
-      format.xml { haml :"#{model.to_s.pluralize}/show" }
-      format.json { convert_to_json(model, @element) }
+    if @element
+      respond_to do |format|
+        format.html { haml :"#{model.to_s.pluralize}/show" }
+        format.xml { haml :"#{model.to_s.pluralize}/show" }
+        format.json { convert_to_json(model, @element) }
+      end
+    else
+        report_error(404, 'not_found')
     end
   end
 

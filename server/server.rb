@@ -1,7 +1,7 @@
+require 'sinatra'
 require 'deltacloud'
 require 'drivers'
 require 'json'
-require 'sinatra'
 require 'sinatra/respond_to'
 require 'sinatra/static_assets'
 require 'sinatra/rabbit'
@@ -255,10 +255,14 @@ END
     param :id,          :string,    :required
     control do
       @profile =  driver.hardware_profile(credentials, params[:id])
-      respond_to do |format|
-        format.xml { haml :'hardware_profiles/show', :layout => false }
-        format.html { haml :'hardware_profiles/show' }
-        format.json { convert_to_json(:hardware_profile, @profile) }
+      if @profile
+        respond_to do |format|
+          format.xml { haml :'hardware_profiles/show', :layout => false }
+          format.html { haml :'hardware_profiles/show' }
+          format.json { convert_to_json(:hardware_profile, @profile) }
+        end
+      else
+        report_error(404, 'not_found')
       end
     end
   end
