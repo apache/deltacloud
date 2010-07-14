@@ -4,7 +4,6 @@ require 'test/unit'
 require 'spec'
 require 'nokogiri'
 require 'json'
-require 'ap'
 
 # Set proper environment variables for running test
 
