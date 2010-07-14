@@ -26,13 +26,14 @@ require 'rake/gempackagetask'
 desc "Run basic unit tests"
 Rake::TestTask.new("test") { |t|
   t.test_files = FileList[
+    'tests/api_test.rb',
+    'tests/hardware_profiles_test.rb',
     'tests/realms_test.rb',
     'tests/images_test.rb',
     'tests/instances_test.rb',
-    'tests/storage_volumes_test.rb',
-    'tests/storage_snapshots_test.rb',
+    'tests/instance_states_test.rb',
   ]
-  t.verbose = false
+  t.verbose = true
   t.warning = false
 }
 

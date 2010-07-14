@@ -1,94 +1,111 @@
-require 'tests/deltacloud_test'
+require 'tests/common'
 
-class ImagesTest < Test::Unit::TestCase
+module DeltacloudUnitTest
+  class HardwareProfilesTest < Test::Unit::TestCase
+    include Rack::Test::Methods
 
-  def initialize(*args)
-    @collection = 'images'
-    @operations = [:index, :show]
-    @params = {}
-    super(*args)
-  end
-
-  def test_if_images_are_not_empty
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_not_equal 0, doc.xpath('/images/image').size
-  end
-
-  [:id, :owner_id, :name, :description, :architecture].each do |option|
-    method_name = :"test_if_images_index_contain_#{option}"
-    send :define_method, method_name do
-      get '/api/images.xml', @params, rack_headers
-      doc = Nokogiri::XML.parse(last_response.body)
-      elt = doc.xpath('/images/image[1]').first
-      assert_not_nil elt.xpath(option.to_s).first
+    def app
+      Sinatra::Application
     end
-  end
 
-  [:id, :owner_id, :name, :description, :architecture].each do |option|
-    method_name = :"test_if_image_show_contain_#{option}"
-    send :define_method, method_name do
-      get '/api/images/img1.xml', @params, rack_headers
-      doc = Nokogiri::XML.parse(last_response.body)
-      elt = doc.xpath('/image').first
-      assert_not_nil elt.xpath(option.to_s).first
+    def test_it_require_authentication
+      require_authentication?('/api/images').should == true
     end
+
+    def test_it_returns_images
+      do_xml_request '/api/images', {}, true
+      (last_xml_response/'images/image').map.size.should > 0
+    end
+
+    def test_it_has_correct_attributes_set
+      do_xml_request '/api/images', {}, true
+      (last_xml_response/'images/image').each do |image|
+        image.attributes.keys.sort.should == [ 'href', 'id' ]
+      end
+    end
+
+    def test_img1_has_correct_attributes
+      do_xml_request '/api/images', {}, true
+      image = (last_xml_response/'images/image[@id="img1"]')
+      test_image_attributes(image)
+    end
+
+    def test_it_returns_valid_image
+      do_xml_request '/api/images/img1', {}, true
+      image = (last_xml_response/'image')
+      test_image_attributes(image)
+    end
+
+    def test_it_has_unique_ids
+      do_xml_request '/api/images', {}, true
+      ids = []
+      (last_xml_response/'images/image').each do |image|
+        ids << image['id'].to_s
+      end
+      ids.sort.should == ids.sort.uniq
+    end
+
+    def test_it_has_valid_urls
+      do_xml_request '/api/images', {}, true
+      ids = []
+      images = (last_xml_response/'images/image')
+      images.each do |image|
+        do_xml_request image['href'].to_s, {}, true
+        (last_xml_response/'image').first['href'].should == image['href'].to_s
+      end
+    end
+
+    def test_it_can_filter_using_owner_id
+      do_xml_request '/api/images', { :owner_id => 'mockuser' }, true
+      (last_xml_response/'images/image').size.should == 1
+      (last_xml_response/'images/image/owner_id').first.text.should == 'mockuser'
+    end
+
+    def test_it_can_filter_using_unknown_owner_id
+      do_xml_request '/api/images', { :architecture => 'unknown_user' }, true
+      (last_xml_response/'images/image').size.should == 0
+    end
+
+    def test_it_can_filter_using_architecture
+      do_xml_request '/api/images', { :architecture => 'x86_64' }, true
+      (last_xml_response/'images/image').size.should == 1
+      (last_xml_response/'images/image/architecture').first.text.should == 'x86_64'
+    end
+
+    def test_it_can_filter_using_unknown_architecture
+      do_xml_request '/api/images', { :architecture => 'unknown_arch' }, true
+      (last_xml_response/'images/image').size.should == 0
+    end
+
+    def test_it_responses_to_json
+      do_request '/api/images', {}, true, { :format => :json }
+      JSON::parse(last_response.body).class.should == Hash
+      JSON::parse(last_response.body)['images'].class.should == Array
+
+      do_request '/api/images/img1', {}, true, { :format => :json }
+      last_response.status.should == 200
+      JSON::parse(last_response.body).class.should == Hash
+      JSON::parse(last_response.body)['image'].class.should == Hash
+    end
+
+    def test_it_responses_to_html
+      do_request '/api/images', {}, true, { :format => :html }
+      last_response.status.should == 200
+      Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
+
+      do_request '/api/images/img1', {}, true, { :format => :html }
+      last_response.status.should == 200
+      Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
+    end
+
+    private
+
+    def test_image_attributes(image)
+      (image/'name').text.should_not nil
+      (image/'owner_id').text.should_not nil
+      (image/'description').text.should_not nil
+      (image/'architecture').text.should_not nil
+    end
+
   end
-
-  def test_images_filtering_by_id
-    @params={ :id => 'img1' }
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_equal 1, doc.xpath('/images/image').size
-    assert_equal @params[:id], doc.xpath('/images/image/id').first.text
-  end
-
-  def test_images_filtering_by_owner_id
-    @params={ :owner_id => 'fedoraproject' }
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_equal 2, doc.xpath('/images/image').size
-    assert_equal @params[:owner_id], doc.xpath('/images/image/owner_id')[0].text
-    assert_equal @params[:owner_id], doc.xpath('/images/image/owner_id')[1].text
-  end
-
-  def test_images_filtering_by_architecture
-    @params={ :architecture => 'i386' }
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_equal 2, doc.xpath('/images/image').size
-    assert_equal @params[:architecture], doc.xpath('/images/image/architecture')[0].text
-    assert_equal @params[:architecture], doc.xpath('/images/image/architecture')[1].text
-  end
-
-  def test_images_filtering_by_id_and_owner_id
-    @params={ :id => 'img1', :owner_id => 'fedoraproject' }
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_equal 1, doc.xpath('/images/image').size
-    assert_equal @params[:owner_id], doc.xpath('/images/image/owner_id')[0].text
-    assert_equal @params[:id], doc.xpath('/images/image/id')[0].text
-  end
-
-  def test_images_filtering_by_id_and_owner_id_and_architecture
-    @params={ :id => 'img1', :owner_id => 'fedoraproject', :architecture => 'x86_64' }
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_equal 1, doc.xpath('/images/image').size
-    assert_equal @params[:owner_id], doc.xpath('/images/image/owner_id')[0].text
-    assert_equal @params[:id], doc.xpath('/images/image/id')[0].text
-    assert_equal @params[:architecture], doc.xpath('/images/image/architecture')[0].text
-  end
-
-  def test_images_filtering_by_id_and_architecture
-    @params={ :id => 'img1', :architecture => 'x86_64' }
-    get '/api/images.xml', @params, rack_headers
-    doc = Nokogiri::XML.parse(last_response.body)
-    assert_equal 1, doc.xpath('/images/image').size
-    assert_equal @params[:id], doc.xpath('/images/image/id')[0].text
-    assert_equal @params[:architecture], doc.xpath('/images/image/architecture')[0].text
-  end
-
-  include DeltacloudTest
-
 end
