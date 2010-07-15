@@ -9,6 +9,16 @@ DRIVERS = {
   :mock => { :name => "Mock" }
 }
 
+DEFAULT_COLLECTIONS = [
+  :hardware_profiles,
+  :images,
+  :instances,
+  :instance_states,
+  :realms,
+  :storage_volumes,
+  :storage_snapshots
+]
+
 DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
 
 def driver_name

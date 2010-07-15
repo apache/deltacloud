@@ -203,6 +203,7 @@ module Sinatra
     # operation on this collection.
     def collection(name, &block)
       raise DuplicateCollectionException if collections[name]
+      return unless driver.has_collection?(name.to_sym)
       collections[name] = Collection.new(name, &block)
       collections[name].add_feature_params(driver.features(name))
       collections[name].generate

@@ -185,6 +185,16 @@ module Deltacloud
         return collection.select{|e| filter == e.send(attribute) }
       end
     end
+
+    def supported_collections
+      DEFAULT_COLLECTIONS
+    end
+
+    def has_collection?(collection)
+      return true if self.supported_collections.include?(collection)
+      return false
+    end
+
   end
 
 end

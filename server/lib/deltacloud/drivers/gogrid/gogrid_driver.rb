@@ -43,6 +43,10 @@ class GogridDriver < Deltacloud::BaseDriver
     storage        10
   end
 
+  def supported_collections
+    DEFAULT_COLLECTIONS.reject { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
+  end
+
   # The only valid option for flavors is server RAM for now
   def flavors(credentials, opts=nil)
     flavors = []
