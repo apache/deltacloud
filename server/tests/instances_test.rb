@@ -35,7 +35,7 @@ module DeltacloudUnitTest
 
     def test_inst1_has_correct_attributes
       do_xml_request '/api/instances', {}, true
-      instance = (last_xml_response/'instances/instance[@id="inst2"]')
+      instance = (last_xml_response/'instances/instance[@id="inst1"]')
       test_instance_attributes(instance)
     end
 
@@ -50,7 +50,7 @@ module DeltacloudUnitTest
       JSON::parse(last_response.body).class.should == Hash
       JSON::parse(last_response.body)['instances'].class.should == Array
 
-      do_request '/api/instances/inst2', {}, true, { :format => :json }
+      do_request '/api/instances/inst1', {}, true, { :format => :json }
       last_response.status.should == 200
       JSON::parse(last_response.body).class.should == Hash
       JSON::parse(last_response.body)['instance'].class.should == Hash
