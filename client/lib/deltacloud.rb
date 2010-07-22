@@ -294,12 +294,20 @@ module DeltaCloud
       end
       logger << "[#{conf[:method].to_s.upcase}] #{conf[:path]}\n"
       if conf[:method].eql?(:post)
-        RestClient.send(:post, conf[:path], conf[:form_data], default_headers) do |response|
-          yield response.body if block_given?
+        RestClient.send(:post, conf[:path], conf[:form_data], default_headers) do |response, request, block|
+          if response.respond_to?('body')
+            yield response.body if block_given?
+          else
+            yield response.to_s if block_given?
+          end
         end
       else
-        RestClient.send(conf[:method], conf[:path], default_headers) do |response|
-          yield response.body if block_given?
+        RestClient.send(conf[:method], conf[:path], default_headers) do |response, request, block|
+          if response.respond_to?('body')
+            yield response.body if block_given?
+          else
+            yield response.to_s if block_given?
+          end
         end
       end
     end
