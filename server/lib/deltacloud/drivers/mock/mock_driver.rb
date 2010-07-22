@@ -18,6 +18,7 @@
 
 
 require 'deltacloud/base_driver'
+require 'yaml'
 
 module Deltacloud
   module Drivers
