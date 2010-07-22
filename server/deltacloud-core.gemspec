@@ -31,7 +31,7 @@ require 'rake'
     which implements the REST interface.
   EOF
 
-  s.version = '0.0.2'
+  s.version = '0.0.3'
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
   s.files = FileList[
