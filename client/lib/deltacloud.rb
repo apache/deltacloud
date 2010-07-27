@@ -191,12 +191,13 @@ module DeltaCloud
                   end
                 # Property attribute is handled differently
                 when "property":
-                  define_method :"#{attribute['name'].sanitize}" do
-                    if attribute['value'] =~ /^(\d+)$/
-                      DeltaCloud::HWP::FloatProperty.new(attribute, attribute['name'])
-                    else
-                      DeltaCloud::HWP::Property.new(attribute, attribute['name'])
-                    end
+                  attr_accessor :"#{attribute['name'].sanitize}"
+                  if attribute['value'] =~ /^(\d+)$/
+                    obj.send(:"#{attribute['name'].sanitize}=",
+                      DeltaCloud::HWP::FloatProperty.new(attribute, attribute['name']))
+                  else
+                    obj.send(:"#{attribute['name'].sanitize}=",
+                      DeltaCloud::HWP::Property.new(attribute, attribute['name']))
                   end
                 # Public and private addresses are returned as Array
                 when "public_addresses", "private_addresses":

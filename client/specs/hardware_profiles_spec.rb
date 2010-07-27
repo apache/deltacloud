@@ -37,9 +37,7 @@ describe "hardware_profiles" do
       hardware_profiles.each do |hwp|
         hwp.uri.should_not be_nil
         hwp.uri.should be_a(String)
-        prop_check(hwp.architecture, String)
-        prop_check(hwp.storage, Float)
-        prop_check(hwp.memory, Float)
+        prop_check(hwp.architecture, String)  if hwp.architecture
       end
     end
   end
@@ -59,6 +57,14 @@ describe "hardware_profiles" do
       hwp.should_not be_nil
       hwp.id.should eql( 'm1-small' )
     end
+  end
+
+  it "should allow fetching different hardware_profiles" do
+    client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
+    hwp1 = client.hardware_profile( 'm1-small' )
+    hwp2 = client.hardware_profile( 'm1-xlarge' )
+    hwp1.storage.value.should_not eql(hwp2.storage.value)
+    hwp1.memory.value.should_not eql(hwp2.memory.value)
   end
 
   it "should allow fetching a hardware_profile by URI" do
