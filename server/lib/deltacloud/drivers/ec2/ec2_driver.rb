@@ -182,28 +182,46 @@ class EC2Driver < Deltacloud::BaseDriver
       :disable_api_termination => false,
       :instance_initiated_shutdown_behavior => 'terminate'
     )
-    convert_instance( ec2_instances.instancesSet.item.first, 'pending' )
+    convert_instance( ec2_instances.instancesSet.item.first, credentials.user )
+  end
+
+  def generate_instance(ec2, id, backup)
+    begin
+      this_instance = ec2.describe_instances( :instance_id => id ).reservationSet.item.first.instancesSet.item.first
+      convert_instance(this_instance, this_instance.ownerId)
+    rescue Exception => e
+      puts "WARNING: ignored error during instance refresh: #{e.message}"
+      # at this point, the action has succeeded but our follow-up
+      # "describe_instances" failed for some reason.  Create a simple Instance
+      # object with only the ID and new state in place
+      state = backup.instancesSet.item.first.currentState.name
+      Instance.new( {
+        :id => id,
+        :state => state,
+        :actions => instance_actions_for( state ),
+      } )
+    end
   end
 
   def reboot_instance(credentials, id)
     ec2 = new_client(credentials)
-    safely do
-      ec2.reboot_instances( :instance_id => id )
-    end
+    backup = ec2.reboot_instances( :instance_id => id )
+
+    generate_instance(ec2, id, backup)
   end
 
   def stop_instance(credentials, id)
     ec2 = new_client(credentials)
-    safely do
-      ec2.terminate_instances( :instance_id => id )
-    end
+    backup = ec2.terminate_instances( :instance_id => id )
+
+    generate_instance(ec2, id, backup)
   end
 
   def destroy_instance(credentials, id)
     ec2 = new_client(credentials)
-    safely do
-      ec2.terminate_instances( :instance_id => id )
-    end
+    backup = ec2.terminate_instances( :instance_id => id )
+
+    generate_instance(ec2, id, backup)
   end
 
   #
