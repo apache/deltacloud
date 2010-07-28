@@ -1,3 +1,5 @@
+require 'uri'
+
 module Sinatra
   module UrlForHelper
     # Construct a link to +url_fragment+, which should be given relative to
@@ -30,7 +32,8 @@ module Sinatra
       else
         raise TypeError, "Unknown url_for mode #{mode}"
       end
-      "#{base}#{url_fragment}"
+      url_escape = URI.escape(url_fragment)
+      "#{base}#{url_escape}"
     end
 
     def root_url
