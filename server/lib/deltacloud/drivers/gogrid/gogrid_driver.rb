@@ -47,19 +47,6 @@ class GogridDriver < Deltacloud::BaseDriver
     DEFAULT_COLLECTIONS.reject { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
   end
 
-  # The only valid option for flavors is server RAM for now
-  def flavors(credentials, opts=nil)
-    flavors = []
-    safely do
-      flavors=new_client(credentials).request('common/lookup/list', { 'lookup' => 'server.ram' })['list'].collect do |flavor|
-        convert_flavor(flavor)
-      end
-    end
-    flavors = filter_on( flavors, :id, opts )
-    flavors = filter_on( flavors, :architecture, opts )
-    flavors
-  end
-
   def images(credentials, opts=nil)
     imgs = []
     if opts and opts[:id]
@@ -237,15 +224,6 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
-  def convert_flavor(flavor)
-    Flavor.new(
-      :id => flavor['id'],
-      :architecture => 'x86',
-      :memory => flavor['name'].tr('G', ''),
-      :storage => '1'
-    )
-  end
-
   def convert_realm(realm)
     Realm.new(
       :id => realm['id'],
@@ -279,7 +257,6 @@ class GogridDriver < Deltacloud::BaseDriver
       :id => instance['name'],
       :owner_id => owner_id,
       :image_id => instance['image']['id'],
-      :flavor_id => instance['ram']['id'],
       :instance_profile => prof,
       :name => instance['name'],
       :realm_id => instance['type']['id'],
