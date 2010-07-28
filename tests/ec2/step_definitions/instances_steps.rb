@@ -108,8 +108,8 @@ When /^client want to '(\w+)' created instance$/ do |action|
 end
 
 Then /^client should get created instance$/ do
-  last_response.status.should == 302
-  get last_response.headers['Location']
+  last_response.status.should == 200
+  #get last_response.headers['Location']
 end
 
 When /^this instance should be destroyed$/ do
