@@ -74,7 +74,7 @@
     
    
     
-      <strong class="classes">Classes:</strong> <a href="DeltaCloud/API.html" title="DeltaCloud::API (class)">API</a>, <a href="DeltaCloud/Documentation.html" title="DeltaCloud::Documentation (class)">Documentation</a>, <a href="DeltaCloud/HardwareProfile.html" title="DeltaCloud::HardwareProfile (class)">HardwareProfile</a>, <a href="DeltaCloud/Image.html" title="DeltaCloud::Image (class)">Image</a>, <a href="DeltaCloud/Instance.html" title="DeltaCloud::Instance (class)">Instance</a>, <a href="DeltaCloud/Realm.html" title="DeltaCloud::Realm (class)">Realm</a>, <a href="DeltaCloud/StorageSnapshot.html" title="DeltaCloud::StorageSnapshot (class)">StorageSnapshot</a>, <a href="DeltaCloud/StorageVolume.html" title="DeltaCloud::StorageVolume (class)">StorageVolume</a>
+      <strong class="classes">Classes:</strong> <a href="DeltaCloud/API.html" title="DeltaCloud::API (class)">API</a>, <a href="DeltaCloud/Documentation.html" title="DeltaCloud::Documentation (class)">Documentation</a>
     
   
 </p>
@@ -88,6 +88,48 @@
     </h2>
 
     <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#classes-class_method" title="classes (class method)">+ (Object) <strong>classes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_class-class_method" title="define_class (class method)">+ (Object) <strong>define_class</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
       
         <li class="public ">
   <span class="summary_signature">
@@ -141,7 +183,79 @@
     
     
       <div class="method_details first">
-  <p class="signature first" id="driver_name-class_method">
+  <p class="signature first" id="classes-class_method">
+  
+    + (<tt>Object</tt>) <strong>classes</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 53</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='classes identifier id'>classes</span>
+  <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;----&gt; \n#{@defined_classes.join(',')}\n&quot;</span>
+  <span class='@defined_classes ivar id'>@defined_classes</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="define_class-class_method">
+  
+    + (<tt>Object</tt>) <strong>define_class</strong>(name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47
+48
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 43</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='define_class identifier id'>define_class</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='@defined_classes ivar id'>@defined_classes</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='if if kw'>if</span> <span class='@defined_classes ivar id'>@defined_classes</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='self self kw'>self</span><span class='dot token'>.</span><span class='module_eval identifier id'>module_eval</span><span class='lparen token'>(</span><span class='dstring node'>&quot;API::#{name}&quot;</span><span class='rparen token'>)</span>
+  <span class='else else kw'>else</span>
+    <span class='@defined_classes ivar id'>@defined_classes</span> <span class='lshft op'>&lt;&lt;</span> <span class='name identifier id'>name</span> <span class='unless unless_mod kw'>unless</span> <span class='@defined_classes ivar id'>@defined_classes</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='API constant id'>API</span><span class='dot token'>.</span><span class='const_set identifier id'>const_set</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='Class constant id'>Class</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="driver_name-class_method">
   
     + (<tt>Object</tt>) <strong>driver_name</strong>(url) 
   
@@ -179,12 +293,12 @@
       <pre class="lines">
 
 
-38
 39
-40</pre>
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 39</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='driver_name identifier id'>driver_name</span><span class='lparen token'>(</span><span class='url identifier id'>url</span><span class='rparen token'>)</span>
   <span class='API constant id'>API</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='url identifier id'>url</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='driver_name identifier id'>driver_name</span>
@@ -275,12 +389,12 @@
       <pre class="lines">
 
 
-31
 32
-33</pre>
+33
+34</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 31</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 32</span>
 
 <span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='user_name identifier id'>user_name</span><span class='comma token'>,</span> <span class='password identifier id'>password</span><span class='comma token'>,</span> <span class='api_url identifier id'>api_url</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='API constant id'>API</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='user_name identifier id'>user_name</span><span class='comma token'>,</span> <span class='password identifier id'>password</span><span class='comma token'>,</span> <span class='api_url identifier id'>api_url</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
@@ -296,7 +410,7 @@
 </div>
     
     <div id="footer">
-  Generated on Mon Jun 28 11:12:53 2010 by 
+  Generated on Fri Jul 30 12:16:31 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.6 (ruby-1.8.7).
 </div>

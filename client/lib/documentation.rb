@@ -12,7 +12,8 @@ end
 @dc.entry_points.keys.each do |ep|
   @dc.send(ep)
 end
-class_list = @dc.classes
+
+class_list = DeltaCloud::classes.collect { |c| DeltaCloud::module_eval("::DeltaCloud::API::#{c}")}
 
 def read_method_description(c, method)
   if method =~ /es$/
@@ -57,13 +58,13 @@ class_list.each do |c|
   @dc.entry_points.keys.each do |ep|
     out << "# Return #{ep.to_s.classify} object with given id\n"
     out << "# "
-    out << "# *#{@dc.documentation(ep.to_s).description}*"
+    out << "# #{@dc.documentation(ep.to_s).description.split("\n").join("\n# ")}"
     out << "# @return [#{ep.to_s.classify}]"
     out << "def #{ep.to_s.gsub(/s$/, '')}"
     out << "end"
     out << "# Return collection of #{ep.to_s.classify} objects"
     out << "# "
-    out << "# *#{@dc.documentation(ep.to_s).description}*"
+    out << "# #{@dc.documentation(ep.to_s).description.split("\n").join("\n# ")}"
     @dc.documentation(ep.to_s, 'index').params.each do |p|
       out << p.to_comment
     end

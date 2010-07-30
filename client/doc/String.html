@@ -225,12 +225,12 @@
       <pre class="lines">
 
 
-479
-480
-481</pre>
+499
+500
+501</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 479</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 499</span>
 
 <span class='def def kw'>def</span> <span class='camelize identifier id'>camelize</span>
   <span class='self self kw'>self</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/\/(.?)/</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='dstring node'>&quot;::#{$1.upcase}&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/(?:^|_)(.)/</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='$1 nth_ref id'>$1</span><span class='dot token'>.</span><span class='upcase identifier id'>upcase</span> <span class='rbrace token'>}</span>
@@ -262,12 +262,12 @@
       <pre class="lines">
 
 
-474
-475
-476</pre>
+492
+493
+494</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 474</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 492</span>
 
 <span class='def def kw'>def</span> <span class='classify identifier id'>classify</span>
   <span class='self self kw'>self</span><span class='dot token'>.</span><span class='singularize identifier id'>singularize</span><span class='dot token'>.</span><span class='camelize identifier id'>camelize</span>
@@ -299,13 +299,13 @@
       <pre class="lines">
 
 
-489
-490
-491
-492</pre>
+512
+513
+514
+515</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 489</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 512</span>
 
 <span class='def def kw'>def</span> <span class='convert identifier id'>convert</span>
   <span class='return return kw'>return</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='to_f identifier id'>to_f</span> <span class='if if_mod kw'>if</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='strip identifier id'>strip</span> <span class='match op'>=~</span> <span class='regexp val'>/^([\d\.]+$)/</span>
@@ -338,12 +338,12 @@
       <pre class="lines">
 
 
-495
-496
-497</pre>
+518
+519
+520</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 495</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 518</span>
 
 <span class='def def kw'>def</span> <span class='sanitize identifier id'>sanitize</span>
   <span class='self self kw'>self</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/(\W+)/</span><span class='comma token'>,</span> <span class='string val'>'_'</span><span class='rparen token'>)</span>
@@ -375,12 +375,12 @@
       <pre class="lines">
 
 
-484
-485
-486</pre>
+506
+507
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 484</span>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 506</span>
 
 <span class='def def kw'>def</span> <span class='singularize identifier id'>singularize</span>
   <span class='self self kw'>self</span><span class='dot token'>.</span><span class='gsub identifier id'>gsub</span><span class='lparen token'>(</span><span class='regexp val'>/s$/</span><span class='comma token'>,</span> <span class='string val'>''</span><span class='rparen token'>)</span>
@@ -396,7 +396,7 @@
 </div>
     
     <div id="footer">
-  Generated on Mon Jun 28 11:12:57 2010 by 
+  Generated on Fri Jul 30 12:16:29 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.6 (ruby-1.8.7).
 </div>
