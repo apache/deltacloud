@@ -16,12 +16,20 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class InstanceCredential < BaseModel
+class Key < BaseModel
 
   attr_accessor :credential_type
   attr_accessor :fingerprint
   attr_accessor :username
   attr_accessor :password
   attr_accessor :pem_rsa_key
+
+  def is_password?
+    true if @credential_type.eql?(:password)
+  end
+
+  def is_key?
+    true if @credential_type.eql?(:key)
+  end
 
 end

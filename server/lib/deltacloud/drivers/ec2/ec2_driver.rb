@@ -36,7 +36,7 @@ module Deltacloud
 class EC2Driver < Deltacloud::BaseDriver
 
   def supported_collections
-    DEFAULT_COLLECTIONS + [ :instance_credentials ]
+    DEFAULT_COLLECTIONS + [ :keys ]
   end
 
   feature :instances, :user_data
@@ -275,33 +275,33 @@ class EC2Driver < Deltacloud::BaseDriver
     snapshots
   end
 
-  def instance_credential(credentials, opts=nil)
-    instance_credentials(credentials, opts).first
+  def key(credentials, opts=nil)
+    keys(credentials, opts).first
   end
 
-  def instance_credentials(credentials, opts=nil)
+  def keys(credentials, opts=nil)
     ec2 = new_client( credentials )
     opts[:key_name] = opts[:id] if opts and opts[:id]
     keypairs = ec2.describe_keypairs(opts || {})
     result = []
     safely do
       keypairs.keySet.item.each do |keypair|
-        result << convert_instance_credential(keypair)
+        result << convert_key(keypair)
       end
     end
     result
   end
 
-  def create_instance_credential(credentials, opts={})
-    instance_credential = InstanceCredential.new
+  def create_key(credentials, opts={})
+    key = Key.new
     ec2 = new_client( credentials )
     safely do
-      instance_credential = convert_instance_credential(ec2.create_keypair(opts))
+      key = convert_key(ec2.create_keypair(opts))
     end
-    return instance_credential
+    return key
   end
 
-  def destroy_instance_credential(credentials, opts={})
+  def destroy_key(credentials, opts={})
     safely do
       ec2 = new_client( credentials )
       ec2.delete_keypair(opts)
@@ -319,14 +319,13 @@ class EC2Driver < Deltacloud::BaseDriver
     AWS::EC2::Base.new(opts)
   end
 
-  def convert_instance_credential(instance_credential)
-    key=InstanceCredential.new({
-      :id => instance_credential['keyName'],
-      :fingerprint => instance_credential['keyFingerprint'],
-      :credential_type => :key
+  def convert_key(key)
+    Key.new({
+      :id => key['keyName'],
+      :fingerprint => key['keyFingerprint'],
+      :credential_type => :key,
+      :pem_rsa_key => key['keyMaterial']
     })
-    key.pem_rsa_key = instance_credential['keyMaterial'] if instance_credential['keyMaterial']
-    return key
   end
 
   def convert_image(ec2_image)

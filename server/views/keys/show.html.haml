@@ -1,0 +1,22 @@
+%h1
+  = @key.id
+
+%dl
+  - if @key.is_key?
+    %di
+      %dt Fingerprint
+      %dd
+        = @key.fingerprint
+      - if @key.pem_rsa_key
+        %dt PEM key
+        %dd
+          %pre
+            = @key.pem_rsa_key
+  - if @key.is_password?
+    %di
+      %dt Username
+      %dd
+        = @key.username
+      %dt Password
+      %dd
+        = @key.password

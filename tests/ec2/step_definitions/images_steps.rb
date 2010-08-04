@@ -35,8 +35,8 @@ When /^client want to show first (.+)$/ do |element|
       path = '/realms/realm'
     when 'hardware-profile'
       path = '/hardware_profiles/hardware_profile'
-    when 'instance_credential':
-      path = '/instance_credentials/instance_credential'
+    when 'key':
+      path = '/keys/key'
   end
   @element = output_xml.xpath(path).first
   @element.should_not be_nil

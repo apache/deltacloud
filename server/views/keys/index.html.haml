@@ -1,0 +1,26 @@
+%h1 Keys
+
+%table.display
+  %thead
+    %tr
+      %th ID
+      %th Credentials details
+      %th Actions
+  %tbody
+    - @elements.each do |key|
+      %tr
+        %td
+          = link_to key.id, key_url( key.id )
+        %td
+          - if key.credential_type.eql?(:key)
+            = key.fingerprint
+          - if key.credential_type.eql?(:password)
+            = "#{key.username} - #{key.password}"
+        %td
+          - if driver.respond_to?(:destroy_key)
+            =link_to 'Destroy', destroy_key_url(key.id), :class => 'delete'
+  %tfoot
+    - if driver.respond_to?(:create_key)
+      %tr
+        %td{:colspan => 3, :style => "text-align:right;"}
+          =link_to 'Create &raquo;', "#{url_for('/api/keys/new')}", :class => 'button'

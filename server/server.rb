@@ -300,38 +300,40 @@ collection :storage_volumes do
   end
 end
 
-get '/api/instance_credentials/new' do
+get '/api/keys/new' do
   respond_to do |format|
-    format.html { haml :"instance_credentials/new" }
+    format.html { haml :"keys/new" }
   end
 end
 
-collection :instance_credentials do
+collection :keys do
   description "Instance authentication credentials"
 
   operation :index do
     description "List all available credentials which could be used for instance authentication"
-    control { filter_all :instance_credentials }
+    control do
+      filter_all :keys
+    end
   end
 
   operation :show do
     description "Show details about given instance credential"
     param :id,  :string,  :required
-    control { show :instance_credential }
+    control { show :key }
   end
 
   operation :create do
     description "Create a new instance credential if backend supports this"
     param :name,  :string,  :required
     control do
-      unless driver.respond_to?(:create_instance_credential)
+      unless driver.respond_to?(:create_key)
         raise Deltacloud::BackendFeatureUnsupported.new('501',
           'Creating instance credentials is not supported in backend')
       end
-      @instance_credential = driver.create_instance_credential(credentials, { :key_name => params[:name] })
+      @key = driver.create_key(credentials, { :key_name => params[:name] })
       respond_to do |format|
-        format.html { haml :"instance_credentials/show" }
-        format.xml { haml :"instance_credentials/show" }
+        format.html { haml :"keys/show" }
+        format.xml { haml :"keys/show" }
       end
     end
   end
@@ -340,12 +342,12 @@ collection :instance_credentials do
     description "Destroy given instance credential if backend supports this"
     param :id,  :string,  :required
     control do
-      unless driver.respond_to?(:destroy_instance_credential)
+      unless driver.respond_to?(:destroy_key)
         raise Deltacloud::BackendFeatureUnsupported.new('501',
           'Creating instance credentials is not supported in backend')
       end
-      driver.destroy_instance_credential(credentials, { :key_name => params[:id]})
-      redirect(instance_credentials_url)
+      driver.destroy_key(credentials, { :key_name => params[:id]})
+      redirect(keys_url)
     end
   end
 

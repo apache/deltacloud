@@ -45,7 +45,7 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def supported_collections
     DEFAULT_COLLECTIONS.reject! { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
-    DEFAULT_COLLECTIONS + [ :instance_credentials ]
+    DEFAULT_COLLECTIONS + [ :keys ]
   end
 
   def images(credentials, opts=nil)
@@ -176,15 +176,15 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
-  def instance_credential(credentials, opts=nil)
-    instance_credentials(credentials, opts).first
+  def key(credentials, opts=nil)
+    keys(credentials, opts).first
   end
 
-  def instance_credentials(credentials, opts=nil)
+  def keys(credentials, opts=nil)
     gogrid = new_client( credentials )
     creds = []
     gogrid.request('support/password/list')['list'].each do |password|
-      creds << convert_instance_credential(password)
+      creds << convert_key(password)
     end
     return creds
   end
@@ -220,8 +220,8 @@ class GogridDriver < Deltacloud::BaseDriver
     return login_data
   end
 
-  def convert_instance_credential(password)
-    InstanceCredential.new({
+  def convert_key(password)
+    Key.new({
       :id => password['id'],
       :username => password['username'],
       :password => password['password'],
