@@ -175,19 +175,21 @@ class EC2Driver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts)
     ec2 = new_client( credentials )
     realm_id = opts[:realm_id]
-    image = image(credentials, :id => image_id )
-    hwp = find_hardware_profile(credentials, opts[:hwp_id], image.id)
-    ec2_instances = ec2.run_instances(
-      :image_id => image.id,
-      :user_data => opts[:user_data],
-      :key_name => opts[:keyname],
-      :availability_zone => realm_id,
-      :monitoring_enabled => true,
-      :instance_type => hwp.name,
-      :disable_api_termination => false,
-      :instance_initiated_shutdown_behavior => 'terminate'
-    )
-    convert_instance( ec2_instances.instancesSet.item.first, credentials.user )
+    safely do
+      image = image(credentials, :id => image_id )
+      hwp = find_hardware_profile(credentials, opts[:hwp_id], image.id)
+      ec2_instances = ec2.run_instances(
+        :image_id => image.id,
+        :user_data => opts[:user_data],
+        :key_name => opts[:keyname],
+        :availability_zone => realm_id,
+        :monitoring_enabled => true,
+        :instance_type => hwp.name,
+        :disable_api_termination => false,
+        :instance_initiated_shutdown_behavior => 'terminate'
+      )
+      return convert_instance( ec2_instances.instancesSet.item.first, 'pending' )
+    end
   end
 
   def generate_instance(ec2, id, backup)
@@ -316,7 +318,9 @@ class EC2Driver < Deltacloud::BaseDriver
       :secret_access_key => credentials.password
     }
     opts[:server] = ENV['DCLOUD_EC2_URL'] if ENV['DCLOUD_EC2_URL']
-    AWS::EC2::Base.new(opts)
+    safely do
+      AWS::EC2::Base.new(opts)
+    end
   end
 
   def convert_key(key)
@@ -391,14 +395,12 @@ class EC2Driver < Deltacloud::BaseDriver
     } )
   end
 
-  def safely(&block)
-    begin
-      block.call
-    rescue AWS::AuthFailure => e
-        raise Deltacloud::AuthException.new
-    rescue Exception => e
-        puts "ERROR: #{e.message}\n#{e.backtrace.join("\n")}"
-    end
+  def catched_exceptions_list
+    {
+      :auth => [ AWS::AuthFailure ],
+      :error => [],
+      :glob => [ /AWS::(\w+)/ ]
+    }
   end
 
 end

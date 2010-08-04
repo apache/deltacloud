@@ -57,15 +57,17 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
   def images(credentials, opts=nil)
       image_list = []
       terremark_client = new_client(credentials)
-      vdc_id = terremark_client.default_vdc_id
-      catalogItems = terremark_client.get_catalog(vdc_id).body['CatalogItems']
-      catalogItems.each{ |catalog_item|
-        current_item_id = catalog_item['href'].split('/').last
-        current_item = terremark_client.get_catalog_item(current_item_id).body['Entity']
-          if(current_item['type'] == 'application/vnd.vmware.vcloud.vAppTemplate+xml')
-            image_list << convert_image(current_item, credentials.user)
-          end
-      } #end of catalogItems.each
+      safely do
+        vdc_id = terremark_client.default_vdc_id
+        catalogItems = terremark_client.get_catalog(vdc_id).body['CatalogItems']
+        catalogItems.each{ |catalog_item|
+          current_item_id = catalog_item['href'].split('/').last
+          current_item = terremark_client.get_catalog_item(current_item_id).body['Entity']
+            if(current_item['type'] == 'application/vnd.vmware.vcloud.vAppTemplate+xml')
+              image_list << convert_image(current_item, credentials.user)
+            end
+        } #end of catalogItems.each
+      end
       image_list = filter_on( image_list, :id, opts )
       image_list = filter_on( image_list, :architecture, opts )
       image_list = filter_on( image_list, :owner_id, opts )
@@ -91,14 +93,16 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
   def instances(credentials, opts=nil)
       instances = []
       terremark_client = new_client(credentials)
-      vdc_items = terremark_client.get_vdc(terremark_client.default_vdc_id()).body['ResourceEntities']
-      vdc_items.each{|current_item|
-        if(current_item['type'] == 'application/vnd.vmware.vcloud.vApp+xml')
-           vapp_id =  current_item['href'].split('/').last
-           vapp = terremark_client.get_vapp(vapp_id)
-           instances  << convert_instance(vapp, terremark_client, credentials.user)
-        end
-      }#end vdc_items.each
+      safely do
+        vdc_items = terremark_client.get_vdc(terremark_client.default_vdc_id()).body['ResourceEntities']
+        vdc_items.each{|current_item|
+          if(current_item['type'] == 'application/vnd.vmware.vcloud.vApp+xml')
+             vapp_id =  current_item['href'].split('/').last
+             vapp = terremark_client.get_vapp(vapp_id)
+             instances  << convert_instance(vapp, terremark_client, credentials.user)
+          end
+        }#end vdc_items.each
+      end
       instances = filter_on( instances, :id, opts )
       instances
   end
@@ -135,37 +139,45 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
     end
     vapp_opts['cpus'] = opts[:hwp_cpu]
     vapp_opts['memory'] =  opts[:hwp_memory]
-    terremark_client = new_client(credentials)
+    safely do
+      terremark_client = new_client(credentials)
 #######
 #FIXME#  what happens if there is an issue getting the new vapp id? (eg even though created succesfully)
 #######
-    vapp_id = terremark_client.instantiate_vapp_template(name, image_id, vapp_opts).body['href'].split('/').last
-    new_vapp = terremark_client.get_vapp(vapp_id)
-    return convert_instance(new_vapp, terremark_client, credentials.user) #return an Instance object
+      vapp_id = terremark_client.instantiate_vapp_template(name, image_id, vapp_opts).body['href'].split('/').last
+      new_vapp = terremark_client.get_vapp(vapp_id)
+      return convert_instance(new_vapp, terremark_client, credentials.user) #return an Instance object
+    end
   end
 
 #--
 # REBOOT INSTANCE
 #--
   def reboot_instance(credentials, id)
-    terremark_client =  new_client(credentials)
-    terremark_client.power_reset(id)
+    safely do
+      terremark_client =  new_client(credentials)
+      return terremark_client.power_reset(id)
+    end
   end
 
 #--
 # START INSTANCE
 #--
 def start_instance(credentials, id)
+  safely do
     terremark_client =  new_client(credentials)
-    terremark_client.power_on(id)
+    return terremark_client.power_on(id)
+  end
 end
 
 #--
 # STOP INSTANCE
 #--
 def stop_instance(credentials, id)
+  safely do
     terremark_client = new_client(credentials)
-    terremark_client.power_shutdown(id)
+    return terremark_client.power_shutdown(id)
+  end
 end
 
 #--
@@ -173,8 +185,10 @@ end
 #--
 #shuts down... in terremark need to do a futher delete to get rid of a vapp entirely
 def destroy_instance(credentials, id)
+  safely do
     terremark_client = new_client(credentials)
-    terremark_client.delete_vapp(id)
+    return terremark_client.delete_vapp(id)
+  end
 end
 
 #--
@@ -246,12 +260,22 @@ end
   def new_client(credentials)
     #Fog constructor expecting  credentials[:terremark_password] and credentials[:terremark_username]
     terremark_credentials = {:terremark_vcloud_username => "#{credentials.user}", :terremark_vcloud_password => "#{credentials.password}" }
-    terremark_client = Fog::Terremark::Vcloud.new(terremark_credentials)
-    vdc_id = terremark_client.default_vdc_id
+    safely do
+      terremark_client = Fog::Terremark::Vcloud.new(terremark_credentials)
+      vdc_id = terremark_client.default_vdc_id
+    end
     if (vdc_id.nil?)
        raise DeltaCloud::AuthException.new
     end
     terremark_client
+  end
+
+  def safely(&block)
+    begin
+      block.call
+    rescue Exception => e
+      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
+    end
   end
 
 

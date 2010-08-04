@@ -205,6 +205,25 @@ module Deltacloud
       return false
     end
 
+    def catched_exceptions_list
+      { :error => [], :auth => [], :glob => [] }
+    end
+
+    def safely(&block)
+      begin
+        block.call
+      rescue *catched_exceptions_list[:error] => e
+        raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace)
+      rescue *catched_exceptions_list[:auth] => e
+        raise Deltacloud::AuthException.new
+      rescue => e
+        catched_exceptions_list[:glob].each do |ex|
+          raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace) if e.class.name =~ ex
+        end
+        raise e
+      end
+    end
+
   end
 
 end

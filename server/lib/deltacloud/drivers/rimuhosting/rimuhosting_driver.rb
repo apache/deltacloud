@@ -29,15 +29,17 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   feature :instances, :user_name
 
   def images(credentails, opts=nil)
-    rh = RimuHostingClient.new(credentails)
-    images = rh.list_images.map do | image |
-      Image.new({
-              :id => image["distro_code"].gsub(/\./,"-"),
-              :name => image["distro_code"],
-              :description => image["distro_description"],
-              :owner_id => "root",
-              :architecture => "x86"
-      })
+    safely do
+      rh = RimuHostingClient.new(credentails)
+      images = rh.list_images.map do | image |
+        Image.new({
+                :id => image["distro_code"].gsub(/\./,"-"),
+                :name => image["distro_code"],
+                :description => image["distro_description"],
+                :owner_id => "root",
+                :architecture => "x86"
+        })
+      end
     end
     images.sort_by{|e| [e.description]}
     images = filter_on( images, :id, opts)
@@ -45,15 +47,17 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   end
 
   def hardware_profiles(credentials, opts = nil)
-    rh = RimuHostingClient.new(credentials)
-    results = rh.list_plans.map do |plan|
-      # FIXME: x86 is not a valid architecture; what is Rimu offering ?
-      # FIXME: VPS plans offer a range of memory/storage, but that's
-      #        not contained in hte pricing_plan_infos
-      HardwareProfile.new(plan["pricing_plan_code"]) do
-        memory plan["minimum_memory_mb"].to_f
-        storage plan["minimum_disk_gb"].to_i
-        architecture "x86"
+    safely do
+      rh = RimuHostingClient.new(credentials)
+      results = rh.list_plans.map do |plan|
+        # FIXME: x86 is not a valid architecture; what is Rimu offering ?
+        # FIXME: VPS plans offer a range of memory/storage, but that's
+        #        not contained in hte pricing_plan_infos
+        HardwareProfile.new(plan["pricing_plan_code"]) do
+          memory plan["minimum_memory_mb"].to_f
+          storage plan["minimum_disk_gb"].to_i
+          architecture "x86"
+        end
       end
     end
     filter_hardware_profiles(results, opts)
@@ -68,9 +72,11 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   end
 
   def instances(credentials, opts=nil)
-     rh = RimuHostingClient.new(credentials)
-    instances = rh.list_nodes.map do | inst |
-      convert_srv_to_instance(inst)
+    safely do
+      rh = RimuHostingClient.new(credentials)
+      instances = rh.list_nodes.map do | inst |
+        convert_srv_to_instance(inst)
+      end
     end
     instances = filter_on( instances, :id, opts)
     instances = filter_on( instances, :state, opts )
@@ -78,13 +84,17 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   end
 
   def reboot_instance(credentials, id)
-     rh = RimuHostingClient.new(credentials)
-    rh.set_server_state(id, :RESTARTING)
+    safely do
+      rh = RimuHostingClient.new(credentials)
+      rh.set_server_state(id, :RESTARTING)
+    end
   end
 
   def start_instance(credentials, id)
-    rh = RimuHostingClient.new(credentials)
-    rh.set_server_state(id, :STARTED)
+    safely do
+      rh = RimuHostingClient.new(credentials)
+      rh.set_server_state(id, :STARTED)
+    end
   end
 
   def stop_instance(credentials, id)
@@ -92,8 +102,10 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   end
 
   def destroy_instance(credentials, id)
-     rh = RimuHostingClient.new(credentials)
-    rh.delete_server(id)
+    safely do
+      rh = RimuHostingClient.new(credentials)
+      return rh.delete_server(id)
+    end
   end
 
   def create_instance(credentials, image_id, opts)
@@ -136,6 +148,14 @@ class RimuHostingDriver < Deltacloud::BaseDriver
     shutting_down.to( :stopped )  .automatically
 
     stopped.to( :finish )         .automatically
+  end
+
+  def safely(&block)
+    begin
+      block.call
+    rescue Exception => e
+      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
+    end
   end
 
 

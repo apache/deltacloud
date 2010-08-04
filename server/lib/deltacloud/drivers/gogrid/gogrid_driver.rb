@@ -316,7 +316,7 @@ class GogridDriver < Deltacloud::BaseDriver
     begin
       block.call
     rescue Exception => e
-      puts "ERROR: #{e.message}"
+      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
     end
   end
 
