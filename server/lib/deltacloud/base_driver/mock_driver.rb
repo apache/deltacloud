@@ -11,10 +11,13 @@ module Mock
       [
         :describe_images,
         :describe_availability_zones,
+        :describe_keypairs,
+        :create_keypair,
         :run_instances,
         :describe_instances,
         :reboot_instances,
-        :terminate_instances
+        :terminate_instances,
+        :delete_keypair
       ]
     end
 
