@@ -1,0 +1,8 @@
+%h1 New Keypair
+
+%form{ :action => '/api/instance_credentials', :method => :post }
+  %p
+    %label
+      Name:
+    %input{ :name => 'name', :size => 30 }/
+    %input{ :type => :submit, :name => "commit", :value => "create" }/

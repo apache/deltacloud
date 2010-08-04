@@ -100,7 +100,6 @@ END
     "owner_id" and "architecture" parameter
 END
     param :id,            :string
-    param :owner_id,      :string
     param :architecture,  :string,  :optional
     control { filter_all(:images) }
   end
@@ -299,4 +298,55 @@ collection :storage_volumes do
     param :id,          :string,    :required
     control { show(:storage_volume) }
   end
+end
+
+get '/api/instance_credentials/new' do
+  respond_to do |format|
+    format.html { haml :"instance_credentials/new" }
+  end
+end
+
+collection :instance_credentials do
+  description "Instance authentication credentials"
+
+  operation :index do
+    description "List all available credentials which could be used for instance authentication"
+    control { filter_all :instance_credentials }
+  end
+
+  operation :show do
+    description "Show details about given instance credential"
+    param :id,  :string,  :required
+    control { show :instance_credential }
+  end
+
+  operation :create do
+    description "Create a new instance credential if backend supports this"
+    param :name,  :string,  :required
+    control do
+      unless driver.respond_to?(:create_instance_credential)
+        raise Deltacloud::BackendFeatureUnsupported.new('501',
+          'Creating instance credentials is not supported in backend')
+      end
+      @instance_credential = driver.create_instance_credential(credentials, { :key_name => params[:name] })
+      respond_to do |format|
+        format.html { haml :"instance_credentials/show" }
+        format.xml { haml :"instance_credentials/show" }
+      end
+    end
+  end
+
+  operation :destroy do
+    description "Destroy given instance credential if backend supports this"
+    param :id,  :string,  :required
+    control do
+      unless driver.respond_to?(:destroy_instance_credential)
+        raise Deltacloud::BackendFeatureUnsupported.new('501',
+          'Creating instance credentials is not supported in backend')
+      end
+      driver.destroy_instance_credential(credentials, { :key_name => params[:id]})
+      redirect(instance_credentials_url)
+    end
+  end
+
 end

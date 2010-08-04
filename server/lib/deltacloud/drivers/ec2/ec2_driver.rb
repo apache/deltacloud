@@ -35,8 +35,13 @@ module Deltacloud
     module EC2
 class EC2Driver < Deltacloud::BaseDriver
 
+  def supported_collections
+    DEFAULT_COLLECTIONS + [ :instance_credentials ]
+  end
+
   feature :instances, :user_data
   feature :instances, :authentication_key
+  feature :images, :owner_id
 
   define_hardware_profile('m1.small') do
     cpu                1
@@ -270,6 +275,39 @@ class EC2Driver < Deltacloud::BaseDriver
     snapshots
   end
 
+  def instance_credential(credentials, opts=nil)
+    instance_credentials(credentials, opts).first
+  end
+
+  def instance_credentials(credentials, opts=nil)
+    ec2 = new_client( credentials )
+    opts[:key_name] = opts[:id] if opts and opts[:id]
+    keypairs = ec2.describe_keypairs(opts || {})
+    result = []
+    safely do
+      keypairs.keySet.item.each do |keypair|
+        result << convert_instance_credential(keypair)
+      end
+    end
+    result
+  end
+
+  def create_instance_credential(credentials, opts={})
+    instance_credential = InstanceCredential.new
+    ec2 = new_client( credentials )
+    safely do
+      instance_credential = convert_instance_credential(ec2.create_keypair(opts))
+    end
+    return instance_credential
+  end
+
+  def destroy_instance_credential(credentials, opts={})
+    safely do
+      ec2 = new_client( credentials )
+      ec2.delete_keypair(opts)
+    end
+  end
+
   private
 
   def new_client(credentials)
@@ -279,6 +317,16 @@ class EC2Driver < Deltacloud::BaseDriver
     }
     opts[:server] = ENV['DCLOUD_EC2_URL'] if ENV['DCLOUD_EC2_URL']
     AWS::EC2::Base.new(opts)
+  end
+
+  def convert_instance_credential(instance_credential)
+    key=InstanceCredential.new({
+      :id => instance_credential['keyName'],
+      :fingerprint => instance_credential['keyFingerprint'],
+      :credential_type => :key
+    })
+    key.pem_rsa_key = instance_credential['keyMaterial'] if instance_credential['keyMaterial']
+    return key
   end
 
   def convert_image(ec2_image)

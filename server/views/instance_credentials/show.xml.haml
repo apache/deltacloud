@@ -1,0 +1,22 @@
+- unless defined?(partial)
+  !!! XML
+%instance_credential{ :href => instance_credential_url(@instance_credential.id), :id => @instance_credential.id }
+  %actions
+    - if @instance_credential.respond_to?(:destroy_instance_credential)
+    %link{ :rel => "destroy", :method => "delete", :href => destroy_instance_credential_url(@instance_credential.id)}
+  %credential_type<
+    =@instance_credential.credential_type.to_s
+  - if @instance_credential.credential_type.eql?(:key)
+    %fingerprint<
+      =@instance_credential.fingerprint
+    - unless @instance_credential.pem_rsa_key.nil?
+      %pem<
+        =cdata do
+          =@instance_credential.pem_rsa_key
+  - if @instance_credential.credential_type.eql?(:password)
+    %username<
+      =cdata do
+        =@instance_credential.username
+    %password<
+      =cdata do
+        =@instance_credential.password

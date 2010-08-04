@@ -120,6 +120,13 @@ module Deltacloud
     #
     # Declaration of optional features
     #
+    declare_feature :images,  :owner_id do
+      description "Filter images using owner id"
+      operation :index do
+        param :owner_id,  :string,  :optional,  nil,  "Owner ID"
+      end
+    end
+
     declare_feature :instances, :user_name do
       description "Accept a user-defined name on instance creation"
       operation :create do
