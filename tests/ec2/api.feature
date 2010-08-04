@@ -15,6 +15,7 @@ Feature: Accessing API entry points
     Then client should get list of valid entry points:
     | realms     |
     | instances  |
+    | keys  |
     | images     |
     | instance_states |
     | hardware_profiles  |
