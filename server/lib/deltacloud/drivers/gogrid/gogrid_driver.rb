@@ -83,6 +83,9 @@ class GogridDriver < Deltacloud::BaseDriver
 
     client = new_client(credentials)
     name = (opts[:name] && opts[:name]!='') ? opts[:name] : get_random_instance_name
+    if name.length > 20
+      raise Deltacloud::BackendError.new(400, "name-too-long", "Name '#{name}' is too long; the maximum for GoGrid is 20 characters", nil)
+    end
     safely do
       instance = client.request('grid/server/add', {
         'name' => name,
