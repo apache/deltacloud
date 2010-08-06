@@ -31,11 +31,7 @@ class GoGridClient
   end
 
   def request(method, params={})
-    begin
-      JSON::parse(sendAPIRequest(method, params))
-    rescue Exception => e
-      STDERR.puts("ERROR: #{e.message}")
-    end
+    JSON::parse(sendAPIRequest(method, params))
   end
   
   def encode_params(params)
