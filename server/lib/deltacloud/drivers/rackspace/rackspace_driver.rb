@@ -73,6 +73,11 @@ class RackspaceDriver < Deltacloud::BaseDriver
     safely do
       racks.reboot_server(id)
     end
+    Instance.new( {
+      :id => id,
+      :state => "REBOOT",
+      :actions => instance_actions_for( state ),
+    } )
   end
 
   def stop_instance(credentials, id)
@@ -84,6 +89,11 @@ class RackspaceDriver < Deltacloud::BaseDriver
     safely do
       racks.delete_server(id)
     end
+    Instance.new( {
+      :id => id,
+      :state => "STOPPED",
+      :actions => instance_actions_for( "STOPPED" ),
+    } )
   end
 
 
@@ -123,7 +133,6 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
 
   def convert_srv_to_instance(srv)
-    status = srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING"
     inst = Instance.new(:id => srv["id"].to_s,
                         :owner_id => "root",
                         :realm_id => "us")
