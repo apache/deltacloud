@@ -74,20 +74,20 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def create_instance(credentials, image_id, opts=nil)
-    server_ram = nil
-    if opts[:hwp_memory]
-      mem = opts[:hwp_memory].to_i
-      server_ram = (mem == 512) ? "512MB" : "#{mem / 1024}GB"
+    image = image(credentials, :id => image_id )
+    if opts && opts[:hwp_id]
+      hwp = find_hardware_profile(credentials, opts[:hwp_id], image.id)
     else
-      server_ram = "512MB"
+      hwp = find_hardware_profile(credentials, "512MB", image.id)
     end
+
     client = new_client(credentials)
     name = (opts[:name] && opts[:name]!='') ? opts[:name] : get_random_instance_name
     safely do
       instance = client.request('grid/server/add', {
         'name' => name,
         'image' => image_id,
-        'server.ram' => server_ram,
+        'server.ram' => hwp.name,
         'ip' => get_next_free_ip(credentials)
       })['list'].first
       if instance
@@ -261,16 +261,7 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def convert_instance(instance, owner_id)
-    opts = {}
-    unless instance['ram']['id'] == "1"
-      mem = instance['ram']['name']
-      if mem == "512MB"
-        opts[:hwp_memory] = "512"
-      else
-        opts[:hwp_memory] = (mem.to_i * 1024).to_s
-      end
-    end
-    prof = InstanceProfile.new("server", opts)
+    hwp_name = instance['image']['name']
 
     Instance.new(
        # note that we use 'name' as the id here, because newly created instances
@@ -280,7 +271,7 @@ class GogridDriver < Deltacloud::BaseDriver
       :id => instance['name'],
       :owner_id => owner_id,
       :image_id => instance['image']['id'],
-      :instance_profile => prof,
+      :instance_profile => InstanceProfile.new(hwp_name),
       :name => instance['name'],
       :realm_id => instance['type']['id'],
       :state => convert_server_state(instance['state']['name'], instance['id']),
