@@ -174,7 +174,7 @@ END
   end
 
   operation :show do
-    description 'Show an image identified by "id" parameter.'
+    description 'Show an instance identified by "id" parameter.'
     param :id,           :string, :required
     control { show(:instance) }
   end
