@@ -139,7 +139,7 @@ class GogridDriver < Deltacloud::BaseDriver
         if e.message == "400 Bad Request"
           # in the case of a VM that we just made, the grid/server/get method
           # throws a "400 Bad Request error".  In this case we try again by
-          # getting a full listing a filtering on the id.  This could
+          # getting a full listing and filtering on the id.  This could
           # potentially take a long time, but I don't see another way to get
           # information about a newly created instance
           instances = list_instances(credentials, opts[:id])
