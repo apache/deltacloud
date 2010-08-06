@@ -118,7 +118,7 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
     running.to(:running)          .on( :reboot )
     running.to(:shutting_down)    .on( :stop )
     shutting_down.to(:stopped)    .automatically
-    stopped.to(:end)              .on( :destroy )
+    stopped.to(:finish)           .on( :destroy )
    end
 
 
