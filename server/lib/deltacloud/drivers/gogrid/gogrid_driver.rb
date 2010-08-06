@@ -37,10 +37,34 @@ class GogridDriver < Deltacloud::BaseDriver
 
   feature :instances, :authentication_password
 
-  define_hardware_profile 'server' do
+  define_hardware_profile '512MB' do
+    cpu            0.5
+    memory         512
+    storage        30
+  end
+
+  define_hardware_profile '1GB' do
+    cpu            1
+    memory         1
+    storage        60
+  end
+
+  define_hardware_profile '2GB' do
     cpu            2
-    memory         [512, 1024, 2048, 4096, 8192]
-    storage        10
+    memory         2
+    storage        120
+  end
+
+  define_hardware_profile '4GB' do
+    cpu            4
+    memory         4
+    storage        240
+  end
+
+  define_hardware_profile '8GB' do
+    cpu            8
+    memory         8
+    storage        480
   end
 
   def supported_collections
