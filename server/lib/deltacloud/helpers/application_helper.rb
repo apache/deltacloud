@@ -20,8 +20,8 @@
 module ApplicationHelper
 
   def bread_crumb
-    s = "<ul class='breadcrumb'><li class='first'><a href='/'>&#948</a></li>"
-    url = request.path.split('?')  #remove extra query string parameters
+    s = "<ul class='breadcrumb'><li class='first'><a href='#{url_for('/')}'>&#948</a></li>"
+    url = request.path_info.split('?')  #remove extra query string parameters
     levels = url[0].split('/') #break up url into different levels
     levels.each_with_index do |level, index|
       unless level.blank?
@@ -30,7 +30,7 @@ module ApplicationHelper
           s += "<li class='subsequent'>#{level.gsub(/_/, ' ')}</li>\n" unless level.to_i > 0
         else
             link = levels.slice(0, index+1).join("/")
-            s += "<li class='subsequent'><a href=\"#{link}\">#{level.gsub(/_/, ' ')}</a></li>\n"
+            s += "<li class='subsequent'><a href=\"#{url_for(link)}\">#{level.gsub(/_/, ' ')}</a></li>\n"
         end
       end
     end

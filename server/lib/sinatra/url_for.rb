@@ -33,7 +33,13 @@ module Sinatra
         raise TypeError, "Unknown url_for mode #{mode}"
       end
       url_escape = URI.escape(url_fragment)
-      "#{base}#{url_escape}"
+      # Don't add the base fragment if url_for gets called more than once
+      # per url or the url_fragment passed in is an absolute url
+      if url_escape.match(/^#{base}/) or url_escape.match(/^http/)
+        url_escape
+      else
+        "#{base}#{url_escape}"
+      end
     end
 
     def root_url

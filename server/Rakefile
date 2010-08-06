@@ -37,6 +37,7 @@ Rake::TestTask.new("test") { |t|
     'tests/images_test.rb',
     'tests/instances_test.rb',
     'tests/instance_states_test.rb',
+    'tests/url_for_test.rb'
   ]
   t.verbose = true
   t.warning = false
