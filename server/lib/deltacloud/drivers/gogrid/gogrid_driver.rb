@@ -37,34 +37,10 @@ class GogridDriver < Deltacloud::BaseDriver
 
   feature :instances, :authentication_password
 
-  define_hardware_profile '512MB' do
-    cpu            0.5
-    memory         512
-    storage        30
-  end
-
-  define_hardware_profile '1GB' do
-    cpu            1
-    memory         1
-    storage        60
-  end
-
-  define_hardware_profile '2GB' do
+  define_hardware_profile 'server' do
     cpu            2
-    memory         2
-    storage        120
-  end
-
-  define_hardware_profile '4GB' do
-    cpu            4
-    memory         4
-    storage        240
-  end
-
-  define_hardware_profile '8GB' do
-    cpu            8
-    memory         8
-    storage        480
+    memory         [512, 1024, 2048, 4096, 8192]
+    storage        10
   end
 
   def supported_collections
@@ -91,31 +67,28 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def realms(credentials, opts=nil)
     safely do
-      new_client(credentials).request('common/lookup/list', { 'lookup' => 'image.type' })['list'].collect do |realm|
+      new_client(credentials).request('common/lookup/list', { 'lookup' => 'ip.datacenter' })['list'].collect do |realm|
         convert_realm(realm)
       end
     end
   end
 
   def create_instance(credentials, image_id, opts=nil)
-    image = image(credentials, :id => image_id )
-    if opts && opts[:hwp_id]
-      hwp = find_hardware_profile(credentials, opts[:hwp_id], image.id)
+    server_ram = nil
+    if opts[:hwp_memory]
+      mem = opts[:hwp_memory].to_i
+      server_ram = (mem == 512) ? "512MB" : "#{mem / 1024}GB"
     else
-      hwp = find_hardware_profile(credentials, "512MB", image.id)
+      server_ram = "512MB"
     end
-
     client = new_client(credentials)
     name = (opts[:name] && opts[:name]!='') ? opts[:name] : get_random_instance_name
-    if name.length > 20
-      raise Deltacloud::BackendError.new(400, "name-too-long", "Name '#{name}' is too long; the maximum for GoGrid is 20 characters", nil)
-    end
     safely do
       instance = client.request('grid/server/add', {
         'name' => name,
         'image' => image_id,
-        'server.ram' => hwp.name,
-        'ip' => get_next_free_ip(credentials)
+        'server.ram' => server_ram,
+        'ip' => get_free_ip_from_realm(credentials, opts[:realm_id] || '1')
       })['list'].first
       if instance
         login_data = get_login_data(client, instance[:id])
@@ -147,6 +120,7 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def instances(credentials, opts=nil)
+    require 'ap'
     instances = []
     if opts and opts[:id]
       begin
@@ -166,7 +140,7 @@ class GogridDriver < Deltacloud::BaseDriver
         if e.message == "400 Bad Request"
           # in the case of a VM that we just made, the grid/server/get method
           # throws a "400 Bad Request error".  In this case we try again by
-          # getting a full listing and filtering on the id.  This could
+          # getting a full listing a filtering on the id.  This could
           # potentially take a long time, but I don't see another way to get
           # information about a newly created instance
           instances = list_instances(credentials, opts[:id])
@@ -181,25 +155,25 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def reboot_instance(credentials, id)
     safely do
-      new_client(credentials).request('grid/server/power', { 'id' => id, 'power' => 'reboot'})
+      new_client(credentials).request('grid/server/power', { 'name' => id, 'power' => 'reboot'})
     end
   end
 
   def destroy_instance(credentials, id)
     safely do
-      new_client(credentials).request('grid/server/delete', { 'id' => id})
+      new_client(credentials).request('grid/server/delete', { 'name' => id})
     end
   end
 
   def stop_instance(credentials, id)
     safely do
-      new_client(credentials).request('grid/server/power', { 'id' => id, 'power' => 'off'})
+      new_client(credentials).request('grid/server/power', { 'name' => id, 'power' => 'off'})
     end
   end
 
   def start_instance(credentials, id)
     safely do
-      new_client(credentials).request('grid/server/power', { 'id' => id, 'power' => 'on'})
+      new_client(credentials).request('grid/server/power', { 'name' => id, 'power' => 'on'})
     end
   end
 
@@ -210,8 +184,10 @@ class GogridDriver < Deltacloud::BaseDriver
   def keys(credentials, opts=nil)
     gogrid = new_client( credentials )
     creds = []
-    gogrid.request('support/password/list')['list'].each do |password|
-      creds << convert_key(password)
+    safely do
+      gogrid.request('support/password/list')['list'].each do |password|
+        creds << convert_key(password)
+      end
     end
     return creds
   end
@@ -229,6 +205,7 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def new_client(credentials)
     GoGridClient.new('https://api.gogrid.com/api', credentials.user, credentials.password)
+
   end
 
   def get_login_data(client, instance_id)
@@ -288,7 +265,16 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def convert_instance(instance, owner_id)
-    hwp_name = instance['image']['name']
+    opts = {}
+    unless instance['ram']['id'] == "1"
+      mem = instance['ram']['name']
+      if mem == "512MB"
+        opts[:hwp_memory] = "512"
+      else
+        opts[:hwp_memory] = (mem.to_i * 1024).to_s
+      end
+    end
+    prof = InstanceProfile.new("server", opts)
 
     Instance.new(
        # note that we use 'name' as the id here, because newly created instances
@@ -298,9 +284,9 @@ class GogridDriver < Deltacloud::BaseDriver
       :id => instance['name'],
       :owner_id => owner_id,
       :image_id => instance['image']['id'],
-      :instance_profile => InstanceProfile.new(hwp_name),
+      :instance_profile => prof,
       :name => instance['name'],
-      :realm_id => instance['type']['id'],
+      :realm_id => instance['ip']['datacenter']['id'],
       :state => convert_server_state(instance['state']['name'], instance['id']),
       :actions => instance_actions_for(convert_server_state(instance['state']['name'], instance['id'])),
       :public_addresses => [ instance['ip']['ip'] ],
@@ -319,12 +305,13 @@ class GogridDriver < Deltacloud::BaseDriver
     state.eql?('Off') ? 'STOPPED' : 'RUNNING'
   end
 
-  def get_next_free_ip(credentials)
+  def get_free_ip_from_realm(credentials, realm_id)
     ip = ""
     safely do
       ip = new_client(credentials).request('grid/ip/list', {
         'ip.type' => '1',
-        'ip.state' => '1'
+        'ip.state' => '1',
+        'datacenter' => realm_id
       })['list'].first['ip']
     end
     return ip
