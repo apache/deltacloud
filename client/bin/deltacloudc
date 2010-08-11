@@ -20,8 +20,8 @@
 require 'rubygems'
 require 'optparse'
 require 'uri'
-require 'lib/deltacloud.rb'
-require 'lib/plain_formatter.rb'
+require 'deltacloud'
+require 'plain_formatter'
 
 include DeltaCloud::PlainFormatter
 
