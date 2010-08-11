@@ -328,7 +328,7 @@ module DeltaCloud
 
     # Check if specified collection have wanted feature
     def feature?(collection, name)
-      @feature.has_key?(collection) && @feature[collection].include?(name)
+      @features.has_key?(collection) && @features[collection].include?(name)
     end
 
     # List available instance states and transitions between them
@@ -364,7 +364,8 @@ module DeltaCloud
       request(:get, "/docs/#{collection}") do |body|
         document = Nokogiri::XML(body)
         if operation
-          data[:description] = document.xpath('/docs/collection/operations/operation[@name = "'+operation+'"]/description').first
+          data[:operation] = operation
+          data[:description] = document.xpath('/docs/collection/operations/operation[@name = "'+operation+'"]/description').first.text.strip
           return false unless data[:description]
           data[:params] = []
           (document/"/docs/collection/operations/operation[@name='#{operation}']/parameter").each do |param|
@@ -376,9 +377,11 @@ module DeltaCloud
           end
         else
           data[:description] = (document/'/docs/collection/description').text
+          data[:collection] = collection
+          data[:operations] = (document/"/docs/collection/operations/operation").collect{ |o| o['name'] }
         end
       end
-      return Documentation.new(data)
+      return Documentation.new(self, data)
     end
 
     private
@@ -393,13 +396,21 @@ module DeltaCloud
   end
 
   class Documentation
-    attr_reader :description
-    attr_reader :params
 
-    def initialize(opts={})
-      @description = opts[:description]
+    attr_reader :api, :description, :params, :collection_operations
+    attr_reader :collection, :operation
+
+    def initialize(api, opts={})
+      @description, @api = opts[:description], api
       @params = parse_parameters(opts[:params]) if opts[:params]
+      @collection_operations = opts[:operations] if opts[:operations]
+      @collection = opts[:collection]
+      @operation = opts[:operation]
       self
+    end
+
+    def operations
+      @collection_operations.collect { |o| api.documentation(@collection, o) }
     end
 
     class OperationParameter

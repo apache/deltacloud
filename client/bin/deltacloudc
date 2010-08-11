@@ -20,8 +20,8 @@
 require 'rubygems'
 require 'optparse'
 require 'uri'
-require 'lib/deltacloud'
-require 'lib/plain_formatter'
+require 'lib/deltacloud.rb'
+require 'lib/plain_formatter.rb'
 
 include DeltaCloud::PlainFormatter
 
@@ -80,8 +80,7 @@ collections.delete(:instance_states)
 # with API documentation
 if options[:list] and options[:collection].nil?
   collections.each do |c|
-    doc = client.fetch_documentation(c.to_s)
-    puts sprintf("%-22s: %s", c.to_s[0, 22], doc[:description])
+    puts sprintf("%-22s", c.to_s[0, 22])
   end
   exit(0)
 end
@@ -89,9 +88,9 @@ end
 # If collection parameter is present and user requested list
 # print all operation defined for collection with API documentation
 if options[:list] and options[:collection]
-  doc = client.fetch_documentation(options[:collection])
-  doc[:operations].each do |c|
-    puts sprintf("%-20s: %s", c[:name][0, 20], c[:description])
+  doc = client.documentation(options[:collection])
+  doc.operations.each do |c|
+    puts sprintf("%-20s: %s", c.operation, c.description)
   end
   exit(0)
 end

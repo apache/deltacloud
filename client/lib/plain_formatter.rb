@@ -77,7 +77,7 @@ module DeltaCloud
     end
 
     def format(obj)
-      object_name = obj.class.name.classify.gsub(/^DeltaCloud::/, '')
+      object_name = obj.class.name.classify.gsub(/^DeltaCloud::API::/, '')
       format_class = DeltaCloud::PlainFormatter::FormatObject.const_get(object_name)
       format_class.new(obj).format
     end
