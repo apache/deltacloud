@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>
+      Deltacloud - Documentation
+    </title>
+    <meta content='' name='keywords' />
+    <meta content='' name='description' />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <link href='./styles/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+    <link href='./styles/default.css' rel='StyleSheet' title='Main style' type='text/css' />
+    <link href='./styles/default-debug.css' rel='Alternate StyleSheet' title='Debug main style' type='text/css' />
+  </head>
+  <body>
+    <div id='header'>
+      <div class='container'>
+        <div id='headerLogo' onclick="location.href='index.html';" style='cursor: pointer;'>
+          <h1>
+            Deltacloud - Many clouds. One API. No problem.
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div id='navigation'>
+      <div class='container' id='menu'>
+        <ul class='l0'>
+          <li>
+            <a class='inactive' href='./index.html' title='Deltacloud Home'>Home</a>
+          </li>
+          <li>
+            <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+          </li>
+          <li>
+            <a class='active' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='subnavigation'>
+      <div class='container' id='submenu'>
+        <ul class='l1'>
+          <li>
+            <a class='inactive' href='documentation.html'>
+              Overview
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='api.html'>
+              REST API
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='drivers.html'>
+              Drivers
+            </a>
+          </li>
+          <li>
+            <a class='active' href='framework.html'>
+              Framework
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='doc/index.html'>
+              Ruby Client API
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='client-ruby.html'>
+              Ruby Client
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='frontpageHeader'></div>
+    <div id='main'>
+      <div class='container' id='content-deltacloud'>
+        <h1>Writing Deltacloud Drivers</h1>
+        <!-- - title, rest = page.split("</h1>") -->
+        <!-- = title + '</h1>' -->
+        <ul class="toc">
+        <li>
+        <a href="#h1">Driver SPI</a>
+        <ul>
+        <li>
+        <a href="#h1_1">Credentials</a>
+        </li>
+        <li>
+        <a href="#h1_2">Object models used by drivers</a>
+        </li>
+        <li>
+        <a href="#h1_3">Driver methods</a>
+        </li>
+        </ul></li></ul>
+        <!-- = rest -->
+        
+        
+        <p>The <em>Deltacloud Core framework</em> is provided to assist in creating
+        intermediary <a href="drivers.html">drivers</a> that speak the <a href="api.html">Deltacloud REST
+        API</a> on the front while communicating with cloud providers
+        using their own native APIs on the back.</p>
+        
+        <p><img src="styles/framework.png" alt="Deltacloud framework" /></p>
+        
+        <p>The framework handles all aspects of the REST API, while allowing
+        driver implementors to focus on the specific cloud provider native
+        API.</p>
+        
+        <p>Drivers may be implemented in as little as one Ruby class and plugged
+        into the Deltacloud Core for deployment.</p>
+        
+        <h2 id="h1">Driver SPI</h2>
+        
+        <h3 id="h1_1">Credentials</h3>
+        
+        <p>The framework will collect credentials when the driver indicates they
+        are required by throwing a <code>DeltaCloud::AuthException</code>. Each driver
+        method takes a credentials hash as the first parameter, but unless the
+        client has provided credentials, this hash will be empty.</p>
+        
+        <pre><code>def images(credentials, opts)&#x000A;  if ( credentials[:name].nil? )&#x000A;    throw DeltaCloud::AuthException.new&#x000A;  end&#x000A;  unless ( credentials_valid?( credentials ) )&#x000A;    throw DeltaCloud::AuthException.new&#x000A;  end&#x000A;&#x000A;  # do work&#x000A;&#x000A;end&#x000A;</code></pre>
+        
+        <h3 id="h1_2">Object models used by drivers</h3>
+        
+        <p>To assist driver authors, the framework provides a handful of model
+        classes, representing each resource available through the Deltacloud
+        API. Please see the <a href="api.html">API reference</a> for details about each
+        model. All of these model objects may be initialized with a hash.
+        Every instance <em>must</em> be assigned an <code>id</code> in addition to other
+        attributes it may have. Unless otherwise noted, attributes are text.</p>
+        
+        <p>For example</p>
+        
+        <pre><code>HardwareProfile.new(&#x000A;  :architecture=&gt;'x86_64',&#x000A;  :memory=&gt;4,&#x000A;  :storage=&gt;650,&#x000A;)&#x000A;</code></pre>
+        
+        <p>The <code>base_driver</code> interface and the already implemented drivers are
+        located at <code>server/lib/deltacloud/</code> in the Deltacloud Core repository.</p>
+        
+        <h4><code>HardwareProfile</code></h4>
+        
+        <p>Attributes are</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong></li>
+        <li><strong><code>architecture</code></strong></li>
+        <li><strong><code>memory</code></strong> - Decimal, gigabytes</li>
+        <li><strong><code>storage</code></strong> - Decimal, gigabytes</li>
+        <li><strong><code>cpu</code></strong> - Interger, count</li>
+        </ul>
+        
+        
+        <h4><code>Realm</code></h4>
+        
+        <p>Attributes are</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong></li>
+        <li><strong><code>name</code></strong></li>
+        <li><strong><code>state</code></strong></li>
+        <li><strong><code>limit</code></strong></li>
+        </ul>
+        
+        
+        <h4><code>Image</code></h4>
+        
+        <p>Attributes are</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong></li>
+        <li><strong><code>name</code></strong></li>
+        <li><strong><code>architecture</code></strong></li>
+        <li><strong><code>owner_id</code></strong></li>
+        <li><strong><code>description</code></strong></li>
+        </ul>
+        
+        
+        <h4><code>Instance</code></h4>
+        
+        <p>Attributes are</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong></li>
+        <li><strong><code>name</code></strong></li>
+        <li><strong><code>owner_id</code></strong> - Opaque, external reference</li>
+        <li><strong><code>image</code></strong> - References an image</li>
+        <li><strong><code>realm</code></strong> - References a realm</li>
+        <li><strong><code>state</code></strong> - One of <code>PENDING</code>, <code>RUNNING</code>, <code>SHUTTING_DOWN</code>, <code>STOPPED</code></li>
+        <li><strong><code>actions</code></strong> - Array of applicable actions</li>
+        <li><strong><code>public_addresses</code></strong> - Array of IP addresses or hostnames as text</li>
+        <li><strong><code>private_addresses</code></strong> - Array of IP addresses or hostnames as text</li>
+        </ul>
+        
+        
+        <h3 id="h1_3">Driver methods</h3>
+        
+        <p>The primary methods a driver class must implement are</p>
+        
+        <ul>
+        <li><code>hardware_profiles(credentials, opts=nil)</code></li>
+        <li><code>images(credentials, opts=nil )</code></li>
+        <li><code>realms(credentials, opts=nil)</code></li>
+        <li><code>instances(credentials, opts=nil)</code></li>
+        <li><code>create_instance(credentials, image_id, opts)</code></li>
+        <li><code>reboot_instance(credentials, id)</code></li>
+        <li><code>stop_instance(credentials, id)</code></li>
+        <li><code>destroy_instance(credentials, id)</code></li>
+        </ul>
+        
+        
+        <p>Generally, the <code>BaseDriver</code> handles singular cases while the specific
+        provider driver must implement only the plural cases, along with
+        specific action methods against resources.</p>
+        
+        <p>Additionally, to assist clients in determining what actions may be
+        available without making additional requests, the following must be
+        implemented.</p>
+        
+        <p>While the <code>credentials</code> hash is passed as the first parameter to each
+        method, it <em>may</em> be empty until the driver throws at least one
+        <code>DeltaCloud::AuthException</code>. This exception will indicate to the
+        framework that a normal HTTP authentication challenge should be issued
+        to the client. Depending on the underlying provider the driver is
+        connecting to, the credentials may not be required for some methods.</p>
+        
+        <p>Some methods also allow an optional <code>opts</code> hash, which may be <code>nil</code> or
+        empty if not used for a particular invocation. The <code>BaseDriver</code>
+        provides a method <code>filter_on(...)</code> which may be used to safely filter
+        collections. The <code>filter_on(..)</code> method will be demonstrated below.</p>
+        
+        <p>Each method will be described in more detail below.</p>
+        
+        <h4><code>hardware_profiles(credentials, opts=nil)</code></h4>
+        
+        <p>The <code>hardware_profiles(...)</code> method should return an array of
+        <code>HardwareProfile</code> objects. The <code>opts</code> hash, if present, must be
+        inspected for <code>:id</code> and <code>:architecture</code> keys. If these keys are
+        present, the results should be filtered by the value associated with
+        each key. The <code>filter_on(...)</code> method is useful in this case.</p>
+        
+        <p>For example</p>
+        
+        <pre><code>def hardware_profiles(credentials, opts=nil)&#x000A;  hardware_profiles = fetch_all_hardware_profiles()&#x000A;  hardware_profiles = filter_on( hardware_profiles, :id, opts )&#x000A;  hardware_profiles = filter_on( hardware_profiles, :architecture, opts )&#x000A;  return hardware_profiles&#x000A;end&#x000A;</code></pre>
+        
+        <h4><code>realms(credentials, opts=nil)</code></h4>
+        
+        <p>The <code>realms(...)</code> method should return an array of <code>Realm</code> objects.</p>
+        
+        <h4><code>images(credentials, opts=nil)</code></h4>
+        
+        <p>The <code>images(...)</code> method should return an array of <code>Image</code> objects
+        visible and accessible to the current user, as defined by the
+        <code>credentials</code> hash.</p>
+        
+        <p>The <code>opts</code> hash, if present, must be inspected for <code>:id</code>, <code>:owner_id</code>
+        and <code>:architecture</code> keys. If these keys are present, the results
+        should be filtered by the value assocaited with each key.</p>
+        
+        <h4><code>instances(credentials, opts=nil)</code></h4>
+        
+        <p>The <code>instances(...)</code> method should return an array of <code>Instance</code>
+        objects visible and accessible to the current user, as defined bv the
+        <code>credentials</code> hash. If the <code>opts</code> hash is present and contains an
+        <code>:id</code> key, the results should be filtered by the value associated with
+        the key.</p>
+        
+        <h4><code>create_instance(credentials, image_id, opts)</code></h4>
+        
+        <p>The <code>create_instance(...)</code> method should create within the cloud, a
+        new running instance based from an image identifier. The method should
+        return an <code>Instance</code> object representing the newly-created instance.</p>
+        
+        <p>The <code>image_id</code> parameter must be non-nil. The <code>opts</code> hash may contain
+        keys for <code>hwp_id</code> and <code>realm_id</code>. If they are present, they should be
+        used for the creation of the instance. If they are not present,
+        reasonable defaults should be used. In the case of hardware profile,
+        one compatible with the image should be used as the default.</p>
+        
+        <h4><code>reboot_instance(credentials, id)</code></h4>
+        
+        <p>The <code>reboot_instance(...)</code> method should trigger a running instance to
+        be rebooted. This method has no return value.</p>
+        
+        <h4><code>stop_instance(credentials, id)</code></h4>
+        
+        <p>The <code>stop_instance(...)</code> method should trigger a running instance to
+        be stopped. This method has no return value. A cloud provider may
+        allow restarting an instance, or may not.</p>
+        
+        <h4><code>destroy_instance(credentials, id)</code></h4>
+        
+        <p>The <code>destroy_instance(...)</code> method should remove the instance from the
+        cloud provider, stopping it first, if necessary.</p>
+        
+        <h4><code>instance_states()</code></h4>
+        
+        <p>The <code>instance_states()</code> method should return an array/hash structure
+        representing the finite-state-machine for instances. Each state an
+        instance may be in should be an element in the returned array. Each
+        state itself is also an array with 2 members. The first member is the
+        name of the state, and the second member is a hash indicating valid
+        transitions.</p>
+        
+        <p>The general format for the entire FSM structure is</p>
+        
+        <pre><code>[&#x000A;  [ :origin_state1, {&#x000A;    :destination_state1=&gt;:action1, &#x000A;    :destination_state2=&gt;:action2, &#x000A;  } ],&#x000A;  [ :origin_state2, {&#x000A;    :destination_state3=&gt;:action3, &#x000A;    :destination_state4=&gt;:action4, &#x000A;  } ],&#x000A;]&#x000A;</code></pre>
+        
+        <p>Valid states are</p>
+        
+        <ul>
+        <li><strong><code>:begin</code></strong></li>
+        <li><strong><code>:pending</code></strong></li>
+        <li><strong><code>:running</code></strong></li>
+        <li><strong><code>:shutting_down</code></strong></li>
+        <li><strong><code>:stopped</code></strong></li>
+        <li><strong><code>:end</code></strong></li>
+        </ul>
+        
+        
+        <p>The <code>:begin</code> state is the state an instance is in immediate before
+        being created. The <code>:end</code> state is the state an instance is in
+        immediately after being destroyed.</p>
+        
+        <p>Valid transition actions are</p>
+        
+        <ul>
+        <li><strong><code>:stop</code></strong></li>
+        <li><strong><code>:start</code></strong></li>
+        <li><strong><code>:reboot</code></strong></li>
+        </ul>
+        
+        
+        <p>Additionally, to indicate a transition that may occur <em>without</em> an
+        action being triggered, the action **<code>:_auto_</code> may be used.</p>
+      </div>
+    </div>
+  </body>
+</html>

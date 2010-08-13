@@ -1,0 +1,3040 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: DeltaCloud::API</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo; 
+    <span class='title'><a href="../DeltaCloud.html" title="DeltaCloud (module)">DeltaCloud</a></span>
+     &raquo; 
+    <span class="title">API</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: DeltaCloud::API
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">DeltaCloud::API</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud.rb<span class="defines">,<br />
+  doc/deltacloud.rb,<br /> doc/deltacloud.rb,<br /> doc/deltacloud.rb,<br /> doc/deltacloud.rb,<br /> doc/deltacloud.rb,<br /> doc/deltacloud.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <a href="API/HardwareProfile.html" title="DeltaCloud::API::HardwareProfile (class)">HardwareProfile</a>, <a href="API/Image.html" title="DeltaCloud::API::Image (class)">Image</a>, <a href="API/Instance.html" title="DeltaCloud::API::Instance (class)">Instance</a>, <a href="API/Realm.html" title="DeltaCloud::API::Realm (class)">Realm</a>, <a href="API/StorageSnapshot.html" title="DeltaCloud::API::StorageSnapshot (class)">StorageSnapshot</a>, <a href="API/StorageVolume.html" title="DeltaCloud::API::StorageVolume (class)">StorageVolume</a>
+    
+  
+</p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_uri-instance_method" title="#api_uri (instance method)">- (Object) <strong>api_uri</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute api_uri.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_version-instance_method" title="#api_version (instance method)">- (Object) <strong>api_version</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute api_version.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#driver_name-instance_method" title="#driver_name (instance method)">- (Object) <strong>driver_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute driver_name.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#entry_points-instance_method" title="#entry_points (instance method)">- (Object) <strong>entry_points</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute entry_points.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#features-instance_method" title="#features (instance method)">- (Object) <strong>features</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute features.</p></div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#logger-instance_method" title="#logger (instance method)">- (Object) <strong>logger</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute logger.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_host-instance_method" title="#api_host (instance method)">- (Object) <strong>api_host</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return API hostname.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_path-instance_method" title="#api_path (instance method)">- (Object) <strong>api_path</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return API path.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#api_port-instance_method" title="#api_port (instance method)">- (Object) <strong>api_port</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return API port.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#base_object-instance_method" title="#base_object (instance method)">- (Object) <strong>base_object</strong>(c, model, response) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Add default attributes <span>id and href</span> to class.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#base_object_collection-instance_method" title="#base_object_collection (instance method)">- (Object) <strong>base_object_collection</strong>(c, model, response) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#connect-instance_method" title="#connect (instance method)">- (Object) <strong>connect</strong> {|_self| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_instance-instance_method" title="#create_instance (instance method)">- (Object) <strong>create_instance</strong>(image_id, opts = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Create a new instance, using image +image_id+.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#declare_entry_points_methods-instance_method" title="#declare_entry_points_methods (instance method)">- (Object) <strong>declare_entry_points_methods</strong>(entry_points) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Define methods based on &#8216;rel&#8217; attribute in entry point Two methods are declared: &#8216;images&#8217; and &#8216;image&#8217;.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#discover_entry_points-instance_method" title="#discover_entry_points (instance method)">- (Object) <strong>discover_entry_points</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Get /api and parse entry points.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#discovered%3F-instance_method" title="#discovered? (instance method)">- (Boolean) <strong>discovered?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Skip parsing /api when we already got entry points.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#documentation-instance_method" title="#documentation (instance method)">- (Object) <strong>documentation</strong>(collection, operation = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#feature%3F-instance_method" title="#feature? (instance method)">- (Boolean) <strong>feature?</strong>(collection, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Check if specified collection have wanted feature.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_profile-instance_method" title="#hardware_profile (instance method)">- (HardwareProfile) <strong>hardware_profile</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A hardware profile represents a configuration of resources upon which a.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_profiles-instance_method" title="#hardware_profiles (instance method)">- (Array) <strong>hardware_profiles</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of HardwareProfile objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image-instance_method" title="#image (instance method)">- (Image) <strong>image</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>An image is a platonic form of a machine.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-instance_method" title="#images (instance method)">- (Array) <strong>images</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of Image objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (API) <strong>initialize</strong>(user_name, password, api_url, opts = {}) {|_self| ... }</a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of API.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance-instance_method" title="#instance (instance method)">- (Instance) <strong>instance</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>An instance is a concrete machine realized from an image.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance_state-instance_method" title="#instance_state (instance method)">- (InstanceState) <strong>instance_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The possible states of an instance, and how to traverse between them.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance_states-instance_method" title="#instance_states (instance method)">- (Array) <strong>instance_states</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of InstanceState objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances-instance_method" title="#instances (instance method)">- (Array) <strong>instances</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of Instance objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realm-instance_method" title="#realm (instance method)">- (Realm) <strong>realm</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Within a cloud provider a realm represents a boundary containing resources.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realms-instance_method" title="#realms (instance method)">- (Array) <strong>realms</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of Realm objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#request-instance_method" title="#request (instance method)">- (Object) <strong>request</strong>(*args, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Basic request method.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_snapshot-instance_method" title="#storage_snapshot (instance method)">- (StorageSnapshot) <strong>storage_snapshot</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Storage snapshots description here.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_snapshots-instance_method" title="#storage_snapshots (instance method)">- (Array) <strong>storage_snapshots</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of StorageSnapshot objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_volume-instance_method" title="#storage_volume (instance method)">- (StorageVolume) <strong>storage_volume</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Storage volumes description here.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_volumes-instance_method" title="#storage_volumes (instance method)">- (Array) <strong>storage_volumes</strong>(opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Return collection of StorageVolume objects.</p></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#xml_to_class-instance_method" title="#xml_to_class (instance method)">- (Object) <strong>xml_to_class</strong>(c, item) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Convert XML response to defined Ruby Class.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><a href="" title="DeltaCloud::API (class)">API</a></tt>) <strong>initialize</strong>(user_name, password, api_url, opts = {}) {|_self| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of API</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'>(<tt>_self</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="" title="DeltaCloud::API (class)">DeltaCloud::API</a></tt>)</span>
+      
+      
+        <span class='name'>_self</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the object that the method was called on</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 62</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='user_name identifier id'>user_name</span><span class='comma token'>,</span> <span class='password identifier id'>password</span><span class='comma token'>,</span> <span class='api_url identifier id'>api_url</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:version</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='true true kw'>true</span>
+  <span class='@logger ivar id'>@logger</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:verbose</span><span class='rbrack token'>]</span> <span class='question op'>?</span> <span class='Logger constant id'>Logger</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='STDERR constant id'>STDERR</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='@username ivar id'>@username</span><span class='comma token'>,</span> <span class='@password ivar id'>@password</span> <span class='assign token'>=</span> <span class='user_name identifier id'>user_name</span><span class='comma token'>,</span> <span class='password identifier id'>password</span>
+  <span class='@api_uri ivar id'>@api_uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='api_url identifier id'>api_url</span><span class='rparen token'>)</span>
+  <span class='@features ivar id'>@features</span><span class='comma token'>,</span> <span class='@entry_points ivar id'>@entry_points</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='@verbose ivar id'>@verbose</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:verbose</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='false false kw'>false</span>
+  <span class='discover_entry_points identifier id'>discover_entry_points</span>
+  <span class='yield yield kw'>yield</span> <span class='self self kw'>self</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="api_uri-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="api_uri-instance_method">
+  
+    - (<tt>Object</tt>) <strong>api_uri</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute api_uri</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='api_uri identifier id'>api_uri</span>
+  <span class='@api_uri ivar id'>@api_uri</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="api_version-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="api_version-instance_method">
+  
+    - (<tt>Object</tt>) <strong>api_version</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute api_version</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='api_version identifier id'>api_version</span>
+  <span class='@api_version ivar id'>@api_version</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="driver_name-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="driver_name-instance_method">
+  
+    - (<tt>Object</tt>) <strong>driver_name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute driver_name</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='driver_name identifier id'>driver_name</span>
+  <span class='@driver_name ivar id'>@driver_name</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="entry_points-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="entry_points-instance_method">
+  
+    - (<tt>Object</tt>) <strong>entry_points</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute entry_points</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='entry_points identifier id'>entry_points</span>
+  <span class='@entry_points ivar id'>@entry_points</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="features-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="features-instance_method">
+  
+    - (<tt>Object</tt>) <strong>features</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute features</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='features identifier id'>features</span>
+  <span class='@features ivar id'>@features</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="logger=-instance_method"></span>
+      <span id="logger-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="logger-instance_method">
+  
+    - (<tt>Object</tt>) <strong>logger</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute logger</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 59</span>
+
+<span class='def def kw'>def</span> <span class='logger identifier id'>logger</span>
+  <span class='@logger ivar id'>@logger</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="api_host-instance_method">
+  
+    - (<tt>Object</tt>) <strong>api_host</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return API hostname</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 78</span>
+
+<span class='def def kw'>def</span> <span class='api_host identifier id'>api_host</span><span class='semicolon token'>;</span> <span class='@api_uri ivar id'>@api_uri</span><span class='dot token'>.</span><span class='host identifier id'>host</span>  <span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="api_path-instance_method">
+  
+    - (<tt>Object</tt>) <strong>api_path</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return API path</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 84</span>
+
+<span class='def def kw'>def</span> <span class='api_path identifier id'>api_path</span><span class='semicolon token'>;</span> <span class='@api_uri ivar id'>@api_uri</span><span class='dot token'>.</span><span class='path identifier id'>path</span>  <span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="api_port-instance_method">
+  
+    - (<tt>Object</tt>) <strong>api_port</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return API port</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 81</span>
+
+<span class='def def kw'>def</span> <span class='api_port identifier id'>api_port</span><span class='semicolon token'>;</span> <span class='@api_uri ivar id'>@api_uri</span><span class='dot token'>.</span><span class='port identifier id'>port</span>  <span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="base_object-instance_method">
+  
+    - (<tt>Object</tt>) <strong>base_object</strong>(c, model, response) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Add default attributes <span>id and href</span> to class</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 131</span>
+
+<span class='def def kw'>def</span> <span class='base_object identifier id'>base_object</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='model identifier id'>model</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='rparen token'>)</span>
+  <span class='obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='XML constant id'>XML</span><span class='lparen token'>(</span><span class='response identifier id'>response</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{model.to_s.singularize}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='item identifier id'>item</span><span class='bitor op'>|</span>
+    <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+      <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:id</span>
+      <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:uri</span>
+    <span class='end end kw'>end</span>
+    <span class='obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='xml_to_class identifier id'>xml_to_class</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='item identifier id'>item</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='return return kw'>return</span> <span class='obj identifier id'>obj</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="base_object_collection-instance_method">
+  
+    - (<tt>Object</tt>) <strong>base_object_collection</strong>(c, model, response) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 118</span>
+
+<span class='def def kw'>def</span> <span class='base_object_collection identifier id'>base_object_collection</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='model identifier id'>model</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='rparen token'>)</span>
+  <span class='collection identifier id'>collection</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='XML constant id'>XML</span><span class='lparen token'>(</span><span class='response identifier id'>response</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{model}/#{model.to_s.singularize}&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='item identifier id'>item</span><span class='bitor op'>|</span>
+    <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+      <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:id</span>
+      <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:uri</span>
+    <span class='end end kw'>end</span>
+    <span class='collection identifier id'>collection</span> <span class='lshft op'>&lt;&lt;</span> <span class='xml_to_class identifier id'>xml_to_class</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='item identifier id'>item</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='return return kw'>return</span> <span class='collection identifier id'>collection</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="connect-instance_method">
+  
+    - (<tt>Object</tt>) <strong>connect</strong> {|_self| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'>(<tt>_self</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="" title="DeltaCloud::API (class)">DeltaCloud::API</a></tt>)</span>
+      
+      
+        <span class='name'>_self</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the object that the method was called on</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 73</span>
+
+<span class='def def kw'>def</span> <span class='connect identifier id'>connect</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='yield yield kw'>yield</span> <span class='self self kw'>self</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_instance</strong>(image_id, opts = {}, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Create a new instance, using image +image_id+. Possible optiosn are</p>
+
+<p>name - a user-defined name for the instance realm - a specific realm for placement of the instance hardware_profile - either a string giving the name of the hardware profile or a hash. The hash must have an entry +id+, giving the id of the hardware profile, and may contain additional names of properties, e.g. &#8216;storage&#8217;, to override entries in the hardware profile</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 255</span>
+
+<span class='def def kw'>def</span> <span class='create_instance identifier id'>create_instance</span><span class='lparen token'>(</span><span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+  <span class='realm_id identifier id'>realm_id</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:realm</span><span class='rbrack token'>]</span>
+  <span class='user_data identifier id'>user_data</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:user_data</span><span class='rbrack token'>]</span>
+
+  <span class='params identifier id'>params</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='lparen token'>(</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:realm_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='realm_id identifier id'>realm_id</span> <span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='realm_id identifier id'>realm_id</span>
+  <span class='lparen token'>(</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='name identifier id'>name</span> <span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='name identifier id'>name</span>
+  <span class='lparen token'>(</span> <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:user_data</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='user_data identifier id'>user_data</span> <span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='user_data identifier id'>user_data</span>
+
+  <span class='if if kw'>if</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hardware_profile</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='String constant id'>String</span><span class='rparen token'>)</span>
+    <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hardware_profile</span><span class='rbrack token'>]</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hardware_profile</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='Hash constant id'>Hash</span><span class='rparen token'>)</span>
+    <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hardware_profile</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='comma token'>,</span><span class='v identifier id'>v</span><span class='bitor op'>|</span>
+      <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:&quot;hwp_#{k}&quot;</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='v identifier id'>v</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+
+  <span class='params identifier id'>params</span><span class='lbrack token'>[</span><span class='symbol val'>:image_id</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='image_id identifier id'>image_id</span>
+  <span class='instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+
+  <span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='symbol val'>:post</span><span class='comma token'>,</span> <span class='entry_points identifier id'>entry_points</span><span class='lbrack token'>[</span><span class='symbol val'>:instances</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='params identifier id'>params</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='response identifier id'>response</span><span class='bitor op'>|</span>
+    <span class='c identifier id'>c</span> <span class='assign token'>=</span> <span class='DeltaCloud constant id'>DeltaCloud</span><span class='dot token'>.</span><span class='define_class identifier id'>define_class</span><span class='lparen token'>(</span><span class='string val'>&quot;Instance&quot;</span><span class='rparen token'>)</span>
+    <span class='instance identifier id'>instance</span> <span class='assign token'>=</span> <span class='base_object identifier id'>base_object</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='symbol val'>:instance</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='rparen token'>)</span>
+    <span class='yield yield kw'>yield</span> <span class='instance identifier id'>instance</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+  <span class='end end kw'>end</span>
+
+  <span class='return return kw'>return</span> <span class='instance identifier id'>instance</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="declare_entry_points_methods-instance_method">
+  
+    - (<tt>Object</tt>) <strong>declare_entry_points_methods</strong>(entry_points) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Define methods based on &#8216;rel&#8217; attribute in entry point Two methods are declared: &#8216;images&#8217; and &#8216;image&#8217;</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 88</span>
+
+<span class='def def kw'>def</span> <span class='declare_entry_points_methods identifier id'>declare_entry_points_methods</span><span class='lparen token'>(</span><span class='entry_points identifier id'>entry_points</span><span class='rparen token'>)</span>
+  <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='@logger ivar id'>@logger</span>
+  <span class='API constant id'>API</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+    <span class='entry_points identifier id'>entry_points</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span><span class='dot token'>.</span><span class='select identifier id'>select</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='k identifier id'>k</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='symbol val'>:instance_states</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='k identifier id'>k</span><span class='rparen token'>)</span><span class='eq op'>==</span><span class='false false kw'>false</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='model identifier id'>model</span><span class='bitor op'>|</span>
+      <span class='define_method identifier id'>define_method</span> <span class='model identifier id'>model</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='bitor op'>|</span>
+        <span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='symbol val'>:get</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/#{model}&quot;</span><span class='comma token'>,</span> <span class='args identifier id'>args</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='response identifier id'>response</span><span class='bitor op'>|</span>
+          <span class='comment val'># Define a new class based on model name</span>
+          <span class='c identifier id'>c</span> <span class='assign token'>=</span> <span class='DeltaCloud constant id'>DeltaCloud</span><span class='dot token'>.</span><span class='define_class identifier id'>define_class</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{model.to_s.classify}&quot;</span><span class='rparen token'>)</span>
+          <span class='comment val'># Create collection from index operation</span>
+          <span class='base_object_collection identifier id'>base_object_collection</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='model identifier id'>model</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='rparen token'>)</span>
+        <span class='end end kw'>end</span>
+      <span class='end end kw'>end</span>
+      <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[API] Added method #{model}\n&quot;</span>
+      <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:&quot;#{model.to_s.singularize}&quot;</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='bitor op'>|</span>
+        <span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='symbol val'>:get</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/#{model}/#{args[0]}&quot;</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='response identifier id'>response</span><span class='bitor op'>|</span>
+          <span class='comment val'># Define a new class based on model name</span>
+          <span class='c identifier id'>c</span> <span class='assign token'>=</span> <span class='DeltaCloud constant id'>DeltaCloud</span><span class='dot token'>.</span><span class='define_class identifier id'>define_class</span><span class='lparen token'>(</span><span class='dstring node'>&quot;#{model.to_s.classify}&quot;</span><span class='rparen token'>)</span>
+          <span class='comment val'># Build class for returned object</span>
+          <span class='base_object identifier id'>base_object</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='model identifier id'>model</span><span class='comma token'>,</span> <span class='response identifier id'>response</span><span class='rparen token'>)</span>
+        <span class='end end kw'>end</span>
+      <span class='end end kw'>end</span>
+      <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[API] Added method #{model.to_s.singularize}\n&quot;</span>
+      <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:&quot;fetch_#{model.to_s.singularize}&quot;</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='url identifier id'>url</span><span class='bitor op'>|</span>
+        <span class='id identifier id'>id</span> <span class='assign token'>=</span> <span class='url identifier id'>url</span><span class='dot token'>.</span><span class='grep identifier id'>grep</span><span class='lparen token'>(</span><span class='dregexp node'>/\/#{model}\/(.*)$/</span><span class='rparen token'>)</span>
+        <span class='self self kw'>self</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='model identifier id'>model</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='dot token'>.</span><span class='singularize identifier id'>singularize</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='$1 nth_ref id'>$1</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="discover_entry_points-instance_method">
+  
+    - (<tt>Object</tt>) <strong>discover_entry_points</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Get /api and parse entry points</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 223</span>
+
+<span class='def def kw'>def</span> <span class='discover_entry_points identifier id'>discover_entry_points</span>
+  <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='discovered? fid id'>discovered?</span>
+  <span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='symbol val'>:get</span><span class='comma token'>,</span> <span class='@api_uri ivar id'>@api_uri</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='response identifier id'>response</span><span class='bitor op'>|</span>
+    <span class='api_xml identifier id'>api_xml</span> <span class='assign token'>=</span> <span class='Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='XML constant id'>XML</span><span class='lparen token'>(</span><span class='response identifier id'>response</span><span class='rparen token'>)</span>
+    <span class='@driver_name ivar id'>@driver_name</span> <span class='assign token'>=</span> <span class='api_xml identifier id'>api_xml</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>'/api'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='lbrack token'>[</span><span class='string val'>'driver'</span><span class='rbrack token'>]</span>
+    <span class='@api_version ivar id'>@api_version</span> <span class='assign token'>=</span> <span class='api_xml identifier id'>api_xml</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>'/api'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='lbrack token'>[</span><span class='string val'>'version'</span><span class='rbrack token'>]</span>
+    <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[API] Version #{@api_version}\n&quot;</span>
+    <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[API] Driver #{@driver_name}\n&quot;</span>
+    <span class='api_xml identifier id'>api_xml</span><span class='dot token'>.</span><span class='css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;api &gt; link&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='entry_point identifier id'>entry_point</span><span class='bitor op'>|</span>
+      <span class='rel identifier id'>rel</span><span class='comma token'>,</span> <span class='href identifier id'>href</span> <span class='assign token'>=</span> <span class='entry_point identifier id'>entry_point</span><span class='lbrack token'>[</span><span class='string val'>'rel'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span> <span class='entry_point identifier id'>entry_point</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span>
+      <span class='@entry_points ivar id'>@entry_points</span><span class='dot token'>.</span><span class='store identifier id'>store</span><span class='lparen token'>(</span><span class='rel identifier id'>rel</span><span class='comma token'>,</span> <span class='href identifier id'>href</span><span class='rparen token'>)</span>
+      <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[API] Entry point '#{rel}' added\n&quot;</span>
+      <span class='entry_point identifier id'>entry_point</span><span class='dot token'>.</span><span class='css identifier id'>css</span><span class='lparen token'>(</span><span class='string val'>&quot;feature&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='feature identifier id'>feature</span><span class='bitor op'>|</span>
+        <span class='@features ivar id'>@features</span><span class='lbrack token'>[</span><span class='rel identifier id'>rel</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+        <span class='@features ivar id'>@features</span><span class='lbrack token'>[</span><span class='rel identifier id'>rel</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='feature identifier id'>feature</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
+        <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[API] Feature #{feature['name']} added to #{rel}\n&quot;</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='declare_entry_points_methods identifier id'>declare_entry_points_methods</span><span class='lparen token'>(</span><span class='@entry_points ivar id'>@entry_points</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="discovered?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>discovered?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Skip parsing /api when we already got entry points</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+346
+347
+348</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 346</span>
+
+<span class='def def kw'>def</span> <span class='discovered? fid id'>discovered?</span>
+  <span class='true true kw'>true</span> <span class='if if_mod kw'>if</span> <span class='@entry_points! ivar id'>@entry_points!</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="documentation-instance_method">
+  
+    - (<tt>Object</tt>) <strong>documentation</strong>(collection, operation = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 350</span>
+
+<span class='def def kw'>def</span> <span class='documentation identifier id'>documentation</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='operation identifier id'>operation</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='data identifier id'>data</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='symbol val'>:get</span><span class='comma token'>,</span> <span class='dstring node'>&quot;/docs/#{collection}&quot;</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='body identifier id'>body</span><span class='bitor op'>|</span>
+    <span class='document identifier id'>document</span> <span class='assign token'>=</span> <span class='Nokogiri constant id'>Nokogiri</span><span class='colon2 op'>::</span><span class='XML constant id'>XML</span><span class='lparen token'>(</span><span class='body identifier id'>body</span><span class='rparen token'>)</span>
+    <span class='if if kw'>if</span> <span class='operation identifier id'>operation</span>
+      <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:description</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='document identifier id'>document</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>'/docs/collection/operations/operation[@name = &quot;'</span><span class='plus op'>+</span><span class='operation identifier id'>operation</span><span class='plus op'>+</span><span class='string val'>'&quot;]/description'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+      <span class='return return kw'>return</span> <span class='false false kw'>false</span> <span class='unless unless_mod kw'>unless</span> <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:description</span><span class='rbrack token'>]</span>
+      <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:params</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+      <span class='lparen token'>(</span><span class='document identifier id'>document</span><span class='div op'>/</span><span class='dstring node'>&quot;/docs/collection/operations/operation[@name='#{operation}']/parameter&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='param identifier id'>param</span><span class='bitor op'>|</span>
+        <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:params</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrace token'>{</span>
+          <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='param identifier id'>param</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+          <span class='symbol val'>:required</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='param identifier id'>param</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'optional'</span><span class='comma token'>,</span>
+          <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='param identifier id'>param</span><span class='div op'>/</span><span class='string val'>'class'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='text identifier id'>text</span>
+        <span class='rbrace token'>}</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='data identifier id'>data</span><span class='lbrack token'>[</span><span class='symbol val'>:description</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='lparen token'>(</span><span class='document identifier id'>document</span><span class='div op'>/</span><span class='string val'>'/docs/collection/description'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='text identifier id'>text</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='return return kw'>return</span> <span class='Documentation constant id'>Documentation</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='data identifier id'>data</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="feature?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>feature?</strong>(collection, name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Check if specified collection have wanted feature</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+318
+319
+320</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 318</span>
+
+<span class='def def kw'>def</span> <span class='feature? fid id'>feature?</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='@feature ivar id'>@feature</span><span class='dot token'>.</span><span class='has_key? fid id'>has_key?</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='@feature ivar id'>@feature</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hardware_profile-instance_method">
+  
+    - (<tt><a href="API/HardwareProfile.html" title="DeltaCloud::API::HardwareProfile (class)">HardwareProfile</a></tt>) <strong>hardware_profile</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A hardware profile represents a configuration of resources upon which a machine may be deployed. It defines aspects such as local disk storage, available RAM, and architecture. Each provider is free to define as many (or as few) hardware profiles as desired.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="API/HardwareProfile.html" title="DeltaCloud::API::HardwareProfile (class)">HardwareProfile</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 61</span>
+
+<span class='def def kw'>def</span> <span class='hardware_profile identifier id'>hardware_profile</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hardware_profiles-instance_method">
+  
+    - (<tt>Array</tt>) <strong>hardware_profiles</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of HardwareProfile objects</p>
+
+<pre class="code">   <span class='A constant id'>A</span> <span class='hardware identifier id'>hardware</span> <span class='profile identifier id'>profile</span> <span class='represents identifier id'>represents</span> <span class='a identifier id'>a</span> <span class='configuration identifier id'>configuration</span> <span class='of identifier id'>of</span> <span class='resources identifier id'>resources</span> <span class='upon identifier id'>upon</span> <span class='which identifier id'>which</span> <span class='a identifier id'>a</span>
+   <span class='machine identifier id'>machine</span> <span class='may identifier id'>may</span> <span class='be identifier id'>be</span> <span class='deployed identifier id'>deployed</span><span class='dot token'>.</span> <span class='It constant id'>It</span> <span class='defines identifier id'>defines</span> <span class='aspects identifier id'>aspects</span> <span class='such identifier id'>such</span> <span class='as identifier id'>as</span> <span class='local identifier id'>local</span> <span class='disk identifier id'>disk</span> <span class='storage identifier id'>storage</span><span class='comma token'>,</span>
+   <span class='available identifier id'>available</span> <span class='RAM constant id'>RAM</span><span class='comma token'>,</span> <span class='and and kw'>and</span> <span class='architecture identifier id'>architecture</span><span class='dot token'>.</span> <span class='Each constant id'>Each</span> <span class='provider identifier id'>provider</span> <span class='is identifier id'>is</span> <span class='free identifier id'>free</span> <span class='to identifier id'>to</span> <span class='define identifier id'>define</span> <span class='as identifier id'>as</span> <span class='many identifier id'>many</span>
+   <span class='lparen token'>(</span><span class='or or kw'>or</span> <span class='as identifier id'>as</span> <span class='few identifier id'>few</span><span class='rparen token'>)</span> <span class='hardware identifier id'>hardware</span> <span class='profiles identifier id'>profiles</span> <span class='as identifier id'>as</span> <span class='desired identifier id'>desired</span><span class='dot token'>.</span>
+</pre>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>architecture</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>HardwareProfile</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 74</span>
+
+<span class='def def kw'>def</span> <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="image-instance_method">
+  
+    - (<tt><a href="API/Image.html" title="DeltaCloud::API::Image (class)">Image</a></tt>) <strong>image</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>An image is a platonic form of a machine. Images are not directly executable, but are a template for creating actual instances of machines.&#8221;</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="API/Image.html" title="DeltaCloud::API::Image (class)">Image</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 98</span>
+
+<span class='def def kw'>def</span> <span class='image identifier id'>image</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="images-instance_method">
+  
+    - (<tt>Array</tt>) <strong>images</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of Image objects</p>
+
+<pre class="code">    <span class='An constant id'>An</span> <span class='image identifier id'>image</span> <span class='is identifier id'>is</span> <span class='a identifier id'>a</span> <span class='platonic identifier id'>platonic</span> <span class='form identifier id'>form</span> <span class='of identifier id'>of</span> <span class='a identifier id'>a</span> <span class='machine identifier id'>machine</span><span class='dot token'>.</span> <span class='Images constant id'>Images</span> <span class='are identifier id'>are</span> <span class='not not kw'>not</span> <span class='directly identifier id'>directly</span> <span class='executable identifier id'>executable</span><span class='comma token'>,</span>
+    <span class='but identifier id'>but</span> <span class='are identifier id'>are</span> <span class='a identifier id'>a</span> <span class='template identifier id'>template</span> <span class='for for kw'>for</span> <span class='creating identifier id'>creating</span> <span class='actual identifier id'>actual</span> <span class='instances identifier id'>instances</span> <span class='of identifier id'>of</span> <span class='machines identifier id'>machines</span><span class='dot token'>.</span><span class='string val'>&quot;
+</span></pre>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>architecture</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>owner_id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>Image</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 110</span>
+
+<span class='def def kw'>def</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance-instance_method">
+  
+    - (<tt><a href="API/Instance.html" title="DeltaCloud::API::Instance (class)">Instance</a></tt>) <strong>instance</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>An instance is a concrete machine realized from an image. The images collection may be obtained by following the link from the primary entry-point.&#8221;</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="API/Instance.html" title="DeltaCloud::API::Instance (class)">Instance</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 38</span>
+
+<span class='def def kw'>def</span> <span class='instance identifier id'>instance</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance_state-instance_method">
+  
+    - (<tt><a href="InstanceState.html" title="DeltaCloud::InstanceState (module)">InstanceState</a></tt>) <strong>instance_state</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The possible states of an instance, and how to traverse between them</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="InstanceState.html" title="DeltaCloud::InstanceState (module)">InstanceState</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 341</span>
+
+<span class='def def kw'>def</span> <span class='instance_state identifier id'>instance_state</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance_states-instance_method">
+  
+    - (<tt>Array</tt>) <strong>instance_states</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of InstanceState objects</p>
+
+<p>The possible states of an instance, and how to traverse between them</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>InstanceState</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+323
+324</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 323</span>
+
+<span class='def def kw'>def</span> <span class='instance_states identifier id'>instance_states</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instances-instance_method">
+  
+    - (<tt>Array</tt>) <strong>instances</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of Instance objects</p>
+
+<pre class="code">    <span class='An constant id'>An</span> <span class='instance identifier id'>instance</span> <span class='is identifier id'>is</span> <span class='a identifier id'>a</span> <span class='concrete identifier id'>concrete</span> <span class='machine identifier id'>machine</span> <span class='realized identifier id'>realized</span> <span class='from identifier id'>from</span> <span class='an identifier id'>an</span> <span class='image identifier id'>image</span><span class='dot token'>.</span>
+    <span class='The constant id'>The</span> <span class='images identifier id'>images</span> <span class='collection identifier id'>collection</span> <span class='may identifier id'>may</span> <span class='be identifier id'>be</span> <span class='obtained identifier id'>obtained</span> <span class='by identifier id'>by</span> <span class='following identifier id'>following</span> <span class='the identifier id'>the</span> <span class='link identifier id'>link</span> <span class='from identifier id'>from</span> <span class='the identifier id'>the</span> <span class='primary identifier id'>primary</span> <span class='entry identifier id'>entry</span><span class='minus op'>-</span><span class='point identifier id'>point</span><span class='dot token'>.</span><span class='string val'>&quot;
+</span></pre>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>state</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>Instance</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 49</span>
+
+<span class='def def kw'>def</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realm-instance_method">
+  
+    - (<tt><a href="API/Realm.html" title="DeltaCloud::API::Realm (class)">Realm</a></tt>) <strong>realm</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Within a cloud provider a realm represents a boundary containing resources. The exact definition of a realm is left to the cloud provider. In some cases, a realm may represent different datacenters, different continents, or different pools of resources within a single datacenter. A cloud provider may insist that resources must all exist within a single realm in order to cooperate. For instance, storage volumes may only be allowed to be mounted to instances within the same realm.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="API/Realm.html" title="DeltaCloud::API::Realm (class)">Realm</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 125</span>
+
+<span class='def def kw'>def</span> <span class='realm identifier id'>realm</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realms-instance_method">
+  
+    - (<tt>Array</tt>) <strong>realms</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of Realm objects</p>
+
+<pre class="code">    <span class='Within constant id'>Within</span> <span class='a identifier id'>a</span> <span class='cloud identifier id'>cloud</span> <span class='provider identifier id'>provider</span> <span class='a identifier id'>a</span> <span class='realm identifier id'>realm</span> <span class='represents identifier id'>represents</span> <span class='a identifier id'>a</span> <span class='boundary identifier id'>boundary</span> <span class='containing identifier id'>containing</span> <span class='resources identifier id'>resources</span><span class='dot token'>.</span>
+    <span class='The constant id'>The</span> <span class='exact identifier id'>exact</span> <span class='definition identifier id'>definition</span> <span class='of identifier id'>of</span> <span class='a identifier id'>a</span> <span class='realm identifier id'>realm</span> <span class='is identifier id'>is</span> <span class='left identifier id'>left</span> <span class='to identifier id'>to</span> <span class='the identifier id'>the</span> <span class='cloud identifier id'>cloud</span> <span class='provider identifier id'>provider</span><span class='dot token'>.</span>
+    <span class='In constant id'>In</span> <span class='some identifier id'>some</span> <span class='cases identifier id'>cases</span><span class='comma token'>,</span> <span class='a identifier id'>a</span> <span class='realm identifier id'>realm</span> <span class='may identifier id'>may</span> <span class='represent identifier id'>represent</span> <span class='different identifier id'>different</span> <span class='datacenters identifier id'>datacenters</span><span class='comma token'>,</span> <span class='different identifier id'>different</span> <span class='continents identifier id'>continents</span><span class='comma token'>,</span>
+    <span class='or or kw'>or</span> <span class='different identifier id'>different</span> <span class='pools identifier id'>pools</span> <span class='of identifier id'>of</span> <span class='resources identifier id'>resources</span> <span class='within identifier id'>within</span> <span class='a identifier id'>a</span> <span class='single identifier id'>single</span> <span class='datacenter identifier id'>datacenter</span><span class='dot token'>.</span>
+    <span class='A constant id'>A</span> <span class='cloud identifier id'>cloud</span> <span class='provider identifier id'>provider</span> <span class='may identifier id'>may</span> <span class='insist identifier id'>insist</span> <span class='that identifier id'>that</span> <span class='resources identifier id'>resources</span> <span class='must identifier id'>must</span> <span class='all identifier id'>all</span> <span class='exist identifier id'>exist</span> <span class='within identifier id'>within</span> <span class='a identifier id'>a</span> <span class='single identifier id'>single</span> <span class='realm identifier id'>realm</span> <span class='in in kw'>in</span>
+    <span class='order identifier id'>order</span> <span class='to identifier id'>to</span> <span class='cooperate identifier id'>cooperate</span><span class='dot token'>.</span> <span class='For constant id'>For</span> <span class='instance identifier id'>instance</span><span class='comma token'>,</span> <span class='storage identifier id'>storage</span> <span class='volumes identifier id'>volumes</span> <span class='may identifier id'>may</span> <span class='only identifier id'>only</span> <span class='be identifier id'>be</span> <span class='allowed identifier id'>allowed</span> <span class='to identifier id'>to</span> <span class='be identifier id'>be</span> <span class='mounted identifier id'>mounted</span> <span class='to identifier id'>to</span>
+    <span class='instances identifier id'>instances</span> <span class='within identifier id'>within</span> <span class='the identifier id'>the</span> <span class='same identifier id'>same</span> <span class='realm identifier id'>realm</span><span class='dot token'>.</span>
+</pre>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>architecture</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>Realm</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 141</span>
+
+<span class='def def kw'>def</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="request-instance_method">
+  
+    - (<tt>Object</tt>) <strong>request</strong>(*args, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Basic request method</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 287</span>
+
+<span class='def def kw'>def</span> <span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='mult op'>*</span><span class='args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='conf identifier id'>conf</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:method</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>'get'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span><span class='comma token'>,</span>
+    <span class='symbol val'>:path</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lparen token'>(</span><span class='args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span><span class='match op'>=~</span><span class='regexp val'>/^http/</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='dstring node'>&quot;#{api_uri.to_s}#{args[1]}&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:query_args</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>2</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span>
+    <span class='symbol val'>:form_data</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='args identifier id'>args</span><span class='lbrack token'>[</span><span class='integer val'>3</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+  <span class='rbrace token'>}</span>
+  <span class='if if kw'>if</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:query_args</span><span class='rbrack token'>]</span> <span class='neq op'>!=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+    <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:path</span><span class='rbrack token'>]</span> <span class='opasgn op'>+=</span> <span class='string val'>'?'</span> <span class='plus op'>+</span> <span class='URI constant id'>URI</span><span class='dot token'>.</span><span class='escape identifier id'>escape</span><span class='lparen token'>(</span><span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:query_args</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='collect identifier id'>collect</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='key identifier id'>key</span><span class='comma token'>,</span> <span class='value identifier id'>value</span><span class='bitor op'>|</span> <span class='dstring node'>&quot;#{key}=#{value}&quot;</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>'&amp;'</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+  <span class='end end kw'>end</span>
+  <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[#{conf[:method].to_s.upcase}] #{conf[:path]}\n&quot;</span>
+  <span class='if if kw'>if</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:method</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='eql? fid id'>eql?</span><span class='lparen token'>(</span><span class='symbol val'>:post</span><span class='rparen token'>)</span>
+    <span class='RestClient constant id'>RestClient</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:post</span><span class='comma token'>,</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:path</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:form_data</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='default_headers identifier id'>default_headers</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='response identifier id'>response</span><span class='comma token'>,</span> <span class='request identifier id'>request</span><span class='comma token'>,</span> <span class='block identifier id'>block</span><span class='bitor op'>|</span>
+      <span class='if if kw'>if</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>'body'</span><span class='rparen token'>)</span>
+        <span class='yield yield kw'>yield</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='body identifier id'>body</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+      <span class='else else kw'>else</span>
+        <span class='yield yield kw'>yield</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='else else kw'>else</span>
+    <span class='RestClient constant id'>RestClient</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:method</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='conf identifier id'>conf</span><span class='lbrack token'>[</span><span class='symbol val'>:path</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='default_headers identifier id'>default_headers</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='response identifier id'>response</span><span class='comma token'>,</span> <span class='request identifier id'>request</span><span class='comma token'>,</span> <span class='block identifier id'>block</span><span class='bitor op'>|</span>
+      <span class='if if kw'>if</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='string val'>'body'</span><span class='rparen token'>)</span>
+        <span class='yield yield kw'>yield</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='body identifier id'>body</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+      <span class='else else kw'>else</span>
+        <span class='yield yield kw'>yield</span> <span class='response identifier id'>response</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_snapshot-instance_method">
+  
+    - (<tt><a href="API/StorageSnapshot.html" title="DeltaCloud::API::StorageSnapshot (class)">StorageSnapshot</a></tt>) <strong>storage_snapshot</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Storage snapshots description here</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="API/StorageSnapshot.html" title="DeltaCloud::API::StorageSnapshot (class)">StorageSnapshot</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 81</span>
+
+<span class='def def kw'>def</span> <span class='storage_snapshot identifier id'>storage_snapshot</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_snapshots-instance_method">
+  
+    - (<tt>Array</tt>) <strong>storage_snapshots</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of StorageSnapshot objects</p>
+
+<p>Storage snapshots description here</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>StorageSnapshot</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 88</span>
+
+<span class='def def kw'>def</span> <span class='storage_snapshots identifier id'>storage_snapshots</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_volume-instance_method">
+  
+    - (<tt><a href="API/StorageVolume.html" title="DeltaCloud::API::StorageVolume (class)">StorageVolume</a></tt>) <strong>storage_volume</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Storage volumes description here</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="API/StorageVolume.html" title="DeltaCloud::API::StorageVolume (class)">StorageVolume</a></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+21
+22</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 21</span>
+
+<span class='def def kw'>def</span> <span class='storage_volume identifier id'>storage_volume</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_volumes-instance_method">
+  
+    - (<tt>Array</tt>) <strong>storage_volumes</strong>(opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Return collection of StorageVolume objects</p>
+
+<p>Storage volumes description here</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>string</tt>, <tt>id</tt>)</span>
+      
+      
+        <span class='name'></span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span>StorageVolume</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'doc/deltacloud.rb', line 28</span>
+
+<span class='def def kw'>def</span> <span class='storage_volumes identifier id'>storage_volumes</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="xml_to_class-instance_method">
+  
+    - (<tt>Object</tt>) <strong>xml_to_class</strong>(c, item) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Convert XML response to defined Ruby Class</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud.rb', line 144</span>
+
+<span class='def def kw'>def</span> <span class='xml_to_class identifier id'>xml_to_class</span><span class='lparen token'>(</span><span class='c identifier id'>c</span><span class='comma token'>,</span> <span class='item identifier id'>item</span><span class='rparen token'>)</span>
+  <span class='obj identifier id'>obj</span> <span class='assign token'>=</span> <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+  <span class='comment val'># Set default attributes</span>
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='id identifier id'>id</span> <span class='assign token'>=</span> <span class='item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span>
+  <span class='api identifier id'>api</span> <span class='assign token'>=</span> <span class='self self kw'>self</span>
+  <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+    <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:client</span> <span class='do do kw'>do</span>
+      <span class='api identifier id'>api</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='uri identifier id'>uri</span> <span class='assign token'>=</span> <span class='item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span>
+  <span class='logger identifier id'>logger</span> <span class='assign token'>=</span> <span class='@logger ivar id'>@logger</span>
+  <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[DC] Creating class #{obj.class.name}\n&quot;</span>
+  <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+    <span class='comment val'># Declare methods for all attributes in object</span>
+    <span class='item identifier id'>item</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>'./*'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='attribute identifier id'>attribute</span><span class='bitor op'>|</span>
+      <span class='comment val'># If attribute is a link to another object then</span>
+      <span class='comment val'># create a method which request this object from API</span>
+      <span class='if if kw'>if</span> <span class='api identifier id'>api</span><span class='dot token'>.</span><span class='entry_points identifier id'>entry_points</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{attribute.name}s&quot;</span><span class='rparen token'>)</span>
+        <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+          <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:&quot;#{attribute.name.sanitize}&quot;</span> <span class='do do kw'>do</span>
+            <span class='client identifier id'>client</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{attribute.name}&quot;</span><span class='comma token'>,</span> <span class='attribute identifier id'>attribute</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span> <span class='rparen token'>)</span>
+          <span class='end end kw'>end</span>
+          <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[DC] Added #{attribute.name} to class #{obj.class.name}\n&quot;</span>
+        <span class='end end kw'>end</span>
+      <span class='else else kw'>else</span>
+        <span class='comment val'># Define methods for other attributes</span>
+        <span class='c identifier id'>c</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span> <span class='do do kw'>do</span>
+          <span class='case case kw'>case</span> <span class='attribute identifier id'>attribute</span><span class='dot token'>.</span><span class='name identifier id'>name</span>
+            <span class='comment val'># When response cointains 'link' block, declare</span>
+            <span class='comment val'># methods to call links inside. This is used for instance</span>
+            <span class='comment val'># to dynamicaly create .stop!, .start! methods</span>
+            <span class='when when kw'>when</span> <span class='string val'>&quot;actions&quot;</span><span class='colon op'>:</span>
+              <span class='actions identifier id'>actions</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+              <span class='attribute identifier id'>attribute</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>'link'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='link identifier id'>link</span><span class='bitor op'>|</span>
+                <span class='actions identifier id'>actions</span> <span class='lshft op'>&lt;&lt;</span> <span class='lbrack token'>[</span><span class='link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'rel'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='link identifier id'>link</span><span class='lbrack token'>[</span><span class='symbol val'>:href</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
+                <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:&quot;#{link['rel'].sanitize}!&quot;</span> <span class='do do kw'>do</span>
+                  <span class='client identifier id'>client</span><span class='dot token'>.</span><span class='request identifier id'>request</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{link['method']}&quot;</span><span class='comma token'>,</span> <span class='link identifier id'>link</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+                  <span class='client identifier id'>client</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{item.name}&quot;</span><span class='comma token'>,</span> <span class='item identifier id'>item</span><span class='lbrack token'>[</span><span class='string val'>'id'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+                <span class='end end kw'>end</span>
+              <span class='end end kw'>end</span>
+              <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:actions</span> <span class='do do kw'>do</span>
+                <span class='actions identifier id'>actions</span><span class='dot token'>.</span><span class='collect identifier id'>collect</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='a identifier id'>a</span><span class='bitor op'>|</span> <span class='a identifier id'>a</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='rbrace token'>}</span>
+              <span class='end end kw'>end</span>
+              <span class='define_method identifier id'>define_method</span> <span class='symbol val'>:actions_urls</span> <span class='do do kw'>do</span>
+                <span class='urls identifier id'>urls</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+                <span class='actions identifier id'>actions</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='a identifier id'>a</span><span class='bitor op'>|</span> <span class='urls identifier id'>urls</span><span class='lbrack token'>[</span><span class='a identifier id'>a</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='a identifier id'>a</span><span class='dot token'>.</span><span class='last identifier id'>last</span> <span class='rbrace token'>}</span>
+                <span class='urls identifier id'>urls</span>
+              <span class='end end kw'>end</span>
+            <span class='comment val'># Property attribute is handled differently</span>
+            <span class='when when kw'>when</span> <span class='string val'>&quot;property&quot;</span><span class='colon op'>:</span>
+              <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:&quot;#{attribute['name'].sanitize}&quot;</span>
+              <span class='if if kw'>if</span> <span class='attribute identifier id'>attribute</span><span class='lbrack token'>[</span><span class='string val'>'value'</span><span class='rbrack token'>]</span> <span class='match op'>=~</span> <span class='regexp val'>/^(\d+)$/</span>
+                <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{attribute['name'].sanitize}=&quot;</span><span class='comma token'>,</span>
+                  <span class='DeltaCloud constant id'>DeltaCloud</span><span class='colon2 op'>::</span><span class='HWP constant id'>HWP</span><span class='colon2 op'>::</span><span class='FloatProperty constant id'>FloatProperty</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='attribute identifier id'>attribute</span><span class='comma token'>,</span> <span class='attribute identifier id'>attribute</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+              <span class='else else kw'>else</span>
+                <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{attribute['name'].sanitize}=&quot;</span><span class='comma token'>,</span>
+                  <span class='DeltaCloud constant id'>DeltaCloud</span><span class='colon2 op'>::</span><span class='HWP constant id'>HWP</span><span class='colon2 op'>::</span><span class='Property constant id'>Property</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='attribute identifier id'>attribute</span><span class='comma token'>,</span> <span class='attribute identifier id'>attribute</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+              <span class='end end kw'>end</span>
+            <span class='comment val'># Public and private addresses are returned as Array</span>
+            <span class='when when kw'>when</span> <span class='string val'>&quot;public_addresses&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;private_addresses&quot;</span><span class='colon op'>:</span>
+              <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:&quot;#{attribute.name.sanitize}&quot;</span>
+              <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{attribute.name.sanitize}=&quot;</span><span class='comma token'>,</span>
+                <span class='attribute identifier id'>attribute</span><span class='dot token'>.</span><span class='xpath identifier id'>xpath</span><span class='lparen token'>(</span><span class='string val'>'address'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='collect identifier id'>collect</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='address identifier id'>address</span><span class='bitor op'>|</span> <span class='address identifier id'>address</span><span class='dot token'>.</span><span class='text identifier id'>text</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+            <span class='comment val'># Value for other attributes are just returned using</span>
+            <span class='comment val'># method with same name as attribute (eg. .owner_id, .state)</span>
+            <span class='else else kw'>else</span>
+              <span class='attr_accessor identifier id'>attr_accessor</span> <span class='symbol val'>:&quot;#{attribute.name.sanitize}&quot;</span>
+              <span class='obj identifier id'>obj</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='symbol val'>:&quot;#{attribute.name.sanitize}=&quot;</span><span class='comma token'>,</span> <span class='attribute identifier id'>attribute</span><span class='dot token'>.</span><span class='text identifier id'>text</span><span class='dot token'>.</span><span class='convert identifier id'>convert</span><span class='rparen token'>)</span>
+              <span class='logger identifier id'>logger</span> <span class='lshft op'>&lt;&lt;</span> <span class='dstring node'>&quot;[DC] Added method #{attribute.name}[#{attribute.text}] to #{obj.class.name}\n&quot;</span>
+          <span class='end end kw'>end</span>
+        <span class='end end kw'>end</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='return return kw'>return</span> <span class='obj identifier id'>obj</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Jul 30 12:16:34 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.6 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
