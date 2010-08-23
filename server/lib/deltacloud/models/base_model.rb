@@ -52,8 +52,8 @@ class BaseModel
     out
   end
 
-  def to_json
-    self.to_hash.to_json
+  def to_json(*a)
+    self.to_hash.to_json(*a)
   end
 
 end
