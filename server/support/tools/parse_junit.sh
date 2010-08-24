@@ -6,6 +6,10 @@ for file in tmp/junit_reports/*.xml; do
   output_file=`echo "${file}" | sed -e "s/.xml$/.html/"`
   xsltproc -o "${output_file}" support/tools/base.xsl "${file}"
 done
+for file in ../tests/tmp/junit_*/*.xml; do
+  output_file=`echo "${file}" | sed -e "s/.xml$/.html/"`
+  xsltproc -o "${output_file}" support/tools/base.xsl "${file}"
+done
 
 cat <<BEGIN_HTML_TEMPLATE
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -25,8 +29,9 @@ cat <<BEGIN_HTML_TEMPLATE
     --></script>
    <style type="text/css"><!--
    body { font-family: 'Helvetica Neue', 'Liberation Sans', Arial, sans-serif; }
-   #test { clear : both; }
+   div#test, h1 { clear : both; }
    h2 { font-size: 1.2em; font-weight: bold; clear:both;margin-top:1.5em;
+   h1 { font-size 2em!important;}
    padding:0;}
    pre {
     background: #E4EBEF;
@@ -60,7 +65,10 @@ cat <<BEGIN_HTML_TEMPLATE
   <body>
   <h1>deltacloud-core build #$build_number</h1>
 BEGIN_HTML_TEMPLATE
+echo "<br/><hr/><h1>Test::Unit results</h1>"
 cat tmp/junit_reports/*.html
+echo "<br/><hr/><h1>Cucumber results</h1>"
+cat ../tests/tmp/junit_*/*.html
 cat <<END_HTML_TEMPLATE
   </body>
 </html>
