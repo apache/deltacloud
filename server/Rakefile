@@ -43,10 +43,16 @@ Rake::TestTask.new("test") { |t|
   t.warning = false
 }
 
-load 'deltacloud-core.gemspec'
 
-Rake::GemPackageTask.new(@spec) do |pkg|
-  pkg.need_tar = true
+@specs = ['ruby', 'java'].inject({}) do |hash, spec_platform|
+  $platform = spec_platform
+  hash.update(spec_platform => Gem::Specification.load('deltacloud-core.gemspec'))
+end
+
+@specs.values.each do |spec|
+  Rake::GemPackageTask.new(spec) do |pkg|
+    pkg.need_tar = true
+  end
 end
 
 desc "Install API"
