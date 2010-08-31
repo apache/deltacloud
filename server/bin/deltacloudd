@@ -2,7 +2,6 @@
 
 require 'rubygems'
 require 'optparse'
-require 'thin'
 
 options = {
   :env => 'development'
@@ -44,45 +43,78 @@ end
 ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
 ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
-dirname="#{File.dirname(__FILE__)}/.."
-
-argv_opts = ARGV.clone
-argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
-argv_opts << ['--address', ENV["API_HOST"] ]
-argv_opts << ['--port', ENV["API_PORT"] ]
-argv_opts << ['--rackup', 'config.ru' ]
-argv_opts << ['--chdir', dirname ]
-argv_opts << ['-e', options[:env] ]
-argv_opts << ['--threaded', '-D', '--stats', '/stats']
-
-argv_opts.flatten!
-
-if options[:env] == "development"
-  use_rerun = false
-  begin
-    require "rerun"
-    use_rerun = true
-  rescue
-    # Do nothing
-  end
-end
-
 puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
 puts
 
-if use_rerun
-  argv_opts.unshift "thin"
-  command = argv_opts.join(" ")
-  topdir = File::expand_path(File::join(File::dirname(__FILE__), ".."))
-  rerun = Rerun::Runner.new(command, :dir => topdir)
-  rerun.start
-  rerun.join
-else
-  thin = Thin::Runner.new(argv_opts)
+dirname="#{File.dirname(__FILE__)}/.."
+platform = RUBY_PLATFORM[/java/] || 'ruby'
 
-  begin
-    thin.run!
-  rescue Exception => e
-    puts "ERROR: #{e.message}"
+if platform == 'java'
+  require 'rack'
+
+  # We can't chdir with webrick so add our root directory
+  # onto the load path
+  $: << dirname
+
+  # Read in config.ru and convert it to an instance of Rack::Builder
+  cfgfile = File.read(File.join(dirname, 'config.ru'))
+  inner_app = eval("Rack::Builder.new {(" + cfgfile + "\n )}.to_app",
+                   nil, 'config.ru')
+
+  app = Rack::Builder.new {
+    use Rack::CommonLogger # apache-like logging
+    use Rack::Reloader if options[:env] == "development"
+    set :root, dirname # Set Sinatra root since we can't chdir to ../
+    run inner_app
+  }.to_app
+
+  # There's a bug with string ports on JRuby so convert to int
+  # http://jira.codehaus.org/browse/JRUBY-4868
+  port = ENV["API_PORT"].to_i
+
+  puts "=> Ctrl-C to shutdown server"
+  Rack::Handler::WEBrick.run(app,
+                             :Host => ENV["API_HOST"],
+                             :Port => port,
+                             :AccessLog => [])
+else
+  require 'thin'
+
+  argv_opts = ARGV.clone
+  argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
+  argv_opts << ['--address', ENV["API_HOST"] ]
+  argv_opts << ['--port', ENV["API_PORT"] ]
+  argv_opts << ['--rackup', 'config.ru' ]
+  argv_opts << ['--chdir', dirname ]
+  argv_opts << ['-e', options[:env] ]
+  argv_opts << ['--threaded', '-D', '--stats', '/stats']
+
+  argv_opts.flatten!
+
+  if options[:env] == "development"
+    use_rerun = false
+    begin
+      require "rerun"
+      use_rerun = true
+    rescue
+      # Do nothing
+    end
+  end
+
+  if use_rerun
+    argv_opts.unshift "thin"
+    command = argv_opts.join(" ")
+    topdir = File::expand_path(File::join(File::dirname(__FILE__), ".."))
+    rerun = Rerun::Runner.new(command, :dir => topdir)
+    rerun.start
+    rerun.join
+  else
+    thin = Thin::Runner.new(argv_opts)
+
+    begin
+      thin.run!
+    rescue Exception => e
+      puts "ERROR: #{e.message}"
+    end
   end
 end
