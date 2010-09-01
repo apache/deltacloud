@@ -15,5 +15,5 @@ When /^I run a '(\w+)' task$/ do |task|
 end
 
 Then /^I should see a (\w+) file inside (\w+) directory$/ do |ext, dir|
-  Dir["#{dir}/deltacloud-*.#{ext}"].size.should == 1
+  Dir["#{dir}/deltacloud-*.#{ext}"].size.should == 2
 end
