@@ -241,15 +241,15 @@ module DeltaCloud
       declare_entry_points_methods(@entry_points)
     end
     
-    def create_instance_credential(opts={}, &block)
+    def create_key(opts={}, &block)
       params = { :name => opts[:name] }
-      instance_credential = nil
-      request(:post, entry_points[:instance_credentials], {}, params) do |response|
-        c = DeltaCloud.define_class("InstanceCredential")
-        instance_credential = base_object(c, :instance_credential, response)
-        yield instance_credential if block_given?
+      key = nil
+      request(:post, entry_points[:keys], {}, params) do |response|
+        c = DeltaCloud.define_class("Key")
+        key = base_object(c, :key, response)
+        yield key if block_given?
       end
-      return instance_credential
+      return key
     end
 
     # Create a new instance, using image +image_id+. Possible optiosn are
