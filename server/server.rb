@@ -42,6 +42,9 @@ get '/' do redirect url_for('/api'); end
 
 get '/api\/?' do
     @version = 0.1
+    if params[:force_auth]
+      return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
+    end
     respond_to do |format|
         format.xml { haml :"api/show" }
         format.json do

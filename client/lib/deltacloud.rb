@@ -33,6 +33,22 @@ module DeltaCloud
     API.new(user_name, password, api_url, &block)
   end
 
+  # Check given credentials if their are valid against
+  # backend cloud provider
+  #
+  # @param [String, user_name] API user name
+  # @param [String, password] API password
+  # @param [String, user_name] API URL (eg. http://localhost:3001/api)
+  # @return [true|false]
+  def self.valid_credentials?(user_name, password, api_url)
+    api=API.new(user_name, password, api_url)
+    result = false
+    api.request(:get, '', :force_auth => '1') do |response|
+      result = true if response.code.eql?(200)
+    end
+    return result
+  end
+
   # Return a API driver for specified URL
   #
   # @param [String, url] API URL (eg. http://localhost:3001/api)
