@@ -131,6 +131,15 @@ class RackspaceDriver < Deltacloud::BaseDriver
     instances
   end
 
+  def valid_credentials?(credentials)
+    begin
+      new_client(credentials)
+    rescue
+      return false
+    end
+    true
+  end
+
 
   def convert_srv_to_instance(srv)
     inst = Instance.new(:id => srv["id"].to_s,

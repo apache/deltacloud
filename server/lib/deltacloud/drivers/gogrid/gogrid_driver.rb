@@ -192,6 +192,15 @@ class GogridDriver < Deltacloud::BaseDriver
     return creds
   end
 
+  def valid_credentials?(credentials)
+    client = new_client(credentials)
+    # FIXME: We need to do this call to determine if
+    #        GoGrid is working with given credentials. There is no
+    #        other way to check, if given credentials are valid or not.
+    return false unless new_client(credentials).request('common/lookup/list', { 'lookup' => 'ip.datacenter' })
+    true
+  end
+
   define_instance_states do
     start.to( :pending )         .automatically
     pending.to( :running )       .automatically

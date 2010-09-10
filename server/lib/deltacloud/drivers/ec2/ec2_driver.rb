@@ -310,6 +310,15 @@ class EC2Driver < Deltacloud::BaseDriver
     end
   end
 
+  def valid_credentials?(credentials)
+    client = new_client(credentials)
+    # FIXME: We need to do this call to determine if
+    #        EC2 is working with given credentials. There is no
+    #        other way to check, if given credentials are valid or not.
+    realms = client.describe_availability_zones rescue false
+    return realms ? true : false
+  end
+
   private
 
   def new_client(credentials)

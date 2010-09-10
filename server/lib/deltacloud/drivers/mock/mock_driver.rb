@@ -257,6 +257,15 @@ class MockDriver < Deltacloud::BaseDriver
     snapshots
   end
 
+  def valid_credentials?(credentials)
+    begin
+      check_credentials(credentials)
+      return true
+    rescue Deltacloud::AuthException
+    end
+    return false
+  end
+
   private
 
   def check_credentials(credentials)
