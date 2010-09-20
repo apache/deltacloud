@@ -74,7 +74,8 @@ END
 
   operation :index do
     description <<END
-    Operation will list all available realms. For specific architecture use "architecture" parameter.
+    Operation will list all available realms. Realms can be filtered using
+    the "architecture" parameter.
 END
     param :id,            :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
@@ -98,9 +99,9 @@ END
 
   operation :index do
     description <<END
-    The instances collection will return a set of all images
-    available to the current use. You can filter images using
-    "owner_id" and "architecture" parameter
+    The images collection will return a set of all images
+    available to the current use. Images can be filtered using the
+    "owner_id" and "architecture" parameters.
 END
     param :id,            :string
     param :architecture,  :string,  :optional
@@ -170,7 +171,7 @@ collection :instances do
 END
 
   operation :index do
-    description "List all instances"
+    description "List all instances."
     param :id,            :string,  :optional
     param :state,         :string,  :optional
     control { filter_all(:instances) }
@@ -183,7 +184,7 @@ END
   end
 
   operation :create do
-    description "Create a new instance"
+    description "Create a new instance."
     param :image_id,     :string, :required
     param :realm_id,     :string, :optional
     param :hwp_id,       :string, :optional
@@ -206,25 +207,25 @@ END
   end
 
   operation :reboot, :method => :post, :member => true do
-    description "Reboot running instance"
+    description "Reboot a running instance."
     param :id,           :string, :required
     control { instance_action(:reboot) }
   end
 
   operation :start, :method => :post, :member => true do
-    description "Start an instance"
+    description "Start an instance."
     param :id,           :string, :required
     control { instance_action(:start) }
   end
 
   operation :stop, :method => :post, :member => true do
-    description "Stop running instance"
+    description "Stop a running instance."
     param :id,           :string, :required
     control { instance_action(:stop) }
   end
 
   operation :destroy do
-    description "Destroy instance"
+    description "Destroy an instance."
     param :id,           :string, :required
     control { instance_action(:destroy) }
   end
@@ -239,7 +240,7 @@ collection :hardware_profiles do
 END
 
   operation :index do
-    description "List of available hardware profiles"
+    description "List of available hardware profiles."
     param :id,          :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control do
@@ -253,7 +254,7 @@ END
   end
 
   operation :show do
-    description "Show specific hardware profile"
+    description "Show specific hardware profile."
     param :id,          :string,    :required
     control do
       @profile =  driver.hardware_profile(credentials, params[:id])
@@ -275,13 +276,13 @@ collection :storage_snapshots do
   description "Storage snapshots description here"
 
   operation :index do
-    description "Listing of storage snapshots"
+    description "List of storage snapshots."
     param :id,            :string
     control { filter_all(:storage_snapshots) }
   end
 
   operation :show do
-    description "Show storage snapshot"
+    description "Show storage snapshot."
     param :id,          :string,    :required
     control { show(:storage_snapshot) }
   end
@@ -291,13 +292,13 @@ collection :storage_volumes do
   description "Storage volumes description here"
 
   operation :index do
-    description "Listing of storage volumes"
+    description "List of storage volumes."
     param :id,            :string
     control { filter_all(:storage_volumes) }
   end
 
   operation :show do
-    description "Show storage volume"
+    description "Show storage volume."
     param :id,          :string,    :required
     control { show(:storage_volume) }
   end
@@ -310,23 +311,23 @@ get '/api/keys/new' do
 end
 
 collection :keys do
-  description "Instance authentication credentials"
+  description "Instance authentication credentials."
 
   operation :index do
-    description "List all available credentials which could be used for instance authentication"
+    description "List all available credentials which could be used for instance authentication."
     control do
       filter_all :keys
     end
   end
 
   operation :show do
-    description "Show details about given instance credential"
+    description "Show details about given instance credential."
     param :id,  :string,  :required
     control { show :key }
   end
 
   operation :create do
-    description "Create a new instance credential if backend supports this"
+    description "Create a new instance credential if backend supports this."
     param :name,  :string,  :required
     control do
       unless driver.respond_to?(:create_key)
@@ -342,7 +343,7 @@ collection :keys do
   end
 
   operation :destroy do
-    description "Destroy given instance credential if backend supports this"
+    description "Destroy given instance credential if backend supports this."
     param :id,  :string,  :required
     control do
       unless driver.respond_to?(:destroy_key)
