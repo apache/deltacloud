@@ -185,34 +185,28 @@ class MockDriver < Deltacloud::BaseDriver
     Instance.new( instance )
   end
 
-  def start_instance(credentials, id)
+  def update_instance_state(credentials, id, state)
     instance_file = "#{@storage_root}/instances/#{id}.yml"
     instance_yml  = YAML.load( File.read( instance_file ) )
-    instance_yml[:state] = 'RUNNING'
+    instance_yml[:id] = id
+    instance_yml[:state] = state
+    instance_yml[:actions] = instance_actions_for( instance_yml[:state] )
     File.open( instance_file, 'w' ) do |f|
       f << YAML.dump( instance_yml )
     end
     Instance.new( instance_yml )
+  end
+
+  def start_instance(credentials, id)
+    update_instance_state(credentials, id, 'RUNNING')
   end
 
   def reboot_instance(credentials, id)
-    instance_file = "#{@storage_root}/instances/#{id}.yml"
-    instance_yml  = YAML.load( File.read( instance_file ) )
-    instance_yml[:state] = 'RUNNING'
-    File.open( instance_file, 'w' ) do |f|
-      f << YAML.dump( instance_yml )
-    end
-    Instance.new( instance_yml )
+    update_instance_state(credentials, id, 'RUNNING')
   end
 
   def stop_instance(credentials, id)
-    instance_file = "#{@storage_root}/instances/#{id}.yml"
-    instance_yml  = YAML.load( File.read( instance_file ) )
-    instance_yml[:state] = 'STOPPED'
-    File.open( instance_file, 'w' ) do |f|
-      f << YAML.dump( instance_yml )
-    end
-    Instance.new( instance_yml )
+    update_instance_state(credentials, id, 'STOPPED')
   end
 
 
