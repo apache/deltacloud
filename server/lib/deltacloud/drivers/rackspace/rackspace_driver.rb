@@ -75,8 +75,8 @@ class RackspaceDriver < Deltacloud::BaseDriver
     end
     Instance.new( {
       :id => id,
-      :state => "REBOOT",
-      :actions => instance_actions_for( state ),
+      :state => "RUNNING",
+      :actions => instance_actions_for( "RUNNING" ),
     } )
   end
 

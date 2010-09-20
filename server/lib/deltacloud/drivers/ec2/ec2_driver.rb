@@ -201,7 +201,7 @@ class EC2Driver < Deltacloud::BaseDriver
       # at this point, the action has succeeded but our follow-up
       # "describe_instances" failed for some reason.  Create a simple Instance
       # object with only the ID and new state in place
-      state = backup.instancesSet.item.first.currentState.name
+      state = convert_state(backup.instancesSet.item.first.currentState.name)
       Instance.new( {
         :id => id,
         :state => state,
@@ -360,9 +360,23 @@ class EC2Driver < Deltacloud::BaseDriver
     } )
   end
 
+  def convert_state(ec2_state)
+    case ec2_state
+    when "terminated"
+      "STOPPED"
+    when "stopped"
+      "STOPPED"
+    when "running"
+      "RUNNING"
+    when "pending"
+      "PENDING"
+    when "shutting-down"
+      "STOPPED"
+    end
+  end
+
   def convert_instance(ec2_instance, owner_id)
-    state = ec2_instance['instanceState']['name'].upcase
-    state_key = state.downcase.underscore.to_sym
+    state = convert_state(ec2_instance['instanceState']['name'])
     realm_id = ec2_instance['placement']['availabilityZone']
     (realm_id = nil ) if ( realm_id == '' )
     hwp_name = ec2_instance['instanceType']

@@ -285,6 +285,9 @@ class GogridDriver < Deltacloud::BaseDriver
     end
     prof = InstanceProfile.new("server", opts)
 
+    hwp_name = instance['image']['name']
+    state = convert_server_state(instance['state']['name'], instance['id'])
+
     Instance.new(
        # note that we use 'name' as the id here, because newly created instances
        # don't get a real ID until later on.  The name is good enough; from
@@ -296,8 +299,8 @@ class GogridDriver < Deltacloud::BaseDriver
       :instance_profile => prof,
       :name => instance['name'],
       :realm_id => instance['ip']['datacenter']['id'],
-      :state => convert_server_state(instance['state']['name'], instance['id']),
-      :actions => instance_actions_for(convert_server_state(instance['state']['name'], instance['id'])),
+      :state => state,
+      :actions => instance_actions_for(state),
       :public_addresses => [ instance['ip']['ip'] ],
       :private_addresses => [],
       :username => instance['username'],

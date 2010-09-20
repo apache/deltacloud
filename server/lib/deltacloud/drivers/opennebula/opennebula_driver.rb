@@ -180,7 +180,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 
 	imageid = computehash['STORAGE/DISK[@type="disk"]'].attributes['href'].split("/").last
 
-	state = (computehash['STATE'].text == 'ACTIVE') ? 'RUNNING' : computehash['STATE'].text
+	state = (computehash['STATE'].text == "ACTIVE") ? "RUNNING" : "STOPPED"
 
 	hwp_name = computehash['INSTANCE_TYPE'] || 'small'
 

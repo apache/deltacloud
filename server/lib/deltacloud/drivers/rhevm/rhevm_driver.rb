@@ -78,10 +78,13 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def statify(state)
     st = state.nil? ? "" : state.upcase()
-    return "running" if st == "UP"
-    return "stopped" if st == "DOWN"
-    return "pending" if st == "POWERING UP"
-    st
+    case st
+    when "UP"
+      "RUNNING"
+    when "DOWN"
+      "STOPPED"
+    when "POWERING UP"
+      "PENDING"
   end
 
   define_hardware_profile 'rhevm'
