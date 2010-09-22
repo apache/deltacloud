@@ -403,8 +403,12 @@ module DeltaCloud
     private
 
     def default_headers
+      # The linebreaks inserted every 60 characters in the Base64
+      # encoded header cause problems under JRuby
+      auth_header = "Basic "+Base64.encode64("#{@username}:#{@password}")
+      auth_header.gsub!("\n", "")
       {
-        :authorization => "Basic "+Base64.encode64("#{@username}:#{@password}"),
+        :authorization => auth_header,
         :accept => "application/xml"
       }
     end
