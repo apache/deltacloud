@@ -1,0 +1,19 @@
+%h1 Bucket
+%h2
+  = @bucket.id
+
+%dl
+  %di
+    %dt Name
+    %dd
+      = @bucket.name
+    %dt Size
+    %dd
+      = @bucket.size
+    %dt Blobs
+    %dd
+      -@bucket.blob_list.each do |blob|
+        = link_to blob, bucket_url(@bucket.name) + '/' + blob
+    %dt delete bucket (must be empty)
+    %dd
+      =link_to 'Delete', destroy_bucket_url(@bucket.name), :class => 'delete'

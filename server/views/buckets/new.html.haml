@@ -1,0 +1,13 @@
+%h1 New Bucket
+
+%form{ :action => buckets_url, :method => :post }
+  %label
+    Bucket Name:
+    %input{ :name => 'name', :size => 250}/
+    %br
+  -if driver_has_bucket_location_feature?
+    %p
+      %label
+        Location: (optional)
+        %input{ :name => 'location', :size => 20 }/
+  %input{ :type => :submit, :name => "commit", :value => "create"}/

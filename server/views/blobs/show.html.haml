@@ -1,0 +1,20 @@
+%h1 Blob
+%h2
+  = @blob.id
+
+%dl
+  %dt bucket
+  %dd
+    = @blob.bucket
+  %dt Content_Length
+  %dd
+    = @blob.content_length
+  %dt Content_Type
+  %dd
+    = @blob.content_type
+  %dt Last_Modified
+  %dd
+    = @blob.last_modified
+  %dt Content
+  %dd
+    =link_to 'Blob content', bucket_url(@blob.bucket) + '/' + @blob.id + '/content'

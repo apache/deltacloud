@@ -1,0 +1,33 @@
+%h1
+  Buckets
+%br
+%p
+  =link_to 'Create new bucket', "/api/buckets/new"
+
+%table.display
+  %thead
+    %tr
+      %th
+        ID
+      %th
+        Name
+      %th
+        Size
+      %th
+        Blob List
+      %th
+
+  %tbody
+    - @buckets.each do |bucket|
+      %tr
+        %td
+          = link_to bucket.id, bucket_url(bucket.id)
+        %td
+          = bucket.name
+        %td
+          = bucket.size
+        %td
+          -bucket.blob_list.each do |blob|
+            = blob
+        %td
+          =link_to 'Delete', destroy_bucket_url(bucket.name), :class => 'delete'
