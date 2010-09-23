@@ -57,6 +57,9 @@ module Sinatra
             if ext
               @mime_types = [ Helpers::mime_type(ext) ]
               format ext
+            elsif (params[:format])
+              @mime_types = [Helpers::mime_type(params[:format])]
+              format params[:format]
             end
           end
         end
