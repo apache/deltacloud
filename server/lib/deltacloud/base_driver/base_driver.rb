@@ -185,6 +185,36 @@ module Deltacloud
       []
     end
 
+    def buckets(credentials, opts = nil)
+      #list of buckets belonging to account
+      []
+    end
+
+    def bucket(credentials, opts = nil)
+    #list of objects within bucket
+      list = buckets(credentials, opts)
+      return list.first unless list.empty?
+      nil
+    end
+
+    def create_bucket(credentials, name, opts=nil)
+    end
+
+    def delete_bucket(credentials, name, opts=nil)
+    end
+
+    def blobs(credentials, opts = nil)
+      []
+    end
+
+    def blob(credentials, opts = nil)
+       list = blobs(credentials, opts)
+       return list.first unless list.empty?
+    end
+
+    def blob_data(credentials, bucket_id, blob_id, opts)
+    end
+
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?
       return collection if opts[attribute].nil?

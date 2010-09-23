@@ -162,5 +162,12 @@ module Deltacloud
       description "Size instances according to changes to a hardware profile"
       # The parameters are filled in from the hardware profiles
     end
+
+    declare_feature :buckets, :bucket_location do
+      description "Take extra location parameter for Bucket creation (e.g. S3, 'eu' or 'us-west-1')"
+      operation :create do
+        param :location, :string, :optional
+      end
+    end
   end
 end

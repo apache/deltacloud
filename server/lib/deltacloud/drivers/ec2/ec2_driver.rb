@@ -19,6 +19,7 @@
 
 require 'deltacloud/base_driver'
 require 'AWS'
+require 'right_aws'
 
 class Instance
   attr_accessor :keyname
@@ -36,12 +37,13 @@ module Deltacloud
 class EC2Driver < Deltacloud::BaseDriver
 
   def supported_collections
-    DEFAULT_COLLECTIONS + [ :keys ]
+    DEFAULT_COLLECTIONS + [ :keys, :buckets ]
   end
 
   feature :instances, :user_data
   feature :instances, :authentication_key
   feature :images, :owner_id
+  feature :buckets, :bucket_location
 
   define_hardware_profile('m1.small') do
     cpu                1
@@ -319,6 +321,83 @@ class EC2Driver < Deltacloud::BaseDriver
     return realms ? true : false
   end
 
+#--
+# Buckets
+#-- get a list of your buckets from the s3 service
+  def buckets(credentials, opts)
+    buckets = []
+    safely do
+      s3_client = s3_client(credentials)
+      bucket_list = s3_client.buckets
+      bucket_list.each do |current|
+        buckets << convert_bucket(current)
+      end
+    end
+    buckets = filter_on(buckets, :id, opts)
+    buckets
+  end
+
+#--
+# Create bucket
+#--
+#valid values for bucket location: 'EU'|'us-west1'|'ap-southeast-1' - if you
+#don't specify a location then by default buckets are created in 'us-east'
+#[but if you *do* specify 'us-east' things blow up]
+  def create_bucket(credentials, name, opts={})
+    bucket = nil
+    safely do
+      begin
+        s3_client = s3_client(credentials)
+        bucket_location = opts['location']
+        if bucket_location
+          bucket = RightAws::S3::Bucket.create(s3_client, name, true, nil, :location => bucket_location)
+        else
+          bucket = RightAws::S3::Bucket.create(s3_client, name, true)
+        end #if
+        rescue RightAws::AwsError => e
+          raise e unless e.message =~ /BucketAlreadyExists/
+          raise Deltacloud::BackendError.new(409, e.class.to_s, e.message, e.backtrace)
+      end #begin
+    end #do
+    convert_bucket(bucket)
+  end
+
+#--
+# Delete_bucket
+#--
+  def delete_bucket(credentials, name, opts={})
+    s3_client = s3_client(credentials)
+    safely do
+      s3_client.interface.delete_bucket(name)
+    end
+  end
+
+#--
+# Blobs
+#--
+  def blobs(credentials, opts = nil)
+    s3_client = s3_client(credentials)
+    blobs = []
+    safely do
+      s3_bucket = s3_client.bucket(opts['bucket'])
+      s3_bucket.keys({}, true).each do |s3_object|
+        blobs << convert_object(s3_object)
+      end
+    end
+    blobs = filter_on(blobs, :id, opts)
+    blobs
+  end
+
+#--
+# Blob data
+#--
+  def blob_data(credentials, bucket_id, blob_id, opts)
+    s3_client = s3_client(credentials)
+    s3_client.interface.get(bucket_id, blob_id) do |chunk|
+      yield chunk
+    end
+  end
+
   private
 
   def new_client(credentials)
@@ -416,6 +495,36 @@ class EC2Driver < Deltacloud::BaseDriver
       :storage_volume_id=>ec2_snapshot['volumeId'],
       :created=>ec2_snapshot['startTime'],
     } )
+  end
+
+  def s3_client(credentials)
+    safely do
+      s3_client = RightAws::S3.new(credentials.user, credentials.password)
+    end
+  end
+
+  def convert_bucket(s3_bucket)
+    #get blob list:
+    blob_list = []
+    s3_bucket.keys.each do |s3_object|
+      blob_list << s3_object.name
+    end
+    #can use AWS::S3::Owner.current.display_name or current.id
+    Bucket.new(  { :id => s3_bucket.name,
+                      :name => s3_bucket.name,
+                      :size => s3_bucket.keys.length,
+                      :blob_list => blob_list
+                    }
+                 )
+  end
+
+  def convert_object(s3_object)
+    Blob.new({   :id => s3_object.name,
+                 :bucket => s3_object.bucket.name.to_s,
+                 :content_length => s3_object.size,
+                 :content_type => s3_object.content_type,
+                 :last_modified => s3_object.last_modified
+              })
   end
 
   def catched_exceptions_list

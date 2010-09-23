@@ -54,6 +54,13 @@ module ApplicationHelper
     return 'password' if driver_has_feature?(:authentication_password)
   end
 
+  def driver_has_bucket_location_feature?
+    driver.features(:buckets).each do |feat|
+      return true if feat.name == :bucket_location
+    end
+    false
+  end
+
   def filter_all(model)
       filter = {}
       filter.merge!(:id => params[:id]) if params[:id]
