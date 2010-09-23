@@ -34,6 +34,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
   def hardware_profiles(credentials, opts = nil)
     racks = new_client( credentials )
+    results=""
     safely do
       results = racks.list_flavors.map do |flav|
         HardwareProfile.new(flav["id"].to_s) do
@@ -48,6 +49,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
   def images(credentials, opts=nil)
     racks = new_client( credentials )
+    results=""
     safely do
       results = racks.list_images.map do |img|
         Image.new( {
