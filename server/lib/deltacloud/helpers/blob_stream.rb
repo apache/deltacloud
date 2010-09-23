@@ -27,7 +27,7 @@ class BlobStream
         #the client guess and if they can't they SHOULD default to
         #'application/octet-stream' anyway as per:
         #http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1
-    EM.next_tick { env['async.callback'].call [200, {}, body] }
+    EM.next_tick { env['async.callback'].call [200, {'Content-Type' => "#{params['content_type']}", 'Content-Length' => "#{params['content_length']}"}, body] }
     #call the driver from here. the driver method yields for every chunk of blob it receives. We then
     #use body.call to write that chunk as received.
     driver.blob_data(credentials, params[:bucket], params[:blob], params) {|chunk| body.call ["#{chunk}"]} #close blob_data block
