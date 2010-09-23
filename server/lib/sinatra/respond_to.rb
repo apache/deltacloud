@@ -43,6 +43,8 @@ module Sinatra
       app.before do
         # Let through sinatra image urls in development
         next if self.class.development? && request.path_info =~ %r{/__sinatra__/.*?.png}
+	#FIXME using ?format to do content negotiation for buckets so skip negotiation here?
+        next if request.path_info =~ (/\/api\/buckets\/*/)
 
         unless options.static? && options.public? && (request.get? || request.head?) && static_file?(request.path_info)
           rpi = request.path_info.sub(%r{\.([^\./]+)$}, '')

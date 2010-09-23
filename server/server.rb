@@ -9,6 +9,7 @@ require 'sinatra/lazy_auth'
 require 'erb'
 require 'haml'
 require 'open3'
+require 'lib/deltacloud/helpers/blob_stream'
 
 configure do
   set :raise_errors => false
@@ -352,6 +353,85 @@ collection :keys do
       end
       driver.destroy_key(credentials, { :key_name => params[:id]})
       redirect(keys_url)
+    end
+  end
+
+end
+
+VALID_RESPONSE_FORMATS = ['xml', 'XML', 'html', 'HTML', 'json', 'JSON']
+#--
+#*  F  *  I  *  X  *  M  *  E - will ultimately use Accept header to do this
+#--
+get '/api/buckets/:bucket/:blob' do
+  response_format = params['format'] unless (params['format'].nil? || !VALID_RESPONSE_FORMATS.include?(params['format']))
+  response_format ||= 'html'
+  @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
+  if @blob
+    respond_to do |format|
+      case response_format
+        when /html/i then format.html { haml :'blobs/show' }
+        when /xml/i then format.xml { haml :'blobs/show' }
+        when /json/i then format.json { convert_to_json(blobs, @blob) }
+      end
+    end
+  else
+      report_error(404, 'not_found')
+  end
+end
+
+get '/api/buckets/new' do
+  respond_to do |format|
+    format.html { haml :"buckets/new" }
+  end
+end
+
+
+get '/api/buckets/:bucket/:blob/content' do
+  BlobStream.call(env, credentials, params)
+end
+
+collection :buckets do
+  description "Cloud Storage buckets - aka buckets|directories|folders"
+
+  operation :index do
+    description "List buckets associated with this account"
+    param :id,        :string
+    param :name,      :string
+    param :size,      :string
+    control { filter_all(:buckets) }
+  end
+
+  operation :show do
+    description "Show bucket"
+    param :id,        :string
+    control { show(:bucket) }
+  end
+
+  operation :create do
+    description "Create a new bucket (POST /api/buckets)"
+    param :name,      :string,    :required
+    control do
+      @bucket = driver.create_bucket(credentials, params[:name], params)
+      respond_to do |format|
+        format.xml do
+          response.status = 201  # Created
+          response['Location'] = bucket_url(@bucket.id)
+          haml :"buckets/show"
+        end
+        format.html do
+          redirect bucket_url(@bucket.id) if @bucket and @bucket.id
+          redirect buckets_url
+        end
+      end
+    end
+  end
+
+  operation :destroy do
+    description "Delete a bucket by name - bucket must be empty"
+    param :id,    :string,    :required
+    control do
+      driver.delete_bucket(credentials, params[:id], params)
+      redirect(buckets_url)
     end
   end
 
