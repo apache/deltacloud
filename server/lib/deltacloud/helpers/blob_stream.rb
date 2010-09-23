@@ -18,7 +18,7 @@
 #--
 # based on the example from http://macournoyer.com/blog/2009/06/04/pusher-and-async-with-thin/
 #--
-
+require 'eventmachine'
 class BlobStream
   AsyncResponse = [-1, {}, []].freeze
   def self.call(env, credentials, params)
