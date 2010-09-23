@@ -358,22 +358,14 @@ collection :keys do
 
 end
 
-VALID_RESPONSE_FORMATS = ['xml', 'XML', 'html', 'HTML', 'json', 'JSON']
-#--
-#*  F  *  I  *  X  *  M  *  E - will ultimately use Accept header to do this
-#--
 get '/api/buckets/:bucket/:blob' do
-  response_format = params['format'] unless (params['format'].nil? || !VALID_RESPONSE_FORMATS.include?(params['format']))
-  response_format ||= 'html'
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
   if @blob
     respond_to do |format|
-      case response_format
-        when /html/i then format.html { haml :'blobs/show' }
-        when /xml/i then format.xml { haml :'blobs/show' }
-        when /json/i then format.json { convert_to_json(blobs, @blob) }
+      format.html { haml :"blobs/show" }
+      format.xml { haml :"blobs/show" }
+      format.json { convert_to_json(blobs, @blob) }
       end
-    end
   else
       report_error(404, 'not_found')
   end
