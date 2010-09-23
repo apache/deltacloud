@@ -13,6 +13,8 @@ require 'deltacloud/models/key'
 require 'deltacloud/models/instance_profile'
 require 'deltacloud/models/storage_snapshot'
 require 'deltacloud/models/storage_volume'
+require 'deltacloud/models/bucket'
+require 'deltacloud/models/blob'
 
 require 'deltacloud/validation'
 require 'deltacloud/helpers'
