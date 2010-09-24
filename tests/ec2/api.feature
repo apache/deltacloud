@@ -16,6 +16,7 @@ Feature: Accessing API entry points
     | realms     |
     | instances  |
     | keys  |
+    | buckets |
     | images     |
     | instance_states |
     | hardware_profiles  |
