@@ -18,6 +18,7 @@
 
 
 require 'deltacloud/base_driver'
+require 'active_support'
 require 'AWS'
 require 'right_aws'
 
