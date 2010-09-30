@@ -42,10 +42,9 @@ module DeltacloudUnitTest
     end
 
     def test_it_responses_to_png
-      do_request '/api/instance_states', {}, false, { :format => :png }
+      do_request '/api/instance_states.png', {}, false
       last_response.status.should == 200
       last_response.headers['Content-Type'].should == 'image/png'
-      #last_response.headers['Content-Length'].should == '4371'
     end
 
   end

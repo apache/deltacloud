@@ -30,7 +30,7 @@ module DeltacloudUnitTest
 
     def verify_url_for(url, expected_url, mode=:path_only, params={}, rack_env={})
       # generate a unique url for each test
-      test_url = "/url_for_test/#{expected_url.hash}/#{Time.now.to_f}"
+      test_url = "/url_for_test/#{expected_url.hash}/#{Time.now.to_i}"
       # Create our sinatra test endpoint
       self.class.create_test_url_content(test_url, url, mode)
 

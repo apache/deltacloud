@@ -70,8 +70,9 @@ module DeltacloudUnitTest
       params = {
         :image_id => 'img1'
       }
-      post '/api/instances', params, authenticate(:format => :xml)
-      last_response.status.should == 302
+      header 'Accept', accept_header(:xml)
+      post '/api/instances', params, authenticate
+      last_response.status.should == 201
       last_response.headers['Location'].should_not == nil
       do_xml_request last_response.headers['Location'], {}, true
       (last_xml_response/'instance/name').should_not == nil
@@ -84,8 +85,9 @@ module DeltacloudUnitTest
         :image_id => 'img1',
         :name => "unit_test_instance1"
       }
+      header 'Accept', accept_header(:xml)
       post '/api/instances', params, authenticate(:format => :xml)
-      last_response.status.should == 302
+      last_response.status.should == 201
       last_response.headers['Location'].should_not == nil
       do_xml_request last_response.headers['Location'], {}, true
       (last_xml_response/'instance/name').text.should == 'unit_test_instance1'
@@ -99,8 +101,9 @@ module DeltacloudUnitTest
         :name => "unit_test_instance1",
         :hwp_id => "m1-xlarge"
       }
+      header 'Accept', accept_header(:xml)
       post '/api/instances', params, authenticate(:format => :xml)
-      last_response.status.should == 302
+      last_response.status.should == 201
       last_response.headers['Location'].should_not == nil
       do_xml_request last_response.headers['Location'], {}, true
       (last_xml_response/'instance/name').text.should == 'unit_test_instance1'
@@ -114,7 +117,7 @@ module DeltacloudUnitTest
         do_xml_request "/api/instances/#{instance_id}", {}, true
         stop_url = (last_xml_response/'actions/link[@rel="stop"]').first['href']
         stop_url.should_not == nil
-        post create_url(stop_url), {}, authenticate(:format => :xml)
+        post create_url(stop_url), { :format => 'xml' }, authenticate
         last_response.status.should == 200
         instance = Nokogiri::XML(last_response.body)
         test_instance_attributes(instance)
@@ -122,7 +125,7 @@ module DeltacloudUnitTest
         do_xml_request "/api/instances/#{instance_id}", {}, true
         start_url = (last_xml_response/'actions/link[@rel="start"]').first['href']
         start_url.should_not == nil
-        post create_url(start_url), {}, authenticate(:format => :xml)
+        post create_url(start_url), { :format => 'xml'}, authenticate
         last_response.status.should == 200
         instance = Nokogiri::XML(last_response.body)
         test_instance_attributes(instance)
@@ -135,7 +138,7 @@ module DeltacloudUnitTest
         do_xml_request "/api/instances/#{instance_id}", {}, true
         reboot_url = (last_xml_response/'actions/link[@rel="reboot"]').first['href']
         reboot_url.should_not == nil
-        post create_url(reboot_url), {}, authenticate(:format => :xml)
+        post create_url(reboot_url), { :format => "xml"}, authenticate
         last_response.status.should == 200
         instance = Nokogiri::XML(last_response.body)
         test_instance_attributes(instance)
@@ -148,7 +151,7 @@ module DeltacloudUnitTest
         do_xml_request "/api/instances/#{instance_id}", {}, true
         stop_url = (last_xml_response/'actions/link[@rel="stop"]').first['href']
         stop_url.should_not == nil
-        post create_url(stop_url), {}, authenticate(:format => :xml)
+        post create_url(stop_url), {}, authenticate
         last_response.status.should == 200
         instance = Nokogiri::XML(last_response.body)
         test_instance_attributes(instance)
@@ -161,7 +164,7 @@ module DeltacloudUnitTest
         do_xml_request "/api/instances/#{instance_id}", {}, true
         destroy_url = (last_xml_response/'actions/link[@rel="destroy"]').first['href']
         destroy_url.should_not == nil
-        delete create_url(destroy_url), {}, authenticate(:format => :xml)
+        delete create_url(destroy_url), {}, authenticate
         last_response.status.should == 302
         do_xml_request last_response.headers['Location'], {}, true
         (last_xml_response/'instances').should_not == nil

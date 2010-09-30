@@ -33,11 +33,11 @@ module DeltacloudTestCommon
     "Basic " + Base64.encode64("#{credentials[:user]}:#{credentials[:password]}")
   end
 
-  def authenticate(opts={ :format => :xml })
+  def authenticate(opts={})
     credentials = opts[:credentials] || { :user => ENV['API_USER'], :password => ENV['API_PASSWORD']}
     return {
       'HTTP_AUTHORIZATION' => auth_hash(credentials),
-    }.merge(accept_header(opts[:format]))
+    }
   end
 
   def default_headers
@@ -46,21 +46,24 @@ module DeltacloudTestCommon
 
   def accept_header(format=:xml)
     case format
-      when :json then { 'Accept' => 'application/json' }
-      when :xml then { 'Accept' => 'application/xml;q=1' }
-      else { 'Accept' => 'application/xhtml+xml;text/html' }
-    end.merge(default_headers)
+      when :json then 'application/json;q=0.9'
+      when :html then 'text/html;q=0.9'
+      when :xml then 'application/xml;q=0.9'
+      else 'application/xml;q=0.9'
+    end
   end
 
   def create_url(url, format = :xml)
-    "#{url}.#{format.to_s}"
+    "#{url}"
   end
 
   def do_request(uri, params=nil, authentication=false, opts={ :format => :xml })
-    get create_url(uri, opts[:format]), params || {}, (authentication) ? authenticate(opts) : {}
+    header 'Accept', accept_header(opts[:format])
+    get create_url(uri), params || {}, (authentication) ? authenticate(opts) : {}
   end
 
   def do_xml_request(uri, params=nil, authentication=false)
+    header 'Accept', accept_header(:xml)
     get create_url(uri), params || {}, (authentication) ? authenticate : {}
     puts "[401] Authentication required to get #{uri}" if last_response.status == 401
     if last_response.status == 200
