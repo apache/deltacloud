@@ -154,10 +154,10 @@ Feature: Managing instances
   Scenario: Destroying created instance
     Given URI /api/instances exists
     And authentification is required for this URI
-    When client want to 'stop' created instance
+    When client want to 'stop' first instance
     And client follow link in actions
-    Then client should get created instance
+    Then client should get this instance
     And this instance should be in 'STOPPED' state
-    When client want to 'destroy' created instance
+    When client want to 'destroy' first instance
     And client follow link in actions
     And this instance should be destroyed

@@ -6,8 +6,17 @@ Given /^URI ([\w\/\-_]+) exists$/ do |uri|
 end
 
 Given /^URI ([\w\/\-_]+) exists in (.+) format$/ do |uri, format|
-  @uri = "#{uri}.#{format.downcase}"
-  get @uri, {}
+  @no_header = true
+  case format.downcase
+    when 'xml':
+      header 'Accept', 'application/xml;q=9'
+    when 'json'
+      header 'Accept', 'application/json;q=9'
+    when 'html'
+      header 'Accept', 'application/xml+xhtml;q=9'
+  end
+  @uri = uri
+  get uri, {}
   last_response.status.should_not == 404
   last_response.status.should_not == 500
 end
@@ -47,14 +56,6 @@ Then /^this URI should be available in (.+) format$/ do |formats|
     last_response.status.should == 200
   end
   @no_header = false
-end
-
-Then /^client should get list of valid entry points$/ do
-  links = []
-  output_xml.xpath('/api/link').each do |entry_point|
-    links << entry_point['rel']
-  end
-  @entry_points.should == links.sort
 end
 
 Then /^each (\w+) should have '(.+)' attribute with valid (.+)$/ do |el, attr, t|

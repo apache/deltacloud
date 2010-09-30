@@ -26,7 +26,14 @@ Feature: Accessing API entry points
     Given URI /api exists
     And authentification is not required for this URI
     When client access this URI
-    Then client should get list of valid entry points
+    Then client should get list of valid entry points:
+    | realms     |
+    | instances  |
+    | images     |
+    | instance_states |
+    | hardware_profiles  |
+    | storage_snapshots  |
+    | storage_volumes    |
     And each link should have 'rel' attribute with valid name
     And each link should have 'href' attribute with valid URL
     When client follow this attribute
@@ -37,5 +44,5 @@ Feature: Accessing API entry points
     And authentification is not required for this URI
     When client access this URI
     Then client should get list of features inside 'instances':
-    | hardware_profiles |
     | user_name |
+    | hardware_profiles |

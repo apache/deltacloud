@@ -31,15 +31,14 @@ When /^client want to '(\w+)' first instance$/ do |action|
 end
 
 When /^client follow link in actions$/ do
-  unless @instance_url
-    l = output_xml.xpath("/instances/instance[1]/actions/link[@rel = '#{@action}']").first
-  else
-    l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
-  end
-  unless @action=='destroy'
-    post l[:href], { :id => @instance.xpath('@id').first.text }
-  else
+
+  @instance ||= output_xml.xpath("/instance").first
+  l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
+
+  if @action.eql?('destroy')
     delete l[:href], { :id => @instance.xpath('@id').first.text }
+  else
+    post l[:href], { :id => @instance.xpath('@id').first.text }
   end
   last_response.status.should_not == 500
 end
@@ -100,9 +99,10 @@ Then /^client should get created instance$/ do
 end
 
 When /^this instance should be destroyed$/ do
-  # TODO: Fix this bug in mock driver ?
-  #get @instance_url, {}
-  #last_response.status.should == 404
+  puts @instance[:href].to_s
+  get @instance[:href].to_s, {}
+  last_response.status.should == 404
+  output_xml.xpath('/error').first[:status].should == '404'
 end
 
 Then /^client should get HTML form$/ do
