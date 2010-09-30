@@ -6,7 +6,15 @@ Given /^URI ([\w\/\-_]+) exists$/ do |uri|
 end
 
 Given /^URI ([\w\/\-_]+) exists in (.+) format$/ do |uri, format|
-  @uri = "#{uri}.#{format.downcase}"
+  @uri = uri
+  case format.downcase
+    when 'xml':
+      header 'Accept', 'application/xml;q=9'
+    when 'json'
+      header 'Accept', 'application/json;q=9'
+    when 'html'
+      header 'Accept', 'application/xml+xhtml;q=9'
+  end
   get @uri, {}
   last_response.status.should_not == 404
   last_response.status.should_not == 500
@@ -43,7 +51,15 @@ end
 Then /^this URI should be available in (.+) format$/ do |formats|
   @no_header = true
   formats.split(',').each do |format|
-    get "#{@uri}.#{format.strip.downcase}", {}
+    case format.downcase
+    when 'xml':
+      header 'Accept', 'application/xml;q=9'
+    when 'json'
+      header 'Accept', 'application/json;q=9'
+    when 'html'
+      header 'Accept', 'application/xml+xhtml;q=9'
+    end
+    get @uri, {}
     last_response.status.should == 200
   end
   @no_header = false

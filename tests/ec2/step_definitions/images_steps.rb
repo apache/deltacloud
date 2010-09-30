@@ -44,6 +44,7 @@ end
 
 When /^client want to show '(.+)' (.+)$/ do |id, el|
   @uri = "/api/#{el.pluralize.tr('-', '_')}/#{id}"
+  puts @uri
   get @uri, {}
   @element = output_xml.xpath("/#{el}").first
   @element.should_not be_nil
