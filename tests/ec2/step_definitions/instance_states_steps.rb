@@ -25,7 +25,7 @@ Then /^each transitions should have 'to' attribute$/ do
 end
 
 When /^client wants (\w+) format$/ do |format|
-  get "#{@uri}.#{format.downcase}", {}
+  get "#{@uri}", { :format => format.downcase }
 end
 
 Then /^client should get PNG image$/ do
