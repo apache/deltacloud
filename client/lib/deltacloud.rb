@@ -194,7 +194,12 @@ module DeltaCloud
                     actions << [link['rel'], link[:href]]
                     define_method :"#{link['rel'].sanitize}!" do
                       client.request(:"#{link['method']}", link['href'], {}, {})
-                      client.send(:"#{item.name}", item['id'])
+                      @current_state = client.send(:"#{item.name}", item['id']).state
+                      obj.instance_eval do |o|
+                        def state
+                          @current_state
+                        end
+                      end
                     end
                   end
                   define_method :actions do
