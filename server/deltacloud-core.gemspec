@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     which implements the REST interface.
   EOF
 
-  s.version = '0.0.6'
+  s.version = '0.0.7'
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
   s.files = FileList[
@@ -68,9 +68,10 @@ Gem::Specification.new do |s|
   s.add_dependency('haml', '>= 2.2.17')
   s.add_dependency('sinatra', '>= 0.9.4')
   s.add_dependency('rack', '>= 1.0.0')
+  s.add_dependency('rack-accept', '~> 0.4.3')
   s.add_dependency('thin', '>= 1.2.5') if s.platform.to_s == 'ruby'
   s.add_dependency('rerun', '>= 0.5.2') if s.platform.to_s == 'ruby'
-  s.add_dependency('json', '>= 1.4.3')
+  s.add_dependency('json', '>= 1.1.9')
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1')
   s.add_development_dependency('rack-test', '>= 0.5.3')
