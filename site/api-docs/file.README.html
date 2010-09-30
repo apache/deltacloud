@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Documentation by YARD 0.6.1</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>Deltacloud API</h1>
+
+<p>Hooray, you have successfully checked out Deltacloud Core.
+Deltacloud protects yourapps from cloud API changes and incompatibilities,
+so you can concentrate on managing cloud instances the way you want.</p>
+
+<p>You can find more documentation at the Deltacloud web site at:
+<a href="http://incubator.apache.org/deltacloud/">incubator.apache.org/deltacloud</a></p>
+
+<h2>Prerequisites</h2>
+
+<p>Deltacloud Core depends on a number of other Ruby libraries. The easiest
+way to install them is to either install the deltacloud-core package from
+your distribution is repository, e.g. <code>yum install deltacloud-core</code> on
+Fedora, or install the gem with <code>gem install deltacloud-core</code>.</p>
+
+<p>If you do not want to do that, have a look at the dependencies in the gem
+spec for deltacloud-core and install them manually from git repository:</p>
+
+<pre class="code">$ <span class='mkdir identifier id'>mkdir</span> <span class='deltacloud identifier id'>deltacloud</span>
+$ <span class='cd identifier id'>cd</span> <span class='deltacloud identifier id'>deltacloud</span>
+$ <span class='git identifier id'>git</span> <span class='svn identifier id'>svn</span> <span class='init identifier id'>init</span> <span class='minus op'>-</span><span class='s identifier id'>s</span> <span class='https identifier id'>https</span><span class='symbol val'>:/</span><span class='regexp val'>/svn.apache.org/</span><span class='repos identifier id'>repos</span><span class='div op'>/</span><span class='asf identifier id'>asf</span><span class='div op'>/</span><span class='incubator identifier id'>incubator</span><span class='div op'>/</span><span class='deltacloud identifier id'>deltacloud</span>
+$ <span class='git identifier id'>git</span> <span class='svn identifier id'>svn</span> <span class='fetch identifier id'>fetch</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='log identifier id'>log</span><span class='minus op'>-</span><span class='window identifier id'>window</span><span class='minus op'>-</span><span class='size identifier id'>size</span> <span class='integer val'>10000</span>
+$ <span class='git identifier id'>git</span> <span class='clone identifier id'>clone</span> <span class='git identifier id'>git</span><span class='symbol val'>:/</span><span class='regexp val'>/git.apache.org/</span><span class='deltacloud identifier id'>deltacloud</span><span class='dot token'>.</span><span class='git identifier id'>git</span> <span class='core identifier id'>core</span>
+</pre>
+
+<h2>Running</h2>
+
+<p>To get started, run <code>./bin/deltacloudd -i mock</code>; this will run Deltacloud
+Core with the mock driver, a driver that does not talk to a cloud, but
+simulates being one. It will store data about its instances etc. in
+<code>/var/tmp/deltacloud-mock-$USER</code>; that directory will automatically populated
+with sample data if it does not exist. Subsequent runs will continue using
+the data found there. If you need to start over from scratch, just delete
+that directory and restart deltacloudd.</p>
+
+<p>Once you have the server running, point your browser at
+<a href="http://localhost:3001/api">localhost:3001/api</a> to get a HTML version of Deltacloud Core.
+If you want to look at the XML that REST clients will see, simply add
+<code>?format=xml</code> to URLs. Deltacloud Core does content negotiation; REST clients should not
+set <em>format</em> to URLs, they should simply set the <em>Accept</em> header appropriately.</p>
+
+<p>Some operations require authentication. For the mock driver, the username
+and password are <em>mockuser</em> and <em>mockpassword</em>. A current list of drivers
+and what kind of credentials they need can be found at
+Deltacloud Incubator site (http://incubator.apache.org/deltacloud/drivers.html)</p>
+
+<p>Happy hacking - and do not forget to send patches to the mailing list (see
+<a href="https://fedorahosted.org/mailman/listinfo/deltacloud-devel">deltacloud-devel</a> or
+<a href="http://mail-archives.apache.org/mod_mbox/incubator-deltacloud-dev">incubator-deltacloud-dev</a>
+You could send patches using <code>git format-patch master</code> and then <code>git send-email
+--thread</code>. Example <em>git/.config</em> file:</p>
+
+<pre class="code"><span class='lbrack token'>[</span><span class='sendemail identifier id'>sendemail</span><span class='rbrack token'>]</span>
+    <span class='to identifier id'>to</span> <span class='assign token'>=</span> <span class='deltacloud identifier id'>deltacloud</span><span class='minus op'>-</span><span class='dev identifier id'>dev</span><span class='@incubator ivar id'>@incubator</span><span class='dot token'>.</span><span class='apache identifier id'>apache</span><span class='dot token'>.</span><span class='org identifier id'>org</span>
+    <span class='signedoffbycc identifier id'>signedoffbycc</span><span class='assign token'>=</span><span class='no identifier id'>no</span>
+    <span class='chainreplyto identifier id'>chainreplyto</span><span class='assign token'>=</span><span class='no identifier id'>no</span>
+    <span class='smtpserver identifier id'>smtpserver</span><span class='assign token'>=</span><span class='YOUR_SMTP_SERVER_HERE constant id'>YOUR_SMTP_SERVER_HERE</span>
+    <span class='thread identifier id'>thread</span><span class='assign token'>=</span><span class='yes identifier id'>yes</span>
+    <span class='from identifier id'>from</span><span class='assign token'>=</span><span class='YOUR_EMAIL_HERE constant id'>YOUR_EMAIL_HERE</span>
+    <span class='suppresscc identifier id'>suppresscc</span><span class='assign token'>=</span><span class='all identifier id'>all</span>
+</pre></div></div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:49 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,632 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Deltacloud::Drivers::Rackspace::RackspaceClient</title>
+<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (R)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Deltacloud.html" title="Deltacloud (module)">Deltacloud</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Drivers.html" title="Deltacloud::Drivers (module)">Drivers</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Rackspace.html" title="Deltacloud::Drivers::Rackspace (module)">Rackspace</a></span></span>
+     &raquo; 
+    <span class="title">RackspaceClient</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Deltacloud::Drivers::Rackspace::RackspaceClient
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Deltacloud::Drivers::Rackspace::RackspaceClient</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud/drivers/rackspace/rackspace_client.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="AUTH_API-classvariable" class="">@@AUTH_API =
+          
+        </dt>
+        <dd><pre class="code"><span class='URI constant id'>URI</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='string val'>'https://auth.api.rackspacecloud.com/v1.0'</span><span class='rparen token'>)</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_server-instance_method" title="#delete_server (instance method)">- (Object) <strong>delete_server</strong>(server_id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#headers-instance_method" title="#headers (instance method)">- (Object) <strong>headers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (RackspaceClient) <strong>initialize</strong>(username, auth_key) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of RackspaceClient.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_flavors-instance_method" title="#list_flavors (instance method)">- (Object) <strong>list_flavors</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_images-instance_method" title="#list_images (instance method)">- (Object) <strong>list_images</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#list_servers-instance_method" title="#list_servers (instance method)">- (Object) <strong>list_servers</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_server_details-instance_method" title="#load_server_details (instance method)">- (Object) <strong>load_server_details</strong>(server_id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot_server-instance_method" title="#reboot_server (instance method)">- (Object) <strong>reboot_server</strong>(server_id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_server-instance_method" title="#start_server (instance method)">- (Object) <strong>start_server</strong>(image_id, flavor_id, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Deltacloud::Drivers::Rackspace::RackspaceClient (class)">RackspaceClient</a></span></tt>) <strong>initialize</strong>(username, auth_key) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of RackspaceClient
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 36</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='username identifier id'>username</span><span class='comma token'>,</span> <span class='auth_key identifier id'>auth_key</span><span class='rparen token'>)</span>
+  <span class='http identifier id'>http</span> <span class='assign token'>=</span> <span class='Net constant id'>Net</span><span class='colon2 op'>::</span><span class='HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@@AUTH_API ivar id'>@@AUTH_API</span><span class='dot token'>.</span><span class='host identifier id'>host</span><span class='comma token'>,</span><span class='@@AUTH_API ivar id'>@@AUTH_API</span><span class='dot token'>.</span><span class='port identifier id'>port</span><span class='rparen token'>)</span>
+  <span class='http identifier id'>http</span><span class='dot token'>.</span><span class='use_ssl identifier id'>use_ssl</span> <span class='assign token'>=</span> <span class='true true kw'>true</span>
+  <span class='authed identifier id'>authed</span> <span class='assign token'>=</span> <span class='http identifier id'>http</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='@@AUTH_API ivar id'>@@AUTH_API</span><span class='dot token'>.</span><span class='path identifier id'>path</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='string val'>'X-Auth-User'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='username identifier id'>username</span><span class='comma token'>,</span> <span class='string val'>'X-Auth-Key'</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='auth_key identifier id'>auth_key</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='authed identifier id'>authed</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='Net constant id'>Net</span><span class='colon2 op'>::</span><span class='HTTPUnauthorized constant id'>HTTPUnauthorized</span><span class='rparen token'>)</span>
+    <span class='raise identifier id'>raise</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='AuthException constant id'>AuthException</span><span class='comma token'>,</span> <span class='string val'>&quot;Failed to authenticate to Rackspace&quot;</span>
+  <span class='elsif elsif kw'>elsif</span> <span class='notop op'>!</span><span class='authed identifier id'>authed</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='Net constant id'>Net</span><span class='colon2 op'>::</span><span class='HTTPSuccess constant id'>HTTPSuccess</span><span class='rparen token'>)</span>
+    <span class='backend_error! fid id'>backend_error!</span><span class='lparen token'>(</span><span class='resp identifier id'>resp</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='@auth_token ivar id'>@auth_token</span>  <span class='assign token'>=</span> <span class='authed identifier id'>authed</span><span class='dot token'>.</span><span class='header identifier id'>header</span><span class='lbrack token'>[</span><span class='string val'>'X-Auth-Token'</span><span class='rbrack token'>]</span>
+  <span class='@service_uri ivar id'>@service_uri</span> <span class='assign token'>=</span> <span class='URI constant id'>URI</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='authed identifier id'>authed</span><span class='dot token'>.</span><span class='header identifier id'>header</span><span class='lbrack token'>[</span><span class='string val'>'X-Server-Management-Url'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='@service ivar id'>@service</span> <span class='assign token'>=</span> <span class='Net constant id'>Net</span><span class='colon2 op'>::</span><span class='HTTP constant id'>HTTP</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='@service_uri ivar id'>@service_uri</span><span class='dot token'>.</span><span class='host identifier id'>host</span><span class='comma token'>,</span> <span class='@service_uri ivar id'>@service_uri</span><span class='dot token'>.</span><span class='port identifier id'>port</span><span class='rparen token'>)</span>
+  <span class='@service ivar id'>@service</span><span class='dot token'>.</span><span class='use_ssl identifier id'>use_ssl</span> <span class='assign token'>=</span> <span class='true true kw'>true</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="delete_server-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_server</strong>(server_id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+79
+80
+81</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 79</span>
+
+<span class='def def kw'>def</span> <span class='delete_server identifier id'>delete_server</span><span class='lparen token'>(</span><span class='server_id identifier id'>server_id</span><span class='rparen token'>)</span>
+  <span class='delete identifier id'>delete</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/servers/#{server_id}&quot;</span><span class='comma token'>,</span> <span class='headers identifier id'>headers</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="headers-instance_method">
+  
+    - (<tt>Object</tt>) <strong>headers</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 89</span>
+
+<span class='def def kw'>def</span> <span class='headers identifier id'>headers</span>
+  <span class='lbrace token'>{</span><span class='string val'>&quot;Accept&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;application/json&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;X-Auth-Token&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='@auth_token ivar id'>@auth_token</span><span class='comma token'>,</span> <span class='string val'>&quot;Content-Type&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;application/json&quot;</span><span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="list_flavors-instance_method">
+  
+    - (<tt>Object</tt>) <strong>list_flavors</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 51</span>
+
+<span class='def def kw'>def</span> <span class='list_flavors identifier id'>list_flavors</span>
+  <span class='JSON constant id'>JSON</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'/flavors/detail'</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'flavors'</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="list_images-instance_method">
+  
+    - (<tt>Object</tt>) <strong>list_images</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 55</span>
+
+<span class='def def kw'>def</span> <span class='list_images identifier id'>list_images</span>
+  <span class='JSON constant id'>JSON</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'/images/detail'</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'images'</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="list_servers-instance_method">
+  
+    - (<tt>Object</tt>) <strong>list_servers</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 59</span>
+
+<span class='def def kw'>def</span> <span class='list_servers identifier id'>list_servers</span>
+    <span class='JSON constant id'>JSON</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='string val'>'/servers/detail'</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'servers'</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_server_details-instance_method">
+  
+    - (<tt>Object</tt>) <strong>load_server_details</strong>(server_id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 64</span>
+
+<span class='def def kw'>def</span> <span class='load_server_details identifier id'>load_server_details</span><span class='lparen token'>(</span> <span class='server_id identifier id'>server_id</span> <span class='rparen token'>)</span>
+  <span class='JSON constant id'>JSON</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/servers/#{server_id}&quot;</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>'server'</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reboot_server-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reboot_server</strong>(server_id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 83</span>
+
+<span class='def def kw'>def</span> <span class='reboot_server identifier id'>reboot_server</span><span class='lparen token'>(</span><span class='server_id identifier id'>server_id</span><span class='rparen token'>)</span>
+  <span class='json identifier id'>json</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:reboot</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='symbol val'>:type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='symbol val'>:SOFT</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='to_json identifier id'>to_json</span>
+  <span class='post identifier id'>post</span><span class='lparen token'>(</span><span class='dstring node'>&quot;/servers/#{server_id}/action&quot;</span><span class='comma token'>,</span> <span class='json identifier id'>json</span><span class='comma token'>,</span> <span class='headers identifier id'>headers</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="start_server-instance_method">
+  
+    - (<tt>Object</tt>) <strong>start_server</strong>(image_id, flavor_id, name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75
+76
+77</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_client.rb', line 69</span>
+
+<span class='def def kw'>def</span> <span class='start_server identifier id'>start_server</span><span class='lparen token'>(</span><span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='flavor_id identifier id'>flavor_id</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='json identifier id'>json</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:server</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='name identifier id'>name</span><span class='comma token'>,</span>
+                        <span class='symbol val'>:imageId</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='image_id identifier id'>image_id</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='comma token'>,</span>
+                        <span class='symbol val'>:flavorId</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='flavor_id identifier id'>flavor_id</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span> <span class='rbrace token'>}</span><span class='rbrace token'>}</span><span class='dot token'>.</span><span class='to_json identifier id'>to_json</span>
+  <span class='comment val'># FIXME: The response has the root password in 'adminPass'; we somehow</span>
+  <span class='comment val'># need to communicate this back since it's the only place where we can</span>
+  <span class='comment val'># get it from</span>
+  <span class='JSON constant id'>JSON</span><span class='dot token'>.</span><span class='parse identifier id'>parse</span><span class='lparen token'>(</span><span class='post identifier id'>post</span><span class='lparen token'>(</span><span class='string val'>&quot;/servers&quot;</span><span class='comma token'>,</span> <span class='json identifier id'>json</span><span class='comma token'>,</span> <span class='headers identifier id'>headers</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='rparen token'>)</span><span class='lbrack token'>[</span><span class='string val'>&quot;server&quot;</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:58 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

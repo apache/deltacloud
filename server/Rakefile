@@ -43,6 +43,13 @@ Rake::TestTask.new("test") { |t|
   t.warning = false
 }
 
+begin
+  require 'yard'
+  YARD::Rake::YardocTask.new do |t|
+    t.files   = ['lib/**/*.rb', '*.rb']   # optional
+  end
+rescue
+end
 
 @specs = ['ruby', 'java'].inject({}) do |hash, spec_platform|
   $platform = spec_platform

@@ -1,0 +1,496 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Rack::AcceptMediaTypes::AcceptMediaType</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (A)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Rack.html" title="Rack (module)">Rack</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../AcceptMediaTypes.html" title="Rack::AcceptMediaTypes (class)">AcceptMediaTypes</a></span></span>
+     &raquo; 
+    <span class="title">AcceptMediaType</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Rack::AcceptMediaTypes::AcceptMediaType
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Rack::AcceptMediaTypes::AcceptMediaType</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">Comparable</dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/sinatra/accept_media_types.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>
+http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#quality-instance_method" title="#quality (instance method)">- (Object) <strong>quality</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+qvalue = ( &quot;0&quot; [ &quot;.&quot; 0*3DIGIT ] ).
+</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#range-instance_method" title="#range (instance method)">- (Object) <strong>range</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+media-range = ( &quot;*/*&quot;
+</p>
+<pre class="code">
+              <span class='bitor op'>|</span> <span class='lparen token'>(</span> <span class='type identifier id'>type</span> <span class='string val'>&quot;/&quot;</span> <span class='string val'>&quot;*&quot;</span> <span class='rparen token'>)</span>
+              <span class='bitor op'>|</span> <span class='lparen token'>(</span> <span class='type identifier id'>type</span> <span class='string val'>&quot;/&quot;</span> <span class='subtype identifier id'>subtype</span> <span class='rparen token'>)</span>
+              <span class='rparen token'>)</span> <span class='mult op'>*</span><span class='lparen token'>(</span> <span class='string val'>&quot;;&quot;</span> <span class='parameter identifier id'>parameter</span> <span class='rparen token'>)</span><span class='dot token'>.</span>
+</pre>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3C%3D%3E-instance_method" title="#&lt;=&gt; (instance method)">- (Object) <strong>&lt;=&gt;</strong>(type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (AcceptMediaType) <strong>initialize</strong>(type) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+A new instance of AcceptMediaType.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid%3F-instance_method" title="#valid? (instance method)">- (Boolean) <strong>valid?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&quot;A weight is normalized to a real number in the range 0 through 1,
+where 0 is the minimum and 1 the maximum value.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Rack::AcceptMediaTypes::AcceptMediaType (class)">AcceptMediaType</a></span></tt>) <strong>initialize</strong>(type) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+A new instance of AcceptMediaType
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/accept_media_types.rb', line 99</span>
+
+<span class='def def kw'>def</span> <span class='initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='range identifier id'>range</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='params identifier id'>params</span> <span class='assign token'>=</span> <span class='type identifier id'>type</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>';'</span><span class='rparen token'>)</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='quality identifier id'>quality</span> <span class='assign token'>=</span> <span class='extract_quality identifier id'>extract_quality</span><span class='lparen token'>(</span><span class='params identifier id'>params</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="quality=-instance_method"></span>
+      <span id="quality-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="quality-instance_method">
+  
+    - (<tt>Object</tt>) <strong>quality</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+qvalue = ( &quot;0&quot; [ &quot;.&quot; 0*3DIGIT ] )
+</p>
+<pre class="code">
+       <span class='bitor op'>|</span> <span class='lparen token'>(</span> <span class='string val'>&quot;1&quot;</span> <span class='lbrack token'>[</span> <span class='string val'>&quot;.&quot;</span> <span class='integer val'>0</span><span class='mult op'>*</span><span class='integer val'>3</span><span class='lparen token'>(</span><span class='string val'>&quot;0&quot;</span><span class='rparen token'>)</span> <span class='rbrack token'>]</span> <span class='rparen token'>)</span>
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/accept_media_types.rb', line 97</span>
+
+<span class='def def kw'>def</span> <span class='quality identifier id'>quality</span>
+  <span class='@quality ivar id'>@quality</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="range=-instance_method"></span>
+      <span id="range-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="range-instance_method">
+  
+    - (<tt>Object</tt>) <strong>range</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+media-range = ( &quot;*/*&quot;
+</p>
+<pre class="code">
+              <span class='bitor op'>|</span> <span class='lparen token'>(</span> <span class='type identifier id'>type</span> <span class='string val'>&quot;/&quot;</span> <span class='string val'>&quot;*&quot;</span> <span class='rparen token'>)</span>
+              <span class='bitor op'>|</span> <span class='lparen token'>(</span> <span class='type identifier id'>type</span> <span class='string val'>&quot;/&quot;</span> <span class='subtype identifier id'>subtype</span> <span class='rparen token'>)</span>
+              <span class='rparen token'>)</span> <span class='mult op'>*</span><span class='lparen token'>(</span> <span class='string val'>&quot;;&quot;</span> <span class='parameter identifier id'>parameter</span> <span class='rparen token'>)</span>
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/accept_media_types.rb', line 93</span>
+
+<span class='def def kw'>def</span> <span class='range identifier id'>range</span>
+  <span class='@range ivar id'>@range</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="<=>-instance_method">
+  
+    - (<tt>Object</tt>) <strong>&lt;=&gt;</strong>(type) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/accept_media_types.rb', line 104</span>
+
+<span class='def def kw'>def</span> <span class='cmp op'>&lt;=&gt;</span><span class='lparen token'>(</span><span class='type identifier id'>type</span><span class='rparen token'>)</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='quality identifier id'>quality</span> <span class='cmp op'>&lt;=&gt;</span> <span class='type identifier id'>type</span><span class='dot token'>.</span><span class='quality identifier id'>quality</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="valid?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>valid?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&quot;A weight is normalized to a real number in the range 0 through 1,
+where 0 is the minimum and 1 the maximum value. If a parameter has a
+quality value of 0, then content with this parameter is `not
+acceptable&#8217; for the client.&quot;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/accept_media_types.rb', line 113</span>
+
+<span class='def def kw'>def</span> <span class='valid? fid id'>valid?</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='quality identifier id'>quality</span><span class='dot token'>.</span><span class='between? fid id'>between?</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='integer val'>.1</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:53 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

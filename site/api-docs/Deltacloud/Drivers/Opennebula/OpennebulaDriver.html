@@ -1,0 +1,573 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Deltacloud::Drivers::Opennebula::OpennebulaDriver</title>
+<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (O)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Deltacloud.html" title="Deltacloud (module)">Deltacloud</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Drivers.html" title="Deltacloud::Drivers (module)">Drivers</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Opennebula.html" title="Deltacloud::Drivers::Opennebula (module)">Opennebula</a></span></span>
+     &raquo; 
+    <span class="title">OpennebulaDriver</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Deltacloud::Drivers::Opennebula::OpennebulaDriver
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></li>
+          
+            <li class="next">Deltacloud::Drivers::Opennebula::OpennebulaDriver</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud/drivers/opennebula/opennebula_driver.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_instance-instance_method" title="#create_instance (instance method)">- (Object) <strong>create_instance</strong>(credentials, image_id, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_instance-instance_method" title="#destroy_instance (instance method)">- (Object) <strong>destroy_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-instance_method" title="#images (instance method)">- (Object) <strong>images</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Images.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances-instance_method" title="#instances (instance method)">- (Object) <strong>instances</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realms-instance_method" title="#realms (instance method)">- (Object) <strong>realms</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_instance-instance_method" title="#start_instance (instance method)">- (Object) <strong>start_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop_instance-instance_method" title="#stop_instance (instance method)">- (Object) <strong>stop_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../BaseDriver.html#blob-instance_method" title="Deltacloud::BaseDriver#blob (method)">#blob</a></span>, <span class='object_link'><a href="../../BaseDriver.html#blob_data-instance_method" title="Deltacloud::BaseDriver#blob_data (method)">#blob_data</a></span>, <span class='object_link'><a href="../../BaseDriver.html#blobs-instance_method" title="Deltacloud::BaseDriver#blobs (method)">#blobs</a></span>, <span class='object_link'><a href="../../BaseDriver.html#bucket-instance_method" title="Deltacloud::BaseDriver#bucket (method)">#bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#buckets-instance_method" title="Deltacloud::BaseDriver#buckets (method)">#buckets</a></span>, <span class='object_link'><a href="../../BaseDriver.html#catched_exceptions_list-instance_method" title="Deltacloud::BaseDriver#catched_exceptions_list (method)">#catched_exceptions_list</a></span>, <span class='object_link'><a href="../../BaseDriver.html#create_bucket-instance_method" title="Deltacloud::BaseDriver#create_bucket (method)">#create_bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#declare_feature-class_method" title="Deltacloud::BaseDriver.declare_feature (method)">declare_feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_hardware_profile-class_method" title="Deltacloud::BaseDriver.define_hardware_profile (method)">define_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_instance_states-class_method" title="Deltacloud::BaseDriver.define_instance_states (method)">define_instance_states</a></span>, <span class='object_link'><a href="../../BaseDriver.html#delete_bucket-instance_method" title="Deltacloud::BaseDriver#delete_bucket (method)">#delete_bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature-class_method" title="Deltacloud::BaseDriver.feature (method)">feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decl_for-class_method" title="Deltacloud::BaseDriver.feature_decl_for (method)">feature_decl_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decls-class_method" title="Deltacloud::BaseDriver.feature_decls (method)">feature_decls</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-class_method" title="Deltacloud::BaseDriver.features (method)">features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-instance_method" title="Deltacloud::BaseDriver#features (method)">#features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_hardware_profiles-instance_method" title="Deltacloud::BaseDriver#filter_hardware_profiles (method)">#filter_hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_on-instance_method" title="Deltacloud::BaseDriver#filter_on (method)">#filter_on</a></span>, <span class='object_link'><a href="../../BaseDriver.html#find_hardware_profile-instance_method" title="Deltacloud::BaseDriver#find_hardware_profile (method)">#find_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profile-instance_method" title="Deltacloud::BaseDriver#hardware_profile (method)">#hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-class_method" title="Deltacloud::BaseDriver.hardware_profiles (method)">hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-instance_method" title="Deltacloud::BaseDriver#hardware_profiles (method)">#hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#has_collection%3F-instance_method" title="Deltacloud::BaseDriver#has_collection? (method)">#has_collection?</a></span>, <span class='object_link'><a href="../../BaseDriver.html#image-instance_method" title="Deltacloud::BaseDriver#image (method)">#image</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance-instance_method" title="Deltacloud::BaseDriver#instance (method)">#instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_actions_for-instance_method" title="Deltacloud::BaseDriver#instance_actions_for (method)">#instance_actions_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-class_method" title="Deltacloud::BaseDriver.instance_state_machine (method)">instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-instance_method" title="Deltacloud::BaseDriver#instance_state_machine (method)">#instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#realm-instance_method" title="Deltacloud::BaseDriver#realm (method)">#realm</a></span>, <span class='object_link'><a href="../../BaseDriver.html#reboot_instance-instance_method" title="Deltacloud::BaseDriver#reboot_instance (method)">#reboot_instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#safely-instance_method" title="Deltacloud::BaseDriver#safely (method)">#safely</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshot-instance_method" title="Deltacloud::BaseDriver#storage_snapshot (method)">#storage_snapshot</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshots-instance_method" title="Deltacloud::BaseDriver#storage_snapshots (method)">#storage_snapshots</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volume-instance_method" title="Deltacloud::BaseDriver#storage_volume (method)">#storage_volume</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volumes-instance_method" title="Deltacloud::BaseDriver#storage_volumes (method)">#storage_volumes</a></span>, <span class='object_link'><a href="../../BaseDriver.html#supported_collections-instance_method" title="Deltacloud::BaseDriver#supported_collections (method)">#supported_collections</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="create_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_instance</strong>(credentials, image_id, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 126</span>
+
+<span class='def def kw'>def</span> <span class='create_instance identifier id'>create_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='occi_client identifier id'>occi_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+
+<span class='hwp_id identifier id'>hwp_id</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_id</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='string val'>'small'</span>
+
+<span class='instancexml identifier id'>instancexml</span> <span class='assign token'>=</span> <span class='ERB constant id'>ERB</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='OCCI_VM constant id'>OCCI_VM</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='result identifier id'>result</span><span class='lparen token'>(</span><span class='binding identifier id'>binding</span><span class='rparen token'>)</span>
+<span class='instancefile identifier id'>instancefile</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;|echo '#{instancexml}'&quot;</span>
+
+<span class='xmlvm identifier id'>xmlvm</span> <span class='assign token'>=</span> <span class='occi_client identifier id'>occi_client</span><span class='dot token'>.</span><span class='post_vms identifier id'>post_vms</span><span class='lparen token'>(</span><span class='instancefile identifier id'>instancefile</span><span class='rparen token'>)</span>
+
+<span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span><span class='xmlvm identifier id'>xmlvm</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="destroy_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>destroy_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 150</span>
+
+<span class='def def kw'>def</span> <span class='destroy_instance identifier id'>destroy_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='occi_action identifier id'>occi_action</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='string val'>'DONE'</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="images-instance_method">
+  
+    - (<tt>Object</tt>) <strong>images</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Images
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 72</span>
+
+<span class='def def kw'>def</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='occi_client identifier id'>occi_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+
+<span class='images identifier id'>images</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='imagesxml identifier id'>imagesxml</span> <span class='assign token'>=</span> <span class='occi_client identifier id'>occi_client</span><span class='dot token'>.</span><span class='get_images identifier id'>get_images</span>
+
+<span class='storage identifier id'>storage</span> <span class='assign token'>=</span> <span class='REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='Document constant id'>Document</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='imagesxml identifier id'>imagesxml</span><span class='rparen token'>)</span>
+<span class='storage identifier id'>storage</span><span class='dot token'>.</span><span class='root identifier id'>root</span><span class='dot token'>.</span><span class='elements identifier id'>elements</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='d identifier id'>d</span><span class='bitor op'>|</span>
+  <span class='id identifier id'>id</span> <span class='assign token'>=</span> <span class='d identifier id'>d</span><span class='dot token'>.</span><span class='attributes identifier id'>attributes</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='last identifier id'>last</span>
+
+  <span class='diskxml identifier id'>diskxml</span> <span class='assign token'>=</span> <span class='occi_client identifier id'>occi_client</span><span class='dot token'>.</span><span class='get_image identifier id'>get_image</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+
+  <span class='images identifier id'>images</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_image identifier id'>convert_image</span><span class='lparen token'>(</span><span class='diskxml identifier id'>diskxml</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+<span class='images identifier id'>images</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instances-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instances</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 106</span>
+
+<span class='def def kw'>def</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='occi_client identifier id'>occi_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+
+<span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='instancesxml identifier id'>instancesxml</span> <span class='assign token'>=</span> <span class='occi_client identifier id'>occi_client</span><span class='dot token'>.</span><span class='get_vms identifier id'>get_vms</span>
+
+<span class='computes identifier id'>computes</span> <span class='assign token'>=</span> <span class='REXML constant id'>REXML</span><span class='colon2 op'>::</span><span class='Document constant id'>Document</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='instancesxml identifier id'>instancesxml</span><span class='rparen token'>)</span>
+<span class='computes identifier id'>computes</span><span class='dot token'>.</span><span class='root identifier id'>root</span><span class='dot token'>.</span><span class='elements identifier id'>elements</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='d identifier id'>d</span><span class='bitor op'>|</span>
+  <span class='vm_id identifier id'>vm_id</span> <span class='assign token'>=</span> <span class='d identifier id'>d</span><span class='dot token'>.</span><span class='attributes identifier id'>attributes</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='last identifier id'>last</span>
+
+  <span class='computexml identifier id'>computexml</span> <span class='assign token'>=</span> <span class='occi_client identifier id'>occi_client</span><span class='dot token'>.</span><span class='get_vm identifier id'>get_vm</span><span class='lparen token'>(</span><span class='vm_id identifier id'>vm_id</span><span class='rparen token'>)</span>
+
+  <span class='instances identifier id'>instances</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span><span class='computexml identifier id'>computexml</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+      <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+      <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:state</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+<span class='instances identifier id'>instances</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realms-instance_method">
+  
+    - (<tt>Object</tt>) <strong>realms</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63
+64
+65</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='return return kw'>return</span> <span class='REALMS constant id'>REALMS</span> <span class='if if_mod kw'>if</span> <span class='lparen token'>(</span> <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span> <span class='rparen token'>)</span>
+<span class='results identifier id'>results</span> <span class='assign token'>=</span> <span class='REALMS constant id'>REALMS</span>
+<span class='results identifier id'>results</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='results identifier id'>results</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+<span class='results identifier id'>results</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="start_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>start_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 140</span>
+
+<span class='def def kw'>def</span> <span class='start_instance identifier id'>start_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='occi_action identifier id'>occi_action</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='string val'>'RESUME'</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stop_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/opennebula/opennebula_driver.rb', line 145</span>
+
+<span class='def def kw'>def</span> <span class='stop_instance identifier id'>stop_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='occi_action identifier id'>occi_action</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='string val'>'STOPPED'</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:56 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

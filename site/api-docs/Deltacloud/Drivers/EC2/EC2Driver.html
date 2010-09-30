@@ -1,0 +1,1682 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Deltacloud::Drivers::EC2::EC2Driver</title>
+<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (E)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Deltacloud.html" title="Deltacloud (module)">Deltacloud</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Drivers.html" title="Deltacloud::Drivers (module)">Drivers</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../EC2.html" title="Deltacloud::Drivers::EC2 (module)">EC2</a></span></span>
+     &raquo; 
+    <span class="title">EC2Driver</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Deltacloud::Drivers::EC2::EC2Driver
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></li>
+          
+            <li class="next">Deltacloud::Drivers::EC2::EC2Driver</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud/drivers/ec2/ec2_driver.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blob_data-instance_method" title="#blob_data (instance method)">- (Object) <strong>blob_data</strong>(credentials, bucket_id, blob_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Blob data --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blobs-instance_method" title="#blobs (instance method)">- (Object) <strong>blobs</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Blobs --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#buckets-instance_method" title="#buckets (instance method)">- (Object) <strong>buckets</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Buckets &#8212; get a list of your buckets from the s3 service.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_bucket-instance_method" title="#create_bucket (instance method)">- (Object) <strong>create_bucket</strong>(credentials, name, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Create bucket &#8212; valid values for bucket location:
+&#8216;EU&#8217;|&#8217;us-west1&#8217;|&#8217;ap-southeast-1&#8217; - if
+you don&#8217;t specify a location then by default buckets are created in
+&#8216;us-east&#8217; [but if you <b>do</b> specify &#8216;us-east&#8217;
+things blow up].
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_instance-instance_method" title="#create_instance (instance method)">- (Object) <strong>create_instance</strong>(credentials, image_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_key-instance_method" title="#create_key (instance method)">- (Object) <strong>create_key</strong>(credentials, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_bucket-instance_method" title="#delete_bucket (instance method)">- (Object) <strong>delete_bucket</strong>(credentials, name, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Delete_bucket --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_instance-instance_method" title="#destroy_instance (instance method)">- (Object) <strong>destroy_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_key-instance_method" title="#destroy_key (instance method)">- (Object) <strong>destroy_key</strong>(credentials, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#generate_instance-instance_method" title="#generate_instance (instance method)">- (Object) <strong>generate_instance</strong>(ec2, id, backup) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-instance_method" title="#images (instance method)">- (Object) <strong>images</strong>(credentials, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Images.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances-instance_method" title="#instances (instance method)">- (Object) <strong>instances</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Instances.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#key-instance_method" title="#key (instance method)">- (Object) <strong>key</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#keys-instance_method" title="#keys (instance method)">- (Object) <strong>keys</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realms-instance_method" title="#realms (instance method)">- (Object) <strong>realms</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Realms.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot_instance-instance_method" title="#reboot_instance (instance method)">- (Object) <strong>reboot_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop_instance-instance_method" title="#stop_instance (instance method)">- (Object) <strong>stop_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_snapshots-instance_method" title="#storage_snapshots (instance method)">- (Object) <strong>storage_snapshots</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Storage Snapshots.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_volumes-instance_method" title="#storage_volumes (instance method)">- (Object) <strong>storage_volumes</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Storage Volumes.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supported_collections-instance_method" title="#supported_collections (instance method)">- (Object) <strong>supported_collections</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_credentials%3F-instance_method" title="#valid_credentials? (instance method)">- (Boolean) <strong>valid_credentials?</strong>(credentials) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../BaseDriver.html#blob-instance_method" title="Deltacloud::BaseDriver#blob (method)">#blob</a></span>, <span class='object_link'><a href="../../BaseDriver.html#bucket-instance_method" title="Deltacloud::BaseDriver#bucket (method)">#bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#declare_feature-class_method" title="Deltacloud::BaseDriver.declare_feature (method)">declare_feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_hardware_profile-class_method" title="Deltacloud::BaseDriver.define_hardware_profile (method)">define_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_instance_states-class_method" title="Deltacloud::BaseDriver.define_instance_states (method)">define_instance_states</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature-class_method" title="Deltacloud::BaseDriver.feature (method)">feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decl_for-class_method" title="Deltacloud::BaseDriver.feature_decl_for (method)">feature_decl_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decls-class_method" title="Deltacloud::BaseDriver.feature_decls (method)">feature_decls</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-instance_method" title="Deltacloud::BaseDriver#features (method)">#features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-class_method" title="Deltacloud::BaseDriver.features (method)">features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_hardware_profiles-instance_method" title="Deltacloud::BaseDriver#filter_hardware_profiles (method)">#filter_hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_on-instance_method" title="Deltacloud::BaseDriver#filter_on (method)">#filter_on</a></span>, <span class='object_link'><a href="../../BaseDriver.html#find_hardware_profile-instance_method" title="Deltacloud::BaseDriver#find_hardware_profile (method)">#find_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profile-instance_method" title="Deltacloud::BaseDriver#hardware_profile (method)">#hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-class_method" title="Deltacloud::BaseDriver.hardware_profiles (method)">hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-instance_method" title="Deltacloud::BaseDriver#hardware_profiles (method)">#hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#has_collection%3F-instance_method" title="Deltacloud::BaseDriver#has_collection? (method)">#has_collection?</a></span>, <span class='object_link'><a href="../../BaseDriver.html#image-instance_method" title="Deltacloud::BaseDriver#image (method)">#image</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance-instance_method" title="Deltacloud::BaseDriver#instance (method)">#instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_actions_for-instance_method" title="Deltacloud::BaseDriver#instance_actions_for (method)">#instance_actions_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-instance_method" title="Deltacloud::BaseDriver#instance_state_machine (method)">#instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-class_method" title="Deltacloud::BaseDriver.instance_state_machine (method)">instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#realm-instance_method" title="Deltacloud::BaseDriver#realm (method)">#realm</a></span>, <span class='object_link'><a href="../../BaseDriver.html#safely-instance_method" title="Deltacloud::BaseDriver#safely (method)">#safely</a></span>, <span class='object_link'><a href="../../BaseDriver.html#start_instance-instance_method" title="Deltacloud::BaseDriver#start_instance (method)">#start_instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshot-instance_method" title="Deltacloud::BaseDriver#storage_snapshot (method)">#storage_snapshot</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volume-instance_method" title="Deltacloud::BaseDriver#storage_volume (method)">#storage_volume</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="blob_data-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blob_data</strong>(credentials, bucket_id, blob_id, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Blob data &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+395
+396
+397
+398
+399
+400</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 395</span>
+
+<span class='def def kw'>def</span> <span class='blob_data identifier id'>blob_data</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='bucket_id identifier id'>bucket_id</span><span class='comma token'>,</span> <span class='blob_id identifier id'>blob_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='s3_client identifier id'>s3_client</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='s3_client identifier id'>s3_client</span><span class='dot token'>.</span><span class='interface identifier id'>interface</span><span class='dot token'>.</span><span class='get identifier id'>get</span><span class='lparen token'>(</span><span class='bucket_id identifier id'>bucket_id</span><span class='comma token'>,</span> <span class='blob_id identifier id'>blob_id</span><span class='rparen token'>)</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='chunk identifier id'>chunk</span><span class='bitor op'>|</span>
+    <span class='yield yield kw'>yield</span> <span class='chunk identifier id'>chunk</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="blobs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blobs</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Blobs &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 379</span>
+
+<span class='def def kw'>def</span> <span class='blobs identifier id'>blobs</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='s3_client identifier id'>s3_client</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='blobs identifier id'>blobs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='s3_bucket identifier id'>s3_bucket</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='dot token'>.</span><span class='bucket identifier id'>bucket</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>'bucket'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='s3_bucket identifier id'>s3_bucket</span><span class='dot token'>.</span><span class='keys identifier id'>keys</span><span class='lparen token'>(</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='true true kw'>true</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='s3_object identifier id'>s3_object</span><span class='bitor op'>|</span>
+      <span class='blobs identifier id'>blobs</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_object identifier id'>convert_object</span><span class='lparen token'>(</span><span class='s3_object identifier id'>s3_object</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='blobs identifier id'>blobs</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span><span class='blobs identifier id'>blobs</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='blobs identifier id'>blobs</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="buckets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>buckets</strong>(credentials, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Buckets &#8212; get a list of your buckets from the s3 service
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 328</span>
+
+<span class='def def kw'>def</span> <span class='buckets identifier id'>buckets</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='buckets identifier id'>buckets</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='s3_client identifier id'>s3_client</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='bucket_list identifier id'>bucket_list</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='dot token'>.</span><span class='buckets identifier id'>buckets</span>
+    <span class='bucket_list identifier id'>bucket_list</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='current identifier id'>current</span><span class='bitor op'>|</span>
+      <span class='buckets identifier id'>buckets</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_bucket identifier id'>convert_bucket</span><span class='lparen token'>(</span><span class='current identifier id'>current</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='buckets identifier id'>buckets</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span><span class='buckets identifier id'>buckets</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='buckets identifier id'>buckets</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_bucket</strong>(credentials, name, opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Create bucket &#8212; valid values for bucket location:
+&#8216;EU&#8217;|&#8217;us-west1&#8217;|&#8217;ap-southeast-1&#8217; - if
+you don&#8217;t specify a location then by default buckets are created in
+&#8216;us-east&#8217; [but if you <b>do</b> specify &#8216;us-east&#8217;
+things blow up]
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 347</span>
+
+<span class='def def kw'>def</span> <span class='create_bucket identifier id'>create_bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='bucket identifier id'>bucket</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='begin begin kw'>begin</span>
+      <span class='s3_client identifier id'>s3_client</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+      <span class='bucket_location identifier id'>bucket_location</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>'location'</span><span class='rbrack token'>]</span>
+      <span class='if if kw'>if</span> <span class='bucket_location identifier id'>bucket_location</span>
+        <span class='bucket identifier id'>bucket</span> <span class='assign token'>=</span> <span class='RightAws constant id'>RightAws</span><span class='colon2 op'>::</span><span class='S3 constant id'>S3</span><span class='colon2 op'>::</span><span class='Bucket constant id'>Bucket</span><span class='dot token'>.</span><span class='create identifier id'>create</span><span class='lparen token'>(</span><span class='s3_client identifier id'>s3_client</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='true true kw'>true</span><span class='comma token'>,</span> <span class='nil nil kw'>nil</span><span class='comma token'>,</span> <span class='symbol val'>:location</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='bucket_location identifier id'>bucket_location</span><span class='rparen token'>)</span>
+      <span class='else else kw'>else</span>
+        <span class='bucket identifier id'>bucket</span> <span class='assign token'>=</span> <span class='RightAws constant id'>RightAws</span><span class='colon2 op'>::</span><span class='S3 constant id'>S3</span><span class='colon2 op'>::</span><span class='Bucket constant id'>Bucket</span><span class='dot token'>.</span><span class='create identifier id'>create</span><span class='lparen token'>(</span><span class='s3_client identifier id'>s3_client</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='true true kw'>true</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span> <span class='comment val'>#if</span>
+      <span class='rescue rescue kw'>rescue</span> <span class='RightAws constant id'>RightAws</span><span class='colon2 op'>::</span><span class='AwsError constant id'>AwsError</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='e identifier id'>e</span>
+        <span class='raise identifier id'>raise</span> <span class='e identifier id'>e</span> <span class='unless unless_mod kw'>unless</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='message identifier id'>message</span> <span class='match op'>=~</span> <span class='regexp val'>/BucketAlreadyExists/</span>
+        <span class='raise identifier id'>raise</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='BackendError constant id'>BackendError</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>409</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='message identifier id'>message</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span> <span class='comment val'>#begin</span>
+  <span class='end end kw'>end</span> <span class='comment val'>#do</span>
+  <span class='convert_bucket identifier id'>convert_bucket</span><span class='lparen token'>(</span><span class='bucket identifier id'>bucket</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_instance</strong>(credentials, image_id, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 178</span>
+
+<span class='def def kw'>def</span> <span class='create_instance identifier id'>create_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='realm_id identifier id'>realm_id</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:realm_id</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='image identifier id'>image</span> <span class='assign token'>=</span> <span class='image identifier id'>image</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='image_id identifier id'>image_id</span> <span class='rparen token'>)</span>
+    <span class='hwp identifier id'>hwp</span> <span class='assign token'>=</span> <span class='find_hardware_profile identifier id'>find_hardware_profile</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_id</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='image identifier id'>image</span><span class='dot token'>.</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+    <span class='ec2_instances identifier id'>ec2_instances</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='run_instances identifier id'>run_instances</span><span class='lparen token'>(</span>
+      <span class='symbol val'>:image_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='image identifier id'>image</span><span class='dot token'>.</span><span class='id identifier id'>id</span><span class='comma token'>,</span>
+      <span class='symbol val'>:user_data</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:user_data</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:key_name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:keyname</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+      <span class='symbol val'>:availability_zone</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='realm_id identifier id'>realm_id</span><span class='comma token'>,</span>
+      <span class='symbol val'>:monitoring_enabled</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='true true kw'>true</span><span class='comma token'>,</span>
+      <span class='symbol val'>:instance_type</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='hwp identifier id'>hwp</span><span class='dot token'>.</span><span class='name identifier id'>name</span><span class='comma token'>,</span>
+      <span class='symbol val'>:disable_api_termination</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='false false kw'>false</span><span class='comma token'>,</span>
+      <span class='symbol val'>:instance_initiated_shutdown_behavior</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'terminate'</span>
+    <span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span> <span class='ec2_instances identifier id'>ec2_instances</span><span class='dot token'>.</span><span class='instancesSet identifier id'>instancesSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='comma token'>,</span> <span class='string val'>'pending'</span> <span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_key-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_key</strong>(credentials, opts = {}) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302
+303
+304
+305
+306
+307</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 300</span>
+
+<span class='def def kw'>def</span> <span class='create_key identifier id'>create_key</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='key identifier id'>key</span> <span class='assign token'>=</span> <span class='Key constant id'>Key</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='key identifier id'>key</span> <span class='assign token'>=</span> <span class='convert_key identifier id'>convert_key</span><span class='lparen token'>(</span><span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='create_keypair identifier id'>create_keypair</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='return return kw'>return</span> <span class='key identifier id'>key</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_bucket</strong>(credentials, name, opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Delete_bucket &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+369
+370
+371
+372
+373
+374</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 369</span>
+
+<span class='def def kw'>def</span> <span class='delete_bucket identifier id'>delete_bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='s3_client identifier id'>s3_client</span> <span class='assign token'>=</span> <span class='s3_client identifier id'>s3_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='s3_client identifier id'>s3_client</span><span class='dot token'>.</span><span class='interface identifier id'>interface</span><span class='dot token'>.</span><span class='delete_bucket identifier id'>delete_bucket</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="destroy_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>destroy_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+230
+231
+232
+233
+234
+235</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 230</span>
+
+<span class='def def kw'>def</span> <span class='destroy_instance identifier id'>destroy_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='backup identifier id'>backup</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='terminate_instances identifier id'>terminate_instances</span><span class='lparen token'>(</span> <span class='symbol val'>:instance_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span> <span class='rparen token'>)</span>
+
+  <span class='generate_instance identifier id'>generate_instance</span><span class='lparen token'>(</span><span class='ec2 identifier id'>ec2</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='backup identifier id'>backup</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="destroy_key-instance_method">
+  
+    - (<tt>Object</tt>) <strong>destroy_key</strong>(credentials, opts = {}) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+309
+310
+311
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 309</span>
+
+<span class='def def kw'>def</span> <span class='destroy_key identifier id'>destroy_key</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+    <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='delete_keypair identifier id'>delete_keypair</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="generate_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>generate_instance</strong>(ec2, id, backup) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 198</span>
+
+<span class='def def kw'>def</span> <span class='generate_instance identifier id'>generate_instance</span><span class='lparen token'>(</span><span class='ec2 identifier id'>ec2</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='backup identifier id'>backup</span><span class='rparen token'>)</span>
+  <span class='begin begin kw'>begin</span>
+    <span class='this_instance identifier id'>this_instance</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_instances identifier id'>describe_instances</span><span class='lparen token'>(</span> <span class='symbol val'>:instance_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span> <span class='rparen token'>)</span><span class='dot token'>.</span><span class='reservationSet identifier id'>reservationSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='dot token'>.</span><span class='instancesSet identifier id'>instancesSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+    <span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span><span class='this_instance identifier id'>this_instance</span><span class='comma token'>,</span> <span class='this_instance identifier id'>this_instance</span><span class='dot token'>.</span><span class='ownerId identifier id'>ownerId</span><span class='rparen token'>)</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='Exception constant id'>Exception</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='e identifier id'>e</span>
+    <span class='puts identifier id'>puts</span> <span class='dstring node'>&quot;WARNING: ignored error during instance refresh: #{e.message}&quot;</span>
+    <span class='comment val'># at this point, the action has succeeded but our follow-up</span>
+    <span class='comment val'># &quot;describe_instances&quot; failed for some reason.  Create a simple Instance</span>
+    <span class='comment val'># object with only the ID and new state in place</span>
+    <span class='state identifier id'>state</span> <span class='assign token'>=</span> <span class='convert_state identifier id'>convert_state</span><span class='lparen token'>(</span><span class='backup identifier id'>backup</span><span class='dot token'>.</span><span class='instancesSet identifier id'>instancesSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='first identifier id'>first</span><span class='dot token'>.</span><span class='currentState identifier id'>currentState</span><span class='dot token'>.</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='Instance constant id'>Instance</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='lbrace token'>{</span>
+      <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span><span class='comma token'>,</span>
+      <span class='symbol val'>:state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='state identifier id'>state</span><span class='comma token'>,</span>
+      <span class='symbol val'>:actions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='instance_actions_for identifier id'>instance_actions_for</span><span class='lparen token'>(</span> <span class='state identifier id'>state</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
+    <span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="images-instance_method">
+  
+    - (<tt>Object</tt>) <strong>images</strong>(credentials, opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Images
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 121</span>
+
+<span class='def def kw'>def</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='img_arr identifier id'>img_arr</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='comment val'># if we know the image_id, we don't want to limit by owner_id, since this</span>
+  <span class='comment val'># will exclude public images</span>
+  <span class='if if kw'>if</span> <span class='lparen token'>(</span><span class='opts identifier id'>opts</span> <span class='and and kw'>and</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:image_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+  <span class='else else kw'>else</span>
+    <span class='config identifier id'>config</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span> <span class='symbol val'>:owner_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;amazon&quot;</span> <span class='rbrace token'>}</span>
+    <span class='config identifier id'>config</span><span class='dot token'>.</span><span class='merge! fid id'>merge!</span><span class='lparen token'>(</span><span class='lbrace token'>{</span> <span class='symbol val'>:owner_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:owner_id</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='opts identifier id'>opts</span> <span class='and and kw'>and</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:owner_id</span><span class='rbrack token'>]</span>
+  <span class='end end kw'>end</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_images identifier id'>describe_images</span><span class='lparen token'>(</span><span class='config identifier id'>config</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='imagesSet identifier id'>imagesSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='image identifier id'>image</span><span class='bitor op'>|</span>
+      <span class='img_arr identifier id'>img_arr</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_image identifier id'>convert_image</span><span class='lparen token'>(</span><span class='image identifier id'>image</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='img_arr identifier id'>img_arr</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='img_arr identifier id'>img_arr</span><span class='comma token'>,</span> <span class='symbol val'>:architecture</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+  <span class='img_arr identifier id'>img_arr</span><span class='dot token'>.</span><span class='sort_by identifier id'>sort_by</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='e identifier id'>e</span><span class='dot token'>.</span><span class='owner_id identifier id'>owner_id</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='name identifier id'>name</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instances-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instances</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Instances
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 159</span>
+
+<span class='def def kw'>def</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='param identifier id'>param</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span> <span class='integer val'>? </span><span class='nil nil kw'>nil</span> <span class='colon op'>:</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+    <span class='ec2_instances identifier id'>ec2_instances</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_instances identifier id'>describe_instances</span><span class='dot token'>.</span><span class='reservationSet identifier id'>reservationSet</span>
+    <span class='return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='unless unless_mod kw'>unless</span> <span class='ec2_instances identifier id'>ec2_instances</span>
+    <span class='ec2_instances identifier id'>ec2_instances</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='item identifier id'>item</span><span class='bitor op'>|</span>
+      <span class='item identifier id'>item</span><span class='dot token'>.</span><span class='instancesSet identifier id'>instancesSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ec2_instance identifier id'>ec2_instance</span><span class='bitor op'>|</span>
+        <span class='instances identifier id'>instances</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span> <span class='ec2_instance identifier id'>ec2_instance</span><span class='comma token'>,</span> <span class='item identifier id'>item</span><span class='dot token'>.</span><span class='ownerId identifier id'>ownerId</span> <span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:state</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="key-instance_method">
+  
+    - (<tt>Object</tt>) <strong>key</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+283
+284
+285</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 283</span>
+
+<span class='def def kw'>def</span> <span class='key identifier id'>key</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='keys identifier id'>keys</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="keys-instance_method">
+  
+    - (<tt>Object</tt>) <strong>keys</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 287</span>
+
+<span class='def def kw'>def</span> <span class='keys identifier id'>keys</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:key_name</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span> <span class='if if_mod kw'>if</span> <span class='opts identifier id'>opts</span> <span class='and and kw'>and</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span>
+  <span class='keypairs identifier id'>keypairs</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_keypairs identifier id'>describe_keypairs</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span> <span class='orop op'>||</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
+  <span class='result identifier id'>result</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='keypairs identifier id'>keypairs</span><span class='dot token'>.</span><span class='keySet identifier id'>keySet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='keypair identifier id'>keypair</span><span class='bitor op'>|</span>
+      <span class='result identifier id'>result</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_key identifier id'>convert_key</span><span class='lparen token'>(</span><span class='keypair identifier id'>keypair</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='result identifier id'>result</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realms-instance_method">
+  
+    - (<tt>Object</tt>) <strong>realms</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Realms
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 145</span>
+
+<span class='def def kw'>def</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='realms identifier id'>realms</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_availability_zones identifier id'>describe_availability_zones</span><span class='dot token'>.</span><span class='availabilityZoneInfo identifier id'>availabilityZoneInfo</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ec2_realm identifier id'>ec2_realm</span><span class='bitor op'>|</span>
+      <span class='realms identifier id'>realms</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_realm identifier id'>convert_realm</span><span class='lparen token'>(</span> <span class='ec2_realm identifier id'>ec2_realm</span> <span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='realms identifier id'>realms</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reboot_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reboot_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218
+219
+220
+221</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 216</span>
+
+<span class='def def kw'>def</span> <span class='reboot_instance identifier id'>reboot_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='backup identifier id'>backup</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='reboot_instances identifier id'>reboot_instances</span><span class='lparen token'>(</span> <span class='symbol val'>:instance_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span> <span class='rparen token'>)</span>
+
+  <span class='generate_instance identifier id'>generate_instance</span><span class='lparen token'>(</span><span class='ec2 identifier id'>ec2</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='backup identifier id'>backup</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stop_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225
+226
+227
+228</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 223</span>
+
+<span class='def def kw'>def</span> <span class='stop_instance identifier id'>stop_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='backup identifier id'>backup</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='terminate_instances identifier id'>terminate_instances</span><span class='lparen token'>(</span> <span class='symbol val'>:instance_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span> <span class='rparen token'>)</span>
+
+  <span class='generate_instance identifier id'>generate_instance</span><span class='lparen token'>(</span><span class='ec2 identifier id'>ec2</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='comma token'>,</span> <span class='backup identifier id'>backup</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_snapshots-instance_method">
+  
+    - (<tt>Object</tt>) <strong>storage_snapshots</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Storage Snapshots
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 264</span>
+
+<span class='def def kw'>def</span> <span class='storage_snapshots identifier id'>storage_snapshots</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='snapshots identifier id'>snapshots</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='if if kw'>if</span> <span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+      <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_snapshots identifier id'>describe_snapshots</span><span class='lparen token'>(</span><span class='symbol val'>:owner</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'self'</span><span class='comma token'>,</span> <span class='symbol val'>:snapshot_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='snapshotSet identifier id'>snapshotSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ec2_snapshot identifier id'>ec2_snapshot</span><span class='bitor op'>|</span>
+        <span class='snapshots identifier id'>snapshots</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_snapshot identifier id'>convert_snapshot</span><span class='lparen token'>(</span> <span class='ec2_snapshot identifier id'>ec2_snapshot</span> <span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='ec2_snapshots identifier id'>ec2_snapshots</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_snapshots identifier id'>describe_snapshots</span><span class='lparen token'>(</span><span class='symbol val'>:owner</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'self'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='snapshotSet identifier id'>snapshotSet</span>
+      <span class='return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='unless unless_mod kw'>unless</span> <span class='ec2_snapshots identifier id'>ec2_snapshots</span>
+      <span class='ec2_snapshots identifier id'>ec2_snapshots</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ec2_snapshot identifier id'>ec2_snapshot</span><span class='bitor op'>|</span>
+        <span class='snapshots identifier id'>snapshots</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_snapshot identifier id'>convert_snapshot</span><span class='lparen token'>(</span> <span class='ec2_snapshot identifier id'>ec2_snapshot</span> <span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='snapshots identifier id'>snapshots</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_volumes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>storage_volumes</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Storage Volumes
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 241</span>
+
+<span class='def def kw'>def</span> <span class='storage_volumes identifier id'>storage_volumes</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='ec2 identifier id'>ec2</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='volumes identifier id'>volumes</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='if if kw'>if</span> <span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+      <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_volumes identifier id'>describe_volumes</span><span class='lparen token'>(</span><span class='symbol val'>:volume_id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='volumeSet identifier id'>volumeSet</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ec2_volume identifier id'>ec2_volume</span><span class='bitor op'>|</span>
+        <span class='volumes identifier id'>volumes</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_volume identifier id'>convert_volume</span><span class='lparen token'>(</span> <span class='ec2_volume identifier id'>ec2_volume</span> <span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='ec2_volumes identifier id'>ec2_volumes</span> <span class='assign token'>=</span> <span class='ec2 identifier id'>ec2</span><span class='dot token'>.</span><span class='describe_volumes identifier id'>describe_volumes</span><span class='dot token'>.</span><span class='volumeSet identifier id'>volumeSet</span>
+      <span class='return return kw'>return</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='unless unless_mod kw'>unless</span> <span class='ec2_volumes identifier id'>ec2_volumes</span>
+      <span class='ec2_volumes identifier id'>ec2_volumes</span><span class='dot token'>.</span><span class='item identifier id'>item</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ec2_volume identifier id'>ec2_volume</span><span class='bitor op'>|</span>
+        <span class='volumes identifier id'>volumes</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_volume identifier id'>convert_volume</span><span class='lparen token'>(</span> <span class='ec2_volume identifier id'>ec2_volume</span> <span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='volumes identifier id'>volumes</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="supported_collections-instance_method">
+  
+    - (<tt>Object</tt>) <strong>supported_collections</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 40</span>
+
+<span class='def def kw'>def</span> <span class='supported_collections identifier id'>supported_collections</span>
+  <span class='DEFAULT_COLLECTIONS constant id'>DEFAULT_COLLECTIONS</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span> <span class='symbol val'>:keys</span><span class='comma token'>,</span> <span class='symbol val'>:buckets</span> <span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="valid_credentials?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>valid_credentials?</strong>(credentials) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+316
+317
+318
+319
+320
+321
+322
+323</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/ec2/ec2_driver.rb', line 316</span>
+
+<span class='def def kw'>def</span> <span class='valid_credentials? fid id'>valid_credentials?</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='client identifier id'>client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='comment val'># FIXME: We need to do this call to determine if</span>
+  <span class='comment val'>#        EC2 is working with given credentials. There is no</span>
+  <span class='comment val'>#        other way to check, if given credentials are valid or not.</span>
+  <span class='realms identifier id'>realms</span> <span class='assign token'>=</span> <span class='client identifier id'>client</span><span class='dot token'>.</span><span class='describe_availability_zones identifier id'>describe_availability_zones</span> <span class='rescue rescue kw'>rescue</span> <span class='false false kw'>false</span>
+  <span class='return return kw'>return</span> <span class='realms identifier id'>realms</span> <span class='question op'>?</span> <span class='true true kw'>true</span> <span class='colon op'>:</span> <span class='false false kw'>false</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:55 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>
