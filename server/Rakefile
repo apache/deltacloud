@@ -48,7 +48,7 @@ begin
   YARD::Rake::YardocTask.new do |t|
     t.files   = ['lib/**/*.rb', '*.rb']   # optional
   end
-rescue
+rescue LoadError
 end
 
 @specs = ['ruby', 'java'].inject({}) do |hash, spec_platform|
