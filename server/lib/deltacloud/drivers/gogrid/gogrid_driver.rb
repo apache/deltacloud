@@ -120,7 +120,6 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def instances(credentials, opts=nil)
-    require 'ap'
     instances = []
     if opts and opts[:id]
       begin
