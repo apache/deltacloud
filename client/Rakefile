@@ -54,3 +54,8 @@ desc "Clean Fixtures"
 task 'fixtures:clean' do
   FileUtils.rm_rf( File.dirname( __FILE__ ) + '/specs/data' )
 end
+
+begin
+  require 'ci/reporter/rake/test_unit'
+rescue LoadError
+end
