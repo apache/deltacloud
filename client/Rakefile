@@ -56,6 +56,6 @@ task 'fixtures:clean' do
 end
 
 begin
-  require 'ci/reporter/rake/test_unit'
+  require 'ci/reporter/rake/rspec'
 rescue LoadError
 end
