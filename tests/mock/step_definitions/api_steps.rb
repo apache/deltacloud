@@ -52,7 +52,15 @@ end
 Then /^this URI should be available in (.+) format$/ do |formats|
   @no_header = true
   formats.split(',').each do |format|
-    get "#{@uri}.#{format.strip.downcase}", {}
+    case format.downcase
+      when 'xml':
+        header 'Accept', 'application/xml;q=9'
+      when 'json'
+        header 'Accept', 'application/json;q=9'
+      when 'html'
+        header 'Accept', 'application/xml+xhtml;q=9'
+    end
+    get @uri, {}
     last_response.status.should == 200
   end
   @no_header = false
