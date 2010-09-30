@@ -1,0 +1,1214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Deltacloud::Drivers::Rackspace::RackspaceDriver</title>
+<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (R)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Deltacloud.html" title="Deltacloud (module)">Deltacloud</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Drivers.html" title="Deltacloud::Drivers (module)">Drivers</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Rackspace.html" title="Deltacloud::Drivers::Rackspace (module)">Rackspace</a></span></span>
+     &raquo; 
+    <span class="title">RackspaceDriver</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Deltacloud::Drivers::Rackspace::RackspaceDriver
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></li>
+          
+            <li class="next">Deltacloud::Drivers::Rackspace::RackspaceDriver</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud/drivers/rackspace/rackspace_driver.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blob_data-instance_method" title="#blob_data (instance method)">- (Object) <strong>blob_data</strong>(credentials, bucket_id, blob_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+- Blob data -.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blobs-instance_method" title="#blobs (instance method)">- (Object) <strong>blobs</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Blobs --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#buckets-instance_method" title="#buckets (instance method)">- (Object) <strong>buckets</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Buckets --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_bucket-instance_method" title="#create_bucket (instance method)">- (Object) <strong>create_bucket</strong>(credentials, name, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Create Bucket --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_instance-instance_method" title="#create_instance (instance method)">- (Object) <strong>create_instance</strong>(credentials, image_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+create instance.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_bucket-instance_method" title="#delete_bucket (instance method)">- (Object) <strong>delete_bucket</strong>(credentials, name, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; Delete Bucket --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_instance-instance_method" title="#destroy_instance (instance method)">- (Object) <strong>destroy_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_profiles-instance_method" title="#hardware_profiles (instance method)">- (Object) <strong>hardware_profiles</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-instance_method" title="#images (instance method)">- (Object) <strong>images</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances-instance_method" title="#instances (instance method)">- (Object) <strong>instances</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Instances.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realms-instance_method" title="#realms (instance method)">- (Object) <strong>realms</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+rackspace does not at this stage have realms&#8230;
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot_instance-instance_method" title="#reboot_instance (instance method)">- (Object) <strong>reboot_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop_instance-instance_method" title="#stop_instance (instance method)">- (Object) <strong>stop_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supported_collections-instance_method" title="#supported_collections (instance method)">- (Object) <strong>supported_collections</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_credentials%3F-instance_method" title="#valid_credentials? (instance method)">- (Boolean) <strong>valid_credentials?</strong>(credentials) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../BaseDriver.html#blob-instance_method" title="Deltacloud::BaseDriver#blob (method)">#blob</a></span>, <span class='object_link'><a href="../../BaseDriver.html#bucket-instance_method" title="Deltacloud::BaseDriver#bucket (method)">#bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#catched_exceptions_list-instance_method" title="Deltacloud::BaseDriver#catched_exceptions_list (method)">#catched_exceptions_list</a></span>, <span class='object_link'><a href="../../BaseDriver.html#declare_feature-class_method" title="Deltacloud::BaseDriver.declare_feature (method)">declare_feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_hardware_profile-class_method" title="Deltacloud::BaseDriver.define_hardware_profile (method)">define_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_instance_states-class_method" title="Deltacloud::BaseDriver.define_instance_states (method)">define_instance_states</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature-class_method" title="Deltacloud::BaseDriver.feature (method)">feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decl_for-class_method" title="Deltacloud::BaseDriver.feature_decl_for (method)">feature_decl_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decls-class_method" title="Deltacloud::BaseDriver.feature_decls (method)">feature_decls</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-instance_method" title="Deltacloud::BaseDriver#features (method)">#features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-class_method" title="Deltacloud::BaseDriver.features (method)">features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_hardware_profiles-instance_method" title="Deltacloud::BaseDriver#filter_hardware_profiles (method)">#filter_hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_on-instance_method" title="Deltacloud::BaseDriver#filter_on (method)">#filter_on</a></span>, <span class='object_link'><a href="../../BaseDriver.html#find_hardware_profile-instance_method" title="Deltacloud::BaseDriver#find_hardware_profile (method)">#find_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profile-instance_method" title="Deltacloud::BaseDriver#hardware_profile (method)">#hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-class_method" title="Deltacloud::BaseDriver.hardware_profiles (method)">hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#has_collection%3F-instance_method" title="Deltacloud::BaseDriver#has_collection? (method)">#has_collection?</a></span>, <span class='object_link'><a href="../../BaseDriver.html#image-instance_method" title="Deltacloud::BaseDriver#image (method)">#image</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance-instance_method" title="Deltacloud::BaseDriver#instance (method)">#instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_actions_for-instance_method" title="Deltacloud::BaseDriver#instance_actions_for (method)">#instance_actions_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-instance_method" title="Deltacloud::BaseDriver#instance_state_machine (method)">#instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-class_method" title="Deltacloud::BaseDriver.instance_state_machine (method)">instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#realm-instance_method" title="Deltacloud::BaseDriver#realm (method)">#realm</a></span>, <span class='object_link'><a href="../../BaseDriver.html#start_instance-instance_method" title="Deltacloud::BaseDriver#start_instance (method)">#start_instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshot-instance_method" title="Deltacloud::BaseDriver#storage_snapshot (method)">#storage_snapshot</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshots-instance_method" title="Deltacloud::BaseDriver#storage_snapshots (method)">#storage_snapshots</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volume-instance_method" title="Deltacloud::BaseDriver#storage_volume (method)">#storage_volume</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volumes-instance_method" title="Deltacloud::BaseDriver#storage_volumes (method)">#storage_volumes</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="blob_data-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blob_data</strong>(credentials, bucket_id, blob_id, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+- Blob data -
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 224</span>
+
+<span class='def def kw'>def</span> <span class='blob_data identifier id'>blob_data</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='bucket_id identifier id'>bucket_id</span><span class='comma token'>,</span> <span class='blob_id identifier id'>blob_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='cf identifier id'>cf</span> <span class='assign token'>=</span> <span class='cloudfiles_client identifier id'>cloudfiles_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='cf identifier id'>cf</span><span class='dot token'>.</span><span class='container identifier id'>container</span><span class='lparen token'>(</span><span class='bucket_id identifier id'>bucket_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='object identifier id'>object</span><span class='lparen token'>(</span><span class='blob_id identifier id'>blob_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='data_stream identifier id'>data_stream</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='chunk identifier id'>chunk</span><span class='bitor op'>|</span>
+    <span class='yield yield kw'>yield</span> <span class='chunk identifier id'>chunk</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="blobs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blobs</strong>(credentials, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Blobs &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 208</span>
+
+<span class='def def kw'>def</span> <span class='blobs identifier id'>blobs</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='cf identifier id'>cf</span> <span class='assign token'>=</span> <span class='cloudfiles_client identifier id'>cloudfiles_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='blobs identifier id'>blobs</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='cf_container identifier id'>cf_container</span> <span class='assign token'>=</span> <span class='cf identifier id'>cf</span><span class='dot token'>.</span><span class='container identifier id'>container</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>'bucket'</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+    <span class='cf_container identifier id'>cf_container</span><span class='dot token'>.</span><span class='objects identifier id'>objects</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='object_name identifier id'>object_name</span><span class='bitor op'>|</span>
+      <span class='blobs identifier id'>blobs</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_object identifier id'>convert_object</span><span class='lparen token'>(</span><span class='cf_container identifier id'>cf_container</span><span class='dot token'>.</span><span class='object identifier id'>object</span><span class='lparen token'>(</span><span class='object_name identifier id'>object_name</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='blobs identifier id'>blobs</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span><span class='blobs identifier id'>blobs</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='blobs identifier id'>blobs</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="buckets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>buckets</strong>(credentials, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Buckets &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 169</span>
+
+<span class='def def kw'>def</span> <span class='buckets identifier id'>buckets</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='bucket_list identifier id'>bucket_list</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='cf identifier id'>cf</span> <span class='assign token'>=</span> <span class='cloudfiles_client identifier id'>cloudfiles_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='cf identifier id'>cf</span><span class='dot token'>.</span><span class='containers identifier id'>containers</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='container_name identifier id'>container_name</span><span class='bitor op'>|</span>
+      <span class='current identifier id'>current</span> <span class='assign token'>=</span> <span class='cf identifier id'>cf</span><span class='dot token'>.</span><span class='container identifier id'>container</span><span class='lparen token'>(</span><span class='container_name identifier id'>container_name</span><span class='rparen token'>)</span>
+      <span class='bucket_list identifier id'>bucket_list</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_container identifier id'>convert_container</span><span class='lparen token'>(</span><span class='current identifier id'>current</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span> <span class='comment val'>#containers.each</span>
+  <span class='end end kw'>end</span> <span class='comment val'>#safely</span>
+  <span class='bucket_list identifier id'>bucket_list</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span><span class='bucket_list identifier id'>bucket_list</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='bucket_list identifier id'>bucket_list</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_bucket</strong>(credentials, name, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Create Bucket &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187
+188
+189
+190
+191
+192
+193</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 185</span>
+
+<span class='def def kw'>def</span> <span class='create_bucket identifier id'>create_bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='bucket identifier id'>bucket</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='cf identifier id'>cf</span> <span class='assign token'>=</span> <span class='cloudfiles_client identifier id'>cloudfiles_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='new_bucket identifier id'>new_bucket</span> <span class='assign token'>=</span> <span class='cf identifier id'>cf</span><span class='dot token'>.</span><span class='create_container identifier id'>create_container</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='bucket identifier id'>bucket</span> <span class='assign token'>=</span> <span class='convert_container identifier id'>convert_container</span><span class='lparen token'>(</span><span class='new_bucket identifier id'>new_bucket</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='bucket identifier id'>bucket</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_instance</strong>(credentials, image_id, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+create instance. Default to flavor 1 - really need a name though&#8230; In
+rackspace, all flavors work with all images.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 111</span>
+
+<span class='def def kw'>def</span> <span class='create_instance identifier id'>create_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='racks identifier id'>racks</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='hwp_id identifier id'>hwp_id</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_id</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='integer val'>1</span>
+  <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='Time constant id'>Time</span><span class='dot token'>.</span><span class='now identifier id'>now</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span>
+  <span class='if if kw'>if</span> <span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rparen token'>)</span> <span class='then then kw'>then</span> <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span> <span class='end end kw'>end</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='return return kw'>return</span> <span class='convert_srv_to_instance identifier id'>convert_srv_to_instance</span><span class='lparen token'>(</span><span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='start_server identifier id'>start_server</span><span class='lparen token'>(</span><span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='hwp_id identifier id'>hwp_id</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_bucket</strong>(credentials, name, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Delete Bucket &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 198</span>
+
+<span class='def def kw'>def</span> <span class='delete_bucket identifier id'>delete_bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='cf identifier id'>cf</span> <span class='assign token'>=</span> <span class='cloudfiles_client identifier id'>cloudfiles_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='cf identifier id'>cf</span><span class='dot token'>.</span><span class='delete_container identifier id'>delete_container</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="destroy_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>destroy_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 94</span>
+
+<span class='def def kw'>def</span> <span class='destroy_instance identifier id'>destroy_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='racks identifier id'>racks</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='delete_server identifier id'>delete_server</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='Instance constant id'>Instance</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span><span class='comma token'>,</span>
+    <span class='symbol val'>:state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;STOPPED&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:actions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='instance_actions_for identifier id'>instance_actions_for</span><span class='lparen token'>(</span> <span class='string val'>&quot;STOPPED&quot;</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hardware_profiles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>hardware_profiles</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 35</span>
+
+<span class='def def kw'>def</span> <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='racks identifier id'>racks</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='results identifier id'>results</span><span class='assign token'>=</span><span class='string val'>&quot;&quot;</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='results identifier id'>results</span> <span class='assign token'>=</span> <span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='list_flavors identifier id'>list_flavors</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='flav identifier id'>flav</span><span class='bitor op'>|</span>
+      <span class='HardwareProfile constant id'>HardwareProfile</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='flav identifier id'>flav</span><span class='lbrack token'>[</span><span class='string val'>&quot;id&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='rparen token'>)</span> <span class='do do kw'>do</span>
+        <span class='architecture identifier id'>architecture</span> <span class='string val'>'x86_64'</span>
+        <span class='memory identifier id'>memory</span> <span class='flav identifier id'>flav</span><span class='lbrack token'>[</span><span class='string val'>&quot;ram&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span>
+        <span class='storage identifier id'>storage</span> <span class='flav identifier id'>flav</span><span class='lbrack token'>[</span><span class='string val'>&quot;disk&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span>
+      <span class='end end kw'>end</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='filter_hardware_profiles identifier id'>filter_hardware_profiles</span><span class='lparen token'>(</span><span class='results identifier id'>results</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="images-instance_method">
+  
+    - (<tt>Object</tt>) <strong>images</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 50</span>
+
+<span class='def def kw'>def</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='racks identifier id'>racks</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span> <span class='credentials identifier id'>credentials</span> <span class='rparen token'>)</span>
+  <span class='results identifier id'>results</span><span class='assign token'>=</span><span class='string val'>&quot;&quot;</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='results identifier id'>results</span> <span class='assign token'>=</span> <span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='list_images identifier id'>list_images</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='img identifier id'>img</span><span class='bitor op'>|</span>
+      <span class='Image constant id'>Image</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='lbrace token'>{</span>
+                   <span class='symbol val'>:id=</span><span class='gt op'>&gt;</span><span class='img identifier id'>img</span><span class='lbrack token'>[</span><span class='string val'>&quot;id&quot;</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span>
+                   <span class='symbol val'>:name=</span><span class='gt op'>&gt;</span><span class='img identifier id'>img</span><span class='lbrack token'>[</span><span class='string val'>&quot;name&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span>
+                   <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='img identifier id'>img</span><span class='lbrack token'>[</span><span class='string val'>&quot;name&quot;</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='string val'>&quot; &quot;</span> <span class='plus op'>+</span> <span class='img identifier id'>img</span><span class='lbrack token'>[</span><span class='string val'>&quot;status&quot;</span><span class='rbrack token'>]</span> <span class='plus op'>+</span> <span class='string val'>&quot;&quot;</span><span class='comma token'>,</span>
+                   <span class='symbol val'>:owner_id=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;root&quot;</span><span class='comma token'>,</span>
+                   <span class='symbol val'>:architecture=</span><span class='gt op'>&gt;</span><span class='string val'>'x86_64'</span>
+                 <span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='results identifier id'>results</span><span class='dot token'>.</span><span class='sort_by identifier id'>sort_by</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='lbrack token'>[</span><span class='e identifier id'>e</span><span class='dot token'>.</span><span class='description identifier id'>description</span><span class='rbrack token'>]</span><span class='rbrace token'>}</span>
+  <span class='results identifier id'>results</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='results identifier id'>results</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+  <span class='results identifier id'>results</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instances-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instances</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Instances
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 124</span>
+
+<span class='def def kw'>def</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='racks identifier id'>racks</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='if if kw'>if</span> <span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span><span class='rparen token'>)</span>
+      <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='list_servers identifier id'>list_servers</span><span class='dot token'>.</span><span class='map identifier id'>map</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='srv identifier id'>srv</span><span class='bitor op'>|</span>
+        <span class='convert_srv_to_instance identifier id'>convert_srv_to_instance</span><span class='lparen token'>(</span><span class='srv identifier id'>srv</span><span class='rparen token'>)</span>
+      <span class='end end kw'>end</span>
+    <span class='else else kw'>else</span>
+      <span class='instances identifier id'>instances</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_srv_to_instance identifier id'>convert_srv_to_instance</span><span class='lparen token'>(</span><span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='load_server_details identifier id'>load_server_details</span><span class='lparen token'>(</span><span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:id</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:state</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realms-instance_method">
+  
+    - (<tt>Object</tt>) <strong>realms</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+rackspace does not at this stage have realms&#8230; its all US/TX, all the
+time (at least at time of writing)
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72
+73
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 70</span>
+
+<span class='def def kw'>def</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='Realm constant id'>Realm</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:id=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;us&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:name=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;United States&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:state=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AVAILABLE&quot;</span>
+  <span class='rbrace token'>}</span> <span class='rparen token'>)</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reboot_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reboot_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 78</span>
+
+<span class='def def kw'>def</span> <span class='reboot_instance identifier id'>reboot_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='racks identifier id'>racks</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='racks identifier id'>racks</span><span class='dot token'>.</span><span class='reboot_server identifier id'>reboot_server</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='Instance constant id'>Instance</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:id</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='id identifier id'>id</span><span class='comma token'>,</span>
+    <span class='symbol val'>:state</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;RUNNING&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:actions</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='instance_actions_for identifier id'>instance_actions_for</span><span class='lparen token'>(</span> <span class='string val'>&quot;RUNNING&quot;</span> <span class='rparen token'>)</span><span class='comma token'>,</span>
+  <span class='rbrace token'>}</span> <span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stop_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 90</span>
+
+<span class='def def kw'>def</span> <span class='stop_instance identifier id'>stop_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='destroy_instance identifier id'>destroy_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="supported_collections-instance_method">
+  
+    - (<tt>Object</tt>) <strong>supported_collections</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 31</span>
+
+<span class='def def kw'>def</span> <span class='supported_collections identifier id'>supported_collections</span>
+  <span class='DEFAULT_COLLECTIONS constant id'>DEFAULT_COLLECTIONS</span> <span class='plus op'>+</span> <span class='lbrack token'>[</span> <span class='symbol val'>:buckets</span> <span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="valid_credentials?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>valid_credentials?</strong>(credentials) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143
+144
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/rackspace/rackspace_driver.rb', line 141</span>
+
+<span class='def def kw'>def</span> <span class='valid_credentials? fid id'>valid_credentials?</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='begin begin kw'>begin</span>
+    <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='rescue rescue kw'>rescue</span>
+    <span class='return return kw'>return</span> <span class='false false kw'>false</span>
+  <span class='end end kw'>end</span>
+  <span class='true true kw'>true</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:54 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

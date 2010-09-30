@@ -1,0 +1,879 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Deltacloud::Drivers::Terremark::TerremarkDriver</title>
+<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (T)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Deltacloud.html" title="Deltacloud (module)">Deltacloud</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../Drivers.html" title="Deltacloud::Drivers (module)">Drivers</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Terremark.html" title="Deltacloud::Drivers::Terremark (module)">Terremark</a></span></span>
+     &raquo; 
+    <span class="title">TerremarkDriver</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Deltacloud::Drivers::Terremark::TerremarkDriver
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></li>
+          
+            <li class="next">Deltacloud::Drivers::Terremark::TerremarkDriver</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud/drivers/terremark/terremark_driver.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VAPP_STATE_MAP-constant" class="">VAPP_STATE_MAP =
+          <div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; Vapp State Map&#8230; for use with convert_instance (get an integer
+back from terremark) &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace token'>{</span> <span class='string val'>&quot;0&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>&quot;PENDING&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;1&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>&quot;PENDING&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;2&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>&quot;STOPPED&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;4&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span>  <span class='string val'>&quot;RUNNING&quot;</span> <span class='rbrace token'>}</span>
+</pre></dd>
+      
+    </dl>
+  
+
+
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_instance-instance_method" title="#create_instance (instance method)">- (Object) <strong>create_instance</strong>(credentials, image_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; CREATE INSTANCE &#8212; launch a vapp template.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#destroy_instance-instance_method" title="#destroy_instance (instance method)">- (Object) <strong>destroy_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; DESTROY INSTANCE &#8212; shuts down&#8230;
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-instance_method" title="#images (instance method)">- (Object) <strong>images</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; IMAGES &#8212; aka &quot;vapp_templates&quot;.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances-instance_method" title="#instances (instance method)">- (Object) <strong>instances</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; INSTANCES &#8212; aka vApps.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realms-instance_method" title="#realms (instance method)">- (Object) <strong>realms</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; REALMS &#8212; only one realm&#8230;
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot_instance-instance_method" title="#reboot_instance (instance method)">- (Object) <strong>reboot_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; REBOOT INSTANCE --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_instance-instance_method" title="#start_instance (instance method)">- (Object) <strong>start_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; START INSTANCE --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop_instance-instance_method" title="#stop_instance (instance method)">- (Object) <strong>stop_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+&#8212; STOP INSTANCE --.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#valid_credentials%3F-instance_method" title="#valid_credentials? (instance method)">- (Boolean) <strong>valid_credentials?</strong>(credentials) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../../BaseDriver.html" title="Deltacloud::BaseDriver (class)">BaseDriver</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../BaseDriver.html#blob-instance_method" title="Deltacloud::BaseDriver#blob (method)">#blob</a></span>, <span class='object_link'><a href="../../BaseDriver.html#blob_data-instance_method" title="Deltacloud::BaseDriver#blob_data (method)">#blob_data</a></span>, <span class='object_link'><a href="../../BaseDriver.html#blobs-instance_method" title="Deltacloud::BaseDriver#blobs (method)">#blobs</a></span>, <span class='object_link'><a href="../../BaseDriver.html#bucket-instance_method" title="Deltacloud::BaseDriver#bucket (method)">#bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#buckets-instance_method" title="Deltacloud::BaseDriver#buckets (method)">#buckets</a></span>, <span class='object_link'><a href="../../BaseDriver.html#catched_exceptions_list-instance_method" title="Deltacloud::BaseDriver#catched_exceptions_list (method)">#catched_exceptions_list</a></span>, <span class='object_link'><a href="../../BaseDriver.html#create_bucket-instance_method" title="Deltacloud::BaseDriver#create_bucket (method)">#create_bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#declare_feature-class_method" title="Deltacloud::BaseDriver.declare_feature (method)">declare_feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_hardware_profile-class_method" title="Deltacloud::BaseDriver.define_hardware_profile (method)">define_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#define_instance_states-class_method" title="Deltacloud::BaseDriver.define_instance_states (method)">define_instance_states</a></span>, <span class='object_link'><a href="../../BaseDriver.html#delete_bucket-instance_method" title="Deltacloud::BaseDriver#delete_bucket (method)">#delete_bucket</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature-class_method" title="Deltacloud::BaseDriver.feature (method)">feature</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decl_for-class_method" title="Deltacloud::BaseDriver.feature_decl_for (method)">feature_decl_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#feature_decls-class_method" title="Deltacloud::BaseDriver.feature_decls (method)">feature_decls</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-instance_method" title="Deltacloud::BaseDriver#features (method)">#features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#features-class_method" title="Deltacloud::BaseDriver.features (method)">features</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_hardware_profiles-instance_method" title="Deltacloud::BaseDriver#filter_hardware_profiles (method)">#filter_hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#filter_on-instance_method" title="Deltacloud::BaseDriver#filter_on (method)">#filter_on</a></span>, <span class='object_link'><a href="../../BaseDriver.html#find_hardware_profile-instance_method" title="Deltacloud::BaseDriver#find_hardware_profile (method)">#find_hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profile-instance_method" title="Deltacloud::BaseDriver#hardware_profile (method)">#hardware_profile</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-class_method" title="Deltacloud::BaseDriver.hardware_profiles (method)">hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#hardware_profiles-instance_method" title="Deltacloud::BaseDriver#hardware_profiles (method)">#hardware_profiles</a></span>, <span class='object_link'><a href="../../BaseDriver.html#has_collection%3F-instance_method" title="Deltacloud::BaseDriver#has_collection? (method)">#has_collection?</a></span>, <span class='object_link'><a href="../../BaseDriver.html#image-instance_method" title="Deltacloud::BaseDriver#image (method)">#image</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance-instance_method" title="Deltacloud::BaseDriver#instance (method)">#instance</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_actions_for-instance_method" title="Deltacloud::BaseDriver#instance_actions_for (method)">#instance_actions_for</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-instance_method" title="Deltacloud::BaseDriver#instance_state_machine (method)">#instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#instance_state_machine-class_method" title="Deltacloud::BaseDriver.instance_state_machine (method)">instance_state_machine</a></span>, <span class='object_link'><a href="../../BaseDriver.html#realm-instance_method" title="Deltacloud::BaseDriver#realm (method)">#realm</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshot-instance_method" title="Deltacloud::BaseDriver#storage_snapshot (method)">#storage_snapshot</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_snapshots-instance_method" title="Deltacloud::BaseDriver#storage_snapshots (method)">#storage_snapshots</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volume-instance_method" title="Deltacloud::BaseDriver#storage_volume (method)">#storage_volume</a></span>, <span class='object_link'><a href="../../BaseDriver.html#storage_volumes-instance_method" title="Deltacloud::BaseDriver#storage_volumes (method)">#storage_volumes</a></span>, <span class='object_link'><a href="../../BaseDriver.html#supported_collections-instance_method" title="Deltacloud::BaseDriver#supported_collections (method)">#supported_collections</a></span></p>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="create_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_instance</strong>(credentials, image_id, opts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; CREATE INSTANCE &#8212; launch a vapp template. Needs a name, ram,
+no. cpus, id of vapp_template
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 129</span>
+
+<span class='def def kw'>def</span> <span class='create_instance identifier id'>create_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='new_vapp identifier id'>new_vapp</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='vapp_opts identifier id'>vapp_opts</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='comment val'>#assemble options to pass to Fog::Terremark::Real.instantiate_vapp_template</span>
+  <span class='terremark_hwp identifier id'>terremark_hwp</span> <span class='assign token'>=</span> <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>'default'</span><span class='rbrace token'>}</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='comment val'>#sanity check values against default</span>
+  <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='string val'>'name'</span><span class='rbrack token'>]</span> <span class='comment val'>#name could be nil or length 0 or too long</span>
+  <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;inst#{Time.now.to_i}&quot;</span> <span class='if if_mod kw'>if</span> <span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span> <span class='orop op'>||</span> <span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='dot token'>.</span><span class='length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>0</span><span class='rparen token'>)</span><span class='rparen token'>)</span>
+  <span class='name identifier id'>name</span> <span class='assign token'>=</span> <span class='name identifier id'>name</span><span class='dot token'>.</span><span class='slice identifier id'>slice</span><span class='lparen token'>(</span><span class='integer val'>0</span><span class='dot2 op'>..</span><span class='integer val'>13</span><span class='rparen token'>)</span> <span class='comment val'>#name &lt; 15 chars (says terremark)</span>
+  <span class='unless unless kw'>unless</span> <span class='lparen token'>(</span> <span class='lparen token'>(</span><span class='terremark_hwp identifier id'>terremark_hwp</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='symbol val'>:cpu</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_cpu</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span>
+            <span class='lparen token'>(</span><span class='terremark_hwp identifier id'>terremark_hwp</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='symbol val'>:memory</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_memory</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='to_i identifier id'>to_i</span><span class='rparen token'>)</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> <span class='then then kw'>then</span>
+     <span class='raise identifier id'>raise</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='Validation constant id'>Validation</span><span class='colon2 op'>::</span><span class='Failure constant id'>Failure</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='Validation constant id'>Validation</span><span class='colon2 op'>::</span><span class='Param constant id'>Param</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='lbrack token'>[</span><span class='string val'>&quot;cpu&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Error with cpu and/or memory values. you said cpu-&gt;#{opts[:hwp_cpu]} and mem-&gt;#{opts[:hwp_memory]}&quot;</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+  <span class='vapp_opts identifier id'>vapp_opts</span><span class='lbrack token'>[</span><span class='string val'>'cpus'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_cpu</span><span class='rbrack token'>]</span>
+  <span class='vapp_opts identifier id'>vapp_opts</span><span class='lbrack token'>[</span><span class='string val'>'memory'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span>  <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:hwp_memory</span><span class='rbrack token'>]</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+<span class='comment val'>#######</span>
+<span class='comment val'>#FIXME#  what happens if there is an issue getting the new vapp id? (eg even though created succesfully)</span>
+<span class='comment val'>#######</span>
+    <span class='vapp_id identifier id'>vapp_id</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='instantiate_vapp_template identifier id'>instantiate_vapp_template</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='vapp_opts identifier id'>vapp_opts</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='last identifier id'>last</span>
+    <span class='new_vapp identifier id'>new_vapp</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='get_vapp identifier id'>get_vapp</span><span class='lparen token'>(</span><span class='vapp_id identifier id'>vapp_id</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span><span class='new_vapp identifier id'>new_vapp</span><span class='comma token'>,</span> <span class='terremark_client identifier id'>terremark_client</span><span class='comma token'>,</span> <span class='credentials identifier id'>credentials</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='rparen token'>)</span> <span class='comment val'>#return an Instance object</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="destroy_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>destroy_instance</strong>(credentials, id) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; DESTROY INSTANCE &#8212; shuts down&#8230; in terremark need to do
+a futher delete to get rid of a vapp entirely
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189
+190
+191
+192</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 187</span>
+
+<span class='def def kw'>def</span> <span class='destroy_instance identifier id'>destroy_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='delete_vapp identifier id'>delete_vapp</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="images-instance_method">
+  
+    - (<tt>Object</tt>) <strong>images</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; IMAGES &#8212; aka &quot;vapp_templates&quot;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 57</span>
+
+<span class='def def kw'>def</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='image_list identifier id'>image_list</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+      <span class='vdc_id identifier id'>vdc_id</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='default_vdc_id identifier id'>default_vdc_id</span>
+      <span class='catalogItems identifier id'>catalogItems</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='get_catalog identifier id'>get_catalog</span><span class='lparen token'>(</span><span class='vdc_id identifier id'>vdc_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='lbrack token'>[</span><span class='string val'>'CatalogItems'</span><span class='rbrack token'>]</span>
+      <span class='catalogItems identifier id'>catalogItems</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='catalog_item identifier id'>catalog_item</span><span class='bitor op'>|</span>
+        <span class='current_item_id identifier id'>current_item_id</span> <span class='assign token'>=</span> <span class='catalog_item identifier id'>catalog_item</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='last identifier id'>last</span>
+        <span class='current_item identifier id'>current_item</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='get_catalog_item identifier id'>get_catalog_item</span><span class='lparen token'>(</span><span class='current_item_id identifier id'>current_item_id</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='lbrack token'>[</span><span class='string val'>'Entity'</span><span class='rbrack token'>]</span>
+          <span class='if if kw'>if</span><span class='lparen token'>(</span><span class='current_item identifier id'>current_item</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'application/vnd.vmware.vcloud.vAppTemplate+xml'</span><span class='rparen token'>)</span>
+            <span class='image_list identifier id'>image_list</span> <span class='lshft op'>&lt;&lt;</span> <span class='convert_image identifier id'>convert_image</span><span class='lparen token'>(</span><span class='current_item identifier id'>current_item</span><span class='comma token'>,</span> <span class='credentials identifier id'>credentials</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='rparen token'>)</span>
+          <span class='end end kw'>end</span>
+      <span class='rbrace token'>}</span> <span class='comment val'>#end of catalogItems.each</span>
+    <span class='end end kw'>end</span>
+    <span class='image_list identifier id'>image_list</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='image_list identifier id'>image_list</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+    <span class='image_list identifier id'>image_list</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='image_list identifier id'>image_list</span><span class='comma token'>,</span> <span class='symbol val'>:architecture</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+    <span class='image_list identifier id'>image_list</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='image_list identifier id'>image_list</span><span class='comma token'>,</span> <span class='symbol val'>:owner_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+    <span class='image_list identifier id'>image_list</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instances-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instances</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; INSTANCES &#8212; aka vApps
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 93</span>
+
+<span class='def def kw'>def</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+      <span class='vdc_items identifier id'>vdc_items</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='get_vdc identifier id'>get_vdc</span><span class='lparen token'>(</span><span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='default_vdc_id identifier id'>default_vdc_id</span><span class='lparen token'>(</span><span class='rparen token'>)</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='body identifier id'>body</span><span class='lbrack token'>[</span><span class='string val'>'ResourceEntities'</span><span class='rbrack token'>]</span>
+      <span class='vdc_items identifier id'>vdc_items</span><span class='dot token'>.</span><span class='each identifier id'>each</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='current_item identifier id'>current_item</span><span class='bitor op'>|</span>
+        <span class='if if kw'>if</span><span class='lparen token'>(</span><span class='current_item identifier id'>current_item</span><span class='lbrack token'>[</span><span class='string val'>'type'</span><span class='rbrack token'>]</span> <span class='eq op'>==</span> <span class='string val'>'application/vnd.vmware.vcloud.vApp+xml'</span><span class='rparen token'>)</span>
+           <span class='vapp_id identifier id'>vapp_id</span> <span class='assign token'>=</span>  <span class='current_item identifier id'>current_item</span><span class='lbrack token'>[</span><span class='string val'>'href'</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>'/'</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='last identifier id'>last</span>
+           <span class='vapp identifier id'>vapp</span> <span class='assign token'>=</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='get_vapp identifier id'>get_vapp</span><span class='lparen token'>(</span><span class='vapp_id identifier id'>vapp_id</span><span class='rparen token'>)</span>
+           <span class='instances identifier id'>instances</span>  <span class='lshft op'>&lt;&lt;</span> <span class='convert_instance identifier id'>convert_instance</span><span class='lparen token'>(</span><span class='vapp identifier id'>vapp</span><span class='comma token'>,</span> <span class='terremark_client identifier id'>terremark_client</span><span class='comma token'>,</span> <span class='credentials identifier id'>credentials</span><span class='dot token'>.</span><span class='user identifier id'>user</span><span class='rparen token'>)</span>
+        <span class='end end kw'>end</span>
+      <span class='rbrace token'>}</span><span class='comment val'>#end vdc_items.each</span>
+    <span class='end end kw'>end</span>
+    <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span> <span class='instances identifier id'>instances</span><span class='comma token'>,</span> <span class='symbol val'>:id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='rparen token'>)</span>
+    <span class='instances identifier id'>instances</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realms-instance_method">
+  
+    - (<tt>Object</tt>) <strong>realms</strong>(credentials, opts = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; REALMS &#8212; only one realm&#8230; everything in US?
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 81</span>
+
+<span class='def def kw'>def</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+   <span class='lbrack token'>[</span><span class='Realm constant id'>Realm</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='lbrace token'>{</span>
+    <span class='symbol val'>:id=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;US-Miami&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:name=</span><span class='gt op'>&gt;</span><span class='string val'>&quot;United States - Miami&quot;</span><span class='comma token'>,</span>
+    <span class='symbol val'>:state=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;AVAILABLE&quot;</span>
+  <span class='rbrace token'>}</span> <span class='rparen token'>)</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reboot_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reboot_instance</strong>(credentials, id) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; REBOOT INSTANCE &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158
+159
+160
+161</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 156</span>
+
+<span class='def def kw'>def</span> <span class='reboot_instance identifier id'>reboot_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span>  <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='power_reset identifier id'>power_reset</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="start_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>start_instance</strong>(credentials, id) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; START INSTANCE &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 166</span>
+
+<span class='def def kw'>def</span> <span class='start_instance identifier id'>start_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span>  <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='power_on identifier id'>power_on</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stop_instance</strong>(credentials, id) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+&#8212; STOP INSTANCE &#8212;
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+176
+177
+178
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 176</span>
+
+<span class='def def kw'>def</span> <span class='stop_instance identifier id'>stop_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='safely identifier id'>safely</span> <span class='do do kw'>do</span>
+    <span class='terremark_client identifier id'>terremark_client</span> <span class='assign token'>=</span> <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='terremark_client identifier id'>terremark_client</span><span class='dot token'>.</span><span class='power_shutdown identifier id'>power_shutdown</span><span class='lparen token'>(</span><span class='id identifier id'>id</span><span class='rparen token'>)</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="valid_credentials?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>valid_credentials?</strong>(credentials) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+194
+195
+196
+197
+198
+199
+200
+201</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/drivers/terremark/terremark_driver.rb', line 194</span>
+
+<span class='def def kw'>def</span> <span class='valid_credentials? fid id'>valid_credentials?</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='begin begin kw'>begin</span>
+    <span class='new_client identifier id'>new_client</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='rparen token'>)</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='AuthException constant id'>AuthException</span>
+    <span class='return return kw'>return</span> <span class='false false kw'>false</span>
+  <span class='end end kw'>end</span>
+  <span class='true true kw'>true</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:43:57 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

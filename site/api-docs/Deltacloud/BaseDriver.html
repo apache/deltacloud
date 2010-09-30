@@ -1,0 +1,2480 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Class: Deltacloud::BaseDriver</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (B)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Deltacloud.html" title="Deltacloud (module)">Deltacloud</a></span></span>
+     &raquo; 
+    <span class="title">BaseDriver</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Deltacloud::BaseDriver
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Object</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Deltacloud::BaseDriver</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/deltacloud/base_driver/features.rb<span class="defines">,<br />
+  lib/deltacloud/base_driver/base_driver.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="Drivers/Azure/AzureDriver.html" title="Deltacloud::Drivers::Azure::AzureDriver (class)">Drivers::Azure::AzureDriver</a></span>, <span class='object_link'><a href="Drivers/EC2/EC2Driver.html" title="Deltacloud::Drivers::EC2::EC2Driver (class)">Drivers::EC2::EC2Driver</a></span>, <span class='object_link'><a href="Drivers/Gogrid/GogridDriver.html" title="Deltacloud::Drivers::Gogrid::GogridDriver (class)">Drivers::Gogrid::GogridDriver</a></span>, <span class='object_link'><a href="Drivers/Mock/MockDriver.html" title="Deltacloud::Drivers::Mock::MockDriver (class)">Drivers::Mock::MockDriver</a></span>, <span class='object_link'><a href="Drivers/Opennebula/OpennebulaDriver.html" title="Deltacloud::Drivers::Opennebula::OpennebulaDriver (class)">Drivers::Opennebula::OpennebulaDriver</a></span>, <span class='object_link'><a href="Drivers/RHEVM/RHEVMDriver.html" title="Deltacloud::Drivers::RHEVM::RHEVMDriver (class)">Drivers::RHEVM::RHEVMDriver</a></span>, <span class='object_link'><a href="Drivers/Rackspace/RackspaceDriver.html" title="Deltacloud::Drivers::Rackspace::RackspaceDriver (class)">Drivers::Rackspace::RackspaceDriver</a></span>, <span class='object_link'><a href="Drivers/RimuHosting/RimuHostingDriver.html" title="Deltacloud::Drivers::RimuHosting::RimuHostingDriver (class)">Drivers::RimuHosting::RimuHostingDriver</a></span>, <span class='object_link'><a href="Drivers/Terremark/TerremarkDriver.html" title="Deltacloud::Drivers::Terremark::TerremarkDriver (class)">Drivers::Terremark::TerremarkDriver</a></span></p>
+</div>
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="BaseDriver/Feature.html" title="Deltacloud::BaseDriver::Feature (class)">Feature</a></span>, <span class='object_link'><a href="BaseDriver/FeatureDecl.html" title="Deltacloud::BaseDriver::FeatureDecl (class)">FeatureDecl</a></span>, <span class='object_link'><a href="BaseDriver/Operation.html" title="Deltacloud::BaseDriver::Operation (class)">Operation</a></span>
+    
+  
+</p>
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#declare_feature-class_method" title="declare_feature (class method)">+ (Object) <strong>declare_feature</strong>(collection, name, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Declare a new feature.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_hardware_profile-class_method" title="define_hardware_profile (class method)">+ (Object) <strong>define_hardware_profile</strong>(name, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#define_instance_states-class_method" title="define_instance_states (class method)">+ (Object) <strong>define_instance_states</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#feature-class_method" title="feature (class method)">+ (Object) <strong>feature</strong>(collection, name, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Declare in a driver that it supports a specific feature.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#feature_decl_for-class_method" title="feature_decl_for (class method)">+ (Object) <strong>feature_decl_for</strong>(collection, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#feature_decls-class_method" title="feature_decls (class method)">+ (Object) <strong>feature_decls</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#features-class_method" title="features (class method)">+ (Object) <strong>features</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_profiles-class_method" title="hardware_profiles (class method)">+ (Object) <strong>hardware_profiles</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance_state_machine-class_method" title="instance_state_machine (class method)">+ (Object) <strong>instance_state_machine</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blob-instance_method" title="#blob (instance method)">- (Object) <strong>blob</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blob_data-instance_method" title="#blob_data (instance method)">- (Object) <strong>blob_data</strong>(credentials, bucket_id, blob_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#blobs-instance_method" title="#blobs (instance method)">- (Object) <strong>blobs</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bucket-instance_method" title="#bucket (instance method)">- (Object) <strong>bucket</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#buckets-instance_method" title="#buckets (instance method)">- (Object) <strong>buckets</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#catched_exceptions_list-instance_method" title="#catched_exceptions_list (instance method)">- (Object) <strong>catched_exceptions_list</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_bucket-instance_method" title="#create_bucket (instance method)">- (Object) <strong>create_bucket</strong>(credentials, name, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_instance-instance_method" title="#create_instance (instance method)">- (Object) <strong>create_instance</strong>(credentials, image_id, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_bucket-instance_method" title="#delete_bucket (instance method)">- (Object) <strong>delete_bucket</strong>(credentials, name, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#features-instance_method" title="#features (instance method)">- (Object) <strong>features</strong>(collection) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_hardware_profiles-instance_method" title="#filter_hardware_profiles (instance method)">- (Object) <strong>filter_hardware_profiles</strong>(profiles, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_on-instance_method" title="#filter_on (instance method)">- (Object) <strong>filter_on</strong>(collection, attribute, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_hardware_profile-instance_method" title="#find_hardware_profile (instance method)">- (Object) <strong>find_hardware_profile</strong>(credentials, name, image_id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_profile-instance_method" title="#hardware_profile (instance method)">- (Object) <strong>hardware_profile</strong>(credentials, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hardware_profiles-instance_method" title="#hardware_profiles (instance method)">- (Object) <strong>hardware_profiles</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_collection%3F-instance_method" title="#has_collection? (instance method)">- (Boolean) <strong>has_collection?</strong>(collection) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#image-instance_method" title="#image (instance method)">- (Object) <strong>image</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#images-instance_method" title="#images (instance method)">- (Object) <strong>images</strong>(credentials, ops) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance-instance_method" title="#instance (instance method)">- (Object) <strong>instance</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance_actions_for-instance_method" title="#instance_actions_for (instance method)">- (Object) <strong>instance_actions_for</strong>(state) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instance_state_machine-instance_method" title="#instance_state_machine (instance method)">- (Object) <strong>instance_state_machine</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#instances-instance_method" title="#instances (instance method)">- (Object) <strong>instances</strong>(credentials, ops) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realm-instance_method" title="#realm (instance method)">- (Object) <strong>realm</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#realms-instance_method" title="#realms (instance method)">- (Object) <strong>realms</strong>(credentials, opts = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reboot_instance-instance_method" title="#reboot_instance (instance method)">- (Object) <strong>reboot_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#safely-instance_method" title="#safely (instance method)">- (Object) <strong>safely</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_instance-instance_method" title="#start_instance (instance method)">- (Object) <strong>start_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop_instance-instance_method" title="#stop_instance (instance method)">- (Object) <strong>stop_instance</strong>(credentials, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_snapshot-instance_method" title="#storage_snapshot (instance method)">- (Object) <strong>storage_snapshot</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_snapshots-instance_method" title="#storage_snapshots (instance method)">- (Object) <strong>storage_snapshots</strong>(credentials, ops) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_volume-instance_method" title="#storage_volume (instance method)">- (Object) <strong>storage_volume</strong>(credentials, opts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#storage_volumes-instance_method" title="#storage_volumes (instance method)">- (Object) <strong>storage_volumes</strong>(credentials, ops) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#supported_collections-instance_method" title="#supported_collections (instance method)">- (Object) <strong>supported_collections</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="declare_feature-class_method">
+  
+    + (<tt>Object</tt>) <strong>declare_feature</strong>(collection, name, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Declare a new feature
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="DuplicateFeatureDeclError.html" title="Deltacloud::DuplicateFeatureDeclError (class)">DuplicateFeatureDeclError</a></span></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92
+93
+94</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/features.rb', line 90</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='declare_feature identifier id'>declare_feature</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='feature_decls identifier id'>feature_decls</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='raise identifier id'>raise</span> <span class='DuplicateFeatureDeclError constant id'>DuplicateFeatureDeclError</span> <span class='if if_mod kw'>if</span> <span class='feature_decl_for identifier id'>feature_decl_for</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='feature_decls identifier id'>feature_decls</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='FeatureDecl constant id'>FeatureDecl</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="define_hardware_profile-class_method">
+  
+    + (<tt>Object</tt>) <strong>define_hardware_profile</strong>(name, &amp;block) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 46</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='define_hardware_profile identifier id'>define_hardware_profile</span><span class='lparen token'>(</span><span class='name identifier id'>name</span><span class='comma token'>,</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='@hardware_profiles ivar id'>@hardware_profiles</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='hw_profile identifier id'>hw_profile</span> <span class='assign token'>=</span> <span class='@hardware_profiles ivar id'>@hardware_profiles</span><span class='dot token'>.</span><span class='find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='name identifier id'>name</span><span class='rbrace token'>}</span>
+  <span class='return return kw'>return</span> <span class='if if_mod kw'>if</span> <span class='hw_profile identifier id'>hw_profile</span>
+  <span class='hw_profile identifier id'>hw_profile</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='HardwareProfile constant id'>HardwareProfile</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span> <span class='rparen token'>)</span>
+  <span class='@hardware_profiles ivar id'>@hardware_profiles</span> <span class='lshft op'>&lt;&lt;</span> <span class='hw_profile identifier id'>hw_profile</span>
+  <span class='hw_params identifier id'>hw_params</span> <span class='assign token'>=</span> <span class='hw_profile identifier id'>hw_profile</span><span class='dot token'>.</span><span class='params identifier id'>params</span>
+  <span class='unless unless kw'>unless</span> <span class='hw_params identifier id'>hw_params</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+    <span class='feature identifier id'>feature</span> <span class='symbol val'>:instances</span><span class='comma token'>,</span> <span class='symbol val'>:hardware_profiles</span> <span class='do do kw'>do</span>
+      <span class='decl identifier id'>decl</span><span class='dot token'>.</span><span class='operation identifier id'>operation</span><span class='lparen token'>(</span><span class='symbol val'>:create</span><span class='rparen token'>)</span> <span class='lbrace token'>{</span> <span class='add_params identifier id'>add_params</span><span class='lparen token'>(</span><span class='hw_params identifier id'>hw_params</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="define_instance_states-class_method">
+  
+    + (<tt>Object</tt>) <strong>define_instance_states</strong>(&amp;block) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 104</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='define_instance_states identifier id'>define_instance_states</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='machine identifier id'>machine</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='StateMachine constant id'>StateMachine</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='@instance_state_machine ivar id'>@instance_state_machine</span> <span class='assign token'>=</span> <span class='machine identifier id'>machine</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="feature-class_method">
+  
+    + (<tt>Object</tt>) <strong>feature</strong>(collection, name, &amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Declare in a driver that it supports a specific feature
+</p>
+<p>
+The same feature can be declared multiple times in a driver, so that it can
+be changed successively by passing in different blocks.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/features.rb', line 104</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='feature identifier id'>feature</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='features identifier id'>features</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='if if kw'>if</span> <span class='f identifier id'>f</span> <span class='assign token'>=</span> <span class='features identifier id'>features</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='f identifier id'>f</span><span class='bitor op'>|</span> <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='name identifier id'>name</span> <span class='rbrace token'>}</span>
+    <span class='f identifier id'>f</span><span class='dot token'>.</span><span class='instance_eval identifier id'>instance_eval</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='block_given? fid id'>block_given?</span>
+    <span class='return return kw'>return</span> <span class='f identifier id'>f</span>
+  <span class='end end kw'>end</span>
+  <span class='unless unless kw'>unless</span> <span class='decl identifier id'>decl</span> <span class='assign token'>=</span> <span class='feature_decl_for identifier id'>feature_decl_for</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+    <span class='raise identifier id'>raise</span> <span class='UndeclaredFeatureError constant id'>UndeclaredFeatureError</span><span class='comma token'>,</span> <span class='dstring node'>&quot;No feature #{name} for #{collection}&quot;</span>
+  <span class='end end kw'>end</span>
+  <span class='features identifier id'>features</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span> <span class='lshft op'>&lt;&lt;</span> <span class='Feature constant id'>Feature</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='decl identifier id'>decl</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="feature_decl_for-class_method">
+  
+    + (<tt>Object</tt>) <strong>feature_decl_for</strong>(collection, name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83
+84
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/features.rb', line 80</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='feature_decl_for identifier id'>feature_decl_for</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='decls identifier id'>decls</span> <span class='assign token'>=</span> <span class='feature_decls identifier id'>feature_decls</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span>
+  <span class='if if kw'>if</span> <span class='decls identifier id'>decls</span>
+    <span class='decls identifier id'>decls</span><span class='dot token'>.</span><span class='find identifier id'>find</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='dcl identifier id'>dcl</span><span class='bitor op'>|</span> <span class='dcl identifier id'>dcl</span><span class='dot token'>.</span><span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='name identifier id'>name</span> <span class='rbrace token'>}</span>
+  <span class='else else kw'>else</span>
+    <span class='nil nil kw'>nil</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="feature_decls-class_method">
+  
+    + (<tt>Object</tt>) <strong>feature_decls</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/features.rb', line 76</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='feature_decls identifier id'>feature_decls</span>
+  <span class='@@feature_decls ivar id'>@@feature_decls</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="features-class_method">
+  
+    + (<tt>Object</tt>) <strong>features</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/features.rb', line 96</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='features identifier id'>features</span>
+  <span class='@@features ivar id'>@@features</span> <span class='opasgn op'>||=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hardware_profiles-class_method">
+  
+    + (<tt>Object</tt>) <strong>hardware_profiles</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 60</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='hardware_profiles identifier id'>hardware_profiles</span>
+  <span class='@hardware_profiles ivar id'>@hardware_profiles</span> <span class='opasgn op'>||=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='@hardware_profiles ivar id'>@hardware_profiles</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance_state_machine-class_method">
+  
+    + (<tt>Object</tt>) <strong>instance_state_machine</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 109</span>
+
+<span class='def def kw'>def</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='instance_state_machine identifier id'>instance_state_machine</span>
+  <span class='@instance_state_machine ivar id'>@instance_state_machine</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="blob-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blob</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+210
+211
+212
+213</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 210</span>
+
+<span class='def def kw'>def</span> <span class='blob identifier id'>blob</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+   <span class='list identifier id'>list</span> <span class='assign token'>=</span> <span class='blobs identifier id'>blobs</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+   <span class='return return kw'>return</span> <span class='list identifier id'>list</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='list identifier id'>list</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="blob_data-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blob_data</strong>(credentials, bucket_id, blob_id, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+215
+216</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 215</span>
+
+<span class='def def kw'>def</span> <span class='blob_data identifier id'>blob_data</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='bucket_id identifier id'>bucket_id</span><span class='comma token'>,</span> <span class='blob_id identifier id'>blob_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="blobs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>blobs</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+206
+207
+208</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 206</span>
+
+<span class='def def kw'>def</span> <span class='blobs identifier id'>blobs</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>bucket</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197
+198</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 193</span>
+
+<span class='def def kw'>def</span> <span class='bucket identifier id'>bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='comment val'>#list of objects within bucket</span>
+  <span class='list identifier id'>list</span> <span class='assign token'>=</span> <span class='buckets identifier id'>buckets</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='list identifier id'>list</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='list identifier id'>list</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="buckets-instance_method">
+  
+    - (<tt>Object</tt>) <strong>buckets</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+188
+189
+190
+191</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 188</span>
+
+<span class='def def kw'>def</span> <span class='buckets identifier id'>buckets</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='comment val'>#list of buckets belonging to account</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="catched_exceptions_list-instance_method">
+  
+    - (<tt>Object</tt>) <strong>catched_exceptions_list</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+238
+239
+240</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 238</span>
+
+<span class='def def kw'>def</span> <span class='catched_exceptions_list identifier id'>catched_exceptions_list</span>
+  <span class='lbrace token'>{</span> <span class='symbol val'>:error</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:auth</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:glob</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span> <span class='rbrace token'>}</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_bucket</strong>(credentials, name, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+200
+201</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 200</span>
+
+<span class='def def kw'>def</span> <span class='create_bucket identifier id'>create_bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>create_instance</strong>(credentials, image_id, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 159</span>
+
+<span class='def def kw'>def</span> <span class='create_instance identifier id'>create_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_bucket-instance_method">
+  
+    - (<tt>Object</tt>) <strong>delete_bucket</strong>(credentials, name, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+203
+204</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 203</span>
+
+<span class='def def kw'>def</span> <span class='delete_bucket identifier id'>delete_bucket</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="features-instance_method">
+  
+    - (<tt>Object</tt>) <strong>features</strong>(collection) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/features.rb', line 116</span>
+
+<span class='def def kw'>def</span> <span class='features identifier id'>features</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='rparen token'>)</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='features identifier id'>features</span><span class='lbrack token'>[</span><span class='collection identifier id'>collection</span><span class='rbrack token'>]</span> <span class='orop op'>||</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filter_hardware_profiles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>filter_hardware_profiles</strong>(profiles, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 74</span>
+
+<span class='def def kw'>def</span> <span class='filter_hardware_profiles identifier id'>filter_hardware_profiles</span><span class='lparen token'>(</span><span class='profiles identifier id'>profiles</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='if if kw'>if</span> <span class='opts identifier id'>opts</span>
+    <span class='if if kw'>if</span> <span class='v identifier id'>v</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:architecture</span><span class='rbrack token'>]</span>
+      <span class='profiles identifier id'>profiles</span> <span class='assign token'>=</span> <span class='profiles identifier id'>profiles</span><span class='dot token'>.</span><span class='select identifier id'>select</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='hwp identifier id'>hwp</span><span class='bitor op'>|</span> <span class='hwp identifier id'>hwp</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='symbol val'>:architecture</span><span class='comma token'>,</span> <span class='v identifier id'>v</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
+    <span class='if if kw'>if</span> <span class='v identifier id'>v</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span>
+      <span class='profiles identifier id'>profiles</span> <span class='assign token'>=</span> <span class='profiles identifier id'>profiles</span><span class='dot token'>.</span><span class='select identifier id'>select</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='hwp identifier id'>hwp</span><span class='bitor op'>|</span> <span class='hwp identifier id'>hwp</span><span class='dot token'>.</span><span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='v identifier id'>v</span> <span class='rbrace token'>}</span>
+    <span class='end end kw'>end</span>
+  <span class='end end kw'>end</span>
+  <span class='profiles identifier id'>profiles</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filter_on-instance_method">
+  
+    - (<tt>Object</tt>) <strong>filter_on</strong>(collection, attribute, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 218</span>
+
+<span class='def def kw'>def</span> <span class='filter_on identifier id'>filter_on</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='comma token'>,</span> <span class='attribute identifier id'>attribute</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='collection identifier id'>collection</span> <span class='if if_mod kw'>if</span> <span class='opts identifier id'>opts</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
+  <span class='return return kw'>return</span> <span class='collection identifier id'>collection</span> <span class='if if_mod kw'>if</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='attribute identifier id'>attribute</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span>
+  <span class='filter identifier id'>filter</span> <span class='assign token'>=</span> <span class='opts identifier id'>opts</span><span class='lbrack token'>[</span><span class='attribute identifier id'>attribute</span><span class='rbrack token'>]</span>
+  <span class='if if kw'>if</span> <span class='lparen token'>(</span> <span class='filter identifier id'>filter</span><span class='dot token'>.</span><span class='is_a? fid id'>is_a?</span><span class='lparen token'>(</span> <span class='Array constant id'>Array</span> <span class='rparen token'>)</span> <span class='rparen token'>)</span>
+    <span class='return return kw'>return</span> <span class='collection identifier id'>collection</span><span class='dot token'>.</span><span class='select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='filter identifier id'>filter</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='attribute identifier id'>attribute</span><span class='rparen token'>)</span> <span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='else else kw'>else</span>
+    <span class='return return kw'>return</span> <span class='collection identifier id'>collection</span><span class='dot token'>.</span><span class='select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='filter identifier id'>filter</span> <span class='eq op'>==</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='send identifier id'>send</span><span class='lparen token'>(</span><span class='attribute identifier id'>attribute</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_hardware_profile-instance_method">
+  
+    - (<tt>Object</tt>) <strong>find_hardware_profile</strong>(credentials, name, image_id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 86</span>
+
+<span class='def def kw'>def</span> <span class='find_hardware_profile identifier id'>find_hardware_profile</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='comma token'>,</span> <span class='image_id identifier id'>image_id</span><span class='rparen token'>)</span>
+  <span class='hwp identifier id'>hwp</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span>
+  <span class='if if kw'>if</span> <span class='name identifier id'>name</span>
+    <span class='unless unless kw'>unless</span> <span class='hwp identifier id'>hwp</span> <span class='assign token'>=</span> <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+      <span class='raise identifier id'>raise</span> <span class='BackendError constant id'>BackendError</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>400</span><span class='comma token'>,</span> <span class='string val'>&quot;bad-hardware-profile-name&quot;</span><span class='comma token'>,</span>
+        <span class='dstring node'>&quot;Hardware profile '#{name}' does not exist&quot;</span><span class='comma token'>,</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+  <span class='else else kw'>else</span>
+    <span class='unless unless kw'>unless</span> <span class='image identifier id'>image</span> <span class='assign token'>=</span> <span class='image identifier id'>image</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='symbol val'>:id=</span><span class='gt op'>&gt;</span><span class='image_id identifier id'>image_id</span><span class='rparen token'>)</span>
+      <span class='raise identifier id'>raise</span> <span class='BackendError constant id'>BackendError</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>400</span><span class='comma token'>,</span> <span class='string val'>&quot;bad-image-id&quot;</span><span class='comma token'>,</span>
+          <span class='dstring node'>&quot;Image with ID '#{image_id}' does not exist&quot;</span><span class='comma token'>,</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+    <span class='end end kw'>end</span>
+    <span class='hwp identifier id'>hwp</span> <span class='assign token'>=</span> <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span>
+                            <span class='symbol val'>:architecture=</span><span class='gt op'>&gt;</span><span class='image identifier id'>image</span><span class='dot token'>.</span><span class='architecture identifier id'>architecture</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+  <span class='end end kw'>end</span>
+  <span class='return return kw'>return</span> <span class='hwp identifier id'>hwp</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hardware_profile-instance_method">
+  
+    - (<tt>Object</tt>) <strong>hardware_profile</strong>(credentials, name) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 70</span>
+
+<span class='def def kw'>def</span> <span class='hardware_profile identifier id'>hardware_profile</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span>
+  <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='name identifier id'>name</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='first identifier id'>first</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hardware_profiles-instance_method">
+  
+    - (<tt>Object</tt>) <strong>hardware_profiles</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 65</span>
+
+<span class='def def kw'>def</span> <span class='hardware_profiles identifier id'>hardware_profiles</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span> <span class='assign token'>=</span> <span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='results identifier id'>results</span> <span class='assign token'>=</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='hardware_profiles identifier id'>hardware_profiles</span>
+  <span class='filter_hardware_profiles identifier id'>filter_hardware_profiles</span><span class='lparen token'>(</span><span class='results identifier id'>results</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="has_collection?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_collection?</strong>(collection) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+233
+234
+235
+236</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 233</span>
+
+<span class='def def kw'>def</span> <span class='has_collection? fid id'>has_collection?</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='true true kw'>true</span> <span class='if if_mod kw'>if</span> <span class='self self kw'>self</span><span class='dot token'>.</span><span class='supported_collections identifier id'>supported_collections</span><span class='dot token'>.</span><span class='include? fid id'>include?</span><span class='lparen token'>(</span><span class='collection identifier id'>collection</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='false false kw'>false</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="image-instance_method">
+  
+    - (<tt>Object</tt>) <strong>image</strong>(credentials, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+139
+140
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 139</span>
+
+<span class='def def kw'>def</span> <span class='image identifier id'>image</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='images identifier id'>images</span> <span class='assign token'>=</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='images identifier id'>images</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='images identifier id'>images</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="images-instance_method">
+  
+    - (<tt>Object</tt>) <strong>images</strong>(credentials, ops) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 145</span>
+
+<span class='def def kw'>def</span> <span class='images identifier id'>images</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='ops identifier id'>ops</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instance</strong>(credentials, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151
+152
+153</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 149</span>
+
+<span class='def def kw'>def</span> <span class='instance identifier id'>instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='instances identifier id'>instances</span> <span class='assign token'>=</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='instances identifier id'>instances</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='instances identifier id'>instances</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance_actions_for-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instance_actions_for</strong>(state) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 117</span>
+
+<span class='def def kw'>def</span> <span class='instance_actions_for identifier id'>instance_actions_for</span><span class='lparen token'>(</span><span class='state identifier id'>state</span><span class='rparen token'>)</span>
+  <span class='actions identifier id'>actions</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+  <span class='state_key identifier id'>state_key</span> <span class='assign token'>=</span> <span class='state identifier id'>state</span><span class='dot token'>.</span><span class='downcase identifier id'>downcase</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span>
+  <span class='states identifier id'>states</span> <span class='assign token'>=</span> <span class='instance_state_machine identifier id'>instance_state_machine</span><span class='dot token'>.</span><span class='states identifier id'>states</span><span class='lparen token'>(</span><span class='rparen token'>)</span>
+  <span class='current_state identifier id'>current_state</span> <span class='assign token'>=</span> <span class='states identifier id'>states</span><span class='dot token'>.</span><span class='find identifier id'>find</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='name identifier id'>name</span> <span class='eq op'>==</span> <span class='state identifier id'>state</span><span class='dot token'>.</span><span class='underscore identifier id'>underscore</span><span class='dot token'>.</span><span class='to_sym identifier id'>to_sym</span> <span class='rbrace token'>}</span>
+  <span class='if if kw'>if</span> <span class='lparen token'>(</span> <span class='current_state identifier id'>current_state</span> <span class='rparen token'>)</span>
+    <span class='actions identifier id'>actions</span> <span class='assign token'>=</span> <span class='current_state identifier id'>current_state</span><span class='dot token'>.</span><span class='transitions identifier id'>transitions</span><span class='dot token'>.</span><span class='collect identifier id'>collect</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='dot token'>.</span><span class='action identifier id'>action</span><span class='rbrace token'>}</span>
+    <span class='actions identifier id'>actions</span><span class='dot token'>.</span><span class='reject! fid id'>reject!</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='e identifier id'>e</span><span class='bitor op'>|</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='nil? fid id'>nil?</span><span class='rbrace token'>}</span>
+  <span class='end end kw'>end</span>
+  <span class='actions identifier id'>actions</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instance_state_machine-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instance_state_machine</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 113</span>
+
+<span class='def def kw'>def</span> <span class='instance_state_machine identifier id'>instance_state_machine</span>
+  <span class='self self kw'>self</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='instance_state_machine identifier id'>instance_state_machine</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="instances-instance_method">
+  
+    - (<tt>Object</tt>) <strong>instances</strong>(credentials, ops) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 155</span>
+
+<span class='def def kw'>def</span> <span class='instances identifier id'>instances</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='ops identifier id'>ops</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realm-instance_method">
+  
+    - (<tt>Object</tt>) <strong>realm</strong>(credentials, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+129
+130
+131
+132
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 129</span>
+
+<span class='def def kw'>def</span> <span class='realm identifier id'>realm</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='realms identifier id'>realms</span> <span class='assign token'>=</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='realms identifier id'>realms</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='realms identifier id'>realms</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="realms-instance_method">
+  
+    - (<tt>Object</tt>) <strong>realms</strong>(credentials, opts = nil) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 135</span>
+
+<span class='def def kw'>def</span> <span class='realms identifier id'>realms</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='assign token'>=</span><span class='nil nil kw'>nil</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reboot_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reboot_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+165
+166</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 165</span>
+
+<span class='def def kw'>def</span> <span class='reboot_instance identifier id'>reboot_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="safely-instance_method">
+  
+    - (<tt>Object</tt>) <strong>safely</strong>(&amp;block) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 242</span>
+
+<span class='def def kw'>def</span> <span class='safely identifier id'>safely</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='block identifier id'>block</span><span class='rparen token'>)</span>
+  <span class='begin begin kw'>begin</span>
+    <span class='block identifier id'>block</span><span class='dot token'>.</span><span class='call identifier id'>call</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='mult op'>*</span><span class='catched_exceptions_list identifier id'>catched_exceptions_list</span><span class='lbrack token'>[</span><span class='symbol val'>:error</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='e identifier id'>e</span>
+    <span class='raise identifier id'>raise</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='BackendError constant id'>BackendError</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>502</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='message identifier id'>message</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='mult op'>*</span><span class='catched_exceptions_list identifier id'>catched_exceptions_list</span><span class='lbrack token'>[</span><span class='symbol val'>:auth</span><span class='rbrack token'>]</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='e identifier id'>e</span>
+    <span class='raise identifier id'>raise</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='AuthException constant id'>AuthException</span><span class='dot token'>.</span><span class='new identifier id'>new</span>
+  <span class='rescue rescue kw'>rescue</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='e identifier id'>e</span>
+    <span class='catched_exceptions_list identifier id'>catched_exceptions_list</span><span class='lbrack token'>[</span><span class='symbol val'>:glob</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='each identifier id'>each</span> <span class='do do kw'>do</span> <span class='bitor op'>|</span><span class='ex identifier id'>ex</span><span class='bitor op'>|</span>
+      <span class='raise identifier id'>raise</span> <span class='Deltacloud constant id'>Deltacloud</span><span class='colon2 op'>::</span><span class='BackendError constant id'>BackendError</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='integer val'>502</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='to_s identifier id'>to_s</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='message identifier id'>message</span><span class='comma token'>,</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='backtrace identifier id'>backtrace</span><span class='rparen token'>)</span> <span class='if if_mod kw'>if</span> <span class='e identifier id'>e</span><span class='dot token'>.</span><span class='class identifier id'>class</span><span class='dot token'>.</span><span class='name identifier id'>name</span> <span class='match op'>=~</span> <span class='ex identifier id'>ex</span>
+    <span class='end end kw'>end</span>
+    <span class='raise identifier id'>raise</span> <span class='e identifier id'>e</span>
+  <span class='end end kw'>end</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="start_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>start_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 161</span>
+
+<span class='def def kw'>def</span> <span class='start_instance identifier id'>start_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop_instance-instance_method">
+  
+    - (<tt>Object</tt>) <strong>stop_instance</strong>(credentials, id) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+163
+164</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 163</span>
+
+<span class='def def kw'>def</span> <span class='stop_instance identifier id'>stop_instance</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='id identifier id'>id</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_snapshot-instance_method">
+  
+    - (<tt>Object</tt>) <strong>storage_snapshot</strong>(credentials, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 178</span>
+
+<span class='def def kw'>def</span> <span class='storage_snapshot identifier id'>storage_snapshot</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='snapshots identifier id'>snapshots</span> <span class='assign token'>=</span> <span class='storage_snapshots identifier id'>storage_snapshots</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='snapshots identifier id'>snapshots</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='snapshots identifier id'>snapshots</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_snapshots-instance_method">
+  
+    - (<tt>Object</tt>) <strong>storage_snapshots</strong>(credentials, ops) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 184</span>
+
+<span class='def def kw'>def</span> <span class='storage_snapshots identifier id'>storage_snapshots</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='ops identifier id'>ops</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_volume-instance_method">
+  
+    - (<tt>Object</tt>) <strong>storage_volume</strong>(credentials, opts) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 168</span>
+
+<span class='def def kw'>def</span> <span class='storage_volume identifier id'>storage_volume</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='volumes identifier id'>volumes</span> <span class='assign token'>=</span> <span class='storage_volumes identifier id'>storage_volumes</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='opts identifier id'>opts</span><span class='rparen token'>)</span>
+  <span class='return return kw'>return</span> <span class='volumes identifier id'>volumes</span><span class='dot token'>.</span><span class='first identifier id'>first</span> <span class='unless unless_mod kw'>unless</span> <span class='volumes identifier id'>volumes</span><span class='dot token'>.</span><span class='empty? fid id'>empty?</span>
+  <span class='nil nil kw'>nil</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="storage_volumes-instance_method">
+  
+    - (<tt>Object</tt>) <strong>storage_volumes</strong>(credentials, ops) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 174</span>
+
+<span class='def def kw'>def</span> <span class='storage_volumes identifier id'>storage_volumes</span><span class='lparen token'>(</span><span class='credentials identifier id'>credentials</span><span class='comma token'>,</span> <span class='ops identifier id'>ops</span><span class='rparen token'>)</span>
+  <span class='lbrack token'>[</span><span class='rbrack token'>]</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="supported_collections-instance_method">
+  
+    - (<tt>Object</tt>) <strong>supported_collections</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/deltacloud/base_driver/base_driver.rb', line 229</span>
+
+<span class='def def kw'>def</span> <span class='supported_collections identifier id'>supported_collections</span>
+  <span class='DEFAULT_COLLECTIONS constant id'>DEFAULT_COLLECTIONS</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:44:00 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>

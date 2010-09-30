@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf8" />
+<title>Module: Sinatra::LazyAuth</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (L)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Sinatra.html" title="Sinatra (module)">Sinatra</a></span></span>
+     &raquo; 
+    <span class="title">LazyAuth</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Sinatra::LazyAuth
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/sinatra/lazy_auth.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="LazyAuth/LazyCredentials.html" title="Sinatra::LazyAuth::LazyCredentials (class)">LazyCredentials</a></span>
+    
+  
+</p>
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#authorize%21-instance_method" title="#authorize! (instance method)">- (Object) <strong>authorize!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#credentials-instance_method" title="#credentials (instance method)">- (Object) <strong>credentials</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Request the current user&#8217;s credentials.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="authorize!-instance_method">
+  
+    - (<tt>Object</tt>) <strong>authorize!</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/lazy_auth.rb', line 42</span>
+
+<span class='def def kw'>def</span> <span class='authorize! fid id'>authorize!</span>
+  <span class='r identifier id'>r</span> <span class='assign token'>=</span> <span class='dstring node'>&quot;#{DRIVER}-deltacloud@#{HOSTNAME}&quot;</span>
+  <span class='response identifier id'>response</span><span class='lbrack token'>[</span><span class='string val'>'WWW-Authenticate'</span><span class='rbrack token'>]</span> <span class='assign token'>=</span> <span class='dstring node'>%(Basic realm=&quot;#{r}&quot;)</span>
+  <span class='throw identifier id'>throw</span><span class='lparen token'>(</span><span class='symbol val'>:halt</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='integer val'>401</span><span class='comma token'>,</span> <span class='string val'>&quot;Not authorized\n&quot;</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="credentials-instance_method">
+  
+    - (<tt>Object</tt>) <strong>credentials</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Request the current user&#8217;s credentials. Actual credentials are only
+requested when an attempt is made to get the user name or password
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sinatra/lazy_auth.rb', line 50</span>
+
+<span class='def def kw'>def</span> <span class='credentials identifier id'>credentials</span>
+  <span class='LazyCredentials constant id'>LazyCredentials</span><span class='dot token'>.</span><span class='new identifier id'>new</span><span class='lparen token'>(</span><span class='self self kw'>self</span><span class='rparen token'>)</span>
+<span class='end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Thu Sep 30 14:44:01 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.8.6).
+</div>
+
+  </body>
+</html>
