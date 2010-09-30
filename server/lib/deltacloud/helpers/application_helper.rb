@@ -107,8 +107,8 @@ module ApplicationHelper
     return redirect(instances_url) if name.eql?(:destroy) or @instance.class!=Instance
 
     respond_to do |format|
-      format.html { haml :"instances/show" }
       format.xml { haml :"instances/show" }
+      format.html { haml :"instances/show" }
       format.json {convert_to_json(:instance, @instance) }
     end
   end

@@ -38,6 +38,8 @@ error Deltacloud::BackendError do
   report_error(500, "backend_error")
 end
 
+Sinatra::Application.register Sinatra::RespondTo
+
 # Redirect to /api
 get '/' do redirect url_for('/api'); end
 
@@ -140,7 +142,10 @@ collection :instance_states do
         format.png do
           # Trick respond_to into looking up the right template for the
           # graphviz file
-          format(:gv); gv = erb :"instance_states/show"; format(:png)
+          format_backup = format
+          format(:gv)
+          gv = erb(:"instance_states/show")
+          format(format_backup)
           png =  ''
           cmd = 'dot -Kdot -Gpad="0.2,0.2" -Gsize="5.0,8.0" -Gdpi="180" -Tpng'
           Open3.popen3( cmd ) do |stdin, stdout, stderr|
@@ -148,6 +153,7 @@ collection :instance_states do
             stdin.close()
             png = stdout.read
           end
+          content_type 'image/png'
           png
         end
       end
