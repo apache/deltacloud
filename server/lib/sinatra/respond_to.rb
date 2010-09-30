@@ -69,8 +69,7 @@ module Sinatra
         # Remove extension from URI
         # Extension will be available as a 'extension' method (extension=='txt')
        
-        request.path_info.sub! %r{\.([^\./]+)$}, ''
-        extension $1
+        extension request.path_info.match(/\.([^\.\/]+)$/).to_a.first
 
         # If ?format= is present, ignore all Accept negotiations because
         # we are not dealing with browser
