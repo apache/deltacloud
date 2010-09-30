@@ -25,6 +25,10 @@ module Deltacloud
     module Mock
 class MockDriver < Deltacloud::BaseDriver
 
+  def supported_collections
+    DEFAULT_COLLECTIONS + [ :buckets ]
+  end
+
   ( REALMS = [
     Realm.new({
       :id=>'us',
@@ -104,7 +108,6 @@ class MockDriver < Deltacloud::BaseDriver
   #
   # Images
   #
-
   def images(credentials, opts=nil )
     check_credentials( credentials )
     images = []
@@ -249,6 +252,79 @@ class MockDriver < Deltacloud::BaseDriver
     end
     snapshots = filter_on( snapshots, :id, opts )
     snapshots
+  end
+
+#--
+# Buckets
+#--
+  def buckets(credentials, opts=nil)
+    check_credentials(credentials)
+    buckets=[]
+     Dir[ "#{@storage_root}/buckets/*.yml" ].each do |bucket_file|
+      bucket = YAML.load( File.read( bucket_file ) )
+      bucket[:id] = File.basename( bucket_file, ".yml" )
+      bucket[:name] = bucket[:id]
+      buckets << Bucket.new( bucket )
+    end
+    buckets = filter_on( buckets, :id, opts )
+    buckets
+  end
+
+#--
+# Create bucket
+#--
+  def create_bucket(credentials, name, opts=nil)
+    check_credentials(credentials)
+    bucket = {
+      :name=>name,
+      :size=>'0',
+      :blob_list=>[]
+    }
+    File.open( "#{@storage_root}/buckets/#{name}.yml", 'w' ) {|b| YAML.dump( bucket, b )}
+    Bucket.new(bucket)
+  end
+
+#--
+# Delete bucket
+#--
+  def delete_bucket(credentials, name, opts=nil)
+    bucket = bucket(credentials, {:id => name})
+    unless (bucket.size == "0")
+     raise Deltacloud::BackendError.new(403, self.class.to_s, "bucket-not-empty", "delete operation not valid for non-empty bucket")
+    end
+    safely do
+      File.delete("#{@storage_root}/buckets/#{name}.yml")
+    end
+  end
+
+#--
+# Blobs
+#--
+  def blobs(credentials, opts = nil)
+    check_credentials(credentials)
+    blobs=[]
+    Dir[ "#{@storage_root}/buckets/blobs/*.yml" ].each do |blob_file|
+      blob = YAML.load( File.read( blob_file ) )
+      blob[:id] = File.basename( blob_file, ".yml" )
+      blob[:name] = blob[:id]
+      blobs << Blob.new( blob )
+    end
+    blobs = filter_on( blobs, :id, opts )
+    blobs
+  end
+
+#--
+# Blob content
+#--
+  def blob_data(credentials, bucket_id, blob_id, opts = nil)
+    check_credentials(credentials)
+    blob=nil
+    Dir[ "#{@storage_root}/buckets/blobs/*.yml" ].each do |blob_file|
+      if File.basename(blob_file, ".yml") == blob_id
+        blob = YAML.load(File.read(blob_file))
+        blob[:content].each {|part| yield part}
+      end
+    end
   end
 
   def valid_credentials?(credentials)
