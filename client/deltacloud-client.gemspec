@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.email = 'deltacloud-users@lists.fedorahosted.org'
   s.name = 'deltacloud-client'
   s.description = %q{Deltacloud REST Client for API}
-  s.version = '0.0.9.7'
+  s.version = '0.0.9.8'
   s.summary = %q{Deltacloud REST Client}
   s.files = Dir['Rakefile', 'lib/**/*.rb', 'init.rb', 'bin/deltacloudc']
   s.bindir = 'bin'
