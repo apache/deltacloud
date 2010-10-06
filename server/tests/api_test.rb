@@ -1,3 +1,4 @@
+$:.unshift File.join(File.dirname(__FILE__), '..')
 require 'tests/common'
 
 module DeltacloudUnitTest
@@ -10,7 +11,7 @@ module DeltacloudUnitTest
 
     def test_it_returns_entry_points
       do_xml_request '/api'
-      (last_xml_response/'/api/link').map.size.should > 0
+      (last_xml_response/'/api/link').to_a.size.should > 0
     end
 
     def test_it_has_correct_attributes_set

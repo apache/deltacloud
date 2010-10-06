@@ -14,7 +14,7 @@ module DeltacloudUnitTest
 
     def test_it_returns_instances
       do_xml_request '/api/instances', {}, true
-      (last_xml_response/'instances/instance').map.size.should > 0
+      (last_xml_response/'instances/instance').to_a.size.should > 0
     end
 
     def test_it_has_correct_attributes_set
@@ -181,14 +181,14 @@ module DeltacloudUnitTest
       ['RUNNING', 'STOPPED'].include?((instance/'state').text).should == true
 
       (instance/'public_addreses').should_not == nil
-      (instance/'public_addresses/address').map.size.should > 0
+      (instance/'public_addresses/address').to_a.size.should > 0
       (instance/'public_addresses/address').first.text.should_not == ""
 
       (instance/'private_addresses').should_not == nil
-      (instance/'private_addresses/address').map.size.should > 0
+      (instance/'private_addresses/address').to_a.size.should > 0
       (instance/'private_addresses/address').first.text.should_not == ""
 
-      (instance/'actions/link').map.size.should > 0
+      (instance/'actions/link').to_a.size.should > 0
       (instance/'actions/link').each do |link|
         link['href'].should_not == ""
         link['rel'].should_not == ""

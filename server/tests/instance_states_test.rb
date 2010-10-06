@@ -14,14 +14,14 @@ module DeltacloudUnitTest
 
     def test_it_returns_instance_states
       do_xml_request '/api/instance_states', {}, true
-      (last_xml_response/'states/state').map.size.should > 0
+      (last_xml_response/'states/state').to_a.size.should > 0
     end
 
     def test_each_state_has_transition
       do_xml_request '/api/instance_states', {}, true
       (last_xml_response/'states/state').each do |state|
         next if state['name'].eql?('finish') # Finnish state doesn't have transitions
-        (state/'transition').map.size.should > 0
+        (state/'transition').to_a.size.should > 0
         (state/'transition').each do |transition|
           transition['to'].should_not == nil
         end

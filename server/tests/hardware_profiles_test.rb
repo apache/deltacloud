@@ -10,7 +10,7 @@ module DeltacloudUnitTest
 
     def test_it_returns_hardware_profiles
       do_xml_request '/api/hardware_profiles'
-      (last_xml_response/'hardware_profiles/hardware_profile').map.size.should > 0
+      (last_xml_response/'hardware_profiles/hardware_profile').to_a.size.should > 0
     end
 
     def test_it_has_correct_attributes_set
@@ -109,7 +109,7 @@ module DeltacloudUnitTest
       (profile/'property[@name="storage"]').first['kind'].should == 'enum'
       (profile/'property[@name="storage"]').first['unit'].should == 'GB'
       (profile/'property[@name="storage"]/enum').size.should == 1
-      (profile/'property[@name="storage"]/enum/entry').map.size.should == 3
+      (profile/'property[@name="storage"]/enum/entry').to_a.size.should == 3
       (profile/'property[@name="storage"]/enum/entry').each do |entry|
         entry.attributes.keys.should == [ 'value' ]
         entry['value'].should_not == nil

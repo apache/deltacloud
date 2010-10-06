@@ -14,6 +14,8 @@ require 'lib/deltacloud/helpers/blob_stream'
 configure do
   set :raise_errors => false
   set :show_exceptions, false
+  set :views, File.dirname(__FILE__) + '/views'
+  set :public, File.dirname(__FILE__) + '/public'
 end
 
 configure :development do

@@ -14,7 +14,7 @@ module DeltacloudUnitTest
 
     def test_it_returns_realms
       do_xml_request '/api/realms', {}, true
-      (last_xml_response/'realms/realm').map.size.should > 0
+      (last_xml_response/'realms/realm').to_a.size.should > 0
     end
 
     def test_it_has_correct_attributes_set
