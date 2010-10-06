@@ -184,7 +184,8 @@ describe "instances" do
         instance = client.instance( 'inst1' )
         instance.should_not be_nil
         instance.state.should eql( "RUNNING" )
-        lambda{instance.start}.should raise_error
+        instance.start!
+        instance.state.should eql( "RUNNING" )
       end
     end
   end
