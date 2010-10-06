@@ -149,6 +149,8 @@ module DeltaCloud
         c.instance_eval do
           attr_accessor :id
           attr_accessor :uri
+
+
         end
         obj = xml_to_class(c, item)
       end
@@ -162,6 +164,10 @@ module DeltaCloud
       obj.id = item['id']
       api = self
       c.instance_eval do
+        define_method :method_missing do |method|
+            warn "[WARNING] Method '#{method}' is not available for this resource (#{c.name})."
+            return nil
+        end
         define_method :client do
           api
         end
