@@ -261,7 +261,7 @@ module DeltaCloud
       end
       declare_entry_points_methods(@entry_points)
     end
-    
+
     def create_key(opts={}, &block)
       params = { :name => opts[:name] }
       key = nil
@@ -293,7 +293,7 @@ module DeltaCloud
       ( params[:realm_id] = realm_id ) if realm_id
       ( params[:name] = name ) if name
       ( params[:user_data] = user_data ) if user_data
-      ( params[:keyname] = user_data ) if key_name
+      ( params[:keyname] = key_name ) if key_name
 
       if opts[:hardware_profile].is_a?(String)
         params[:hwp_id] = opts[:hardware_profile]
