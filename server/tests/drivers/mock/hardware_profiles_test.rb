@@ -1,3 +1,4 @@
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
 require 'tests/common'
 
 module DeltacloudUnitTest
@@ -10,7 +11,7 @@ module DeltacloudUnitTest
 
     def test_it_returns_hardware_profiles
       do_xml_request '/api/hardware_profiles'
-      (last_xml_response/'hardware_profiles/hardware_profile').to_a.size.should > 0
+      (last_xml_response/'hardware_profiles/hardware_profile').length.should > 0
     end
 
     def test_it_has_correct_attributes_set
@@ -90,26 +91,25 @@ module DeltacloudUnitTest
     private
 
     def test_profile_properties(profile)
-      
       (profile/'property').each do |properties|
         properties.attributes.keys.sort.should == [ 'kind', 'name', 'unit', 'value' ]
       end
 
       (profile/'property[@name="architecture"]').first['kind'].should == 'fixed'
       (profile/'property[@name="architecture"]').first['unit'].should == 'label'
-      
+
       (profile/'property[@name="memory"]').first['kind'].should == 'range'
       (profile/'property[@name="memory"]').first['unit'].should == 'MB'
-      (profile/'property[@name="memory"]/range').size.should == 1
+      (profile/'property[@name="memory"]/range').length.should == 1
       (profile/'property[@name="memory"]/range').first.attributes.keys.sort.should == [ 'first', 'last' ]
 
       (profile/'property[@name="cpu"]').first['kind'].should == 'fixed'
       (profile/'property[@name="cpu"]').first['unit'].should == 'count'
-      
+
       (profile/'property[@name="storage"]').first['kind'].should == 'enum'
       (profile/'property[@name="storage"]').first['unit'].should == 'GB'
-      (profile/'property[@name="storage"]/enum').size.should == 1
-      (profile/'property[@name="storage"]/enum/entry').to_a.size.should == 3
+      (profile/'property[@name="storage"]/enum').length.should == 1
+      (profile/'property[@name="storage"]/enum/entry').length.should == 3
       (profile/'property[@name="storage"]/enum/entry').each do |entry|
         entry.attributes.keys.should == [ 'value' ]
         entry['value'].should_not == nil
