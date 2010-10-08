@@ -1,0 +1,35 @@
+source "http://rubygems.org"
+
+gem "rake"
+gem "eventmachine"
+gem "haml"
+gem "sinatra"
+gem "rack"
+gem "rack-accept"
+gem "thin"
+gem "rerun"
+gem "json"
+
+group :linode do
+  gem 'linode'
+end
+
+group :amazon do
+  gem 'right_aws'
+  gem 'amazon-ec2'
+end
+
+group 'terremark' do
+  gem 'fog'
+end
+
+group :test do
+  gem 'ruby-debug', :platforms => :mri_18
+  gem 'ruby-debug19', :platforms => :mri_19, :require => 'ruby-debug'
+  gem "compass"
+  gem "nokogiri"
+  gem "rack-test"
+  gem "cucumber"
+  gem "rcov"
+  gem "rspec"
+end
