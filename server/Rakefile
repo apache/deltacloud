@@ -30,15 +30,7 @@ end
 
 desc "Run basic unit tests"
 Rake::TestTask.new("test") { |t|
-  t.test_files = FileList[
-    'tests/api_test.rb',
-    'tests/hardware_profiles_test.rb',
-    'tests/realms_test.rb',
-    'tests/images_test.rb',
-    'tests/instances_test.rb',
-    'tests/instance_states_test.rb',
-    'tests/url_for_test.rb'
-  ]
+  t.test_files = FileList.new('tests/**/*_test.rb')
   t.verbose = true
   t.warning = false
 }
