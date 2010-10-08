@@ -18,10 +18,13 @@ ENV['API_PASSWORD'] = 'mockpassword'
 
 require 'server'
 
-set :environment => :test
-set :loggining => true
-set :raise_errors => false
-set :show_exceptions => false
+configure :test do
+  set :loggining, true
+  set :clean_trace, true
+  set :dump_errors, true
+  set :raise_errors, true
+  set :show_exceptions, false
+end
 
 require 'rack/test'
 
