@@ -24,15 +24,17 @@ describe "storage snapshot" do
   it_should_behave_like "all resources"
 
   it "allow retrieval of all storage volumes owned by the current user" do
-    client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_snapshots = client.storage_snapshots
-      storage_snapshots.should_not be_nil
-      storage_snapshots.should_not be_empty
-      ids = storage_snapshots.collect{|e| e.id}
-      ids.size.should eql( 2 )
-      ids.should include( 'snap2' )
-      ids.should include( 'snap3' )
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      client = DeltaCloud.new( API_NAME, API_PASSWORD, entry_point )
+      client.connect do |client|
+        storage_snapshots = client.storage_snapshots
+        storage_snapshots.should_not be_nil
+        storage_snapshots.should_not be_empty
+        ids = storage_snapshots.collect{|e| e.id}
+        ids.size.should eql( 2 )
+        ids.should include( 'snap2' )
+        ids.should include( 'snap3' )
+      end
     end
   end
 

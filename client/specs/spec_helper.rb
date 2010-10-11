@@ -33,6 +33,7 @@ API_PORT = api_port
 API_PATH = '/api'
 
 API_URL = "http://#{API_HOST}:#{API_PORT}#{API_PATH}"
+API_URL_REDIRECT = "http://#{API_HOST}:#{API_PORT}"
 API_NAME     = 'mockuser'
 API_PASSWORD = 'mockpassword'
 

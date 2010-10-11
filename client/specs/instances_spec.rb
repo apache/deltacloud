@@ -24,26 +24,28 @@ describe "instances" do
   it_should_behave_like "all resources"
 
   it "should allow retrieval of all instances" do
-    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instances = client.instances
-      instances.should_not be_empty
-      instances.each do |instance|
-        instance.uri.should_not be_nil
-        instance.uri.should be_a( String )
-        instance.owner_id.should_not be_nil
-        instance.owner_id.should be_a( String )
-        instance.image.should_not be_nil
-        instance.image.should be_a( DeltaCloud::API::Image )
-        instance.hardware_profile.should_not be_nil
-        instance.hardware_profile.should be_a( DeltaCloud::API::HardwareProfile )
-        instance.state.should_not be_nil
-        instance.state.should be_a( String )
-        instance.public_addresses.should_not be_nil
-        instance.public_addresses.should_not be_empty
-        instance.public_addresses.should be_a( Array )
-        instance.private_addresses.should_not be_nil
-        instance.private_addresses.should_not be_empty
-        instance.private_addresses.should be_a( Array )
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
+        instances = client.instances
+        instances.should_not be_empty
+        instances.each do |instance|
+          instance.uri.should_not be_nil
+          instance.uri.should be_a( String )
+          instance.owner_id.should_not be_nil
+          instance.owner_id.should be_a( String )
+          instance.image.should_not be_nil
+          instance.image.should be_a( DeltaCloud::API::Image )
+          instance.hardware_profile.should_not be_nil
+          instance.hardware_profile.should be_a( DeltaCloud::API::HardwareProfile )
+          instance.state.should_not be_nil
+          instance.state.should be_a( String )
+          instance.public_addresses.should_not be_nil
+          instance.public_addresses.should_not be_empty
+          instance.public_addresses.should be_a( Array )
+          instance.private_addresses.should_not be_nil
+          instance.private_addresses.should_not be_empty
+          instance.private_addresses.should be_a( Array )
+        end
       end
     end
   end

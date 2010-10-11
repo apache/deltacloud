@@ -31,13 +31,15 @@ describe "hardware_profiles" do
   it_should_behave_like "all resources"
 
   it "should allow retrieval of all hardware profiles" do
-    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      hardware_profiles = client.hardware_profiles
-      hardware_profiles.should_not be_empty
-      hardware_profiles.each do |hwp|
-        hwp.uri.should_not be_nil
-        hwp.uri.should be_a(String)
-        prop_check(hwp.architecture, String)  if hwp.architecture
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
+        hardware_profiles = client.hardware_profiles
+        hardware_profiles.should_not be_empty
+        hardware_profiles.each do |hwp|
+          hwp.uri.should_not be_nil
+          hwp.uri.should be_a(String)
+          prop_check(hwp.architecture, String)  if hwp.architecture
+        end
       end
     end
   end

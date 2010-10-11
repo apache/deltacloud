@@ -24,15 +24,17 @@ describe "storage volumes" do
   it_should_behave_like "all resources"
 
   it "allow retrieval of all storage volumes owned by the current user" do
-    client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_volumes = client.storage_volumes
-      storage_volumes.should_not be_nil
-      storage_volumes.should_not be_empty
-      ids = storage_volumes.collect{|e| e.id}
-      ids.size.should eql( 2 )
-      ids.should include( 'vol2' )
-      ids.should include( 'vol3' )
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      client = DeltaCloud.new( API_NAME, API_PASSWORD, entry_point )
+      client.connect do |client|
+        storage_volumes = client.storage_volumes
+        storage_volumes.should_not be_nil
+        storage_volumes.should_not be_empty
+        ids = storage_volumes.collect{|e| e.id}
+        ids.size.should eql( 2 )
+        ids.should include( 'vol2' )
+        ids.should include( 'vol3' )
+      end
     end
   end
 

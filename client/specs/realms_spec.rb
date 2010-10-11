@@ -23,16 +23,18 @@ describe "realms" do
   it_should_behave_like "all resources"
 
   it "should allow retrieval of all realms" do
-    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      realms = client.realms
-      realms.should_not be_empty
-      realms.each do |realm|
-        realm.uri.should_not be_nil
-        realm.uri.should be_a(String)
-        realm.id.should_not be_nil
-        realm.id.should be_a(String)
-        realm.name.should_not be_nil
-        realm.name.should be_a(String)
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
+        realms = client.realms
+        realms.should_not be_empty
+        realms.each do |realm|
+          realm.uri.should_not be_nil
+          realm.uri.should be_a(String)
+          realm.id.should_not be_nil
+          realm.id.should be_a(String)
+          realm.name.should_not be_nil
+          realm.name.should be_a(String)
+        end
       end
     end
   end
