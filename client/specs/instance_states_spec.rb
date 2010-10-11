@@ -33,23 +33,25 @@ describe "instance-states" do
   it_should_behave_like "all resources"
 
   it "should allow retrieval of instance-state information" do
-    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance_states = client.instance_states
-      instance_states.should_not be_nil
-      instance_states.should_not be_empty
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
+        instance_states = client.instance_states
+        instance_states.should_not be_nil
+        instance_states.should_not be_empty
 
-      instance_states[0].name.should eql( 'start' )
-      instance_states[0].transitions.size.should eql( 1 )
-      instance_states[0].transitions[0].should_not be_auto
+        instance_states[0].name.should eql( 'start' )
+        instance_states[0].transitions.size.should eql( 1 )
+        instance_states[0].transitions[0].should_not be_auto
 
-      instance_states[1].name.should eql( 'pending' )
-      instance_states[1].transitions.size.should eql( 1 )
-      instance_states[1].transitions[0].should be_auto
+        instance_states[1].name.should eql( 'pending' )
+        instance_states[1].transitions.size.should eql( 1 )
+        instance_states[1].transitions[0].should be_auto
 
-      instance_states[2].name.should eql( 'running' )
-      instance_states[2].transitions.size.should eql( 2 )
-      includes_transition( instance_states[2].transitions, :reboot, :running ).should be_true
-      includes_transition( instance_states[2].transitions, :stop, :stopped ).should be_true
+        instance_states[2].name.should eql( 'running' )
+        instance_states[2].transitions.size.should eql( 2 )
+        includes_transition( instance_states[2].transitions, :reboot, :running ).should be_true
+        includes_transition( instance_states[2].transitions, :stop, :stopped ).should be_true
+      end
     end
   end
 

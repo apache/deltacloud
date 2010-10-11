@@ -28,12 +28,14 @@ describe "initializing the client" do
   end
 
   it "should discover entry points upon connection" do
-    DeltaCloud.new( "name", "password", API_URL ) do |client|
-      client.entry_points[:hardware_profiles].should eql( "#{API_URL}/hardware_profiles" )
-      client.entry_points[:images].should            eql( "#{API_URL}/images" )
-      client.entry_points[:instances].should         eql( "#{API_URL}/instances" )
-      client.entry_points[:storage_volumes].should   eql( "#{API_URL}/storage_volumes" )
-      client.entry_points[:storage_snapshots].should eql( "#{API_URL}/storage_snapshots" )
+    [API_URL, API_URL_REDIRECT].each do |entry_point|
+      DeltaCloud.new( "name", "password", entry_point ) do |client|
+        client.entry_points[:hardware_profiles].should eql( "#{API_URL}/hardware_profiles" )
+        client.entry_points[:images].should            eql( "#{API_URL}/images" )
+        client.entry_points[:instances].should         eql( "#{API_URL}/instances" )
+        client.entry_points[:storage_volumes].should   eql( "#{API_URL}/storage_volumes" )
+        client.entry_points[:storage_snapshots].should eql( "#{API_URL}/storage_snapshots" )
+      end
     end
   end
 
