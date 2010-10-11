@@ -105,7 +105,7 @@ module DeltaCloud
       API.instance_eval do
         entry_points.keys.select {|k| [:instance_states].include?(k)==false }.each do |model|
           define_method model do |*args|
-            request(:get, "/#{model}", args.first) do |response|
+            request(:get, entry_points[model], args.first) do |response|
               # Define a new class based on model name
               c = DeltaCloud.define_class("#{model.to_s.classify}")
               # Create collection from index operation
@@ -114,7 +114,7 @@ module DeltaCloud
           end
           logger << "[API] Added method #{model}\n"
           define_method :"#{model.to_s.singularize}" do |*args|
-            request(:get, "/#{model}/#{args[0]}") do |response|
+            request(:get, "#{entry_points[model]}/#{args[0]}") do |response|
               # Define a new class based on model name
               c = DeltaCloud.define_class("#{model.to_s.classify}")
               # Build class for returned object
@@ -344,10 +344,20 @@ module DeltaCloud
         end
       else
         RestClient.send(conf[:method], conf[:path], default_headers) do |response, request, block|
-          if response.respond_to?('body')
-            yield response.body if block_given?
+          if conf[:method].eql?(:get) and [301, 302, 307].include? response.code
+            response.follow_redirection(request) do |response, request, block|
+              if response.respond_to?('body')
+                yield response.body if block_given?
+              else
+                yield response.to_s if block_given?
+              end
+            end
           else
-            yield response.to_s if block_given?
+            if response.respond_to?('body')
+              yield response.body if block_given?
+            else
+              yield response.to_s if block_given?
+            end
           end
         end
       end
