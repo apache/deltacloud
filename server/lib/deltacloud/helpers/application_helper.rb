@@ -115,8 +115,11 @@ module ApplicationHelper
 
   def cdata(&block)
     text = capture_haml(&block)
-    text.gsub!("\n", "\n ")
-    "<![CDATA[\n #{text}\n]]>"
+    "<![CDATA[#{text.strip}]]>"
+  end
+
+  def render_cdata(text)
+    "<pem><![CDATA[#{text.strip}]]></pem>"
   end
 
 end

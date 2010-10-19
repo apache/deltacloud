@@ -8,9 +8,8 @@
     %fingerprint<
       =@key.fingerprint
     - unless @key.pem_rsa_key.nil?
-      %pem<
-        =cdata do
-          =@key.pem_rsa_key
+      %pem
+        ~render_cdata(@key.pem_rsa_key)
   - if @key.is_password?
     %username<
       =cdata do
