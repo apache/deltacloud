@@ -102,6 +102,8 @@ module Sinatra
 
         if rack_accept.media_type.to_s.strip.eql?('Accept:')
           format :xml
+        elsif is_chrome?
+          format :html
         else
           format lookup_format_from_mime(rack_accept.best_media_type(accept_to_array))
         end
@@ -109,6 +111,14 @@ module Sinatra
       end
 
       app.class_eval do
+
+        # Simple helper to detect Chrome based browsers
+        # which have screwed up they Accept headers.
+        # Set HTML as default output format here
+        def is_chrome?
+          true if env['HTTP_USER_AGENT'] =~ /Chrome/
+        end
+
         # This code was copied from respond_to plugin
         # http://github.com/cehoffman/sinatra-respond_to
         # MIT License
