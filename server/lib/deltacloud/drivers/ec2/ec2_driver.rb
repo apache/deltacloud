@@ -130,8 +130,11 @@ class EC2Driver < Deltacloud::BaseDriver
       config.merge!({ :owner_id => opts[:owner_id] }) if opts and opts[:owner_id]
     end
     safely do
-      ec2.describe_images(config).imagesSet.item.each do |image|
-        img_arr << convert_image(image)
+      image_set = ec2.describe_images(config).imagesSet
+      unless image_set.nil?
+        image_set.item.each do |image|
+          img_arr << convert_image(image)
+        end
       end
     end
     img_arr = filter_on( img_arr, :architecture, opts )
