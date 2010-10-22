@@ -437,7 +437,7 @@ class EC2Driver < Deltacloud::BaseDriver
   def convert_realm(ec2_realm)
     Realm.new( {
       :id=>ec2_realm['zoneName'],
-      :name=>ec2_realm['regionName'],
+      :name=>ec2_realm['zoneName'],
       :limit=>ec2_realm['zoneState'].eql?('available') ? :unlimited : 0,
       :state=>ec2_realm['zoneState'].upcase,
     } )
