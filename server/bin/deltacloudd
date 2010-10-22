@@ -3,6 +3,18 @@
 require 'rubygems'
 require 'optparse'
 
+# See if we can require +name+ and return +true+ if the library is there,
+# +false+ otherwise. Note that, as a side effect, the library will be
+# loaded
+def library_present?(name)
+  begin
+    require name
+    true
+  rescue LoadError
+    false
+  end
+end
+
 options = {
   :env => 'development'
 }
@@ -47,9 +59,11 @@ puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"
 puts
 
 dirname="#{File.dirname(__FILE__)}/.."
-platform = RUBY_PLATFORM[/java/] || 'ruby'
 
-if platform == 'java'
+have_thin = library_present?('thin')
+have_rerun = library_present?('rerun')
+
+unless have_thin
   require 'rack'
 
   # We can't chdir with webrick so add our root directory
@@ -78,8 +92,6 @@ if platform == 'java'
                              :Port => port,
                              :AccessLog => [])
 else
-  require 'thin'
-
   argv_opts = ARGV.clone
   argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
   argv_opts << ['--address', ENV["API_HOST"] ]
@@ -91,17 +103,7 @@ else
 
   argv_opts.flatten!
 
-  if options[:env] == "development"
-    use_rerun = false
-    begin
-      require "rerun"
-      use_rerun = true
-    rescue
-      # Do nothing
-    end
-  end
-
-  if use_rerun
+  if have_rerun && options[:env] == "development"
     argv_opts.unshift "thin"
     command = argv_opts.join(" ")
     topdir = File::expand_path(File::join(File::dirname(__FILE__), ".."))
