@@ -58,19 +58,11 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = Dir["COPYING"]
   s.required_ruby_version = '>= 1.8.1'
 
-  # Rakefile needs to create spec for both platforms (ruby and java), using the
-  # $platform global variable. In all other cases, we figure it out from
-  # RUBY_PLATFORM.
-  s.platform = $platform || RUBY_PLATFORM[/java/] || 'ruby'
-
   s.add_dependency('rake', '>= 0.8.7')
-  s.add_dependency('eventmachine', '>= 0.12.10') if s.platform.to_s == 'ruby'
   s.add_dependency('haml', '>= 2.2.17')
   s.add_dependency('sinatra', '>= 0.9.4')
   s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('rack-accept', '~> 0.4.3')
-  s.add_dependency('thin', '>= 1.2.5') if s.platform.to_s == 'ruby'
-  s.add_dependency('rerun', '>= 0.5.2') if s.platform.to_s == 'ruby'
   s.add_dependency('json', '>= 1.1.9')
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1')
