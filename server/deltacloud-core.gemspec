@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
     which implements the REST interface.
   EOF
 
-  s.version = '0.0.8'
+  s.version = '0.0.9'
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
   s.files = FileList[
