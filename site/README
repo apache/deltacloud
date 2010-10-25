@@ -1,0 +1,84 @@
+How to Build the Deltacloud Website
+===================================
+
+
+Requirements
+------------
+
+You need to have Ruby version 1.8 installed, along with the following gems:
+
+* webby
+* haml
+* rdiscount
+
+Depending on your distribution, you may need to add the directory with `webby`
+executable to your $PATH.
+
+
+Building the Website
+--------------------
+
+Deltacloud website is created using [Webby][1]. It takes a website defined by a
+set of layouts, templates and content files, runs a count of filters on them
+and produces a static web structure that can be directly posted to a webserver
+or displayed in a browser.
+
+[1]: http://webby.rubyforge.org/
+
+To do this, go to the `site` directory and run `webby`:
+
+    $ cd path/to/deltacloud/site/
+    $ webby
+
+The website will be generated in the `site/output/` directory. To
+view it, you can point your browser to that directory.
+
+    file:///path/to/docs/deltacloud.org/output/
+
+In addition, Webby comes with a little webserver that can make it easier. If
+you run:
+
+    $ webby autobuild
+
+The website will be opened in your browser and it will automatically rebuild
+itself any time you change its sources.
+
+Deploying the site
+------------------
+
+After you are finished with your changes, check them into subversion
+(including generated stuff in site/output/)
+
+Then, log on to people.apache.org and
+
+  cd /www/incubator.apache.org/deltacloud/
+  svn update
+
+It will take some time for the mirroring process to pick up your changes,
+but they should eventually show up at
+
+  http://incubator.apache.org/deltacloud/index.html
+
+Note that the API docs for the Ruby client in output/ruby-client/doc are
+not automatically generated. If they need to be updated, they need to be
+copied over from client/doc/ manually and checked in.
+
+File Structure
+--------------
+
+site/
+    - the Deltacloud website
+
+site/content/
+    - the pages that are displayed on the website
+
+site/layouts/
+    - the structure of the website -- including logo, navigation,
+      footers, etc.
+
+site/output/
+    - the final version of the site -- this is what you want to view in a
+      web browser.
+
+site/misc/
+    - sources for someof the images on the site
