@@ -1,6 +1,17 @@
+---
+title: Deltacloud - Documentation
+area: documentation
+extension: html
+filter:
+  - markdown
+  - outline
+---
+
 [basic-relationships]: styles/basic-relationships.png
 
 # Deltacloud API
+
+<toc numbering="off" toc_style="ul" toc_range='h2-h3' />
 
 The Deltacloud API is built as a service-based REST API. You do not
 directly link a Deltacloud library into your program to use it.
