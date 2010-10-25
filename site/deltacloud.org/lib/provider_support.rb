@@ -1,5 +1,5 @@
 module ProviderSupportHelper
-  def provider_support
+  def compute_support
     [
       {:name => "Amazon EC2", :driver => true, :instance => { :create => true, :start => false, :stop => true, :reboot => true, :destroy => true },
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
@@ -13,15 +13,34 @@ module ProviderSupportHelper
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
       {:name => "RimuHosting", :driver => true, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
-      {:name => "Terremark", :driver => false, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
+      {:name => "Terremark", :driver => true, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
       {:name => "vCloud", :driver => false, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
     ]
   end
 
+  def storage_support
+    [
+     { :name => "Amazon S3", :driver => true,
+       :container => { :create => true, :update => true },
+       :blob => { :create => true, :update => true, :rw => true,
+         :rw_attr => true } },
+     { :name => "Rackspace CloudFiles", :driver => true,
+       :container => { :create => true, :update => true },
+       :blob => { :create => true, :update => true, :rw => true,
+         :rw_attr => true } },
+     { :name => "Microsoft Azure", :driver => false,
+       :container => { }, :blob => { } },
+     { :name => "Google Storage", :driver => false,
+       :container => { }, :blob => { } },
+    ]
+  end
+
+  LABELS = { true => "yes", false => "no" }
+
   def support_indicator(value)
-    text = value ? "yes" : "no"
+    text = LABELS[value] || "TBD"
     cls = value ? "supported" : "not-supported"
     "<td class=\"#{cls}\">#{text}</td>"
   end

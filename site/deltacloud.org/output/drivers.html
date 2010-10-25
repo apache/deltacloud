@@ -106,6 +106,7 @@
         can handle a set of standard operations, some of them also support a number of
         optional operations to expose the features of specific clouds more closely. The
         drivers and their capabilities are:</p>
+        <h3>Compute Drivers</h3>
         <table id='providers'>
           <tr>
             <th class='emptycell'>&nbsp;</th>
@@ -233,7 +234,6 @@
           <tr>
             <td class='provider'>
               Terremark
-              <span>coming soon</span>
             </td>
             <td class="supported">yes</td>
             <td class="supported">yes</td>
@@ -259,6 +259,82 @@
             <td class="supported">yes</td>
             <td class="supported">yes</td>
             <td class="supported">yes</td>
+          </tr>
+        </table>
+        <h3>Storage Drivers</h3>
+        <table id='providers'>
+          <tr>
+            <th class='emptycell'>&nbsp;</th>
+            <th>
+              <strong>Create</strong>
+              new containers
+            </th>
+            <th>
+              <strong>Update/delete</strong>
+              containers
+            </th>
+            <th>
+              <strong>Create</strong>
+              new blobs
+            </th>
+            <th>
+              <strong>Update/delete</strong>
+              blobs
+            </th>
+            <th>
+              <strong>Read/write</strong>
+              blob attributes
+            </th>
+            <th>
+              <strong>Read/write</strong>
+              individual blob attributes
+            </th>
+          </tr>
+          <tr>
+            <td class='provider'>
+              Amazon S3
+            </td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+          </tr>
+          <tr>
+            <td class='provider'>
+              Rackspace CloudFiles
+            </td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+          </tr>
+          <tr>
+            <td class='provider'>
+              Microsoft Azure
+              <span>coming soon</span>
+            </td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+          </tr>
+          <tr>
+            <td class='provider'>
+              Google Storage
+              <span>coming soon</span>
+            </td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
+            <td class="not-supported">TBD</td>
           </tr>
         </table>
         
