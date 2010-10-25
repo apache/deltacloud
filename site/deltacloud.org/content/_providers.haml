@@ -2,6 +2,7 @@
 filter:
   - haml
 ---
+%h3 Compute Drivers
 %table#providers
   %tr
     %th.emptycell &nbsp;
@@ -32,7 +33,7 @@ filter:
     %th
       List all/get details about
       %strong instances
-  - provider_support.each do |provider|
+  - compute_support.each do |provider|
     %tr
       %td.provider
         = provider[:name]
@@ -47,3 +48,38 @@ filter:
       = support_indicator(provider[:list][:realms])
       = support_indicator(provider[:list][:images])
       = support_indicator(provider[:list][:instances])
+
+%h3 Storage Drivers
+%table#providers
+  %tr
+    %th.emptycell &nbsp;
+    %th
+      %strong Create
+      new containers
+    %th
+      %strong Update/delete
+      containers
+    %th
+      %strong Create
+      new blobs
+    %th
+      %strong Update/delete
+      blobs
+    %th
+      %strong Read/write
+      blob attributes
+    %th
+      %strong Read/write
+      individual blob attributes
+  - storage_support.each do |provider|
+    %tr
+      %td.provider
+        = provider[:name]
+        - if not provider[:driver]
+          %span coming soon
+      = support_indicator(provider[:container][:create])
+      = support_indicator(provider[:container][:update])
+      = support_indicator(provider[:blob][:create])
+      = support_indicator(provider[:blob][:update])
+      = support_indicator(provider[:blob][:rw])
+      = support_indicator(provider[:blob][:rw_attr])
