@@ -1,0 +1,121 @@
+/*  Styles for the first page are here.  This page uses a different layout
+than the rest of the site */
+
+#main {
+  background: #dce9e7;
+}
+
+#frontpageHeader {
+  background: #b9c5cc url(introbg.png) no-repeat center;
+  height:200px;
+  position: relative;
+  overflow:hidden;
+  border-bottom: 8px solid #F8FCFB;
+}
+
+#frontpage {
+  margin: 0 340px 0 0;
+  color: #354750;
+  font-size: 15px;
+  line-height: 30px;
+}
+
+#frontpage em{
+  font-weight: bold;
+  font-style: normal;
+  color: #cc0000;
+}
+
+.colright {
+  width: 275px;
+  float: left;
+  padding: 15px;
+  margin: 1em 0 10px 10px;
+  background: url(colbg.png) no-repeat;
+  /* 	background-color: #ecf7f5; */
+  font-size: 15px;
+  line-height: 30px;
+  height: 270px;
+}
+
+.colleft {
+  width: 275px;
+  float: left;
+  padding: 15px;
+  margin: 1em 0 10px;
+  background: url(colbg.png) no-repeat;
+  /* 	background-color: #ecf7f5; */
+  font-size: 15px;
+  line-height: 30px;
+  height: 270px;
+}
+
+
+#news {
+  margin-left: 660px;
+  position:absolute;
+  top: 170px;
+  width: 300px;
+  font-size: 13px;
+  line-height: 30px;
+}
+
+#news h2 {
+  border-bottom:none;
+  color:#cc0000;
+  margin-top: 0;
+}
+
+
+#news ul {
+  margin-left:15px;
+  padding:0;
+  list-style-image: url(newsbullet.png)
+}
+
+#news li {
+  margin-bottom: .8em;
+}
+
+
+#news a {
+  text-decoration: none;
+}
+
+#news a:hover {
+  text-decoration: underline;
+}
+
+#news .recent {
+  background-color: #FFF;
+  margin-bottom: 3em;
+  padding: 15px 15px 5px 15px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
+
+#news .section {
+  background-color:transparent;
+  margin-bottom: 2em;
+  color: #354750;
+}
+
+#news img.video {
+  float: left;
+  margin: 0 13px 8px 0;
+  border: 1px solid #fff;
+}
+
+#news img.video:hover {
+  border: 1px solid #026fbd;
+}
+
+div.right {
+  float : left;
+  width : 200px;
+  margin : 15px 0 0 35px;
+}
+
+p.foot {
+  clear : both;
+}

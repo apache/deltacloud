@@ -1,0 +1,128 @@
+# Deltacloud Client (Ruby)
+
+The Deltacloud project includes a Ruby client.  Other language-bindings
+are possible and will be supported soon.  The client aims to insulate
+users from having to deal with HTTP and REST directly.
+
+Each resource type has an associated model to ease usage.  Where
+resource reference other resources, natural navigation across the
+object model is possible.
+
+For example
+
+    puts instance.image.name
+    puts instance.hardware_profile.architecture
+
+## API Docs
+
+API Docs are [available](ruby-client/doc/index.html)
+
+## Basics
+
+To use the client, you must require `deltacloud`.
+
+    require 'deltacloud'
+
+## Connecting to a Deltacloud provider
+
+    require 'deltacloud'
+
+    api_url      = 'http://localhost:3001/api'
+    api_name     = 'mockuser'
+    api_password = 'mockpassword'
+
+    client = DeltaCloud.new( api_name, api_password, api_url )
+
+    # work with client here
+
+In addition to creating a client, operations may occur within a block
+included on the initialization
+
+    DeltaCloud.new( api_name, api_password, api_url ) do |client|
+      # work with client here
+    end
+
+In the event of a failure, any underlying HTTP transport exceptions
+will be thrown all the way out to the caller.
+
+## Listing realms
+
+You may retrieve a complete list of realms available to you
+
+    realms = client.realms
+
+You may retrieve a specific realm by its identifier
+
+    realm = client.realm( 'us' )
+
+## Listing hardware profiles
+
+You may retrieve a complete list of hardware profiles available for launching
+machines
+
+    hwp = client.hardware_profiles
+
+You may filter hardware profiles by architecture
+
+    hardware_profiles = client.hardware_profiles( :architecture=>'x86_64' )
+
+You may retrieve a specific hardware profile by its identifier
+
+    hardware_profile = client.hardware_profile( 'm1-small' )
+
+## Listing images
+
+You may retrieve a complete list of images
+
+    images = client.images
+
+You may retrieve a list of images owned by the currently authenticated
+user
+
+    images = client.images( :owner_id=>:self )
+
+You may retrieve a list of images visible to you but owned by a specific
+user
+
+    images = client.images( :owner_id=>'daryll' )
+
+You may retrieve a specific image by its identifier
+
+    image = client.image( 'ami-8675309' )
+
+## Listing instances
+
+You may retrieve a list of all instances visible to you
+
+    instances = client.instances
+
+You may retrieve a specific instance by its identifier
+
+    instance = client.instance( 'i-90125' )
+
+## Launching instances
+
+An instance may be launched using just an image identifier
+
+    image = client.image( 'ami-8675309' )
+    instance = client.create_instance( image.id )
+
+Optionally, a hardware profile or a realm may be specified
+
+    instance = client.create_instance( image.id, :hardware_profile=>'m1-small', :realm=>'us' )
+
+## Manipulating instances
+
+Given an instance, depending on its state, various actions _may_ be available.
+
+To determine what's available, the `instance#actions` method may be used.
+
+    instance.actions # [ 'reboot', 'stop' ]
+
+For a valid action, the method matching the action with an exclamation point may be called.
+
+    instance.reboot!
+
+Upon invoking an action, the instance will refresh its contents, in case the state has changed.
+To determine later if the state has changed again, the instance must be refetched using
+the `client.instance(...)` method.

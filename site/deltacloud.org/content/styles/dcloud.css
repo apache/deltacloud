@@ -1,0 +1,373 @@
+#wiki {
+  margin-top: 2em;
+}
+
+#wiki div.panel, #wikiicon {
+  border-top: 2px solid #cccccc;
+}
+
+
+#wikiicon {
+  padding: 1em;
+  text-align: right;
+}
+
+#wikiicon img {
+  border: 0px;
+}
+
+#wiki h2, #wiki ul.menu, #wiki div.info, #wiki ul.menu li {
+  display: inline;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+#wiki h2 {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+#wiki ul.menu {
+  padding-left: 1em;
+}
+
+#wiki ul.menu li a {
+  font-size: 1.0em;
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.container {
+  margin: 0 auto;
+  width: 960px;
+}
+
+body {
+  background: #24292b;
+}
+
+#main {
+  background: #FFF;
+  padding: 0 0 4em 0;
+}
+
+#header {
+  padding: 0;
+  margin: 0;
+  height: 106px;
+  width: 100%;
+  background: #6498c5 url(topbar-bg.png) no-repeat center;
+  border: 0px;
+}
+
+#headerLogo {
+  display:block;
+  padding-top: 24px;
+}
+
+#headerLogo h1{
+  height: 37px;
+  width: 600px;
+  margin: 8px 0 0 0;
+  text-indent:-9999px;
+  background: url(logo-wide.png) no-repeat;
+  display: inline-block;
+}
+
+#headerLogo a {
+  text-decoration: none;
+}
+
+#headerLogo a:focus {
+  outline: none;
+}
+
+
+#headerSearch {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 2em;
+}
+
+#headerSearch input {
+  border: 1px solid #999999;
+  color: #999999;
+  background: white;
+  padding: 3px;
+  font-size: 1em;
+}
+
+#headerSearch #submit {
+  border: 1px solid #999999;
+  background: #eeeeee;
+  color: black;
+  padding: 3px;
+  font-size: 1em;
+}
+
+
+#content-deltacloud {
+  padding: 2em 0 0 0;
+}
+
+/*=====  Main nav styles  =====*/
+
+#navigation {
+  background: #24292b url(navbarbg.png) repeat-x;
+  border-bottom:1px solid #d1dee4;
+  border-top:1px solid #074665;
+}
+
+#menu {
+  padding: 9px 0;
+}
+
+
+#menu li, #menu li div, #submenu li, #submenu li div {
+  display: inline;
+}
+
+#menu ul, #submenu ul {
+  padding: 0;
+  margin: 0;
+  list-style-type:none;
+}
+
+#menu ul li {
+  margin-right:6px;
+  font-size: 1.1em;
+}
+
+
+#menu ul li a, #menu ul li span {
+  text-decoration: inherit;
+  color: #d7d8d8;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  outline: none;
+}
+
+#menu ul li a:hover {
+  background:#5a1c1d none repeat scroll 0 0;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+
+}
+
+#menu ul.l0 li .active {
+  color:#FFF;
+  background: #0d84bd;
+  padding: 6px 12px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+#menu ul.l0 li .inactive {
+  padding: 6px 12px;
+}
+
+#subnavigation {
+  padding: 9px 0;
+  background: url(subnav-bg.png) repeat-x top #e4ebef;
+}
+
+#submenu ul li {
+  margin-right:3px;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+
+#submenu ul li a, #submenu ul li span {
+  text-decoration: inherit;
+  color: #4e81a1;
+  outline: none;
+}
+
+#submenu ul li a:hover {
+  color: #ba3335;
+}
+
+#submenu ul.l1 li .active {
+  color:#333;
+  padding: 12px 9px;
+  background: url("subnav-pointer.png") no-repeat scroll 50% 10% transparent;
+}
+
+#submenu ul.l1 li .inactive {
+  padding: 12px 9px;
+}
+/*===== End of main nav styles  ======*/
+
+
+pre {
+  font-size: 1.2em;
+  font-weight: bold;
+  border: 1px dashed #a4c3d4;
+  background: #e4ebef;
+  color: #000;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+code {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+pre > code {
+  font-size: 1em;
+}
+
+a {
+  color: #026fbd;
+}
+
+a:hover {
+  color: #ba3335;
+  text-decoration: none;
+}
+
+
+h1 a, h2 a, h3 a, h4 a, h5 a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+li > h1 a, li > h2 a, li > h3 a, li > h4 a, li > h5 a { /* When headings are links that are in a list, they will be styled as links. */
+  color: #026fbd;
+  text-decoration: inherit;
+}
+
+
+#changelog .author {
+  color: #3c857c;
+  font-weight: bold;
+}
+
+p.image {
+  text-align: center;
+  border: none;
+}
+
+#content-deltacloud ul {
+  list-style-image: url(bullet.png)
+}
+
+/*=====  Footer styles  =====*/
+
+#footer-deltacloud {
+  clear: both;
+  position: relative;
+  border: 0px;
+  background: #24292b;
+  height: 180px;
+}
+
+/* This is hidden from IE <= 6 because it can't do transparency */
+body > #footer-deltacloud {
+  background: #24292b url(footer_pattern.png) repeat-x;
+}
+
+/* This is hidden from IE <= 6 because it can't do transparency */
+head:first-child+body #projects dl {
+  background: url(footer_corner.png) no-repeat;
+}
+
+#footer-deltacloud p {
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  border: 0px;
+  width: 220px;
+  float: left;
+}
+
+#footer-deltacloud p a img {
+  border: 0px;
+}
+
+
+#projects dl {
+  margin: 0px;
+  height: 180px;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+
+#projects #p1, #p2, #p3 {
+  width: 240px;
+  float: left;
+}
+
+#projects dl dd  {
+  display: block;
+  padding: .5em 1em 0;
+  color: #ccc;
+  font-size: .95em;
+}
+
+#projects a {
+  display: block;
+  padding-left: 1em;
+  padding-top: 1em;
+  color: white;
+  text-decoration: inherit;
+  font-weight: bold;
+}
+
+table#providers {
+  margin-bottom: 1em;
+  border: 1px solid #efefef;
+  padding: 1em;
+  width: 100%;
+}
+
+table#providers th {
+  font-weight: normal;
+  padding: 0.5em;
+  vertical-align: top;
+  color: #242829;
+  background: #E4EBEF;
+}
+
+table#providers th.emptycell {
+  background: #FFF;
+}
+
+table#providers td {
+  padding: 0.5em;
+  width: 10%;
+  height: 3em;
+  background: #E4EBEF;
+}
+
+table#providers td.provider  {
+  font-weight: bold;
+  color: #242829;
+  padding: 0 0.5em;
+}
+
+table#providers td.provider span {
+  color: #738389;
+  font-style: italic;
+  font-weight: normal;
+  font-size: .95em;
+}
+
+table#providers td.not-supported {
+  text-align: center;
+  background: #E4EBEF;
+  color: #738389;
+}
+
+table#providers td.supported {
+  text-align: center;
+  background: #a4c3d4;
+  color: #242829;
+}

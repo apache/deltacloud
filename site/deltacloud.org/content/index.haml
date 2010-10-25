@@ -1,0 +1,42 @@
+---
+title: Deltacloud | Many Clouds. One API. No Problem.
+extension: html
+filter: haml
+---
+#frontpage
+  %p.intro
+    Start an instance on an internal cloud, then with the same code start another on EC2 or
+    Rackspace. Deltacloud protects your apps from cloud API changes and
+    incompatibilities, so you can concentrate on managing cloud instances
+    the way you want.
+  .colleft
+    %p
+      %em
+        Deltacloud Core
+      gives you:
+    %ul
+      %li
+        REST API (simple, any-platform access)
+      %li
+        %a.providers{ :href => "#providers", :title => "Supported providers" }
+          Support for all major cloud service providers
+      %li
+        Backward compatibility across versions, providing long-term stability for scripts, tools and applications
+  .right
+    %img{ :src => "styles/diagram-soa.png", :height => "265", :alt => "diagram-soa", :width => "620", :style => "margin-bottom:1em;" }
+  %p.foot
+    The
+    %a{ :href => "documentation.html" }
+      Deltacloud Core
+    makes it easy for cloud
+    providers to add their cloud to the Deltacloud common API.
+#news
+  .recent
+    %h2
+      News
+    %ul
+      - all_news.each do |item|
+        %li
+          = item
+  %br
+  %br

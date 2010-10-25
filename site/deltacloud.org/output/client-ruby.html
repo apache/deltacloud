@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>
+      Deltacloud - Documentation
+    </title>
+    <meta content='' name='keywords' />
+    <meta content='' name='description' />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <link href='./styles/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+    <link href='./styles/default.css' rel='StyleSheet' title='Main style' type='text/css' />
+    <link href='./styles/default-debug.css' rel='Alternate StyleSheet' title='Debug main style' type='text/css' />
+  </head>
+  <body>
+    <div id='header'>
+      <div class='container'>
+        <div id='headerLogo' onclick="location.href='index.html';" style='cursor: pointer;'>
+          <h1>
+            Deltacloud - Many clouds. One API. No problem.
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div id='navigation'>
+      <div class='container' id='menu'>
+        <ul class='l0'>
+          <li>
+            <a class='inactive' href='./index.html' title='Deltacloud Home'>Home</a>
+          </li>
+          <li>
+            <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+          </li>
+          <li>
+            <a class='active' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='subnavigation'>
+      <div class='container' id='submenu'>
+        <ul class='l1'>
+          <li>
+            <a class='inactive' href='documentation.html'>
+              Overview
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='api.html'>
+              REST API
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='drivers.html'>
+              Drivers
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='framework.html'>
+              Framework
+            </a>
+          </li>
+          <li>
+            <a class='active' href='client-ruby.html'>
+              Ruby Client
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='frontpageHeader'></div>
+    <div id='main'>
+      <div class='container' id='content-deltacloud'>
+        <h1>Deltacloud Client (Ruby)</h1>
+        <!-- - title, rest = page.split("</h1>") -->
+        <!-- = title + '</h1>' -->
+        <ul class="toc">
+        <li>
+        <a href="#h1">API Docs</a>
+        </li>
+        <li>
+        <a href="#h2">Basics</a>
+        </li>
+        <li>
+        <a href="#h3">Connecting to a Deltacloud provider</a>
+        </li>
+        <li>
+        <a href="#h4">Listing realms</a>
+        </li>
+        <li>
+        <a href="#h5">Listing hardware profiles</a>
+        </li>
+        <li>
+        <a href="#h6">Listing images</a>
+        </li>
+        <li>
+        <a href="#h7">Listing instances</a>
+        </li>
+        <li>
+        <a href="#h8">Launching instances</a>
+        </li>
+        <li>
+        <a href="#h9">Manipulating instances</a>
+        </li>
+        </ul>
+        <!-- = rest -->
+        
+        
+        <p>The Deltacloud project includes a Ruby client.  Other language-bindings
+        are possible and will be supported soon.  The client aims to insulate
+        users from having to deal with HTTP and REST directly.</p>
+        
+        <p>Each resource type has an associated model to ease usage.  Where
+        resource reference other resources, natural navigation across the
+        object model is possible.</p>
+        
+        <p>For example</p>
+        
+        <pre><code>puts instance.image.name&#x000A;puts instance.hardware_profile.architecture&#x000A;</code></pre>
+        
+        <h2 id="h1">API Docs</h2>
+        
+        <p>API Docs are <a href="ruby-client/doc/index.html">available</a></p>
+        
+        <h2 id="h2">Basics</h2>
+        
+        <p>To use the client, you must require <code>deltacloud</code>.</p>
+        
+        <pre><code>require 'deltacloud'&#x000A;</code></pre>
+        
+        <h2 id="h3">Connecting to a Deltacloud provider</h2>
+        
+        <pre><code>require 'deltacloud'&#x000A;&#x000A;api_url      = 'http://localhost:3001/api'&#x000A;api_name     = 'mockuser'&#x000A;api_password = 'mockpassword'&#x000A;&#x000A;client = DeltaCloud.new( api_name, api_password, api_url )&#x000A;&#x000A;# work with client here&#x000A;</code></pre>
+        
+        <p>In addition to creating a client, operations may occur within a block
+        included on the initialization</p>
+        
+        <pre><code>DeltaCloud.new( api_name, api_password, api_url ) do |client|&#x000A;  # work with client here&#x000A;end&#x000A;</code></pre>
+        
+        <p>In the event of a failure, any underlying HTTP transport exceptions
+        will be thrown all the way out to the caller.</p>
+        
+        <h2 id="h4">Listing realms</h2>
+        
+        <p>You may retrieve a complete list of realms available to you</p>
+        
+        <pre><code>realms = client.realms&#x000A;</code></pre>
+        
+        <p>You may retrieve a specific realm by its identifier</p>
+        
+        <pre><code>realm = client.realm( 'us' )&#x000A;</code></pre>
+        
+        <h2 id="h5">Listing hardware profiles</h2>
+        
+        <p>You may retrieve a complete list of hardware profiles available for launching
+        machines</p>
+        
+        <pre><code>hwp = client.hardware_profiles&#x000A;</code></pre>
+        
+        <p>You may filter hardware profiles by architecture</p>
+        
+        <pre><code>hardware_profiles = client.hardware_profiles( :architecture=&gt;'x86_64' )&#x000A;</code></pre>
+        
+        <p>You may retrieve a specific hardware profile by its identifier</p>
+        
+        <pre><code>hardware_profile = client.hardware_profile( 'm1-small' )&#x000A;</code></pre>
+        
+        <h2 id="h6">Listing images</h2>
+        
+        <p>You may retrieve a complete list of images</p>
+        
+        <pre><code>images = client.images&#x000A;</code></pre>
+        
+        <p>You may retrieve a list of images owned by the currently authenticated
+        user</p>
+        
+        <pre><code>images = client.images( :owner_id=&gt;:self )&#x000A;</code></pre>
+        
+        <p>You may retrieve a list of images visible to you but owned by a specific
+        user</p>
+        
+        <pre><code>images = client.images( :owner_id=&gt;'daryll' )&#x000A;</code></pre>
+        
+        <p>You may retrieve a specific image by its identifier</p>
+        
+        <pre><code>image = client.image( 'ami-8675309' )&#x000A;</code></pre>
+        
+        <h2 id="h7">Listing instances</h2>
+        
+        <p>You may retrieve a list of all instances visible to you</p>
+        
+        <pre><code>instances = client.instances&#x000A;</code></pre>
+        
+        <p>You may retrieve a specific instance by its identifier</p>
+        
+        <pre><code>instance = client.instance( 'i-90125' )&#x000A;</code></pre>
+        
+        <h2 id="h8">Launching instances</h2>
+        
+        <p>An instance may be launched using just an image identifier</p>
+        
+        <pre><code>image = client.image( 'ami-8675309' )&#x000A;instance = client.create_instance( image.id )&#x000A;</code></pre>
+        
+        <p>Optionally, a hardware profile or a realm may be specified</p>
+        
+        <pre><code>instance = client.create_instance( image.id, :hardware_profile=&gt;'m1-small', :realm=&gt;'us' )&#x000A;</code></pre>
+        
+        <h2 id="h9">Manipulating instances</h2>
+        
+        <p>Given an instance, depending on its state, various actions <em>may</em> be available.</p>
+        
+        <p>To determine what's available, the <code>instance#actions</code> method may be used.</p>
+        
+        <pre><code>instance.actions # [ 'reboot', 'stop' ]&#x000A;</code></pre>
+        
+        <p>For a valid action, the method matching the action with an exclamation point may be called.</p>
+        
+        <pre><code>instance.reboot!&#x000A;</code></pre>
+        
+        <p>Upon invoking an action, the instance will refresh its contents, in case the state has changed.
+        To determine later if the state has changed again, the instance must be refetched using
+        the <code>client.instance(...)</code> method.</p>
+      </div>
+    </div>
+  </body>
+</html>

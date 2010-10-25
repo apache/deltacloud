@@ -1,0 +1,69 @@
+How to Build the Deltacloud Website
+===================================
+
+
+Requirements
+------------
+
+You need to have Ruby version 1.8 installed, along with the following gems:
+
+* webby
+* haml
+* rdiscount
+
+Depending on your distribution, you may need to add the directory with `webby`
+executable to your $PATH.
+
+
+Building the Website
+--------------------
+
+Deltacloud website is created using [Webby][1]. It takes a website defined by a
+set of layouts, templates and content files, runs a count of filters on them
+and produces a static web structure that can be directly posted to a webserver
+or displayed in a browser.
+
+[1]: http://webby.rubyforge.org/
+
+To do this, go to the `deltacloud.org` directory and run `webby`:
+
+    $ cd path/to/docs/deltacloud.org
+    $ webby
+
+The website will be generated in the `deltacloud.org/output/` directory. To
+view it, you can point your browser to that directory.
+
+    file:///path/to/docs/deltacloud.org/output/
+
+In addition, Webby comes with a little webserver that can make it easier. If
+you run:
+
+    $ webby autobuild
+
+The website will be opened in your browser and it will automatically rebuild
+itself any time you change its sources.
+
+However, webby does not track the *.mdown files in the docs/docs directory so
+the autobuild won't trigger when you change them. You must rebuild them manually
+by issuing the `webby` command.
+
+
+File Structure
+--------------
+
+docs/
+    - documentation for Deltacloud
+
+deltacloud.org/
+    - the Deltacloud website
+
+deltacloud.org/content/
+    - the pages that are displayed on the website
+
+deltacloud.org/layouts/
+    - the structure of the website -- including logo, navigation,
+      footers, etc.
+
+deltacloud.org/output/
+    - the final version of the site -- this is what you want to view in a
+      web browser

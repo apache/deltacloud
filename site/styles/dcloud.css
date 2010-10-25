@@ -1,0 +1,276 @@
+.container {
+	margin: 0 auto;
+    width: 960px;
+}
+
+body {
+    background: #24292b;    
+}
+
+#main {
+	background: #FFF;
+	padding: 0 0 4em 0;
+}
+
+#header {
+    padding: 0;
+    margin: 0;
+    height: 106px;
+    width: 100%;
+    background: #6498c5 url(topbar-bg.png) no-repeat center;
+    border: 0px;
+}
+
+#headerLogo {
+	display:block;
+	padding-top: 24px;
+}
+
+#headerLogo h1{
+	height: 37px;
+    width: 600px;
+    margin: 8px 0 0 0;
+    text-indent:-9999px;
+    background: url(logo-wide.png) no-repeat;
+    display: inline-block; 
+}
+
+#headerLogo a {  
+	text-decoration: none;
+}
+
+#headerLogo a:focus {  
+	outline: none; 
+}
+
+
+#headerSearch {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 2em;
+}
+
+#headerSearch input {
+    border: 1px solid #999999;
+    color: #999999;
+    background: white;
+    padding: 3px;
+    font-size: 1em;
+}
+
+#headerSearch #submit {
+    border: 1px solid #999999;
+    background: #eeeeee;
+    color: black;
+    padding: 3px;
+    font-size: 1em;
+}
+
+
+#content {
+    padding: 2em 0 0 0;
+}
+
+/*=====  Main nav styles  =====*/
+
+#navigation {
+	background: #24292b url(navbarbg.png) repeat-x;
+	border-bottom:1px solid #d1dee4;
+	border-top:1px solid #074665;
+}
+
+#menu {
+	padding: 9px 0;
+}
+
+
+#menu li, #menu li div, #submenu li, #submenu li div {
+    display: inline;
+}
+
+#menu ul, #submenu ul {
+	padding: 0;
+	margin: 0;
+	list-style-type:none;
+}
+
+#menu ul li {
+	margin-right:6px;
+	font-size: 1.1em;
+}
+
+
+#menu ul li a, #menu ul li span {
+    text-decoration: inherit;
+    color: #FFF;
+}
+
+#menu ul li a:hover {
+	background:#5a1c1d none repeat scroll 0 0;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
+}
+
+#menu ul.l0 li .active {
+    color:#FFF;
+    background: #0d84bd;
+    padding: 6px 12px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+#menu ul.l0 li .inactive {
+    padding: 6px 12px;
+}
+
+#subnavigation {
+	padding: 9px 0;
+	background:#e4ebef;
+}
+
+#submenu ul li {
+	margin-right:3px;
+	font-size: 1em;
+}
+
+
+#submenu ul li a, #submenu ul li span {
+    text-decoration: inherit;
+    color: #026fbd;
+}
+
+#submenu ul li a:hover {
+    text-decoration: underline;
+}
+
+#submenu ul.l1 li .active {
+    color:#333;
+    padding: 6px 9px;
+}
+
+#submenu ul.l1 li .inactive {
+    padding: 6px 9px;
+}
+/*===== End of main nav styles  ======*/
+
+
+pre {
+    font-size: 1.2em;
+    border: 1px dashed #cc0000;
+    background: #dce9e7;
+    color: black;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+code {
+    font-size: 1.2em;
+}
+
+pre > code {
+    font-size: 1em;
+}
+
+a {
+    color: #026fbd;
+}
+
+
+h1 a, h2 a, h3 a, h4 a, h5 a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+li > h1 a, li > h2 a, li > h3 a, li > h4 a, li > h5 a { /* When headings are links that are in a list, they will be styled as links. */
+    color: #026fbd;
+    text-decoration: inherit;
+}
+
+
+#changelog .author {
+    color: #3c857c;
+    font-weight: bold;
+}
+
+p.image {
+    text-align: center;
+    border: none;
+}
+
+
+/*=====  Footer styles  =====*/
+
+#footer {
+    clear: both;
+    position: relative;
+    border: 0px;
+    background: #24292b;
+    height: 180px;
+}
+
+/* This is hidden from IE <= 6 because it can't do transparency */
+body > #footer {
+    background: #24292b url(footer_pattern.png) repeat-x;
+}
+
+/* This is hidden from IE <= 6 because it can't do transparency */
+head:first-child+body #projects dl {
+    background: url(footer_corner.png) no-repeat;
+}
+
+#footer p {
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    border: 0px;
+    width: 220px;
+    float: left;
+}
+
+#footer p a img {
+    border: 0px;
+}
+
+
+#projects dl {
+    margin: 0px;
+    height: 180px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+
+#projects #p1, #p2, #p3 {
+	width: 240px;
+    float: left;
+}
+
+#projects dl dd  {
+    display: block;
+    padding: .5em 1em 0;
+	color: #ccc;
+	font-size: .95em;
+}
+
+#projects a {
+    display: block;
+    padding-left: 1em;
+    padding-top: 1em;
+    color: white;
+    text-decoration: inherit;
+    font-weight: bold;
+}
+
+ul.toc ul {
+    margin-bottom: 0em;
+}
+
+#frontpage p.intro {
+  float : left;
+  width : 300px;
+}
+
+

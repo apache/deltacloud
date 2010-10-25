@@ -1,0 +1,15 @@
+---
+title: Deltacloud - Documentation
+area: documentation
+extension: html
+filter:
+  - haml
+---
+- page = render(:partial => "external", :locals => { :path => '../docs/drivers.mdown' })
+- header, rest = page.split("<table providers></table>")
+
+= header
+
+= render(:partial => "providers")
+
+= rest
