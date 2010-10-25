@@ -1,6 +1,16 @@
+---
+title: Deltacloud - Documentation
+area: documentation
+extension: html
+filter:
+  - markdown
+  - outline
+---
 [framework]: styles/framework.png
 
 # Writing Deltacloud Drivers #
+
+<toc class="toc" numbering="off" toc_style="ul" toc_range="h2-h3" />
 
 The _Deltacloud Core framework_ is provided to assist in creating
 intermediary [drivers](drivers.html) that speak the [Deltacloud REST
@@ -216,12 +226,12 @@ The general format for the entire FSM structure is
 
     [
       [ :origin_state1, {
-        :destination_state1=>:action1, 
-        :destination_state2=>:action2, 
+        :destination_state1=>:action1,
+        :destination_state2=>:action2,
       } ],
       [ :origin_state2, {
-        :destination_state3=>:action3, 
-        :destination_state4=>:action4, 
+        :destination_state3=>:action3,
+        :destination_state4=>:action4,
       } ],
     ]
 

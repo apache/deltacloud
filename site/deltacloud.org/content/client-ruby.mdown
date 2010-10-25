@@ -1,4 +1,14 @@
+---
+title: Deltacloud - Documentation
+area: documentation
+extension: html
+filter:
+  - markdown
+  - outline
+---
 # Deltacloud Client (Ruby)
+
+<toc class="toc" numbering="off" toc_style="ul" toc_range="h2-h3" />
 
 The Deltacloud project includes a Ruby client.  Other language-bindings
 are possible and will be supported soon.  The client aims to insulate
