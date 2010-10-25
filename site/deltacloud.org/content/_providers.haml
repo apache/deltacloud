@@ -1,0 +1,49 @@
+---
+filter:
+  - haml
+---
+%table#providers
+  %tr
+    %th.emptycell &nbsp;
+    %th
+      %strong Create
+      new instances
+    %th
+      %strong Start
+      stopped instances
+    %th
+      %strong Stop
+      running instances
+    %th
+      %strong Reboot
+      running instances
+    %th
+      %strong Destroy
+      instances
+    %th
+      List all/get details about
+      %strong hardware profiles
+    %th
+      List all/get details about
+      %strong realms
+    %th
+      List all/get details about
+      %strong images
+    %th
+      List all/get details about
+      %strong instances
+  - provider_support.each do |provider|
+    %tr
+      %td.provider
+        = provider[:name]
+        - if not provider[:driver]
+          %span coming soon
+      = support_indicator(provider[:instance][:create])
+      = support_indicator(provider[:instance][:start])
+      = support_indicator(provider[:instance][:stop])
+      = support_indicator(provider[:instance][:reboot])
+      = support_indicator(provider[:instance][:destroy])
+      = support_indicator(provider[:list][:hardware_profiles])
+      = support_indicator(provider[:list][:realms])
+      = support_indicator(provider[:list][:images])
+      = support_indicator(provider[:list][:instances])

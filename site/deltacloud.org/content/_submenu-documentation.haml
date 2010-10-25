@@ -1,0 +1,11 @@
+---
+filter: haml
+---
+#subnavigation
+  #submenu.container
+    %ul.l1
+      - documentation_pages.each do |link|
+        %li
+          - state = (link[:href] == current_page) ? 'active' : 'inactive'
+          %a{:class => state, :href => link[:href]}
+            = link[:menu]

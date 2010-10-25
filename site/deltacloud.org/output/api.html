@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>
+      Deltacloud - Documentation
+    </title>
+    <meta content='' name='keywords' />
+    <meta content='' name='description' />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <link href='./styles/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+    <link href='./styles/default.css' rel='StyleSheet' title='Main style' type='text/css' />
+    <link href='./styles/default-debug.css' rel='Alternate StyleSheet' title='Debug main style' type='text/css' />
+  </head>
+  <body>
+    <div id='header'>
+      <div class='container'>
+        <div id='headerLogo' onclick="location.href='index.html';" style='cursor: pointer;'>
+          <h1>
+            Deltacloud - Many clouds. One API. No problem.
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div id='navigation'>
+      <div class='container' id='menu'>
+        <ul class='l0'>
+          <li>
+            <a class='inactive' href='./index.html' title='Deltacloud Home'>Home</a>
+          </li>
+          <li>
+            <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+          </li>
+          <li>
+            <a class='active' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='subnavigation'>
+      <div class='container' id='submenu'>
+        <ul class='l1'>
+          <li>
+            <a class='inactive' href='documentation.html'>
+              Overview
+            </a>
+          </li>
+          <li>
+            <a class='active' href='api.html'>
+              REST API
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='drivers.html'>
+              Drivers
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='framework.html'>
+              Framework
+            </a>
+          </li>
+          <li>
+            <a class='inactive' href='client-ruby.html'>
+              Ruby Client
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='frontpageHeader'></div>
+    <div id='main'>
+      <div class='container' id='content-deltacloud'>
+        <h1>Deltacloud API</h1>
+        <!-- - title, rest = page.split("</h1>") -->
+        <!-- = title + '</h1>' -->
+        <ul class="toc">
+        <li>
+        <a href="#h1">REST</a>
+        </li>
+        <li>
+        <a href="#h2">Authentication</a>
+        </li>
+        <li>
+        <a href="#h3">Primary Entry Point</a>
+        </li>
+        <li>
+        <a href="#h4">Resources</a>
+        <ul>
+        <li>
+        <a href="#h4_1">Hardware Profiles</a>
+        </li>
+        <li>
+        <a href="#h4_2">Realms</a>
+        </li>
+        <li>
+        <a href="#h4_3">Images</a>
+        </li>
+        <li>
+        <a href="#h4_4">Instances</a>
+        </li>
+        </ul></li></ul>
+        <!-- = rest -->
+        
+        
+        <p>The Deltacloud API is built as a service-based REST API. You do not
+        directly link a Deltacloud library into your program to use it.
+        Instead, a client speaks the Deltacloud API over HTTP to a server
+        which implements the REST interface.</p>
+        
+        <p>Since cloud providers use their own APIs instead of the Deltacloud
+        API, we provide a translation layer that makes it possible to use
+        Deltacloud with these providers.</p>
+        
+        <h2 id="h1">REST</h2>
+        
+        <p>The Deltacloud API is a <a href="http://en.wikipedia.org/wiki/Representational_State_Transfer">RESTful API</a>, using HATEOAS architectural
+        style. The API requires no client-side URL construction. Access is
+        based entirely off a single entry-point resource. This allows other
+        implementors to structure their URL space however they like.</p>
+        
+        <p>Additionally, the Deltacloud API uses <em>content negotiation</em> to
+        determine the format of the returned representation. As of the current
+        revision, the only required representation is XML. Clients wishing to
+        receive XML representations must specify the HTTP <code>Accept</code> header as
+        <code>application/xml</code>.</p>
+        
+        <h2 id="h2">Authentication</h2>
+        
+        <p>The Deltacloud API uses HTTP authentication methods for authenticating
+        a given client. There is no explicit <em>login</em> action required. If
+        authentication is required, an HTTP status of 401 will be returned to
+        challenge for credentials.</p>
+        
+        <h2 id="h3">Primary Entry Point</h2>
+        
+        <p>Any Deltacloud implementor <em>must</em> provide exactly one well-known URL
+        as an entry-point. For example, <code>http://fancycloudprovider.com/api</code>.</p>
+        
+        <p>The result of this entry-point is a set of entry-points into other
+        collections, such as <em>images</em>, <em>instances</em>, <em>hardware profiles</em> and
+        <em>realms</em>, among others.</p>
+        
+        <p>Each collection is defined by a <code>&lt;link&gt;</code> tag with an <code>href</code> attribute
+        which includes the fully-qualified URL to the collection (which <em>may</em>
+        exist on different servers) and a <code>rel</code> attribute to denote which
+        collection is being specified.</p>
+        
+        <pre><code>&lt;api driver='ec2' version='1.0'&gt;&#x000A;  &lt;link href='http://fancycloudprovider.com/api/hardware_profiles' rel='hardware_profiles' /&gt;&#x000A;  &lt;link href='http://fancycloudprovider.com/api/instance_states' rel='instance_states' /&gt;&#x000A;  &lt;link href='http://fancycloudprovider.com/api/realms' rel='realms' /&gt;&#x000A;  &lt;link href='http://fancycloudprovider.com/api/images' rel='images' /&gt;&#x000A;  &lt;link href='http://fancycloudprovider.com/api/instances' rel='instances' /&gt;&#x000A;&lt;/api&gt;&#x000A;</code></pre>
+        
+        <h2 id="h4">Resources</h2>
+        
+        <p>From the primary entry-point, a client may follow the URL provided for
+        a collection to retrieve the resources within that collection. The
+        collection representation will include the full representations of the
+        items within it, along with links to retrieve each item individually.</p>
+        
+        <p><img src="styles/basic-relationships.png" alt="Basic relationships" /></p>
+        
+        <h3 id="h4_1">Hardware Profiles</h3>
+        
+        <p>Within a cloud provider a <em>hardware profile</em> represents a
+        configuration of resources upon which a machine may be deployed. A
+        hardware profile defines aspects such as local disk storage, available
+        RAM, and architecture. A future revision of the Deltacloud API will
+        include more aspects, including number and speed of CPUs available.
+        Each provider is free to define as many (or as few) hardware profiles
+        as desired.</p>
+        
+        <pre><code>&lt;hardware_profiles&gt;&#x000A;  &lt;hardware_profile href='http://fancycloudprovider.com/api/hardware_profiles/m1-small' id='m1-small'&gt;&#x000A;    &lt;property kind='fixed' name='storage' unit='GB' value='160' /&gt;&#x000A;    &lt;property kind='fixed' name='architecture' unit='label' value='i386' /&gt;&#x000A;    &lt;property kind='fixed' name='cpu' unit='count' value='1' /&gt;&#x000A;    &lt;property kind='fixed' name='memory' unit='MB' value='1740.8' /&gt;&#x000A;  &lt;/hardware_profile&gt;&#x000A;</code></pre>
+        
+        <p>Each <code>&lt;hardware_profile&gt;</code> block shall contain an <code>href</code> attribute providing a
+        URL to manipulate a specific profile, along with property elements for each
+        attribute of the hardware.</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong>            is a unique identifier for the profile</li>
+        <li><strong><code>property</code></strong>      describes each of the hardware aspects</li>
+        </ul>
+        
+        
+        <p>Properties have the following attributes:</p>
+        
+        <ul>
+        <li><strong><code>name</code></strong>          the type of the property: <em>e.g.</em> <code>memory</code> or <code>storage</code></li>
+        <li><strong><code>unit</code></strong>          the units in which the value is specified: <code>MB</code>, <code>GB</code>, <code>count</code> or <code>label</code></li>
+        <li><strong><code>value</code></strong>         the actual value of the property. It depends on the specified unit: <code>1024</code>, <code>2</code> on <code>x86_64</code></li>
+        <li><strong><code>kind</code></strong>          describes the values to chose from.
+        
+        <ul>
+        <li><strong><code>fixed</code></strong>         only the value specified in the property is available</li>
+        <li><strong><code>enum</code></strong>          a list of available values is provided</li>
+        <li><strong><code>range</code></strong>         available values are described by a numeric range</li>
+        </ul>
+        </li>
+        </ul>
+        
+        
+        <p>When the <code>kind</code> is either an <code>enum</code> or a <code>range</code>, there must be two additional elements specified. One
+        that specifies the allowed values and the second with a way of picking a value.</p>
+        
+        <p>In the non-fixed case, the <code>value</code> property attribute specifies the default value.</p>
+        
+        <pre><code>  &lt;hardware_profile href='http://fancycloudprovider.com/api/hardware_profiles/m1-xlarge' id='m1-xlarge'&gt;&#x000A;    &lt;property kind='enum' name='storage' unit='GB' value='1024'&gt;&#x000A;      &lt;param href='http://fancycloudprovider.com/api/instances' method='post' name='hwp_storage' operation='create' /&gt;&#x000A;      &lt;enum&gt;&#x000A;        &lt;entry value='1024' /&gt;&#x000A;        &lt;entry value='2048' /&gt;&#x000A;        &lt;entry value='4096' /&gt;&#x000A;      &lt;/enum&gt;&#x000A;    &lt;/property&gt;&#x000A;    &lt;property kind='fixed' name='architecture' unit='label' value='x86_64' /&gt;&#x000A;    &lt;property kind='fixed' name='cpu' unit='count' value='4' /&gt;&#x000A;    &lt;property kind='range' name='memory' unit='MB' value='12288'&gt;&#x000A;      &lt;param href='http://fancycloudprovider.com/api/instances' method='post' name='hwp_memory' operation='create' /&gt;&#x000A;      &lt;range first='12288' last='32768' /&gt;&#x000A;    &lt;/property&gt;&#x000A;  &lt;/hardware_profile&gt;&#x000A;&lt;/hardware_profiles&gt;&#x000A;</code></pre>
+        
+        <p>At this time, hardware profile resources are immutable and read-only. In a
+        future revision they may be mutable.</p>
+        
+        <h3 id="h4_2">Realms</h3>
+        
+        <p>Within a cloud provider a <em>realm</em> represents a boundary containing
+        resources. The exact definition of a realm is left to the cloud
+        provider. In some cases, a realm may represent different datacenters,
+        different continents, or different pools of resources within a single
+        datacenter. A cloud provider may insist that resources must all exist
+        within a single realm in order to cooperate. For instance, storage
+        volumes may only be allowed to be mounted to instances within the same
+        realm.</p>
+        
+        <pre><code>&lt;realms&gt;&#x000A;  &lt;realm href="http://fancycloudprovider.com/api/realms/us" id='us'&gt;&#x000A;    &lt;name&gt;United States&lt;/name&gt;&#x000A;    &lt;state&gt;AVAILABLE&lt;/state&gt;&#x000A;    &lt;limit/&gt;&#x000A;  &lt;/realm&gt;&#x000A;  &lt;realm href="http://fancycloudprovider.com/api/realms/eu" id='eu'&gt;&#x000A;    &lt;name&gt;Europe&lt;/name&gt;&#x000A;    &lt;state&gt;AVAILABLE&lt;/state&gt;&#x000A;    &lt;limit/&gt;&#x000A;  &lt;/realm&gt;&#x000A;&lt;/realms&gt;&#x000A;</code></pre>
+        
+        <p>Each <code>&lt;realm&gt;</code> block shall contain an <code>href</code> attribute providing a URL
+        to manipulate a specific realm, along with elements for each attribute
+        of a realm.</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong>          A unique identifier for the realm</li>
+        <li><strong><code>name</code></strong>        A short label</li>
+        <li><strong><code>state</code></strong>       Indicator of the current state of a realm
+        
+        <ul>
+        <li>AVAILABLE</li>
+        <li>UNAVAILABLE</li>
+        </ul>
+        </li>
+        <li><strong><code>limit</code></strong>       Limits applicable for the <em>current requester</em></li>
+        </ul>
+        
+        
+        <h3 id="h4_3">Images</h3>
+        
+        <p>An <em>image</em> is a platonic form of a machine. Images are not directly
+        executable, but are a template for creating actual instances of
+        machines.</p>
+        
+        <p>The instances collection will return a set of all images available to
+        the current user.</p>
+        
+        <pre><code>&lt;images&gt;&#x000A;  &lt;image href="http://fancycloudprovider.com/api/images/img1" id='img1'&gt;&#x000A;    &lt;owner_id&gt;fedoraproject&lt;/owner_id&gt;&#x000A;    &lt;name&gt;Fedora 10&lt;/name&gt;&#x000A;    &lt;description&gt;Fedora 10&lt;/description&gt;&#x000A;    &lt;architecture&gt;x86_64&lt;/architecture&gt;&#x000A;  &lt;/image&gt;&#x000A;  &lt;image href="http://fancycloudprovider.com/api/images/img2" id='img2'&gt;&#x000A;    &lt;owner_id&gt;fedoraproject&lt;/owner_id&gt;&#x000A;    &lt;name&gt;Fedora 10&lt;/name&gt;&#x000A;    &lt;description&gt;Fedora 10&lt;/description&gt;&#x000A;    &lt;architecture&gt;i386&lt;/architecture&gt;&#x000A;  &lt;/image&gt;&#x000A;  &lt;image href="http://fancycloudprovider.com/api/images/img3" id='img3'&gt;&#x000A;    &lt;owner_id&gt;ted&lt;/owner_id&gt;&#x000A;    &lt;name&gt;JBoss&lt;/name&gt;&#x000A;    &lt;description&gt;JBoss&lt;/description&gt;&#x000A;    &lt;architecture&gt;i386&lt;/architecture&gt;&#x000A;  &lt;/image&gt;&#x000A;&lt;/images&gt;&#x000A;</code></pre>
+        
+        <p>Each <code>&lt;image&gt;</code> block <em>shall</em> contain an <code>href</code> attribute providing a
+        URL to manipulate a specific image, along with elements for each
+        attribute of an image. Each element, including those for optional
+        attributes must be present. Optional attributes may be specified as a
+        element with empty content.</p>
+        
+        <p>These attributes include</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong>            A unique identifier for the image</li>
+        <li><strong><code>owner_id</code></strong>      An opaque identifier which indicates the owner of an image</li>
+        <li><strong><code>name</code></strong>          An <em>optional</em> short label describing the image</li>
+        <li><strong><code>description</code></strong>   An <em>optional</em> description describing the image more fully</li>
+        <li><strong><code>architecture</code></strong>  A description of the machine architecture of the image
+        which may contain values such as:
+        
+        <ul>
+        <li><code>i386</code></li>
+        <li><code>x86_64</code></li>
+        </ul>
+        </li>
+        </ul>
+        
+        
+        <p>At this time, image resources are immutable and read-only.  In a future revision
+        they will be mutable.</p>
+        
+        <h3 id="h4_4">Instances</h3>
+        
+        <p>An <em>instance</em> is a concrete machine realized from an <em>image</em>. The
+        images collection may be obtained by following the link from the
+        primary entry-point.</p>
+        
+        <pre><code>&lt;instances&gt;&#x000A;  &lt;instance href="http://fancycloudprovider.com/api/instances/inst1" id='inst1'&gt;&#x000A;    &lt;owner_id&gt;larry&lt;/owner_id&gt;&#x000A;    &lt;name&gt;Production JBoss Instance&lt;/name&gt;&#x000A;    &lt;image href="http://fancycloudprovider.com/api/images/img3"/&gt;&#x000A;    &lt;hardware_profile href="http://fancycloudprovider.com/api/hardware_profiles/m1-small"/&gt;&#x000A;    &lt;realm href="http://fancycloudprovider.com/api/realms/us"/&gt;&#x000A;&#x000A;    &lt;state&gt;RUNNING&lt;/state&gt;&#x000A;    &lt;actions&gt;&#x000A;      &lt;link rel="reboot" href="http://fancycloudprovider.com/api/instances/inst1/reboot"/&gt;&#x000A;      &lt;link rel="stop" href="http://fancycloudprovider.com/api/instances/inst1/stop"/&gt;&#x000A;    &lt;/actions&gt;&#x000A;    &lt;public_addresses&gt;&#x000A;      &lt;address&gt;inst1.larry.fancycloudprovider.com&lt;/address&gt;&#x000A;    &lt;/public_addresses&gt;&#x000A;&#x000A;    &lt;private_addresses&gt;&#x000A;      &lt;address&gt;inst1.larry.internal&lt;/address&gt;&#x000A;    &lt;/private_addresses&gt;&#x000A;  &lt;/instance&gt;&#x000A;&lt;/instances&gt;&#x000A;</code></pre>
+        
+        <p>Each <code>&lt;instance&gt;</code> block shall contain an href attribute providing a
+        URL to manipulate a specific instance, along with elements for each
+        attribute of an instance. Each element, including those for optional
+        attributes must be present. Optional attributes may be specified as a
+        element with empty content.</p>
+        
+        <p>Simple attributes include</p>
+        
+        <ul>
+        <li><strong><code>id</code></strong>           A unique identifier for the instance</li>
+        <li><strong><code>owner_id</code></strong>     An opaque identifier which indicates the owner of an instance</li>
+        <li><strong><code>name</code></strong>         An <em>optional</em> short label describing the instance</li>
+        <li><strong><code>image</code></strong>        Provides a link to the platonic image from which the instance is based</li>
+        <li><strong><code>hardware_profile</code></strong>       Provides a link to the hardware profile in use by the instance</li>
+        <li><strong><code>realm</code></strong>        Provides a link to the realm where the instance is deployed</li>
+        <li><strong><code>state</code></strong>        Indicator of the instance's current state
+        
+        <ul>
+        <li><code>PENDING</code></li>
+        <li><code>STOPPED</code></li>
+        <li><code>RUNNING</code></li>
+        </ul>
+        </li>
+        </ul>
+        
+        
+        <p>Multiple-valued attributes include</p>
+        
+        <ul>
+        <li><strong><code>public_addresses</code></strong>  Publicly routable IP addresses or names for the instance</li>
+        <li><strong><code>private_addresses</code></strong>  Private network IP addresses or names for the instance</li>
+        </ul>
+        
+        
+        <p>In addition to the abovementioned attributes, each <code>&lt;instance&gt;</code> may contain an
+        <code>&lt;actions&gt;</code> block specifying valid actions for the instance, along with the URL
+        which may be used to perform the action.  Each action is specified by a <code>&lt;link&gt;</code>
+        with an <code>href</code> attribute providing the URL, and a <code>rel</code> attribute providing
+        a key to determine what the action will do.</p>
+        
+        <p>Representative actions include</p>
+        
+        <ul>
+        <li><code>reboot</code></li>
+        <li><code>start</code></li>
+        <li><code>stop</code></li>
+        </ul>
+        
+        
+        <p>Not all actions may be valid at all times for all instances. To invoke
+        an action, a client must perform an HTTP <code>POST</code> to the URL indicated.</p>
+        
+        <h4>Creating a new Instance</h4>
+        
+        <p>Per usual REST architectural style, new instances are created by
+        issuing an HTTP <code>POST</code> to the instances collection as defined through
+        the primary entry-point URL. Data should be sent in
+        <code>application/x-www-form-urlencoded</code> format.</p>
+        
+        <p>To create a new instance, only one parameter is required</p>
+        
+        <ul>
+        <li><strong><code>image_id</code></strong>   The identifier (not URL) of the image from which to base the instance</li>
+        </ul>
+        
+        
+        <p>Optional parameters may also be provided</p>
+        
+        <ul>
+        <li><strong><code>realm_id</code></strong>   The realm in which to launch the instance</li>
+        <li><strong><code>hwp_name</code></strong>  The hardware profile upon which to launch the instance</li>
+        <li><strong><code>name</code></strong>       A short label to identify the instance</li>
+        </ul>
+        
+        
+        <p>If <code>realm_id</code> or <code>hwp_name</code> are not specified, the provider <em>must</em>
+        select reasonable defaults. The architecture of the selected harware profile
+        <em>must</em> match the architecture of the specified image.</p>
+        
+        <p>After <code>POST</code>ing the data, the server <em>shall</em> return a representation
+        of the newly-created instance's XML, including a URL to retrieve the
+        instance in the future.</p>
+      </div>
+    </div>
+  </body>
+</html>

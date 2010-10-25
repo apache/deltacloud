@@ -1,0 +1,17 @@
+---
+title: Deltacloud - Documentation
+area: documentation
+extension: html
+filter:
+  - haml
+---
+%h1 Documentation
+
+%p The Deltacloud documentation is divided into the following parts:
+
+%ul
+  - documentation_pages.each do |doc|
+    - if doc[:description]
+      %li
+        %a{ :href => doc[:href] }
+          = doc[:description]

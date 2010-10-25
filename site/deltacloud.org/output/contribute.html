@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>
+      Deltacloud - Contribute
+    </title>
+    <meta content='' name='keywords' />
+    <meta content='' name='description' />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <link href='./styles/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+    <link href='./styles/default.css' rel='StyleSheet' title='Main style' type='text/css' />
+    <link href='./styles/default-debug.css' rel='Alternate StyleSheet' title='Debug main style' type='text/css' />
+  </head>
+  <body>
+    <div id='header'>
+      <div class='container'>
+        <div id='headerLogo' onclick="location.href='index.html';" style='cursor: pointer;'>
+          <h1>
+            Deltacloud - Many clouds. One API. No problem.
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div id='navigation'>
+      <div class='container' id='menu'>
+        <ul class='l0'>
+          <li>
+            <a class='inactive' href='./index.html' title='Deltacloud Home'>Home</a>
+          </li>
+          <li>
+            <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
+          </li>
+          <li>
+            <a class='active' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+          </li>
+          <li>
+            <a class='inactive' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='frontpageHeader'></div>
+    <div id='main'>
+      <div class='container' id='content-deltacloud'>
+        <h1>Help make Deltacloud better</h1>
+        <ul class="toc">
+        <li>
+        <a href="#h1">Getting the sources</a>
+        </li>
+        <li>
+        <a href="#h2">Required packages</a>
+        </li>
+        <li>
+        <a href="#h3">Installing the Deltacloud Core</a>
+        </li>
+        </ul>
+        <p>All development of Deltacloud takes place in the open. Communication is run through the mailing list and all source code changes are tracked publicly.</p>
+        <ul>
+          <li>
+            <strong>Mailing Lists</strong>
+            <br />
+            <p>For Deltacloud API: <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x64;&#101;&#108;&#116;&#x61;&#x63;&#108;&#x6f;&#x75;&#x64;&#45;&#x64;&#x65;&#x76;&#64;&#105;&#110;&#99;&#117;&#98;&#x61;&#116;&#111;&#x72;&#x2e;&#x61;&#x70;&#x61;&#99;&#104;&#101;&#46;&#x6f;&#114;&#103;">&#100;&#101;&#108;&#x74;&#x61;&#x63;&#x6c;&#x6f;&#117;&#100;&#x2d;&#x64;&#101;&#x76;&#x40;&#105;&#x6e;&#x63;&#117;&#98;&#97;&#116;&#x6f;&#x72;&#46;&#97;&#x70;&#97;&#x63;&#104;&#101;&#x2e;&#111;&#114;&#103;</a>.
+            To subscribe to it, send an email to <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x64;&#x65;&#x6c;&#116;&#97;&#99;&#108;&#111;&#117;&#100;&#45;&#100;&#101;&#x76;&#45;&#x73;&#x75;&#x62;&#x73;&#99;&#114;&#x69;&#98;&#101;&#x40;&#105;&#x6e;&#x63;&#x75;&#98;&#x61;&#116;&#x6f;&#x72;&#x2e;&#x61;&#x70;&#x61;&#99;&#104;&#x65;&#46;&#111;&#x72;&#x67;">&#100;&#x65;&#x6c;&#x74;&#97;&#x63;&#x6c;&#111;&#x75;&#x64;&#x2d;&#100;&#101;&#118;&#x2d;&#115;&#117;&#x62;&#x73;&#x63;&#114;&#x69;&#98;&#x65;&#x40;&#105;&#x6e;&#x63;&#117;&#98;&#x61;&#116;&#x6f;&#114;&#x2e;&#97;&#x70;&#97;&#99;&#104;&#x65;&#x2e;&#111;&#x72;&#x67;</a>.
+            You can also view <a href="http://mail-archives.apache.org/mod_mbox/incubator-deltacloud-dev/">Archive</a> in case you are missing something.</p>
+          </li>
+          <li>
+            <strong>IRC</strong>
+            <br />
+            <p>You can also join us on the Freenode IRC channel #deltacloud. Deltacloud developers are generally available on the IRC channel</p>
+          </li>
+          <li>
+            <strong>Bugs</strong>
+            <br />
+            <p>We track bugs in <a href="https://issues.apache.org/jira/browse/DTACLOUD">Apache JIRA</a>. You can <a href="https://issues.apache.org/jira/browse/DTACLOUD">view open bugs</a> or <a href="https://issues.apache.org/jira/secure/CreateIssue!default.jspa">file a new one</a> there.</p>
+          </li>
+          <li>
+            <strong>Patches</strong>
+            <br />
+            <p>Patches are very welcome. Please send them to the <a href="http://mail-archives.apache.org/mod_mbox/incubator-deltacloud-dev/">development list</a>. Patches should be generated with <a href="http://kernel.org/pub/software/scm/git/docs/git-format-patch.html"><code>git</code>&nbsp;<code>format-patch</code></a> and sent to the list with <a href="http://kernel.org/pub/software/scm/git/docs/git-send-email.html"><code>git</code>&nbsp;<code>send-email</code></a>.</p>
+          </li>
+        </ul>
+        <h2 id="h1">Getting the sources</h2>
+        
+        <p>Then Deltacloud Core gives you the API and drivers to various cloud providers.
+        It also provides a client library and a commandline interface.</p>
+        
+        <p>The Deltacloud Core repository is hosted on Apache Incubator.
+        Apache uses Subversion, but there is a git mirror available:</p>
+        
+        <pre><code>$ mkdir deltacloud&#x000A;$ cd deltacloud&#x000A;$ git clone git://git.apache.org/deltacloud.git core&#x000A;</code></pre>
+        
+        <p>You can find the Subversion repository at: <a href="https://svn.apache.org/repos/asf/incubator/deltacloud">https://svn.apache.org/repos/asf/incubator/deltacloud</a>.</p>
+        
+        <h2 id="h2">Required packages</h2>
+        
+        <p>In order to make the Deltacloud components work, you'll need to
+        have the following packages installed (on Fedora 12; the names may vary on
+        your distro):</p>
+        
+        <pre><code>ruby&#x000A;ruby-devel&#x000A;gcc-c++&#x000A;libxml2-devel&#x000A;libxslt-devel&#x000A;</code></pre>
+        
+        <p><strong>Note:</strong> these packages are necessary for building all the required ruby gems
+        that Deltacloud requires. If you want to install the gems using your system's
+        package manager (yum, apt, ports, etc.) you won't need to install these
+        packages manually.</p>
+        
+        <h2 id="h3">Installing the Deltacloud Core</h2>
+        
+        <p>First, you need to install the server that will give you the Deltacloud API:</p>
+        
+        <pre><code>$ cd path/to/deltacloud/core/server&#x000A;$ rake package&#x000A;$ sudo gem install pkg/deltacloud-core-&lt;version&gt;.gem&#x000A;</code></pre>
+        
+        <p>Then install the client library:</p>
+        
+        <pre><code>$ cd path/to/deltacloud/core/client&#x000A;$ rake package&#x000A;$ sudo gem install pkg/deltacloud-client-&lt;version&gt;.gem&#x000A;</code></pre>
+        
+        <p>Once you have the client installed, run the following command:</p>
+        
+        <pre><code>$ cd path/to/deltacloud/core/client&#x000A;$ rake fixtures&#x000A;</code></pre>
+      </div>
+    </div>
+  </body>
+</html>

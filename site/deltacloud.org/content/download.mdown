@@ -1,0 +1,57 @@
+---
+title: Deltacloud - Download
+extension: html
+filter: markdown
+---
+Download
+========
+### Deltacloud Core ###
+
+Deltacloud Core provides the API server and drivers necessary for connecting
+to the cloud providers.
+
+Presently, it is packaged as a Ruby gem. You can install it by typing the
+following command:
+
+    $ sudo gem install deltacloud-core
+
+Additional Tools
+----------------
+These are complementary to the essential Core components.
+
+### libdeltacloud ###
+
+A library for accessing the Deltacloud API from C/C++ programs.
+
+You can get the source code:
+
+    $ git clone git://git.fedorahosted.org/deltacloud/libdeltacloud.git
+
+Or you can download the RPMs for Fedora 12 and 13:
+
+<http://people.redhat.com/clalance/libdeltacloud>
+
+Contributed by Chris Lalancette.
+
+
+### Deltacloud Client ###
+
+Deltacloud Client is a command line tool that communicates with the
+Deltacloud&nbsp;API.
+
+Type the following command to install it:
+
+    $ gem install deltacloud-core
+
+### Deltacloud driver for VirtualBox ###
+
+<http://gitorious.org/deltacloud-devel/deltacloud-virtualbox-driver>
+
+Contributed by Michal Fojtik.
+
+### Your name here ###
+
+Do you have a tool to make Deltacloud more useful? Let us know on our
+[deltacloud-devel mailing list][deltacloud-devel] and we'll post it here!
+
+[deltacloud-devel]: mailto:deltacloud-dev-subscribe@incubtaor.apache.org

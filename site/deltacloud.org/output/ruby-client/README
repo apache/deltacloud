@@ -1,0 +1,9 @@
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING
+
+The contents of doc/ are the result of running
+
+  cd ../../../../client && rake documentation
+
+and is not automatically regenerated
+
+WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING

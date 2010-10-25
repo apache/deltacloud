@@ -1,0 +1,76 @@
+# Deltacloud Drivers
+
+Deltacloud provides drivers for a growing number of popular clouds. All drivers
+can handle a set of standard operations, some of them also support a number of
+optional operations to expose the features of specific clouds more closely. The
+drivers and their capabilities are:
+
+<table providers></table>
+
+## Setting up the code
+
+To set up a Deltacloud core and the drivers, install the
+[deltacloud-core][coregem] Ruby gem:
+
+[coregem]: http://rubygems.org/gems/deltacloud-core
+
+    # gem install deltacloud-core
+
+RPM package will be available soon.
+
+## Launch the server
+
+The server is launched with the `deltacloudd` command and pass it the name
+of the driver you want to use:
+
+    $ deltacloudd -i mock
+
+This will start a webserver running the mock driver on
+`http://localhost:3001/api`; you can simply browse to that URL to get a
+pretty view of the objects the driver deals with.
+
+### EC2 Driver
+
+For the Amazon EC2 you need to install the `amazon-ec2` Ruby gem:
+
+    # gem install amazon-ec2
+
+When using the driver for Amazon EC2, the credentials passed in
+response to the HTTP 401 authentication challenge should be your
+*access_key* and *secret_access_key*
+
+These credentials may be found on the [Access Identifiers](http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key)
+page at Amazon AWS.
+
+### RHEV-M Driver
+
+The RHEV-M driver needs to be installed on a Windows machine which has the
+RHEV-M Powershell API installed and configured. Assuming the directory
+structure above is followed, you should copy the file
+deltacloud/deltacloud-driver-rhevm/config/rhevm_config.yaml.EXAMPLE to be
+rhevm_config.yaml and edit the file woith the domain you are logging into.
+The username and pasword is provided via the API.
+
+The actual RHEVM instance you are connecting to is controlled by
+the RHEVM.dll.config file which is referenced from the profile.ps1
+file located in My Documents/WindowsPowershell directory
+
+### Rackspace Driver
+
+When using the Rackspace-cloud driver (Rackspace cloud used to be called
+"Mosso") - the password in a HTTP 401 challenge should be your API key, NOT
+your rackspace account password.  (you can get the API-key, or generate a
+new one, from the rackspace console).
+
+### RimuHosting
+
+Further details coming soon.
+
+### OpenNebula
+
+When using the [OpenNebula](http://www.opennebula.org/) driver, the
+credentials passed in response to the HTTP 401 authentication challenge
+should be your OpenNebula user and password.
+
+The address, on which the OCCI server is listening, needs to be defined in
+an environment variable called OCCI_URL.
