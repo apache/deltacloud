@@ -85,7 +85,7 @@ describe "instances" do
 
   it "should allow creation of new instances with reasonable defaults" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.create_instance( 'img1', :name=>'TestInstance' )
+      instance = client.create_instance( 'img1', :name=>'TestInstance', :hardware_profile => 'm1-large' )
       instance.should_not be_nil
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )
@@ -98,7 +98,7 @@ describe "instances" do
 
   it "should allow creation of new instances with specific realm" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      instance = client.create_instance( 'img1', :realm=>'eu' )
+      instance = client.create_instance( 'img1', :realm=>'eu', :hardware_profile => 'm1-large' )
       instance.should_not be_nil
       instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
       instance.id.should match( /inst[0-9]+/ )

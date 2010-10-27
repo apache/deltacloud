@@ -20,6 +20,10 @@ require 'nokogiri'
 require 'rest_client'
 require 'base64'
 require 'logger'
+require 'lib/hwp_properties'
+require 'lib/instance_state'
+require 'lib/documentation'
+require 'lib/base_object'
 
 module DeltaCloud
 
@@ -56,27 +60,11 @@ module DeltaCloud
     API.new(nil, nil, url).driver_name
   end
 
-  def self.define_class(name)
-    @defined_classes ||= []
-    if @defined_classes.include?(name)
-      self.module_eval("API::#{name}")
-    else
-      @defined_classes << name unless @defined_classes.include?(name)
-      API.const_set(name, Class.new)
-    end
-  end
-
-  def self.classes
-    @defined_classes || []
-  end
-
   class API
-    attr_accessor :logger
     attr_reader   :api_uri, :driver_name, :api_version, :features, :entry_points
 
     def initialize(user_name, password, api_url, opts={}, &block)
       opts[:version] = true
-      @logger = opts[:verbose] ? Logger.new(STDERR) : []
       @username, @password = user_name, password
       @api_uri = URI.parse(api_url)
       @features, @entry_points = {}, {}
@@ -101,147 +89,91 @@ module DeltaCloud
     # Define methods based on 'rel' attribute in entry point
     # Two methods are declared: 'images' and 'image'
     def declare_entry_points_methods(entry_points)
-      logger = @logger
+      
       API.instance_eval do
         entry_points.keys.select {|k| [:instance_states].include?(k)==false }.each do |model|
+
           define_method model do |*args|
             request(:get, entry_points[model], args.first) do |response|
-              # Define a new class based on model name
-              c = DeltaCloud.define_class("#{model.to_s.classify}")
-              # Create collection from index operation
-              base_object_collection(c, model, response)
+              base_object_collection(model, response)
             end
           end
-          logger << "[API] Added method #{model}\n"
+          
           define_method :"#{model.to_s.singularize}" do |*args|
             request(:get, "#{entry_points[model]}/#{args[0]}") do |response|
-              # Define a new class based on model name
-              c = DeltaCloud.define_class("#{model.to_s.classify}")
-              # Build class for returned object
-              base_object(c, model, response)
+              base_object(model, response)
             end
           end
-          logger << "[API] Added method #{model.to_s.singularize}\n"
+          
           define_method :"fetch_#{model.to_s.singularize}" do |url|
             id = url.grep(/\/#{model}\/(.*)$/)
             self.send(model.to_s.singularize.to_sym, $1)
           end
+
         end
       end
     end
 
-    def base_object_collection(c, model, response)
-      collection = []
-      Nokogiri::XML(response).xpath("#{model}/#{model.to_s.singularize}").each do |item|
-        c.instance_eval do
-          attr_accessor :id
-          attr_accessor :uri
-        end
-        collection << xml_to_class(c, item)
+    def base_object_collection(model, response)
+      Nokogiri::XML(response).xpath("#{model}/#{model.to_s.singularize}").collect do |item|
+        base_object(model, item.to_s)
       end
-      return collection
     end
 
     # Add default attributes [id and href] to class
-    def base_object(c, model, response)
-      obj = nil
-      Nokogiri::XML(response).xpath("#{model.to_s.singularize}").each do |item|
-        c.instance_eval do
-          attr_accessor :id
-          attr_accessor :uri
-
-
-        end
-        obj = xml_to_class(c, item)
-      end
-      return obj
+    def base_object(model, response)
+      c = DeltaCloud.add_class("#{model}", DeltaCloud::guess_model_type(response))
+      xml_to_class(c, Nokogiri::XML(response).xpath("#{model.to_s.singularize}").first)
     end
 
     # Convert XML response to defined Ruby Class
-    def xml_to_class(c, item)
-      obj = c.new
-      # Set default attributes
-      obj.id = item['id']
-      api = self
-      c.instance_eval do
-        define_method :method_missing do |method|
-            warn "[WARNING] Method '#{method}' is not available for this resource (#{c.name})."
-            return nil
+    def xml_to_class(base_object, item)
+      
+      return nil unless item
+
+      params = {
+          :id => item['id'],
+          :url => item['href'],
+          :name => item.name,
+          :client => self
+      }
+      params.merge!({ :initial_state => (item/'state').text.sanitize }) if (item/'state').length > 0
+
+      obj = base_object.new(params)
+
+      # Traverse across XML document and deal with elements
+      item.xpath('./*').each do |attribute|
+
+        # Do a link for elements which are links to other REST models
+        if self.entry_points.keys.include?(:"#{attribute.name}s")
+          obj.add_link!(attribute.name, attribute['id']) && next
         end
-        define_method :client do
-          api
-        end
-      end
-      obj.uri = item['href']
-      logger = @logger
-      logger << "[DC] Creating class #{obj.class.name}\n"
-      obj.instance_eval do
-        # Declare methods for all attributes in object
-        item.xpath('./*').each do |attribute|
-          # If attribute is a link to another object then
-          # create a method which request this object from API
-          if api.entry_points.keys.include?(:"#{attribute.name}s")
-            c.instance_eval do
-              define_method :"#{attribute.name.sanitize}" do
-                client.send(:"#{attribute.name}", attribute['id'] )
-              end
-              logger << "[DC] Added #{attribute.name} to class #{obj.class.name}\n"
-            end
+
+        # Do a HWP property for hardware profile properties
+        if attribute.name == 'property'
+          if attribute['value'] =~ /^(\d+)$/
+            obj.add_hwp_property!(attribute['name'], attribute, :float) && next
           else
-            # Define methods for other attributes
-            c.instance_eval do
-              case attribute.name
-                # When response cointains 'link' block, declare
-                # methods to call links inside. This is used for instance
-                # to dynamicaly create .stop!, .start! methods
-                when "actions" then
-                  actions = []
-                  attribute.xpath('link').each do |link|
-                    actions << [link['rel'], link[:href]]
-                    define_method :"#{link['rel'].sanitize}!" do
-                      client.request(:"#{link['method']}", link['href'], {}, {})
-                      @current_state = client.send(:"#{item.name}", item['id']).state
-                      obj.instance_eval do |o|
-                        def state
-                          @current_state
-                        end
-                      end
-                    end
-                  end
-                  define_method :actions do
-                    actions.collect { |a| a.first }
-                  end
-                  define_method :actions_urls do
-                    urls = {}
-                    actions.each { |a| urls[a.first] = a.last }
-                    urls
-                  end
-                # Property attribute is handled differently
-                when "property" then
-                  attr_accessor :"#{attribute['name'].sanitize}"
-                  if attribute['value'] =~ /^(\d+)$/
-                    obj.send(:"#{attribute['name'].sanitize}=",
-                      DeltaCloud::HWP::FloatProperty.new(attribute, attribute['name']))
-                  else
-                    obj.send(:"#{attribute['name'].sanitize}=",
-                      DeltaCloud::HWP::Property.new(attribute, attribute['name']))
-                  end
-                # Public and private addresses are returned as Array
-                when "public_addresses", "private_addresses" then
-                  attr_accessor :"#{attribute.name.sanitize}"
-                  obj.send(:"#{attribute.name.sanitize}=",
-                    attribute.xpath('address').collect { |address| address.text })
-                # Value for other attributes are just returned using
-                # method with same name as attribute (eg. .owner_id, .state)
-                else
-                  attr_accessor :"#{attribute.name.sanitize}"
-                  obj.send(:"#{attribute.name.sanitize}=", attribute.text.convert)
-                  logger << "[DC] Added method #{attribute.name}[#{attribute.text}] to #{obj.class.name}\n"
-              end
-            end
+            obj.add_hwp_property!(attribute['name'], attribute, :integer) && next
           end
         end
+
+        # If there are actions, add they to ActionObject/StateFullObject
+        if attribute.name == 'actions'
+          (attribute/'link').each do |link|
+            obj.add_action_link!(item['id'], link)
+          end && next
+        end
+
+        # Deal with collections like public-addresses, private-addresses
+        if (attribute/'./*').length > 0
+          obj.add_collection!(attribute.name, (attribute/'*').collect { |value| value.text }) && next
+        end
+        
+        # Anything else is treaten as text object
+        obj.add_text!(attribute.name, attribute.text.convert)
       end
+
       return obj
     end
 
@@ -252,73 +184,54 @@ module DeltaCloud
         api_xml = Nokogiri::XML(response)
         @driver_name = api_xml.xpath('/api').first['driver']
         @api_version = api_xml.xpath('/api').first['version']
-        logger << "[API] Version #{@api_version}\n"
-        logger << "[API] Driver #{@driver_name}\n"
+        
         api_xml.css("api > link").each do |entry_point|
           rel, href = entry_point['rel'].to_sym, entry_point['href']
           @entry_points.store(rel, href)
-          logger << "[API] Entry point '#{rel}' added\n"
+          
           entry_point.css("feature").each do |feature|
             @features[rel] ||= []
             @features[rel] << feature['name'].to_sym
-            logger << "[API] Feature #{feature['name']} added to #{rel}\n"
+            
           end
         end
       end
       declare_entry_points_methods(@entry_points)
     end
 
-    def create_key(opts={}, &block)
-      params = { :name => opts[:name] }
-      key = nil
-      request(:post, entry_points[:keys], {}, params) do |response|
-        c = DeltaCloud.define_class("Key")
-        key = base_object(c, :key, response)
-        yield key if block_given?
-      end
-      return key
-    end
-
-    # Create a new instance, using image +image_id+. Possible optiosn are
+    # Generate create_* methods dynamically
     #
-    #   name  - a user-defined name for the instance
-    #   realm - a specific realm for placement of the instance
-    #   hardware_profile - either a string giving the name of the
-    #                      hardware profile or a hash. The hash must have an
-    #                      entry +id+, giving the id of the hardware profile,
-    #                      and may contain additional names of properties,
-    #                      e.g. 'storage', to override entries in the
-    #                      hardware profile
-    def create_instance(image_id, opts={}, &block)
-      name = opts[:name]
-      realm_id = opts[:realm]
-      user_data = opts[:user_data]
-      key_name = opts[:key_name]
+    def method_missing(name, *args)
+      if name.to_s =~ /create_(\w+)/
+        params = args[0] if args[0] and args[0].class.eql?(Hash)
+        params ||= args[1] if args[1] and args[1].class.eql?(Hash)
+        params ||= {}
 
-      params = {}
-      ( params[:realm_id] = realm_id ) if realm_id
-      ( params[:name] = name ) if name
-      ( params[:user_data] = user_data ) if user_data
-      ( params[:keyname] = key_name ) if key_name
+        # FIXME: This fixes are related to Instance model and should be
+        # replaced by 'native' parameter names
 
-      if opts[:hardware_profile].is_a?(String)
-        params[:hwp_id] = opts[:hardware_profile]
-      elsif opts[:hardware_profile].is_a?(Hash)
-        opts[:hardware_profile].each do |k,v|
-          params[:"hwp_#{k}"] = v
+        params[:realm_id] ||= params[:realm] if params[:realm]
+        params[:keyname] ||= params[:key_name] if params[:key_name]
+
+        if params[:hardware_profile] and params[:hardware_profile].class.eql?(Hash)
+          params[:hardware_profile].each do |k,v|
+            params[:"hwp_#{k}"] ||= v
+          end
+        else
+          params[:hwp_id] ||= params[:hardware_profile]
         end
+
+        params[:image_id] ||= params[:image_id] || args[0] if args[0].class!=Hash
+
+        obj = nil
+
+        request(:post, entry_points[:"#{$1}s"], {}, params) do |response|
+          obj = base_object(:"#{$1}", response)
+          yield obj if block_given?
+        end
+        return obj
       end
-
-      params[:image_id] = image_id
-      instance = nil
-
-      request(:post, entry_points[:instances], {}, params) do |response|
-        c = DeltaCloud.define_class("Instance")
-        instance = base_object(c, :instance, response)
-        yield instance if block_given?
-      end
-
-      return instance
+      raise NoMethodError
     end
 
     # Basic request method
@@ -333,9 +246,10 @@ module DeltaCloud
       if conf[:query_args] != {}
         conf[:path] += '?' + URI.escape(conf[:query_args].collect{ |key, value| "#{key}=#{value}" }.join('&')).to_s
       end
-      logger << "[#{conf[:method].to_s.upcase}] #{conf[:path]}\n"
+      
       if conf[:method].eql?(:post)
         RestClient.send(:post, conf[:path], conf[:form_data], default_headers) do |response, request, block|
+          handle_backend_error(response) if response.code.eql?(500)
           if response.respond_to?('body')
             yield response.body if block_given?
           else
@@ -344,6 +258,7 @@ module DeltaCloud
         end
       else
         RestClient.send(conf[:method], conf[:path], default_headers) do |response, request, block|
+          handle_backend_error(response) if response.code.eql?(500)
           if conf[:method].eql?(:get) and [301, 302, 307].include? response.code
             response.follow_redirection(request) do |response, request, block|
               if response.respond_to?('body')
@@ -361,6 +276,21 @@ module DeltaCloud
           end
         end
       end
+    end
+
+    # Re-raise backend errors as on exception in client with message from
+    # backend
+    class BackendError < Exception
+      def initialize(opts={})
+        @message = opts[:message]
+      end
+      def message
+        @message
+      end
+    end
+
+    def handle_backend_error(response)
+      raise BackendError.new(:message => (Nokogiri::XML(response)/'error/message').text)
     end
 
     # Check if specified collection have wanted feature
@@ -396,6 +326,7 @@ module DeltaCloud
       true if @entry_points!={}
     end
 
+    # This method will retrieve API documentation for given collection
     def documentation(collection, operation=nil)
       data = {}
       request(:get, "/docs/#{collection}") do |body|
@@ -434,153 +365,6 @@ module DeltaCloud
       }
     end
 
-  end
-
-  class Documentation
-
-    attr_reader :api, :description, :params, :collection_operations
-    attr_reader :collection, :operation
-
-    def initialize(api, opts={})
-      @description, @api = opts[:description], api
-      @params = parse_parameters(opts[:params]) if opts[:params]
-      @collection_operations = opts[:operations] if opts[:operations]
-      @collection = opts[:collection]
-      @operation = opts[:operation]
-      self
-    end
-
-    def operations
-      @collection_operations.collect { |o| api.documentation(@collection, o) }
-    end
-
-    class OperationParameter
-      attr_reader :name
-      attr_reader :type
-      attr_reader :required
-      attr_reader :description
-
-      def initialize(data)
-        @name, @type, @required, @description = data[:name], data[:type], data[:required], data[:description]
-      end
-
-      def to_comment
-        "   # @param [#{@type}, #{@name}] #{@description}"
-      end
-
-    end
-
-    private
-
-    def parse_parameters(params)
-      params.collect { |p| OperationParameter.new(p) }
-    end
-
-  end
-
-  module InstanceState
-
-    class State
-      attr_reader :name
-      attr_reader :transitions
-
-      def initialize(name)
-        @name, @transitions = name, []
-      end
-    end
-
-    class Transition
-      attr_reader :to
-      attr_reader :action
-
-      def initialize(to, action)
-        @to = to
-        @action = action
-      end
-
-      def auto?
-        @action.nil?
-      end
-    end
-  end
-
-  module HWP
-
-   class Property
-      attr_reader :name, :unit, :value, :kind
-
-      def initialize(xml, name)
-        @name, @kind, @value, @unit = xml['name'], xml['kind'].to_sym, xml['value'], xml['unit']
-        declare_ranges(xml)
-        self
-      end
-
-      def present?
-        ! @value.nil?
-      end
-
-      private
-
-      def declare_ranges(xml)
-        case xml['kind']
-          when 'range' then
-            self.class.instance_eval do
-              attr_reader :range
-            end
-            @range = { :from => xml.xpath('range').first['first'], :to => xml.xpath('range').first['last'] }
-          when 'enum' then
-            self.class.instance_eval do
-              attr_reader :options
-            end
-            @options = xml.xpath('enum/entry').collect { |e| e['value'] }
-        end
-      end
-
-    end
-
-    # FloatProperty is like Property but return value is Float instead of String.
-    class FloatProperty < Property
-      def initialize(xml, name)
-        super(xml, name)
-        @value = @value.to_f if @value
-      end
-    end
-  end
-
-end
-
-class String
-
-  unless method_defined?(:classify)
-    # Create a class name from string
-    def classify
-      self.singularize.camelize
-    end
-  end
-
-  unless method_defined?(:camelize)
-    # Camelize converts strings to UpperCamelCase
-    def camelize
-      self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
-    end
-  end
-
-  unless method_defined?(:singularize)
-    # Strip 's' character from end of string
-    def singularize
-      self.gsub(/s$/, '')
-    end
-  end
-
-  # Convert string to float if string value seems like Float
-  def convert
-    return self.to_f if self.strip =~ /^([\d\.]+$)/
-    self
-  end
-
-  # Simply converts whitespaces and - symbols to '_' which is safe for Ruby
-  def sanitize
-    self.gsub(/(\W+)/, '_')
   end
 
 end
