@@ -119,7 +119,7 @@ module DeltaCloud
       private
 
       def search_for_method(name)
-        @objects.select { |o| o[:method_name] == "#{name}" }.first
+        @objects.detect { |o| o[:method_name] == "#{name}" }
       end
 
     end
@@ -153,7 +153,10 @@ module DeltaCloud
       end
 
       def actions
-        @objects.select {|o| o[:type].eql?(:action_link) }.collect { |o| [o[:rel], o[:href]] }
+        @objects.inject([]) do |result, item|
+          result << [item[:rel], item[:href]] if item[:type].eql?(:action_link)
+          result
+        end
       end
 
       def action_urls
