@@ -32,13 +32,7 @@ Gem::Specification.new do |s|
   s.test_files= Dir.glob("specs/**/**")
   s.extra_rdoc_files = Dir["COPYING"]
 
-  # Rakefile needs to create spec for both platforms (ruby and java), using the
-  # $platform global variable. In all other cases, we figure it out from
-  # RUBY_PLATFORM.
-  s.platform = $platform || RUBY_PLATFORM[/java/] || 'ruby'
-
-  s.add_dependency('rest-client', '>= 1.4.2')
-  s.add_dependency('nokogiri', '>= 1.4.1') if s.platform.to_s == 'ruby'
-  s.add_dependency('nokogiri', '>= 1.5.0.beta.2') if s.platform.to_s == 'java'
+  s.add_dependency('rest-client', '>= 1.6.1')
+  s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_development_dependency('rspec', '>= 1.3.0')
 end
