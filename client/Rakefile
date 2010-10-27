@@ -25,15 +25,9 @@ task 'documentation' do
   load 'lib/documentation.rb'
 end
 
-@specs = ['ruby', 'java'].inject({}) do |hash, spec_platform|
-  $platform = spec_platform
-  hash.update(spec_platform => Gem::Specification.load('deltacloud-client.gemspec'))
-end
-
-@specs.values.each do |spec|
-  Rake::GemPackageTask.new(spec) do |pkg|
-    pkg.need_tar = true
-  end
+spec = Gem::Specification.load('deltacloud-client.gemspec')
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.need_tar = true
 end
 
 if Gem.available?('rspec')
