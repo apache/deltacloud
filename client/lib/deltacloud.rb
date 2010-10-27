@@ -20,10 +20,11 @@ require 'nokogiri'
 require 'rest_client'
 require 'base64'
 require 'logger'
-require 'lib/hwp_properties'
-require 'lib/instance_state'
-require 'lib/documentation'
-require 'lib/base_object'
+
+require 'hwp_properties'
+require 'instance_state'
+require 'documentation'
+require 'base_object'
 
 module DeltaCloud
 
