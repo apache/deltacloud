@@ -20,11 +20,11 @@ def read_method_description(c, method)
     "    # Read #{c.downcase} collection from Deltacloud API"
   else
     case method
-      when "uri"
+      when "uri" then
         "    # Return URI to API for this object"
-      when "action_urls"
+      when "action_urls" then
         "    # Return available actions API URL"
-      when "client"
+      when "client" then
         "    # Return instance of API client"
       else
         "    # Get #{method} attribute value from #{c.downcase}"
