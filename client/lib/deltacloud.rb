@@ -194,7 +194,7 @@ module DeltaCloud
                 # When response cointains 'link' block, declare
                 # methods to call links inside. This is used for instance
                 # to dynamicaly create .stop!, .start! methods
-                when "actions":
+                when "actions" then
                   actions = []
                   attribute.xpath('link').each do |link|
                     actions << [link['rel'], link[:href]]
@@ -217,7 +217,7 @@ module DeltaCloud
                     urls
                   end
                 # Property attribute is handled differently
-                when "property":
+                when "property" then
                   attr_accessor :"#{attribute['name'].sanitize}"
                   if attribute['value'] =~ /^(\d+)$/
                     obj.send(:"#{attribute['name'].sanitize}=",
@@ -227,7 +227,7 @@ module DeltaCloud
                       DeltaCloud::HWP::Property.new(attribute, attribute['name']))
                   end
                 # Public and private addresses are returned as Array
-                when "public_addresses", "private_addresses":
+                when "public_addresses", "private_addresses" then
                   attr_accessor :"#{attribute.name.sanitize}"
                   obj.send(:"#{attribute.name.sanitize}=",
                     attribute.xpath('address').collect { |address| address.text })
@@ -523,12 +523,12 @@ module DeltaCloud
 
       def declare_ranges(xml)
         case xml['kind']
-          when 'range':
+          when 'range' then
             self.class.instance_eval do
               attr_reader :range
             end
             @range = { :from => xml.xpath('range').first['first'], :to => xml.xpath('range').first['last'] }
-          when 'enum':
+          when 'enum' then
             self.class.instance_eval do
               attr_reader :options
             end
