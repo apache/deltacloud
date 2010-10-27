@@ -16,7 +16,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'lib/string'
+require 'string'
 
 module DeltaCloud
 
@@ -256,18 +256,16 @@ module DeltaCloud
 
     def self.add_class(name, parent=:base)
       parent_class = case parent
-        when :base then BaseObject
-        when :action then ActionObject
-        when :state then StateFullObject
+        when :base then 'BaseObject'
+        when :action then 'ActionObject'
+        when :state then 'StateFullObject'
       end
-      begin
-        return API.const_get(name.classify)
-      rescue NameError
-        API.module_eval("class #{name.classify} < #{parent_class.to_s}; end")
-        new_class = API.const_get(name.classify)
-        @defined_classes ||= []
-        @defined_classes << new_class
-        new_class
+      @defined_classes ||= []
+      if @defined_classes.include?(name)
+        DeltaCloud::API.class_eval("#{name.classify}")
+      else
+        DeltaCloud::API.class_eval("class #{name.classify} < DeltaCloud::#{parent_class}; end")
+        DeltaCloud::API.const_get("#{name.classify}")
       end
     end
 
