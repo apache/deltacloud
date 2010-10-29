@@ -4,10 +4,10 @@
     %storage_volume{ :href => storage_volume_url(volume.id), :id => volume.id }
       %created<
         =volume.created
-      %capacity<
-        =volume.capacity
-      - unless volume.device.nil?
-        %device<
-          =volume.device
+      %capacity{ :unit => "GB" }<
+        = volume.capacity
       - unless volume.instance_id.nil?
-        %instance{:href => instance_url(volume.instance_id), :id => volume.instance_id}
+        %mount
+          %instance{:href => instance_url(volume.instance_id), :id => volume.instance_id}
+          - unless volume.device.nil?
+            %device{ :name => volume.device }

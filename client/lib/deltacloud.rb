@@ -90,7 +90,7 @@ module DeltaCloud
     # Define methods based on 'rel' attribute in entry point
     # Two methods are declared: 'images' and 'image'
     def declare_entry_points_methods(entry_points)
-      
+
       API.instance_eval do
         entry_points.keys.select {|k| [:instance_states].include?(k)==false }.each do |model|
 
@@ -99,13 +99,13 @@ module DeltaCloud
               base_object_collection(model, response)
             end
           end
-          
+
           define_method :"#{model.to_s.singularize}" do |*args|
             request(:get, "#{entry_points[model]}/#{args[0]}") do |response|
               base_object(model, response)
             end
           end
-          
+
           define_method :"fetch_#{model.to_s.singularize}" do |url|
             id = url.grep(/\/#{model}\/(.*)$/)
             self.send(model.to_s.singularize.to_sym, $1)
@@ -129,7 +129,7 @@ module DeltaCloud
 
     # Convert XML response to defined Ruby Class
     def xml_to_class(base_object, item)
-      
+
       return nil unless item
 
       params = {
@@ -166,11 +166,17 @@ module DeltaCloud
           end && next
         end
 
+        if attribute.name == 'mount'
+          obj.add_link!("instance", (attribute/"./instance/@id").first)
+          obj.add_text!("device", (attribute/"./device/@name").first.value)
+          next
+        end
+
         # Deal with collections like public-addresses, private-addresses
         if (attribute/'./*').length > 0
           obj.add_collection!(attribute.name, (attribute/'*').collect { |value| value.text }) && next
         end
-        
+
         # Anything else is treaten as text object
         obj.add_text!(attribute.name, attribute.text.convert)
       end
@@ -185,15 +191,15 @@ module DeltaCloud
         api_xml = Nokogiri::XML(response)
         @driver_name = api_xml.xpath('/api').first['driver']
         @api_version = api_xml.xpath('/api').first['version']
-        
+
         api_xml.css("api > link").each do |entry_point|
           rel, href = entry_point['rel'].to_sym, entry_point['href']
           @entry_points.store(rel, href)
-          
+
           entry_point.css("feature").each do |feature|
             @features[rel] ||= []
             @features[rel] << feature['name'].to_sym
-            
+
           end
         end
       end
@@ -247,7 +253,7 @@ module DeltaCloud
       if conf[:query_args] != {}
         conf[:path] += '?' + URI.escape(conf[:query_args].collect{ |key, value| "#{key}=#{value}" }.join('&')).to_s
       end
-      
+
       if conf[:method].eql?(:post)
         RestClient.send(:post, conf[:path], conf[:form_data], default_headers) do |response, request, block|
           handle_backend_error(response) if response.code.eql?(500)
