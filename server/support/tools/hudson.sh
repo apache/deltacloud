@@ -3,13 +3,7 @@
 # Setup environment
 #source /home/hudson/.rvm/scripts/rvm
 PATH=/home/hudson/.rvm/gems/ruby-1.8.7-p302@deltacloud/bin:$PATH
-
-rvm 1.8.7@deltacloud
-rvm list
-
-echo $GEM_HOME
-echo $GEM_PATH
-echo $PATH
+rvm use "ruby-1.8.7"
 
 # Execute tests
 cd deltacloud/trunk/client && rake fixtures:clean && rake fixtures
