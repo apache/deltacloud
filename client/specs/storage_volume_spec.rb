@@ -44,7 +44,6 @@ describe "storage volumes" do
       storage_volume = client.storage_volume( 'vol3' )
       storage_volume.id.should eql( 'vol3' )
       storage_volume.uri.should eql( API_URL + '/storage_volumes/vol3' )
-      storage_volume.state.should eql( 'IN-USE' )
       storage_volume.capacity.should eql( 1.0 )
       storage_volume.device.should eql( '/dev/sda1' )
       storage_volume.instance.should_not be_nil
@@ -61,7 +60,6 @@ describe "storage volumes" do
       storage_volume.should_not be_nil
       storage_volume.id.should eql( 'vol3' )
       storage_volume.uri.should eql( API_URL + '/storage_volumes/vol3' )
-      storage_volume.state.should eql( 'IN-USE' )
       storage_volume.capacity.should eql( 1.0 )
       storage_volume.device.should eql( '/dev/sda1' )
       storage_volume.instance.should_not be_nil

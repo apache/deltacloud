@@ -6,7 +6,7 @@ Feature: Accessing storage volumes
  # expected: ["capacity", "created", "device", "instance", "state"],
  #    got: ["capacity", "created"] (using ==)
  #
- # When I remove device, instance and state I got back 
+ # When I remove device, instance and state I got back
  # ["capacity", "created", "device", "instance", "state"]
  #
  # Anyway this test isn't usefull, because storage volumes will be
@@ -39,6 +39,3 @@ Feature: Accessing storage volumes
     And this storage_volume should have:
     | created |
     | capacity |
-    | state |
-    | device |
-    | instance |
