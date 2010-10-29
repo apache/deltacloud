@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # Setup environment
-source /home/hudson/.rvm/scripts/rvm
-rvm use ruby-1.8.7-p302
-rvm gemset use deltacloud
+#source /home/hudson/.rvm/scripts/rvm
+rvm 1.8.7@deltacloud
 
 # Execute tests
 cd deltacloud/trunk/client && rake fixtures:clean && rake fixtures
