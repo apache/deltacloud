@@ -35,6 +35,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name
 
+  def supported_collections
+    DEFAULT_COLLECTIONS.reject { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
+  end
+
   #
   # Execute a Powershell command, and convert the output
   # to YAML in order to get back an array of maps.
@@ -85,6 +89,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       "STOPPED"
     when "POWERING UP"
       "PENDING"
+    end
   end
 
   define_hardware_profile 'rhevm'
@@ -232,25 +237,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
     vm = execute(credentials, "deleteVm.ps1", image_id)
     vm_to_instance(vm[0])
   end
-
-  #
-  # Storage Volumes
-  #
-
-  def storage_volumes(credentials, ids=nil)
-    volumes = []
-    volumes
-  end
-
-  #
-  # Storage Snapshots
-  #
-
-  def storage_snapshots(credentials, ids=nil)
-    snapshots = []
-    snapshots
-  end
-
 end
 
     end
