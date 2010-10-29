@@ -3,6 +3,9 @@
 # Setup environment
 #source /home/hudson/.rvm/scripts/rvm
 rvm 1.8.7@deltacloud
+echo $GEM_HOME
+echo $GEM_PATH
+echo $PATH
 
 # Execute tests
 cd deltacloud/trunk/client && rake fixtures:clean && rake fixtures
