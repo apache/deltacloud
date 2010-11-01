@@ -30,5 +30,5 @@ end
 
 Then /^client should get PNG image$/ do
   last_response.status.should == 200
-  last_response.headers['Content-Type'].should == 'image/png'
+  last_response.headers['Content-Type'].should =~ /^image\/png/
 end
