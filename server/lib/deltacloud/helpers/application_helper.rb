@@ -102,6 +102,14 @@ module ApplicationHelper
   end
 
   def instance_action(name)
+    original_instance = driver.instance(credentials, :id => params[:id])
+
+    # If original instance doesn't include called action
+    # return with 405 error (Method is not Allowed)
+    unless driver.instance_actions_for(original_instance.state).include?(name.to_sym)
+      return report_error(405, 'not_allowed')
+    end
+
     @instance = driver.send(:"#{name}_instance", credentials, params["id"])
 
     return redirect(instances_url) if name.eql?(:destroy) or @instance.class!=Instance
