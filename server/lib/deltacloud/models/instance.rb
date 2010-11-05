@@ -29,10 +29,20 @@ class Instance < BaseModel
   attr_accessor :private_addresses
   attr_accessor :instance_profile
   attr_accessor :launch_time
- def initialize(init=nil)
-   super(init)
-   self.actions = [] if self.actions.nil?
-   self.public_addresses = [] if self.public_addresses.nil?
-   self.private_addresses = [] if self.private_addresses.nil?
+  
+  def initialize(init=nil)
+    super(init)
+    self.actions = [] if self.actions.nil?
+    self.public_addresses = [] if self.public_addresses.nil?
+    self.private_addresses = [] if self.private_addresses.nil?
   end
+
+  def method_missing(name, *args)
+    if name =~ /is_(\w+)\?/
+      return true if self.state.downcase.eql?($1)
+    else
+      raise NoMethodError
+    end
+  end
+
 end
