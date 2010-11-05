@@ -130,7 +130,6 @@ class MockDriver < Deltacloud::BaseDriver
   #
   # Instances
   #
-  require 'ruby-prof'
 
   def instance(credentials, opts={})
     check_credentials( credentials )
