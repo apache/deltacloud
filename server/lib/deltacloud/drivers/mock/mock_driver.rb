@@ -130,12 +130,23 @@ class MockDriver < Deltacloud::BaseDriver
   #
   # Instances
   #
+  require 'ruby-prof'
+
+  def instance(credentials, opts={})
+    check_credentials( credentials )
+    instance_filename = File.join(@storage_root, 'instances', "#{opts[:id]}.yml")
+    return nil unless File.exists?(instance_filename)
+    instance = YAML::load_file(instance_filename)
+    instance[:actions] = instance_actions_for( instance[:state] )
+    instance[:id] = File::basename(instance_filename, ".yml")
+    Instance.new(instance)
+  end
 
   def instances(credentials, opts=nil)
     check_credentials( credentials )
     instances = []
     Dir[ "#{@storage_root}/instances/*.yml" ].each do |instance_file|
-      instance = YAML.load( File.read( instance_file ) )
+      instance = YAML::load_file(instance_file)
       if ( instance[:owner_id] == credentials.user )
         instance[:id] = File.basename( instance_file, ".yml" )
         instance[:actions] = instance_actions_for( instance[:state] )
