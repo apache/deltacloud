@@ -1,0 +1,4 @@
+%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
+  %capability #{@error.capability}
+  %message #{@error.message}
+
