@@ -38,5 +38,4 @@ Feature: Accessing storage volumes
     Then client should get this storage_volume
     And this storage_volume should have:
     | created |
-    | mount |
     | capacity |
