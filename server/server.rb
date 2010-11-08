@@ -82,6 +82,7 @@ END
     Operation will list all available realms. Realms can be filtered using
     the "architecture" parameter.
 END
+    with_capability :realms
     param :id,            :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control { filter_all(:realms) }
@@ -90,6 +91,7 @@ END
   #FIXME: It always shows whole list
   operation :show do
     description 'Show an realm identified by "id" parameter.'
+    with_capability :realm
     param :id,           :string, :required
     control { show(:realm) }
   end
@@ -108,6 +110,7 @@ END
     available to the current use. Images can be filtered using the
     "owner_id" and "architecture" parameters.
 END
+    with_capability :images
     param :id,            :string
     param :architecture,  :string,  :optional
     control { filter_all(:images) }
@@ -115,6 +118,7 @@ END
 
   operation :show do
     description 'Show an image identified by "id" parameter.'
+    with_capability :image
     param :id,           :string, :required
     control { show(:image) }
   end
@@ -181,6 +185,7 @@ END
 
   operation :index do
     description "List all instances."
+    with_capability :instances
     param :id,            :string,  :optional
     param :state,         :string,  :optional
     control { filter_all(:instances) }
@@ -188,12 +193,14 @@ END
 
   operation :show do
     description 'Show an instance identified by "id" parameter.'
+    with_capability :instance
     param :id,           :string, :required
     control { show(:instance) }
   end
 
   operation :create do
     description "Create a new instance."
+    with_capability :create_instance
     param :image_id,     :string, :required
     param :realm_id,     :string, :optional
     param :hwp_id,       :string, :optional
@@ -217,24 +224,28 @@ END
 
   operation :reboot, :method => :post, :member => true do
     description "Reboot a running instance."
+    with_capability :reboot_instance
     param :id,           :string, :required
     control { instance_action(:reboot) }
   end
 
   operation :start, :method => :post, :member => true do
     description "Start an instance."
+    with_capability :start_instance
     param :id,           :string, :required
     control { instance_action(:start) }
   end
 
   operation :stop, :method => :post, :member => true do
     description "Stop a running instance."
+    with_capability :stop_instance
     param :id,           :string, :required
     control { instance_action(:stop) }
   end
 
   operation :destroy do
     description "Destroy an instance."
+    with_capability :destroy_instance
     param :id,           :string, :required
     control { instance_action(:destroy) }
   end
@@ -250,6 +261,7 @@ END
 
   operation :index do
     description "List of available hardware profiles."
+    with_capability :hardware_profiles
     param :id,          :string
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control do
@@ -264,6 +276,7 @@ END
 
   operation :show do
     description "Show specific hardware profile."
+    with_capability :hardware_profile
     param :id,          :string,    :required
     control do
       @profile =  driver.hardware_profile(credentials, params[:id])
@@ -286,12 +299,14 @@ collection :storage_snapshots do
 
   operation :index do
     description "List of storage snapshots."
+    with_capability :storage_snapshots
     param :id,            :string
     control { filter_all(:storage_snapshots) }
   end
 
   operation :show do
     description "Show storage snapshot."
+    with_capability :storage_snapshot
     param :id,          :string,    :required
     control { show(:storage_snapshot) }
   end
@@ -302,12 +317,14 @@ collection :storage_volumes do
 
   operation :index do
     description "List of storage volumes."
+    with_capability :storage_volumes
     param :id,            :string
     control { filter_all(:storage_volumes) }
   end
 
   operation :show do
     description "Show storage volume."
+    with_capability :storage_volume
     param :id,          :string,    :required
     control { show(:storage_volume) }
   end
@@ -398,6 +415,7 @@ collection :buckets do
 
   operation :index do
     description "List buckets associated with this account"
+    with_capability :buckets
     param :id,        :string
     param :name,      :string
     param :size,      :string
@@ -406,12 +424,14 @@ collection :buckets do
 
   operation :show do
     description "Show bucket"
+    with_capability :bucket
     param :id,        :string
     control { show(:bucket) }
   end
 
   operation :create do
     description "Create a new bucket (POST /api/buckets)"
+    with_capability :create_bucket
     param :name,      :string,    :required
     control do
       @bucket = driver.create_bucket(credentials, params[:name], params)
@@ -431,6 +451,7 @@ collection :buckets do
 
   operation :destroy do
     description "Delete a bucket by name - bucket must be empty"
+    with_capability :delete_bucket
     param :id,    :string,    :required
     control do
       driver.delete_bucket(credentials, params[:id], params)
