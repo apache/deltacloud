@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/url_for'
 require 'deltacloud/validation'
+require 'deltacloud/backend_capability'
 
 module Sinatra
 
@@ -13,6 +14,7 @@ module Sinatra
     class Operation
       attr_reader :name, :method
 
+      include ::Deltacloud::BackendCapability
       include ::Deltacloud::Validation
 
       STANDARD = {
@@ -58,6 +60,7 @@ module Sinatra
       def control(&block)
         op = self
         @control = Proc.new do
+          op.check_capability(driver)
           op.validate(params)
           instance_eval(&block)
         end

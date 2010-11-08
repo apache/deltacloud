@@ -32,6 +32,9 @@ error Deltacloud::Validation::Failure do
   report_error(400, "validation_failure")
 end
 
+error Deltacloud::BackendCapability::Failure do
+  report_error(405, "backend_capability_failure")
+end
 error Deltacloud::AuthException do
   report_error(403, "auth_exception")
 end
@@ -341,6 +344,7 @@ collection :keys do
 
   operation :index do
     description "List all available credentials which could be used for instance authentication."
+    with_capability :keys
     control do
       filter_all :keys
     end
@@ -348,18 +352,16 @@ collection :keys do
 
   operation :show do
     description "Show details about given instance credential."
+    with_capability :key
     param :id,  :string,  :required
     control { show :key }
   end
 
   operation :create do
     description "Create a new instance credential if backend supports this."
+    with_capability :create_key
     param :name,  :string,  :required
     control do
-      unless driver.respond_to?(:create_key)
-        raise Deltacloud::BackendFeatureUnsupported.new('501',
-          'Creating instance credentials is not supported in backend')
-      end
       @key = driver.create_key(credentials, { :key_name => params[:name] })
       respond_to do |format|
         format.html { haml :"keys/show" }
@@ -370,12 +372,9 @@ collection :keys do
 
   operation :destroy do
     description "Destroy given instance credential if backend supports this."
+    with_capability :destroy_key
     param :id,  :string,  :required
     control do
-      unless driver.respond_to?(:destroy_key)
-        raise Deltacloud::BackendFeatureUnsupported.new('501',
-          'Creating instance credentials is not supported in backend')
-      end
       driver.destroy_key(credentials, { :key_name => params[:id]})
       redirect(keys_url)
     end
