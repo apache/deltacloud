@@ -16,6 +16,19 @@ module Mock
     MethodSerializer::Cache::wrap_methods(self, :cache_dir => File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'tests', 'ec2', 'support'))
   end
 
+  class ELB < AWS::ELB::Base
+    include MethodSerializer::Cache
+
+    def self.cached_methods
+      [
+        :describe_load_balancers
+      ]
+    end
+
+    MethodSerializer::Cache::wrap_methods(self, :cache_dir => File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'tests', 'ec2', 'support'))
+
+  end
+
   class EC2 < AWS::EC2::Base
 
     include MethodSerializer::Cache
@@ -44,11 +57,18 @@ Deltacloud::Drivers::EC2::EC2Driver.class_eval do
   alias_method :original_new_client, :new_client
   alias_method :original_s3_client, :s3_client
 
-  def new_client(credentials, opts={})
-    Mock::EC2.new(
-      :access_key_id => credentials.user,
-      :secret_access_key => credentials.password
-    )
+  def new_client(credentials, provider = :ec2)
+    if provider == :elb
+      Mock::ELB.new(
+        :access_key_id => credentials.user,
+        :secret_access_key => credentials.password
+      )
+    else
+      Mock::EC2.new(
+        :access_key_id => credentials.user,
+        :secret_access_key => credentials.password
+      )
+    end
   end
 
   def s3_client(credentials)
