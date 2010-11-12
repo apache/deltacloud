@@ -1,0 +1,33 @@
+%h1 Load Balancers
+
+%table.display
+  %thead
+    %tr
+      %th ID
+      %th Hostname
+      %th Realm
+      %th Balancer port
+      %th Instances port
+      %th Actions
+  %tbody
+    - @elements.each do |balancer|
+      %tr
+        %td
+          = link_to balancer.id, load_balancer_url( balancer.id )
+        %td
+          = balancer.public_addresses.first
+        %td
+          = link_to balancer.realms.first.id, realm_url( balancer.realms.first.id )
+        %td
+          - balancer.listeners.each do |listener|
+            ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
+        %td
+          - balancer.listeners.each do |listener|
+            ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
+        %td
+          =link_to 'Destroy', destroy_load_balancer_url(balancer.id), :class => 'delete'
+  %tfoot
+    %tr
+      %td{:colspan => 6, :style => "text-align:right;"}
+        =link_to 'Create &raquo;', "#{url_for('/api/load_balancers/new')}", :class => 'button'
+

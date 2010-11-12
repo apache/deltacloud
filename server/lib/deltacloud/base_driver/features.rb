@@ -169,5 +169,13 @@ module Deltacloud
         param :location, :string, :optional
       end
     end
+
+    declare_feature :instances, :register_to_load_balancer do
+      description "Register instance to load balancer"
+      operation :create do
+        param :load_balancer_id, :string, :optional
+      end
+    end
+
   end
 end

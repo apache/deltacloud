@@ -9,6 +9,14 @@
     %label
       Instance Name:
       %input{ :name => 'name', :size => 30 }/
+  -if driver_has_feature?(:register_to_load_balancer)
+    %p
+      %label
+        Assign to load balancer:
+        %select{:name => 'load_balancer_id'}
+          %option{:value => ""}
+          - @load_balancers.each do |load_balancer|
+            %option{:value => load_balancer.id} #{load_balancer.id}
   -if driver_has_feature?(:authentication_key)
     %p
       %label
