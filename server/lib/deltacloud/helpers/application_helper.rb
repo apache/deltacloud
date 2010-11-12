@@ -41,8 +41,8 @@ module ApplicationHelper
     collections[:instances].operations[action.to_sym].method
   end
 
-  def driver_has_feature?(feature_name)
-    not driver.features(:instances).select{ |f| f.name.eql?(feature_name) }.empty?
+  def driver_has_feature?(feature_name, collection_name = :instances)
+    not driver.features(collection_name).select{ |f| f.name.eql?(feature_name) }.empty?
   end
 
   def driver_has_auth_features?

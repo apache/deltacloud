@@ -1,0 +1,37 @@
+%h1
+  = @load_balancer.id
+
+%dl
+  %di
+    %dt Public addresses
+    %dd
+      = @load_balancer.public_addresses.join(',')
+    - if @load_balancer.created_at
+      %dt Created at
+      %dd
+        = @load_balancer.created_at
+    %dt Realms
+    %dd
+      = @load_balancer.realms.collect { |r| "#{r.id} - #{r.name}" }.join(',')
+    %dt Listeners
+    %dd
+      - @load_balancer.listeners.each do |listener|
+        ="Load balancer port: #{listener.load_balancer_port}"
+        %br
+        ="Instance port: #{listener.instance_port}"
+        %br
+    - if @load_balancer.instances.class.eql?(Array)
+      %dt Instances
+      - @load_balancer.instances.each do |inst|
+        %dd
+          =inst.id
+          %a{:class => :post, :href => unregister_load_balancer_url(@load_balancer.id, :instance_id => inst.id)} Delete
+
+%form{:action => url_for("/api/load_balancers/#{@load_balancer.id}/register"), :method => :post}
+  %p
+    %strong Add instances to load balancer
+  %p
+    %label Instance
+    %select{:name => :instance_id, :id => "list_instances"}
+    %input{:type => :submit, :value => "Assign"}
+

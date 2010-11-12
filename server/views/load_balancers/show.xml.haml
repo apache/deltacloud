@@ -1,0 +1,21 @@
+- unless defined?(partial)
+  !!! XML
+%load_balancer{ :href => key_url(@load_balancer.id), :id => @load_balancer.id}
+  %actions
+    %link{ :rel => "destroy", :method => "delete", :href => destroy_load_balancer_url(@load_balancer.id)}
+  %public_addresses
+    - @load_balancer.public_addresses.each do |address|
+      %address #{address}
+  %created_at<
+    = @load_balancer.created_at
+  %realm{ :href => realm_url(@load_balancer.realms.first.id), :id => @load_balancer.realms.first.id}
+  %listeners
+    - @load_balancer.listeners.each do |listener|
+      %listener{ :protocol => listener.protocol}
+        %load_balancer_port #{listener.load_balancer_port}
+        %instance_port #{listener.instance_port}
+  %instances
+    - @load_balancer.instances.each do |instance|
+      %instance{:href => instance_url(instance.id), :id => instance.id}
+        %link{:rel => "unregister", :href => unregister_load_balancer_url(@load_balancer.id, { :instance_id => instance.id})}
+

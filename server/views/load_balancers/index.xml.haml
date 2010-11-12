@@ -1,0 +1,5 @@
+
+!!!XML
+%load_balancers
+  - @elements.each do |c|
+    = haml :'load_balancers/show', :locals => { :@load_balancer => c, :partial => true }

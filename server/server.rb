@@ -175,10 +175,86 @@ get "/api/instances/new" do
   @image   = driver.image( credentials, :id => params[:image_id] )
   @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
   @realms = driver.realms(credentials)
+  if driver_has_feature?(:register_to_load_balancer)
+    @load_balancers = driver.load_balancers(credentials)
+  end
   respond_to do |format|
     format.html { haml :"instances/new" }
   end
 end
+
+get '/api/load_balancers/new' do
+  @realms = driver.realms(credentials)
+  @instances = driver.instances(credentials) if driver_has_feature?(:register_instance, :load_balancers)
+  respond_to do |format|
+    format.html { haml :"load_balancers/new" }
+  end
+end
+
+
+collection :load_balancers do
+  description "Load balancers"
+
+  operation :index do
+    description "List of all active load balancers"
+    control do
+      filter_all :load_balancers
+    end
+  end
+
+  operation :show do
+    description "Show details about given load balancer"
+    param :id,  :string,  :required
+    control { show :load_balancer }
+  end
+
+  operation :create do
+    description "Create a new load balancer"
+    param :name,  :string,  :required
+    param :realm_id,  :string,  :required
+    param :listener_protocol,  :string,  :required, ['HTTP', 'TCP']
+    param :listener_lbr_port,  :string,  :required
+    param :listener_inst_port,  :string,  :required
+    control do
+      @load_balancer = driver.create_load_balancer(credentials, params)
+      respond_to do |format|
+        format.xml { haml :"load_balancers/show" }
+        format.html { haml :"load_balancers/show" }
+      end
+    end
+  end
+
+  operation :register, :method => :post, :member => true do
+    description "Add instance to loadbalancer"
+    param :id,  :string,  :required
+    param :instance_id, :string,  :required
+    control do
+      driver.lb_register_instance(credentials, params)
+      redirect(load_balancer_url(params[:id]))
+    end
+  end
+
+  operation :unregister, :method => :post, :member => true do
+    description "Remove instance from loadbalancer"
+    param :id,  :string,  :required
+    param :instance_id, :string,  :required
+    control do
+      driver.lb_unregister_instance(credentials, params)
+      redirect(load_balancer_url(params[:id]))
+    end
+  end
+
+  operation :destroy do
+    description "Destroy given load balancer"
+    param :id,  :string,  :required
+    control do
+      driver.destroy_load_balancer(credentials, params[:id])
+      redirect(load_balancers_url)
+    end
+  end
+
+end
+
 
 collection :instances do
   description <<END
