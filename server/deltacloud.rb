@@ -15,6 +15,7 @@ require 'deltacloud/models/storage_snapshot'
 require 'deltacloud/models/storage_volume'
 require 'deltacloud/models/bucket'
 require 'deltacloud/models/blob'
+require 'deltacloud/models/load_balancer'
 
 require 'deltacloud/validation'
 require 'deltacloud/helpers'
