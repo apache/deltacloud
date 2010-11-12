@@ -213,8 +213,8 @@ collection :load_balancers do
     param :name,  :string,  :required
     param :realm_id,  :string,  :required
     param :listener_protocol,  :string,  :required, ['HTTP', 'TCP']
-    param :listener_lbr_port,  :string,  :required
-    param :listener_inst_port,  :string,  :required
+    param :listener_balancer_port,  :string,  :required
+    param :listener_instance_port,  :string,  :required
     control do
       @load_balancer = driver.create_load_balancer(credentials, params)
       respond_to do |format|

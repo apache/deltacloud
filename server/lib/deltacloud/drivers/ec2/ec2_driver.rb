@@ -38,13 +38,14 @@ module Deltacloud
 class EC2Driver < Deltacloud::BaseDriver
 
   def supported_collections
-    DEFAULT_COLLECTIONS + [ :keys, :buckets ]
+    DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers ]
   end
 
   feature :instances, :user_data
   feature :instances, :authentication_key
   feature :images, :owner_id
   feature :buckets, :bucket_location
+  feature :instances, :register_to_load_balancer
 
   define_hardware_profile('m1.small') do
     cpu                1
@@ -194,7 +195,15 @@ class EC2Driver < Deltacloud::BaseDriver
         :disable_api_termination => false,
         :instance_initiated_shutdown_behavior => 'terminate'
       )
-      return convert_instance( ec2_instances.instancesSet.item.first, 'pending' )
+      new_instance = convert_instance( ec2_instances.instancesSet.item.first, 'pending' )
+      if opts[:load_balancer_id] and opts[:load_balancer_id]!=""
+        elb = new_client(credentials, :elb)
+        elb.register_instances_with_load_balancer({
+          :instances => [new_instance.id],
+          :load_balancer_name => opts[:load_balancer_id]
+        })
+      end
+      return new_instance
     end
   end
 
@@ -402,18 +411,113 @@ class EC2Driver < Deltacloud::BaseDriver
     end
   end
 
+  def load_balancer(credentials, opts={})
+    load_balancers(credentials, {
+      :load_balancer_names => [opts[:id]]
+    }).first
+  end
+
+  def load_balancers(credentials, opts=nil)
+    ec2 = new_client( credentials, :elb )
+    result = []
+    safely do
+      loadbalancers = ec2.describe_load_balancers(opts || {})
+      return [] unless loadbalancers.DescribeLoadBalancersResult.LoadBalancerDescriptions
+      loadbalancers.DescribeLoadBalancersResult.LoadBalancerDescriptions.member.each do |loadbalancer|
+        result << convert_load_balancer(credentials, loadbalancer)
+      end
+    end
+    return result
+  end
+
+  def create_load_balancer(credentials, opts={})
+    ec2 = new_client( credentials, :elb )
+    safely do
+      ec2.create_load_balancer({
+        :load_balancer_name => opts['name'],
+        # TODO: Add possibility to push more listeners/realms in one request
+        # Something like 'Hash' in 'Array' parameter
+        :availability_zones => [opts['realm_id']],
+        :listeners => [{
+          :protocol => opts['listener_protocol'],
+          :load_balancer_port => opts['listener_balancer_port'],
+          :instance_port => opts['listener_instance_port']
+         }]
+      })
+      return load_balancer(credentials, opts['name'])
+    end
+  end
+
+  def destroy_load_balancer(credentials, id)
+    ec2 = new_client( credentials, :elb )
+    safely do
+      ec2.delete_load_balancer({
+        :load_balancer_name => id
+      })
+    end
+  end
+
+  def lb_register_instance(credentials, opts={})
+    ec2 = new_client( credentials, :elb)
+    safely do
+      ec2.register_instances_with_load_balancer(:instances => [opts[:instance_id]],
+        :load_balancer_name => opts[:id])
+      load_balancer(credentials, :id => opts[:id])
+    end
+  end
+
+  def lb_unregister_instance(credentials, opts={})
+    ec2 = new_client( credentials, :elb)
+    safely do
+      ec2.deregister_instances_from_load_balancer(:instances => [opts[:instance_id]],
+        :load_balancer_name => opts[:id])
+      load_balancer(credentials, :id => opts[:id])
+    end
+  end
+
   private
 
-  def new_client(credentials)
+  def new_client(credentials, provider_type = :ec2)
     opts = {
       :access_key_id => credentials.user,
       :secret_access_key => credentials.password
     }
     opts[:server] = ENV['DCLOUD_EC2_URL'] if ENV['DCLOUD_EC2_URL']
     safely do
-      AWS::EC2::Base.new(opts)
+      case provider_type
+        when :ec2
+          AWS::EC2::Base.new(opts)
+        when :elb
+          AWS::ELB::Base.new(opts)
+      end
     end
   end
+
+  def convert_load_balancer(credentials, loadbalancer)
+    balancer_realms = loadbalancer.AvailabilityZones.member.collect do |m|
+      realm(credentials, m)
+    end
+    balancer = LoadBalancer.new({
+      :id => loadbalancer['LoadBalancerName'],
+      :created_at => loadbalancer['CreatedTime'],
+      :public_addresses => [loadbalancer['DNSName']],
+      :realms =>  balancer_realms
+    })
+    balancer.listeners = []
+    balancer.instances = []
+    loadbalancer.Listeners.member.each do |listener|
+      balancer.add_listener({
+        :protocol => listener['Protocol'],
+        :load_balancer_port => listener['LoadBalancerPort'],
+        :instance_port => listener['InstancePort']
+      })
+    end
+    loadbalancer.Instances.member.each do |instance|
+      balancer.instances << instances(credentials, :id => instance['InstanceId']).first
+    end if loadbalancer.Instances
+    balancer
+  end
+
 
   def convert_key(key)
     Key.new({
