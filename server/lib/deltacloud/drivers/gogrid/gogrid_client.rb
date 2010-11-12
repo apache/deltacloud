@@ -9,7 +9,7 @@ class GoGridClient
                  apikey='YOUR API KEY',
                  secret='YOUR SHARED SECRET', 
                  format='json',
-                 version='1.5')
+                 version='1.6')
     @server = server
     @secret = secret
     @default_params = {'format'=>format, 'v'=>version,'api_key' => apikey}
@@ -35,12 +35,9 @@ class GoGridClient
       @default_params['v'] = version
     else
       @default_params['v'] = '1.5'
-    end
-    begin
-      JSON::parse(sendAPIRequest(method, params))
-    rescue Exception => e
-      STDERR.puts("ERROR: #{e.message}")
-    end
+   end
+    request = sendAPIRequest(method, params)
+    JSON::parse(request)
   end
   
   def encode_params(params)

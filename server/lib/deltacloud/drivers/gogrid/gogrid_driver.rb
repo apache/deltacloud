@@ -45,7 +45,7 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def supported_collections
     DEFAULT_COLLECTIONS.reject! { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
-    DEFAULT_COLLECTIONS + [ :keys ]
+    DEFAULT_COLLECTIONS + [ :keys, :load_balancers ]
   end
 
   def images(credentials, opts=nil)
@@ -176,6 +176,88 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
+ def create_load_balancer(credentials, opts={})
+    gogrid = new_client(credentials)
+    balancer, l_instance = nil, nil
+    safely do
+      virtip = get_free_ip_from_realm(credentials, opts['realm_id'])
+      if opts['instance_id']
+        l_instance = instance(credentials, :id => opts['instance_id'])
+        real_ip = {
+          'realiplist.0.port' => opts['listener_inst_port'],
+          'realiplist.0.ip' => l_instance ? l_instance.public_addresses.first : ""
+        }
+      else
+        real_ip = false
+      end
+      request = {
+        'name' => opts['name'],
+        'virtualip.ip' => virtip,
+        'virtualip.port' => opts['listener_lbr_port'],
+      }
+      request.merge!(real_ip) if real_ip
+      balancer = gogrid.request('grid/loadbalancer/add', request)['list'].first
+    end
+    balancer = convert_load_balancer(credentials, balancer)
+    balancer.instances = [l_instance] if l_instance
+    balancer
+  end
+
+  def destroy_load_balancer(credentials, id)
+    gogrid = new_client(credentials)
+    balancer = nil
+    safely do
+      balancer = gogrid.request('grid/loadbalancer/delete', { 'name' => id })
+      balancer = load_balancer(credentials, :id => id) unless balancer
+    end
+    convert_load_balancer(credentials, balancer)
+  end
+
+  def load_balancers(credentials, opts={})
+    gogrid = new_client(credentials)
+    balancers = []
+    safely do
+      balancer = gogrid.request('grid/loadbalancer/list', opts || {})['list'].each do |balancer|
+        balancers << balancer
+      end
+    end
+    balancers.collect { |b| convert_load_balancer(credentials, b) }
+  end
+
+  def load_balancer(credentials, opts={})
+    gogrid = new_client(credentials)
+    balancer = nil
+    begin
+      balancer = gogrid.request('grid/loadbalancer/get', { 'name' => opts[:id] })['list'].first
+      balancer['instances'] = instances(credentials)
+      return convert_load_balancer(credentials, balancer)
+    rescue OpenURI::HTTPError
+      balancer = load_balancers(credentials, :id => opts[:id]).first
+    end
+  end
+
+
+  def lb_register_instance(credentials, opts={})
+    client = new_client(credentials)
+    instance = instance(credentials, :id => opts[:instance_id])
+    balancer = client.request('grid/loadbalancer/get', { 'name' => opts[:id]})['list'].first
+    safely do
+      convert_load_balancer(credentials, client.request('grid/loadbalancer/edit', {
+        "id" => balancer['id'],
+        "realiplist.#{balancer['realiplist'].size}.ip" => instance.public_addresses.first,
+        "realiplist.#{balancer['realiplist'].size}.port" => balancer['virtualip']['port']
+      }))
+    end
+  end
+
+  # Move this to capabilities
+  def lb_unregister_instance(credentials, opts={})
+      raise Deltacloud::BackendFeatureUnsupported.new('501',
+    'Unregistering instances from load balancer is not supported in GoGrid')
+  end
+
+
+
   def key(credentials, opts=nil)
     keys(credentials, opts).first
   end
@@ -213,8 +295,39 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def new_client(credentials)
     GoGridClient.new('https://api.gogrid.com/api', credentials.user, credentials.password)
-
   end
+
+  def convert_load_balancer(credentials, loadbalancer)
+    if loadbalancer['datacenter']
+      b_realm = realm(credentials, :id => loadbalancer['datacenter']['id'])
+    else
+      # Report first Realm until loadbalancer become ready
+      b_realm = realm(credentials, :id => 1)
+    end
+    balancer = LoadBalancer.new({
+      :id => loadbalancer['name'],
+      :realms => [b_realm]
+    })
+    balancer.public_addresses = [loadbalancer['virtualip']['ip']['ip']] if loadbalancer['virtualip'] and loadbalancer['virtualip']['ip']
+    balancer.listeners = []
+    balancer.instances = []
+    instance_ips = []
+    loadbalancer['realiplist'].each do |instance_ip|
+      balancer.add_listener({
+        :protocol => 'TCP',
+        :load_balancer_port => loadbalancer['virtualip']['port'],
+        :instance_port => instance_ip['port']
+      })
+      instance_ips << instance_ip['ip']['ip']
+    end if loadbalancer['realiplist']
+    balancer.instances = get_load_balancer_instances(instance_ips, loadbalancer['instances'])
+    return balancer
+  end
+ 
+  def get_load_balancer_instances(instance_ips, instances)
+    instances.select { |i| instance_ips.include?(i.public_addresses.first) } if instances
+  end
+
 
   def get_login_data(client, instance_id)
     login_data = {}
@@ -316,11 +429,11 @@ class GogridDriver < Deltacloud::BaseDriver
     state.eql?('Off') ? 'STOPPED' : 'RUNNING'
   end
 
-  def get_free_ip_from_realm(credentials, realm_id)
+  def get_free_ip_from_realm(credentials, realm_id, ip_type = 1)
     ip = ""
     safely do
       ip = new_client(credentials).request('grid/ip/list', {
-        'ip.type' => '1',
+        'ip.type' => "#{ip_type}",
         'ip.state' => '1',
         'datacenter' => realm_id
       })['list'].first['ip']
