@@ -26,7 +26,7 @@ module Deltacloud
 class MockDriver < Deltacloud::BaseDriver
 
   def supported_collections
-    DEFAULT_COLLECTIONS + [ :buckets ]
+    DEFAULT_COLLECTIONS + [ :buckets, :keys]
   end
 
   ( REALMS = [
@@ -81,6 +81,7 @@ class MockDriver < Deltacloud::BaseDriver
   end
 
   feature :instances, :user_name
+  feature :instances, :authentication_key
 
   def initialize
     if ENV["DELTACLOUD_MOCK_STORAGE"]
@@ -262,6 +263,49 @@ class MockDriver < Deltacloud::BaseDriver
     end
     snapshots = filter_on( snapshots, :id, opts )
     snapshots
+  end
+
+  def keys(credentials, opts={})
+    check_credentials(credentials)
+    result = []
+    key_dir = File.join(@storage_root, 'keys')
+    Dir[key_dir + '/*.yml'].each do |key_file|
+      result << Key.new(YAML::load(File.read(key_file)))
+    end
+    result = filter_on( result, :id, opts )
+    result
+  end
+
+  def key(credentials, opts={})
+    keys(credentials, opts).first
+  end
+
+  def create_key(credentials, opts={})
+    check_credentials(credentials)
+    key_hash = {
+      :id => opts[:key_name],
+      :credential_type => :key,
+      :fingerprint => Key::generate_mock_fingerprint,
+      :pem_rsa_key => Key::generate_mock_pem
+    }
+    key_dir = File.join(@storage_root, 'keys')
+    if File.exists?(key_dir + "/#{key_hash[:id]}.yml")
+     raise Deltacloud::BackendError.new(403, self.class.to_s, "key-exists",
+                                          ["Key with same name already exists"])
+    end
+    FileUtils.mkdir_p(key_dir) unless File.directory?(key_dir)
+    File.open(key_dir + "/#{key_hash[:id]}.yml", 'w') do |f|
+      f.puts(YAML::dump(key_hash))
+    end
+    return Key.new(key_hash)
+  end
+
+  def destroy_key(credentials, opts={})
+    key = key(credentials, opts)
+    safely do
+      key_dir = File.join(@storage_root, 'keys')
+      File.delete(key_dir + "/#{key.id}.yml")
+    end
   end
 
 #--

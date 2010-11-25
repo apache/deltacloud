@@ -14,6 +14,7 @@ Feature: Accessing API entry points
     When client access this URI
     Then client should get list of valid entry points:
     | buckets    |
+    | keys       |
     | realms     |
     | instances  |
     | images     |
@@ -29,6 +30,7 @@ Feature: Accessing API entry points
     When client access this URI
     Then client should get list of valid entry points:
     | buckets    |
+    | keys       |
     | realms     |
     | instances  |
     | images     |
