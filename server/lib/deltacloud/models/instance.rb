@@ -29,7 +29,9 @@ class Instance < BaseModel
   attr_accessor :private_addresses
   attr_accessor :instance_profile
   attr_accessor :launch_time
-  
+  attr_accessor :keyname
+  attr_accessor :authn_error
+
   def initialize(init=nil)
     super(init)
     self.actions = [] if self.actions.nil?
@@ -44,5 +46,10 @@ class Instance < BaseModel
       raise NoMethodError
     end
   end
+
+  def authn_feature_failed?
+    return true unless authn_error.nil?
+  end
+ 
 
 end
