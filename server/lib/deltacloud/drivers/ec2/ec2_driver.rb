@@ -22,16 +22,6 @@ require 'active_support'
 require 'AWS'
 require 'right_aws'
 
-class Instance
-  attr_accessor :keyname
-  attr_accessor :authn_error
-
-  def authn_feature_failed?
-    return true unless authn_error.nil?
-  end
-
-end
-
 module Deltacloud
   module Drivers
     module EC2
