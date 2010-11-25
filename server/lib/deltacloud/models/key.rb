@@ -32,4 +32,20 @@ class Key < BaseModel
     true if @credential_type.eql?(:key)
   end
 
+  # Mock fingerprint generator
+  # 1f:51:ae:28:bf:89:e9:d8:1f:25:5d:37:2d:7d:b8:ca:9f:f5:f1:6f
+  def self.generate_mock_fingerprint
+    (0..19).map { "%02x" % (rand * 0xff) }.join(':')
+  end
+
+  # Mock PEM file
+  # NOTE: This is a fake PEM file, it will not work against SSH
+  def self.generate_mock_pem
+    chars = (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + %w(= / + ))
+    pem_material = (1..21).map do 
+      (1..75).collect{|a| chars[rand(chars.size)] }.join
+    end.join("\n") + "\n" + (1..68).collect{|a| chars[rand(chars.size)] }.join
+    "-----BEGIN RSA PRIVATE KEY-----\n"+pem_material+"-----END RSA PRIVATE KEY-----"
+  end
+
 end
