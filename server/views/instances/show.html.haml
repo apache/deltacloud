@@ -40,4 +40,4 @@
     %dt
     %dd
       -@instance.actions.each do |action|
-        =link_to action, self.send(:"#{action}_instance_url", @instance.id), :class => instance_action_method(action)
+        =link_to_action action, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)

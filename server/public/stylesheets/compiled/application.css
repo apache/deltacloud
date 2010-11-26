@@ -611,3 +611,5 @@ input[type='radio'] {
 table.docs { border : 1px solid #ccc }
 table.docs td { border : 1px solid #ccc }
 table.docs table td { border : none }
+
+td form.link { display : inline }
