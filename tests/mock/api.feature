@@ -49,4 +49,5 @@ Feature: Accessing API entry points
     When client access this URI
     Then client should get list of features inside 'instances':
     | user_name |
+    | authentication_key |
     | hardware_profiles |

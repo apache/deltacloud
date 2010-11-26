@@ -44,6 +44,7 @@ Feature: Managing instances
     | state |
     | hardware_profile |
     | actions |
+    | authentication |
     | public_addresses |
     | private_addresses |
 
