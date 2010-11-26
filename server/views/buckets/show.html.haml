@@ -16,7 +16,7 @@
         = link_to blob, bucket_url(@bucket.name) + '/' + blob
     %dt Delete bucket (must be empty)
     %dd
-      =link_to 'Delete', destroy_bucket_url(@bucket.name), :class => 'delete'
     %dt Create a new blob
     %dd
       =link_to 'Create Blob', bucket_url(@bucket.name) + '/new_blob'
+      =link_to_action 'Delete', destroy_bucket_url(@bucket.name), :delete

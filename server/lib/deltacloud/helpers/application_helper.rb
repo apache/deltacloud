@@ -130,4 +130,16 @@ module ApplicationHelper
     "<pem><![CDATA[#{text.strip}]]></pem>"
   end
 
+  def link_to_action(action, url, method)
+    return link_to(action, url) if method.eql? :get
+    capture_haml do
+      haml_tag :form, :method => :post, :action => url, :class => :link do
+        haml_tag :input, :type => :hidden, :name => '_method', :value => method
+        haml_tag :button, :type => :submit do 
+          haml_concat action
+        end
+      end
+    end
+  end
+
 end

@@ -25,7 +25,7 @@
           - balancer.listeners.each do |listener|
             ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
         %td
-          =link_to 'Destroy', destroy_load_balancer_url(balancer.id), :class => 'delete'
+          =link_to_action 'Destroy', destroy_load_balancer_url(balancer.id), :delete
   %tfoot
     %tr
       %td{:colspan => 6, :style => "text-align:right;"}

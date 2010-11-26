@@ -30,4 +30,4 @@
           -bucket.blob_list.each do |blob|
             = blob
         %td
-          =link_to 'Delete', destroy_bucket_url(bucket.name), :class => 'delete'
+          =link_to_action 'Delete', destroy_bucket_url(bucket.name), :delete
