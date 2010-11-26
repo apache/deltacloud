@@ -33,6 +33,7 @@ class EC2Driver < Deltacloud::BaseDriver
 
   feature :instances, :user_data
   feature :instances, :authentication_key
+  feature :instances, :security_group
   feature :images, :owner_id
   feature :buckets, :bucket_location
   feature :instances, :register_to_load_balancer
@@ -183,7 +184,8 @@ class EC2Driver < Deltacloud::BaseDriver
         :monitoring_enabled => true,
         :instance_type => hwp.name,
         :disable_api_termination => false,
-        :instance_initiated_shutdown_behavior => 'terminate'
+        :instance_initiated_shutdown_behavior => 'terminate',
+        :security_group => opts[:security_group]
       )
       new_instance = convert_instance( ec2_instances.instancesSet.item.first, 'pending' )
       if opts[:load_balancer_id] and opts[:load_balancer_id]!=""

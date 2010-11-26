@@ -143,6 +143,14 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :security_group do
+      description "Put instance in one or more security groups on launch"
+      operation :create do
+        param :security_group, :array, :optional, nil,
+        "Array of security group names"
+      end
+    end
+
     declare_feature :instances, :authentication_key do
       operation :create do
         param :keyname, :string,  :optional, nil
