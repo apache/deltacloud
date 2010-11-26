@@ -1,0 +1,10 @@
+%h1 New Blob
+
+%form{ :action => bucket_url(@bucket_id), :method => :post, :enctype => 'multipart/form-data'}
+  %label
+    Blob Name:
+    %input{ :name => 'blob_id', :size => 512}/
+    Blob Data:
+    %input{ :type => "file", :name => 'blob_data',  :size => 50}/
+    %br
+  %input{ :type => :submit, :name => "commit", :value => "create"}/

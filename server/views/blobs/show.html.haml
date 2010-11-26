@@ -3,18 +3,24 @@
   = @blob.id
 
 %dl
-  %dt bucket
-  %dd
-    = @blob.bucket
-  %dt Content_Length
-  %dd
-    = @blob.content_length
-  %dt Content_Type
-  %dd
-    = @blob.content_type
-  %dt Last_Modified
-  %dd
-    = @blob.last_modified
-  %dt Content
-  %dd
-    =link_to 'Blob content', bucket_url(@blob.bucket) + '/' + @blob.id + '/content'
+  %di
+    %dt Bucket
+    %dd
+      = @blob.bucket
+    %dt Content_Length
+    %dd
+      = @blob.content_length
+    %dt Content_Type
+    %dd
+      = @blob.content_type
+    %dt Last_Modified
+    %dd
+      = @blob.last_modified
+    %dt Content
+    %dd
+      =link_to 'Blob content', bucket_url(@blob.bucket) + '/' + @blob.id + '/content'
+    %dt Delete this Blob
+    %dd
+      %form{ :action => bucket_url(@blob.bucket) + '/' + @blob.id , :method => :post }
+        %input{ :type => "hidden", :name => "_method", :value => "delete"}
+        %input{ :type => :submit, :value => "Delete"}/

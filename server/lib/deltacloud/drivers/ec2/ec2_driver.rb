@@ -401,6 +401,32 @@ class EC2Driver < Deltacloud::BaseDriver
     end
   end
 
+#--
+# Create Blob
+#--
+  def create_blob(credentials, bucket_id, blob_id, data = nil, opts = nil)
+    s3_client = s3_client(credentials)
+    #data is a construct with the temporary file created by server @.tempfile
+    #also file[:type] will give us the content-type
+    res = s3_client.interface.put(bucket_id, blob_id, data.tempfile, {"Content-Type" => data[:type]})
+    #create a new Blob object and return that
+    Blob.new( { :id => blob_id,
+                :bucket => bucket_id,
+                :content_length => data.tempfile.length,
+                :content_type => data[:type],
+                :last_modified => ''
+              }
+            )
+  end
+
+#--
+# Delete Blob
+#--  
+  def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+    s3_client = s3_client(credentials)
+    s3_client.interface.delete(bucket_id, blob_id)
+  end
+
   def load_balancer(credentials, opts={})
     load_balancers(credentials, {
       :load_balancer_names => [opts[:id]]

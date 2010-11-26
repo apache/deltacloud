@@ -215,6 +215,12 @@ module Deltacloud
     def blob_data(credentials, bucket_id, blob_id, opts)
     end
 
+    def create_blob(credentials, bucket_id, blob_id, blob_data, opts=nil)  
+    end
+    
+    def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+    end
+ 
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?
       return collection if opts[attribute].nil?

@@ -458,6 +458,35 @@ collection :keys do
 
 end
 
+#get html form for creating a new blob
+get '/api/buckets/:bucket/new_blob' do
+  @bucket_id = params[:bucket]
+  respond_to do |format|
+    format.html {haml :"blobs/new"}
+  end
+end
+
+#create a new blob
+post '/api/buckets/:bucket' do
+  bucket_id = params[:bucket]
+  blob_id = params['blob_id']
+  blob_data = params['blob_data']
+  @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data )
+  respond_to do |format|
+    format.html { haml :"blobs/show"}
+    format.xml { haml :"blobs/show" }
+  end
+end
+
+#delete a blob
+delete '/api/buckets/:bucket/:blob' do
+  bucket_id = params[:bucket]
+  blob_id = params[:blob]
+  driver.delete_blob(credentials, bucket_id, blob_id)
+  redirect(bucket_url(bucket_id))
+end
+
+#Get a particular blob's particulars (not actual blob data)
 get '/api/buckets/:bucket/:blob' do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
   if @blob
@@ -471,18 +500,19 @@ get '/api/buckets/:bucket/:blob' do
   end
 end
 
-get '/api/buckets/new' do
-  respond_to do |format|
-    format.html { haml :"buckets/new" }
-  end
-end
-
-
+#get the content of a particular blob
 get '/api/buckets/:bucket/:blob/content' do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
   params['content_length'] = @blob.content_length
   params['content_type'] = @blob.content_type
   BlobStream.call(env, credentials, params)
+end
+
+#Get html form for creating a new bucket
+get '/api/buckets/new' do
+  respond_to do |format|
+    format.html { haml :"buckets/new" }
+  end
 end
 
 collection :buckets do
