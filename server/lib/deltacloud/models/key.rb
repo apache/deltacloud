@@ -23,6 +23,7 @@ class Key < BaseModel
   attr_accessor :username
   attr_accessor :password
   attr_accessor :pem_rsa_key
+  attr_accessor :state
 
   def is_password?
     true if @credential_type.eql?(:password)
