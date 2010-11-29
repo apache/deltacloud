@@ -172,7 +172,7 @@ module DeltaCloud
           base_method_handler(m, args)
         rescue NoHandlerForMethod
           case m[:type]
-            when :action_link then do_action(m)
+            when :action_link then do_action(m, args)
             else raise NoHandlerForMethod
           end
         end
@@ -180,8 +180,13 @@ module DeltaCloud
 
       private
 
-      def do_action(m)
-        @client.request(:"#{m[:method]}", m[:href], {}, {})
+      def do_action(m, args)
+        args = args.first || {}
+        method = m[:method].to_sym
+        @client.request(method,
+                        m[:href],
+                        method == :get ? args : {},
+                        method == :get ? {} : args)
         action_trigger(m[:rel])
       end
 
