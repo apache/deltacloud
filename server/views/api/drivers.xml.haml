@@ -1,0 +1,6 @@
+%api{ :version => settings.version }
+  %drivers
+    - DRIVERS.each do |id, details|
+      %driver{ :id => id }
+        %name<
+          =details[:name]
