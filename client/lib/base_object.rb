@@ -192,7 +192,7 @@ module DeltaCloud
 
     end
 
-    class StateFullObject < ActionObject
+    class StatefulObject < ActionObject
       attr_reader :state
 
       def initialize(opts={}, &block)
@@ -263,25 +263,28 @@ module DeltaCloud
     end
 
     def self.add_class(name, parent=:base)
-      parent_class = case parent
-        when :base then 'BaseObject'
-        when :action then 'ActionObject'
-        when :state then 'StateFullObject'
-      end
+      parent = parent.to_s
+      parent_class = "#{parent.classify}Object"
       @defined_classes ||= []
-      if @defined_classes.include?(name)
-        DeltaCloud::API.class_eval("#{name.classify}")
-      else
-        DeltaCloud::API.class_eval("class #{name.classify} < DeltaCloud::#{parent_class}; end")
-        DeltaCloud::API.const_get("#{name.classify}")
+      class_name = "#{parent.classify}::#{name.classify}"
+      unless @defined_classes.include?(class_name)
+        DeltaCloud::API.class_eval("class #{class_name} < DeltaCloud::#{parent_class}; end")
+        @defined_classes << class_name
       end
+      
+      DeltaCloud::API.const_get(parent.classify).const_get(name.classify)
     end
 
     def self.guess_model_type(response)
       response = Nokogiri::XML(response.to_s)
       return :action if ((response/'//actions').length == 1) and ((response/'//state').length == 0)
-      return :state if ((response/'//actions').length == 1) and ((response/'//state').length == 1)
+      return :stateful if ((response/'//actions').length == 1) and ((response/'//state').length == 1)
       return :base
     end
 
+    class API
+      class Action; end
+      class Base; end
+      class Stateful; end
+    end
 end
