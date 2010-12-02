@@ -1,5 +1,5 @@
 %h1
-  API v#{@version}
+  API v#{settings.version}
 
 %ul
   - collections.keys.sort_by { |k| k.to_s }.each do |key|
@@ -12,4 +12,4 @@
             = op
   %li
     %strong
-      %a{:href => url_for("/api/docs")} Documentation (v#{@version})
+      %a{:href => url_for("/api/docs")} Documentation (#{settings.version})

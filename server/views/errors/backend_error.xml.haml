@@ -1,6 +1,6 @@
 %error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
   %kind backend_error
-  %backend{ :driver => DRIVER }
+  %backend{ :driver => driver_symbol }
     %code= @error.code
     %cause= @error.cause
     - if @error.details

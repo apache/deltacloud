@@ -10,6 +10,12 @@ require 'erb'
 require 'haml'
 require 'open3'
 require 'lib/deltacloud/helpers/blob_stream'
+require 'sinatra/rack_driver_select'
+
+set :version, '0.1.0'
+
+
+use RackDriverSelect
 
 configure do
   set :raise_errors => false
@@ -48,23 +54,28 @@ Sinatra::Application.register Sinatra::RespondTo
 # Redirect to /api
 get '/' do redirect url_for('/api'); end
 
+get '/api/drivers\/?' do
+  respond_to do |format|
+    format.xml { haml :"api/drivers" }
+  end
+end
+
 get '/api\/?' do
-    @version = 0.1
-    if params[:force_auth]
-      return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
+  if params[:force_auth]
+    return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
+  end
+  respond_to do |format|
+    format.xml { haml :"api/show" }
+    format.json do
+      { :api => {
+          :version => settings.version,
+          :driver => driver_symbol,
+          :links => entry_points.collect { |l| { :rel => l[0], :href => l[1]} }
+        }
+      }.to_json
     end
-    respond_to do |format|
-        format.xml { haml :"api/show" }
-        format.json do
-          { :api => {
-            :version => @version,
-            :driver => DRIVER,
-            :links => entry_points.collect { |l| { :rel => l[0], :href => l[1]} }
-            }
-          }.to_json
-        end
-        format.html { haml :"api/show" }
-    end
+    format.html { haml :"api/show" }
+  end
 end
 
 # Rabbit DSL

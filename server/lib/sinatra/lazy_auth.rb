@@ -40,7 +40,7 @@ module Sinatra
     end
 
     def authorize!
-      r = "#{DRIVER}-deltacloud@#{HOSTNAME}"
+      r = "#{driver_symbol}-deltacloud@#{HOSTNAME}"
       response['WWW-Authenticate'] = %(Basic realm="#{r}")
       throw(:halt, [401, "Not authorized\n"])
     end

@@ -60,7 +60,7 @@ module Sinatra
       def control(&block)
         op = self
         @control = Proc.new do
-          op.check_capability(driver)
+          op.check_capability(Deltacloud::driver)
           op.validate(params)
           instance_eval(&block)
         end
@@ -133,7 +133,7 @@ module Sinatra
       end
 
       def generate_documentation
-        coll, oper, features = self, @operations, driver.features(name)
+        coll, oper, features = self, @operations, Deltacloud::driver.features(name)
         ::Sinatra::Application.get("/api/docs/#{@name}") do
           @collection, @operations, @features = coll, oper, features
           respond_to do |format|
@@ -206,9 +206,9 @@ module Sinatra
     # operation on this collection.
     def collection(name, &block)
       raise DuplicateCollectionException if collections[name]
-      return unless driver.has_collection?(name.to_sym)
+      return unless Deltacloud::driver.has_collection?(name.to_sym)
       collections[name] = Collection.new(name, &block)
-      collections[name].add_feature_params(driver.features(name))
+      collections[name].add_feature_params(Deltacloud::driver.features(name))
       collections[name].generate
     end
 
