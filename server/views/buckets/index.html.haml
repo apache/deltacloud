@@ -30,4 +30,5 @@
           -bucket.blob_list.each do |blob|
             = blob
         %td
-          =link_to_action 'Delete', destroy_bucket_url(bucket.name), :delete
+          -if bucket.size == 0
+            =link_to_action 'Delete', destroy_bucket_url(bucket.name), :delete
