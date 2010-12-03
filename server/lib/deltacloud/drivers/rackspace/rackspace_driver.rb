@@ -228,6 +228,33 @@ class RackspaceDriver < Deltacloud::BaseDriver
     end
   end
 
+#--
+# Create Blob
+#--
+  def create_blob(credentials, bucket_id, blob_id, blob_data, opts=nil)
+    cf = cloudfiles_client(credentials)
+    #must first create the object using cloudfiles_client.create_object
+    #then can write using object.write(data)
+    object = cf.container(bucket_id).create_object(blob_id)
+    #blob_data is a construct with data in .tempfile and content-type in {:type}
+    res = object.write(blob_data[:tempfile], {'Content-Type' => blob_data[:type]})
+    Blob.new( { :id => object.name,
+                :bucket => object.container.name,
+                :content_length => blob_data[:tempfile].length,
+                :content_type => blob_data[:type],
+                :last_modified => ''
+              }
+            )
+  end
+
+#--
+# Delete Blob
+#--
+  def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+    cf = cloudfiles_client(credentials)
+    cf.container(bucket_id).delete_object(blob_id)
+  end
+
 private
 
   def convert_srv_to_instance(srv)
@@ -271,7 +298,7 @@ private
 
   def cloudfiles_client(credentials)
     safely do
-      CloudFiles::Connection.new(credentials.user, credentials.password)
+      CloudFiles::Connection.new(:username => credentials.user, :api_key => credentials.password)
     end
   end
 

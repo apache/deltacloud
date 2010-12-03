@@ -14,9 +14,10 @@
     %dd
       -@bucket.blob_list.each do |blob|
         = link_to blob, bucket_url(@bucket.name) + '/' + blob
-    %dt Delete bucket (must be empty)
-    %dd
     %dt Create a new blob
     %dd
       =link_to 'Create Blob', bucket_url(@bucket.name) + '/new_blob'
-      =link_to_action 'Delete', destroy_bucket_url(@bucket.name), :delete
+    %dt Delete bucket (must be empty)
+    %dd
+      -if @bucket.size == 0
+        =link_to_action 'Delete', destroy_bucket_url(@bucket.name), :delete
