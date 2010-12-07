@@ -256,6 +256,9 @@ module Deltacloud
         catched_exceptions_list[:glob].each do |ex|
           raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace) if e.class.name =~ ex
         end
+        puts "======= UNHANDLED EXCEPTION ============"
+        puts e.inspect
+        puts "========================================"
         raise e
       end
     end
