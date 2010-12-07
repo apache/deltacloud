@@ -398,8 +398,10 @@ class EC2Driver < Deltacloud::BaseDriver
 #--
   def blob_data(credentials, bucket_id, blob_id, opts)
     s3_client = s3_client(credentials)
-    s3_client.interface.get(bucket_id, blob_id) do |chunk|
-      yield chunk
+    safely do
+      s3_client.interface.get(bucket_id, blob_id) do |chunk|
+        yield chunk
+      end
     end
   end
 
@@ -410,15 +412,17 @@ class EC2Driver < Deltacloud::BaseDriver
     s3_client = s3_client(credentials)
     #data is a construct with the temporary file created by server @.tempfile
     #also file[:type] will give us the content-type
-    res = s3_client.interface.put(bucket_id, blob_id, data[:tempfile], {"Content-Type" => data[:type]})
-    #create a new Blob object and return that
-    Blob.new( { :id => blob_id,
+    safely do
+      res = s3_client.interface.put(bucket_id, blob_id, data[:tempfile], {"Content-Type" => data[:type]})
+      #create a new Blob object and return that
+      Blob.new( { :id => blob_id,
                 :bucket => bucket_id,
                 :content_length => data[:tempfile].length,
                 :content_type => data[:type],
                 :last_modified => ''
               }
             )
+    end
   end
 
 #--
@@ -426,7 +430,9 @@ class EC2Driver < Deltacloud::BaseDriver
 #--  
   def delete_blob(credentials, bucket_id, blob_id, opts=nil)
     s3_client = s3_client(credentials)
-    s3_client.interface.delete(bucket_id, blob_id)
+    safely do
+      s3_client.interface.delete(bucket_id, blob_id)
+    end
   end
 
   def load_balancer(credentials, opts={})
@@ -656,8 +662,8 @@ class EC2Driver < Deltacloud::BaseDriver
   def catched_exceptions_list
     {
       :auth => [ AWS::AuthFailure ],
-      :error => [],
-      :glob => [ /AWS::(\w+)/ ]
+      :error => [ RightAws::AwsError ],
+      :glob => [ /.*AWS::(\w+)/ ]
     }
   end
 
