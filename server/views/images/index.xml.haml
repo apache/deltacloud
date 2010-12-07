@@ -4,5 +4,9 @@
     %image{:href => image_url(image.id), :id => image.id}
       - image.attributes.select{ |attr| attr!=:id }.each do |attribute|
         - haml_tag("#{attribute}".tr('-', '_'), :<) do
-          - haml_concat image.send(attribute)
+          - if [:name, :description].include?(attribute)
+            =cdata do
+              - haml_concat image.send(attribute)
+          - else
+            - haml_concat image.send(attribute)
 
