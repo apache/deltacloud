@@ -1,0 +1,109 @@
+!main_bg = #ffffff
+
+!th_bg = #cccccc
+!td_bg = #eeeeee
+
+html
+  :background-color = !main_bg
+
+body
+  :font-family "Trebuchet MS"
+  a
+    :color = #411
+
+#hd
+  :padding 1em
+  :background-image url('/images/topbar-bg.png')
+  :margin-bottom 2em
+  img
+    :margin-bottom 1em
+
+#bd
+  :margin-bottom 2em
+
+#ft
+
+#bd
+  h1
+    :font-size     160%
+    :margin-bottom 1ex
+  h2
+    :font-size     140%
+    :margin-bottom 1ex
+  h3
+    :font-size     120%
+    :margin-bottom 1ex
+  dl
+    :font-size 90%
+    :margin-bottom 1em
+    di
+      :display block
+      :margin-bottom 1em
+      dt, dd
+        :padding .5ex
+      dt
+        :font-weight bold
+        :background-color = !th_bg
+      dd
+        :padding-left 1em
+        :background-color = !td_bg
+  ul
+    li
+      :list-style-type square
+      :margin-left 1em
+
+  em
+    :font-style italic
+
+
+ul.breadcrumb 
+  :background-color #eee
+  :border 1px solid #46A
+  :padding 1ex
+  li 
+    :display inline
+
+    &.subsequent:before 
+      content: " >> "
+
+table
+  :width 100%
+  th, td
+    :padding .5ex
+    :font-size 90%
+  th
+    :font-weight bold
+    :background-color = !th_bg
+  td
+    :background-color = !td_bg
+
+table.states
+  tr
+    :border-bottom = 1px solid !th_bg - #111
+  th, td
+    :vertical-align top
+
+.radio-group
+  :font-size 90%
+  :margin-bottom 1em
+  :background-color = !th_bg
+  label
+    :font-weight bold
+
+.radio-group-details
+  :font-weight normal
+  :display block
+  :padding-left 1em
+  :background-color = !td_bg
+  :padding 1ex
+
+input[type='radio']
+  :margin-top 1ex
+  :margin-left 1ex
+  :margin-bottom 1ex
+
+#state_graph
+  :display block
+  :margin-bottom 2em
+  :text-align center
+  
