@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009, 2010  Red Hat, Inc.
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -17,10 +17,12 @@
 # under the License.
 
 class Blob < BaseModel
+  
   #already has an id from basemodel (for the key)
   attr_accessor :bucket
   attr_accessor :content_length
   attr_accessor :content_type
   attr_accessor :last_modified
   attr_accessor :content
+
 end

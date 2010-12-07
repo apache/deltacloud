@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009, 2010  Red Hat, Inc.
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -18,6 +18,7 @@
 
 # Model to store the hardware profile applied to an instance together with
 # any instance-specific overrides
+
 class InstanceProfile < BaseModel
   attr_accessor :memory
   attr_accessor :storage
