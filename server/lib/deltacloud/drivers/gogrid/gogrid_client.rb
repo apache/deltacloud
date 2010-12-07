@@ -1,7 +1,6 @@
 require 'digest/md5'
 require 'cgi'
 require 'open-uri'
-require 'json'
 
 class GoGridClient
 

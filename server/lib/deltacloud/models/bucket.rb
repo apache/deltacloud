@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009, 2010  Red Hat, Inc.
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -21,4 +21,5 @@ class Bucket < BaseModel
   attr_accessor :name
   attr_accessor :size
   attr_accessor :blob_list
+
 end
