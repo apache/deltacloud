@@ -37,10 +37,24 @@ class GogridDriver < Deltacloud::BaseDriver
 
   feature :instances, :authentication_password
 
-  define_hardware_profile 'server' do
-    cpu            2
-    memory         [512, 1024, 2048, 4096, 8192]
-    storage        10
+  def hardware_profiles(credentials, opts={})
+    client = new_client(credentials)
+    safely do
+      server_types = client.request('common/lookup/list', { 'lookup' => 'server.type' })
+      server_rams = client.request('common/lookup/list', { 'lookup' => 'server.ram' })
+      @hardware_profiles = []
+      server_types['list'].each do |type|
+        memory_values = server_rams['list'].collect do |r| 
+            r['name'] =~ /MB$/ ? r['name'].gsub(/MB$/, '').to_i : (r['name'].gsub(/(\w{2})$/, '')).to_i*1024
+        end
+        @hardware_profiles << ::Deltacloud::HardwareProfile.new(type['name'].tr(' ', '-').downcase) do
+          cpu 2
+          memory memory_values
+          storage 25
+        end
+      end
+    end
+    @hardware_profiles
   end
 
   def supported_collections
@@ -361,6 +375,7 @@ class GogridDriver < Deltacloud::BaseDriver
       :description=> convert_description(gg_image),
       :owner_id=>gg_image['owner']['name'],
       :architecture=>convert_arch(gg_image['description']),
+      :state => gg_image['state']['name'].upcase
     } )
   end
 
