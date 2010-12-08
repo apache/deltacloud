@@ -296,7 +296,7 @@ class EC2Driver < Deltacloud::BaseDriver
     safely do
       keypairs.keySet.item.each do |keypair|
         result << convert_key(keypair)
-      end
+      end if keypairs.keySet
     end
     result
   end
