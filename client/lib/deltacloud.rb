@@ -34,8 +34,9 @@ module DeltaCloud
   # @param [String, password] API password
   # @param [String, user_name] API URL (eg. http://localhost:3001/api)
   # @return [DeltaCloud::API]
-  def self.new(user_name, password, api_url, &block)
-    API.new(user_name, password, api_url, &block)
+  def self.new(user_name, password, api_url, opts={}, &block)
+    opts ||= {}
+    API.new(user_name, password, api_url, opts, &block)
   end
 
   # Check given credentials if their are valid against
@@ -62,11 +63,13 @@ module DeltaCloud
   end
 
   class API
-    attr_reader   :api_uri, :driver_name, :api_version, :features, :entry_points
+    attr_reader :api_uri, :driver_name, :api_version, :features, :entry_points
+    attr_reader :api_driver, :api_provider
 
     def initialize(user_name, password, api_url, opts={}, &block)
       opts[:version] = true
-      @username, @password = user_name, password
+      @api_driver, @api_provider = opts[:driver], opts[:provider]
+      @username, @password = opts[:username] || user_name, opts[:password] || password
       @api_uri = URI.parse(api_url)
       @features, @entry_points = {}, {}
       @verbose = opts[:verbose] || false
@@ -241,6 +244,25 @@ module DeltaCloud
       raise NoMethodError
     end
 
+    def use_driver(driver, opts={})
+      if opts[:driver]
+        @api_driver = driver 
+        @driver_name = driver
+        discover_entry_points
+      end
+      @username = opts[:username] if opts[:username]
+      @password = opts[:password] if opts[:password]
+      @api_provider = opts[:provider] if opts[:provider]
+      return self
+    end
+
+    def extended_headers
+      headers = {}
+      headers["X-Deltacloud-Driver"] = @api_driver.to_s if @api_driver
+      headers["X-Deltacloud-Provider"] = @api_provider.to_s if @api_provider
+      headers
+    end
+
     # Basic request method
     #
     def request(*args, &block)
@@ -255,7 +277,7 @@ module DeltaCloud
       end
 
       if conf[:method].eql?(:post)
-        RestClient.send(:post, conf[:path], conf[:form_data], default_headers) do |response, request, block|
+        RestClient.send(:post, conf[:path], conf[:form_data], default_headers.merge(extended_headers)) do |response, request, block|
           handle_backend_error(response) if response.code.eql?(500)
           if response.respond_to?('body')
             yield response.body if block_given?
@@ -264,7 +286,7 @@ module DeltaCloud
           end
         end
       else
-        RestClient.send(conf[:method], conf[:path], default_headers) do |response, request, block|
+        RestClient.send(conf[:method], conf[:path], default_headers.merge(extended_headers)) do |response, request, block|
           handle_backend_error(response) if response.code.eql?(500)
           if conf[:method].eql?(:get) and [301, 302, 307].include? response.code
             response.follow_redirection(request) do |response, request, block|

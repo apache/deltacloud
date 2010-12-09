@@ -15,10 +15,7 @@ class RackDriverSelect
   end
 
   def extract_driver(env)
-    if env['HTTP_HEADERS']
-      driver_name = env['HTTP_HEADERS'].match(/X\-Deltacloud\-Driver:(\w+)/i).to_a
-      driver_name[1] ? driver_name[1].downcase : nil
-    end
+    driver_name = env['HTTP_X_DELTACLOUD_DRIVER'].downcase if env['HTTP_X_DELTACLOUD_DRIVER']
   end
 
 end
