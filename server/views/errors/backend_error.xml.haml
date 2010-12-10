@@ -4,5 +4,5 @@
     %code= @error.code
     %cause= @error.cause
     - if @error.details
-      %details #{@error.details}
-  %message #{@error.message}
+      %details< #{cdata @error.details.join("\n")}
+  %message< #{cdata @error.message}
