@@ -30,7 +30,7 @@ class EC2Driver < Deltacloud::BaseDriver
   def supported_collections
     DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers ]
   end
-
+  
   feature :instances, :user_data
   feature :instances, :authentication_key
   feature :instances, :security_group
@@ -106,6 +106,8 @@ class EC2Driver < Deltacloud::BaseDriver
     stopped.to( :finish )         .automatically
   end
 
+  DEFAULT_REGION = 'us-east-1'
+  
   #
   # Images
   #
@@ -500,9 +502,9 @@ class EC2Driver < Deltacloud::BaseDriver
   def new_client(credentials, provider_type = :ec2)
     opts = {
       :access_key_id => credentials.user,
-      :secret_access_key => credentials.password
+      :secret_access_key => credentials.password,
+      :server => endpoint_for_service(provider_type)
     }
-    opts[:server] = ENV['DCLOUD_EC2_URL'] if ENV['DCLOUD_EC2_URL']
     safely do
       case provider_type
         when :ec2
@@ -513,6 +515,19 @@ class EC2Driver < Deltacloud::BaseDriver
     end
   end
 
+  def endpoint_for_service(service)
+    url = ""
+    url << case service
+           when :ec2
+             'ec2.'
+           when :elb
+             'elasticloadbalancing.'
+           end
+    url << (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
+    url << '.amazonaws.com'
+    url
+  end
+  
   def convert_load_balancer(credentials, loadbalancer)
     balancer_realms = loadbalancer.AvailabilityZones.member.collect do |m|
       realm(credentials, m)

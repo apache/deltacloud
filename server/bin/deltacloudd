@@ -36,6 +36,9 @@ BANNER
   opts.on( '-p', '--port PORT', 'Use PORT (default: 3001)') do |port|
     ENV["API_PORT"] = port
   end
+  opts.on( '-P', '--provider PROVIDER', 'Use PROVIDER (default is set in the driver)') do |provider|
+    ENV['API_PROVIDER'] = provider
+  end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
   opts.on( '-h', '--help', '') { options[:help] = true }
 end
@@ -55,7 +58,10 @@ end
 ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
 ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
-puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
+msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
+msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+puts msg
 puts
 
 dirname="#{File.dirname(__FILE__)}/.."
