@@ -117,6 +117,12 @@ module Deltacloud
       self.class.features[collection] || []
     end
 
+    def features_for_operation(collection, operation)
+      features(collection).select do |f|
+        f.operations.detect { |o| o.name == operation }
+      end
+    end
+    
     #
     # Declaration of optional features
     #

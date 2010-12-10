@@ -42,7 +42,7 @@ module Deltacloud
   end
 
   class BaseDriver
-
+    
     def self.define_hardware_profile(name,&block)
       @hardware_profiles ||= []
       hw_profile = @hardware_profiles.find{|e| e.name == name}
@@ -126,100 +126,90 @@ module Deltacloud
       actions
     end
 
+    ## Capabilities
+    # The rabbit dsl supports declaring a capability that is required
+    # in the backend driver for the call to succeed. A driver can
+    # provide a capability by implementing the method with the same
+    # name as the capability. Below is a list of the capabilities as
+    # the expected method signatures.
+    #
+    # Following the capability list are the resource member show
+    # methods. They each require that the corresponding collection
+    # method be defined
+    #
+    # TODO: standardize all of these to the same signature (credentials, opts)
+    #
+    # def realms(credentials, opts=nil)
+    #
+    # def images(credentials, ops)
+    #
+    # def instances(credentials, ops)
+    # def create_instance(credentials, image_id, opts)
+    # def start_instance(credentials, id)
+    # def stop_instance(credentials, id)
+    # def reboot_instance(credentials, id)
+    #
+    # def storage_volumes(credentials, ops)
+    #
+    # def storage_snapshots(credentials, ops)
+    # 
+    # def buckets(credentials, opts = nil)
+    # def create_bucket(credentials, name, opts=nil)
+    # def delete_bucket(credentials, name, opts=nil)
+    #
+    # def blobs(credentials, opts = nil)
+    # def blob_data(credentials, bucket_id, blob_id, opts)
+    # def create_blob(credentials, bucket_id, blob_id, blob_data, opts=nil)
+    # def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+    #
+    # def keys(credentials, opts)
+    # def create_key(credentials, opts)
+    # def destroy_key(credentials, opts)
+    
     def realm(credentials, opts)
-      realms = realms(credentials, opts)
-      return realms.first unless realms.empty?
-      nil
-    end
-
-    def realms(credentials, opts=nil)
-      []
+      realms = realms(credentials, opts).first if has_capability?(:realms)
     end
 
     def image(credentials, opts)
-      images = images(credentials, opts)
-      return images.first unless images.empty?
-      nil
-    end
-
-    def images(credentials, ops)
-      []
+      images(credentials, opts).first if has_capability?(:images)
     end
 
     def instance(credentials, opts)
-      instances = instances(credentials, opts)
-      return instances.first unless instances.empty?
-      nil
-    end
-
-    def instances(credentials, ops)
-      []
-    end
-
-    def create_instance(credentials, image_id, opts)
-    end
-    def start_instance(credentials, id)
-    end
-    def stop_instance(credentials, id)
-    end
-    def reboot_instance(credentials, id)
+      instances(credentials, opts).first if has_capability?(:instances)
     end
 
     def storage_volume(credentials, opts)
-      volumes = storage_volumes(credentials, opts)
-      return volumes.first unless volumes.empty?
-      nil
-    end
-
-    def storage_volumes(credentials, ops)
-      []
+      storage_volumes(credentials, opts).first if has_capability?(:storage_volumes)
     end
 
     def storage_snapshot(credentials, opts)
-      snapshots = storage_snapshots(credentials, opts)
-      return snapshots.first unless snapshots.empty?
-      nil
-    end
-
-    def storage_snapshots(credentials, ops)
-      []
-    end
-
-    def buckets(credentials, opts = nil)
-      #list of buckets belonging to account
-      []
+      storage_snapshots(credentials, opts).first if has_capability?(:storage_snapshots)
     end
 
     def bucket(credentials, opts = nil)
-    #list of objects within bucket
-      list = buckets(credentials, opts)
-      return list.first unless list.empty?
-      nil
-    end
-
-    def create_bucket(credentials, name, opts=nil)
-    end
-
-    def delete_bucket(credentials, name, opts=nil)
-    end
-
-    def blobs(credentials, opts = nil)
-      []
-    end
-
-    def blob(credentials, opts = nil)
-       list = blobs(credentials, opts)
-       return list.first unless list.empty?
-    end
-
-    def blob_data(credentials, bucket_id, blob_id, opts)
-    end
-
-    def create_blob(credentials, bucket_id, blob_id, blob_data, opts=nil)  
+      #list of objects within bucket
+      buckets(credentials, opts).first if has_capability?(:buckets)
     end
     
-    def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+    def blob(credentials, opts = nil)
+      blobs(credentials, opts).first if has_capability?(:blobs)
     end
+
+    def key(credentials, opts=nil)
+      keys(credentials, opts).first if has_capability?(:keys)
+    end
+
+    MEMBER_SHOW_METHODS =
+      [ :realm, :image, :instance, :storage_volume, :bucket, :blob, :key ]
+    
+    def has_capability?(capability)
+      if MEMBER_SHOW_METHODS.include?(capability.to_sym)
+        has_capability?(capability.to_s.pluralize)
+      else
+        respond_to?(capability)
+      end
+    end
+    
  
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?
@@ -237,8 +227,7 @@ module Deltacloud
     end
 
     def has_collection?(collection)
-      return true if self.supported_collections.include?(collection)
-      return false
+      supported_collections.include?(collection)
     end
 
     def catched_exceptions_list

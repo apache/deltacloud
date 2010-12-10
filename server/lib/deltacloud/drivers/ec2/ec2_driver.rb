@@ -284,10 +284,6 @@ class EC2Driver < Deltacloud::BaseDriver
     snapshots
   end
 
-  def key(credentials, opts=nil)
-    keys(credentials, opts).first
-  end
-
   def keys(credentials, opts=nil)
     ec2 = new_client( credentials )
     opts[:key_name] = opts[:id] if opts and opts[:id]

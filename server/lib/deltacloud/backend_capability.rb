@@ -20,6 +20,7 @@ module Deltacloud::BackendCapability
 
   class Failure < StandardError
     attr_reader :capability
+    
     def initialize(capability, msg='')
       super(msg)
       @capability = capability
@@ -27,13 +28,26 @@ module Deltacloud::BackendCapability
   end
 
   attr_reader :capability
+  
   def with_capability(capability)
     @capability = capability
   end
 
+  def has_capability?(backend)
+    !capability or backend.has_capability?(capability)
+  end
+
   def check_capability(backend)
-    if capability and !backend.respond_to?(capability)
+    if !has_capability?(backend)
       raise Failure.new(capability, "#{capability} capability not supported by backend #{backend.class.name}")
     end
   end
+
+  module Helpers
+    def operations_for_collection(collection)
+      collections[collection].operations.values.select { |op| op.has_capability?(driver) }
+    end
+  end
+
+  helpers Helpers
 end
