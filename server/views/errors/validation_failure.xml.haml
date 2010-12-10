@@ -1,7 +1,8 @@
 %error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
   %parameter #{@error.name}
-  %message #{@error.message}
+  %message< #{cdata @error.message}
   - unless @error.param.options.empty?
     %valid_options
       - @error.param.options.each do |v|
-        %value #{v}
+        %value< #{cdata v}
+

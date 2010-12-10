@@ -121,8 +121,8 @@ module ApplicationHelper
     end
   end
 
-  def cdata(&block)
-    text = capture_haml(&block)
+  def cdata(text = nil, &block)
+    text ||= capture_haml(&block)
     "<![CDATA[#{text.strip}]]>"
   end
 
