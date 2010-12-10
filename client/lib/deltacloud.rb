@@ -309,7 +309,7 @@ module DeltaCloud
 
     # Re-raise backend errors as on exception in client with message from
     # backend
-    class BackendError < Exception
+    class BackendError < StandardError
       def initialize(opts={})
         @message = opts[:message]
       end
