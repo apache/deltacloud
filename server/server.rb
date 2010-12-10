@@ -69,7 +69,7 @@ end
 Sinatra::Application.register Sinatra::RespondTo
 
 # Redirect to /api
-get '/' do redirect url_for('/api'); end
+get '/' do redirect url_for('/api'), 301; end
 
 get '/api/drivers\/?' do
   respond_to do |format|

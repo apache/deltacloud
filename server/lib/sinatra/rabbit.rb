@@ -72,7 +72,7 @@ module Sinatra
       end
 
       def path(args = {})
-        l_prefix = args[:prefix] ? args[:prefix] : prefix
+        l_prefix = args[:prefix] || prefix
         if @member
           if standard?
             "#{l_prefix}/#{@collection.name}/:id"
