@@ -5,17 +5,25 @@ class RackDriverSelect
     @opts = opts
   end
 
+  HEADER_TO_ENV_MAP = {
+    'HTTP_X_DELTACLOUD_DRIVER' => :driver,
+    'HTTP_X_DELTACLOUD_PROVIDER' => :provider
+  }
+  
   def call(env)
-    original_driver = Thread.current[:driver]
-    new_driver = extract_driver(env)
-    Thread.current[:driver] = new_driver if new_driver
+    original_settings = { }
+    HEADER_TO_ENV_MAP.each do |header, name|
+      original_settings[name] = Thread.current[name]
+      new_setting = extract_header(env, header)
+      Thread.current[name] = new_setting if new_setting
+    end
     @app.call(env)
   ensure
-    Thread.current[:driver] = original_driver
+    original_settings.each { |name, value| Thread.current[name] = value }
   end
 
-  def extract_driver(env)
-    driver_name = env['HTTP_X_DELTACLOUD_DRIVER'].downcase if env['HTTP_X_DELTACLOUD_DRIVER']
+  def extract_header(env, header)
+    env[header].downcase if env[header]
   end
 
 end
