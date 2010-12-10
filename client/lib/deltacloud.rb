@@ -245,7 +245,7 @@ module DeltaCloud
     end
 
     def use_driver(driver, opts={})
-      if opts[:driver]
+      if driver
         @api_driver = driver 
         @driver_name = driver
         discover_entry_points
