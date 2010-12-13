@@ -45,11 +45,13 @@ task :release => [ :package ] do
     dst = File::join("release", File::basename(src))
     FileUtils.cp(src, dst)
     cmd = <<EOS
-gpg -q --batch --verify #{dst}.sig > /dev/null 2>&1 || \
-  gpg --output #{dst}.sig --detach-sig #{dst}
+gpg -q --batch --verify #{dst}.asc > /dev/null 2>&1 || \
+  gpg --output #{dst}.asc --armour --detach-sig #{dst}
 EOS
     system(cmd)
   end
+  system("md5sum #{files.join(" ")} > release/MD5SUM")
+  system("sha1sum #{files.join(" ")} > release/SHA1SUM")
 end
 
 desc "Remove the release directory"
