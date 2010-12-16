@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>
+      Deltacloud Roadmap
+    </title>
+    <meta content='' name='keywords' />
+    <meta content='' name='description' />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type' />
+    <link href='./styles/favicon.ico' rel='shortcut icon' type='image/x-icon' />
+    <link href='./styles/default.css' rel='StyleSheet' title='Main style' type='text/css' />
+    <link href='./styles/default-debug.css' rel='Alternate StyleSheet' title='Debug main style' type='text/css' />
+  </head>
+  <body>
+    <div id='header'>
+      <div class='container'>
+        <div id='headerLogo' onclick="location.href='index.html';" style='cursor: pointer;'>
+          <h1>
+            Deltacloud - Many clouds. One API. No problem.
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div id='navigation'>
+      <div class='container' id='menu'>
+        <ul class='l0'>
+          <li>
+            <a class='inactive' href='./index.html' title='Deltacloud Home'>Home</a>
+          </li>
+          <li>
+            <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+          </li>
+          <li>
+            <a class='inactive' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id='frontpageHeader'></div>
+    <div id='main'>
+      <div class='container' id='content-deltacloud'>
+        <h1>Deltacloud Roadmap</h1>
+        
+        <p>This page lists the items we are currently working on for the next release,
+        and a longer list of items we will address after the next release, roughly
+        in order of priority.</p>
+        
+        <p>If you have anything you'd like to see added to the roadmap, or think that
+        some items should receive more attention, please let us know on the
+        <a href="/contribute.html">mailing list</a>. Of course, the quickest way to get anything into
+        Deltacloud is to <a href="/contribute.html">send us patches</a> &mdash; we will of course take patches
+        for anything, regardless of whether they adress items on the roadmap or
+        anything else.</p>
+        
+        <p><ul>
+        <li>
+        <a href="#h1">Next release</a>
+        </li>
+        <li>
+        <a href="#h2">Backlog</a>
+        </li>
+        </ul></p>
+        
+        <h2 id="h1">Next release</h2>
+        
+        <p>This release will happen in mid to late January 2011. We very much hope to
+        include all the items below, but might have to defer some of them,
+        depending on the progress we make (and the amount of patches we receive)</p>
+        
+        <ul>
+        <li><strong>Upload/creation of blobs</strong>: the <code>/buckets</code> collection allows
+        downloading blobs stored within buckets, but not yet creating and
+        uploading them. The big challenge here is streaming the content to be
+        uploaded to the backend cloud.</li>
+        <li><strong>Update Apache Website</strong>: mostly housekeeping to make sure the
+        information on the site is accurate, and to update the documentation on
+        the site</li>
+        <li><strong>Capabilities for introspection</strong>: provide a lot more information to
+        clients about what each driver actually supports; for example, this makes
+        it possible for clients to discover if the driver supports rebooting
+        instances</li>
+        <li><strong>RHEV-M driver</strong>: RHEV-M has a new, shiny, and very nice,
+        <a href="http://markmc.fedorapeople.org/rhevm-api/en-US/html/index.html">REST API</a>. The
+        RHEV-M driver needs to be rewritten to take advantage of that.</li>
+        <li><strong>Formal API docs</strong>: A document that describes, in great detail, each
+        possible call in the API, parameters, results, errors, etc.</li>
+        <li><strong>Load balancers</strong>: Add a new toplevel collection that can be used to
+        manage load balancers in clouds that allow that (e.g., EC2)</li>
+        <li><strong>Runtime driver selection</strong>: So far, the driver to use is selected when
+        you start the Deltacloud server; this becomes very unwieldy with clouds
+        that offer multiple endpoints/regions, and with internal clouds. We'll
+        make it possible to select the driver, and the API endpoint that the
+        server uses through HTTP headers</li>
+        <li><strong>Store blobs in tempfile by default</strong>: Rack doesn't have a universal way
+        to stream blobs, either for upload or download; the only Rack conformant
+        way to deal with large objects is to store them in temporary files -
+        we'll make that the default, and add proper streaming for some of the
+        more popular servers (most likely <code>thin</code> for now)</li>
+        <li><strong>Rewritten EC2 driver</strong>: the current EC2 driver depends on too many
+        API-wrapper gems; a rewrite will make sure we only use one gem (AWS) for
+        it</li>
+        <li><strong>Launch multiple instances with one call</strong>: The API right now allows
+        only creating single instances. For clouds that support it, the API
+        should allow launching many instances in one operation.</li>
+        <li><strong>Remote command execution</strong>: Add a way to log into an instance and run a
+        commend there as one API call</li>
+        <li><strong>Clarify shutdown semantics</strong>: the various drivers are a little squishy
+        on whether shutting down means a clean ACPI shutdown or yanking the
+        (virtual) power chord out of the instance</li>
+        <li><strong>Create images from uploaded bits</strong>: Allow posting to the <code>/images</code>
+        collection so that bits in appropriate storage can be designated as
+        images</li>
+        </ul>
+        
+        
+        <h2 id="h2">Backlog</h2>
+        
+        <p>These are items we think we'll work on in future releases. There is no
+        guarantee that we will actually wind up doing that &mdash; listing them
+        here simply means that they seem like a good idea today. The list is
+        roughly in the order in which we think the items should be addressed, with
+        the most pressing ones at the top of the list.</p>
+        
+        <ul>
+        <li><strong>Dev guide/tutorials</strong>: documentation to make it easier for people to
+        get started using Deltacloud</li>
+        <li><strong>Report password on instance creation (Rackspace)</strong>: in Rackspace, you
+        get a random root password when you create an insatnce, and it is only
+        sent at instance creation.</li>
+        <li><strong>File injection (Rackspace)</strong>: support direct injection of files into
+        the instance</li>
+        <li><strong>Create image from running server</strong>: in many clouds, that's the only way
+        to create images. Support a magic call that sets the machinery to freeze
+        a running instance into an image in motion</li>
+        <li><strong>Driver for Google storage</strong></li>
+        <li><strong>Improve streaming support for blobs</strong>: stream uploads; probably need to
+        support streaming for more than just <code>thin</code> (torquebox ? passenger ?)</li>
+        <li><strong>Partial Upload</strong>: several storage services allow uploading and
+        downloading ranges of a blob, often also in parallel. Add that feature to
+        Deltaclouds storage API</li>
+        <li><strong>Billing info</strong>: define a model and API calls to represent billing
+        information and the billing model of the cloud. The aim is to make it
+        possible for clients to find out how much and why they are being charged
+        for current resource usage, and to enable them to make <em>what if</em>
+        computations. Since none of the public clouds support that, needs to be
+        done carefully in conjunction with some of the open-source players,
+        especially RHEV-M</li>
+        <li><strong>Attach EBS</strong>: attach block storage to instances in EC2</li>
+        <li><strong>Formal testing against live clouds</strong>: run the test suite against each
+        cloud we support on a regular basis</li>
+        <li><strong>vCloud driver</strong>: full support for VMWare's <em>vCloud</em> so we can talk to
+        these private clouds</li>
+        <li><strong>Stateful instances</strong>: the API is very much focussed on stateless
+        instances (with a couple of exceptions) Cleanly define handling stateless
+        and stateful side-by-side</li>
+        <li><strong>IP address mgmt</strong>: another toplevel collection to represent the IP
+        addresses your account owns/has access to</li>
+        <li><strong>Apply public IP(s) to server</strong>: support things like EC2's elastic IP</li>
+        <li><strong>Manage password lists</strong>: some clouds allow predefining a list of
+        passwords and then applying them to instances. Support managing these
+        lists</li>
+        <li><strong>technology compatibility kit</strong>: a test suite that can be run against an
+        implementation of the Deltacloud API and report on any problems with the
+        API implementation</li>
+        <li><strong>Firewalls</strong>: there are a couple <em>very</em> different models out there how
+        instances can be firewalled from the rest of the cloud and from the
+        internet at large. Support defining and manging firewall rules and
+        applying them to instances</li>
+        <li><strong>Public Deltacloud instances</strong>: it would be nice for testing etc. to
+        have a few Deltacloud instances running at a well-known address</li>
+        <li><strong>Spot instances</strong>: Support EC2's auction-based way of running instances</li>
+        <li><strong>Reserved instances</strong>: Support EC2's preallocated instances</li>
+        <li><strong>Bare-metal servers</strong>: some clouds also manage physical bare-metal
+        servers</li>
+        <li><strong>Text/graphical console</strong>: As much as possible, make it possible for
+        clients to open an interactive console; this is very speculative, and not
+        possible in most clouds</li>
+        <li><strong>Console logs</strong>: access whatever logs the backend cloud API produces for
+        an instance through Deltacloud</li>
+        <li><strong>IBM cloud driver</strong></li>
+        <li><strong>NTT cloud driver</strong></li>
+        <li><strong>Monitoring (Cloudwatch)</strong></li>
+        <li><strong>Error reporting</strong>: clean up forwarding of backend errors</li>
+        <li><strong>Account creation/registration</strong>: make it possible to create an account
+        in various backend clouds through Deltacloud</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
