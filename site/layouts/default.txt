@@ -30,7 +30,7 @@ filter: haml
         } else {
         $("a.vid").fancybox({ 'hideOnContentClick': true, 'width': 400, 'height': 300, 'titleShow': false });
         $("a.providers").fancybox({ 'hideOnContentClick': true, 'padding': 0, 'margin': 0, 'width': 958,
-        'height': 528, 'scrolling': 'no', 'autoDimensions': false, 'autoScale': true });
+        'height': 640, 'scrolling': 'no', 'autoDimensions': false, 'autoScale': true });
         }
         });
 

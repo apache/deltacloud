@@ -24,7 +24,7 @@
       } else {
       $("a.vid").fancybox({ 'hideOnContentClick': true, 'width': 400, 'height': 300, 'titleShow': false });
       $("a.providers").fancybox({ 'hideOnContentClick': true, 'padding': 0, 'margin': 0, 'width': 958,
-      'height': 528, 'scrolling': 'no', 'autoDimensions': false, 'autoScale': true });
+      'height': 640, 'scrolling': 'no', 'autoDimensions': false, 'autoScale': true });
       }
       });
     </script>
@@ -125,6 +125,241 @@
           </div>
           <br />
           <br />
+        </div>
+        <div id='popups' style='display:none;'>
+          <div id='providers'>
+            <h3>Compute Drivers</h3>
+            <table id='providers'>
+              <tr>
+                <th class='emptycell'>&nbsp;</th>
+                <th>
+                  <strong>Create</strong>
+                  new instances
+                </th>
+                <th>
+                  <strong>Start</strong>
+                  stopped instances
+                </th>
+                <th>
+                  <strong>Stop</strong>
+                  running instances
+                </th>
+                <th>
+                  <strong>Reboot</strong>
+                  running instances
+                </th>
+                <th>
+                  <strong>Destroy</strong>
+                  instances
+                </th>
+                <th>
+                  List all/get details about
+                  <strong>hardware profiles</strong>
+                </th>
+                <th>
+                  List all/get details about
+                  <strong>realms</strong>
+                </th>
+                <th>
+                  List all/get details about
+                  <strong>images</strong>
+                </th>
+                <th>
+                  List all/get details about
+                  <strong>instances</strong>
+                </th>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Amazon EC2
+                </td>
+                <td class="supported">yes</td>
+                <td class="not-supported">no</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  GoGrid
+                </td>
+                <td class="supported">yes</td>
+                <td class="not-supported">no</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  OpenNebula
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="not-supported">no</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Rackspace
+                </td>
+                <td class="supported">yes</td>
+                <td class="not-supported">no</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  RHEV-M
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  RimuHosting
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Terremark
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  vCloud
+                  <span>coming soon</span>
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+            </table>
+            <h3>Storage Drivers</h3>
+            <table id='providers'>
+              <tr>
+                <th class='emptycell'>&nbsp;</th>
+                <th>
+                  <strong>Create</strong>
+                  new containers
+                </th>
+                <th>
+                  <strong>Update/delete</strong>
+                  containers
+                </th>
+                <th>
+                  <strong>Create</strong>
+                  new blobs
+                </th>
+                <th>
+                  <strong>Update/delete</strong>
+                  blobs
+                </th>
+                <th>
+                  <strong>Read/write</strong>
+                  blob attributes
+                </th>
+                <th>
+                  <strong>Read/write</strong>
+                  individual blob attributes
+                </th>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Amazon S3
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Rackspace CloudFiles
+                </td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+                <td class="supported">yes</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Microsoft Azure
+                  <span>coming soon</span>
+                </td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+              </tr>
+              <tr>
+                <td class='provider'>
+                  Google Storage
+                  <span>coming soon</span>
+                </td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+                <td class="not-supported">TBD</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
