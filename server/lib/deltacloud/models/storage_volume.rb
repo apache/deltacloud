@@ -26,5 +26,7 @@ class StorageVolume < BaseModel
   attr_accessor :device
   attr_accessor :realm_id
   attr_accessor :actions
+  attr_accessor :name
+  attr_accessor :kind
 
 end
