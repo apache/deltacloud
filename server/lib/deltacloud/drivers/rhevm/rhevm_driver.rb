@@ -182,7 +182,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       vm_template = "<template id='#{image_id}'/>"
       vm_cluster = opts[:realm_id] ? "<cluster id='#{opts[:realm_id]}'/>" : "<cluster id='0'/>"
       vm_type = opts[:hwp_id] ? "<type>#{opts[:hwp_id]}</type>" : "<type>DESKTOP</type>"
-      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024}</memory>"  : ''
+      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024*1024}</memory>"  : ''
       vm_cpus = opts[:hwp_cpu] ? "<cpu><topology cores='#{opts[:hwp_cpu]}' sockets='1'/></cpu>"  : ''
       puts vm_cpus.inspect
       # TODO: Add storage here (it isn't supported by RHEV-M API so far)
@@ -208,10 +208,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def convert_instance(client, inst)
     state = convert_state(inst.status)
+    storage_size = inst.storage.nil? ? 1 :  (inst.storage/1024/1024)
     profile = InstanceProfile::new(inst.profile, 
                                    :hwp_memory => inst.memory/1024,
                                    :hwp_cpu => inst.cores,
-                                   :hwp_storage => "#{(inst.storage/1024/1024)}"
+                                   :hwp_storage => "#{storage_size}"
     )
     # TODO: Implement public_addresses (nics/ip)
     # NOTE: This must be enabled on 'guest' side, otherwise this property is not
