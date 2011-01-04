@@ -38,7 +38,11 @@ module ApplicationHelper
   end
 
   def instance_action_method(action)
-    collections[:instances].operations[action.to_sym].method
+    action_method(action, :instances)
+  end
+
+  def action_method(action, collection)
+    collections[collection].operations[action.to_sym].method
   end
 
   def driver_has_feature?(feature_name, collection_name = :instances)
@@ -131,7 +135,6 @@ module ApplicationHelper
   end
 
   def link_to_action(action, url, method)
-    return link_to(action, url) if method.eql? :get
     capture_haml do
       haml_tag :form, :method => :post, :action => url, :class => :link do
         haml_tag :input, :type => :hidden, :name => '_method', :value => method

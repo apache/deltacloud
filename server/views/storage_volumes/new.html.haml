@@ -1,0 +1,17 @@
+%h1 Create new storage volume
+
+%form{ :action => '/api/storage_volumes', :method => :post }
+  %p
+    %label
+      Snapshot ID:
+    %input{ :name => 'snapshot_id', :size => 30 } (optional)
+  %p
+    %label
+      Capacity (in GB):
+    %input{ :name => "capacity", :size => 3, :value => "1"}
+  %p
+    %label
+      Realm ID:
+    %input{ :name => "realm_id", :size => 10, :value => driver.realms(credentials).first.id}
+  %p
+    %input{ :type => :submit, :name => "commit", :value => "create" }/

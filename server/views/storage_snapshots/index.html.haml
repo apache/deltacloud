@@ -7,6 +7,7 @@
       %th Volume
       %th Created
       %th State
+      %th Actions
   %tbody
     - @storage_snapshots.each do |snapshot|
       %tr
@@ -18,3 +19,5 @@
           = snapshot.created
         %td
           = snapshot.state
+        %td
+          = link_to_action "Delete", destroy_storage_snapshot_url(snapshot.id), :delete
