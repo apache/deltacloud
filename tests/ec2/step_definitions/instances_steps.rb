@@ -17,7 +17,6 @@ end
 Then /^each actions should have some links$/ do
   output_xml.xpath('/instances/instance').each do |instance|
     next if instance.xpath('state').text!='RUNNING'
-    puts instance.to_s
     instance.xpath('actions/link').first.should_not be_nil
   end
 end
@@ -29,10 +28,12 @@ Then /^each link should have valid (\w+) attribute$/ do |attr|
   end
 end
 
-When /^client want to '(\w+)' (first|last) instance$/ do |action, position|
+When /^client want to '(\w+)' (first|last|RUNNING) instance$/ do |action, position|
   @action = action
   if position=='first'
     @instance = output_xml.xpath('/instances/instance').first
+  elsif position == 'RUNNING'
+    @instance = output_xml.xpath('/instances/instance/state[text()="RUNNING"]').first.parent
   else
     @instance = output_xml.xpath('/instances/instance').last
   end
@@ -81,6 +82,7 @@ When /^client request for a new instance$/ do
     :image_id => @image.xpath('@id').first.text
   }
   params[:hwp_id] = @hwp_id if @hwp_id
+  params[:public_ip] = @public_ip if @public_ip
   post "#{@uri}", params
 end
 
@@ -130,6 +132,10 @@ When /^client choose (\w+) hardware profile$/ do |position|
   end
 end
 
+When /^client choose public IP address '([\w\.]+)'$/ do |address|
+  @public_up = address
+end
+
 Then /^this instance should have last hardware profile$/ do
   output_xml.xpath('instance/hardware_profile/@id').first.text.should == @hwp_id
 end
@@ -141,3 +147,8 @@ end
 Then /^I set mock scenario to default$/ do
   @scenario = ''
 end
+
+Then /^IP address for this instance should be '([\w\.]+)'$/ do |address|
+  puts output_xml.to_s
+end
+
