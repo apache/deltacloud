@@ -214,9 +214,21 @@ class RHEVMDriver < Deltacloud::BaseDriver
                                    :hwp_cpu => inst.cores,
                                    :hwp_storage => "#{storage_size}"
     )
-    # TODO: Implement public_addresses (nics/ip)
-    # NOTE: This must be enabled on 'guest' side, otherwise this property is not
-    # available through RHEV-M API
+    # Include VNC and SPICE addresses
+    if inst.display
+      display_address = { 
+        :type => inst.display[:type],
+        :address => inst.display[:address],
+        :port => inst.display[:port]
+      }
+    end
+    public_addresses = []
+    unless inst.nics.empty?
+      inst.nics.each do |nic|
+        public_addresses << { :address => nic[:address], :mac => nic[:mac]}
+      end
+    end
+    public_addresses << display_address if display_address
     Instance.new(
       :id => inst.id,
       :name => inst.name,
@@ -227,7 +239,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :launch_time => inst.creation_time,
       :instance_profile => profile,
       :hardware_profile_id => profile.id,
-      :actions=>instance_actions_for( state )
+      :actions=>instance_actions_for( state ),
+      :public_addresses => public_addresses,
+      :private_addresses => []
     )
   end
 
@@ -269,7 +283,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :description => img.description,
       :owner_id => client.username,
       :architecture => 'x86_64', # All RHEV-M VMs are x86_64
-      :status => img.status
+      :state => img.status
     )
   end
 
