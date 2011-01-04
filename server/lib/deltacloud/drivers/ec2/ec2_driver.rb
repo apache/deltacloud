@@ -179,7 +179,7 @@ module Deltacloud
           ec2 = new_client(credentials)
           instance_options = {}
           instance_options.merge!(:user_data => opts[:user_data]) if opts[:user_data]
-          instance_options.merge!(:key_name => opts[:key_name]) if opts[:key_name]
+          instance_options.merge!(:key_name => opts[:keyname]) if opts[:keyname]
           instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
           instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id]
           instance_options.merge!(:group_ids => opts[:security_group]) if opts[:security_group]
