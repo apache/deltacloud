@@ -1,0 +1,20 @@
+%h1 Attach storage volume
+
+%form{ :action => attach_storage_volume_url(params[:id]), :method => :post }
+  %p
+    %label
+      Instance ID:
+    - if @instances.empty?
+      %select
+        %option There are no instances
+    - else
+      %select{ :name => 'instance_id' }
+        - @instances.each do |i|
+          %option{ :value => "#{i.id}"} #{i.name}
+  %p
+    %label
+      Device name:
+    %input{ :name => "device", :size => 10, :value => "/dev/sdc"}
+  %p
+    %input{ :type => :hidden, :name => :id, :value => params[:id]}
+    %input{ :type => :submit, :name => "commit", :value => "create" }/

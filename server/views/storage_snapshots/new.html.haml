@@ -1,0 +1,9 @@
+%h1 Create new storage volume snapshot
+
+%form{ :action => '/api/storage_snapshots', :method => :post }
+  %p
+    %label
+      Volume ID:
+    %input{ :name => 'volume_id', :size => 30, :value => params[:volume_id] }
+  %p
+    %input{ :type => :submit, :name => "commit", :value => "create" }/
