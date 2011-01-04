@@ -40,7 +40,6 @@ module Deltacloud
 
         feature :instances, :user_data
         feature :instances, :authentication_key
-        feature :instances, :public_ip
         feature :instances, :security_group
         feature :images, :owner_id
         feature :buckets, :bucket_location
@@ -179,7 +178,7 @@ module Deltacloud
           instance_options = {}
           instance_options.merge!(:user_data => opts[:user_data]) if opts[:user_data]
           instance_options.merge!(:key_name => opts[:key_name]) if opts[:key_name]
-          instance_options.merge!(:availability_zone => opts[:availability_zone]) if opts[:availability_zone]
+          instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
           instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id]
           instance_options.merge!(:group_ids => opts[:security_group]) if opts[:security_group]
           safely do
@@ -407,6 +406,16 @@ module Deltacloud
           end
         end
 
+        def valid_credentials?(credentials)
+          retval = true
+          begin
+            realms(credentials)
+          rescue Deltacloud::BackendError
+            retval = false
+          end
+          retval
+        end
+
         private
 
         def new_client(credentials, type = :ec2)
@@ -493,7 +502,7 @@ module Deltacloud
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type]),
             :realm_id => instance[:aws_availability_zone],
             :private_addresses => instance[:private_dns_name],
-            :public_addresses => instance[:public_addresses]
+            :public_addresses => instance[:dns_name]
           )
         end
 
@@ -511,7 +520,8 @@ module Deltacloud
           StorageVolume.new(
             :id => volume[:aws_id],
             :created => volume[:aws_created_at],
-            :state => volume[:aws_status] ? volume[:aws_status].upcase : 'unknown',
+            # Fix IN_USE to be IN-USE 
+            :state => volume[:aws_status] ? volume[:aws_status].tr('_', '-').upcase : 'unknown',
             :capacity => volume[:aws_size],
             :instance_id => volume[:aws_instance_id],
             :realm_id => volume[:zone],
