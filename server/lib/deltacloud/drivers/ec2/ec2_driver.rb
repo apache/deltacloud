@@ -418,23 +418,42 @@ module Deltacloud
         private
 
         def new_client(credentials, type = :ec2)
-          case type
-            when :ec2 then Aws::Ec2.new(credentials.user, credentials.password, :endpoint_url => endpoint_for_service(:ec2))
-            when :s3 then Aws::S3.new(credentials.user, credentials.password, :endpoint_url => endpoint_for_service(:s3))
-          end
+          klass = case type
+                    when :elb then Aws::Elb
+                    when :ec2 then Aws::Ec2
+                    when :s3 then Aws::S3
+                  end
+          klass.new(credentials.user, credentials.password, :server => endpoint_for_service(type))
         end
 
+        DEFAULT_SERVICE_ENDPOINTS = {
+          'ec2' => {
+            'ap-southeast-1' => 'ec2.ap-southeast-1.amazonaws.com',
+            'eu-west-1' => 'ec2.eu-west-1.amazonaws.com',
+            'us-east-1' => 'ec2.us-east-1.amazonaws.com',
+            'us-west-1' => 'ec2.us-west-1.amazonaws.com'
+          },
+          
+          'elb' => {
+            'ap-southeast-1' => 'elasticloadbalancing.ap-southeast-1.amazonaws.com',
+            'eu-west-1' => 'elasticloadbalancing.eu-west-1.amazonaws.com',
+            'us-east-1' => 'elasticloadbalancing.us-east-1.amazonaws.com',
+            'us-west-1' => 'elasticloadbalancing.us-west-1.amazonaws.com'
+          },
+          
+          's3' => {
+            'ap-southeast-1' => 's3.amazonaws.com',
+            'eu-west-1' => 's3.amazonaws.com',
+            'us-east-1' => 's3.amazonaws.com',
+            'us-west-1' => 's3.amazonaws.com'
+          }
+        }
+
         def endpoint_for_service(service)
-          url = ""
-          url << case service
-            when :ec2
-              'ec2.'
-            when :elb
-              'elasticloadbalancing.'
-            end 
-          url << (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
-          url << '.amazonaws.com'
-          url
+          endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
+          # return the endpoint if it does not map to a default endpoint, allowing
+          # the endpoint to be a full hostname instead of a region.
+          DEFAULT_SERVICE_ENDPOINTS[service.to_s][endpoint] || endpoint
         end
 
         def tag_instance(credentials, instance, name)

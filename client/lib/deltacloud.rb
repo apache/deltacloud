@@ -46,8 +46,8 @@ module DeltaCloud
   # @param [String, password] API password
   # @param [String, user_name] API URL (eg. http://localhost:3001/api)
   # @return [true|false]
-  def self.valid_credentials?(user_name, password, api_url)
-    api=API.new(user_name, password, api_url)
+  def self.valid_credentials?(user_name, password, api_url, opts={})
+    api=API.new(user_name, password, api_url, opts)
     result = false
     api.request(:get, '', :force_auth => '1') do |response|
       result = true if response.code.eql?(200)
