@@ -11,6 +11,10 @@
     %dd
       = "#{@storage_volume.capacity} GB"
   %di
+    %dt Realm
+    %dd
+      = @storage_volume.realm_id
+  %di
     %dt State
     %dd
       = @storage_volume.state
