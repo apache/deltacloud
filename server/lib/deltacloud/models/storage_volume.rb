@@ -24,5 +24,7 @@ class StorageVolume < BaseModel
   attr_accessor :capacity
   attr_accessor :instance_id
   attr_accessor :device
+  attr_accessor :realm_id
+  attr_accessor :actions
 
 end

@@ -401,6 +401,12 @@ END
 
 end
 
+get '/api/storage_snapshots/new' do
+  respond_to do |format|
+    format.html { haml :"storage_snapshots/new" }
+  end
+end
+
 collection :storage_snapshots do
   description "Storage snapshots description here"
 
@@ -416,6 +422,40 @@ collection :storage_snapshots do
     with_capability :storage_snapshot
     param :id,          :string,    :required
     control { show(:storage_snapshot) }
+  end
+
+  operation :create do
+    description "Create a new snapshot from volume"
+    with_capability :create_storage_snapshot
+    param :volume_id, :string,  :required
+    control do
+      @storage_snapshot = driver.create_storage_snapshot(credentials, params)
+      show(:storage_snapshot)
+    end
+  end
+
+  operation :destroy do
+    description "Delete storage snapshot"
+    with_capability :destroy_storage_snapshot
+    param :id,  :string,  :required
+    control do
+      driver.create_storage_snapshot(credentials, params)
+      redirect(storage_snapshot_url(params[:id]))
+    end
+  end
+
+end
+
+get '/api/storage_volumes/new' do
+  respond_to do |format|
+    format.html { haml :"storage_volumes/new" }
+  end
+end
+
+get '/api/storage_volumes/attach' do
+  respond_to do |format|
+    @instances = driver.instances(credentials)
+    format.html { haml :"storage_volumes/attach" }
   end
 end
 
@@ -435,6 +475,56 @@ collection :storage_volumes do
     param :id,          :string,    :required
     control { show(:storage_volume) }
   end
+
+  operation :create do
+    description "Create a new storage volume"
+    with_capability :create_storage_volume
+    param :snapshot_id, :string,  :optional
+    param :capacity,    :string,  :optional
+    param :realm_id,    :string,  :optional
+    control do
+      @storage_volume = driver.create_storage_volume(credentials, params)
+      respond_to do |format|
+        format.html { haml :"storage_volumes/show" }
+        format.xml { haml :"storage_volumes/show" }
+      end
+    end
+  end
+
+  operation :attach, :method => :post, :member => true do
+    description "Attach storage volume to instance"
+    with_capability :attach_storage_volume
+    param :id,         :string,  :required
+    param :instance_id,:string,  :required
+    param :device,     :string,  :required
+    control do
+      driver.attach_storage_volume(credentials, params)
+      redirect(storage_volume_url(params[:id]))
+    end
+  end
+
+  operation :detach, :method => :post, :member => true do
+    description "Detach storage volume to instance"
+    with_capability :detach_storage_volume
+    param :id,         :string,  :required
+    control do
+      volume = driver.storage_volume(credentials, :id => params[:id])
+      driver.detach_storage_volume(credentials, :id => volume.id, :instance_id => volume.instance_id,
+                                   :device => volume.device)
+      redirect(storage_volume_url(params[:id]))
+    end
+  end
+
+  operation :destroy do
+    description "Destroy storage volume"
+    with_capability :destroy_storage_volume
+    param :id,          :string,  :optional
+    control do
+      driver.destroy_storage_volume(credentials, params)
+      redirect(storage_volumes_url)
+    end
+  end
+
 end
 
 get '/api/keys/new' do
