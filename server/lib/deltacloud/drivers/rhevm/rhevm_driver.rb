@@ -16,8 +16,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+# Minihowto: Setting up this driver
+#
+# 1. Setup RHEV-M server
+# 2. Setup RHEV-M API (git://git.fedorahosted.org/rhevm-api.git - follow README)
+# 3. Set URL to API using shell variable (or HTTP header, see comment on provider_url)
+#    export API_PROVIDER="https://x.x.x.x/rhevm-api-powershell"
+# 4. Start Deltacloud using: deltacloudd -i rhevm
+# 5. Use RHEV-M credentials + append Windows Domain
+#    like: admin@rhevm.example.com
+
 require 'deltacloud/base_driver'
-require 'yaml'
+require 'deltacloud/drivers/rhevm/rhevm_client'
 
 module Deltacloud
   module Drivers
@@ -25,218 +35,262 @@ module Deltacloud
 
 class RHEVMDriver < Deltacloud::BaseDriver
 
-  SCRIPT_DIR = File.dirname(__FILE__) + '/scripts'
-  CONFIG = YAML.load_file(File.dirname(__FILE__) + '/../../../../config/rhevm_config.yml')
-  SCRIPT_DIR_ARG = '"' + SCRIPT_DIR + '"'
-  DELIM_BEGIN="<_OUTPUT>"
-  DELIM_END="</_OUTPUT>"
-  POWERSHELL="c:\\Windows\\system32\\WindowsPowerShell\\v1.0\\powershell.exe"
-  NO_OWNER=""
-
   feature :instances, :user_name
 
-  def supported_collections
-    DEFAULT_COLLECTIONS.reject { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
-  end
-
+  # FIXME: These values are just for ilustration
+  # Also I choosed 'SERVER' and 'DESKTOP' names
+  # because they are referred by VM (API type)
   #
-  # Execute a Powershell command, and convert the output
-  # to YAML in order to get back an array of maps.
+  # Values like RAM or STORAGE are reported by VM
+  # so they are not static.
+
+  define_hardware_profile 'SERVER' do
+    cpu         ( 1..4 )
+    memory      ( 512 .. 32*1024 )
+    storage     ( 1 .. 100*1024 )
+    architecture 'x86_64'
+  end
+
+  define_hardware_profile 'DESKTOP' do
+    cpu         ( 1..4 )
+    memory      ( 512 .. 32*1024 )
+    storage     ( 1 .. 100*1024 )
+    architecture 'x86_64'
+  end
+
+  # Instead of setting a URL for RHEV provider
+  # do it here in driver, so it can be altered by HTTP headers
   #
-  def execute(credentials, command, *args)
-    args = args.to_a
-    argString = genArgString(credentials, args)
-    puts argString
-    outputMaps = {}
-    output = `#{POWERSHELL} -command "&{#{File.join(SCRIPT_DIR, command)} #{argString}; exit $LASTEXITCODE}`
-    exitStatus = $?.exitstatus
-    puts(output)
-    puts("EXITSTATUS #{exitStatus}")
-    st = output.index(DELIM_BEGIN)
-    if (st)
-      st += DELIM_BEGIN.length
-      ed = output.index(DELIM_END)
-      output = output.slice(st, (ed-st))
-      # Lets make it yaml
-      output.strip!
-      if (output.length > 0)
-        outputMaps = YAML.load(self.toYAML(output))
-      end
-    end
-    outputMaps
+  def provider_uri=(uri)
+    @RHEVM_URI = uri
   end
 
-  def genArgString(credentials, args)
-    commonArgs = [SCRIPT_DIR_ARG, credentials.user, credentials.password, CONFIG["domain"]]
-    commonArgs.concat(args)
-    commonArgs.join(" ")
+  # Default Provider URI.
+  #
+  # IMPORTANT:
+  # This URI can be overridden using shell variable API_PROVIDER
+  # or setting provider using HTTP header X-Deltacloud-Provider to URL.
+  #
+  def provider_uri
+    'https://10.34.2.122:8443/rhevm-api-powershell'
   end
 
-  def toYAML(output)
-    yOutput = "- \n" + output
-    yOutput.gsub!(/^(\w*)[ ]*:[ ]*([A-Z0-9a-z._ -:{}]*)/,' \1: "\2"')
-    yOutput.gsub!(/^[ ]*$/,"- ")
-    puts(yOutput)
-    yOutput
+  define_instance_states do
+    start.to( :pending )          .automatically
+    pending.to( :running )        .automatically
+    pending.to( :stopped )        .automatically
+    pending.to( :finish )         .on(:destroy)
+    stopped.to( :running )        .on( :start )
+    stopped.to( :finish )         .on( :destroy )
+    running.to( :running )        .on( :reboot )
+    running.to( :stopping )       .on( :stop )
+    shutting_down.to( :stopped )  .automatically
+    stopped.to( :finish )         .automatically
   end
-
-  def statify(state)
-    st = state.nil? ? "" : state.upcase()
-    case st
-    when "UP"
-      "RUNNING"
-    when "DOWN"
-      "STOPPED"
-    when "POWERING UP"
-      "PENDING"
-    end
-  end
-
-  define_hardware_profile 'rhevm'
 
   #
   # Realms
   #
 
   def realms(credentials, opts=nil)
-    domains = execute(credentials, "storageDomains.ps1")
-    if (!opts.nil? && opts[:id])
-        domains = domains.select{|d| opts[:id] == d["StorageId"]}
-    end
-
-    realms = []
-    domains.each do |dom|
-      realms << domain_to_realm(dom)
-    end
-    realms
-  end
-
-  def domain_to_realm(dom)
-    Realm.new({
-      :id => dom["StorageId"],
-      :name => dom["Name"],
-      :limit => dom["AvailableDiskSize"]
-    })
-  end
-
-
-
-  #
-  # Images
-  #
-
-  def images(credentials, opts=nil )
-    templates = []
-    if (opts.nil?)
-      templates = execute(credentials, "templates.ps1")
-    else
-      if (opts[:id])
-        templates = execute(credentials, "templateById.ps1", opts[:id])
+    client = new_client(credentials)
+    realm_arr = []
+    safely do
+      clusters = client.clusters
+      clusters.each do |r|
+        d = client.datacenters(:id => r.datacenter_id)
+        realm_arr << convert_realm(r, d)
       end
     end
-    images = []
-    templates.each do |templ|
-      images << template_to_image(templ)
-    end
-    images
+    realm_arr
   end
 
-  def template_to_image(templ)
-    Image.new({
-      :id => templ["TemplateId"],
-      :name => templ["Name"],
-      :description => templ["Description"],
-      :architecture => templ["OperatingSystem"],
-      :owner_id => NO_OWNER,
-      :mem_size_md => templ["MemSizeMb"],
-      :instance_count => templ["ChildCount"],
-      :state => templ["Status"],
-      :capacity => templ["SizeGB"]
-    })
-  end
-
-  #
-  # Instances
-  #
-
-  define_instance_states do
-    start.to(:stopped)            .on( :create )
-
-    pending.to(:shutting_down)    .on( :stop )
-    pending.to(:running)          .automatically
-
-    running.to(:pending)          .on( :reboot )
-    running.to(:shutting_down)    .on( :stop )
-
-    shutting_down.to(:stopped)    .automatically
-    stopped.to(:pending)          .on( :start )
-    stopped.to(:finish)           .on( :destroy )
-  end
-
-  def instances(credentials, opts=nil)
-    vms = []
-    if (opts.nil?)
-      vms = execute(credentials, "vms.ps1")
-    else
-      if (opts[:id])
-        vms = execute(credentials, "vmById.ps1", opts[:id])
+  def images(credentials, opts={})
+    client = new_client(credentials)
+    img_arr = []
+    safely do
+      templates = client.templates
+      if (!opts.nil? && opts[:id])
+        templates = templates.select{|t| opts[:id] == t.id}
+      end
+      templates.each do |t|
+        img_arr << convert_image(client, t)
       end
     end
-    instances = []
-    vms.each do |vm|
-      instances << vm_to_instance(vm)
+    img_arr = filter_on( img_arr, :architecture, opts )
+    img_arr.sort_by{|e| [e.owner_id, e.name]}
+  end
+
+  def instances(credentials, opts={})
+    client = new_client(credentials)
+    inst_arr = []
+    safely do
+      vms = client.vms
+      vms.each do |vm|
+        inst_arr << convert_instance(client, vm)
+      end
     end
-    instances = filter_on( instances, :id, opts )
-    instances = filter_on( instances, :state, opts )
-    instances
+    inst_arr = filter_on( inst_arr, :id, opts )
+    filter_on( inst_arr, :state, opts )
   end
 
-  def vm_to_instance(vm)
-    Instance.new({
-      :id => vm["VmId"],
-      :description => vm["Description"],
-      :name => vm["Name"],
-      :architecture => vm["OperatingSystem"],
-      :owner_id => NO_OWNER,
-      :image_id => vm["TemplateId"],
-      :state => statify(vm["Status"]),
-      :instance_profile => InstanceProfile.new("rhevm"),
-      :actions => instance_actions_for(statify(vm["Status"])),
-    })
-  end
-
-  def start_instance(credentials, image_id)
-    vm = execute(credentials, "startVm.ps1", image_id)
-    vm_to_instance(vm[0])
-  end
-
-  def stop_instance(credentials, image_id)
-    vm = execute(credentials, "stopVm.ps1", image_id)
-    vm_to_instance(vm[0])
-  end
-
-  def create_instance(credentials, image_id, opts)
-    name = opts[:name]
-    name = "Inst-#{rand(10000)}" if (name.nil? or name.empty?)
-    realm_id = opts[:realm_id]
-    if (realm_id.nil?)
-        realms = filter_on(realms(credentials, opts), :name, :name => "data")
-        puts realms[0]
-        realm_id = realms[0].id
+  def reboot_instance(credentials, id)
+    client = new_client(credentials)
+    safely do
+      client.vm_action(:reboot, id)
     end
-    vm = execute(credentials, "addVm.ps1", image_id, name, realm_id)
-    vm_to_instance(vm[0])
   end
 
-  def reboot_instance(credentials, image_id)
-    vm = execute(credentials, "rebootVm.ps1", image_id)
-    vm_to_instance(vm[0])
+  def start_instance(credentials, id)
+    client = new_client(credentials)
+    safely do
+      client.vm_action(:start, id)
+    end
   end
 
-  def destroy_instance(credentials, image_id)
-    vm = execute(credentials, "deleteVm.ps1", image_id)
-    vm_to_instance(vm[0])
+  def stop_instance(credentials, id)
+    client = new_client(credentials)
+    safely do
+      client.vm_action(:suspend, id)
+    end
   end
+
+  def destroy_instance(credentials, id)
+    client = new_client(credentials)
+    safely do
+      client.delete_vm(id)
+    end
+  end
+
+  def storage_volumes(credentials, opts={})
+    client = new_client(credentials)
+    domains_arr = []
+    safely do
+      client.storagedomains.each do |s|
+        domains_arr << convert_volume(s)
+      end
+    end
+    domains_arr = filter_on( domains_arr, :id, opts )
+    filter_on( domains_arr, :state, opts )
+  end
+
+  def create_instance(credentials, image_id, opts={})
+    client = new_client(credentials)
+    safely do
+      # TODO: Add setting CPU topology here
+      vm_name = opts[:name] ? "<name>#{opts[:name]}</name>" : ""
+      vm_template = "<template id='#{image_id}'/>"
+      vm_cluster = opts[:realm_id] ? "<cluster id='#{opts[:realm_id]}'/>" : "<cluster id='0'/>"
+      vm_type = opts[:hwp_id] ? "<type>#{opts[:hwp_id]}</type>" : "<type>DESKTOP</type>"
+      # FIXME: Setting a memory from RHEV-API leads to Internal Server Error on
+      # RHEV-M API side
+      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024}</memory>"  : ''
+      # TODO: Add storage here (it isn't supported by RHEV-M API so far)
+      convert_instance(client, ::RHEVM::Vm::new(client, client.create_vm(
+        "<vm>"+
+        vm_name +
+        vm_template +
+        vm_cluster +
+        vm_type +
+        # vm_memory +
+        "</vm>"
+      ).xpath('vm')))
+    end
+  end
+
+  private
+
+  def new_client(credentials)
+    url = (Thread.current[:provider] || ENV['API_PROVIDER'] || provider_uri)
+    ::RHEVM::Client.new(credentials.user, credentials.password, url)
+  end
+
+  def convert_instance(client, inst)
+    state = convert_state(inst.status)
+    profile = InstanceProfile::new(inst.profile, 
+                                   :hwp_memory => inst.memory/1024,
+                                   :hwp_cpu => inst.cores,
+                                   :hwp_storage => "#{(inst.storage/1024/1024)}"
+    )
+    # TODO: Implement public_addresses (nics/ip)
+    # NOTE: This must be enabled on 'guest' side, otherwise this property is not
+    # available through RHEV-M API
+    Instance.new(
+      :id => inst.id,
+      :name => inst.name,
+      :state => state,
+      :image_id => inst.template,
+      :realm_id => inst.cluster,
+      :owner_id => client.username,
+      :launch_time => inst.creation_time,
+      :instance_profile => profile,
+      :hardware_profile_id => profile.id,
+      :actions=>instance_actions_for( state )
+    )
+  end
+
+  # STATES: 
+  #
+  # UNASSIGNED, DOWN, UP, POWERING_UP, POWERED_DOWN, PAUSED, MIGRATING_FROM, MIGRATING_TO, 
+  # UNKNOWN, NOT_RESPONDING, WAIT_FOR_LAUNCH, REBOOT_IN_PROGRESS, SAVING_STATE, RESTORING_STATE, 
+  # SUSPENDED, IMAGE_ILLEGAL, IMAGE_LOCKED or POWERING_DOWN 
+  #
+  def convert_state(state)
+    case state
+    when 'WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
+      'RESTORING_STATE', 'POWERING_DOWN' then
+      'PENDING'
+    when 'UNASSIGNED', 'DOWN', 'POWERING_DOWN', 'PAUSED', 'NOT_RESPONDING', 'SAVING_STATE', 
+      'SUSPENDED', 'IMAGE_ILLEGAL', 'IMAGE_LOCKED', 'UNKNOWN' then
+      'STOPPED'
+    when 'POWERING_UP', 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
+      'RUNNING'
+    end
+  end
+
+  def convert_volume(volume)
+    StorageVolume.new(
+      :id => volume.id,
+      :state => 'AVAILABLE',
+      :capacity => ((volume.available-volume.used)/1024/1024).abs,
+      :instance_id => nil,
+      :kind => volume.kind,
+      :name => volume.name,
+      :device => "#{volume.storage_address}:#{volume.storage_path}"
+    )
+  end
+
+  def convert_image(client, img)
+    Image.new(
+      :id => img.id,
+      :name => img.name,
+      :description => img.description,
+      :owner_id => client.username,
+      :architecture => 'x86_64', # All RHEV-M VMs are x86_64
+      :status => img.status
+    )
+  end
+
+  def convert_realm(r, dc)
+    Realm.new(
+      :id => r.id,
+      :name => dc.name,
+      :state => dc.status == 'UP' ? 'AVAILABLE' : 'DOWN',
+      :limit => :unlimited
+    )
+  end
+
+  # Disabling this error catching will lead to more verbose messages
+  # on console (eg. response from RHEV-M API (so far I didn't figure our
+  # how to pass those message to our exception handling tool)
+  def catched_exceptions_list
+    {
+      :auth => RestClient::Unauthorized,
+      :error => RestClient::InternalServerError,
+      :glob => [ /RestClient::(\w+)/ ]
+    }
+  end
+
 end
 
     end
