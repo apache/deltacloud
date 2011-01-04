@@ -159,6 +159,16 @@ module Deltacloud
             inst_arr = ec2.describe_instances.collect do |instance| 
               convert_instance(instance) if instance
             end.flatten
+            tags = ec2.describe_tags(
+              'Filter.1.Name' => 'resource-type', 'Filter.1.Value' => 'instance'
+            )
+            inst_arr.each do |inst|
+              name_tag = tags.select { |t| (t[:aws_resource_id] == inst.id) and t[:aws_key] == 'name' }
+              unless name_tag.empty?
+                inst.name = name_tag.first[:aws_value]
+              end
+            end
+            delete_unused_tags(credentials, inst_arr.collect {|inst| inst.id})
           end
           inst_arr = filter_on( inst_arr, :id, opts )
           filter_on( inst_arr, :state, opts )
@@ -177,6 +187,9 @@ module Deltacloud
             if opts[:public_ip]
               ec2.associate_address(new_instance.id, opts[:public_ip])
             end
+            if opts[:name]
+              tag_instance(credentials, new_instance, opts[:name])
+            end
             new_instance
           end
         end
@@ -192,7 +205,10 @@ module Deltacloud
 
         def destroy_instance(credentials, instance_id)
           ec2 = new_client(credentials)
+          puts "Terminating instance #{instance_id}"
+          instance_id = instance_id
           if ec2.terminate_instances([instance_id])
+            untag_instance(credentials, instance_id)
             instance(credentials, instance_id)
           else
             raise Deltacloud::BackendError.new(500, "Instance", "Instance cannot be terminated", "")
@@ -397,6 +413,34 @@ module Deltacloud
           case type
             when :ec2 then Aws::Ec2.new(credentials.user, credentials.password)
             when :s3 then Aws::S3.new(credentials.user, credentials.password)
+          end
+        end
+
+        def tag_instance(credentials, instance, name)
+          ec2 = new_client(credentials)
+          safely do
+            ec2.create_tag(instance.id, 'name', name)
+          end
+        end
+
+        def untag_instance(credentials, instance_id)
+          ec2 = new_client(credentials)
+          safely do
+            ec2.delete_tag(instance_id, 'name')
+          end
+        end
+
+        def delete_unused_tags(credentials, inst_ids)
+          ec2 = new_client(credentials)
+          tags = []
+          safely do
+            tags = ec2.describe_tags('Filter.1.Name' => 'resource-type', 'Filter.1.Value' => 'instance')
+            tags.collect! { |t| t[:aws_resource_id] }
+            inst_ids.each do |inst_id|
+              unless tags.include?(inst_id)
+                ec2.delete_tag(inst_id, 'name')
+              end
+            end
           end
         end
         
