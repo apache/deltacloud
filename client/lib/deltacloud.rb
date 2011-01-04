@@ -170,7 +170,7 @@ module DeltaCloud
         end
 
         if attribute.name == 'mount'
-          obj.add_link!("instance", (attribute/"./instance/@id").first)
+          obj.add_link!("instance", (attribute/"./instance/@id").first.value)
           obj.add_text!("device", (attribute/"./device/@name").first.value)
           next
         end
