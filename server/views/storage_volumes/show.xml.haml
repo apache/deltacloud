@@ -5,6 +5,8 @@
     =@storage_volume.created
   %capacity{ :unit => "GB" }<
     = @storage_volume.capacity
+  %realm_id<
+    = @storage_volume.realm_id
   %state<
     = @storage_volume.state
   - unless @storage_volume.instance_id.nil?
