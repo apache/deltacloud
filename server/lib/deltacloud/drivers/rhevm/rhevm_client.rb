@@ -139,7 +139,7 @@ module RHEVM
 
   class Vm < BaseModel
     attr_accessor(:status, :memory, :sockets, :cores, :bootdevs, :host, :cluster, :template, :vmpool, :profile)
-    attr_accessor(:creation_time, :storage)
+    attr_accessor(:creation_time, :storage, :nics, :display)
 
     def initialize(client, xml)
       super(client, xml)
@@ -161,7 +161,29 @@ module RHEVM
       disks_response = Nokogiri::XML(client.get("#{client.host}#{storage_link}"))
       @storage = disks_response.xpath('disks/disk/size').collect { |s| s.text.to_f }
       @storage = @storage.inject(nil) { |p, i| p ? p+i : i }
+      @display = {
+        :type => (xml/'display/type').text,
+        :address => (xml/'display/address').text,
+        :port => (xml/'display/port').text
+      } if (xml/'display')
+      @nics = get_nics(client, xml)
+      self
     end
+
+    private
+
+    def get_nics(client, xml)
+      nics = []
+      doc = Nokogiri::XML(client.get(client.host + (xml/'link[@rel="nics"]').first[:href]))
+      (doc/'nics/nic').each do |nic|
+        nics << {
+          :mac => (nic/'mac').first[:address],
+          :address => (nic/'ip').first ? (nic/'ip').first[:address]  : nil
+        }
+      end
+      nics
+    end
+
   end
 
   class Template < BaseModel

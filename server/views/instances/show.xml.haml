@@ -25,12 +25,16 @@
     %launch_time<
       =@instance.launch_time
   - if @instance.public_addresses
-    %public_addresses
+    %public_addresses<
       - @instance.public_addresses.each do |address|
-        %address<
-          =address
+        - if address.class.eql?(Hash) and address[:address]!=""
+          %address{ :port => address[:port], :type => address[:type], :mac => address[:mac] }<
+            =address[:address]
+        - elsif address.class.eql?(String)
+          %address<
+            =address
   - if @instance.private_addresses
-    %private_addresses
+    %private_addresses<
       - @instance.private_addresses.each do |address|
         %address<
           =address
