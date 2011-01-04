@@ -468,6 +468,16 @@ module Deltacloud
           )
         end
 
+        def convert_object(s3_object)
+          Blob.new(
+            :id => s3_object.name,
+            :bucket => s3_object.bucket.name.to_s,
+            :content_length => s3_object.headers['content-length'],
+            :content_type => s3_object.headers['content-type'],
+            :last_modified => s3_object.last_modified
+          )  
+        end
+
         def convert_realm(realm)
           Realm.new(
             :id => realm[:zone_name],
