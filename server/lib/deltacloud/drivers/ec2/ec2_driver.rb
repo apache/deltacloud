@@ -40,6 +40,7 @@ module Deltacloud
 
         feature :instances, :user_data
         feature :instances, :authentication_key
+        feature :instances, :public_ip
         feature :instances, :security_group
         feature :images, :owner_id
         feature :buckets, :bucket_location
