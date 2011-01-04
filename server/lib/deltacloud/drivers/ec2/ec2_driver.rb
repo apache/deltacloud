@@ -44,6 +44,8 @@ module Deltacloud
         feature :images, :owner_id
         feature :buckets, :bucket_location
 
+        DEFAULT_REGION = 'us-east-1'
+
         define_hardware_profile('t1.micro') do
           cpu                1
           memory             0.63 * 1024
@@ -183,9 +185,6 @@ module Deltacloud
           instance_options.merge!(:group_ids => opts[:security_group]) if opts[:security_group]
           safely do
             new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
-            if opts[:public_ip]
-              ec2.associate_address(new_instance.id, opts[:public_ip])
-            end
             if opts[:name]
               tag_instance(credentials, new_instance, opts[:name])
             end
@@ -224,10 +223,6 @@ module Deltacloud
               convert_key(key)
             end
           end
-        end
-
-        def key(credentials, opts={})
-          keys(credentials, :id => opts[:id]).first
         end
 
         def create_key(credentials, opts={})
@@ -324,14 +319,18 @@ module Deltacloud
         #--  
         def delete_blob(credentials, bucket_id, blob_id, opts=nil)
           s3_client = new_client(credentials, :s3)
-          s3_client.interface.delete(bucket_id, blob_id)
+          safely do
+            s3_client.interface.delete(bucket_id, blob_id)
+          end
         end
 
 
         def blob_data(credentials, bucket_id, blob_id, opts)
           s3_client = new_client(credentials, :s3)
-          s3_client.interface.get(bucket_id, blob_id) do |chunk|
-            yield chunk
+          safely do
+            s3_client.interface.get(bucket_id, blob_id) do |chunk|
+              yield chunk
+            end
           end
         end
 
@@ -420,9 +419,22 @@ module Deltacloud
 
         def new_client(credentials, type = :ec2)
           case type
-            when :ec2 then Aws::Ec2.new(credentials.user, credentials.password)
-            when :s3 then Aws::S3.new(credentials.user, credentials.password)
+            when :ec2 then Aws::Ec2.new(credentials.user, credentials.password, :endpoint_url => endpoint_for_service(:ec2))
+            when :s3 then Aws::S3.new(credentials.user, credentials.password, :endpoint_url => endpoint_for_service(:s3))
           end
+        end
+
+        def endpoint_for_service(service)
+          url = ""
+          url << case service
+            when :ec2
+              'ec2.'
+            when :elb
+              'elasticloadbalancing.'
+            end 
+          url << (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
+          url << '.amazonaws.com'
+          url
         end
 
         def tag_instance(credentials, instance, name)
