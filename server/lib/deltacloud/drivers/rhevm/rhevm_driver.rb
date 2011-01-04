@@ -182,9 +182,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
       vm_template = "<template id='#{image_id}'/>"
       vm_cluster = opts[:realm_id] ? "<cluster id='#{opts[:realm_id]}'/>" : "<cluster id='0'/>"
       vm_type = opts[:hwp_id] ? "<type>#{opts[:hwp_id]}</type>" : "<type>DESKTOP</type>"
-      # FIXME: Setting a memory from RHEV-API leads to Internal Server Error on
-      # RHEV-M API side
       vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024}</memory>"  : ''
+      vm_cpus = opts[:hwp_cpu] ? "<cpu><topology cores='#{opts[:hwp_cpu]}' sockets='1'/></cpu>"  : ''
+      puts vm_cpus.inspect
       # TODO: Add storage here (it isn't supported by RHEV-M API so far)
       convert_instance(client, ::RHEVM::Vm::new(client, client.create_vm(
         "<vm>"+
@@ -192,7 +192,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
         vm_template +
         vm_cluster +
         vm_type +
-        # vm_memory +
+        vm_memory +
+        vm_cpus +
         "</vm>"
       ).xpath('vm')))
     end
@@ -283,13 +284,13 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # Disabling this error catching will lead to more verbose messages
   # on console (eg. response from RHEV-M API (so far I didn't figure our
   # how to pass those message to our exception handling tool)
-  def catched_exceptions_list
-    {
-      :auth => RestClient::Unauthorized,
-      :error => RestClient::InternalServerError,
-      :glob => [ /RestClient::(\w+)/ ]
-    }
-  end
+  #def catched_exceptions_list
+  #  {
+  #    :auth => RestClient::Unauthorized,
+  #    :error => RestClient::InternalServerError,
+  #    :glob => [ /RestClient::(\w+)/ ]
+  #  }
+  #end
 
 end
 
