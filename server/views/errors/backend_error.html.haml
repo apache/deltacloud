@@ -7,6 +7,9 @@
     %dt Request URL
     %dd= request.env['REQUEST_URI']
   %di
+    %dt Parameters
+    %dd= params.inspect
+  %di
     %dt Code
     %dd= @error.code
   %di
