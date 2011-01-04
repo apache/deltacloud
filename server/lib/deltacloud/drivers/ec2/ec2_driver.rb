@@ -561,8 +561,7 @@ module Deltacloud
           StorageVolume.new(
             :id => volume[:aws_id],
             :created => volume[:aws_created_at],
-            # Fix IN_USE to be IN-USE 
-            :state => volume[:aws_status] ? volume[:aws_status].tr('_', '-').upcase : 'unknown',
+            :state => volume[:aws_status] ? volume[:aws_status].upcase : 'unknown',
             :capacity => volume[:aws_size],
             :instance_id => volume[:aws_instance_id],
             :realm_id => volume[:zone],
