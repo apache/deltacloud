@@ -1,6 +1,6 @@
 Given /^authentification is required for this URI$/ do
   authorize CONFIG[:username], CONFIG[:password]
-  get @uri, {}
+  get @uri
   last_response.status.should == 200
 end
 
@@ -44,7 +44,6 @@ end
 
 When /^client want to show '(.+)' (.+)$/ do |id, el|
   @uri = "/api/#{el.pluralize.tr('-', '_')}/#{id}"
-  puts @uri
   get @uri, {}
   @element = output_xml.xpath("/#{el}").first
   @element.should_not be_nil

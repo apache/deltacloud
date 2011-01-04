@@ -29,6 +29,10 @@ Then /^new key should be created$/ do
   output_xml.xpath('/key').size.should == 1
 end
 
+Then /^this instance should have state set to (\w+)$/ do |value|
+  output_xml.xpath('/key/state').text.should == value.strip
+end
+
 Then /^this instance should have credential_type set to '(\w+)'$/ do |type|
   output_xml.xpath('/key/@type').text.should == type
 end
@@ -44,15 +48,13 @@ end
 
 When /^client follow destroy link in actions$/ do
   @link = output_xml.xpath('/keys/key/actions/link[@rel="destroy"]').last
-  delete @link['href'], {}
+  delete @link['href']
 end
 
 Then /^client should get created key$/ do
-  # @credential[:id].should == @name
+  #output_xml.xpath('/key/state').text.should == "AVAILABLE"
 end
 
 Then /^this key should be destroyed$/ do
-  # TODO: Fixme
-  #get "/api/keys"
-  #last_response.status.should == 200
+  last_response.status.should == 302
 end

@@ -22,7 +22,6 @@ Feature: Accessing API entry points
     | hardware_profiles  |
     | storage_snapshots  |
     | storage_volumes    |
-    | load_balancers |
     And this URI should be available in XML, JSON, HTML format
 
   Scenario: Following entry points
@@ -39,7 +38,6 @@ Feature: Accessing API entry points
     | hardware_profiles  |
     | storage_snapshots  |
     | storage_volumes    |
-    | load_balancers |
     And each link should have 'rel' attribute with valid name
     And each link should have 'href' attribute with valid URL
     When client follow this attribute
@@ -51,6 +49,6 @@ Feature: Accessing API entry points
     When client access this URI
     Then client should get list of features inside 'instances':
     | authentication_key |
-    | security_group |
     | user_data |
-    | register_to_load_balancer |
+    | public_ip |
+    | security_group |
