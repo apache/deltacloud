@@ -50,5 +50,4 @@ Feature: Accessing API entry points
     Then client should get list of features inside 'instances':
     | authentication_key |
     | user_data |
-    | public_ip |
     | security_group |
