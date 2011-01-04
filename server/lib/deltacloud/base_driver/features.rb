@@ -191,5 +191,11 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :public_ip do
+      operation :create do
+        param :public_ip, :string, :optional
+      end
+    end
+
   end
 end
