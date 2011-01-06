@@ -17,7 +17,7 @@
         %td
           = balancer.public_addresses.first
         %td
-          = link_to balancer.realms.first.id, realm_url( balancer.realms.first.id )
+          =link_to balancer.realms.first.id, realm_url( balancer.realms.first.id )
         %td
           - balancer.listeners.each do |listener|
             ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
