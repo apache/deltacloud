@@ -1,17 +1,13 @@
 %h2
-  %a{:href => url_for("/api/docs/#{@collection.name.to_s}")} #{@collection.name.to_s.titlecase}
-  #{'::'}
-  #{@operation.name}
+  = action_method(@operation.name, @collection.name).to_s.upcase
+  = action_url
 
-%p #{@operation.description}
+%p
+  #{@operation.description}
 
 %br
-%h3
-  URL:
-  %u
-    = url_for("/api/#{@collection.name.to_s}/#{@operation.name.to_s}")
-%br
-%h3 Parameters:
+
+%h2 Parameters:
 
 
 %table

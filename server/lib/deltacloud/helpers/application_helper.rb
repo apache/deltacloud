@@ -34,6 +34,7 @@ module ApplicationHelper
         end
       end
     end
+    s+="<li class='docs'>#{link_to_documentation}</li>"
     s+="</ul>"
   end
 
@@ -101,7 +102,7 @@ module ApplicationHelper
     response.status = status
     respond_to do |format|
       format.xml { haml :"errors/#{template}", :layout => false }
-      format.html { haml :"errors/#{template}" }
+      format.html { haml :"errors/#{template}", :layout => :error }
     end
   end
 
@@ -142,6 +143,35 @@ module ApplicationHelper
           haml_concat action
         end
       end
+    end
+  end
+
+  def link_to_format(format)
+    uri = request.env['REQUEST_URI']
+    return if uri.include?('format=')
+    if uri.include?('?')
+      uri+="&format=#{format}"
+    else
+      uri+="?format=#{format}"
+    end
+    '<a href="%s">%s</a>' % [uri, "#{format}".upcase]
+  end
+
+  def link_to_documentation
+    uri = request.env['REQUEST_URI']
+    uri.gsub!('/api/', '/api/docs/')
+    '<a href="%s">[ Documentation ]</a>' % uri
+  end
+
+  def action_url
+    if [:index].include?(@operation.name)
+      url_for("/api/#{@collection.name.to_s}")
+    elsif [:show, :stop, :start, :reboot, :attach, :detach].include?(@operation.name)
+      url_for("/api/#{@collection.name.to_s}/:id/#{@operation.name}")
+    elsif [:destroy].include?(@operation.name)
+      url_for("/api/#{@collection.name.to_s}/:id")
+    else
+      url_for("/api/#{@collection.name}/#{@operation.name}")
     end
   end
 
