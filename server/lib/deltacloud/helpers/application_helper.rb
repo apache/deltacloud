@@ -158,7 +158,7 @@ module ApplicationHelper
   end
 
   def link_to_documentation
-    uri = request.env['REQUEST_URI']
+    uri = request.env['REQUEST_URI'].dup
     uri.gsub!('/api/', '/api/docs/')
     '<a href="%s">[ Documentation ]</a>' % uri
   end
