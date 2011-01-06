@@ -6,7 +6,6 @@ html, body {
   font-weight: inherit;
   font-style: inherit;
   font-size: 100%;
-  font-family: inherit;
   vertical-align: baseline; }
 
 /* line 12, ../../../../../../../../.gem/ruby/1.8/gems/compass-0.8.17/frameworks/blueprint/stylesheets/blueprint/modules/_reset.sass */
@@ -461,7 +460,6 @@ html {
 
 /* line 12, ../../../app/stylesheets/application.sass */
 body {
-  font-family: "Trebuchet MS";
   font-size: 90%; }
   /* line 15, ../../../app/stylesheets/application.sass */
   body a {
@@ -479,7 +477,9 @@ body {
 
 /* line 21, ../../../app/stylesheets/application.sass */
 #header {
+  border-radius: 5px 5px 0 0;
   padding: 1em;
+  margin-top : 0.5em;
   background-image: url('/images/topbar-bg.png'); }
   /* line 24, ../../../app/stylesheets/application.sass */
   #header img {
@@ -494,7 +494,7 @@ body {
   border-top: 1px solid #BBB;
   padding-top: 1ex;
   text-align: right;
-  color: #BBB;
+  color: #777;
   font-size: 70%; }
 
 /* line 38, ../../../app/stylesheets/application.sass */
@@ -538,7 +538,8 @@ body {
 
 /* line 70, ../../../app/stylesheets/application.sass */
 ul.breadcrumb {
-  background-color: #eee;
+  border-radius : 0 0 5px 5px;
+  background: #eeeeee url('/images/bread-bg.png') repeat-x top left;
   border: 1px solid #6498c5;
   padding: 1ex;
   font-size: 90%;
@@ -551,7 +552,8 @@ ul.breadcrumb {
     display: inline; }
     /* line 81, ../../../app/stylesheets/application.sass */
     ul.breadcrumb li.subsequent:before {
-      content: " >> "; }
+      color : #aaa;
+      content: " \25b6  "; }
 
 /* line 84, ../../../app/stylesheets/application.sass */
 table {
@@ -613,3 +615,25 @@ table.docs td { border : 1px solid #ccc }
 table.docs table td { border : none }
 
 td form.link { display : inline }
+li.docs {
+  float : right;
+}
+
+li.docs {
+  font-size : 80%;
+}
+
+.error h1 {
+  background : url('/images/error.png') no-repeat center left;
+  height : 35px;
+  padding-left : 55px;
+  padding-top : 10px;
+}
+
+.error p {
+  padding : 1em 0.5em;
+  margin : 1em 0;
+  font-size : 115%;
+  border : 1px solid #c00;
+  background : #fbd1d1;
+}

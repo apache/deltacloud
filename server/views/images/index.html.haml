@@ -11,8 +11,6 @@
       %th
         Owner
       %th
-        Architecture
-      %th
         Description
   %tbody
     - @images.each do |image|
@@ -23,8 +21,6 @@
           = image.name
         %td
           = link_to image.owner_id, images_url
-        %td
-          = image.architecture
         %td
           = image.description
 

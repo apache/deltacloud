@@ -6,7 +6,7 @@ html, body {
   font-weight: inherit;
   font-style: inherit;
   font-size: 100%;
-  font-family: inherit;
+  font-family : "Helvetica Neue","Liberation Sans",Arial,sans-serif;
   vertical-align: baseline; }
 
 /* line 12, ../../../../../../../.gem/ruby/1.8/gems/compass-0.8.17/frameworks/blueprint/stylesheets/blueprint/modules/_reset.sass */

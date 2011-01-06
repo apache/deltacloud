@@ -1,5 +1,5 @@
 %h1
-  API v#{settings.version}
+  Deltacloud API #{settings.version}
 
 %ul
   - collections.keys.sort_by { |k| k.to_s }.each do |key|
@@ -10,6 +10,3 @@
           - next if [:index, :show].include?(op)
           %dt
             = op
-  %li
-    %strong
-      %a{:href => url_for("/api/docs")} Documentation (#{settings.version})
