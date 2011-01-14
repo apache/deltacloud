@@ -97,6 +97,220 @@
             </a>
           </li>
         </ul>
+        <h1>Usage</h1>
+        <p>
+          The server listens by default on
+          <tt>
+            http://localhost:3001/.
+          </tt>
+          For testing and exploring, the server can be used from a web browser and
+          will return HTML to it. If you want to see XML output from the server in
+          the browser, append
+          <tt>
+            &#x3f;format=xml
+          </tt>
+          to each URL.
+        </p>
+        <p>
+          On Webkit based browsers like Safari, you might need to instruct the
+          server explicitly to
+          <a href='http://www.gethifi.com/blog/webkit-team-admits-accept-header-error'>
+            return HTML
+          </a>
+          &#x2e; Do this by appending
+          <tt>
+            &#x3f;format=html
+          </tt>
+          to each URL.
+        </p>
+        <h2>Logging into the server</h2>
+        <p>
+          Deltacloud uses basic HTTP authentication to receive credentials from the
+          client and passes them through to the backend cloud it is talking to. The
+          credentials always consist of a username and password, and are never
+          stored on the server.  The exact credentials for logging into the server,
+          and where you find them, depends on the backend cloud that the server is
+          talking to.
+        </p>
+        <p>
+          The following table gives details about how to set up the server and what
+          credentials to provide for each of the supported clouds. The entry from
+          the Driver column needs to be passed as the
+          <tt>
+            --driver
+          </tt>
+          option to
+          <tt>
+            deltacloudd.
+          </tt>
+          Note that some of the drivers require additional information, e.g.,
+          API endpoint URL's, be passed through environment variables
+        </p>
+        <table id='providers'>
+          <tr>
+            <th>
+              <strong>Cloud</strong>
+            </th>
+            <th>
+              <strong>Driver</strong>
+            </th>
+            <th>
+              <strong>Username</strong>
+            </th>
+            <th>
+              <strong>Password</strong>
+            </th>
+            <th>
+              <strong>Notes</strong>
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <strong>mock</strong>
+            </td>
+            <td>
+              <tt>mock</tt>
+            </td>
+            <td>
+              <tt>
+                mockuser
+              </tt>
+            </td>
+            <td>
+              <tt>
+                mockpassword
+              </tt>
+            </td>
+            <td>
+              The mock driver doesn't talk to any cloud; it just pretends to be a cloud
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Amazon EC2</strong>
+            </td>
+            <td>
+              <tt>ec2</tt>
+            </td>
+            <td>
+              Access Key ID
+            </td>
+            <td>
+              Secret Access Key
+            </td>
+            <td>
+              This information can be found on the
+              <a href='http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key'>Security Credentials</a>
+              page in your AWS account
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>GoGrid</strong>
+            </td>
+            <td>
+              <tt>gogrid</tt>
+            </td>
+            <td>
+              API Key
+            </td>
+            <td>
+              Shared Secret
+            </td>
+            <td>
+              Go to
+              <tt>My Account &gt; API Keys</tt>
+              for
+              <a href='https://my.gogrid.com/gogrid/com.servepath.gogrid.GoGrid/index.html'>your account</a>
+              and click on the key you want to use to find the shared secret.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>OpenNebula</strong>
+            </td>
+            <td>
+              <tt>opennebula</tt>
+            </td>
+            <td>
+              OpenNebula user
+            </td>
+            <td>
+              OpenNebula password
+            </td>
+            <td>
+              Set the environment variable
+              <tt>OCCI_URL</tt>
+              to the address on which OpenNebula's OCCI server is listening.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Rackspace</strong>
+            </td>
+            <td>
+              <tt>rackspace</tt>
+            </td>
+            <td>
+              Rackspace user name
+            </td>
+            <td>
+              API Key
+            </td>
+            <td>
+              Obtain the key from the
+              <a href='https://manage.rackspacecloud.com/APIAccess.do'>API Access</a>
+              page in your control panel
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>RHEV-M</strong>
+            </td>
+            <td>
+              <tt>rhevm</tt>
+            </td>
+            <td>
+              <a href='http://markmc.fedorapeople.org/rhevm-api/en-US/html/chap-REST_API_Guide-Authentication.html'>RHEV-M user name plus Windows domain</a>
+              , e.g.,
+              <tt>admin@rhevm.example.com</tt>
+            </td>
+            <td>
+              RHEV-M password
+            </td>
+            <td>
+              Set environment variable
+              <tt>API_PROVIDER</tt>
+              to the URL of the RHEV-M REST API endpoint.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Rimuhosting</strong>
+            </td>
+            <td>
+              <tt>rimuhosting</tt>
+            </td>
+            <td>not used (?)</td>
+            <td>API Key</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Terremark</strong>
+            </td>
+            <td>
+              <tt>terremark</tt>
+            </td>
+            <td>
+              Username
+            </td>
+            <td>
+              Password
+            </td>
+            <td></td>
+          </tr>
+        </table>
       </div>
     </div>
   </body>

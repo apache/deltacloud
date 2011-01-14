@@ -15,3 +15,160 @@ filter:
       %li
         %a{ :href => doc[:href] }
           = doc[:description]
+
+%h1 Usage
+%p
+  The server listens by default on
+  %tt
+    http://localhost:3001/.
+  For testing and exploring, the server can be used from a web browser and
+  will return HTML to it. If you want to see XML output from the server in
+  the browser, append
+  %tt
+    &#x3f;format=xml
+  to each URL.
+
+%p
+  On Webkit based browsers like Safari, you might need to instruct the
+  server explicitly to
+  %a{ :href => "http://www.gethifi.com/blog/webkit-team-admits-accept-header-error" }
+    return HTML
+  &#x2e; Do this by appending
+  %tt
+    &#x3f;format=html
+  to each URL.
+
+%h2 Logging into the server
+%p
+  Deltacloud uses basic HTTP authentication to receive credentials from the
+  client and passes them through to the backend cloud it is talking to. The
+  credentials always consist of a username and password, and are never
+  stored on the server.  The exact credentials for logging into the server,
+  and where you find them, depends on the backend cloud that the server is
+  talking to.
+
+%p
+  The following table gives details about how to set up the server and what
+  credentials to provide for each of the supported clouds. The entry from
+  the Driver column needs to be passed as the
+  %tt
+    \--driver
+  option to
+  %tt
+    deltacloudd.
+  Note that some of the drivers require additional information, e.g.,
+  API endpoint URL's, be passed through environment variables
+
+%table#providers
+  %tr
+    %th
+      %strong Cloud
+    %th
+      %strong Driver
+    %th
+      %strong Username
+    %th
+      %strong Password
+    %th
+      %strong Notes
+  %tr
+    %td
+      %strong mock
+    %td
+      %tt mock
+    %td
+      %tt
+        mockuser
+    %td
+      %tt
+        mockpassword
+    %td
+      The mock driver doesn't talk to any cloud; it just pretends to be a cloud
+  %tr
+    %td
+      %strong Amazon EC2
+    %td
+      %tt ec2
+    %td
+      Access Key ID
+    %td
+      Secret Access Key
+    %td
+      This information can be found on the
+      %a{ :href => "http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key"} Security Credentials
+      page in your AWS account
+  %tr
+    %td
+      %strong GoGrid
+    %td
+      %tt gogrid
+    %td
+      API Key
+    %td
+      Shared Secret
+    %td
+      Go to
+      %tt My Account &gt; API Keys
+      for
+      %a{ :href => "https://my.gogrid.com/gogrid/com.servepath.gogrid.GoGrid/index.html" } your account
+      and click on the key you want to use to find the shared secret.
+
+  %tr
+    %td
+      %strong OpenNebula
+    %td
+      %tt opennebula
+    %td
+      OpenNebula user
+    %td
+      OpenNebula password
+    %td
+      Set the environment variable
+      %tt OCCI_URL
+      to the address on which OpenNebula's OCCI server is listening.
+  %tr
+    %td
+      %strong Rackspace
+    %td
+      %tt rackspace
+    %td
+      Rackspace user name
+    %td
+      API Key
+    %td
+      Obtain the key from the
+      %a{ :href => "https://manage.rackspacecloud.com/APIAccess.do"} API Access
+      page in your control panel
+  %tr
+    %td
+      %strong RHEV-M
+    %td
+      %tt rhevm
+    %td
+      %a{ :href => "http://markmc.fedorapeople.org/rhevm-api/en-US/html/chap-REST_API_Guide-Authentication.html" } RHEV-M user name plus Windows domain
+      , e.g.,
+      %tt admin@rhevm.example.com
+    %td
+      RHEV-M password
+    %td
+      Set environment variable
+      %tt API_PROVIDER
+      to the URL of the RHEV-M REST API endpoint.
+  %tr
+    %td
+      %strong Rimuhosting
+    %td
+      %tt rimuhosting
+    %td not used (?)
+    %td API Key
+    %td
+  %tr
+    %td
+      %strong Terremark
+    %td
+      %tt terremark
+    %td
+      Username
+    %td
+      Password
+    %td
