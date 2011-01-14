@@ -43,12 +43,6 @@ Type the following command to install it:
 
     $ gem install deltacloud-core
 
-### Deltacloud driver for VirtualBox ###
-
-<http://gitorious.org/deltacloud-devel/deltacloud-virtualbox-driver>
-
-Contributed by Michal Fojtik.
-
 ### Your name here ###
 
 Do you have a tool to make Deltacloud more useful? Let us know on our
