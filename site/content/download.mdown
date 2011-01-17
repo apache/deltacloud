@@ -41,7 +41,7 @@ Deltacloud&nbsp;API.
 
 Type the following command to install it:
 
-    $ gem install deltacloud-core
+    $ gem install deltacloud-client
 
 ### Your name here ###
 
