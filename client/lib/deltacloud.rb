@@ -77,6 +77,38 @@ module DeltaCloud
       yield self if block_given?
     end
 
+    # This method can be used to switch back-end cloud
+    # for API instance using HTTP headers.
+    # Options must include:
+    # {
+    #   :driver => 'rhevm|ec2|gogrid|...',
+    #   :username => 'API key for backend',
+    #   :password => 'API secret key for backend',
+    # }
+    # Optionally you can pass also :provider option to change
+    # provider entry-point
+    #
+    # Example usage:
+    # client = Deltacloud::new('url', 'username', 'password')
+    # ...
+    # client.with_config(:driver => 'ec2', :username => '', :password => '') do |ec2|
+    #   ec2.realms
+    # end
+    #
+    # Note: After this block finish client instance will be set back to default
+    # state
+    #
+    # @param [Hash, opts] New provider configuration
+    def with_config(opts, &block)
+      api_instance = self.dup
+      api_instance.use_driver(opts[:driver],
+                             :username => opts[:username],
+                             :password => opts[:password],
+                             :provider => opts[:provider])
+      yield api_instance if block_given?
+      api_instance
+    end
+
     def connect(&block)
       yield self
     end
