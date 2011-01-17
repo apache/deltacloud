@@ -86,7 +86,7 @@ filter:
       The mock driver doesn't talk to any cloud; it just pretends to be a cloud
   %tr
     %td
-      %strong Amazon EC2
+      %strong Amazon EC2/S3
     %td
       %tt ec2
     %td
@@ -112,7 +112,17 @@ filter:
       for
       %a{ :href => "https://my.gogrid.com/gogrid/com.servepath.gogrid.GoGrid/index.html" } your account
       and click on the key you want to use to find the shared secret.
-
+  %tr
+    %td
+      %strong Microsoft Azure (Storage Account only)
+    %td
+      %tt azure
+    %td
+      Public Storage Account Name
+    %td
+      Primary Access Key
+    %td
+      The Storage Account Name is chosen when you create the service (e.g. name in http://name.blob.core.windows.net/). This and the access key are available from the service control panel.
   %tr
     %td
       %strong OpenNebula
@@ -128,7 +138,7 @@ filter:
       to the address on which OpenNebula's OCCI server is listening.
   %tr
     %td
-      %strong Rackspace
+      %strong Rackspace Cloud Servers/Cloud Files
     %td
       %tt rackspace
     %td
