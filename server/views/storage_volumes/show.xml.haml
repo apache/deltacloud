@@ -15,6 +15,13 @@
   - if @storage_volume.device
     %device
       = @storage_volume.device
+  - if @storage_volume.realm_id
+    %realm_id<
+      = @storage_volume.realm_id
+  - if @storage_volume.state
+    %state<
+      = @storage_volume.state
+
   - unless @storage_volume.instance_id.nil?
     %mount
       %instance{:href => @storage_volume.instance_id, :id => @storage_volume.instance_id}
