@@ -20,12 +20,13 @@ module Sinatra
       when :path_only
         base = request.script_name
       when :full
-        scheme = request.scheme
-        if (scheme == 'http' && request.port == 80 ||
-            scheme == 'https' && request.port == 443)
+        scheme = request.env['HTTP_X_FORWARDED_SCHEME'] || request.scheme
+        port = request.env['HTTP_X_FORWARDED_PORT'] || request.port
+        if ((scheme == 'http' && port.to_s == '80') ||
+            (scheme == 'https' && port.to_s == '443'))
           port = ""
         else
-          port = ":#{request.port}"
+          port = ":#{port}"
         end
         request_host = HOSTNAME ? HOSTNAME : request.host
         base = "#{scheme}://#{request_host}#{port}#{request.script_name}"
