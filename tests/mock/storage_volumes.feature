@@ -39,5 +39,6 @@ Feature: Accessing storage volumes
     And this storage_volume should have:
     | created |
     | capacity |
+    | device |
     | realm_id |
     | state |
