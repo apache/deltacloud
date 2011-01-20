@@ -7,13 +7,13 @@
   %capacity{ :unit => "GB" }<
     = @storage_volume.capacity
   - if @storage_volume.kind
-    %kind
+    %kind<
       = @storage_volume.kind
   - if @storage_volume.name
-    %name
+    %name<
       = @storage_volume.name
   - if @storage_volume.device
-    %device
+    %device<
       = @storage_volume.device
   - if @storage_volume.realm_id
     %realm_id<
