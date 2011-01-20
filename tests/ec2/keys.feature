@@ -46,7 +46,7 @@ Feature: Managing keys
 
   @prefix-destroy
   Scenario: Destroying created key
-    Given URI /api/instances exists
+    Given URI /api/keys exists
     And authentification is required for this URI
     When client want to 'destroy' last key
     And client follow destroy link in actions

@@ -18,6 +18,7 @@ Feature: Accessing API entry points
     | keys  |
     | buckets |
     | images     |
+    | load_balancers |
     | instance_states |
     | hardware_profiles  |
     | storage_snapshots  |
@@ -34,6 +35,7 @@ Feature: Accessing API entry points
     | keys  |
     | buckets |
     | images     |
+    | load_balancers |
     | instance_states |
     | hardware_profiles  |
     | storage_snapshots  |
@@ -51,3 +53,4 @@ Feature: Accessing API entry points
     | authentication_key |
     | user_data |
     | security_group |
+    | register_to_load_balancer |
