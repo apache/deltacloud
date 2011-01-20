@@ -3,4 +3,5 @@
 :state: AVAILABLE
 :capacity: 1
 :device:
+:realm_id: us
 :instance_id:
