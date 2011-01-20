@@ -40,5 +40,6 @@ Feature: Accessing storage volumes
     | created |
     | capacity |
     | device |
+    | mount |
     | realm_id |
     | state |
