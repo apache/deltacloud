@@ -1,0 +1,1 @@
+["https://10.34.2.122:8443/rhevm-api-powershell/vms/5b602d1a-4db0-4ab0-8842-5f3dfb551ba6/disks","get",{"content_type":"application/xml","status":200,"body":"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<disks/>\n"}]
