@@ -1,10 +1,15 @@
 require 'base64'
 require 'restclient'
 require 'nokogiri'
+require 'digest/md5'
+require 'json'
 
 module RHEVM
 
+  class FixtureNotFound < Exception; end
+
   class Client
+
     attr_reader :base_uri
     attr_reader :host
     attr_reader :entry_points
@@ -31,6 +36,7 @@ module RHEVM
           object = Nokogiri::XML(get("#{@entry_points[method_name.to_s]}#{opts[:id]}"))
           element = method_name.to_s
           element = 'data_centers' if method_name.eql?(:datacenters)
+          @current_element = element
           inst = ::RHEVM.const_get(element.classify)
           return inst::new(self, object)
         else
@@ -42,6 +48,7 @@ module RHEVM
           # (uri is /datacenters but root element it 'data_centers')
           element = 'data_centers' if method_name.eql?(:datacenters)
           element = 'storage_domains' if method_name.eql?(:storagedomains)
+          @current_element = element
           (objects/"#{element}/#{element.singularize}").each do |item|
             inst = ::RHEVM.const_get(element.classify)
             objects_arr << inst.new(self, item)
@@ -77,7 +84,11 @@ module RHEVM
         :authorization => "Basic " + Base64.encode64("#{@username}:#{@password}"),
         :accept => 'application/xml',
       }
-      response = RestClient.get(uri, headers).to_s
+      if ENV['RACK_ENV'] == 'test'
+        response = mock_request(:get, uri, {}, headers)
+      else
+        response = RestClient.get(uri, headers).to_s
+      end
       response
     end
 
@@ -88,7 +99,11 @@ module RHEVM
         :content_type => 'application/xml'
       }
       params = "<action/>" if params.size==0
-      response = RestClient.post(uri, params, headers).to_s
+      if ENV['RACK_ENV'] == 'test'
+        response = mock_request(:post, uri, params, headers)
+      else
+        response = RestClient.post(uri, params, headers).to_s
+      end
       response
     end
 
@@ -101,8 +116,44 @@ module RHEVM
       @discovered = true
     end
 
-    private
-    
+    def read_fake_url(filename)
+      fixture_file = "../tests/rhevm/support/fixtures/#{filename}"
+      if File.exists?(fixture_file)
+        puts "Using fixture: #{fixture_file}"
+        return JSON::parse(File.read(fixture_file))
+      else
+        raise FixtureNotFound.new
+      end
+    end
+
+    def mock_request(*args)
+      http_method, request_uri, params, headers = args[0].to_sym, args[1], args[2], args[3]
+      params ||= {}
+      fixture_filename = "#{Digest::MD5.hexdigest("#{http_method}#{request_uri}#{params.inspect}#{headers}")}.fixture"
+      begin
+        read_fake_url(fixture_filename)[2]["body"]
+      rescue FixtureNotFound
+        if http_method.eql?(:get)
+          r = RestClient.send(http_method, request_uri, headers)
+        elsif http_method.eql?(:post)
+          r = RestClient.send(http_method, request_uri, params, headers)
+        else
+          r = RestClient.send(http_method, request_uri, headers)
+        end
+        response = {
+          :body => r.to_s,
+          :status => r.code,
+          :content_type => r.headers[:content_type]
+        }
+        fixtures_dir = "../tests/rhevm/support/fixtures/"
+        FileUtils.mkdir_p(fixtures_dir)
+        puts "Saving fixture #{fixture_filename}"
+        File.open(File::join(fixtures_dir, fixture_filename), 'w') do |f|
+          f.puts [request_uri, http_method, response].to_json
+        end and retry
+      end
+    end
+
     def singularize(str)
       str.gsub(/s$/, '')
     end
