@@ -152,11 +152,6 @@ Feature: Managing instances
     When client want to 'stop' last instance
     And client follow link in actions
 
-  Scenario: Create instance using HTML form
-    Given URI /api/instances/new exists in HTML format
-    And authentification is required for this URI
-    When client access this URI
-    Then client should get HTML form
 
   @prefix-destroy
   Scenario: Destroying created instance
