@@ -147,6 +147,7 @@ module ApplicationHelper
   end
 
   def link_to_format(format)
+    return '' unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI']
     return if uri.include?('format=')
     if uri.include?('?')
@@ -158,6 +159,7 @@ module ApplicationHelper
   end
 
   def link_to_documentation
+    return '' unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI'].dup
     uri.gsub!('/api/', '/api/docs/')
     '<a href="%s">[ Documentation ]</a>' % uri
