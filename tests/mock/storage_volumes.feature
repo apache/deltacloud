@@ -27,19 +27,18 @@ Feature: Accessing storage volumes
  #   And each image should have 'href' attribute with valid URL
  #   And this URI should be available in XML, JSON, HTML format
 
-  Scenario: Get details about first volume
-    Given URI /api/storage_volumes exists
-    And authentification is required for this URI
-    When client access this URI
-    Then client should get root element 'storage_volumes'
-    And this element contains some storage_volumes
-    When client want to show first storage_volume
-    Then client follow href attribute in first storage_volume
-    Then client should get this storage_volume
-    And this storage_volume should have:
-    | created |
-    | capacity |
-    | device |
-    | mount |
-    | realm_id |
-    | state |
+ # Scenario: Get details about first volume
+ #   Given URI /api/storage_volumes exists
+ #   And authentification is required for this URI
+ #   When client access this URI
+ #   Then client should get root element 'storage_volumes'
+ #   And this element contains some storage_volumes
+ #   When client want to show first storage_volume
+ #   Then client follow href attribute in first storage_volume
+ #   Then client should get this storage_volume
+ #   And this storage_volume should have:
+ #   | created |
+ #   | capacity |
+ #   | mount |
+ #   | realm_id |
+ #   | state |
