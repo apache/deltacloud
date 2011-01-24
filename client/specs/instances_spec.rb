@@ -190,5 +190,17 @@ describe "instances" do
         instance.state.should eql( "RUNNING" )
       end
     end
+
+    it "should not throw exception when destroying an instance" do
+      DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+        instance = client.create_instance( 'img1',
+                                           :name=>'TestDestroyInstance',
+                                           :hardware_profile => 'm1-xlarge' )
+        instance.stop!
+        lambda {
+          instance.destroy!
+        }.should_not raise_error
+      end
+    end
   end
 end
