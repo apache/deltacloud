@@ -63,7 +63,7 @@ module Deltacloud
       end
 
       def param
-        "hwp_#{name}"
+        :"hwp_#{name}"
       end
 
       def fixed?
