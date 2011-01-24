@@ -225,7 +225,8 @@ module DeltaCloud
       end
 
       def action_trigger(action)
-        # Refresh object state after action
+        # Refresh object state after action unless the object was destroyed
+        return if action.to_s == "destroy"
         @new_state_object = @client.send(self.base_name, self.id)
         @state = @new_state_object.state
         self.update_actions!
