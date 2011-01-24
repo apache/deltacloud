@@ -19,6 +19,8 @@
 
 module ApplicationHelper
 
+  include Deltacloud
+
   def bread_crumb
     s = "<ul class='breadcrumb'><li class='first'><a href='#{url_for('/')}'>&#948</a></li>"
     url = request.path_info.split('?')  #remove extra query string parameters
