@@ -35,17 +35,35 @@ module DeltacloudUnitTest
     end
 
     def test_it_switches_drivers
-      begin
-        ENV.delete("API_PROVIDER")
+      with_provider("") do
         do_xml_request '/api'
         (last_xml_response/"api/link[rel = 'instances']").first.should_not == nil
+      end
 
-        # Switch to storage-only mock driver
-        ENV["API_PROVIDER"] = "storage"
+      # Switch to storage-only mock driver
+      with_provider("storage") do
         do_xml_request '/api'
         (last_xml_response/"api/link[rel = 'instances']").first.should == nil
-      ensure
-        ENV.delete("API_PROVIDER")
+      end
+    end
+
+    def test_it_handles_unsupported_collections
+      do_xml_request '/api/no_such_collection'
+      last_response.status.should == 404
+
+      with_provider("storage") do
+        do_xml_request '/api/instances'
+        last_response.status.should == 404
+      end
+    end
+
+    def test_it_allows_accessing_docs
+      do_request '/api/docs/instances'
+      last_response.status.should == 200
+
+      with_provider("storage") do
+        do_request '/api/docs/instances'
+        last_response.status.should == 404
       end
     end
   end

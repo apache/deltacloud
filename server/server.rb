@@ -66,6 +66,10 @@ error Deltacloud::BackendError do
   report_error(500, "backend_error")
 end
 
+error Sinatra::Rabbit::UnsupportedCollectionException do
+  report_error(404, "not_found")
+end
+
 Sinatra::Application.register Sinatra::RespondTo
 
 # Redirect to /api
