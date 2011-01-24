@@ -78,6 +78,7 @@ get '/' do redirect url_for('/api'), 301; end
 get '/api/drivers\/?' do
   respond_to do |format|
     format.xml { haml :"api/drivers" }
+    format.html { haml :"api/drivers" }
   end
 end
 
