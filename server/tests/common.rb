@@ -73,7 +73,7 @@ module DeltacloudTestCommon
     puts "[401] Authentication required to get #{uri}" if last_response.status == 401
     if last_response.status == 200
       @xml_response = false
-      @xml_response = Nokogiri::XML(last_response.body) 
+      @xml_response = Nokogiri::XML(last_response.body)
     end
   end
 
@@ -91,7 +91,15 @@ module DeltacloudTestCommon
     $created_instances << id
   end
 
+  def with_provider(new_provider, &block)
+    old_provider = ENV["API_PROVIDER"]
+    begin
+      ENV["API_PROVIDER"] = new_provider
+      yield
+    ensure
+      ENV["API_PROVIDER"] = old_provider
+    end
+  end
 end
 
 include DeltacloudTestCommon
-

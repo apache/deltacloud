@@ -51,7 +51,7 @@ module Deltacloud::Validation
   end
 
   def param(*args)
-    raise DuplicateParamException if params[args[0]]
+    raise "Duplicate param #{args[0]} #{params.inspect} #{self.class.name}" if params[args[0]]
     p = Param.new(args)
     params[p.name] = p
   end
@@ -74,8 +74,8 @@ module Deltacloud::Validation
     params.each_value { |p| yield p }
   end
 
-  def validate(values)
-    each_param do |p|
+  def validate(all_params, values)
+    all_params.each_value do |p|
       if p.required? and not values[p.name]
         raise Failure.new(p, "Required parameter #{p.name} not found")
       end

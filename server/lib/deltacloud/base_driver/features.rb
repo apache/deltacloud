@@ -39,13 +39,19 @@ module Deltacloud
         @description
       end
 
-      # Add a new operation or modify an existing one through BLOCK
+      # Add/modify an operation or look up an existing one. If +block+ is
+      # provided, create a new operation if none exists with name
+      # +name+. Evaluate the +block+ against this instance. If no +block+
+      # is provided, look up the operation with name +name+
       def operation(name, &block)
-        unless op = @operations.find { |op| op.name == name }
-          op = Operation.new(name, &block)
-          @operations << op
-        else
-          op.instance_eval(&block) if block_given?
+        op = @operations.find { |op| op.name == name }
+        if block_given?
+          if op.nil?
+            op = Operation.new(name, &block)
+            @operations << op
+          else
+            op.instance_eval(&block)
+          end
         end
         op
       end
@@ -122,7 +128,7 @@ module Deltacloud
         f.operations.detect { |o| o.name == operation }
       end
     end
-    
+
     #
     # Declaration of optional features
     #

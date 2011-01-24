@@ -10,9 +10,10 @@ module Sinatra
     class DuplicateParamException < Exception; end
     class DuplicateOperationException < Exception; end
     class DuplicateCollectionException < Exception; end
+    class UnsupportedCollectionException < Exception; end
 
     class Operation
-      attr_reader :name, :method
+      attr_reader :name, :method, :collection
 
       include ::Deltacloud::BackendCapability
       include ::Deltacloud::Validation
@@ -60,8 +61,9 @@ module Sinatra
       def control(&block)
         op = self
         @control = Proc.new do
-          op.check_capability(Deltacloud::driver)
-          op.validate(params)
+          op.collection.check_supported(driver)
+          op.check_capability(driver)
+          op.validate(op.effective_params(driver), params)
           instance_eval(&block)
         end
       end
@@ -93,6 +95,24 @@ module Sinatra
           gen_route "#{@collection.name.to_s.singularize}_url"
         else
           gen_route "#{name}_#{@collection.name.to_s.singularize}_url"
+        end
+      end
+
+      # Return a hash of all params, the params statically defined for this
+      # operation plus the params defined by any features in the +driver+
+      # that might modify this operation
+      def effective_params(driver)
+        driver.features(@collection.name).collect do |f|
+          f.decl.operation(@name)
+        end.flatten.select { |op| op }.inject(params.dup) do |result, fop|
+          fop.params.each_key do |k|
+            if result.has_key?(k)
+              raise DuplicateParamException, "Parameter '#{k}' for operation #{fop.name} in collection #{@collection.name}"
+            else
+              result[k] = fop.params[k]
+            end
+          end
+          result
         end
       end
 
@@ -133,9 +153,12 @@ module Sinatra
       end
 
       def generate_documentation
-        coll, oper, features = self, @operations, Deltacloud::driver.features(name)
+        coll = self
         ::Sinatra::Application.get("/api/docs/#{@name}") do
-          @collection, @operations, @features = coll, oper, features
+          coll.check_supported(driver)
+          @collection = coll
+          @operations = coll.operations
+          @features = driver.features(coll.name)
           respond_to do |format|
             format.html { haml :'docs/collection' }
             format.xml { haml :'docs/collection' }
@@ -178,19 +201,10 @@ module Sinatra
         end
       end
 
-      def add_feature_params(features)
-        features.each do |f|
-          f.operations.each do |fop|
-            if cop = operations[fop.name]
-              fop.params.each_key do |k|
-                if cop.params.has_key?(k)
-                  raise DuplicateParamException, "Parameter '#{k}' for operation #{fop.name} defined by collection #{@name} and by feature #{f.name}"
-                else
-                  cop.params[k] = fop.params[k]
-                end
-              end
-            end
-          end
+      def check_supported(driver)
+        unless driver.has_collection?(@name)
+          raise UnsupportedCollectionException,
+            "Collection #{@name} not supported by this driver"
         end
       end
     end
@@ -206,9 +220,7 @@ module Sinatra
     # operation on this collection.
     def collection(name, &block)
       raise DuplicateCollectionException if collections[name]
-      return unless Deltacloud::driver.has_collection?(name.to_sym)
       collections[name] = Collection.new(name, &block)
-      collections[name].add_feature_params(Deltacloud::driver.features(name))
       collections[name].generate
     end
 
@@ -229,7 +241,9 @@ module Sinatra
     end
 
     def entry_points
-      collections.values.inject([]) do |m, coll|
+      collections.values.select { |coll|
+        driver.has_collection?(coll.name)
+      }.inject([]) do |m, coll|
         url = url_for coll.operations[:index].path, :full
         m << [ coll.name, url ]
       end
