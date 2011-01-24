@@ -25,8 +25,15 @@ module Deltacloud
     module Mock
 class MockDriver < Deltacloud::BaseDriver
 
+  # If the provider is set to storage, pretend to be a storage-only
+  # driver
   def supported_collections
-    DEFAULT_COLLECTIONS + [ :buckets, :keys]
+    endpoint = Thread.current[:provider] || ENV['API_PROVIDER']
+    if endpoint == 'storage'
+      [:buckets]
+    else
+      DEFAULT_COLLECTIONS + [:buckets, :keys]
+    end
   end
 
   ( REALMS = [
