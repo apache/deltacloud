@@ -34,5 +34,19 @@ module DeltacloudUnitTest
       JSON::parse(last_response.body)['api'].class.should == Hash
     end
 
+    def test_it_switches_drivers
+      begin
+        ENV.delete("API_PROVIDER")
+        do_xml_request '/api'
+        (last_xml_response/"api/link[rel = 'instances']").first.should_not == nil
+
+        # Switch to storage-only mock driver
+        ENV["API_PROVIDER"] = "storage"
+        do_xml_request '/api'
+        (last_xml_response/"api/link[rel = 'instances']").first.should == nil
+      ensure
+        ENV.delete("API_PROVIDER")
+      end
+    end
   end
 end
