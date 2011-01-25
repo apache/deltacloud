@@ -2,6 +2,10 @@ require 'deltacloud/method_serializer'
 
 # Create 'mock' version of original driver client/gem:
 
+# Initialize driver and include Deltacloud
+include Deltacloud
+driver
+
 module Mock
 
   class Ec2 < Aws::Ec2
