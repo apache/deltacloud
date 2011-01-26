@@ -31,7 +31,7 @@ require 'sinatra/rack_driver_select'
 require 'sinatra/rack_runtime'
 require 'sinatra/rack_etag'
 
-set :version, '0.1.0'
+set :version, '0.2.0'
 
 
 use Rack::DriverSelect
