@@ -337,6 +337,7 @@ class MockDriver < Deltacloud::BaseDriver
   def create_bucket(credentials, name, opts=nil)
     check_credentials(credentials)
     bucket = {
+      :id => name,
       :name=>name,
       :size=>'0',
       :blob_list=>[]
