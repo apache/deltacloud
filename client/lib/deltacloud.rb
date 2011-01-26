@@ -32,17 +32,15 @@ module DeltaCloud
   #
   # @param [String, user_name] API user name
   # @param [String, password] API password
-  # @param [String, user_name] API URL (eg. http://localhost:3001/api)
+  # @param [String, url] API URL (eg. http://localhost:3001/api)
   # @return [DeltaCloud::API]
   #def self.new(user_name, password, api_url, opts={}, &block)
   #  opts ||= {}
   #  API.new(user_name, password, api_url, opts, &block)
   #end
 
-  def self.new(opts={}, &block)
-    opts ||={}
-    client = API.new(opts[:username], opts[:password], opts[:url], opts, &block)
-    client.use_driver(opts[:driver], opts) if opts[:driver]
+  def self.new(user_name, password, api_url, &block)
+    API.new(user_name, password, api_url, &block)
   end
 
   # Check given credentials if their are valid against
