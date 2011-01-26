@@ -28,11 +28,15 @@ require 'haml'
 require 'open3'
 require 'lib/deltacloud/helpers/blob_stream'
 require 'sinatra/rack_driver_select'
+require 'sinatra/rack_runtime'
+require 'sinatra/rack_etag'
 
 set :version, '0.1.0'
 
 
-use RackDriverSelect
+use Rack::DriverSelect
+use Rack::ETag
+use Rack::Runtime
 
 configure do
   set :raise_errors => false

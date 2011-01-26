@@ -17,6 +17,8 @@
 
 # Methods added to this helper will be available to all templates in the application.
 
+require 'benchmark'
+
 module ApplicationHelper
 
   include Deltacloud
@@ -76,7 +78,10 @@ module ApplicationHelper
       filter.merge!(:state => params[:state]) if params[:state]
       filter = nil if filter.keys.size.eql?(0)
       singular = model.to_s.singularize.to_sym
-      @elements = driver.send(model.to_sym, credentials, filter)
+      @benchmark = Benchmark.measure do
+        @elements = driver.send(model.to_sym, credentials, filter)
+      end
+      headers['X-Backend-Runtime'] = @benchmark.real.to_s
       instance_variable_set(:"@#{model}", @elements)
       respond_to do |format|
         format.html { haml :"#{model}/index" }
@@ -86,7 +91,9 @@ module ApplicationHelper
   end
 
   def show(model)
-    @element = driver.send(model, credentials, { :id => params[:id]} )
+    @benchmark = Benchmark.measure do
+      @element = driver.send(model, credentials, { :id => params[:id]} )
+    end
     instance_variable_set("@#{model}", @element)
     if @element
       respond_to do |format|
