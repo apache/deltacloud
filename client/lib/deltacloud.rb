@@ -269,6 +269,9 @@ module DeltaCloud
 
         request(:post, entry_points[:"#{$1}s"], {}, params) do |response|
           obj = base_object(:"#{$1}", response)
+          # All create calls must respond 201 HTTP code
+          # to indicate that resource was created.
+          handle_backend_error(response) if response.code!=201
           yield obj if block_given?
         end
         return obj
