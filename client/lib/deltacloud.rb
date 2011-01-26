@@ -34,9 +34,15 @@ module DeltaCloud
   # @param [String, password] API password
   # @param [String, user_name] API URL (eg. http://localhost:3001/api)
   # @return [DeltaCloud::API]
-  def self.new(user_name, password, api_url, opts={}, &block)
-    opts ||= {}
-    API.new(user_name, password, api_url, opts, &block)
+  #def self.new(user_name, password, api_url, opts={}, &block)
+  #  opts ||= {}
+  #  API.new(user_name, password, api_url, opts, &block)
+  #end
+
+  def self.new(opts={}, &block)
+    opts ||={}
+    client = API.new(opts[:username], opts[:password], opts[:url], opts, &block)
+    client.use_driver(opts[:driver], opts) if opts[:driver]
   end
 
   # Check given credentials if their are valid against
@@ -289,6 +295,11 @@ module DeltaCloud
       @password = opts[:password] if opts[:password]
       @api_provider = opts[:provider] if opts[:provider]
       return self
+    end
+
+    def use_config!(opts={})
+      @api_uri = URI.parse(opts[:url]) if opts[:url]
+      use_driver(opts[:driver], opts)
     end
 
     def extended_headers
