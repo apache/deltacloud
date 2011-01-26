@@ -27,7 +27,7 @@ module Rack
         headers['ETag'] = %("#{digest}") if digest
       end
 
-      unless headers['Cache-Control']
+      if not headers['Cache-Control'] and digest
         headers['Cache-Control'] = digest ? @cache_control : @no_cache_control
       end
 
