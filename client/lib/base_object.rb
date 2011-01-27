@@ -232,6 +232,14 @@ module DeltaCloud
         self.update_actions!
       end
 
+      def add_run_action!(id, link)
+        @objects << {
+          :method_name => 'run',
+          :type => :run,
+          :url => link,
+        }
+      end
+
       alias :action_method_handler :method_handler
 
       def method_handler(m, args=[])
@@ -240,12 +248,29 @@ module DeltaCloud
         rescue NoHandlerForMethod
           case m[:type]
             when :state then evaluate_state(m[:state], @state)
+            when :run then run_command(m[:url][:href], args)
             else raise NoHandlerForMethod
           end
         end
       end
 
 #      private
+
+      def run_command(instance_url, args)
+        credentials = args[1]
+        params = {
+          :cmd => args[0],
+          :private_key => credentials[:pem] ? File.read(credentials[:pem]) : nil,
+        }
+        params.merge!({
+          :username => credentials[:username],
+          :password => credentials[:password]
+        }) if credentials[:username] and credentials[:password]
+        @client.request(:post, instance_url, {}, params) do |response|
+          output = Nokogiri::XML(response)
+          (output/'/instance/output').first.text
+        end
+      end
 
       def evaluate_state(method_state, current_state)
         method_state.eql?(current_state)
