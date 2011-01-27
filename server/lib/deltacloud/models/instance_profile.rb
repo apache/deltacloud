@@ -38,6 +38,10 @@ class InstanceProfile < BaseModel
     id
   end
 
+  def to_s
+    name
+  end
+
   def overrides
     [:memory, :storage, :architecture, :cpu].inject({}) do |h, p|
       if v = instance_variable_get("@#{p}")
