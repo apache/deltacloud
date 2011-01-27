@@ -205,6 +205,20 @@ module Deltacloud
             new_instance
           end
         end
+
+        def run_on_instance(credentials, opts={})
+          target = instance(credentials, :id => opts[:id])
+          param = {}
+          param[:credentials] = {
+            :username => 'root', # Default for EC2 Linux instances
+          }
+          param[:port] = opts[:port] || '22'
+          param[:ip] = target.public_addresses
+          param[:private_key] = (opts[:private_key].length > 1) ? opts[:private_key] : nil
+          safely do
+            Deltacloud::Runner.execute(opts[:cmd], param)
+          end
+        end
     
         def reboot_instance(credentials, instance_id)
           ec2 = new_client(credentials)
@@ -691,7 +705,7 @@ module Deltacloud
           {
             :auth => [], # [ ::Aws::AuthFailure ],
             :error => [ ::Aws::AwsError ],
-            :glob => [ /AWS::(\w+)/ ]
+            :glob => [ /AWS::(\w+)/, /Deltacloud::Runner::(\w+)/ ]
           }
         end
 

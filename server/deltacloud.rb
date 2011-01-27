@@ -38,3 +38,4 @@ require 'deltacloud/models/load_balancer'
 
 require 'deltacloud/validation'
 require 'deltacloud/helpers'
+require 'deltacloud/runner'

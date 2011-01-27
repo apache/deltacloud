@@ -1,0 +1,9 @@
+%h1 Run command on instance #{params[:id]}
+
+%p
+  %label Command:
+  %em #{@output.ssh.command}
+%p
+  %strong Command output
+%pre
+  =@output.body
