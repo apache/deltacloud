@@ -637,3 +637,33 @@ li.docs {
   border : 1px solid #c00;
   background : #fbd1d1;
 }
+
+.new_instance {
+  border : 1px solid #ccc;
+  border-radius : 5px;
+  background : #eee;
+  clear : both;
+}
+
+.new_instance p {
+  margin : 5px;
+  clear : both;
+}
+
+.new_instance p label {
+  float : left;
+  width : 190px;
+}
+
+.new_instance p input[type=text]{
+  border : 1px solid #ccc;
+  font-size : 115%;
+  border-radius : 5px;
+  width : 220px;
+}
+
+h3.description {
+  float : right;
+  font-size : 70%;
+  color : #ccc;
+}

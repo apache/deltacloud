@@ -212,6 +212,7 @@ get "/api/instances/new" do
   @image   = driver.image( credentials, :id => params[:image_id] )
   @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
   @realms = driver.realms(credentials)
+  @keys = driver.keys(credentials) if driver_has_feature?(:authentication_key)
   if driver_has_feature?(:register_to_load_balancer)
     @load_balancers = driver.load_balancers(credentials)
   end

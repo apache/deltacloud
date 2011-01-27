@@ -7,7 +7,7 @@
       %th Owner
       %th Name
       %th Image
-      %th Realm
+      %th Profile
       %th State
       %th Actions
   %tbody
@@ -22,7 +22,7 @@
         %td
           = link_to instance.image_id, image_url( instance.image_id )
         %td
-          = instance.realm_id ? link_to(instance.realm_id, realm_url( instance.realm_id )) : 'default'
+          = instance.hardware_profile ? link_to(instance.hardware_profile, hardware_profile_url( instance.instance_profile.id )) : 'default'
         %td
           = instance.state
         %td

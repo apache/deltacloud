@@ -31,6 +31,18 @@ class Instance < BaseModel
   attr_accessor :keyname
   attr_accessor :authn_error
 
+  def to_s
+    name
+  end
+
+  def hardware_profile
+    instance_profile
+  end
+
+  def hardware_profile=(profile)
+    instance_profile = profile
+  end
+
   def initialize(init=nil)
     super(init)
     self.actions = [] if self.actions.nil?
