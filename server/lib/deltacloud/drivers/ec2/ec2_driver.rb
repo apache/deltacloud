@@ -41,6 +41,7 @@ module Deltacloud
         feature :instances, :user_data
         feature :instances, :authentication_key
         feature :instances, :security_group
+        feature :instances, :instance_count
         feature :images, :owner_id
         feature :buckets, :bucket_location
         feature :instances, :register_to_load_balancer
@@ -132,12 +133,12 @@ module Deltacloud
                 convert_image(image)
               end
             end
-          else
-            owner_id = opts[:owner_id] || "amazon"
-            safely do
-              img_arr = ec2.describe_images_by_owner(owner_id, "machine").collect do |image|
-                convert_image(image)
-              end
+            return img_arr
+          end
+          owner_id = opts[:owner_id] || "amazon"
+          safely do
+            img_arr = ec2.describe_images_by_owner(owner_id, "machine").collect do |image|
+              convert_image(image)
             end
           end
           img_arr = filter_on( img_arr, :architecture, opts )
@@ -184,6 +185,10 @@ module Deltacloud
           instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
           instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id]
           instance_options.merge!(:group_ids => opts[:security_group]) if opts[:security_group]
+          instance_options.merge!(
+            :min_count => opts[:instance_count],
+            :max_count => opts[:instance_count]
+          ) if opts[:instance_count] and opts[:instance_count].length!=0
           safely do
             new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
             # TODO: Rework this to use client_id for name instead of tag
