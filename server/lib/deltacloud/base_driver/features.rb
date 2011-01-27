@@ -197,5 +197,12 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :instance_count do
+      description "Number of instances to be launch with at once"
+      operation :create do
+        param :instance_count,  :string,  :optional
+      end
+    end
+
   end
 end

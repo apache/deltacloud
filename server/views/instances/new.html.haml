@@ -1,27 +1,35 @@
-%h1 New Instance
+%h1 Launch new Instance
 
+%h3{:class => "description"}= @image.description
 %h2= @image.id
-%h3= @image.description
 
-%form{ :action => instances_url, :method => :post }
+%form{ :action => instances_url, :method => :post, :class => :new_instance }
   %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
   %p
     %label
-      Instance Name:
-      %input{ :name => 'name', :size => 30 }/
+      Name:
+    %input{ :name => 'name', :size => 30, :type => :text }/
+  -if driver_has_feature?(:instance_count)
+    %p
+      %label
+        Number of instances:
+      %input{ :type => :text, :value => "1", :name => :instance_count }
   -if driver_has_feature?(:register_to_load_balancer)
     %p
       %label
-        Assign to load balancer:
-        %select{:name => 'load_balancer_id'}
-          %option{:value => ""}
-          - @load_balancers.each do |load_balancer|
-            %option{:value => load_balancer.id} #{load_balancer.id}
+        Load balancer to assign:
+      %select{:name => 'load_balancer_id'}
+        %option
+        - @load_balancers.each do |load_balancer|
+          %option{:value => load_balancer.id} #{load_balancer.id}
   -if driver_has_feature?(:authentication_key)
     %p
       %label
         Instance Keyname:
-        %input{:name => 'keyname', :size => 30 }
+      %select{:name => 'keyname'}
+        %option
+        - @keys.each do |key|
+          %option{ :value => key.id } #{key.id}
   - if !@hardware_profiles.empty?
     %h3 What size machine?
     - for hwp in @hardware_profiles
