@@ -17,6 +17,7 @@
       %th Type
       %th Class
       %th Valid values
+      %th Description
   %tbody
     - @operation.each_param do |p|
       %tr
@@ -25,3 +26,4 @@
         %td{:style => "width:10em"} #{p.type}
         %td #{p.klass}
         %td{:style => "width:10em"} #{p.options.join(',')}
+        %td #{p.description}

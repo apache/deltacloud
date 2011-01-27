@@ -221,6 +221,13 @@ get "/api/instances/new" do
   end
 end
 
+get '/api/instances/:id/run' do
+  @instance = driver.instance(credentials, :id => params[:id])
+  respond_to do |format|
+    format.html { haml :"instances/run_command" }
+  end
+end
+
 get '/api/load_balancers/new' do
   @realms = driver.realms(credentials)
   @instances = driver.instances(credentials) if driver_has_feature?(:register_instance, :load_balancers)
@@ -365,6 +372,26 @@ END
     with_capability :destroy_instance
     param :id,           :string, :required
     control { instance_action(:destroy) }
+  end
+
+  operation :run, :method => :post, :member => true do
+    description <<END
+  Run command on instance. Either password or private key must be send
+  in order to execute command. Authetication method should be advertised
+  in instance.
+END
+    with_capability :run_on_instance
+    param :id,          :string,  :required
+    param :cmd,         :string,  :required, "Shell command to run on instance"
+    param :private_key, :string,  :optional, "Private key in PEM format for authentication"
+    param :password,    :string,  :optional, "Password used for authentication"
+    control do
+      @output = driver.run_on_instance(credentials, params)
+      respond_to do |format|
+        format.xml { haml :"instances/run" }
+        format.html { haml :"instances/run" }
+      end
+    end
   end
 end
 

@@ -1,0 +1,16 @@
+%h1
+  Run command on 
+  = @instance.id
+
+%form{ :action => run_instance_url(@instance.id), :method => :post }
+  %p
+    %label{ :for => :cmd } Desired command:
+    %input{ :name => :cmd, :value => "", :type => :text}
+  %p
+    %label{ :for => :private_key } Private key:
+  %p
+    %small Leave private key blank if using password authentication method
+  %p
+    %textarea{ :name => :private_key, :cols => 65, :rows => 20 }
+  %p
+    %input{ :type => :submit, :value => "Execute" }

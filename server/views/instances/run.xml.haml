@@ -1,0 +1,7 @@
+%instance{:id => params[:id], :href=> instance_url(params[:id])}
+  %public_address
+    =@output.ssh.network.ip
+  %command
+    =@output.ssh.command
+  %output<
+    =@output.body

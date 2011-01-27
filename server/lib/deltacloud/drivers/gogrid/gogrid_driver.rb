@@ -121,6 +121,21 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
+  def run_on_instance(credentials, opts={})
+    target = instance(credentials, opts[:id])
+    param = {}
+    param[:credentials] = {
+      :username => target.username,
+      :password => target.password,
+    }
+    param[:credentials].merge!({ :password => opts[:password]}) if opts[:password].length>0
+    param[:port] = opts[:port] || '22'
+    param[:ip] = target.public_addresses
+    Deltacloud::Runner.execute(opts[:cmd], param)
+  end
+
+
+
   def list_instances(credentials, id)
     instances = []
     safely do
