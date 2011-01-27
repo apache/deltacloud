@@ -9,6 +9,7 @@ gem "rack-accept"
 gem "thin"
 gem "rerun"
 gem "json"
+gem "net-ssh"
 
 group :linode do
   gem 'linode'

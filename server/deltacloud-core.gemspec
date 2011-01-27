@@ -64,6 +64,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rack', '>= 1.0.0', '<=1.1.0')
   s.add_dependency('rack-accept', '~> 0.4.3')
   s.add_dependency('json', '>= 1.1.9')
+  s.add_dependency('net-ssh', '>= 2.0.0')
   s.add_development_dependency('compass', '>= 0.8.17')
   s.add_development_dependency('nokogiri', '>= 1.4.1', '< 1.4.4')
   s.add_development_dependency('rack-test', '>= 0.5.3')
