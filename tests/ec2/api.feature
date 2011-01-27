@@ -54,3 +54,4 @@ Feature: Accessing API entry points
     | user_data |
     | security_group |
     | register_to_load_balancer |
+    | instance_count |
