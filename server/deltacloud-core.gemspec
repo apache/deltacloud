@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Deltacloud REST API}
   s.files = FileList[
     'Rakefile',
+    '*.gemspec',
     'config.ru',
     '*.rb',
     'log',
@@ -43,6 +44,7 @@ Gem::Specification.new do |s|
     'support/fedora/**',
     'lib/**/*.rb',
     'lib/**/*.yml',
+    'tests/**/*.rb',
     'views/**/*.haml',
     'views/instance_states/*.erb',
     'public/favicon.ico',
