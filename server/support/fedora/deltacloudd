@@ -2,10 +2,21 @@
 
 require 'rubygems'
 require 'optparse'
-require 'thin'
+
+# See if we can require +name+ and return +true+ if the library is there,
+# +false+ otherwise. Note that, as a side effect, the library will be
+# loaded
+def library_present?(name)
+  begin
+    require name
+    true
+  rescue LoadError
+    false
+  end
+end
 
 options = {
-  :env => 'production'
+  :env => 'development'
 }
 optparse = OptionParser.new do |opts|
 
@@ -24,6 +35,9 @@ BANNER
   end
   opts.on( '-p', '--port PORT', 'Use PORT (default: 3001)') do |port|
     ENV["API_PORT"] = port
+  end
+  opts.on( '-P', '--provider PROVIDER', 'Use PROVIDER (default is set in the driver)') do |provider|
+    ENV['API_PROVIDER'] = provider
   end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
   opts.on( '-h', '--help', '') { options[:help] = true }
@@ -44,25 +58,71 @@ end
 ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
 ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
-dirname="#{File.dirname(__FILE__)}/.."
-
-argv_opts = ARGV.clone
-argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
-argv_opts << ['--address', ENV["API_HOST"] ]
-argv_opts << ['--port', ENV["API_PORT"] ]
-argv_opts << ['--rackup', 'config.ru' ]
-argv_opts << ['--chdir', dirname ]
-argv_opts << ['-e', options[:env] ]
-argv_opts << ['--threaded', '-D', '--stats', '/stats']
-
-argv_opts.flatten!
-
-puts "Starting Deltacloud API :: #{ENV["API_DRIVER"]} :: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
+msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
+msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+puts msg
 puts
 
-thin = Thin::Runner.new(argv_opts)
-begin
-  thin.run!
-rescue Exception => e
-  puts "ERROR: #{e.message}"
+dirname="#{File.dirname(__FILE__)}/.."
+
+have_thin = library_present?('thin')
+have_rerun = library_present?('rerun')
+
+unless have_thin
+  require 'rack'
+
+  # We can't chdir with webrick so add our root directory
+  # onto the load path
+  $: << dirname
+
+  # Read in config.ru and convert it to an instance of Rack::Builder
+  cfgfile = File.read(File.join(dirname, 'config.ru'))
+  inner_app = eval("Rack::Builder.new {(" + cfgfile + "\n )}.to_app",
+                   nil, 'config.ru')
+
+  app = Rack::Builder.new {
+    use Rack::CommonLogger # apache-like logging
+    use Rack::Reloader if options[:env] == "development"
+    set :root, dirname # Set Sinatra root since we can't chdir to ../
+    run inner_app
+  }.to_app
+
+  # There's a bug with string ports on JRuby so convert to int
+  # http://jira.codehaus.org/browse/JRUBY-4868
+  port = ENV["API_PORT"].to_i
+
+  puts "=> Ctrl-C to shutdown server"
+  Rack::Handler::WEBrick.run(app,
+                             :Host => ENV["API_HOST"],
+                             :Port => port,
+                             :AccessLog => [])
+else
+  argv_opts = ARGV.clone
+  argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
+  argv_opts << ['--address', ENV["API_HOST"] ]
+  argv_opts << ['--port', ENV["API_PORT"] ]
+  argv_opts << ['--rackup', 'config.ru' ]
+  argv_opts << ['--chdir', dirname ]
+  argv_opts << ['-e', options[:env] ]
+  argv_opts << ['--threaded', '-D', '--stats', '/stats']
+
+  argv_opts.flatten!
+
+  if have_rerun && options[:env] == "development"
+    argv_opts.unshift "thin"
+    command = argv_opts.join(" ")
+    topdir = File::expand_path(File::join(File::dirname(__FILE__), ".."))
+    rerun = Rerun::Runner.new(command, :dir => topdir)
+    rerun.start
+    rerun.join
+  else
+    thin = Thin::Runner.new(argv_opts)
+
+    begin
+      thin.run!
+    rescue Exception => e
+      puts "ERROR: #{e.message}"
+    end
+  end
 end

@@ -5,29 +5,30 @@
 
 Summary: Deltacloud REST API
 Name: rubygem-%{gemname}
-Version: 0.0.1
-Release: 2%{?dist}
+Version: 0.2.0
+Release: 1%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
-URL: http://www.deltacloud.org
+URL: http://incubator.apache.org/deltacloud
 Source0: http://gems.rubyforge.org/gems/%{gemname}-%{version}.gem
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: rubygems
 Requires: ruby(abi) = 1.8
-Requires: rubygem(eventmachine) >= 0.12.10
-Requires: rubygem(haml) >= 2.2.17
-Requires: rubygem(sinatra) >= 0.9.4
-Requires: rubygem(rack) >= 1.0.0
-Requires: rubygem(thin) >= 1.2.5
-Requires: rubygem(builder) >= 2.1.2
-Requires: rubygem(json) >= 1.2.3
-BuildRequires: ruby-json >= 1.1.9
-BuildRequires: rubygem(rake) >= 0.8.7
-BuildRequires: rubygem(rack-test) >= 0.4.0
-BuildRequires: rubygem(cucumber) >= 0.4.0
-BuildRequires: rubygem(rcov) >= 0.9.6
+Requires: rubygem(haml)
+Requires: rubygem(sinatra) >= 1.0
+Requires: rubygem(rack) >= 1.1.0
+Requires: rubygem(thin)
+Requires: rubygem(json) >= 1.4.0
+Requires(post): chkconfig
+Requires(preun): chkconfig
+Requires(preun): initscripts
+Requires(postun): initscripts
 BuildRequires: rubygems
 BuildRequires: ruby(abi) = 1.8
+BuildRequires: rubygem(json) >= 1.4.0
+BuildRequires: rubygem(rake) >= 0.8.7
+BuildRequires: rubygem(rack-test) >= 0.5.0
+BuildRequires: rubygem(rspec) >= 1.3.0
 BuildArch: noarch
 Provides: rubygem(%{gemname}) = %{version}
 
@@ -37,6 +38,14 @@ You do not directly link a Deltacloud library into your program to use it.
 Instead, a client speaks the Deltacloud API over HTTP to a server
 which implements the REST interface.
 
+%package doc
+Summary: Documentation for %{name}
+Group: Documentation
+Requires:%{name} = %{version}-%{release}
+
+%description doc
+Documentation for %{name}
+
 %prep
 
 %build
@@ -44,48 +53,68 @@ which implements the REST interface.
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{gemdir}
+mkdir -p %{buildroot}%{_initddir}
 gem install --local --install-dir %{buildroot}%{gemdir} \
             --force --rdoc %{SOURCE0}
 mkdir -p %{buildroot}/%{_bindir}
-mv %{buildroot}%{geminstdir}/support/fedora/deltacloudd %{buildroot}/%{geminstdir}/bin
 mv %{buildroot}%{gemdir}/bin/* %{buildroot}/%{_bindir}
+mv %{buildroot}%{geminstdir}/support/fedora/%{gemname} %{buildroot}%{_initddir}
+mv -f %{buildroot}%{geminstdir}/support/fedora/deltacloudd %{buildroot}%{geminstdir}/bin
 rmdir %{buildroot}%{gemdir}/bin
-find %{buildroot}%{geminstdir}/bin -type f | xargs chmod a+x
+find %{buildroot}%{geminstdir}/bin -type f | xargs chmod 755
+find %{buildroot}%{geminstdir}/lib -type f | xargs chmod -x
+chmod 755 %{buildroot}%{_initddir}/%{gemname}
 
-# Needs json_pure gem / not available in Fedora yet
-#%check
-#pushd %{buildroot}%{geminstdir}
-#cucumber features/*.feature
-#popd
+%check
+pushd ./%{geminstdir}
+rake test
+popd
 
 %clean
 rm -rf %{buildroot}
 
+%post
+# This adds the proper /etc/rc*.d links for the script
+/sbin/chkconfig --add %{gemname}
+
+%preun
+if [ $1 -eq 0 ] ; then
+    /sbin/service %{gemname} stop >/dev/null 2>&1
+    /sbin/chkconfig --del %{gemname}
+fi
+
+%postun
+if [ "$1" -ge "1" ] ; then
+    /sbin/service %{gemname} condrestart >/dev/null 2>&1 || :
+fi
+
 %files
 %defattr(-, root, root, -)
+%{_initddir}/%{gemname}
 %{_bindir}/deltacloudd
-%{gemdir}/gems/%{gemname}-%{version}/bin
-%{gemdir}/gems/%{gemname}-%{version}/lib
-%{gemdir}/gems/%{gemname}-%{version}/public/favicon.ico
-%{gemdir}/gems/%{gemname}-%{version}/public/images
-%{gemdir}/gems/%{gemname}-%{version}/public/stylesheets
-%{gemdir}/gems/%{gemname}-%{version}/tests
-%{gemdir}/gems/%{gemname}-%{version}/views
-%{gemdir}/gems/%{gemname}-%{version}/Rakefile
-%{gemdir}/gems/%{gemname}-%{version}/*.rb
-%{gemdir}/gems/%{gemname}-%{version}/config.ru
-%doc %{gemdir}/gems/%{gemname}-%{version}/support/fedora
-%doc %{gemdir}/gems/%{gemname}-%{version}/COPYING
-%doc %{gemdir}/doc/%{gemname}-%{version}
+%dir %{geminstdir}/
+%{geminstdir}/bin
+%{geminstdir}/COPYING
+%{geminstdir}/config.ru
+%{geminstdir}/*.rb
+%{geminstdir}/Rakefile
+%{geminstdir}/views
+%{geminstdir}/lib
+%{geminstdir}/public/images
+%{geminstdir}/public/stylesheets
+%{geminstdir}/public/favicon.ico
 %{gemdir}/cache/%{gemname}-%{version}.gem
 %{gemdir}/specifications/%{gemname}-%{version}.gemspec
 # MIT
 %{gemdir}/gems/%{gemname}-%{version}/public/javascripts
 
-%changelog
-* Mon Apr 26 2010 Michal Fojtik <mfojtik@packager> - 0.0.1-1
-- Initial package
+%files doc
+%defattr(-, root, root, -)
+%{gemdir}/doc/%{gemname}-%{version}
+%{geminstdir}/tests
+%{geminstdir}/support
+%{geminstdir}/%{gemname}.gemspec
 
-* Mon Apr 26 2010 Michal Fojtik <mfojtik@packager> - 0.0.1-2
-- Fixed broken dependencies
-- Added new launcher for Fedora
+%changelog
+* Mon Jan 31 2011 Michal Fojtik <mfojtik@redhat.com> - 0.2.0-1
+- Initial package

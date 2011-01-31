@@ -1,4 +1,3 @@
-#
 # Copyright (C) 2009  RimuHosting Ltd
 # Author: Ivan Meredith <ivan@ivan.net.nz>
 #

@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+#
+# deltacloud-core       startup script for deltacloud-core server
+#
+# chkconfig: - 97 03
+# description: deltacloud-core is primary server process for the \
+#    Deltacloud Core component.
+#
+
+[ -r /etc/sysconfig/deltacloud-core ] && . /etc/sysconfig/deltacloud-core
+
+ENV="${ENV:-production}"
+DRIVER="${DRIVER:-ec2}"
+PORT="${PORT:-3002}"
+LOCKFILE="${LOCKFILE:-/var/lock/subsys/deltacloud-core }"
+LOGFILE="${LOGFILE:-/var/log/deltacloud-core/$DRIVER.log}"
+
+[ ! -d /var/log/deltacloud-core ] && mkdir -p /var/log/deltacloud-core
+
+PROG=/usr/bin/deltacloudd
+
+. /etc/init.d/functions
+
+start() {
+    echo -n "Starting deltacloud-core: "
+
+    $PROG -i $DRIVER -e $ENV -p $PORT >> $LOGFILE 2>&1 &
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ] && touch $LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+stop() {
+    echo -n "Shutting down deltacloud-core: "
+    RETVAL=$?
+    killall deltacloudd
+    if [ $RETVAL -eq 0 ] && rm -f $LOCKFILE ; then
+      echo_success
+      echo
+    else
+      echo_failure
+      echo
+    fi
+}
+
+case "$1" in
+    start)
+      start
+      ;;
+    stop)
+      stop
+      ;;
+    restart)
+      stop
+      start
+      ;;
+    reload)
+      ;;
+    force-reload)
+      restart
+      ;;
+    status)
+      status $PROG
+      RETVAL=$?
+      ;;
+    *)
+      echo "Usage: deltacloud-core {start|stop|restart|status}"
+      exit 1
+  ;;
+esac
+
+exit $RETVAL
