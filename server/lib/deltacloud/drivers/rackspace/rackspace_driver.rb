@@ -166,7 +166,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
 # Buckets
 #--
-  def buckets(credentials, opts)
+  def buckets(credentials, opts = {})
     bucket_list = []
     cf = cloudfiles_client(credentials)
     safely do
@@ -182,7 +182,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
 # Create Bucket
 #--
-  def create_bucket(credentials, name, opts)
+  def create_bucket(credentials, name, opts = {})
     bucket = nil
     cf = cloudfiles_client(credentials)
     safely do
@@ -195,7 +195,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
 # Delete Bucket
 #--
-  def delete_bucket(credentials, name, opts)
+  def delete_bucket(credentials, name, opts = {})
     cf = cloudfiles_client(credentials)
     safely do
       cf.delete_container(name)
@@ -205,7 +205,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
 # Blobs
 #--
-  def blobs(credentials, opts)
+  def blobs(credentials, opts = {})
     cf = cloudfiles_client(credentials)
     blobs = []
     safely do
@@ -221,7 +221,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #-
 # Blob data
 #-
-  def blob_data(credentials, bucket_id, blob_id, opts)
+  def blob_data(credentials, bucket_id, blob_id, opts = {})
     cf = cloudfiles_client(credentials)
     cf.container(bucket_id).object(blob_id).data_stream do |chunk|
       yield chunk
@@ -231,18 +231,25 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
 # Create Blob
 #--
-  def create_blob(credentials, bucket_id, blob_id, blob_data, opts=nil)
+  def create_blob(credentials, bucket_id, blob_id, blob_data, opts={})
     cf = cloudfiles_client(credentials)
-    #must first create the object using cloudfiles_client.create_object
-    #then can write using object.write(data)
-    object = cf.container(bucket_id).create_object(blob_id)
-    #blob_data is a construct with data in .tempfile and content-type in {:type}
-    res = object.write(blob_data[:tempfile], {'Content-Type' => blob_data[:type]})
+    #insert ec2-specific header for user metadata ... X-Object-Meta-KEY = VALUE
+    opts.gsub_keys("HTTP_X_Deltacloud_Blobmeta_", "X-Object-Meta-")
+    opts['Content-Type'] = blob_data[:type]
+    object = nil
+    safely do
+      #must first create the object using cloudfiles_client.create_object
+      #then can write using object.write(data)
+      object = cf.container(bucket_id).create_object(blob_id)
+      #blob_data is a construct with data in .tempfile and content-type in {:type}
+      res = object.write(blob_data[:tempfile], opts)
+    end
     Blob.new( { :id => object.name,
                 :bucket => object.container.name,
                 :content_length => blob_data[:tempfile].length,
                 :content_type => blob_data[:type],
-                :last_modified => ''
+                :last_modified => '',
+                :user_metadata => opts.select{|k,v| k.match(/^X-Object-Meta-/i)}
               }
             )
   end
@@ -250,7 +257,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
 # Delete Blob
 #--
-  def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+  def delete_blob(credentials, bucket_id, blob_id, opts={})
     cf = cloudfiles_client(credentials)
     cf.container(bucket_id).delete_object(blob_id)
   end
@@ -292,7 +299,8 @@ private
                  :bucket => cf_object.container.name,
                  :content_length => cf_object.bytes,
                  :content_type => cf_object.content_type,
-                 :last_modified => cf_object.last_modified
+                 :last_modified => cf_object.last_modified,
+                 :user_metadata => cf_object.metadata
               })
   end
 

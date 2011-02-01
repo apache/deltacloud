@@ -324,7 +324,7 @@ module Deltacloud
         end
 
 
-        def buckets(credentials, opts)
+        def buckets(credentials, opts={})
           buckets = []
           safely do
             s3_client = new_client(credentials, :s3)
@@ -357,7 +357,7 @@ module Deltacloud
           end
         end
 
-        def blobs(credentials, opts = nil)
+        def blobs(credentials, opts = {})
           s3_client = new_client(credentials, :s3)
           blobs = []
           safely do
@@ -373,25 +373,29 @@ module Deltacloud
         #--
         # Create Blob
         #--
-        def create_blob(credentials, bucket_id, blob_id, data = nil, opts = nil)
+        def create_blob(credentials, bucket_id, blob_id, data = nil, opts = {})
           s3_client = new_client(credentials, :s3)
           #data is a construct with the temporary file created by server @.tempfile
           #also file[:type] will give us the content-type
           res = nil
           # File stream needs to be reopened in binary mode for whatever reason
           file = File::open(data[:tempfile].path, 'rb')
+          #insert ec2-specific header for user metadata ... x-amz-meta-KEY = VALUE
+          opts.gsub_keys('HTTP_X_Deltacloud_Blobmeta_', 'x-amz-meta-')
+          opts["Content-Type"] = data[:type]
           safely do
             res = s3_client.interface.put(bucket_id, 
                                         blob_id, 
                                         file, 
-                                        {"Content-Type" => data[:type]})
+                                        opts)
           end
           #create a new Blob object and return that
           Blob.new( { :id => blob_id,
                       :bucket => bucket_id,
                       :content_length => data[:tempfile].length,
                       :content_type => data[:type],
-                      :last_modified => ''
+                      :last_modified => '',
+                      :user_metadata => opts.select{|k,v| k.match(/^x-amz-meta-/i)}
                     }
                   )
         end
@@ -399,7 +403,7 @@ module Deltacloud
         #--
         # Delete Blob
         #--  
-        def delete_blob(credentials, bucket_id, blob_id, opts=nil)
+        def delete_blob(credentials, bucket_id, blob_id, opts={})
           s3_client = new_client(credentials, :s3)
           safely do
             s3_client.interface.delete(bucket_id, blob_id)
@@ -407,7 +411,7 @@ module Deltacloud
         end
 
 
-        def blob_data(credentials, bucket_id, blob_id, opts)
+        def blob_data(credentials, bucket_id, blob_id, opts={})
           s3_client = new_client(credentials, :s3)
           safely do
             s3_client.interface.get(bucket_id, blob_id) do |chunk|
@@ -522,7 +526,7 @@ module Deltacloud
             'us-east-1' => 'elasticloadbalancing.us-east-1.amazonaws.com',
             'us-west-1' => 'elasticloadbalancing.us-west-1.amazonaws.com'
           },
-          
+
           's3' => {
             'us-east-1' => 's3.amazonaws.com',
             'us-west-1' => 's3-us-west-1.amazonaws.com',
@@ -587,7 +591,8 @@ module Deltacloud
             :bucket => s3_object.bucket.name.to_s,
             :content_length => s3_object.headers['content-length'],
             :content_type => s3_object.headers['content-type'],
-            :last_modified => s3_object.last_modified
+            :last_modified => s3_object.last_modified,
+            :user_metadata => s3_object.meta_headers
           )  
         end
 

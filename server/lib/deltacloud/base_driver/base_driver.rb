@@ -186,12 +186,12 @@ module Deltacloud
       storage_snapshots(credentials, opts).first if has_capability?(:storage_snapshots)
     end
 
-    def bucket(credentials, opts = nil)
+    def bucket(credentials, opts = {})
       #list of objects within bucket
       buckets(credentials, opts).first if has_capability?(:buckets)
     end
     
-    def blob(credentials, opts = nil)
+    def blob(credentials, opts = {})
       blobs(credentials, opts).first if has_capability?(:blobs)
     end
 

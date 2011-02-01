@@ -318,7 +318,7 @@ class MockDriver < Deltacloud::BaseDriver
 #--
 # Buckets
 #--
-  def buckets(credentials, opts=nil)
+  def buckets(credentials, opts={})
     check_credentials(credentials)
     buckets=[]
      Dir[ "#{@storage_root}/buckets/*.yml" ].each do |bucket_file|
@@ -334,7 +334,7 @@ class MockDriver < Deltacloud::BaseDriver
 #--
 # Create bucket
 #--
-  def create_bucket(credentials, name, opts=nil)
+  def create_bucket(credentials, name, opts={})
     check_credentials(credentials)
     bucket = {
       :id => name,
@@ -349,7 +349,7 @@ class MockDriver < Deltacloud::BaseDriver
 #--
 # Delete bucket
 #--
-  def delete_bucket(credentials, name, opts=nil)
+  def delete_bucket(credentials, name, opts={})
     bucket = bucket(credentials, {:id => name})
     unless (bucket.size == "0")
      raise Deltacloud::BackendError.new(403, self.class.to_s, "bucket-not-empty", "delete operation not valid for non-empty bucket")
@@ -362,7 +362,7 @@ class MockDriver < Deltacloud::BaseDriver
 #--
 # Blobs
 #--
-  def blobs(credentials, opts = nil)
+  def blobs(credentials, opts = {})
     check_credentials(credentials)
     blobs=[]
     Dir[ "#{@storage_root}/buckets/blobs/*.yml" ].each do |blob_file|
@@ -378,7 +378,7 @@ class MockDriver < Deltacloud::BaseDriver
 #--
 # Blob content
 #--
-  def blob_data(credentials, bucket_id, blob_id, opts = nil)
+  def blob_data(credentials, bucket_id, blob_id, opts = {})
     check_credentials(credentials)
     blob=nil
     Dir[ "#{@storage_root}/buckets/blobs/*.yml" ].each do |blob_file|

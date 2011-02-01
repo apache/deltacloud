@@ -626,7 +626,21 @@ post '/api/buckets/:bucket' do
   bucket_id = params[:bucket]
   blob_id = params['blob_id']
   blob_data = params['blob_data']
-  @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data )
+  user_meta = {}
+#first try get blob_metadata from params (i.e., passed by http form post, e.g. browser)
+  max = params[:meta_params]
+  if(max)
+    (1..max.to_i).each do |i|
+      key = params[:"meta_name#{i}"]
+      key = "HTTP_X_Deltacloud_Blobmeta_#{key}"
+      value = params[:"meta_value#{i}"]
+      user_meta[key] = value
+    end #max.each do
+  else #can try to get blob_metadata from http headers
+    meta_array = request.env.select{|k,v| k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
+    meta_array.inject({}){ |result, array| user_meta[array.first.upcase] = array.last}
+  end #end if
+  @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
   respond_to do |format|
     format.html { haml :"blobs/show"}
     format.xml { haml :"blobs/show" }

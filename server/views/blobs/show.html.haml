@@ -19,6 +19,12 @@
     %dt Content
     %dd
       =link_to 'Blob content', bucket_url(@blob.bucket) + '/' + @blob.id + '/content'
+    %dt User_Metadata
+    %dd
+      -@blob.user_metadata.each do |k,v|
+        %b #{k} :
+        #{v}
+        %br
     %dt Delete this Blob
     %dd
       %form{ :action => bucket_url(@blob.bucket) + '/' + @blob.id , :method => :post }
