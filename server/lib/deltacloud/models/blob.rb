@@ -24,5 +24,6 @@ class Blob < BaseModel
   attr_accessor :content_type
   attr_accessor :last_modified
   attr_accessor :content
+  attr_accessor :user_metadata
 
 end

@@ -62,3 +62,22 @@ rescue LoadError => e
     end
   end
 end
+
+class Hash
+
+  def gsub_keys(pattern, replacement)
+    pattern.upcase!
+    replacement.upcase!
+    remove = []
+    self.each_key do |key|
+      if key.to_s.match(pattern)
+         new_key = key.to_s.gsub(pattern, replacement)
+         self[new_key] = self[key]
+         remove << key
+      end #key.match
+    end # each_key do
+    #remove the original keys
+    self.delete_if{|k,v| remove.include?(k)}
+  end #def
+
+end #class
