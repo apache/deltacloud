@@ -92,7 +92,7 @@
 	padding: 0;
 	margin: 0;
 	outline: none;
-	overflow: hidden;
+	overflow: scroll;
 }
 
 #fancybox-hide-sel-frame {
