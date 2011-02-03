@@ -273,13 +273,13 @@
         <h4><code>reboot_instance(credentials, id)</code></h4>
         
         <p>The <code>reboot_instance(...)</code> method should trigger a running instance to
-        be rebooted. This method has no return value.</p>
+        be rebooted. This method should return an <code>Instance</code> object.</p>
         
         <h4><code>stop_instance(credentials, id)</code></h4>
         
-        <p>The <code>stop_instance(...)</code> method should trigger a running instance to
-        be stopped. This method has no return value. A cloud provider may
-        allow restarting an instance, or may not.</p>
+        <p>The <code>stop_instance(...)</code> method should trigger a running instance to be
+        stopped. This method should return an <code>Instance</code> object. A cloud provider
+        may allow restarting an instance, or may not.</p>
         
         <h4><code>destroy_instance(credentials, id)</code></h4>
         

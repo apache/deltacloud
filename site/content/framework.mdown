@@ -199,13 +199,13 @@ one compatible with the image should be used as the default.
 #### `reboot_instance(credentials, id)`
 
 The `reboot_instance(...)` method should trigger a running instance to
-be rebooted. This method has no return value.
+be rebooted. This method should return an `Instance` object.
 
 #### `stop_instance(credentials, id)`
 
-The `stop_instance(...)` method should trigger a running instance to
-be stopped. This method has no return value. A cloud provider may
-allow restarting an instance, or may not.
+The `stop_instance(...)` method should trigger a running instance to be
+stopped. This method should return an `Instance` object. A cloud provider
+may allow restarting an instance, or may not.
 
 #### `destroy_instance(credentials, id)`
 
