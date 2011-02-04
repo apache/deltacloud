@@ -8,6 +8,16 @@ filter:
 
 # Deltacloud Roadmap
 
+The current roadmap is maintained in
+[teambox](https://teambox.com/projects/deltacloud/task_lists) where anybody
+can comment on tasks, and suggest new features.
+
+# Ye olde roadmap
+
+*This list is no longer maintained. It's only here for historical
+purposes. To see the current roadmap, go to
+[teambox](https://teambox.com/projects/deltacloud/task_lists)*
+
 This page lists the items we are currently working on for the next release,
 and a longer list of items we will address after the next release, roughly
 in order of priority.

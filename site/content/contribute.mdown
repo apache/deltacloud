@@ -32,6 +32,10 @@ through the mailing list and all source code changes are tracked publicly.
   Patches are very welcome. Please send them to the [development
   list][3]. Patches should be generated with [`git`&nbsp;`format-patch`][4]
   and sent to the list with [`git`&nbsp;`send-email`][5].
+* <strong>Roadmap</strong><br/>
+  We maintain our roadmap in
+  [teambox](https://teambox.com/projects/deltacloud/task_lists) so that
+  anyone can comment on tasks and suggest new ones.
 
   [3]: http://mail-archives.apache.org/mod_mbox/incubator-deltacloud-dev/
   [4]: http://kernel.org/pub/software/scm/git/docs/git-format-patch.html
