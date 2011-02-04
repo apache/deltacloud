@@ -170,13 +170,16 @@ class RackspaceDriver < Deltacloud::BaseDriver
     bucket_list = []
     cf = cloudfiles_client(credentials)
     safely do
-      cf.containers.each do |container_name|
-        current = cf.container(container_name)
-        bucket_list << convert_container(current)
-      end #containers.each
+      unless (opts[:id].nil?)
+        bucket = cf.container(opts[:id])
+        bucket_list << convert_container(bucket)
+      else
+        cf.containers.each do |container_name|
+          bucket_list << Bucket.new({:id => container_name, :name => container_name})
+        end #containers.each
+      end #unless
     end #safely
-    bucket_list = filter_on(bucket_list, :id, opts)
-    bucket_list
+    filter_on(bucket_list, :id, opts)
   end
 
 #--

@@ -76,7 +76,7 @@ module ApplicationHelper
       filter.merge!(:architecture => params[:architecture]) if params[:architecture]
       filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
       filter.merge!(:state => params[:state]) if params[:state]
-      filter = nil if filter.keys.size.eql?(0)
+      filter = {} if filter.keys.size.eql?(0)
       singular = model.to_s.singularize.to_sym
       @benchmark = Benchmark.measure do
         @elements = driver.send(model.to_sym, credentials, filter)

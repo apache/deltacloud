@@ -323,16 +323,20 @@ module Deltacloud
           end
         end
 
-
         def buckets(credentials, opts={})
           buckets = []
           safely do
             s3_client = new_client(credentials, :s3)
-            bucket_list = s3_client.buckets
-            bucket_list.each do |current|
-              buckets << convert_bucket(current)
-            end
-          end
+            unless (opts[:id].nil?)
+              bucket = s3_client.bucket(opts[:id])
+              buckets << convert_bucket(bucket)
+            else
+              bucket_list = s3_client.buckets
+              bucket_list.each do |current|
+                buckets << Bucket.new({:name => current.name, :id => current.name})
+              end #bucket_list.each
+            end #if
+          end #safely
           filter_on(buckets, :id, opts)
         end
 
@@ -509,7 +513,7 @@ module Deltacloud
                     when :ec2 then Aws::Ec2
                     when :s3 then Aws::S3
                   end
-          klass.new(credentials.user, credentials.password, :server => endpoint_for_service(type))
+          klass.new(credentials.user, credentials.password, {:server => endpoint_for_service(type), :connection_mode => :per_thread})
         end
 
         DEFAULT_SERVICE_ENDPOINTS = {
@@ -580,7 +584,7 @@ module Deltacloud
           Bucket.new(
             :id => s3_bucket.name,
             :name => s3_bucket.name,
-            :size => s3_bucket.keys.length,
+            :size => blob_list.length,
             :blob_list => blob_list
           )
         end

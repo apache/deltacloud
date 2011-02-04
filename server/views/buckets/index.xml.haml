@@ -3,8 +3,6 @@
   - @elements.each do |bucket|
     %bucket{:href => bucket_url(bucket.id), :id => bucket.id}
       - bucket.attributes.select{ |attr| attr!=:id }.each do |attribute|
-        - unless attribute == :blob_list
-          - haml_tag("#{attribute}".tr('-', '_'), :<) do
-            - haml_concat bucket.send(attribute)
-      - bucket.blob_list.each do |blb|
-        %blob{ :id => blb, :href => bucket_url(bucket.id) +"/#{blb}"}
+        - haml_tag("#{attribute}".tr('-', '_'), :<) do
+          - haml_concat bucket.send(attribute)
+

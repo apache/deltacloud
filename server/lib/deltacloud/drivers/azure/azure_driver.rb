@@ -36,10 +36,15 @@ class AzureDriver < Deltacloud::BaseDriver
     buckets = []
     azure_connect(credentials)
     safely do
-      WAZ::Blobs::Container.list.each do |waz_container|
-        buckets << convert_container(waz_container)
-      end
-    end
+      unless (opts[:id].nil?)
+        waz_bucket =  WAZ::Blobs::Container.find(opts[:id])
+        buckets << convert_container(waz_bucket)
+      else
+        WAZ::Blobs::Container.list.each do |waz_container|
+          buckets << Bucket.new({:id =>waz_container.name, :name => waz_container.name})
+        end #container.list.each
+      end #unless
+    end #safely
     buckets = filter_on(buckets, :id, opts)
   end
 
