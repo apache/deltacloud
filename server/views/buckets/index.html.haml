@@ -11,11 +11,6 @@
         ID
       %th
         Name
-      %th
-        Size
-      %th
-        Blob List
-      %th
 
   %tbody
     - @buckets.each do |bucket|
@@ -25,10 +20,4 @@
         %td
           = bucket.name
         %td
-          = bucket.size
-        %td
-          -bucket.blob_list.each do |blob|
-            = blob
-        %td
-          -if bucket.size == 0
-            =link_to_action 'Delete', destroy_bucket_url(bucket.name), :delete
+          =link_to_action 'Delete', destroy_bucket_url(bucket.name), :delete
