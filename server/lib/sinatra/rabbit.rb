@@ -36,6 +36,11 @@ module Sinatra
         @description = ""
         instance_eval(&block) if block_given?
         generate_documentation
+        generate_options
+      end
+
+      def http_method
+        @method
       end
 
       def standard?
@@ -55,6 +60,21 @@ module Sinatra
             format.html { haml :'docs/operation' }
             format.xml { haml :'docs/operation' }
           end
+        end
+      end
+
+      def generate_options
+        current_operation = self
+        ::Sinatra::Application.options("/api/#{current_operation.collection.name}/#{current_operation.name}") do
+          required_params = current_operation.effective_params(driver).collect do |name, validation| 
+            name.to_s if validation.type.eql?(:required)
+          end.compact.join(',')
+          optional_params = current_operation.effective_params(driver).collect do |name, validation| 
+            name.to_s if validation.type.eql?(:optional)
+          end.compact.join(',')
+          headers 'X-Required-Parameters' => required_params
+          headers 'X-Optional-Parameters' => optional_params
+          [200, '']
         end
       end
 
@@ -142,6 +162,8 @@ module Sinatra
         @operations = {}
         instance_eval(&block) if block_given?
         generate_documentation
+        generate_head
+        generate_options
       end
 
       # Set/Return description for collection
@@ -150,6 +172,24 @@ module Sinatra
       def description(text='')
         return @description if text.blank?
         @description = text
+      end
+
+      def generate_head
+        current_collection = self
+        ::Sinatra::Application.head("/api/#{name}") do
+          methods_allowed = current_collection.operations.collect { |o| o[1].method.to_s.upcase }.uniq.join(',')
+          headers 'Allow' => "HEAD,OPTIONS,#{methods_allowed}"
+          [200, '']
+        end
+      end
+
+      def generate_options
+        current_collection = self
+        ::Sinatra::Application.options("/api/#{name}") do
+          operations_allowed = current_collection.operations.collect { |o| o[0] }.join(',')
+          headers 'X-Operations-Allowed' => operations_allowed
+          [200, '']
+        end
       end
 
       def generate_documentation
@@ -288,3 +328,13 @@ class String
           downcase
   end
 end
+
+configure do
+  class << Sinatra::Base
+    def options(path, opts={}, &block)
+      route 'OPTIONS', path, opts, &block
+    end
+  end
+  Sinatra::Delegator.delegate :options
+end
+
