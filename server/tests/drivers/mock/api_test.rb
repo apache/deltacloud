@@ -66,5 +66,12 @@ module DeltacloudUnitTest
         last_response.status.should == 404
       end
     end
+
+    def test_it_repond_to_head
+      head '/api/instances'
+      last_response.headers['Allow'].should_not == nil
+      last_response.headers['Allow'].split(',').include?('HEAD').should == true
+    end
+
   end
 end
