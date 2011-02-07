@@ -66,12 +66,11 @@ end
 class Hash
 
   def gsub_keys(pattern, replacement)
-    pattern.upcase!
-    replacement.upcase!
+    rgx_pattern = Regexp.compile(pattern, true)
     remove = []
     self.each_key do |key|
-      if key.to_s.match(pattern)
-         new_key = key.to_s.gsub(pattern, replacement)
+      if key.to_s.match(rgx_pattern)
+         new_key = key.to_s.gsub(rgx_pattern, replacement)
          self[new_key] = self[key]
          remove << key
       end #key.match

@@ -133,6 +133,36 @@ class AzureDriver < Deltacloud::BaseDriver
     the_blob.destroy!
   end
 
+#-
+# Blob Metadada
+#-
+  def blob_metadata(credentials, opts = {})
+    azure_connect(credentials)
+    all_meta = nil
+    safely do
+      blob = WAZ::Blobs::Container.find(opts['bucket'])[opts[:id]]
+      return nil unless blob
+      all_meta = blob.metadata
+    end
+    user_meta = {}
+    all_meta.inject({}){|result_hash, (k,v)| user_meta[k]=v if k.to_s.match(/x_ms_meta/i)}
+    user_meta.gsub_keys('x_ms_meta_','')
+  end
+
+#-
+# Update Blob Metadata
+#-
+  def update_blob_metadata(credentials, opts={})
+    azure_connect(credentials)
+    meta_hash = opts['meta_hash']
+    meta_hash.gsub_keys("HTTP_X_Deltacloud_Blobmeta_", "x-ms-meta-")
+    safely do
+      the_blob = WAZ::Blobs::Container.find(opts['bucket'])[opts[:id]]
+      the_blob.put_metadata!(meta_hash)
+    end
+  end
+
+
   private
 
   def azure_connect(credentials)

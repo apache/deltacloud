@@ -147,9 +147,6 @@ class RackspaceDriver < Deltacloud::BaseDriver
     true
   end
 
-
-
-
   define_instance_states do
     start.to( :pending )          .on( :create )
 
@@ -263,6 +260,32 @@ class RackspaceDriver < Deltacloud::BaseDriver
   def delete_blob(credentials, bucket_id, blob_id, opts={})
     cf = cloudfiles_client(credentials)
     cf.container(bucket_id).delete_object(blob_id)
+  end
+
+#-
+# Blob Metadada
+#-
+  def blob_metadata(credentials, opts = {})
+    cf = cloudfiles_client(credentials)
+    meta = {}
+    safely do
+      meta = cf.container(opts['bucket']).object(opts[:id]).metadata
+    end
+    meta
+  end
+
+#-
+# Update Blob Metahash
+#-
+  def update_blob_metadata(credentials, opts={})
+    cf = cloudfiles_client(credentials)
+    meta_hash = opts['meta_hash']
+    #the set_metadata method actually places the 'X-Object-Meta-' prefix for us:
+    meta_hash.gsub_keys('HTTP_X_Deltacloud_Blobmeta_', '')
+    safely do
+      blob = cf.container(opts['bucket']).object(opts[:id])
+      blob.set_metadata(meta_hash)
+    end 
   end
 
 private

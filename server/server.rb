@@ -655,6 +655,33 @@ delete '/api/buckets/:bucket/:blob' do
   redirect(bucket_url(bucket_id))
 end
 
+#get blob metadata
+head '/api/buckets/:bucket/:blob' do
+  @blob_id = params[:blob]
+  @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
+  if @blob_metadata
+      @blob_metadata.each do |k,v|
+        headers["X-Deltacloud-Blobmeta-#{k}"] = v
+      end
+   else
+    report_error(404, 'not_found')
+  end
+end
+
+#update blob metadata
+post '/api/buckets/:bucket/:blob' do
+  meta_hash = {}
+  request.env.inject({}){|current, (k,v)| meta_hash[k] = v if k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
+  success = driver.update_blob_metadata(credentials, {'bucket'=>params[:bucket], :id =>params[:blob], 'meta_hash' => meta_hash})
+  if(success)
+    meta_hash.each do |k,v|
+      headers["X-Deltacloud-Blobmeta-#{k}"] = v
+    end
+  else
+    report_error(404, 'not_found') #FIXME is this the right error code?
+  end
+end
+
 #Get a particular blob's particulars (not actual blob data)
 get '/api/buckets/:bucket/:blob' do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
