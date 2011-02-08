@@ -20,6 +20,7 @@
 module Deltacloud
   DRIVERS = {
     :ec2 => { :name => "EC2" },
+	:sbc => { :name => "SBC" },
     :rackspace => { :name => "Rackspace" },
     :gogrid => { :name => "Gogrid" },
     :rhevm => { :name => "RHEVM" },
