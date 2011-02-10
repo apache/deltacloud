@@ -36,6 +36,7 @@ module Deltacloud
 class GogridDriver < Deltacloud::BaseDriver
 
   feature :instances, :authentication_password
+  feature :instances, :sandboxing
 
   def hardware_profiles(credentials, opts={})
     client = new_client(credentials)
@@ -87,7 +88,7 @@ class GogridDriver < Deltacloud::BaseDriver
     end
   end
 
-  def create_instance(credentials, image_id, opts=nil)
+  def create_instance(credentials, image_id, opts={})
     server_ram = nil
     if opts[:hwp_memory]
       mem = opts[:hwp_memory].to_i
@@ -96,14 +97,15 @@ class GogridDriver < Deltacloud::BaseDriver
       server_ram = "512MB"
     end
     client = new_client(credentials)
-    name = (opts[:name] && opts[:name]!='') ? opts[:name] : get_random_instance_name
+    params = {
+      'name' => opts[:name] || get_random_instance_name,
+      'image' => image_id,
+      'server.ram' => server_ram,
+      'ip' => get_free_ip_from_realm(credentials, opts[:realm_id] || '1')
+    }
+    params.merge!('isSandbox' => 'true') if opts[:sandbox] 
     safely do
-      instance = client.request('grid/server/add', {
-        'name' => name,
-        'image' => image_id,
-        'server.ram' => server_ram,
-        'ip' => get_free_ip_from_realm(credentials, opts[:realm_id] || '1')
-      })['list'].first
+      instance = client.request('grid/server/add', params)['list'].first
       if instance
         login_data = get_login_data(client, instance[:id])
         if login_data['username'] and login_data['password']
@@ -285,8 +287,6 @@ class GogridDriver < Deltacloud::BaseDriver
     'Unregistering instances from load balancer is not supported in GoGrid')
   end
 
-
-
   def key(credentials, opts=nil)
     keys(credentials, opts).first
   end
@@ -425,8 +425,8 @@ class GogridDriver < Deltacloud::BaseDriver
         opts[:hwp_memory] = (mem.to_i * 1024).to_s
       end
     end
-    prof = InstanceProfile.new("server", opts)
 
+    prof = InstanceProfile.new("server", opts)
     hwp_name = instance['image']['name']
     state = convert_server_state(instance['state']['name'], instance['id'])
 

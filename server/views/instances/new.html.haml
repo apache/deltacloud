@@ -14,6 +14,11 @@
       %label
         Number of instances:
       %input{ :type => :text, :value => "1", :name => :instance_count }
+  -if driver_has_feature?(:sandboxing)
+    %p
+      %label
+        Sandbox?:
+      %input{ :type => :checkbox, :value => "1", :name => :sandbox }
   -if driver_has_feature?(:register_to_load_balancer)
     %p
       %label
