@@ -204,5 +204,12 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :sandboxing do
+      description "Allow lanuching sandbox images"
+      operation :create do
+        param :sandbox, :string,  :optional
+      end
+    end
+
   end
 end
