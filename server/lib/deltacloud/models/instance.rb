@@ -30,6 +30,8 @@ class Instance < BaseModel
   attr_accessor :launch_time
   attr_accessor :keyname
   attr_accessor :authn_error
+  attr_accessor :username
+  attr_accessor :password
 
   def to_s
     name

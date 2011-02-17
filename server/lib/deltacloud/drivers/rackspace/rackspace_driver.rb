@@ -17,8 +17,8 @@
 # under the License.
 
 require 'deltacloud/base_driver'
-require 'deltacloud/drivers/rackspace/rackspace_client'
 require 'cloudfiles'
+require 'cloudservers'
 
 module Deltacloud
   module Drivers
@@ -27,20 +27,21 @@ module Deltacloud
 class RackspaceDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name
+  feature :instances, :authentication_password
 
   def supported_collections
-    DEFAULT_COLLECTIONS + [ :buckets ]
+    DEFAULT_COLLECTIONS + [ :buckets ] - [ :storage_snapshots, :storage_volumes ]
   end
 
-  def hardware_profiles(credentials, opts = nil)
-    racks = new_client( credentials )
-    results=""
+  def hardware_profiles(credentials, opts = {})
+    rs = new_client( credentials )
+    results = []
     safely do
-      results = racks.list_flavors.map do |flav|
-        HardwareProfile.new(flav["id"].to_s) do
+      results = rs.list_flavors.collect do |f|
+        HardwareProfile.new(f[:id].to_s) do
           architecture 'x86_64'
-          memory flav["ram"].to_i
-          storage flav["disk"].to_i
+          memory f[:ram].to_i
+          storage f[:disk].to_i
         end
       end
     end
@@ -48,22 +49,21 @@ class RackspaceDriver < Deltacloud::BaseDriver
   end
 
   def images(credentials, opts=nil)
-    racks = new_client( credentials )
-    results=""
+    rs = new_client(credentials)
+    results = []
     safely do
-      results = racks.list_images.map do |img|
-        Image.new( {
-                     :id=>img["id"].to_s,
-                     :name=>img["name"],
-                     :description => img["name"] + " " + img["status"] + "",
-                     :owner_id=>"root",
-                     :architecture=>'x86_64'
-                   } )
+      results = rs.list_images.collect do |img|
+        Image.new(
+          :id => img[:id].to_s,
+          :name => img[:name],
+          :description => img[:name],
+          :owner_id => credentials.user,
+          :state => img[:status],
+          :architecture => 'x86_64'
+        )
       end
     end
-    results.sort_by{|e| [e.description]}
-    results = filter_on( results, :id, opts )
-    results
+    filter_on( results, :id, opts )
   end
 
   #rackspace does not at this stage have realms... its all US/TX, all the time (at least at time of writing)
@@ -75,67 +75,96 @@ class RackspaceDriver < Deltacloud::BaseDriver
     } )]
   end
 
-  def reboot_instance(credentials, id)
-    racks = new_client(credentials)
-    safely do
-      racks.reboot_server(id)
-    end
-    Instance.new( {
-      :id => id,
-      :state => "RUNNING",
-      :actions => instance_actions_for( "RUNNING" ),
-    } )
-  end
-
-  def stop_instance(credentials, id)
-    destroy_instance(credentials, id)
-  end
-
-  def destroy_instance(credentials, id)
-    racks = new_client(credentials)
-    safely do
-      racks.delete_server(id)
-    end
-    Instance.new( {
-      :id => id,
-      :state => "STOPPED",
-      :actions => instance_actions_for( "STOPPED" ),
-    } )
-  end
-
-
   #
   # create instance. Default to flavor 1 - really need a name though...
   # In rackspace, all flavors work with all images.
   #
   def create_instance(credentials, image_id, opts)
-    racks = new_client( credentials )
-    hwp_id = opts[:hwp_id] || 1
-    name = Time.now.to_s
-    if (opts[:name]) then name = opts[:name] end
+    rs = new_client( credentials )
+    result = nil
     safely do
-      return convert_srv_to_instance(racks.start_server(image_id, hwp_id, name))
+      server = rs.create_server(:name => opts[:name] || Time.now.to_s, 
+                       :imageId => image_id.to_i, 
+                       :flavorId => (opts[:hwp_id] && opts[:hwp_id].length>0) ? opts[:hwp_id].to_i : 1)
+      result = convert_instance_after_create(server, credentials.user, server.adminPass)
+    end
+    result
+  end
+
+  # TODO: This action is reserved for create image from instance
+  #
+  #def create_image(credentials, opts={})
+  #  rs = new_client(credentials)
+  #  safely do
+  #    server = rs.get_server(opts[:id].to_i)
+  #    image = server.create_image(opts[:name])
+  #    Image.new(
+  #      :id => image.id.to_s,
+  #      :name => image.name,
+  #      :description => image.name,
+  #      :owner_id => credentials.user,
+  #      :state => image.status,
+  #      :architecture => 'x86_64'
+  #    )
+  #  end
+  #end
+
+  def run_on_instance(credentials, opts={})
+    target = instance(credentials, :id => opts[:id])
+    param = {}
+    param[:credentials] = {
+      :username => 'root',
+      :password => opts[:password]
+    }
+    param[:port] = opts[:port] || '22'
+    param[:ip] = target.public_addresses.first
+    safely do
+      Deltacloud::Runner.execute(opts[:cmd], param)
     end
   end
+
+  def reboot_instance(credentials, instance_id)
+    rs = new_client(credentials)
+    safely do
+      server = rs.get_server(instance_id.to_i)
+      server.reboot!
+      convert_instance_after_create(server, credentials.user)
+    end
+  end
+
+  def destroy_instance(credentials, instance_id)
+    rs = new_client(credentials)
+    safely do
+      server = rs.get_server(instance_id.to_i)
+      server.delete!
+      convert_instance_after_create(server, credentials.user)
+    end
+  end
+
+  alias_method :stop_instance, :destroy_instance
 
   #
   # Instances
   #
-  def instances(credentials, opts=nil)
-    racks = new_client(credentials)
-    instances = []
+  def instances(credentials, opts={})
+
+    rs = new_client(credentials)
+    insts = []
+
     safely do
-      if (opts.nil?)
-        instances = racks.list_servers.map do |srv|
-          convert_srv_to_instance(srv)
-        end
+      if opts[:id]
+        server = rs.get_server(opts[:id].to_i)
+        insts << convert_instance_after_create(server, credentials.user)
       else
-        instances << convert_srv_to_instance(racks.load_server_details(opts[:id]))
+        insts = rs.list_servers_detail.collect do |server|
+          convert_instance(server, credentials.user)
+        end
       end
     end
-    instances = filter_on( instances, :id, opts )
-    instances = filter_on( instances, :state, opts )
-    instances
+
+    insts = filter_on( insts, :id, opts )
+    insts = filter_on( insts, :state, opts )
+    insts
   end
 
   def valid_credentials?(credentials)
@@ -149,14 +178,10 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
   define_instance_states do
     start.to( :pending )          .on( :create )
-
     pending.to( :running )        .automatically
-
     running.to( :running )        .on( :reboot )
     running.to( :shutting_down )  .on( :stop )
-
     shutting_down.to( :stopped )  .automatically
-
     stopped.to( :finish )         .automatically
   end
 
@@ -290,25 +315,10 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
 private
 
-  def convert_srv_to_instance(srv)
-    inst = Instance.new(:id => srv["id"].to_s,
-                        :owner_id => "root",
-                        :realm_id => "us")
-    inst.name = srv["name"]
-    inst.state = srv["status"] == "ACTIVE" ? "RUNNING" : "PENDING"
-    inst.actions = instance_actions_for(inst.state)
-    inst.image_id = srv["imageId"].to_s
-    inst.instance_profile = InstanceProfile.new(srv["flavorId"].to_s)
-    if srv["addresses"]
-      inst.public_addresses  = srv["addresses"]["public"]
-      inst.private_addresses = srv["addresses"]["private"]
-    end
-    inst
-  end
 
   def new_client(credentials)
     safely do
-      return RackspaceClient.new(credentials.user, credentials.password)
+      CloudServers::Connection.new(:username => credentials.user, :api_key => credentials.password)
     end
   end
 
@@ -328,6 +338,44 @@ private
                  :last_modified => cf_object.last_modified,
                  :user_metadata => cf_object.metadata
               })
+  end
+
+  def convert_instance_after_create(server, user_name, password='')
+    inst = Instance.new(
+      :id => server.id.to_s,
+      :realm_id => 'us',
+      :owner_id => user_name,
+      :description => server.name,
+      :name => server.name,
+      :state => (server.status == 'ACTIVE') ? 'RUNNING' : 'PENDING',
+      :architecture => 'x86_64',
+      :image_id => server.imageId.to_s,
+      :instance_profile => InstanceProfile::new(server.flavorId.to_s),
+      :public_addresses => server.addresses[:public],
+      :private_addresses => server.addresses[:private],
+      :username => 'root',
+      :password => password ? password : nil
+    )
+    inst.actions = instance_actions_for(inst.state)
+    inst
+  end
+
+  def convert_instance(server, user_name = '')
+    inst = Instance.new(
+      :id => server[:id].to_s,
+      :realm_id => 'us',
+      :owner_id => user_name,
+      :description => server[:name],
+      :name => server[:name],
+      :state => (server[:status] == 'ACTIVE') ? 'RUNNING' : 'PENDING',
+      :architecture => 'x86_64',
+      :image_id => server[:imageId].to_s,
+      :instance_profile => InstanceProfile::new(server[:flavorId].to_s),
+      :public_addresses => server[:addresses][:public],
+      :private_addresses => server[:addresses][:private]
+    )
+    inst.actions = instance_actions_for(inst.state)
+    inst
   end
 
   def cloudfiles_client(credentials)

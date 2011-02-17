@@ -73,7 +73,12 @@ module Deltacloud
         config = ssh_config(@network, @credentials, @key)
         begin
           session = nil
-          Timeout::timeout(5) do
+	  # Default timeout for connecting to an instance.
+	  # 20 seconds should be OK for most of connections, if you are
+	  # experiencing some Exceptions with Timeouts increase this value.
+	  # Please keep in mind that the HTTP request timeout is set to 60
+	  # seconds, so you need to fit into this time
+          Timeout::timeout(20) do
             session = Net::SSH.start(@network.ip, 'root', config)
           end
           session.open_channel do |channel|
