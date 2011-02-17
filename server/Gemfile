@@ -16,12 +16,21 @@ group :linode do
 end
 
 group :amazon do
-  gem 'right_aws'
-  gem 'amazon-ec2'
+  gem 'aws'
 end
 
 group 'terremark' do
   gem 'fog'
+  gem 'excon'
+end
+
+group :azure do
+  gem 'waz-blobs'
+end
+
+group :rackspace do
+  gem 'cloudservers'
+  gem 'cloudfiles'
 end
 
 group :test do

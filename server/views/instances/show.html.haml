@@ -36,6 +36,15 @@
     %dt Private Addresses
     %dd
       = @instance.private_addresses.collect { |address| "<div>#{address}</div>" }.join
+  - if @instance.password
+    %di
+      %dt Username
+      %dd
+        = @instance.username
+    %di
+      %dt Password
+      %dd
+        = @instance.password
   %di
     %dt
     %dd
