@@ -1,5 +1,7 @@
 :bucket: bucket2
-:content_length: 651922
+:content_length: 17
 :content_type: application/pdf
 :last_modified: 2009-07-21 11:12:13 +0100
-:content: "content of blob 5"
+:content:
+    content of blob 5
+:user_metadata: ''

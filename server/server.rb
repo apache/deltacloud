@@ -699,10 +699,14 @@ end
 #get the content of a particular blob
 get '/api/buckets/:bucket/:blob/content' do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
-  params['content_length'] = @blob.content_length
-  params['content_type'] = @blob.content_type
-  params['content_disposition'] = "attachment; filename=#{@blob.id}"
-  BlobStream.call(env, credentials, params)
+  if @blob
+    params['content_length'] = @blob.content_length
+    params['content_type'] = @blob.content_type
+    params['content_disposition'] = "attachment; filename=#{@blob.id}"
+    BlobStream.call(env, credentials, params)
+  else
+    report_error(404, 'not_found')
+  end
 end
 
 #Get html form for creating a new bucket

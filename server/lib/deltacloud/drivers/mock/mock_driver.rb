@@ -321,14 +321,21 @@ class MockDriver < Deltacloud::BaseDriver
   def buckets(credentials, opts={})
     check_credentials(credentials)
     buckets=[]
-     Dir[ "#{@storage_root}/buckets/*.yml" ].each do |bucket_file|
-      bucket = YAML.load( File.read( bucket_file ) )
-      bucket[:id] = File.basename( bucket_file, ".yml" )
-      bucket[:name] = bucket[:id]
-      buckets << Bucket.new( bucket )
+    safely do
+      unless (opts[:id].nil?)
+        bucket_file = File::join(@storage_root, 'buckets', "#{opts[:id]}.yml") 
+        bucket = YAML.load_file(bucket_file)
+        bucket[:id] = opts[:id]
+        bucket[:name] = bucket[:id]
+        buckets << Bucket.new( bucket )
+      else
+         Dir[ File::join(@storage_root, 'buckets', '*.yml')].each do |bucket_file|
+          bucket_id = File.basename( bucket_file, ".yml" )
+          buckets << Bucket.new( {:id => bucket_id, :name => bucket_id } )
+        end
+      end
     end
     buckets = filter_on( buckets, :id, opts )
-    buckets
   end
 
 #--
@@ -342,7 +349,7 @@ class MockDriver < Deltacloud::BaseDriver
       :size=>'0',
       :blob_list=>[]
     }
-    File.open( "#{@storage_root}/buckets/#{name}.yml", 'w' ) {|b| YAML.dump( bucket, b )}
+    File.open( File::join(@storage_root, 'buckets', "#{name}.yml"), 'w') {|b| YAML.dump( bucket, b )}
     Bucket.new(bucket)
   end
 
@@ -350,12 +357,13 @@ class MockDriver < Deltacloud::BaseDriver
 # Delete bucket
 #--
   def delete_bucket(credentials, name, opts={})
+    check_credentials(credentials)
     bucket = bucket(credentials, {:id => name})
     unless (bucket.size == "0")
      raise Deltacloud::BackendError.new(403, self.class.to_s, "bucket-not-empty", "delete operation not valid for non-empty bucket")
     end
     safely do
-      File.delete("#{@storage_root}/buckets/#{name}.yml")
+      File.delete(File::join(@storage_root, 'buckets', "#{name}.yml"))
     end
   end
 
@@ -365,14 +373,15 @@ class MockDriver < Deltacloud::BaseDriver
   def blobs(credentials, opts = {})
     check_credentials(credentials)
     blobs=[]
-    Dir[ "#{@storage_root}/buckets/blobs/*.yml" ].each do |blob_file|
-      blob = YAML.load( File.read( blob_file ) )
-      blob[:id] = File.basename( blob_file, ".yml" )
+    blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml")
+    safely do
+      blob = YAML.load_file(blobfile)
+      return [] unless blob[:bucket] == opts['bucket'] #can't return nil since base_driver invokes .first on return
+      blob[:id] = File.basename( blobfile, ".yml" )
       blob[:name] = blob[:id]
       blobs << Blob.new( blob )
+      blobs = filter_on( blobs, :id, opts )
     end
-    blobs = filter_on( blobs, :id, opts )
-    blobs
   end
 
 #--
@@ -381,11 +390,73 @@ class MockDriver < Deltacloud::BaseDriver
   def blob_data(credentials, bucket_id, blob_id, opts = {})
     check_credentials(credentials)
     blob=nil
-    Dir[ "#{@storage_root}/buckets/blobs/*.yml" ].each do |blob_file|
-      if File.basename(blob_file, ".yml") == blob_id
-        blob = YAML.load(File.read(blob_file))
-        blob[:content].each {|part| yield part}
+    safely do
+      blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts['blob']}.yml")
+      blob = YAML.load_file(blobfile)
+    end
+    blob[:content].each {|part| yield part}
+  end
+
+#--
+# Create blob
+#--
+  def create_blob(credentials, bucket_id, blob_id, blob_data, opts={})
+    check_credentials(credentials)
+      blob_meta = {}
+      opts.inject({}){|result, (k,v)| blob_meta[k] = v if k.match(/X[_-]Deltacloud[_-]Blobmeta[_-]/i)} #select{|k,v| k.match(/X[_-]Deltacloud[_-]Blobmeta[_-]/i)}
+       blob = {
+      :id => blob_id,
+      :bucket => bucket_id,
+      :content_length => blob_data[:tempfile].length,
+      :content_type => blob_data[:type],
+      :last_modified => Time.now,
+      :user_metadata => blob_meta.gsub_keys('X_Deltacloud_Blobmeta_', ''),
+      :content => blob_data[:tempfile].read
+    }
+    File.open( File::join("#{@storage_root}", "buckets", "blobs", "#{blob_id}.yml"), 'w' ) {|b| YAML.dump( blob, b )}
+    Blob.new(blob)
+  end
+
+#--
+# Delete blob
+#--
+  def delete_blob(credentials, bucket_id, blob_id, opts={})
+    check_credentials(credentials)
+    blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{blob_id}.yml")
+    safely do
+      unless File.exists?(blobfile)
+        raise Deltacloud::BackendError.new(500, self.class.to_s, "blob #{blob_id} doesn't exist", "cannot delete non existant blob")
       end
+      File.delete(blobfile)
+    end
+  end
+
+#--
+# Get metadata
+#--
+  def blob_metadata(credentials, opts={})
+    check_credentials(credentials)
+    blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml")
+    #safely do - mechanism not suitable here since head requests don't return a body response
+    begin
+      blob = YAML.load_file(blobfile)
+    rescue Errno::ENOENT
+      return nil #server.rb picks this up and gives 404
+    end
+    blob[:user_metadata]
+  end
+
+#--
+# Update metadata
+#--
+  def update_blob_metadata(credentials, opts={})
+    check_credentials(credentials)
+    blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml")
+    safely do
+      blob = YAML.load_file(blobfile)
+      return false unless blob
+      blob[:user_metadata] = opts['meta_hash'].gsub_keys('HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]', '')
+      File.open(File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml"), 'w' ) {|b| YAML.dump( blob, b )}
     end
   end
 
@@ -401,15 +472,18 @@ class MockDriver < Deltacloud::BaseDriver
   private
 
   def check_credentials(credentials)
-    if ( credentials.user != 'mockuser' )
-      raise Deltacloud::AuthException.new
-    end
-
-    if ( credentials.password != 'mockpassword' )
+    if ( credentials.user != 'mockuser' ) or ( credentials.password != 'mockpassword' )
       raise Deltacloud::AuthException.new
     end
   end
 
+  def catched_exceptions_list
+    {
+      :auth => [],
+      :error => [ ::Deltacloud::BackendError, Errno::ENOENT ],
+      :glob => []
+    }
+  end
 
 end
 

@@ -284,7 +284,9 @@ class RackspaceDriver < Deltacloud::BaseDriver
 #--
   def delete_blob(credentials, bucket_id, blob_id, opts={})
     cf = cloudfiles_client(credentials)
-    cf.container(bucket_id).delete_object(blob_id)
+    safely do
+      cf.container(bucket_id).delete_object(blob_id)
+    end
   end
 
 #-
