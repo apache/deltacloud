@@ -1,6 +1,15 @@
 %api{ :version => settings.version }
   %drivers
-    - DRIVERS.each do |id, details|
+    - settings.drivers.each do |id, details|
       %driver{ :id => id }
         %name<
           =details[:name]
+        - if details[:username] or details[:password]
+          %credentials
+            %username<=cdata(details[:username])
+            %password<=cdata(details[:password])
+        - if details[:entrypoints]
+          - details[:entrypoints].each do |list_id, entrypoints|
+            %entrypoints{:id => list_id}
+              - entrypoints.each do |entrypoint, url|
+                %entrypoint{ :id => entrypoint }<=cdata(url)
