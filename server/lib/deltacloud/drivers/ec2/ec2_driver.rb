@@ -519,7 +519,7 @@ module Deltacloud
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
-          Deltacloud::Drivers::driver_config[:ec2][:entry_points][service.to_s][endpoint] || endpoint
+          Deltacloud::Drivers::driver_config[:ec2][:entrypoints][service.to_s][endpoint] || endpoint
         end
 
         def tag_instance(credentials, instance, name)
