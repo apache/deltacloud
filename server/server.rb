@@ -33,6 +33,8 @@ require 'sinatra/rack_etag'
 
 set :version, '0.2.0'
 
+include Deltacloud::Drivers
+set :drivers, Proc.new { driver_config }
 
 use Rack::DriverSelect
 use Rack::ETag

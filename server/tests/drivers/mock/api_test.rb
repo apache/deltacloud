@@ -67,10 +67,26 @@ module DeltacloudUnitTest
       end
     end
 
-    def test_it_repond_to_head
+    def test_it_respond_to_head
       head '/api/instances'
       last_response.headers['Allow'].should_not == nil
       last_response.headers['Allow'].split(',').include?('HEAD').should == true
+    end
+
+    def test_it_expose_available_drivers
+      do_xml_request '/api/drivers'
+      last_response.status.should == 200
+      (last_xml_response/"api/drivers").length.should > 0
+      (last_xml_response/'api/drivers/driver').length.should > 0
+    end
+
+    def test_it_expose_ec2_driver_entrypoints
+      do_xml_request '/api/drivers'
+      last_response.status.should == 200
+      (last_xml_response/"api/drivers").length.should > 0
+      (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints').length.should > 0
+      (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints/entrypoint').first[:id].should_not == nil
+      (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints/entrypoint').first.text.should_not == ""
     end
 
   end

@@ -7,7 +7,7 @@
       %th ID
       %th Name
   %tbody
-    - DRIVERS.each do |id, details|
+    - settings.drivers.each do |id, details|
       %tr
         %td{ :width => '20%' }
           %tt= id

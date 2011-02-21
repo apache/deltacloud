@@ -18,56 +18,50 @@
 # FIXME: This should be moved into lib/ and be called Deltacloud::Drivers
 # or some such
 module Deltacloud
-  DRIVERS = {
-    :ec2 => { :name => "EC2" },
-	:sbc => { :name => "SBC" },
-    :rackspace => { :name => "Rackspace" },
-    :gogrid => { :name => "Gogrid" },
-    :rhevm => { :name => "RHEVM" },
-    :rimuhosting => { :name => "RimuHosting"},
-    :opennebula => { :name => "Opennebula", :class => "OpennebulaDriver" },
-    :terremark => { :name => "Terremark"},
-    :azure => { :name => "Azure" },
-    :mock => { :name => "Mock" }
-  }
 
-  DEFAULT_COLLECTIONS = [
-    :hardware_profiles,
-    :images,
-    :instances,
-    :instance_states,
-    :realms,
-    :storage_volumes,
-    :storage_snapshots
-  ]
+  module Drivers
 
-  DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
+    DEFAULT_COLLECTIONS = [
+      :hardware_profiles,
+      :images,
+      :instances,
+      :instance_states,
+      :realms,
+      :storage_volumes,
+      :storage_snapshots
+    ]
 
-  def driver_symbol
-    (Thread.current[:driver] || DRIVER).to_sym
-  end
+    DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
 
-  def driver_name
-    DRIVERS[:"#{driver_symbol}"][:name]
-  end
+    def driver_config
+      YAML::load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'drivers.yaml')))
+    end
 
-  def driver_class
-    basename = DRIVERS[:"#{driver_symbol}"][:class] || "#{driver_name}Driver"
-    Deltacloud::Drivers.const_get(driver_name).const_get(basename)
-  end
+    def driver_symbol
+      (Thread.current[:driver] || DRIVER).to_sym
+    end
 
-  def driver_source_name
-    File.join("deltacloud", "drivers", "#{driver_symbol}", "#{driver_symbol}_driver.rb")
-  end
+    def driver_name
+      driver_config[:"#{driver_symbol}"][:name]
+    end
 
-  def driver_mock_source_name
-    return File.join('deltacloud', 'drivers', "#{driver_symbol}",
-                     "#{driver_symbol}_driver.rb") if driver_name.eql? 'Mock'
-  end
+    def driver_class
+      basename = driver_config[:"#{driver_symbol}"][:class] || "#{driver_name}Driver"
+      Deltacloud::Drivers.const_get(driver_name).const_get(basename)
+    end
 
-  def driver
-    require driver_source_name
+    def driver_source_name
+      File.join("deltacloud", "drivers", "#{driver_symbol}", "#{driver_symbol}_driver.rb")
+    end
 
-    @driver ||= driver_class.new
+    def driver_mock_source_name
+      return File.join('deltacloud', 'drivers', "#{driver_symbol}",
+		       "#{driver_symbol}_driver.rb") if driver_name.eql? 'Mock'
+    end
+
+    def driver
+      require driver_source_name
+      @driver ||= driver_class.new
+    end
   end
 end

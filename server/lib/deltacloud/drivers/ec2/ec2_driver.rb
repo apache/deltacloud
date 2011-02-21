@@ -515,34 +515,11 @@ module Deltacloud
           klass.new(credentials.user, credentials.password, {:server => endpoint_for_service(type), :connection_mode => :per_thread})
         end
 
-        DEFAULT_SERVICE_ENDPOINTS = {
-          'ec2' => {
-            'ap-southeast-1' => 'ec2.ap-southeast-1.amazonaws.com',
-            'eu-west-1' => 'ec2.eu-west-1.amazonaws.com',
-            'us-east-1' => 'ec2.us-east-1.amazonaws.com',
-            'us-west-1' => 'ec2.us-west-1.amazonaws.com'
-          },
-          
-          'elb' => {
-            'ap-southeast-1' => 'elasticloadbalancing.ap-southeast-1.amazonaws.com',
-            'eu-west-1' => 'elasticloadbalancing.eu-west-1.amazonaws.com',
-            'us-east-1' => 'elasticloadbalancing.us-east-1.amazonaws.com',
-            'us-west-1' => 'elasticloadbalancing.us-west-1.amazonaws.com'
-          },
-
-          's3' => {
-            'us-east-1' => 's3.amazonaws.com',
-            'us-west-1' => 's3-us-west-1.amazonaws.com',
-            'ap-southeast-1' => 's3-ap-southeast-1.amazonaws.com',
-            'eu-west-1' => 's3-eu-west-1.amazonaws.com'
-          }
-        }
-
         def endpoint_for_service(service)
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
-          DEFAULT_SERVICE_ENDPOINTS[service.to_s][endpoint] || endpoint
+          Deltacloud::Drivers::driver_config[:ec2][:entry_points][service.to_s][endpoint] || endpoint
         end
 
         def tag_instance(credentials, instance, name)
