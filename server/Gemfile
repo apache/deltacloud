@@ -41,5 +41,5 @@ group :test do
   gem "rack-test"
   gem "cucumber"
   gem "rcov"
-  gem "rspec"
+  gem "rspec", "< 2.0.0" 
 end
