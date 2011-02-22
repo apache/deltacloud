@@ -19,10 +19,14 @@
 require 'base64'
 require 'net/https'
 require 'json'
+require 'digest/md5'
 
 module Deltacloud
   module Drivers
     module SBC
+      
+class FixtureNotFound < Exception; end
+  
 #
 # Client for the IBM Smart Business Cloud (SBC).
 #
@@ -108,44 +112,60 @@ class SBCClient
   # HTTP GET
   #
   def get(path, headers)
-    resp = @service.get(@rest_base + path, headers)
-    unless resp.is_a?(Net::HTTPSuccess)
-      backend_error!(resp)
+    if ENV['RACK_ENV'] == 'test'
+      mock_request(:get, path, {}, headers)
+    else
+      resp = @service.get(@rest_base + path, headers)
+      unless resp.is_a?(Net::HTTPSuccess)
+        backend_error!(resp)
+      end
+      resp.body
     end
-    resp.body
   end
 
   #
   # HTTP PUT
   #
   def put(path, body, headers)
-    resp = @service.put(@rest_base + path, body, headers)
-    unless resp.is_a?(Net::HTTPSuccess)
-      backend_error!(resp)
+    if ENV['RACK_ENV'] == 'test'
+      mock_request(:get, path, {}, headers)
+    else
+      resp = @service.put(@rest_base + path, body, headers)
+      unless resp.is_a?(Net::HTTPSuccess)
+        backend_error!(resp)
+      end
+      resp.body
     end
-    resp.body
   end
 
   #
   # HTTP POST
   #
   def post(path, body, headers)
-    resp = @service.post(@rest_base + path, body, headers)
-    unless resp.is_a?(Net::HTTPSuccess)
-      backend_error!(resp)
+    if ENV['RACK_ENV'] == 'test'
+      mock_request(:get, path, {}, headers)
+    else
+      resp = @service.post(@rest_base + path, body, headers)
+      unless resp.is_a?(Net::HTTPSuccess)
+        backend_error!(resp)
+      end
+      resp.body
     end
-    resp.body
   end
 
   #
   # HTTP DELETE
   #
   def delete(path, headers)
-    resp = @service.delete(@rest_base + path, headers)
-    unless resp.is_a?(Net::HTTPSuccess)
-      backend_error!(resp)
+    if ENV['RACK_ENV'] == 'test'
+      mock_request(:get, path, {}, headers)
+    else
+      resp = @service.delete(@rest_base + path, headers)
+      unless resp.is_a?(Net::HTTPSuccess)
+        backend_error!(resp)
+      end
+      resp.body
     end
-    resp.body
   end
 
   #
@@ -174,6 +194,55 @@ class SBCClient
   def urlencode(hash)
     hash.keys.map { |k| "#{URI.encode(k)}=#{URI.encode(hash[k])}" }.join("&")
   end
+  
+  #
+  # Reads a fake URL from local fixtures
+  #
+  def read_fake_url(filename)
+    fixture_file = "../tests/sbc/support/fixtures/#{filename}"
+    if File.exists?(fixture_file)
+      puts "Using fixture: #{fixture_file}"
+      return JSON::parse(File.read(fixture_file))
+    else
+      raise FixtureNotFound.new
+    end
+  end
+
+  #
+  # Executes a fake request from local fixtures
+  #
+  def mock_request(*args)
+    http_method, request_uri, params, headers = args[0].to_sym, args[1], args[2], args[3]
+    params ||= {}
+    fixture_filename = fixture_filename = "#{Digest::MD5.hexdigest("#{http_method}#{request_uri}#{params.inspect}#{headers.reject{|key, value| key == "Authorization"}}")}.fixture"
+    puts "fixture filename: " + fixture_filename
+    begin
+      return read_fake_url(fixture_filename)[2]["body"]
+    rescue FixtureNotFound
+      if http_method.eql?(:get)
+        r = @service.get(@rest_base + request_uri, headers)
+      elsif http_method.eql?(:post)
+        r = @service.post(@rest_base + request_uri, body, headers)
+      elsif http_method.eql?(:put)
+        r = @service.put(@rest_base + request_uri, params, headers)
+      elsif http_method.eql?(:delete)
+        r = @service.delete(@rest_base + request_uri, headers)
+      end
+      response = {
+        "body" => r.body,
+        "status" => r.code,
+        "Content-Type" => r["Content-Type"]
+      }
+      fixtures_dir = "../tests/sbc/support/fixtures/"
+      FileUtils.mkdir_p(fixtures_dir)
+      puts "Saving fixture #{fixture_filename}"
+      File.open(File::join(fixtures_dir, fixture_filename), 'w') do |f|
+        f.puts [request_uri, http_method, response].to_json
+      end
+      retry
+    end
+  end
+  
 end
     end
   end
