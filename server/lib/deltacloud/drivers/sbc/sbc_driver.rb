@@ -80,7 +80,7 @@ class SBCDriver < Deltacloud::BaseDriver
     body.delete('hwp_id')
     body.delete('realm_id')
 
-    # Lookup image if nil; avoids extra lookup
+    # Lookup image if nil; tries to avoids extra lookup
     if @last_image.nil? || @last_image['id'] != opts[:image_id]
       @last_image = sbc_client.list_images(image_id).map[0]
     end
@@ -88,7 +88,7 @@ class SBCDriver < Deltacloud::BaseDriver
     # Map DeltaCloud keywords to SBC
     body['imageID'] = opts[:image_id]
     body['location'] = opts[:realm_id] || @last_image['location']
-    body['instanceType'] = opts[:hwp_id] || @last_image['supportedInstanceTypes'][0]['id']
+    body['instanceType'] = opts[:hwp_id].gsub('-', '/') || @last_image['supportedInstanceTypes'][0]['id']
 
     # Submit instance, parse response
     convert_instance(sbc_client.create_instance(body).map[0])
@@ -194,7 +194,7 @@ class SBCDriver < Deltacloud::BaseDriver
       :actions => instance_actions_for(state),
       :public_addresses => [instance["primaryIP"]["ip"]],
       :private_addresses => [],
-      :instance_profile => InstanceProfile.new(instance["instanceType"]), # TODO: InstanceProfile isn't looking up HW profiles?
+      :instance_profile => InstanceProfile.new(instance["instanceType"].gsub('/', '-')),
       :launch_time => instance["launchTime"],
       :keyname => instance["keyName"]
     )
@@ -231,63 +231,63 @@ class SBCDriver < Deltacloud::BaseDriver
   #
   # TODO: HWP IDs contain '/'; results in invalid URL
   #
-  define_hardware_profile('COP32.1/2048/60') do
+  define_hardware_profile('COP32.1-2048-60') do
     cpu				1
     memory			2 * 1024
     storage			60
     architecture	'i386'
   end
 
-  define_hardware_profile('COP64.2/4096/60') do
+  define_hardware_profile('COP64.2-4096-60') do
     cpu				2
     memory			4 * 1024
     storage			60
     architecture	'i386_x64'
   end
 
-  define_hardware_profile('BRZ32.1/2048/60*175') do
+  define_hardware_profile('BRZ32.1-2048-60*175') do
     cpu				1
     memory			2 * 1024
     storage			175
     architecture	'i386'
   end
 
-  define_hardware_profile('BRZ64.2/4096/60*500*350') do
+  define_hardware_profile('BRZ64.2-4096-60*500*350') do
     cpu				2
     memory			4 * 1024
     storage			850
     architecture	'i386_x64'
   end
 
-  define_hardware_profile('SLV32.2/4096/60*350') do
+  define_hardware_profile('SLV32.2-4096-60*350') do
     cpu				3
     memory			5 * 1024
     storage			350
     architecture	'i386'
   end
 
-  define_hardware_profile('SLV64.4/8192/60*500*500') do
+  define_hardware_profile('SLV64.4-8192-60*500*500') do
     cpu				4
     memory			8 * 1024
     storage			1024
     architecture	'i386_x64'
   end
 
-  define_hardware_profile('GLD32.4/4096/60*350') do
+  define_hardware_profile('GLD32.4-4096-60*350') do
     cpu				4
     memory			4 * 1024
     storage			350
     architecture	'i386'
   end
 
-  define_hardware_profile('GLD64.8/16384/60*500*500') do
+  define_hardware_profile('GLD64.8-16384-60*500*500') do
     cpu				8
     memory			16 * 1024
     storage			1024
     architecture	'i386_x64'
   end
 
-  define_hardware_profile('PLT64.16/16384/60*500*500*500*500') do
+  define_hardware_profile('PLT64.16-16384-60*500*500*500*500') do
     cpu				16
     memory			16 * 1024
     storage			2048
