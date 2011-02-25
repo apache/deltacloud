@@ -1,19 +1,11 @@
 --- 
 :gogrid: 
-  :username: API key
-  :password: GoGrid Account password
   :name: Gogrid
 :mock: 
-  :username: Username
-  :password: Password
   :name: Mock
 :rhevm: 
-  :username: RHEV-M Username (with domain)
-  :password: RHEV-M Password
   :name: RHEVM
 :rimuhosting: 
-  :username: API key
-  :password: API password
   :name: RimuHosting
 :opennebula: 
   :class: OpennebulaDriver
@@ -23,8 +15,6 @@
 :terremark: 
   :name: Terremark
 :rackspace: 
-  :username: API key
-  :password: Rackspace password
   :name: Rackspace
 :azure: 
   :name: Azure
@@ -45,6 +35,4 @@
       ap-southeast-1: ec2.ap-southeast-1.amazonaws.com
       eu-west-1: ec2.eu-west-1.amazonaws.com
       us-east-1: ec2.us-east-1.amazonaws.com
-  :username: Access Key ID
-  :password: Secret Access Key
   :name: EC2

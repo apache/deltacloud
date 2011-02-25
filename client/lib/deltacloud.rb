@@ -78,10 +78,6 @@ module DeltaCloud
           entrypoint = (entrypoint/'entrypoint').collect { |e| { :id => e[:id], :url => e.text } }
         end
         drivers[d[:id].to_sym].merge!({ :entrypoints => entrypoint }) unless entrypoint.empty?
-        if (d/'credentials')
-          drivers[d[:id].to_sym].merge!({ :username => (d/'credentials/username').text}) if (d/'credentials/username')
-          drivers[d[:id].to_sym].merge!({ :password => (d/'credentials/password').text}) if (d/'credentials/password')
-        end
       end
     end
     drivers
