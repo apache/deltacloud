@@ -110,6 +110,8 @@ class Deltacloud:
     return instances
 
   def create_instance(self, image_id, opts):
+    #if opts is None:
+    #  opts={}
     opts['image_id'] = image_id
     doc = self.client.POST(self.entrypoints['instances'], opts)[1]
     instance = doc.xpathEval("/instance")[0]
@@ -119,6 +121,7 @@ class Deltacloud:
 class Instance(Deltacloud):
 
   def __init__(self, deltacloud, instance):
+    print instance
     self.instance, self.deltacloud = instance, deltacloud
     self.id = instance.xpathEval("@id")[0].content
     self.name = instance.xpathEval("name")[0].content
@@ -127,8 +130,8 @@ class Instance(Deltacloud):
     self.public_addresses, self.private_addresses = [], []
     [self.public_addresses.append(address.content) for address in instance.xpathEval('public_addresses/address')]
     [self.private_addresses.append(address.content) for address in instance.xpathEval('private_addresses/address')]
-    password_auth = instance.xpathEval("authetication[@type='password']/login")
-    key_auth = instance.xpathEval("authetication[@type='key']/login")
+    password_auth = instance.xpathEval("authentication[@type='password']/login")
+    key_auth = instance.xpathEval("authentication[@type='key']/login")
     if password_auth:
       self.username = password_auth[0].xpathEval('username')[0].content
       self.password = password_auth[0].xpathEval('password')[0].content
@@ -216,4 +219,3 @@ class HardwareProfileProperty(HardwareProfile):
     if prop.xpathEval("range"):
       self.range_min = prop.xpathEval('range/@first')[0].content
       self.range_max = prop.xpathEval('range/@last')[0].content
-
