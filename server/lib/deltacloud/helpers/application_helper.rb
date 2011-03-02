@@ -186,4 +186,16 @@ module ApplicationHelper
     end
   end
 
+  def image_for_state(state)
+    state_img = "stopped" if (state!='RUNNING' or state!='PENDING')
+    "<img src='/images/#{state.downcase}.png' title='#{state}'/>"
+  end
+
+  def truncate_words(text, length = 10)
+    return nil unless text
+    return text if text.length<=length
+    end_string = "...#{text[(text.length-(length/2))..text.length]}"
+    "#{text[0..(length/2)]}#{end_string}"
+  end
+
 end

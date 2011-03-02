@@ -72,7 +72,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # or setting provider using HTTP header X-Deltacloud-Provider to URL.
   #
   def provider_uri
-    'https://10.34.2.122:8443/rhevm-api-powershell'
+    Deltacloud::Drivers::driver_config[:rhevm][:entrypoints]['default']['default']
   end
 
   define_instance_states do
@@ -203,7 +203,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def new_client(credentials)
     url = (Thread.current[:provider] || ENV['API_PROVIDER'] || provider_uri)
-    ::RHEVM::Client.new(credentials.user, credentials.password, url)
+    safely do
+      ::RHEVM::Client.new(credentials.user, credentials.password, url)
+    end
   end
 
   def convert_instance(client, inst)
@@ -299,13 +301,13 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # Disabling this error catching will lead to more verbose messages
   # on console (eg. response from RHEV-M API (so far I didn't figure our
   # how to pass those message to our exception handling tool)
-  #def catched_exceptions_list
-  #  {
-  #    :auth => RestClient::Unauthorized,
-  #    :error => RestClient::InternalServerError,
-  #    :glob => [ /RestClient::(\w+)/ ]
-  #  }
-  #end
+  def catched_exceptions_list
+    {
+      :auth => RestClient::Unauthorized,
+      :error => RestClient::InternalServerError,
+      :glob => [ /(RestClient|RHEVM)::(\w+)/ ]
+    }
+  end
 
 end
 
