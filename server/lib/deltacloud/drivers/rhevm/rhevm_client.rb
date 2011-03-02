@@ -25,6 +25,15 @@ require 'json'
 module RHEVM
 
   class FixtureNotFound < Exception; end
+  class ConnectionError < StandardError
+    attr_reader :code, :cause, :details
+    def initialize(code, cause, message, details)
+      super(message)
+      @code = code
+      @cause = cause
+      @details = details
+    end
+  end
 
   class Client
 
@@ -51,7 +60,7 @@ module RHEVM
       opts ||= {}
       if @@COLLECTIONS.include?(method_name.to_sym)
         if opts[:id]
-          object = Nokogiri::XML(get("#{@entry_points[method_name.to_s]}#{opts[:id]}"))
+          object = Nokogiri::XML(get("#{@entry_points[method_name.to_s]}/#{opts[:id]}"))
           element = method_name.to_s
           element = 'data_centers' if method_name.eql?(:datacenters)
           @current_element = element
@@ -105,7 +114,12 @@ module RHEVM
       if ENV['RACK_ENV'] == 'test'
         response = mock_request(:get, uri, {}, headers)
       else
-        response = RestClient.get(uri, headers).to_s
+        puts "[RHEV-M] #{uri}"
+        begin
+          response = RestClient.get(uri, headers).to_s
+        rescue Exception => e
+          raise ConnectionError::new(500, "GET #{uri}", "#{e.message} (GET #{uri})", e.backtrace)
+        end
       end
       response
     end
@@ -127,7 +141,11 @@ module RHEVM
 
     def discover_entry_points()
       return if @discovered
-      doc = Nokogiri.XML(get(@base_uri))
+      begin
+        doc = Nokogiri.XML(get(@base_uri))
+      rescue Exception => e
+        raise ConnectionError::new(500, "RHEV-M Connection Error (#{@base_uri})", "#{e.message} (#{@base_uri})", e.backtrace)
+      end
       doc.xpath('api/link').each() do |link|
         @entry_points[link['rel']] = @host + link['href']
       end

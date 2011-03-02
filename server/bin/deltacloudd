@@ -105,6 +105,7 @@ else
   argv_opts << ['--rackup', 'config.ru' ]
   argv_opts << ['--chdir', dirname ]
   argv_opts << ['-e', options[:env] ]
+  argv_opts << ['--timeout', '60']
   argv_opts << ['--threaded', '-D', '--stats', '/stats']
 
   argv_opts.flatten!
