@@ -155,6 +155,15 @@ module Deltacloud
           end
         end
 
+        def create_image(credentials, opts={})
+          ec2 = new_client(credentials)
+          instance = instance(credentials, :id => opts[:id])
+          safely do
+            new_image_id = ec2.create_image(instance.id, opts[:name], opts[:description])
+            image(credentials, :id => new_image_id)
+          end
+        end
+
         def instances(credentials, opts={})
           ec2 = new_client(credentials)
           inst_arr = []
@@ -598,6 +607,7 @@ module Deltacloud
         end
 
         def convert_instance(instance)
+          can_create_image = 'ebs'.eql?(instance[:root_device_type]) and 'RUNNING'.eql?(convert_state(instance[:aws_state]))
           Instance.new(
             :id => instance[:aws_instance_id],
             :name => instance[:aws_image_id],
@@ -610,7 +620,8 @@ module Deltacloud
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type]),
             :realm_id => instance[:aws_availability_zone],
             :private_addresses => instance[:private_dns_name],
-            :public_addresses => instance[:dns_name]
+            :public_addresses => instance[:dns_name],
+            :create_image => can_create_image
           )
         end
 

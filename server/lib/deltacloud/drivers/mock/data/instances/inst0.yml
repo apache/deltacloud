@@ -14,3 +14,4 @@
 :actions:
 - :reboot
 - :stop
+:create_image: true

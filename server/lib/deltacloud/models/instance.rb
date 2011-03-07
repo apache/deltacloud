@@ -32,6 +32,11 @@ class Instance < BaseModel
   attr_accessor :authn_error
   attr_accessor :username
   attr_accessor :password
+  attr_accessor :create_image
+
+  def can_create_image?
+    self.create_image
+  end
 
   def to_s
     name

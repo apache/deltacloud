@@ -446,7 +446,8 @@ class GogridDriver < Deltacloud::BaseDriver
       :public_addresses => [ instance['ip']['ip'] ],
       :private_addresses => [],
       :username => instance['username'],
-      :password => instance['password']
+      :password => instance['password'],
+      :create_image => 'true'.eql?(instance['isSandbox'])
     )
   end
 
