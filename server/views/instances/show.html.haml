@@ -50,3 +50,8 @@
     %dd
       -@instance.actions.each do |action|
         =link_to_action action, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
+    %dt
+    %dd
+      - if @instance.can_create_image?
+        =link_to_action 'Create Image', url_for("/api/images/new?instance_id=#{@instance.id}"), :get
+

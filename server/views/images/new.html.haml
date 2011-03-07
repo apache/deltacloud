@@ -1,0 +1,14 @@
+%h1 Create image from #{@instance.id}
+
+%form{ :action => images_url, :method => :post, :class => :new_instance }
+  %input{ :name => :instance_id, :type => :hidden, :value => @instance.id }/
+  %p
+    %label
+      Name:
+    %input{ :name => :name, :size => 30, :type => :text }/
+  %p
+    %label
+      Description:
+    %textarea{ :name => :description, :cols => 70, :rows => 20}
+  %p
+    %input{ :type => :submit, :value => 'Create' }

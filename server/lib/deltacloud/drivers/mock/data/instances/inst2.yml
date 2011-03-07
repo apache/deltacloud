@@ -7,3 +7,4 @@
 :realm_id: us
 :instance_profile: !ruby/object:InstanceProfile
   id: m1-large
+:create_image: true

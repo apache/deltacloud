@@ -135,6 +135,33 @@ class MockDriver < Deltacloud::BaseDriver
     images.sort_by{|e| [e.owner_id,e.description]}
   end
 
+  def create_image(credentials, opts={})
+    check_credentials(credentials)
+    instance = instance(credentials, :id => opts[:instance_id])
+    raise BackendError::new(500, 'CreateImageNotSupported', '', '') unless instance.can_create_image?
+    ids = Dir[ "#{@storage_root}/images/*.yml" ].collect{|e| File.basename( e, ".yml" )}
+    count = 0
+    while true
+      next_id = "img#{count}"
+      break if not ids.include?(next_id)
+      count += 1
+    end
+    safely do
+      image = {
+	:name => opts[:name],
+	:owner_id => 'root',
+	:description => opts[:description],
+	:architecture => 'i386',
+	:state => 'UP'
+      }
+      File.open( "#{@storage_root}/images/#{next_id}.yml", 'w' ) do |f|
+	YAML.dump( image, f )
+      end
+      image[:id] = next_id
+      Image.new(image)
+    end
+  end
+
   #
   # Instances
   #
@@ -197,6 +224,7 @@ class MockDriver < Deltacloud::BaseDriver
       :private_addresses=>["#{image_id}.#{next_id}.private.com"],
       :instance_profile => InstanceProfile.new(hwp.name, opts),
       :realm_id=>realm_id,
+      :create_image=>true,
       :actions=>instance_actions_for( 'RUNNING' )
     }
     File.open( "#{@storage_root}/instances/#{next_id}.yml", 'w' ) {|f|

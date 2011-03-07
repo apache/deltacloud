@@ -91,23 +91,21 @@ class RackspaceDriver < Deltacloud::BaseDriver
     result
   end
 
-  # TODO: This action is reserved for create image from instance
-  #
-  #def create_image(credentials, opts={})
-  #  rs = new_client(credentials)
-  #  safely do
-  #    server = rs.get_server(opts[:id].to_i)
-  #    image = server.create_image(opts[:name])
-  #    Image.new(
-  #      :id => image.id.to_s,
-  #      :name => image.name,
-  #      :description => image.name,
-  #      :owner_id => credentials.user,
-  #      :state => image.status,
-  #      :architecture => 'x86_64'
-  #    )
-  #  end
-  #end
+  def create_image(credentials, opts={})
+    rs = new_client(credentials)
+    safely do
+      server = rs.get_server(opts[:id].to_i)
+      image = server.create_image(opts[:name])
+      Image.new(
+        :id => image.id.to_s,
+        :name => image.name,
+        :description => image.name,
+        :owner_id => credentials.user,
+        :state => image.status,
+        :architecture => 'x86_64'
+      )
+    end
+  end
 
   def run_on_instance(credentials, opts={})
     target = instance(credentials, :id => opts[:id])
@@ -359,6 +357,7 @@ private
       :password => password ? password : nil
     )
     inst.actions = instance_actions_for(inst.state)
+    inst.create_image = 'RUNNING'.eql?(inst.state)
     inst
   end
 
@@ -376,6 +375,7 @@ private
       :public_addresses => server[:addresses][:public],
       :private_addresses => server[:addresses][:private]
     )
+    inst.create_image = 'RUNNING'.eql?(inst.state)
     inst.actions = instance_actions_for(inst.state)
     inst
   end

@@ -3,3 +3,4 @@
   - @image.attributes.select{ |attr| attr!=:id }.each do |attribute|
     - haml_tag(attribute, :<) do
       - haml_concat @image.send(attribute)
+  %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{@image.id}"}

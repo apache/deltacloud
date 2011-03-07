@@ -140,6 +140,13 @@ END
 
 end
 
+get "/api/images/new" do
+  @instance = Instance.new( :id => params[:instance_id] )
+  respond_to do |format|
+    format.html { haml :"images/new" }
+  end
+end
+
 collection :images do
   description <<END
   An image is a platonic form of a machine. Images are not directly executable,
@@ -163,6 +170,25 @@ END
     with_capability :image
     param :id,           :string, :required
     control { show(:image) }
+  end
+
+  operation :create do
+    description 'Create image from instance'
+    with_capability :create_image
+    param :instance_id,	 :string, :required
+    param :name,	 :string, :optional
+    param :description,	 :string, :optional
+    control do 
+      @image = driver.create_image(credentials, { 
+	:id => params[:instance_id],
+        :name => params[:name],
+	:description => params[:description]
+      })
+      respond_to do |format|
+        format.xml { haml :"images/show" }
+        format.html { haml :"images/show" }
+      end
+    end
   end
 
 end
