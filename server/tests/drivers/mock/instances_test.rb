@@ -166,11 +166,7 @@ module DeltacloudUnitTest
         destroy_url = (last_xml_response/'actions/link[@rel="destroy"]').first['href']
         destroy_url.should_not == nil
         delete create_url(destroy_url), {}, authenticate
-        last_response.status.should == 302
-        do_xml_request last_response.headers['Location'], {}, true
-        (last_xml_response/'instances').should_not == nil
-        do_xml_request "/api/instances/#{instance_id}", {}, true
-        last_response.status.should == 404
+        last_response.status.should == 204
       end
     end
 
