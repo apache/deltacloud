@@ -126,7 +126,13 @@ module ApplicationHelper
 
     @instance = driver.send(:"#{name}_instance", credentials, params["id"])
 
-    return redirect(instances_url) if name.eql?(:destroy) or @instance.class!=Instance
+    if name == :destroy or @instance.class!=Instance
+      respond_to do |format|
+        format.xml { return 204 }
+        format.json { return 204 }
+        format.html { return redirect(instances_url) }
+      end
+    end
 
     respond_to do |format|
       format.xml { haml :"instances/show" }
@@ -146,7 +152,7 @@ module ApplicationHelper
 
   def link_to_action(action, url, method)
     capture_haml do
-      haml_tag :form, :method => :post, :action => url, :class => :link do
+      haml_tag :form, :method => :post, :action => url, :class => [:link, method] do
         haml_tag :input, :type => :hidden, :name => '_method', :value => method
         haml_tag :button, :type => :submit do 
           haml_concat action

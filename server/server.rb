@@ -296,7 +296,11 @@ collection :load_balancers do
     param :id,  :string,  :required
     control do
       driver.destroy_load_balancer(credentials, params[:id])
-      redirect(load_balancers_url)
+      respond_to do |format|
+        format.xml { return 204 }
+        format.json { return 204 }
+        format.html { return redirect(load_balancers_url) }
+      end
     end
   end
 
@@ -479,7 +483,11 @@ collection :storage_snapshots do
     param :id,  :string,  :required
     control do
       driver.create_storage_snapshot(credentials, params)
-      redirect(storage_snapshot_url(params[:id]))
+      respond_to do |format|
+        format.xml { return 204 }
+        format.json { return 204 }
+        format.html { return redirect(storage_snapshots_url) }
+      end
     end
   end
 
@@ -560,7 +568,11 @@ collection :storage_volumes do
     param :id,          :string,  :optional
     control do
       driver.destroy_storage_volume(credentials, params)
-      redirect(storage_volumes_url)
+      respond_to do |format|
+        format.xml { return 204 }
+        format.json { return 204 }
+        format.html { return redirect(storage_volumes_url) }
+      end
     end
   end
 
@@ -609,7 +621,11 @@ collection :keys do
     param :id,  :string,  :required
     control do
       driver.destroy_key(credentials, { :key_name => params[:id]})
-      redirect(keys_url)
+      respond_to do |format|
+        format.xml { return 204 }
+        format.json { return 204 }
+        format.html { return redirect(keys_url) }
+      end
     end
   end
 
@@ -654,7 +670,11 @@ delete '/api/buckets/:bucket/:blob' do
   bucket_id = params[:bucket]
   blob_id = params[:blob]
   driver.delete_blob(credentials, bucket_id, blob_id)
-  redirect(bucket_url(bucket_id))
+  respond_to do |format|
+    format.xml { return 204 }
+    format.json { return 204 }
+    format.html { return bucket_url(bucket_id) }
+  end
 end
 
 #get blob metadata
@@ -763,7 +783,11 @@ collection :buckets do
     param :id,    :string,    :required
     control do
       driver.delete_bucket(credentials, params[:id], params)
-      redirect(buckets_url)
+      respond_to do |format|
+        format.xml { return 204 }
+        format.json { return 204 }
+        format.html { return redirect(buckets_url) }
+      end
     end
   end
 
