@@ -50,8 +50,11 @@ module DeltaCloud
 
       class HardwareProfile < Base
         def format
+          architecture = @obj.architecture ? @obj.architecture.value[0,6] : 'opaque'
+          memory = @obj.memory ? @obj.memory.value.to_s[0,10] : 'opaque'
+          storage = @obj.storage ? @obj.storage.value.to_s[0,10] : 'opaque'
           sprintf("%-15s | %-6s | %10s | %10s ", @obj.id[0, 15],
-            @obj.architecture.value[0,6], @obj.memory.value.to_s[0,10], @obj.storage.value.to_s[0,10])
+           architecture , memory, storage)
         end
       end
 
@@ -94,7 +97,7 @@ module DeltaCloud
     end
 
     def format(obj)
-      object_name = obj.class.name.classify.gsub(/^DeltaCloud::API::/, '')
+      object_name = obj.class.name.classify.gsub(/^DeltaCloud::API::(\w+)::/, '')
       format_class = DeltaCloud::PlainFormatter::FormatObject.const_get(object_name)
       format_class.new(obj).format
     end
