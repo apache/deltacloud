@@ -176,7 +176,7 @@ module ApplicationHelper
   def link_to_documentation
     return '' unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI'].dup
-    uri.gsub!('/api/', '/api/docs/')
+    uri.gsub!('/api', '/api/docs/') unless uri.include?("docs") #i.e. if already serving under /api/docs, leave it be
     '<a href="%s">[ Documentation ]</a>' % uri
   end
 
