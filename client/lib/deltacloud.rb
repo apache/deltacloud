@@ -179,6 +179,7 @@ module DeltaCloud
 
     # Add default attributes [id and href] to class
     def base_object(model, response)
+
       c = DeltaCloud.add_class("#{model}", DeltaCloud::guess_model_type(response))
       xml_to_class(c, Nokogiri::XML(response).xpath("#{model.to_s.singularize}").first)
     end
@@ -200,7 +201,6 @@ module DeltaCloud
 
       # Traverse across XML document and deal with elements
       item.xpath('./*').each do |attribute|
-
         # Do a link for elements which are links to other REST models
         if self.entry_points.keys.include?(:"#{attribute.name}s")
           obj.add_link!(attribute.name, attribute['id']) && next
@@ -232,6 +232,11 @@ module DeltaCloud
         # Deal with collections like public-addresses, private-addresses
         if (attribute/'./*').length > 0
           obj.add_collection!(attribute.name, (attribute/'*').collect { |value| value.text }) && next
+        end
+
+        #deal with blobs for buckets
+        if(attribute.name == 'blob')
+          obj.add_blob!(attribute.attributes['id'].value) && next
         end
 
         # Anything else is treaten as text object

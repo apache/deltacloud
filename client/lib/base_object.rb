@@ -100,6 +100,7 @@ module DeltaCloud
           when :text then return m[:value]
           when :property then return m[:property]
           when :collection then return m[:values]
+          when :list then return m[:value].join(", ")
           else raise NoHandlerForMethod
         end
       end
@@ -112,6 +113,23 @@ module DeltaCloud
         else
           # Call appropriate handler for method
           method_handler(m, args)
+        end
+      end
+
+      # This method adds blobs to the blob_list property
+      # of a bucket
+      def add_blob!(blob_name)
+        if @blob_list.nil?
+          @blob_list = [blob_name]
+          @objects << {
+            :type => :list,
+            :method_name => "blob_list",
+            :value => @blob_list
+          }
+        else
+          @blob_list << blob_name
+          current = search_for_method('blob_list')
+          current[:value] = @blob_list
         end
       end
 
