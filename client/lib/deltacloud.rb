@@ -146,7 +146,6 @@ module DeltaCloud
     # Define methods based on 'rel' attribute in entry point
     # Two methods are declared: 'images' and 'image'
     def declare_entry_points_methods(entry_points)
-
       API.instance_eval do
         entry_points.keys.select {|k| [:instance_states].include?(k)==false }.each do |model|
 
@@ -167,7 +166,19 @@ module DeltaCloud
             self.send(model.to_s.singularize.to_sym, $1)
           end
 
+      end
+
+      #define methods for blobs:
+      if(entry_points.include?(:buckets))
+        define_method :"blob" do |*args|
+            bucket = args[0]["bucket"]
+            blob = args[0][:id]
+            request(:get, "#{entry_points[:buckets]}/#{bucket}/#{blob}") do |response|
+              base_object("blob", response)
+            end
         end
+      end
+
       end
     end
 
@@ -179,7 +190,6 @@ module DeltaCloud
 
     # Add default attributes [id and href] to class
     def base_object(model, response)
-
       c = DeltaCloud.add_class("#{model}", DeltaCloud::guess_model_type(response))
       xml_to_class(c, Nokogiri::XML(response).xpath("#{model.to_s.singularize}").first)
     end
@@ -201,9 +211,10 @@ module DeltaCloud
 
       # Traverse across XML document and deal with elements
       item.xpath('./*').each do |attribute|
+
         # Do a link for elements which are links to other REST models
         if self.entry_points.keys.include?(:"#{attribute.name}s")
-          obj.add_link!(attribute.name, attribute['id']) && next
+          obj.add_link!(attribute.name, attribute['id']) && next unless (attribute.name == 'bucket' && item.name == 'blob')
         end
 
         # Do a HWP property for hardware profile properties
@@ -242,7 +253,6 @@ module DeltaCloud
         # Anything else is treaten as text object
         obj.add_text!(attribute.name, attribute.text.convert)
       end
-
       return obj
     end
 

@@ -60,6 +60,7 @@ Options:
 BANNER
   opts.on( '-i', '--id ID', 'ID for operation') { |id| options[:id] = id }
   opts.on( '-d', '--image-id ID', 'Image ID') { |id| options[:image_id] = id }
+  opts.on( '-b', '--bucket-id ID', 'Bucket ID') {|id| options[:bucket_id] = id }
   opts.on( '-a', '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
   opts.on( '-p', '--hardware-profile HARDWARE_PROFILE', 'Hardware Profile') { |id| options[:hwp_id] = id }
   opts.on( '-n', '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
@@ -102,6 +103,8 @@ collections = client.entry_points.keys
 
 # Exclude collection which don't have methods in client library yet
 collections.delete(:instance_states)
+#add blob collection if buckets is present
+collections << :blob if collections.include?(:buckets)
 
 # If list parameter passed print out available collection
 # with API documentation
@@ -115,6 +118,11 @@ end
 # If collection parameter is present and user requested list
 # print all operation defined for collection with API documentation
 if options[:list] and options[:collection]
+  #deal with blobs again - bypass 'normal' docs procedure
+  if options[:collection] =~ /blob/i
+    puts "show : Get details of a specified blob in a specified bucket (GET /api/buckets/:bucket/:blob)"
+    exit(0)
+  end
   doc = client.documentation(options[:collection])
   doc.operations.each do |c|
     puts sprintf("%-20s: %s", c.operation, c.description)
@@ -131,6 +139,8 @@ end
 # Do same if 'index' operation is set
 if options[:collection] and ( options[:operation].nil? or options[:operation].eql?('index') )
   invalid_usage("Unknown collection: #{options[:collection]}") unless collections.include?(options[:collection].to_sym)
+#cannot list blobs - can only show a specific blob
+  invalid_usage("You must specify a particular blob with -i and a particular bucket with -b") if options[:collection] =~ (/blob/i)
   params = {}
   params.merge!(:architecture => options[:architecture]) if options[:architecture]
   params.merge!(:id => options[:id]) if options[:id]
@@ -150,6 +160,17 @@ if options[:collection] and options[:operation]
 
   # If collection is set and requested operation is 'show' just 'singularize'
   # collection name and print item with specified id (-i parameter)
+
+  #Blobs are a special case so deal with first -
+  if options[:operation].eql?('show') && options[:collection] =~ (/blob/i)
+    invalid_usage("Please specify the bucket for this blob using the -b option") unless options[:bucket_id]
+    invalid_usage("Missing blob ID, please specify with -i option") unless options[:id]
+    params = {}
+    params.merge!(:id => options[:id], 'bucket' => options[:bucket_id])
+    puts format(client.send( options[:collection], params))
+    exit(0)
+  end
+
   if options[:operation].eql?('show')
     invalid_usage("Missing ID, must be provided with --id") unless options[:id]
     puts format(client.send(options[:collection].gsub(/s$/, ''), options[:id]))
