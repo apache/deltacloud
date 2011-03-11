@@ -94,6 +94,17 @@ module DeltaCloud
         end
       end
 
+      class Bucket < Base
+        def format
+          sprintf("%-50s | %-50s | %-10s | %-1000s",
+          @obj.id[0,50],
+          @obj.name[0,50],
+          @obj.size ? @obj.size.to_s[0,10] : "",
+          @obj.blob_list ? @obj.blob_list[0,1000] : ""
+          )
+        end
+      end
+
     end
 
     def format(obj)
