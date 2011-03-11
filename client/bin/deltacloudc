@@ -38,6 +38,24 @@ deltacloudc collection operation [options]
 URL format:
 API_URL=http://[user]:[password]@[api_url][port][/uri]
 
+Examples:
+
+ 1. To list collections for deltacloud api on port 3333 of server deltacloud.foo
+
+        deltacloudc -l -u http://user:password@deltacloud.foo:3333/api
+
+ 2. To list the operations for the 'images' collection:
+
+        deltacloudc images -l -u http://user:password@deltacloud.foo:3333/api
+
+ 3. To list all images (i.e. call the 'index' operation of 'images'):
+
+        deltacloudc images index -u http://user:password@deltacloud.foo:3333/api
+
+ 4. To get the details of image '5':
+
+        deltacloudc images show -i 5 -u http://user:password@deltacloud.foo:3333/api
+
 Options:
 BANNER
   opts.on( '-i', '--id ID', 'ID for operation') { |id| options[:id] = id }
@@ -48,20 +66,29 @@ BANNER
   opts.on( '-s', '--state STATE', 'Instance state (RUNNING, STOPPED)') { |state| options[:state] = state }
   opts.on( '-u', '--url URL', 'API url ($API_URL variable)') { |url| options[:api_url] = url }
   opts.on( '-l', '--list', 'List collections/operations') { |id| options[:list] = true }
-  opts.on( '-h', '--help', 'Display this screen' ) { puts opts ; exit }
+  opts.on( '-h', '--help', 'Display this screen' ) { puts @optparse; Kernel.exit! }
   opts.on( '-v', '--version', 'Display API version' ) { options[:version]=true }
   opts.on( '-V', '--verbose', 'Print verbose messages' ) { options[:verbose]=true }
 end
 
 def invalid_usage(error_msg='')
-  puts "ERROR: #{error_msg}"
+  puts "\n ERROR: #{error_msg} \n\n"
+  puts @optparse
   exit(1)
 end
 
-@optparse.parse!
+begin
+    @optparse.parse!
+rescue Exception => e
+    invalid_usage(e.message)
+end
 
 # First try to get API_URL from environment
 options[:api_url] = ENV['API_URL'] if options[:api_url].nil?
+
+if(options[:api_url].nil?)
+    invalid_usage("You must supply the url to the deltacloud api; either use '-u' flag or set the 'API_URL' environment variable")
+end
 
 url = URI.parse(options[:api_url])
 api_url = "http://#{url.host}#{url.port ? ":#{url.port}" : ''}#{url.path}"
