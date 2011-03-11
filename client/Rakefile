@@ -17,6 +17,7 @@
 # under the License.
 
 require 'rake/gempackagetask'
+require 'rake/testtask'
 
 load 'deltacloud-client.gemspec'
 
@@ -24,6 +25,7 @@ desc "Generate documentation"
 task 'documentation' do
   load 'lib/documentation.rb'
 end
+
 
 spec = Gem::Specification.load('deltacloud-client.gemspec')
 Rake::GemPackageTask.new(spec) do |pkg|
@@ -42,6 +44,14 @@ desc "Setup Fixtures"
 task 'fixtures' do
   FileUtils.rm_rf( File.dirname( __FILE__ ) + '/specs/data' )
   FileUtils.cp_r( File.dirname( __FILE__ ) + '/specs/fixtures', File.dirname( __FILE__ ) + '/specs/data' )
+end
+
+namespace :test do
+  Rake::TestTask.new(:cmd) do |t|
+    t.libs << "tests"
+    t.test_files = FileList['tests/cmd.rb']
+    t.verbose = true
+  end
 end
 
 desc "Clean Fixtures"

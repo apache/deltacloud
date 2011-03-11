@@ -108,7 +108,6 @@ module DeltaCloud
         # First of all search throught array for method name
         m = search_for_method(method_name)
         if m.nil?
-          warn "[WARNING] Method unsupported by API: '#{self.class}.#{method_name}(#{args.inspect})'"
           return nil
         else
           # Call appropriate handler for method
