@@ -30,15 +30,17 @@ require 'lib/deltacloud/helpers/blob_stream'
 require 'sinatra/rack_driver_select'
 require 'sinatra/rack_runtime'
 require 'sinatra/rack_etag'
+require 'sinatra/rack_matrix_params'
 
 set :version, '0.2.0'
 
 include Deltacloud::Drivers
 set :drivers, Proc.new { driver_config }
 
-use Rack::DriverSelect
 use Rack::ETag
 use Rack::Runtime
+use Rack::MatrixParams
+use Rack::DriverSelect
 
 configure do
   set :raise_errors => false
