@@ -650,9 +650,9 @@ collection :keys do
     control do
       driver.destroy_key(credentials, { :key_name => params[:id]})
       respond_to do |format|
-        format.xml { return 204 }
-        format.json { return 204 }
-        format.html { return redirect(keys_url) }
+        format.xml { 204 }
+        format.json { 204 }
+        format.html { redirect(keys_url) }
       end
     end
   end

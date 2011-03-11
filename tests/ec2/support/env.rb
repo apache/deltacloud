@@ -23,7 +23,7 @@ World do
       set :environment => :test
       set :loggining => true
       set :raise_errors => true
-      set :show_exceptions => true
+      set :show_exceptions => false
       run Sinatra::Application
     end
   end

@@ -56,5 +56,5 @@ Then /^client should get created key$/ do
 end
 
 Then /^this key should be destroyed$/ do
-  last_response.status.should == 302
+  last_response.status.should == 204
 end
