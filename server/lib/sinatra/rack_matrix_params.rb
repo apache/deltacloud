@@ -40,8 +40,8 @@ module Rack
     # regular <form> parameters.
     
     def call(env)
-      # Return if this header is not set properly (Rack::Test case...)
-      return @app.call(env) unless env['REQUEST_URI']
+      # Copy PATH_INFO to REQUEST_URI if Rack::Test
+      env['REQUEST_URI'] = env['PATH_INFO'] if env['rack.test']
 
       # Split URI to components and then extract ;var=value pairs
       uri_components = env['REQUEST_URI'].split('/')

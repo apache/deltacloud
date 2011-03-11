@@ -89,5 +89,16 @@ module DeltacloudUnitTest
       (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints/entrypoint').first.text.should_not == ""
     end
 
+    def test_it_supports_matrix_params
+      do_xml_request "/api;driver=ec2"
+      last_response.status.should == 200
+      (last_xml_response/'api').first[:driver].should == 'ec2'
+      do_xml_request "/api;driver=mock"
+      (last_xml_response/'api').first[:driver].should == 'mock'
+      do_xml_request "/api;driver=ec2/hardware_profiles"
+      (last_xml_response/'hardware_profiles/hardware_profile/@id').map {|n| n.to_s}.include?('m1.small').should == true
+      last_response.status.should == 200
+    end
+
   end
 end
