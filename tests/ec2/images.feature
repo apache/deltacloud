@@ -12,7 +12,7 @@ Feature: Listing and showing images
     | architecture |
     | owner_id |
     | state |
-    | link |
+    | actions |
     And each image should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 
@@ -31,7 +31,7 @@ Feature: Listing and showing images
     | architecture |
     | owner_id |
     | state |
-    | link |
+    | actions |
     And this URI should be available in XML, JSON, HTML format
 
   Scenario: Filtering images by owner_id
