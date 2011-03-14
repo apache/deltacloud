@@ -9,5 +9,6 @@
               - haml_concat image.send(attribute)
           - else
             - haml_concat image.send(attribute)
-      %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{image.id}"}
+      %actions
+        %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{image.id}"}
 
