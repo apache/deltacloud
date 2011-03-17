@@ -39,6 +39,7 @@ group :test do
   gem "compass"
   gem "nokogiri"
   gem "rack-test"
+  gem "ci_reporter"
   gem "cucumber"
   gem "rcov"
   gem "rspec", "< 2.0.0" 
