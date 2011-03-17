@@ -10,14 +10,13 @@ gem "thin"
 gem "rerun"
 gem "json"
 gem "net-ssh"
-# openssl gem is required by net-ssh and it's not pulled in automatically
-gem "openssl"
 
 group :linode do
   gem 'linode'
 end
 
 group :amazon do
+  gem 'activesupport'
   gem 'aws'
 end
 
