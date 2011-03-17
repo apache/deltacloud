@@ -44,4 +44,6 @@ group :test do
   gem "cucumber"
   gem "rcov"
   gem "rspec", "< 2.0.0" 
+  # This gem is needed by activesupport (aws)
+  gem "i18n"
 end
