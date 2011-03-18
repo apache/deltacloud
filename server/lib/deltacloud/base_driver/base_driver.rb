@@ -68,7 +68,7 @@ module Deltacloud
     end
 
     def hardware_profile(credentials, name)
-      hardware_profiles(credentials, :name => name).first
+      hardware_profiles(credentials, :id => name).first
     end
 
     def filter_hardware_profiles(profiles, opts)
@@ -76,7 +76,8 @@ module Deltacloud
         if v = opts[:architecture]
           profiles = profiles.select { |hwp| hwp.include?(:architecture, v) }
         end
-        if v = opts[:name]
+        # As a request param, we call 'name' 'id'
+        if v = opts[:id]
           profiles = profiles.select { |hwp| hwp.name == v }
         end
       end
@@ -86,7 +87,7 @@ module Deltacloud
     def find_hardware_profile(credentials, name, image_id)
       hwp = nil
       if name
-        unless hwp = hardware_profiles(credentials, :name => name).first
+        unless hwp = hardware_profiles(credentials, :id => name).first
           raise BackendError.new(400, "bad-hardware-profile-name",
             "Hardware profile '#{name}' does not exist", nil)
         end
