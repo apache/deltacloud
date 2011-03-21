@@ -173,6 +173,18 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :user_files do
+      description "Accept up to 5 files to be placed into the instance before launch."
+      operation :create do
+        1.upto(5) do |i|
+          param :"path#{i}", :string, :optional, nil,
+          "Path where to place the #{i.ordinalize} file, up to 255 characters"
+          param :"content#{i}", :string, :optional, nil,
+          "Contents for the #{i.ordinalize} file, up to 10 kB, Base64 encoded"
+        end
+      end
+    end
+
     declare_feature :instances, :security_group do
       description "Put instance in one or more security groups on launch"
       operation :create do
