@@ -2,3 +2,5 @@ log/*.log
 *.swp
 *.kpf
 tmp/*
+pkg/*
+Gemfile.lock
