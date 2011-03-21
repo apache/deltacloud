@@ -100,5 +100,14 @@ module DeltacloudUnitTest
       last_response.status.should == 200
     end
 
+    def test_it_change_features_after_driver_change
+      do_xml_request "/api;driver=ec2"
+      (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_name"]').first.should == nil
+      (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_data"]').first.should_not == nil
+      do_xml_request "/api;driver=mock"
+      (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_name"]').first.should_not == nil
+      (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_data"]').first.should == nil
+    end
+
   end
 end
