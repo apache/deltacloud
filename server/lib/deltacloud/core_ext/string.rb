@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009,2010  Red Hat, Inc.
+# Copyright (C) 2011 David Lutterkort
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -16,28 +16,37 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-$:.unshift File.join(File.dirname(__FILE__), 'lib')
+class String
+  # Rails defines this for a number of other classes, including Object
+  # see activesupport/lib/active_support/core_ext/object/blank.rb
+  def blank?
+      self !~ /\S/
+  end
 
-require 'drivers'
+  # Title case.
+  #
+  #   "this is a string".titlecase
+  #   => "This Is A String"
+  #
+  # CREDIT: Eliazar Parra
+  # Copied from facets
+  def titlecase
+    gsub(/\b\w/){ $`[-1,1] == "'" ? $& : $&.upcase }
+  end
 
-require 'deltacloud/core_ext'
+  def pluralize
+    self + "s"
+  end
 
-require 'deltacloud/base_driver'
-require 'deltacloud/hardware_profile'
-require 'deltacloud/state_machine'
+  def singularize
+    self.gsub(/s$/, '')
+  end
 
-require 'deltacloud/models/base_model'
-require 'deltacloud/models/realm'
-require 'deltacloud/models/image'
-require 'deltacloud/models/instance'
-require 'deltacloud/models/key'
-require 'deltacloud/models/instance_profile'
-require 'deltacloud/models/storage_snapshot'
-require 'deltacloud/models/storage_volume'
-require 'deltacloud/models/bucket'
-require 'deltacloud/models/blob'
-require 'deltacloud/models/load_balancer'
-
-require 'deltacloud/validation'
-require 'deltacloud/helpers'
-require 'deltacloud/runner'
+  def underscore
+      gsub(/::/, '/').
+          gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+          gsub(/([a-z\d])([A-Z])/,'\1_\2').
+          tr("-", "_").
+          downcase
+  end
+end
