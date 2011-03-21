@@ -510,7 +510,7 @@ collection :storage_snapshots do
     with_capability :destroy_storage_snapshot
     param :id,  :string,  :required
     control do
-      driver.create_storage_snapshot(credentials, params)
+      driver.destroy_storage_snapshot(credentials, params)
       respond_to do |format|
         format.xml { return 204 }
         format.json { return 204 }
@@ -518,7 +518,6 @@ collection :storage_snapshots do
       end
     end
   end
-
 end
 
 get '/api/storage_volumes/new' do
