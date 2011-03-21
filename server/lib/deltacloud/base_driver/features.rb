@@ -118,7 +118,7 @@ module Deltacloud
     end
 
     def self.features
-      @@features ||= {}
+      @features ||= {}
     end
 
     # Declare in a driver that it supports a specific feature
