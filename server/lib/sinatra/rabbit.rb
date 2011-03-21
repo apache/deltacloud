@@ -312,41 +312,6 @@ module Sinatra
   helpers RabbitHelper
 end
 
-class String
-  # Rails defines this for a number of other classes, including Object
-  # see activesupport/lib/active_support/core_ext/object/blank.rb
-  def blank?
-      self !~ /\S/
-  end
-
-  # Title case.
-  #
-  #   "this is a string".titlecase
-  #   => "This Is A String"
-  #
-  # CREDIT: Eliazar Parra
-  # Copied from facets
-  def titlecase
-    gsub(/\b\w/){ $`[-1,1] == "'" ? $& : $&.upcase }
-  end
-
-  def pluralize
-    self + "s"
-  end
-
-  def singularize
-    self.gsub(/s$/, '')
-  end
-
-  def underscore
-      gsub(/::/, '/').
-          gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-          gsub(/([a-z\d])([A-Z])/,'\1_\2').
-          tr("-", "_").
-          downcase
-  end
-end
-
 configure do
   class << Sinatra::Base
     def options(path, opts={}, &block)

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2009,2010  Red Hat, Inc.
+# Copyright (C) 2011 David Lutterkort
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
@@ -16,28 +16,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-$:.unshift File.join(File.dirname(__FILE__), 'lib')
-
-require 'drivers'
-
-require 'deltacloud/core_ext'
-
-require 'deltacloud/base_driver'
-require 'deltacloud/hardware_profile'
-require 'deltacloud/state_machine'
-
-require 'deltacloud/models/base_model'
-require 'deltacloud/models/realm'
-require 'deltacloud/models/image'
-require 'deltacloud/models/instance'
-require 'deltacloud/models/key'
-require 'deltacloud/models/instance_profile'
-require 'deltacloud/models/storage_snapshot'
-require 'deltacloud/models/storage_volume'
-require 'deltacloud/models/bucket'
-require 'deltacloud/models/blob'
-require 'deltacloud/models/load_balancer'
-
-require 'deltacloud/validation'
-require 'deltacloud/helpers'
-require 'deltacloud/runner'
+class Integer
+  # Turn integers into strings +1st+, +2nd+, +3rd+ etc.
+  def ordinalize
+    if (11..13).include?(self % 100)
+      "#{self}th"
+    else
+      case self % 10
+      when 1; "#{self}st"
+      when 2; "#{self}nd"
+      when 3; "#{self}rd"
+      else    "#{self}th"
+      end
+    end
+  end
+end
