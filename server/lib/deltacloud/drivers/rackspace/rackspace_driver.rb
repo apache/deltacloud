@@ -19,6 +19,7 @@
 require 'deltacloud/base_driver'
 require 'cloudfiles'
 require 'cloudservers'
+require 'base64'
 
 module Deltacloud
   module Drivers
@@ -28,6 +29,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name
   feature :instances, :authentication_password
+  feature :instances, :user_files
 
   def supported_collections
     DEFAULT_COLLECTIONS + [ :buckets ] - [ :storage_snapshots, :storage_volumes ]
@@ -82,10 +84,12 @@ class RackspaceDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts)
     rs = new_client( credentials )
     result = nil
+    params = extract_personality(opts)
+    params[:name] = opts[:name] || Time.now.to_s
+    params[:imageId] = image_id.to_i
+    params[:flavorId] = (opts[:hwp_id] && opts[:hwp_id].length>0) ? opts[:hwp_id].to_i : 1
     safely do
-      server = rs.create_server(:name => opts[:name] || Time.now.to_s, 
-                       :imageId => image_id.to_i, 
-                       :flavorId => (opts[:hwp_id] && opts[:hwp_id].length>0) ? opts[:hwp_id].to_i : 1)
+      server = rs.create_server(params)
       result = convert_instance_after_create(server, credentials.user, server.adminPass)
     end
     result
@@ -394,6 +398,28 @@ private
     end
   end
 
+  private
+
+  def extract_personality(opts)
+    # This relies on an undocumented feature of the cloudservers gem:
+    # create_server allows passing in strings for the file contents
+    # directly if :personality maps to an array of hashes
+    ary = opts.inject([]) do |a, e|
+      k, v = e
+      if k.to_s =~ /^path([0-9]+)/
+        a << {
+          :path => v,
+          :contents => Base64.decode64(opts[:"content#{$1}"])
+        }
+      end
+      a
+    end
+    if ary.empty?
+      {}
+    else
+      { :personality => ary }
+    end
+  end
 end
 
     end
