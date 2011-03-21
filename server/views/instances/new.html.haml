@@ -73,4 +73,20 @@
           %br/
           %span.radio-group-details
             = "#{realm.name}, #{realm.limit}"
+  - if driver_has_feature?(:user_files, :instances)
+    %h2 User-supplied files
+    %table
+      %thead
+        %tr
+          %th
+          %th Path
+          %th Content (must be base64 encoded)
+      %tbody
+        - 1.upto(5) do |i|
+          %tr
+            %td #{i.ordinalize} File:
+            %td
+              %input{ :name => "path#{i}", :size => 20 }
+            %td
+              %input{ :name => "content#{i}", :size => 50 }
   %input{ :type => :submit, :name => "commit", :value => "create" }/
