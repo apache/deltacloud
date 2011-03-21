@@ -497,7 +497,7 @@ module Deltacloud
         def destroy_storage_snapshot(credentials, opts={})
           ec2 = new_client(credentials)
           safely do
-            unless convert_snapshot(opts[:id])
+            unless ec2.delete_snapshot(opts[:id])
               raise Deltacloud::BackendError.new(500, "StorageSnapshot", "Cannot destroy this snapshot")
             end
           end
