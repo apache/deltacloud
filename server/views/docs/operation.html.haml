@@ -25,5 +25,19 @@
           %em #{p.name}
         %td{:style => "width:10em"} #{p.type}
         %td #{p.klass}
-        %td{:style => "width:10em"} #{p.options.join(',')}
+        %td{:style => "width:10em"} #{p.options.join(', ')}
         %td #{p.description}
+    - @features.sort { |a,b| a.name.to_s <=> b.name.to_s }.each do |f|
+      %tr
+        %th{:colspan => 4}
+          Feature #{f.name}
+        %th{:colspan => 1}
+          %em= f.description
+      - f.decl.operation(@operation.name).each_param do |p|
+        %tr
+          %td{:style => "width:15em"}
+            %em #{p.name}
+          %td{:style => "width:10em"} #{p.type}
+          %td #{p.klass}
+          %td{:style => "width:10em"} #{p.options.join(', ')}
+          %td #{p.description}

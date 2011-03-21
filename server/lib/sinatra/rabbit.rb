@@ -74,6 +74,7 @@ module Sinatra
         coll, oper = @collection, self
         ::Sinatra::Application.get("/api/docs/#{@collection.name}/#{@name}") do
           @collection, @operation = coll, oper
+          @features = driver.features_for_operation(coll.name, oper.name)
           respond_to do |format|
             format.html { haml :'docs/operation' }
             format.xml { haml :'docs/operation' }
