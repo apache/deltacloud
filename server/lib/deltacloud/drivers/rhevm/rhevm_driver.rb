@@ -182,12 +182,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
       vm_template = "<template id='#{image_id}'/>"
       vm_cluster = opts[:realm_id] ? "<cluster id='#{opts[:realm_id]}'/>" : "<cluster id='0'/>"
       vm_type = opts[:hwp_id] ? "<type>#{opts[:hwp_id]}</type>" : "<type>DESKTOP</type>"
-      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024*1024}</memory>"  : ''
-      vm_cpus = opts[:hwp_cpu] ? "<cpu><topology cores='#{opts[:hwp_cpu]}' sockets='1'/></cpu>"  : ''
-      puts vm_cpus.inspect
-      # TODO: Add storage here (it isn't supported by RHEV-M API so far)
-      convert_instance(client, ::RHEVM::Vm::new(client, client.create_vm(
-        "<vm>"+
+      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024*1024}</memory>"  : "<memory>#{512*1024*1024}</memory>"
+      vm_cpus = opts[:hwp_cpu] ? "<cpu><topology cores='#{opts[:hwp_cpu]}' sockets='1'/></cpu>"  : "<cpu><topology cores='1' sockets='1'/></cpu>"
+      post_body = "<vm>"+
         vm_name +
         vm_template +
         vm_cluster +
@@ -195,8 +192,18 @@ class RHEVMDriver < Deltacloud::BaseDriver
         vm_memory +
         vm_cpus +
         "</vm>"
-      ).xpath('vm')))
+      convert_instance(client, ::RHEVM::Vm::new(client, client.create_vm(post_body).xpath('vm')))
     end
+  end
+
+  def valid_credentials?(credentials)
+    retval = true
+    begin
+      realms(credentials)
+    rescue Deltacloud::BackendError
+     retval = false
+    end
+    retval
   end
 
   private
