@@ -135,9 +135,9 @@ module Deltacloud
             end
             return img_arr
           end
-          owner_id = opts[:owner_id] || "amazon"
+          owner_id = opts[:owner_id] || default_image_owner
           safely do
-            img_arr = ec2.describe_images_by_owner(owner_id, "machine").collect do |image|
+            img_arr = ec2.describe_images_by_owner(owner_id, default_image_type).collect do |image|
               convert_image(image)
             end
           end
@@ -171,16 +171,19 @@ module Deltacloud
             inst_arr = ec2.describe_instances.collect do |instance| 
               convert_instance(instance) if instance
             end.flatten
-            tags = ec2.describe_tags(
-              'Filter.1.Name' => 'resource-type', 'Filter.1.Value' => 'instance'
-            )
-            inst_arr.each do |inst|
-              name_tag = tags.select { |t| (t[:aws_resource_id] == inst.id) and t[:aws_key] == 'name' }
-              unless name_tag.empty?
-                inst.name = name_tag.first[:aws_value]
+            if tagging?
+              tags = ec2.describe_tags('Filter.1.Name' => 'resource-type',
+                                       'Filter.1.Value' => 'instance')
+              inst_arr.each do |inst|
+                name_tag = tags.select do |t|
+                  (t[:aws_resource_id] == inst.id) and t[:aws_key] == 'name'
+                end
+                unless name_tag.empty?
+                  inst.name = name_tag.first[:aws_value]
+                end
               end
+              delete_unused_tags(credentials, inst_arr.collect {|inst| inst.id})
             end
-            delete_unused_tags(credentials, inst_arr.collect {|inst| inst.id})
           end
           inst_arr = filter_on( inst_arr, :id, opts )
           filter_on( inst_arr, :state, opts )
@@ -192,7 +195,7 @@ module Deltacloud
           instance_options.merge!(:user_data => opts[:user_data]) if opts[:user_data]
           instance_options.merge!(:key_name => opts[:keyname]) if opts[:keyname]
           instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
-          instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id]
+          instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id] && opts[:hwp_id].length > 0
           instance_options.merge!(:group_ids => opts[:security_group]) if opts[:security_group]
           instance_options.merge!(
             :min_count => opts[:instance_count],
@@ -202,14 +205,13 @@ module Deltacloud
             new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
             # TODO: Rework this to use client_id for name instead of tag
             #       Tags should be keept as an optional feature
-            if opts[:name]
-              tag_instance(credentials, new_instance, opts[:name])
-            end
+            tag_instance(credentials, new_instance, opts[:name])
             # Register Instance to Load Balancer if load_balancer_id is set.
             # This parameter is a feature parameter
-            if opts[:load_balancer_id] and opts[:load_balancer_id].length>0
-              elb = new_client(credentials, :elb)
-              elb.register_instances_with_load_balancer(opts[:load_balancer_id], [new_instance.id])
+            if opts[:load_balancer_id]
+              lb = lb_register_instance(credentials,
+                                        {'id' => opts[:load_balancer_id],
+                                         'instance_id' => new_instance.id})
             end
             new_instance
           end
@@ -524,6 +526,18 @@ module Deltacloud
           klass.new(credentials.user, credentials.password, {:server => endpoint_for_service(type), :connection_mode => :per_thread})
         end
 
+        def default_image_owner
+          "amazon"
+        end
+
+        def default_image_type
+          "machine"
+        end
+
+        def tagging?
+          true
+        end
+
         def endpoint_for_service(service)
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
@@ -532,9 +546,11 @@ module Deltacloud
         end
 
         def tag_instance(credentials, instance, name)
-          ec2 = new_client(credentials)
-          safely do
-            ec2.create_tag(instance.id, 'name', name)
+          if name
+            ec2 = new_client(credentials)
+            safely do
+              ec2.create_tag(instance.id, 'name', name)
+            end
           end
         end
 
