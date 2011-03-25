@@ -21,6 +21,10 @@
   :name: Rackspace
 :azure: 
   :name: Azure
+:eucalyptus:
+  :name: Eucalyptus
+  :username: Access Key ID
+  :password: Secret Access Key
 :ec2: 
   :entrypoints: 
     s3: 
