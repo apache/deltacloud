@@ -7,7 +7,7 @@
   :name: RHEVM
   :entrypoints:
     default:
-      default: "https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell"
+      default: "https://rhev-m.localhost:8443/rhevm-api-powershell"
 :rimuhosting: 
   :name: RimuHosting
 :opennebula: 
