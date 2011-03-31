@@ -13,6 +13,7 @@ Feature: Accessing API entry points
     And authentification is not required for this URI
     When client access this URI
     Then client should get list of valid entry points:
+    | drivers    |
     | buckets    |
     | keys       |
     | realms     |
@@ -29,6 +30,7 @@ Feature: Accessing API entry points
     And authentification is not required for this URI
     When client access this URI
     Then client should get list of valid entry points:
+    | drivers    |
     | buckets    |
     | keys       |
     | realms     |
