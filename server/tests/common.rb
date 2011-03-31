@@ -1,7 +1,6 @@
 $:.unshift File.join(File.dirname(__FILE__), '..')
 
 require 'rubygems'
-require 'yaml'
 require 'base64'
 require 'test/unit'
 require 'spec'
@@ -11,8 +10,11 @@ require 'json'
 # Set proper environment variables for running test
 
 ENV['RACK_ENV']     = 'test'
+ENV['API_DRIVER']   = 'mock'
 ENV['API_HOST']     = 'localhost'
 ENV['API_PORT']     = '4040'
+ENV['API_USER']     = 'mockuser'
+ENV['API_PASSWORD'] = 'mockpassword'
 
 require 'server'
 
@@ -60,29 +62,18 @@ module DeltacloudTestCommon
     "#{url}"
   end
 
-  require 'digest/sha1'
-
   def do_request(uri, params=nil, authentication=false, opts={ :format => :xml })
     header 'Accept', accept_header(opts[:format])
-    VCR.use_cassette(Digest::SHA1.hexdigest("#{uri}-#{params}-#{authentication}")) do
-      get create_url(uri), params || {}, (authentication) ? authenticate(opts) : {}
-    end
+    get create_url(uri), params || {}, (authentication) ? authenticate(opts) : {}
   end
 
   def do_xml_request(uri, params=nil, authentication=false)
     header 'Accept', accept_header(:xml)
-    VCR.use_cassette(Digest::SHA1.hexdigest("#{uri}-#{params}-#{(authentication) ? authenticate : ''}")) do
-      get create_url(uri), params || {}, (authentication) ? authenticate : {}
-    end
+    get create_url(uri), params || {}, (authentication) ? authenticate : {}
+    puts "[401] Authentication required to get #{uri}" if last_response.status == 401
     if last_response.status == 200
       @xml_response = false
       @xml_response = Nokogiri::XML(last_response.body)
-    end
-  end
-
-  def do_post(uri, params, authentication)
-    VCR.use_cassette(Digest::SHA1.hexdigest("#{uri}-#{params}-#{(authentication) ? authenticate : ''}")) do
-      post uri, params, authentication ? authenticate : nil
     end
   end
 

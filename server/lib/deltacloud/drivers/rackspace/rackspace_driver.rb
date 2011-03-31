@@ -154,16 +154,13 @@ class RackspaceDriver < Deltacloud::BaseDriver
     insts = []
 
     safely do
-      begin
-        if opts[:id]
-          server = rs.get_server(opts[:id].to_i)
-          insts << convert_instance_after_create(server, credentials.user)
-        else
-          insts = rs.list_servers_detail.collect do |server|
-            convert_instance(server, credentials.user)
-          end
+      if opts[:id]
+        server = rs.get_server(opts[:id].to_i)
+        insts << convert_instance_after_create(server, credentials.user)
+      else
+        insts = rs.list_servers_detail.collect do |server|
+          convert_instance(server, credentials.user)
         end
-      rescue CloudServers::Exception::ItemNotFound
       end
     end
 
