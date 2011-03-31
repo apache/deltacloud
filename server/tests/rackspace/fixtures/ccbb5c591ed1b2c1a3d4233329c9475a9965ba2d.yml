@@ -1,0 +1,79 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://auth.api.rackspacecloud.com:443/v1.0
+    body: 
+    headers: 
+      x-auth-user: 
+      - michalfojtik
+      x-auth-key: 
+      - 1f82168de18f91542834f1e861f37420
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 204
+      message: No Content
+    headers: 
+      x-auth-token: 
+      - 04301cb7-242b-4277-8735-2b81a227fd50
+      content-type: 
+      - application/octet-stream
+      server: 
+      - Apache/2.2.3 (Mosso Engineering)
+      date: 
+      - Wed, 30 Mar 2011 13:18:40 GMT
+      x-cdn-management-url: 
+      - https://cdn2.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      content-length: 
+      - "0"
+      x-server-management-url: 
+      - https://servers.api.rackspacecloud.com/v1.0/561604
+      x-storage-url: 
+      - https://storage101.ord1.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      x-storage-token: 
+      - 04301cb7-242b-4277-8735-2b81a227fd50
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://servers.api.rackspacecloud.com:443/v1.0/561604/images/detail
+    body: 
+    headers: 
+      accept: 
+      - application/json
+      x-auth-token: 
+      - 04301cb7-242b-4277-8735-2b81a227fd50
+      user-agent: 
+      - CloudServers Ruby API 0.4.1
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 203
+      message: OK
+    headers: 
+      last-modified: 
+      - Wed, 16 Mar 2011 16:37:05 GMT
+      x-varnish: 
+      - 432399321 432381864
+      connection: 
+      - keep-alive
+      content-type: 
+      - application/json
+      via: 
+      - 1.1 varnish
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Wed, 30 Mar 2011 13:18:41 GMT
+      content-length: 
+      - "2460"
+      cache-control: 
+      - s-maxage=1800
+      age: 
+      - "495"
+      vary: 
+      - Accept, Accept-Encoding, X-Auth-Token
+      x-purge-key: 
+      - /561604/images
+    body: "{\"images\":[{\"id\":58,\"status\":\"ACTIVE\",\"updated\":\"2010-09-17T07:19:20-05:00\",\"name\":\"Windows Server 2008 R2 x64 - MSSQL2K8R2\"},{\"id\":71,\"status\":\"ACTIVE\",\"updated\":\"2010-11-13T17:00:35-06:00\",\"name\":\"Fedora 14\"},{\"id\":62,\"status\":\"ACTIVE\",\"updated\":\"2011-03-16T11:37:05-05:00\",\"name\":\"Red Hat Enterprise Linux 5.5\"},{\"id\":29,\"status\":\"ACTIVE\",\"updated\":\"2010-01-26T12:07:32-06:00\",\"name\":\"Windows Server 2003 R2 SP2 x86\"},{\"id\":40,\"status\":\"ACTIVE\",\"updated\":\"2010-10-28T11:40:20-05:00\",\"name\":\"Oracle EL Server Release 5 Update 4\"},{\"id\":23,\"status\":\"ACTIVE\",\"updated\":\"2010-01-26T12:05:53-06:00\",\"name\":\"Windows Server 2003 R2 SP2 x64\"},{\"id\":19,\"status\":\"ACTIVE\",\"updated\":\"2009-12-15T15:43:39-06:00\",\"name\":\"Gentoo 10.1\"},{\"id\":31,\"status\":\"ACTIVE\",\"updated\":\"2010-01-26T12:07:44-06:00\",\"name\":\"Windows Server 2008 SP2 x86\"},{\"id\":57,\"status\":\"ACTIVE\",\"updated\":\"2010-09-17T07:16:25-05:00\",\"name\":\"Windows Server 2008 SP2 x64 - MSSQL2K8R2\"},{\"id\":14362,\"status\":\"ACTIVE\",\"updated\":\"2009-11-06T05:09:40-06:00\",\"name\":\"Ubuntu 9.10 (karmic)\"},{\"id\":49,\"status\":\"ACTIVE\",\"updated\":\"2010-05-04T08:58:18-05:00\",\"name\":\"Ubuntu 10.04 LTS (lucid)\"},{\"id\":55,\"status\":\"ACTIVE\",\"updated\":\"2010-06-29T05:21:55-05:00\",\"name\":\"Arch 2010.05\"},{\"id\":41,\"status\":\"ACTIVE\",\"updated\":\"2010-09-20T09:08:35-05:00\",\"name\":\"Oracle EL JeOS Release 5 Update 3\"},{\"id\":10,\"status\":\"ACTIVE\",\"updated\":\"2009-08-26T14:59:54-05:00\",\"name\":\"Ubuntu 8.04.2 LTS (hardy)\"},{\"id\":187811,\"status\":\"ACTIVE\",\"updated\":\"2009-12-16T01:02:17-06:00\",\"name\":\"CentOS 5.4\"},{\"id\":53,\"status\":\"ACTIVE\",\"updated\":\"2010-06-27T20:13:08-05:00\",\"name\":\"Fedora 13\"},{\"id\":24,\"status\":\"ACTIVE\",\"updated\":\"2010-01-26T12:07:04-06:00\",\"name\":\"Windows Server 2008 SP2 x64\"},{\"id\":51,\"status\":\"ACTIVE\",\"updated\":\"2010-05-21T00:01:43-05:00\",\"name\":\"CentOS 5.5\"},{\"id\":69,\"status\":\"ACTIVE\",\"updated\":\"2010-10-21T15:36:29-05:00\",\"name\":\"Ubuntu 10.10 (maverick)\"},{\"id\":28,\"status\":\"ACTIVE\",\"updated\":\"2010-01-26T12:07:17-06:00\",\"name\":\"Windows Server 2008 R2 x64\"},{\"id\":56,\"status\":\"ACTIVE\",\"updated\":\"2010-09-17T07:12:56-05:00\",\"name\":\"Windows Server 2008 SP2 x86 - MSSQL2K8R2\"},{\"id\":14,\"status\":\"ACTIVE\",\"updated\":\"2009-12-15T15:37:22-06:00\",\"name\":\"Red Hat Enterprise Linux 5.4\"},{\"id\":4,\"status\":\"ACTIVE\",\"updated\":\"2009-08-26T14:59:52-05:00\",\"name\":\"Debian 5.0 (lenny)\"},{\"progress\":100,\"id\":8766576,\"status\":\"ACTIVE\",\"created\":\"2011-02-28T07:40:50-06:00\",\"updated\":\"2011-03-01T06:33:53-06:00\",\"name\":\"Test11\"}]}"
+    http_version: "1.1"
