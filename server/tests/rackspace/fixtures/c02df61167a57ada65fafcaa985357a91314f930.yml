@@ -1,0 +1,79 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://auth.api.rackspacecloud.com:443/v1.0
+    body: 
+    headers: 
+      x-auth-user: 
+      - michalfojtik
+      x-auth-key: 
+      - 1f82168de18f91542834f1e861f37420
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 204
+      message: No Content
+    headers: 
+      x-auth-token: 
+      - 04301cb7-242b-4277-8735-2b81a227fd50
+      content-type: 
+      - application/octet-stream
+      server: 
+      - Apache/2.2.3 (Mosso Engineering)
+      date: 
+      - Wed, 30 Mar 2011 13:19:37 GMT
+      x-cdn-management-url: 
+      - https://cdn2.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      content-length: 
+      - "0"
+      x-server-management-url: 
+      - https://servers.api.rackspacecloud.com/v1.0/561604
+      x-storage-url: 
+      - https://storage101.ord1.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      x-storage-token: 
+      - 04301cb7-242b-4277-8735-2b81a227fd50
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://servers.api.rackspacecloud.com:443/v1.0/561604/servers/719790
+    body: 
+    headers: 
+      accept: 
+      - application/json
+      x-auth-token: 
+      - 04301cb7-242b-4277-8735-2b81a227fd50
+      user-agent: 
+      - CloudServers Ruby API 0.4.1
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      last-modified: 
+      - Wed, 30 Mar 2011 13:19:33 GMT
+      x-varnish: 
+      - "432406663"
+      connection: 
+      - keep-alive
+      content-type: 
+      - application/json
+      via: 
+      - 1.1 varnish
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Wed, 30 Mar 2011 13:19:39 GMT
+      content-length: 
+      - "243"
+      cache-control: 
+      - s-maxage=1800
+      age: 
+      - "0"
+      vary: 
+      - Accept, Accept-Encoding, X-Auth-Token
+      x-purge-key: 
+      - /561604/servers/719790
+    body: "{\"server\":{\"progress\":100,\"id\":719790,\"imageId\":71,\"flavorId\":2,\"status\":\"ACTIVE\",\"name\":\"WedMar3015184902002011\",\"hostId\":\"e714c2314598ddf91387d2a3099dc0bb\",\"addresses\":{\"public\":[\"50.56.107.228\"],\"private\":[\"10.181.184.204\"]},\"metadata\":{}}}"
+    http_version: "1.1"

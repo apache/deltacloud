@@ -60,18 +60,29 @@ module DeltacloudTestCommon
     "#{url}"
   end
 
+  require 'digest/sha1'
+
   def do_request(uri, params=nil, authentication=false, opts={ :format => :xml })
     header 'Accept', accept_header(opts[:format])
-    get create_url(uri), params || {}, (authentication) ? authenticate(opts) : {}
+    VCR.use_cassette(Digest::SHA1.hexdigest("#{uri}-#{params}-#{authentication}")) do
+      get create_url(uri), params || {}, (authentication) ? authenticate(opts) : {}
+    end
   end
 
   def do_xml_request(uri, params=nil, authentication=false)
     header 'Accept', accept_header(:xml)
-    get create_url(uri), params || {}, (authentication) ? authenticate : {}
-    puts "[401] Authentication required to get #{uri}" if last_response.status == 401
+    VCR.use_cassette(Digest::SHA1.hexdigest("#{uri}-#{params}-#{(authentication) ? authenticate : ''}")) do
+      get create_url(uri), params || {}, (authentication) ? authenticate : {}
+    end
     if last_response.status == 200
       @xml_response = false
       @xml_response = Nokogiri::XML(last_response.body)
+    end
+  end
+
+  def do_post(uri, params, authentication)
+    VCR.use_cassette(Digest::SHA1.hexdigest("#{uri}-#{params}-#{(authentication) ? authenticate : ''}")) do
+      post uri, params, authentication ? authenticate : nil
     end
   end
 

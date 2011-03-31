@@ -16,7 +16,7 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       header 'Accept', accept_header(:xml)
-      post '/api/instances', params, authenticate
+      do_post '/api/instances', params, authenticate
       last_response.status.should == 201 # Created
       @@instance = Nokogiri::XML(last_response.body)
       (@@instance/'instance').length.should > 0
@@ -34,7 +34,7 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       header 'Accept', accept_header(:xml)
-      post '/api/instances', params, authenticate
+      do_post '/api/instances', params, authenticate
       last_response.status.should == 201 # Created
       @@instance2 = Nokogiri::XML(last_response.body)
       (@@instance2/'instance').length.should > 0
@@ -80,8 +80,8 @@ module RackspaceTest
     end
 
     def test_04_01_created_instance_goes_to_running_state
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}, true
         last_response.status.should_not == 500
         state = (last_xml_response/'instance/state').first.text
         break if state=='RUNNING'
@@ -98,8 +98,8 @@ module RackspaceTest
     end
 
     def test_04_02_created_instance_goes_to_running_state
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}, true
         last_response.status.should_not == 500
         state = (last_xml_response/'instance/state').first.text
         break if state=='RUNNING'
@@ -120,10 +120,10 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       header 'Accept', accept_header(:xml)
-      post "/api/instances/#{(@@instance/'instance').first[:id]}/reboot", params, authenticate
+      do_post "/api/instances/#{(@@instance/'instance').first[:id]}/reboot", params, authenticate
       last_response.status.should == 200
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}, true
         last_response.status.should_not == 500
         state = (last_xml_response/'instance/state').first.text
         break if state=='RUNNING'
@@ -136,10 +136,10 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       header 'Accept', accept_header(:xml)
-      post "/api/instances/#{(@@instance/'instance').first[:id]}/stop", params, authenticate
+      do_post "/api/instances/#{(@@instance/'instance').first[:id]}/stop", params, authenticate
       last_response.status.should == 200
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}, true
         last_response.status.should_not == 500
         break if last_response.status == 404
         sleep(5)
@@ -152,16 +152,15 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       header 'Accept', accept_header(:xml)
-      post "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params, authenticate
+      do_post "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params, authenticate
       last_response.status.should == 200
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}, true
         last_response.status.should_not == 500
         break if last_response.status == 404
         sleep(5)
       end
       last_response.status.should == 404
     end
-
   end
 end
