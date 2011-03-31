@@ -179,6 +179,7 @@ module Sinatra
         @name = name
         @description = ""
         @operations = {}
+        @global = false
         instance_eval(&block) if block_given?
         generate_documentation
         generate_head
@@ -191,6 +192,18 @@ module Sinatra
       def description(text='')
         return @description if text.blank?
         @description = text
+      end
+
+      # Mark this collection as global, i.e. independent of any specific
+      # driver
+      def global!
+        @global = true
+      end
+
+      # Return +true+ if this collection is global, i.e. independent of any
+      # specific driver
+      def global?
+        @global
       end
 
       def generate_head
@@ -261,7 +274,7 @@ module Sinatra
       end
 
       def check_supported(driver)
-        unless driver.has_collection?(@name)
+        unless global? || driver.has_collection?(@name)
           raise UnsupportedCollectionException,
             "Collection #{@name} not supported by this driver"
         end
@@ -301,7 +314,7 @@ module Sinatra
 
     def entry_points
       collections.values.select { |coll|
-        driver.has_collection?(coll.name)
+        coll.global? || driver.has_collection?(coll.name)
       }.inject([]) do |m, coll|
         url = url_for coll.operations[:index].path, :full
         m << [ coll.name, url ]
