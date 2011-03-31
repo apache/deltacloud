@@ -84,17 +84,11 @@ Sinatra::Application.register Sinatra::RespondTo
 # Redirect to /api
 get '/' do redirect url_for('/api'), 301; end
 
-get '/api/drivers\/?' do
-  respond_to do |format|
-    format.xml { haml :"api/drivers" }
-    format.html { haml :"api/drivers" }
-  end
-end
-
 get '/api\/?' do
   if params[:force_auth]
     return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
   end
+  @collections = [:drivers] + driver.supported_collections
   respond_to do |format|
     format.xml { haml :"api/show" }
     format.json do
@@ -110,6 +104,41 @@ get '/api\/?' do
 end
 
 # Rabbit DSL
+
+collection :drivers do
+  global!
+
+  description <<EOS
+List all the drivers supported by this server.
+EOS
+
+  operation :index do
+    description "List all drivers"
+    control do
+      @drivers = settings.drivers
+      respond_to do |format|
+        format.xml { haml :"drivers/index" }
+        format.json { @drivers.to_json }
+        format.html { haml :"drivers/index" }
+      end
+    end
+  end
+
+  operation :show do
+    description "Show details for a driver"
+    param :id,      :string
+    control do
+      @name = params[:id].to_sym
+      @driver = settings.drivers[@name]
+      return [404, "Driver #{@name} not found"] unless @driver
+      respond_to do |format|
+        format.xml { haml :"drivers/show" }
+        format.json { @driver.to_json }
+        format.html { haml :"drivers/show" }
+      end
+    end
+  end
+end
 
 collection :realms do
   description <<END

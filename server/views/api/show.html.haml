@@ -2,7 +2,7 @@
   Deltacloud API #{settings.version}
 
 %ul
-  - driver.supported_collections.sort_by { |k| k.to_s }.each do |key|
+  - @collections.sort_by { |k| k.to_s }.each do |key|
     %li
       = link_to key.to_s.gsub('_', ' ').titlecase, url_for("/api/#{key}")
       %dl
