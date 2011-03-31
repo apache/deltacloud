@@ -1,6 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__), '..')
 
 require 'rubygems'
+require 'yaml'
 require 'base64'
 require 'test/unit'
 require 'spec'
@@ -10,11 +11,8 @@ require 'json'
 # Set proper environment variables for running test
 
 ENV['RACK_ENV']     = 'test'
-ENV['API_DRIVER']   = 'mock'
 ENV['API_HOST']     = 'localhost'
 ENV['API_PORT']     = '4040'
-ENV['API_USER']     = 'mockuser'
-ENV['API_PASSWORD'] = 'mockpassword'
 
 require 'server'
 
