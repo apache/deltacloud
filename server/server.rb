@@ -364,15 +364,17 @@ END
     param :realm_id,     :string, :optional
     param :hwp_id,       :string, :optional
     control do
-      @instance = driver.create_instance(credentials, params[:image_id], params)
+      @image = driver.image(credentials, :id => params[:image_id])
+      instance = driver.create_instance(credentials, @image.id, params)
       respond_to do |format|
         format.xml do
           response.status = 201  # Created
-          response['Location'] = instance_url(@instance.id)
+          response['Location'] = instance_url(instance.id)
+          @instance = instance
           haml :"instances/show"
         end
         format.html do
-          redirect instance_url(@instance.id) if @instance and @instance.id
+          redirect instance_url(instance.id) if instance and instance.id
           redirect instances_url
         end
       end
