@@ -1,0 +1,7 @@
+%drivers
+  - @drivers.each do |id, details|
+    %driver{ :href => driver_url(id), :id => id }
+      %name<
+        =details[:name]
+      - driver_provider(details).keys.each do |prov|
+        %provider{ :id => prov }

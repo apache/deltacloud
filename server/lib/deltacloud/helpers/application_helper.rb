@@ -204,4 +204,18 @@ module ApplicationHelper
     "#{text[0..(length/2)]}#{end_string}"
   end
 
+  # Reverse the entrypoints hash for a driver from drivers.yaml; note that
+  # +d+ is a hash, not an actual driver object
+  def driver_provider(d)
+    result = {}
+    if d[:entrypoints]
+      d[:entrypoints].each do |kind, details|
+        details.each do |prov, url|
+          result[prov] ||= {}
+          result[prov][kind] = url
+        end
+      end
+    end
+    result
+  end
 end

@@ -76,17 +76,21 @@ module DeltacloudUnitTest
     def test_it_expose_available_drivers
       do_xml_request '/api/drivers'
       last_response.status.should == 200
-      (last_xml_response/"api/drivers").length.should > 0
-      (last_xml_response/'api/drivers/driver').length.should > 0
+      (last_xml_response/"drivers").length.should > 0
+      (last_xml_response/'drivers/driver').length.should > 0
+      (last_xml_response/"drivers/driver[@id = 'mock']").length.should == 1
     end
 
     def test_it_expose_ec2_driver_entrypoints
       do_xml_request '/api/drivers'
       last_response.status.should == 200
-      (last_xml_response/"api/drivers").length.should > 0
-      (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints').length.should > 0
-      (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints/entrypoint').first[:id].should_not == nil
-      (last_xml_response/'api/drivers/driver[@id=ec2]/entrypoints/entrypoint').first.text.should_not == ""
+      ec2 = (last_xml_response/'drivers/driver[@id=ec2]').first
+      (ec2/"provider").length.should > 0
+      (ec2/"provider[@id = 'eu-west-1']").length.should == 1
+      do_xml_request ec2[:href]
+      eu_west = (last_xml_response/"provider[@id = 'eu-west-1']").first
+      (eu_west/"entrypoint").length.should > 0
+      (eu_west/"entrypoint[@kind = 'ec2']").length.should == 1
     end
 
     def test_it_supports_matrix_params

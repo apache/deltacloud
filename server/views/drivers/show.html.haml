@@ -1,0 +1,20 @@
+%h1
+  Details for driver #{@name}
+
+%dl
+  %di
+    %dt ID
+    %dd= @name
+  %di
+    %dt Name
+    %dd= @driver[:name]
+  %di
+    %dt Provider
+    %dd
+      - providers = driver_provider(@driver).keys.collect { |k| k.to_s }.sort
+      - if providers.empty?
+        None
+      - else
+        %ol
+          - providers.each do |k|
+            %li= k

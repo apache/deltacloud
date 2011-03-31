@@ -7,8 +7,9 @@
       %th ID
       %th Name
   %tbody
-    - settings.drivers.each do |id, details|
+    - @drivers.each do |id, details|
       %tr
         %td{ :width => '20%' }
-          %tt= id
+          %tt
+            %a{ :href => driver_url(id) }= id
         %td= details[:name]

@@ -1,0 +1,7 @@
+%driver{ :href => driver_url(@name), :id => @name }
+  %name<
+    = @driver[:name]
+  - driver_provider(@driver).each do |prov, details|
+    %provider{ :id => prov }
+      - details.each do |kind, url|
+        %entrypoint{ :kind => kind }<=cdata(url)
