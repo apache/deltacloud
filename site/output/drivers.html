@@ -82,21 +82,27 @@
         </li>
         <li>
         <a href="#h2">Launch the server</a>
+        </li>
+        <li>
+        <a href="#h3">Dynamic driver switching</a>
+        </li>
+        <li>
+        <a href="#h4">Notes on specific drivers</a>
         <ul>
         <li>
-        <a href="#h2_1">EC2 Driver</a>
+        <a href="#h4_1">EC2 Driver</a>
         </li>
         <li>
-        <a href="#h2_2">RHEV-M Driver</a>
+        <a href="#h4_2">RHEV-M Driver</a>
         </li>
         <li>
-        <a href="#h2_3">Rackspace Driver</a>
+        <a href="#h4_3">Rackspace Driver</a>
         </li>
         <li>
-        <a href="#h2_4">RimuHosting</a>
+        <a href="#h4_4">RimuHosting</a>
         </li>
         <li>
-        <a href="#h2_5">OpenNebula</a>
+        <a href="#h4_5">OpenNebula</a>
         </li>
         </ul></li></ul>
         <!-- = rest -->
@@ -106,6 +112,55 @@
         can handle a set of standard operations, some of them also support a number of
         optional operations to expose the features of specific clouds more closely. The
         drivers and their capabilities are:</p>
+        
+        <h2 id="h1">Setting up the code</h2>
+        
+        <p>To set up a Deltacloud core and the drivers, install the
+        <a href="http://rubygems.org/gems/deltacloud-core">deltacloud-core</a> Ruby gem:</p>
+        
+        <pre><code># gem install deltacloud-core&#x000A;</code></pre>
+        
+        <p>RPM package will be available soon.</p>
+        
+        <h2 id="h2">Launch the server</h2>
+        
+        <p>The server is launched with the <code>deltacloudd</code> command and pass it the name
+        of the driver you want to use:</p>
+        
+        <pre><code>$ deltacloudd -i mock&#x000A;</code></pre>
+        
+        <p>This will start a webserver running the mock driver on
+        <code>http://localhost:3001/api</code>; you can simply browse to that URL to get a
+        pretty view of the objects the driver deals with.</p>
+        
+        <h2 id="h3">Dynamic driver switching</h2>
+        
+        <p>The driver specified with the <code>-i</code> switch when <code>deltacloudd</code> is launched is
+        the default driver. Clients can switch drivers for any request. The list of
+        drivers supported by the server can be obtained from the <code>drivers</code>
+        collection.</p>
+        
+        <p>Some drivers also support the notion of a <em>provider</em>. Changing the provider
+        makes it possible to use the same driver against different instances of a
+        cloud, for example different regions in EC2 or different installations of
+        RHEV-M. The possible range of values for the provider is driver-specific.</p>
+        
+        <p>The driver and provider can be selected in one of two ways:</p>
+        
+        <ol>
+        <li>Through the request headers <code>X-Deltacloud-Driver</code> and
+        <code>X-Deltacloud-Provider</code>. For example, including the headers
+        <code>X-Deltacloud-Driver: ec2</code> and <code>X-Deltacloud-Provider: eu-west-1</code>
+        ensures that a request will be serviced by the EC2 driver, and that the
+        driver will use the eu-west-1 region in EC2.</li>
+        <li>Through the matrix request parameters <code>driver</code> and <code>provider</code> in the
+        <code>api</code> component of the server's URL. For example, requesting
+        <code>http://localhost:3001/api;driver=ec2;provider=eu-west-1</code> has the same
+        effect as using the two request headers mentioned above.</li>
+        </ol>
+        
+        
+        <h2 id="h4">Notes on specific drivers</h2>
         <h3>Compute Drivers</h3>
         <table id='providers'>
           <tr>
@@ -340,27 +395,7 @@
         
         
         
-        <h2 id="h1">Setting up the code</h2>
-        
-        <p>To set up a Deltacloud core and the drivers, install the
-        <a href="http://rubygems.org/gems/deltacloud-core">deltacloud-core</a> Ruby gem:</p>
-        
-        <pre><code># gem install deltacloud-core&#x000A;</code></pre>
-        
-        <p>RPM package will be available soon.</p>
-        
-        <h2 id="h2">Launch the server</h2>
-        
-        <p>The server is launched with the <code>deltacloudd</code> command and pass it the name
-        of the driver you want to use:</p>
-        
-        <pre><code>$ deltacloudd -i mock&#x000A;</code></pre>
-        
-        <p>This will start a webserver running the mock driver on
-        <code>http://localhost:3001/api</code>; you can simply browse to that URL to get a
-        pretty view of the objects the driver deals with.</p>
-        
-        <h3 id="h2_1">EC2 Driver</h3>
+        <h3 id="h4_1">EC2 Driver</h3>
         
         <p>For the Amazon EC2 you need to install the <code>amazon-ec2</code> Ruby gem:</p>
         
@@ -373,7 +408,7 @@
         <p>These credentials may be found on the <a href="http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key">Access Identifiers</a>
         page at Amazon AWS.</p>
         
-        <h3 id="h2_2">RHEV-M Driver</h3>
+        <h3 id="h4_2">RHEV-M Driver</h3>
         
         <p>The RHEV-M driver needs to be installed on a Windows machine which has the
         RHEV-M Powershell API installed and configured. Assuming the directory
@@ -386,18 +421,18 @@
         the RHEVM.dll.config file which is referenced from the profile.ps1
         file located in My Documents/WindowsPowershell directory</p>
         
-        <h3 id="h2_3">Rackspace Driver</h3>
+        <h3 id="h4_3">Rackspace Driver</h3>
         
         <p>When using the Rackspace-cloud driver (Rackspace cloud used to be called
         "Mosso") - the password in a HTTP 401 challenge should be your API key, NOT
         your rackspace account password.  (you can get the API-key, or generate a
         new one, from the rackspace console).</p>
         
-        <h3 id="h2_4">RimuHosting</h3>
+        <h3 id="h4_4">RimuHosting</h3>
         
         <p>Further details coming soon.</p>
         
-        <h3 id="h2_5">OpenNebula</h3>
+        <h3 id="h4_5">OpenNebula</h3>
         
         <p>When using the <a href="http://www.opennebula.org/">OpenNebula</a> driver, the
         credentials passed in response to the HTTP 401 authentication challenge
