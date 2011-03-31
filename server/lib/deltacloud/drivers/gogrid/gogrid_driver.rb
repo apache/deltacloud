@@ -471,15 +471,6 @@ class GogridDriver < Deltacloud::BaseDriver
     end
     return ip
   end
-
-  def safely(&block)
-    begin
-      block.call
-    rescue Exception => e
-      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
-    end
-  end
-
 end
 
     end

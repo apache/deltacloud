@@ -508,8 +508,8 @@ class MockDriver < Deltacloud::BaseDriver
   def catched_exceptions_list
     {
       :auth => [],
-      :error => [ ::Deltacloud::BackendError, Errno::ENOENT ],
-      :glob => []
+      :error => [ /Deltacloud::BackendError/, /Errno::ENOENT/ ],
+      :glob => [ /Error/ ]
     }
   end
 

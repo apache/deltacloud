@@ -238,18 +238,26 @@ module Deltacloud
     def safely(&block)
       begin
         block.call
-      rescue *catched_exceptions_list[:error] => e
-        raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace)
-      rescue *catched_exceptions_list[:auth] => e
-        raise Deltacloud::AuthException.new
       rescue => e
-        catched_exceptions_list[:glob].each do |ex|
-          raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace) if e.class.name =~ ex
+        catched_exceptions_list[:auth].each do |ex|
+          if e.class == ex or e.class.name =~ ex or e.message =~ ex
+            raise Deltacloud::AuthException.new
+          end
         end
-        puts "======= UNHANDLED EXCEPTION ============"
-        puts e.inspect
-        puts "========================================"
-        raise e
+        catched_exceptions_list[:error].each do |ex|
+          if e.class == ex or e.class.name =~ ex or e.message =~ ex
+            raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace) if e.class.name =~ ex
+          end
+        end
+        catched_exceptions_list[:glob].each do |ex|
+          if e.class == ex or e.class.name =~ ex or e.message =~ ex
+            raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
+          end
+        end
+        $stderr.puts "# UNCAUGHT EXCEPTION # -> '#{e.class}' - '#{e.message}'"
+        $stderr.puts "# #{e.backtrace.join("\n")}"
+        $stderr.puts "##############"
+        raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
       end
     end
 

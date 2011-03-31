@@ -393,12 +393,12 @@ private
     end
   end
 
-  def safely(&block)
-    begin
-      block.call
-    rescue Exception => e
-      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
-    end
+  def catched_exceptions_list
+    {
+      :auth => [ /Authentication failed/ ],
+      :error => [ /Error/ ],
+      :glob => [ /CloudServers::Exception::(\w+)/, /Deltacloud::Runner::(\w+)/ ]
+    }
   end
 
   private

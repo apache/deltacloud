@@ -66,8 +66,9 @@ end
 error Deltacloud::BackendCapability::Failure do
   report_error(405, "backend_capability_failure")
 end
+
 error Deltacloud::AuthException do
-  report_error(403, "auth_exception")
+  report_error(401, "auth_exception")
 end
 
 error Deltacloud::BackendError do

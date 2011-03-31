@@ -715,8 +715,8 @@ module Deltacloud
 
         def catched_exceptions_list
           {
-            :auth => [], # [ ::Aws::AuthFailure ],
-            :error => [ ::Aws::AwsError ],
+            :auth => [ /AuthFailure/ ],
+            :error => [ /Aws::AwsError/, /Error/ ],
             :glob => [ /AWS::(\w+)/, /Deltacloud::Runner::(\w+)/ ]
           }
         end
