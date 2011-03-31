@@ -5,8 +5,6 @@ can handle a set of standard operations, some of them also support a number of
 optional operations to expose the features of specific clouds more closely. The
 drivers and their capabilities are:
 
-<table providers></table>
-
 ## Setting up the code
 
 To set up a Deltacloud core and the drivers, install the
@@ -28,6 +26,34 @@ of the driver you want to use:
 This will start a webserver running the mock driver on
 `http://localhost:3001/api`; you can simply browse to that URL to get a
 pretty view of the objects the driver deals with.
+
+## Dynamic driver switching
+
+The driver specified with the `-i` switch when `deltacloudd` is launched is
+the default driver. Clients can switch drivers for any request. The list of
+drivers supported by the server can be obtained from the `drivers`
+collection.
+
+Some drivers also support the notion of a *provider*. Changing the provider
+makes it possible to use the same driver against different instances of a
+cloud, for example different regions in EC2 or different installations of
+RHEV-M. The possible range of values for the provider is driver-specific.
+
+The driver and provider can be selected in one of two ways:
+
+1. Through the request headers `X-Deltacloud-Driver` and
+   `X-Deltacloud-Provider`. For example, including the headers
+   `X-Deltacloud-Driver: ec2` and `X-Deltacloud-Provider: eu-west-1`
+   ensures that a request will be serviced by the EC2 driver, and that the
+   driver will use the eu-west-1 region in EC2.
+2. Through the matrix request parameters `driver` and `provider` in the
+   `api` component of the server's URL. For example, requesting
+   `http://localhost:3001/api;driver=ec2;provider=eu-west-1` has the same
+   effect as using the two request headers mentioned above.
+
+## Notes on specific drivers
+
+<table providers></table>
 
 ### EC2 Driver
 
