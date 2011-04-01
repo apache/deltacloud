@@ -211,10 +211,8 @@ module DeltaCloud
       params.merge!({ :initial_state => (item/'state').text.sanitize }) if (item/'state').length > 0
 
       obj = base_object.new(params)
-
       # Traverse across XML document and deal with elements
       item.xpath('./*').each do |attribute|
-
         # Do a link for elements which are links to other REST models
         if self.entry_points.keys.include?(:"#{attribute.name}s")
           obj.add_link!(attribute.name, attribute['id']) && next unless (attribute.name == 'bucket' && item.name == 'blob')
@@ -241,6 +239,16 @@ module DeltaCloud
           obj.add_link!("instance", (attribute/"./instance/@id").first.value)
           obj.add_text!("device", (attribute/"./device/@name").first.value)
           next
+        end
+
+        #deal with blob metadata
+        if(attribute.name == 'user_metadata')
+          meta = {}
+          attribute.children.select {|x| x.name=="entry" }.each  do |element|
+            value = element.content.gsub!(/(\n) +/,'')
+            meta[element['key']] = value
+          end
+          obj.add_collection!(attribute.name, meta.inspect) && next
         end
 
         # Deal with collections like public-addresses, private-addresses
