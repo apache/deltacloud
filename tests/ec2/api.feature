@@ -18,6 +18,7 @@ Feature: Accessing API entry points
     | keys  |
     | buckets |
     | images     |
+    | drivers |
     | load_balancers |
     | instance_states |
     | hardware_profiles  |
@@ -34,6 +35,7 @@ Feature: Accessing API entry points
     | instances  |
     | keys  |
     | buckets |
+    | drivers |
     | images     |
     | load_balancers |
     | instance_states |
