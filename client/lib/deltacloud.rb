@@ -20,11 +20,11 @@ require 'nokogiri'
 require 'rest_client'
 require 'base64'
 require 'logger'
-
 require 'hwp_properties'
 require 'instance_state'
 require 'documentation'
 require 'base_object'
+require 'client_bucket_methods'
 
 module DeltaCloud
 
@@ -95,6 +95,9 @@ module DeltaCloud
       @features, @entry_points = {}, {}
       @verbose = opts[:verbose] || false
       discover_entry_points
+      if entry_points.include?(:buckets)
+        extend(ClientBucketMethods)
+      end
       yield self if block_given?
     end
 
