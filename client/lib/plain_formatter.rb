@@ -118,6 +118,14 @@ module DeltaCloud
         end
       end
 
+      class Driver < Base
+        def format
+          sprintf("%-15s | %-15s | %-s",
+                  @obj.id,
+                  @obj.name,
+                  @obj.url)
+        end
+      end
     end
 
     def format(obj)

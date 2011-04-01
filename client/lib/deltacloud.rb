@@ -66,23 +66,6 @@ module DeltaCloud
     API.new(nil, nil, url).driver_name
   end
 
-  def self.drivers(url)
-    api = API.new(nil, nil, url)
-    drivers = {}
-    api::request(:get, '/drivers', {}) do |response|
-      response = Nokogiri::XML(response)
-      (response/"/api/drivers/driver").each do |d|
-        drivers[d[:id].to_sym] = { :name => (d/'name').text }
-        entrypoint = {}
-        (d/'entrypoints').each do |entrypoint|
-          entrypoint = (entrypoint/'entrypoint').collect { |e| { :id => e[:id], :url => e.text } }
-        end
-        drivers[d[:id].to_sym].merge!({ :entrypoints => entrypoint }) unless entrypoint.empty?
-      end
-    end
-    drivers
-  end
-
   class API
     attr_reader :api_uri, :driver_name, :api_version, :features, :entry_points
     attr_reader :api_driver, :api_provider
