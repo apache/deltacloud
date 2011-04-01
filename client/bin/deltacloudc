@@ -70,6 +70,13 @@ BANNER
   opts.on( '-h', '--help', 'Display this screen' ) { puts @optparse; Kernel.exit! }
   opts.on( '-v', '--version', 'Display API version' ) { options[:version]=true }
   opts.on( '-V', '--verbose', 'Print verbose messages' ) { options[:verbose]=true }
+  opts.on( '-f', '--file-path PATH', 'local path for new blob data') {|path| options[:file_path]=path }
+  opts.on( '-m', '--blob-metadata k1=v1, k2=v2', 'Comma seperated k=v pairs for blob metadata (for create operation)') do |meta|
+                    blob_meta = {}
+                    meta.gsub!(/ /,"")
+                    meta.scan(/(\w+)=(\w+)/).map {|k,v| blob_meta[k] = v }
+                    options[:blob_metadata] = blob_meta
+                end
 end
 
 def invalid_usage(error_msg='')
@@ -120,7 +127,10 @@ end
 if options[:list] and options[:collection]
   #deal with blobs again - bypass 'normal' docs procedure
   if options[:collection] =~ /blob/i
-    puts "show : Get details of a specified blob in a specified bucket (GET /api/buckets/:bucket/:blob)"
+    puts "create \t\t: Create a new blob in a specified bucket (POST /api/buckets/:bucket)"
+    puts "destroy \t: Delete a specified blob in a specified bucket (DELETE /api/buckets/:bucket/:blob)"
+    puts "show \t\t: Get details of a specified blob in a specified bucket (GET /api/buckets/:bucket/:blob)"
+    puts "data \t\t: Get the contents of a specified blob - the blob data content itself"
     exit(0)
   end
   doc = client.documentation(options[:collection])
@@ -160,14 +170,24 @@ if options[:collection] and options[:operation]
 
   # If collection is set and requested operation is 'show' just 'singularize'
   # collection name and print item with specified id (-i parameter)
-
   #Blobs are a special case so deal with first -
-  if options[:operation].eql?('show') && options[:collection] =~ (/blob/i)
+  if options[:collection] =~ (/blob/i)
     invalid_usage("Please specify the bucket for this blob using the -b option") unless options[:bucket_id]
     invalid_usage("Missing blob ID, please specify with -i option") unless options[:id]
     params = {}
     params.merge!(:id => options[:id], 'bucket' => options[:bucket_id])
-    puts format(client.send( options[:collection], params))
+    params.merge!('metadata'=>options[:blob_metadata]) unless options[:blob_metadata].nil?
+    case options[:operation]
+        when 'show' then puts format(client.send( options[:collection], params))
+        when 'data' then puts (client.blob_data(params))
+        when 'create' then
+            invalid_usage("Specify the location of the new blob data (full local path) using -f option") unless options[:file_path]
+            params.merge!('file_path'=>options[:file_path])
+            blob = client.create_blob(params)
+            puts format(blob)
+        when 'destroy' then client.destroy_blob(params)
+        else invalid_usage("Please specify a valid operation for the blob collection - try -l to see available operations")
+    end
     exit(0)
   end
 
@@ -190,6 +210,21 @@ if options[:collection] and options[:operation]
     params.merge!(:hwp_id => options[:hwp_id]) if options[:hwp_id]
     instance = client.create_instance(options[:image_id], params)
     puts format(instance)
+    exit(0)
+  end
+
+  #Create and Destroy a bucket - require the bucket id:
+  if options[:collection].eql?('buckets')
+    if options[:operation].eql?('create')
+        invalid_usage("Please specify an id for the new bucket with -i") unless options[:id]
+        bucket = client.create_bucket('id'=>options[:id])
+        puts format(bucket)
+    elsif options[:operation].eql?('destroy')
+        invalid_usage("Please specify the bucket you wish to destroy with -i") unless options[:id]
+        client.destroy_bucket('id'=>options[:id])
+    else
+        invalid_usage("Please specify a valid operation on buckets - use -l to see valid operations")
+    end
     exit(0)
   end
 

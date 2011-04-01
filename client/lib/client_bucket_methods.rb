@@ -11,13 +11,14 @@ module ClientBucketMethods
   def destroy_bucket(params)
     #actually response here is 204 - no content - so nothing returned to client?
     request(:delete, "#{api_uri.to_s}/buckets/#{params['id']}") do |response|
+      handle_backend_error(response) if response.code!=204
       response
     end
   end
 
   def create_blob(params)
     blob = nil
-    resource = RestClient::Resource.new("#{api_uri.to_s}/buckets/#{params[:bucket]}", :open_timeout => 10, :timeout => 45)
+    resource = RestClient::Resource.new("#{api_uri.to_s}/buckets/#{params['bucket']}", :open_timeout => 10, :timeout => 45)
     headers = default_headers.merge(extended_headers)
     unless params['metadata'].nil?
       metadata_headers = {}
@@ -36,6 +37,7 @@ module ClientBucketMethods
 
   def destroy_blob(params)
     request(:delete, "#{api_uri.to_s}/buckets/#{params['bucket']}/#{params[:id]}") do |response|
+      handle_backend_error(response) if response.code!=204
       response
     end
   end
