@@ -728,9 +728,9 @@ delete '/api/buckets/:bucket/:blob' do
   blob_id = params[:blob]
   driver.delete_blob(credentials, bucket_id, blob_id)
   respond_to do |format|
-    format.xml { return 204 }
-    format.json { return 204 }
-    format.html { return bucket_url(bucket_id) }
+    format.xml {  204 }
+    format.json {  204 }
+    format.html { bucket_url(bucket_id) }
   end
 end
 
@@ -841,9 +841,9 @@ collection :buckets do
     control do
       driver.delete_bucket(credentials, params[:id], params)
       respond_to do |format|
-        format.xml { return 204 }
-        format.json { return 204 }
-        format.html { return redirect(buckets_url) }
+        format.xml { 204 }
+        format.json {  204 }
+        format.html {  redirect(buckets_url) }
       end
     end
   end
