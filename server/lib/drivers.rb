@@ -15,11 +15,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-# FIXME: This should be moved into lib/ and be called Deltacloud::Drivers
-# or some such
 module Deltacloud
 
   module Drivers
+
+    require 'yaml'
 
     DEFAULT_COLLECTIONS = [
       :hardware_profiles,
