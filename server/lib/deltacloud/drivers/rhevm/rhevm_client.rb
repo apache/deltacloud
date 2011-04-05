@@ -91,7 +91,7 @@ module RHEVM
     end
 
     def create_vm(opts="")
-      Nokogiri::XML(post("#{@base_uri}/vms", opts))
+      (Nokogiri::XML(post("#{@base_uri}/vms", opts))/'vm').first
     end
 
     def delete_vm(id)
@@ -114,7 +114,6 @@ module RHEVM
       if ENV['RACK_ENV'] == 'test'
         response = mock_request(:get, uri, {}, headers)
       else
-        puts "[RHEV-M] #{uri}"
         begin
           response = RestClient.get(uri, headers).to_s
         rescue Exception => e
@@ -155,7 +154,6 @@ module RHEVM
     def read_fake_url(filename)
       fixture_file = "../tests/rhevm/support/fixtures/#{filename}"
       if File.exists?(fixture_file)
-        puts "Using fixture: #{fixture_file}"
         return JSON::parse(File.read(fixture_file))
       else
         raise FixtureNotFound.new
@@ -183,7 +181,6 @@ module RHEVM
         }
         fixtures_dir = "../tests/rhevm/support/fixtures/"
         FileUtils.mkdir_p(fixtures_dir)
-        puts "Saving fixture #{fixture_filename}"
         File.open(File::join(fixtures_dir, fixture_filename), 'w') do |f|
           f.puts [request_uri, http_method, response].to_json
         end and retry
@@ -256,8 +253,6 @@ module RHEVM
       @nics = get_nics(client, xml)
       self
     end
-
-    private
 
     def get_nics(client, xml)
       nics = []
@@ -343,3 +338,5 @@ class String
   end
 
 end
+
+require "lib/deltacloud/drivers/rhevm/rhevm_ip_helper"
