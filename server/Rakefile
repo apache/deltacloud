@@ -32,7 +32,7 @@ namespace :test do
 
   desc "Run mock unit tests"
   Rake::TestTask.new("mock") { |t|
-    t.test_files = FileList.new('tests/drivers/mock/*_test.rb') + FileList.new('tests/rabbit_test.rb')
+    t.test_files = ['tests/common.rb', 'tests/drivers/mock/setup.rb'] + FileList.new('tests/drivers/mock/*_test.rb') + FileList.new('tests/rabbit_test.rb')
     t.options = "-v -v"
     t.verbose = true
     t.warning = false

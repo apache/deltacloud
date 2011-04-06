@@ -15,10 +15,9 @@ module RackspaceTest
         :image_id => '71',
         :'api[driver]' => 'rackspace',
       }
-      header 'Accept', accept_header(:xml)
-      post '/api/instances', params, authenticate
+      post_url '/api/instances', params
       last_response.status.should == 201 # Created
-      @@instance = Nokogiri::XML(last_response.body)
+      @@instance = last_xml_response
       (@@instance/'instance').length.should > 0
       (@@instance/'instance/name').first.text.should_not == nil
       (@@instance/'instance/name').first.text.should_not == nil
@@ -33,10 +32,9 @@ module RackspaceTest
         :hwp_id => '2',
         :'api[driver]' => 'rackspace',
       }
-      header 'Accept', accept_header(:xml)
-      post '/api/instances', params, authenticate
+      post_url '/api/instances', params
       last_response.status.should == 201 # Created
-      @@instance2 = Nokogiri::XML(last_response.body)
+      @@instance2 = last_xml_response
       (@@instance2/'instance').length.should > 0
       (@@instance2/'instance/name').first.text.should_not == nil
       (@@instance2/'instance/name').first.text.should_not == nil
@@ -80,15 +78,15 @@ module RackspaceTest
     end
 
     def test_04_01_created_instance_goes_to_running_state
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        get_auth_url "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
         state = (last_xml_response/'instance/state').first.text
         break if state=='RUNNING'
         sleep(5)
       end
       @@instance = last_xml_response
-      do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      get_auth_url "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}"
       last_response.status.should_not == 500
       (last_xml_response/'instance/state').first.text.should == 'RUNNING'
       (last_xml_response/'instance/actions/link[@rel="reboot"]').first.should_not == nil
@@ -98,15 +96,15 @@ module RackspaceTest
     end
 
     def test_04_02_created_instance_goes_to_running_state
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        get_auth_url "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
         state = (last_xml_response/'instance/state').first.text
         break if state=='RUNNING'
         sleep(5)
       end
       @@instance2 = last_xml_response
-      do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", {}, true
+      get_auth_url "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}"
       last_response.status.should_not == 500
       (last_xml_response/'instance/state').first.text.should == 'RUNNING'
       (last_xml_response/'instance/actions/link[@rel="reboot"]').first.should_not == nil
@@ -115,15 +113,14 @@ module RackspaceTest
       (last_xml_response/'instance/actions/link[@rel="run"]').first.should_not == nil
     end
 
-    def test_05_created_instance_can_be_rebooted
+    def test_05_01_created_instance_can_be_rebooted
       params = {
         :'api[driver]' => 'rackspace',
       }
-      header 'Accept', accept_header(:xml)
-      post "/api/instances/#{(@@instance/'instance').first[:id]}/reboot", params, authenticate
+      post_url "/api/instances/#{(@@instance/'instance').first[:id]}/reboot", params
       last_response.status.should == 200
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        get_auth_url "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
         state = (last_xml_response/'instance/state').first.text
         break if state=='RUNNING'
@@ -131,15 +128,14 @@ module RackspaceTest
       end
     end
 
-    def test_06_created_instance_can_be_destroyed
+    def test_06_01_created_instance_can_be_destroyed
       params = {
         :'api[driver]' => 'rackspace',
       }
-      header 'Accept', accept_header(:xml)
-      post "/api/instances/#{(@@instance/'instance').first[:id]}/stop", params, authenticate
+      post_url "/api/instances/#{(@@instance/'instance').first[:id]}/stop", params
       last_response.status.should == 200
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        get_auth_url "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
         break if last_response.status == 404
         sleep(5)
@@ -151,17 +147,15 @@ module RackspaceTest
       params = {
         :'api[driver]' => 'rackspace',
       }
-      header 'Accept', accept_header(:xml)
-      post "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params, authenticate
+      post_url "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params, authenticate
       last_response.status.should == 200
-      20.times do
-        do_xml_request "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", {}, true
+      20.times do |tick|
+        get_auth_url "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
         break if last_response.status == 404
         sleep(5)
       end
       last_response.status.should == 404
     end
-
   end
 end

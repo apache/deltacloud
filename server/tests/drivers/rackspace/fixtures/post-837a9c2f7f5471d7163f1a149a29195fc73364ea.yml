@@ -1,0 +1,196 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://auth.api.rackspacecloud.com:443/v1.0
+    body: 
+    headers: 
+      x-auth-user: 
+      - michalfojtik
+      x-auth-key: 
+      - 47de1170d57eb8f11dba2f6e7fd26838
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 204
+      message: No Content
+    headers: 
+      x-auth-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+      content-type: 
+      - application/octet-stream
+      server: 
+      - Apache/2.2.3 (Mosso Engineering)
+      date: 
+      - Thu, 31 Mar 2011 12:38:01 GMT
+      x-cdn-management-url: 
+      - https://cdn2.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      content-length: 
+      - "0"
+      x-server-management-url: 
+      - https://servers.api.rackspacecloud.com/v1.0/561604
+      x-storage-url: 
+      - https://storage101.ord1.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      x-storage-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://servers.api.rackspacecloud.com:443/v1.0/561604/servers/722338
+    body: 
+    headers: 
+      accept: 
+      - application/json
+      x-auth-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+      user-agent: 
+      - CloudServers Ruby API 0.4.1
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      last-modified: 
+      - Thu, 31 Mar 2011 12:36:44 GMT
+      x-varnish: 
+      - "437933481"
+      connection: 
+      - keep-alive
+      content-type: 
+      - application/json
+      via: 
+      - 1.1 varnish
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Thu, 31 Mar 2011 12:38:02 GMT
+      content-length: 
+      - "243"
+      cache-control: 
+      - s-maxage=1800
+      age: 
+      - "0"
+      vary: 
+      - Accept, Accept-Encoding, X-Auth-Token
+      x-purge-key: 
+      - /561604/servers/722338
+    body: "{\"server\":{\"progress\":100,\"id\":722338,\"imageId\":71,\"flavorId\":2,\"status\":\"ACTIVE\",\"name\":\"ThuMar3114354602002011\",\"hostId\":\"9d13306835530e8b384b0751b2bbb51b\",\"addresses\":{\"public\":[\"50.56.108.136\"],\"private\":[\"10.181.175.131\"]},\"metadata\":{}}}"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://auth.api.rackspacecloud.com:443/v1.0
+    body: 
+    headers: 
+      x-auth-user: 
+      - michalfojtik
+      x-auth-key: 
+      - 47de1170d57eb8f11dba2f6e7fd26838
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 204
+      message: No Content
+    headers: 
+      x-auth-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+      content-type: 
+      - application/octet-stream
+      server: 
+      - Apache/2.2.3 (Mosso Engineering)
+      date: 
+      - Thu, 31 Mar 2011 12:38:04 GMT
+      x-cdn-management-url: 
+      - https://cdn2.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      content-length: 
+      - "0"
+      x-server-management-url: 
+      - https://servers.api.rackspacecloud.com/v1.0/561604
+      x-storage-url: 
+      - https://storage101.ord1.clouddrive.com/v1/MossoCloudFS_317909a7-4980-462e-b37c-42da54393ba5
+      x-storage-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://servers.api.rackspacecloud.com:443/v1.0/561604/servers/722338
+    body: 
+    headers: 
+      accept: 
+      - application/json
+      x-auth-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+      user-agent: 
+      - CloudServers Ruby API 0.4.1
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 203
+      message: OK
+    headers: 
+      last-modified: 
+      - Thu, 31 Mar 2011 12:36:44 GMT
+      x-varnish: 
+      - 437933775 437933481
+      connection: 
+      - keep-alive
+      content-type: 
+      - application/json
+      via: 
+      - 1.1 varnish
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Thu, 31 Mar 2011 12:38:04 GMT
+      content-length: 
+      - "243"
+      cache-control: 
+      - s-maxage=1800
+      age: 
+      - "2"
+      vary: 
+      - Accept, Accept-Encoding, X-Auth-Token
+      x-purge-key: 
+      - /561604/servers/722338
+    body: "{\"server\":{\"progress\":100,\"id\":722338,\"imageId\":71,\"flavorId\":2,\"status\":\"ACTIVE\",\"name\":\"ThuMar3114354602002011\",\"hostId\":\"9d13306835530e8b384b0751b2bbb51b\",\"addresses\":{\"public\":[\"50.56.108.136\"],\"private\":[\"10.181.175.131\"]},\"metadata\":{}}}"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :delete
+    uri: https://servers.api.rackspacecloud.com:443/v1.0/561604/servers/722338
+    body: 
+    headers: 
+      accept: 
+      - application/json
+      x-auth-token: 
+      - 82fcef6b-9aa8-476b-a6aa-3adfb5985ef4
+      user-agent: 
+      - CloudServers Ruby API 0.4.1
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 202
+      message: Accepted
+    headers: 
+      x-varnish: 
+      - "437933848"
+      connection: 
+      - keep-alive
+      content-type: 
+      - text/xml
+      via: 
+      - 1.1 varnish
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Thu, 31 Mar 2011 12:38:07 GMT
+      content-length: 
+      - "0"
+      cache-control: 
+      - no-cache
+      age: 
+      - "0"
+      vary: 
+      - Accept, Accept-Encoding, X-Auth-Token
+    body: 
+    http_version: "1.1"

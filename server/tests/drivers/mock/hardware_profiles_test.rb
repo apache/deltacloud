@@ -28,26 +28,26 @@ module DeltacloudUnitTest
     end
 
     def test_it_returns_hardware_profiles
-      do_xml_request '/api/hardware_profiles'
+      get_url '/api/hardware_profiles'
       (last_xml_response/'hardware_profiles/hardware_profile').length.should > 0
     end
 
     def test_it_has_correct_attributes_set
-      do_xml_request '/api/hardware_profiles'
+      get_auth_url '/api/hardware_profiles'
       (last_xml_response/'hardware_profiles/hardware_profile').each do |profile|
         profile.attributes.keys.sort.should == [ 'href', 'id' ]
       end
     end
 
     def test_hardware_profiles_have_name
-      do_xml_request '/api/hardware_profiles'
+      get_auth_url '/api/hardware_profiles'
       (last_xml_response/'hardware_profiles/hardware_profile').each do |profile|
         (profile/'name').text.should_not == nil
       end
     end
 
     def test_hardware_profiles_have_unique_name
-      do_xml_request '/api/hardware_profiles'
+      get_auth_url '/api/hardware_profiles'
       names = []
       (last_xml_response/'hardware_profiles/hardware_profile').each do |profile|
         names << (profile/'name').text
@@ -56,7 +56,7 @@ module DeltacloudUnitTest
     end
 
     def test_hardware_profiles_have_unique_id
-      do_xml_request '/api/hardware_profiles'
+      get_auth_url '/api/hardware_profiles'
       ids = []
       (last_xml_response/'hardware_profiles/hardware_profile').each do |profile|
         ids << profile['id']
@@ -65,44 +65,42 @@ module DeltacloudUnitTest
     end
 
     def test_m1_xlarge_profile_has_correct_attributes
-      do_xml_request '/api/hardware_profiles'
+      get_auth_url '/api/hardware_profiles'
       profile = (last_xml_response/'hardware_profiles/hardware_profile[@id="m1-xlarge"]')
       test_profile_properties(profile)
     end
 
     def test_it_returns_valid_hardware_profile
-      do_xml_request '/api/hardware_profiles/m1-xlarge'
+      get_auth_url '/api/hardware_profiles/m1-xlarge'
       profile = (last_xml_response/'hardware_profile')
       test_profile_properties(profile)
     end
 
     def test_it_responses_to_json
-      do_request '/api/hardware_profiles', {}, false, { :format => :json }
+      get_url '/api/hardware_profiles', {}, { :format => :json }
       JSON::parse(last_response.body).class.should == Hash
       JSON::parse(last_response.body)['hardware_profiles'].class.should == Array
-
-      do_request '/api/hardware_profiles/m1-xlarge', {}, false, { :format => :json }
+      get_url '/api/hardware_profiles/m1-xlarge', {}, { :format => :json }
       last_response.status.should == 200
       JSON::parse(last_response.body).class.should == Hash
       JSON::parse(last_response.body)['hardware_profile'].class.should == Hash
     end
 
     def test_it_responses_to_html
-      do_request '/api/hardware_profiles', {}, false, { :format => :html }
+      get_url '/api/hardware_profiles', {}, { :format => :html }
       last_response.status.should == 200
       Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
-
-      do_request '/api/hardware_profiles/m1-xlarge', {}, false, { :format => :html }
+      get_url '/api/hardware_profiles/m1-xlarge', {}, { :format => :html }
       last_response.status.should == 200
       Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
     end
 
     def test_it_returns_error_on_wrong_name
-      do_request '/api/hardware_profiles/m1-unknown-wrongname', {}, false, { :format => :html }
+      get_url '/api/hardware_profiles/m1-unknown-wrongname', {}, { :format => :html }
       last_response.status.should == 404
-      do_xml_request '/api/hardware_profiles/m1-unknown-wrongname'
+      get_auth_url '/api/hardware_profiles/m1-unknown-wrongname'
       last_response.status.should == 404
-      do_request '/api/hardware_profiles/m1-unknown-wrongname', {}, false, { :format => :json }
+      get_url '/api/hardware_profiles/m1-unknown-wrongname', {}, { :format => :json }
       last_response.status.should == 404
     end
 

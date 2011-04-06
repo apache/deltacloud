@@ -11,12 +11,12 @@ module RackspaceTest
     end
 
     def test_01_it_returns_images
-      do_xml_request '/api;driver=rackspace/images', {}, true
+      get_auth_url '/api;driver=rackspace/images'
       (last_xml_response/'images/image').length.should > 0
     end
 
     def test_02_each_image_has_correct_properties
-      do_xml_request '/api;driver=rackspace/images', {}, true
+      get_auth_url '/api;driver=rackspace/images'
       (last_xml_response/'images/image').each do |image|
         (image/'name').should_not == nil
         (image/'name').should_not == ''
@@ -32,7 +32,7 @@ module RackspaceTest
     end
 
     def test_03_it_returns_single_image
-      do_xml_request '/api;driver=rackspace/images/71', {}, true
+      get_auth_url '/api;driver=rackspace/images/71'
       (last_xml_response/'image').length.should == 1
     end
 
