@@ -11,12 +11,12 @@ module RackspaceTest
     end
 
     def test_01_it_returns_realms
-      do_xml_request '/api;driver=rackspace/realms', {}, true
+      get_auth_url '/api;driver=rackspace/realms'
       (last_xml_response/'realms/realm').length.should == 1
     end
 
     def test_02_each_realm_has_a_name
-      do_xml_request '/api;driver=rackspace/realms', {}, true
+      get_auth_url '/api;driver=rackspace/realms'
       (last_xml_response/'realms/realm').each do |profile|
         (profile/'name').text.should_not == nil
         (profile/'name').text.should_not == ''
@@ -25,7 +25,7 @@ module RackspaceTest
     end
 
     def test_03_it_returns_single_realm
-      do_xml_request '/api;driver=rackspace/realms/us', {}, true
+      get_auth_url '/api;driver=rackspace/realms/us'
       (last_xml_response/'realm').first[:id].should == 'us'
       (last_xml_response/'realm/name').first.text.should == 'United States'
       (last_xml_response/'realm/state').first.text.should == 'AVAILABLE'

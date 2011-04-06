@@ -32,12 +32,12 @@ module DeltacloudUnitTest
     end
 
     def test_it_returns_instance_states
-      do_xml_request '/api/instance_states', {}, true
+      get_auth_url '/api/instance_states', {}
       (last_xml_response/'states/state').length.should > 0
     end
 
     def test_each_state_has_transition
-      do_xml_request '/api/instance_states', {}, true
+      get_auth_url '/api/instance_states', {}
       (last_xml_response/'states/state').each do |state|
         next if state['name'].eql?('finish') # Finnish state doesn't have transitions
         (state/'transition').length.should > 0
@@ -58,13 +58,13 @@ module DeltacloudUnitTest
     end
 
     def test_it_responses_to_html
-      do_request '/api/instance_states', {}, false, { :format => :html }
+      get_url '/api/instance_states', {}, { :format => :html }
       last_response.status.should == 200
       Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
     end
 
     def test_it_responses_to_png
-      do_request '/api/instance_states', { :format => 'png' }, false
+      get_url '/api/instance_states', { :format => 'png' }
       last_response.status.should == 200
       last_response.headers['Content-Type'].should =~ /^image\/png/
     end

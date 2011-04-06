@@ -11,13 +11,13 @@ module RackspaceTest
     end
 
     def test_01_it_returns_entry_points
-      do_xml_request '/api;driver=rackspace/?force_auth=1', {}, true
+      get_auth_url '/api;driver=rackspace/?force_auth=1'
       (last_xml_response/'/api').first[:driver].should == 'rackspace'
       (last_xml_response/'/api/link').length.should > 0
     end
 
     def test_02_it_has_rackspace_features
-      do_xml_request '/api;driver=rackspace'
+      get_url '/api;driver=rackspace'
       features = (last_xml_response/'/api/link[@rel="instances"]/feature').collect { |f| f[:name] }
       features.include?('user_name').should == true
       features.include?('authentication_password').should == true
@@ -26,7 +26,7 @@ module RackspaceTest
     end
 
     def test_03_it_has_rackspace_collections
-      do_xml_request '/api;driver=rackspace'
+      get_url '/api;driver=rackspace'
       collections = (last_xml_response/'/api/link').collect { |f| f[:rel] }
       collections.include?('instance_states').should == true
       collections.include?('instances').should == true
@@ -34,7 +34,7 @@ module RackspaceTest
       collections.include?('buckets').should == true
       collections.include?('realms').should == true
       collections.include?('hardware_profiles').should == true
-      collections.length.should == 6
+      collections.length.should == 7
     end
 
   end

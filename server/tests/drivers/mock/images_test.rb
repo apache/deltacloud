@@ -32,31 +32,31 @@ module DeltacloudUnitTest
     end
 
     def test_it_returns_images
-      do_xml_request '/api/images', {}, true
+      get_auth_url '/api/images', {}
       (last_xml_response/'images/image').length.should > 0
     end
 
     def test_it_has_correct_attributes_set
-      do_xml_request '/api/images', {}, true
+      get_auth_url '/api/images', {}
       (last_xml_response/'images/image').each do |image|
         image.attributes.keys.sort.should == [ 'href', 'id' ]
       end
     end
 
     def test_img1_has_correct_attributes
-      do_xml_request '/api/images', {}, true
+      get_auth_url '/api/images', {}
       image = (last_xml_response/'images/image[@id="img1"]')
       test_image_attributes(image)
     end
 
     def test_it_returns_valid_image
-      do_xml_request '/api/images/img1', {}, true
+      get_auth_url '/api/images/img1', {}
       image = (last_xml_response/'image')
       test_image_attributes(image)
     end
 
     def test_it_has_unique_ids
-      do_xml_request '/api/images', {}, true
+      get_auth_url '/api/images', {}
       ids = []
       (last_xml_response/'images/image').each do |image|
         ids << image['id'].to_s
@@ -65,54 +65,52 @@ module DeltacloudUnitTest
     end
 
     def test_it_has_valid_urls
-      do_xml_request '/api/images', {}, true
+      get_auth_url '/api/images', {}
       ids = []
       images = (last_xml_response/'images/image')
       images.each do |image|
-        do_xml_request image['href'].to_s, {}, true
+        get_auth_url image['href'].to_s, {}
         (last_xml_response/'image').first['href'].should == image['href'].to_s
       end
     end
 
     def test_it_can_filter_using_owner_id
-      do_xml_request '/api/images', { :owner_id => 'mockuser' }, true
+      get_auth_url '/api/images', { :owner_id => 'mockuser' }
       (last_xml_response/'images/image').length.should == 1
       (last_xml_response/'images/image/owner_id').first.text.should == 'mockuser'
     end
 
     def test_it_can_filter_using_unknown_owner_id
-      do_xml_request '/api/images', { :architecture => 'unknown_user' }, true
+      get_auth_url '/api/images', { :architecture => 'unknown_user' }
       (last_xml_response/'images/image').length.should == 0
     end
 
     def test_it_can_filter_using_architecture
-      do_xml_request '/api/images', { :architecture => 'x86_64' }, true
+      get_auth_url '/api/images', { :architecture => 'x86_64' }
       (last_xml_response/'images/image').length.should == 1
       (last_xml_response/'images/image/architecture').first.text.should == 'x86_64'
     end
 
     def test_it_can_filter_using_unknown_architecture
-      do_xml_request '/api/images', { :architecture => 'unknown_arch' }, true
+      get_auth_url '/api/images', { :architecture => 'unknown_arch' }
       (last_xml_response/'images/image').length.should == 0
     end
 
     def test_it_responses_to_json
-      do_request '/api/images', {}, true, { :format => :json }
+      get_auth_url '/api/images', {}, { :format => :json }
       JSON::parse(last_response.body).class.should == Hash
       JSON::parse(last_response.body)['images'].class.should == Array
-
-      do_request '/api/images/img1', {}, true, { :format => :json }
+      get_auth_url '/api/images/img1', {}, { :format => :json }
       last_response.status.should == 200
       JSON::parse(last_response.body).class.should == Hash
       JSON::parse(last_response.body)['image'].class.should == Hash
     end
 
     def test_it_responses_to_html
-      do_request '/api/images', {}, true, { :format => :html }
+      get_auth_url '/api/images', {}, { :format => :html }
       last_response.status.should == 200
       Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
-
-      do_request '/api/images/img1', {}, true, { :format => :html }
+      get_auth_url '/api/images/img1', {}, { :format => :html }
       last_response.status.should == 200
       Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
     end

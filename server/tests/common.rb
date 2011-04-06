@@ -35,14 +35,15 @@ ENV['API_PORT']     = '4040'
 require 'server'
 
 configure :test do
-  set :loggining, true
-  set :clean_trace, true
+  set :loggining, false
+  set :clean_trace, false
   set :dump_errors, true
-  set :raise_errors, true
+  set :raise_errors => false
   set :show_exceptions, false
 end
 
 require 'rack/test'
+require 'digest/sha1'
 
 Spec::Runner.configure do |conf|
   conf.include Rack::Test::Methods
@@ -50,22 +51,32 @@ end
 
 module DeltacloudTestCommon
 
-  def auth_hash(credentials)
-    "Basic " + Base64.encode64("#{credentials[:user]}:#{credentials[:password]}")
+  def recording?
+    @use_recording
   end
 
+  def record!
+    @use_recording = true
+  end
+
+
+  # Authentication helper for Basic HTTP authentication
+  # To change default user credentials stored in ENV['API_USER|PASSWORD'] you
+  # need to set opts[:credentials] = { :user => '...', :password => '...'}
+  #
   def authenticate(opts={})
     credentials = opts[:credentials] || { :user => ENV['API_USER'], :password => ENV['API_PASSWORD']}
     return {
-      'HTTP_AUTHORIZATION' => auth_hash(credentials),
+      'HTTP_AUTHORIZATION' => "Basic " + Base64.encode64("#{credentials[:user]}:#{credentials[:password]}")
     }
   end
 
-  def default_headers
-    { 'SERVER_PORT' => ENV['API_PORT'] }
-  end
-
-  def accept_header(format=:xml)
+  # HTTP Accept header helper.
+  # Will set appropriate value for this header.
+  # Available options for format are: :json, :html or :xml
+  # By default :xml is used
+  #
+  def accept(format=:xml)
     case format
       when :json then 'application/json;q=0.9'
       when :html then 'text/html;q=0.9'
@@ -74,37 +85,75 @@ module DeltacloudTestCommon
     end
   end
 
-  def create_url(url, format = :xml)
-    "#{url}"
+  # This helper will execute GET operation on given URI.
+  # You can set additional parameters using params Hash, which will be passed to
+  # request.
+  # You can change format used for communication using opts[:format] = :xml | :html :json
+  # You can turn on recording (you need to configure it first in setup.rb) using
+  # opts[:record] (true/false)
+  # You can force authentication using opts[:auth] parameter or use
+  # 'get_auth_url' which will do it for you ;-)
+  #
+  def get_url(uri, params={}, opts={})
+    header 'Accept', accept(opts[:format] || :xml)
+    if DeltacloudTestCommon::recording?
+      VCR.use_cassette("get-" + Digest::SHA1.hexdigest("#{uri}-#{params}}")) do
+        get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
+      end
+    else
+        get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
+    end
+    last_response.status.should_not == 401
   end
 
-  def do_request(uri, params=nil, authentication=false, opts={ :format => :xml })
-    header 'Accept', accept_header(opts[:format])
-    get create_url(uri), params || {}, (authentication) ? authenticate(opts) : {}
+  def get_auth_url(uri, params={}, opts={})
+    opts.merge!(:auth => true)
+    get_url(uri, params, opts)
   end
 
-  def do_xml_request(uri, params=nil, authentication=false)
-    header 'Accept', accept_header(:xml)
-    get create_url(uri), params || {}, (authentication) ? authenticate : {}
-    puts "[401] Authentication required to get #{uri}" if last_response.status == 401
-    if last_response.status == 200
-      @xml_response = false
-      @xml_response = Nokogiri::XML(last_response.body)
+  def post_url(uri, params={}, opts={})
+    header 'Accept', accept(opts[:format] || :xml)
+    if DeltacloudTestCommon::recording?
+      VCR.use_cassette("post-" + Digest::SHA1.hexdigest("#{uri}-#{params}")) do
+        post(uri, params || {}, authenticate(opts))
+      end
+    else
+        post(uri, params || {}, authenticate(opts))
     end
   end
 
+  def delete_url(uri, params={}, opts={})
+    header 'Accept', accept(opts[:format] || :xml)
+    if DeltacloudTestCommon::recording?
+      VCR.use_cassette("delete-"+Digest::SHA1.hexdigest("#{uri}-#{params}")) do
+        delete(uri, params || {}, authenticate(opts))
+      end
+    else
+        delete(uri, params || {}, authenticate(opts))
+    end
+  end
+
+  def put_url(uri, params={}, opts={})
+    header 'Accept', accept(opts[:format] || :xml)
+    if DeltacloudTestCommon::recording?
+      VCR.use_cassette("put-"+Digest::SHA1.hexdigest("#{uri}-#{params}-#{authenticate(opts)}")) do
+        put(uri, params || {}, authenticate(opts))
+      end
+    else
+        put(uri, params || {}, authenticate(opts))
+    end
+  end
+
+  # This helper will automatically convert output from method above to Nokogiri
+  # XML object
+  def last_xml_response
+    Nokogiri::XML(last_response.body) #if last_response.status.to_s =~ /2(\d+)/
+  end
+
+  # Check if given URI require authentication
   def require_authentication?(uri)
     get uri, {}
-    true if last_response.status.eql?(401)
-  end
-
-  def last_xml_response
-    @xml_response || Nokogiri::XML::Document.new
-  end
-
-  def add_created_instance(id)
-    $created_instances ||= []
-    $created_instances << id
+    true if last_response.status == 401
   end
 
   def with_provider(new_provider, &block)
@@ -116,6 +165,12 @@ module DeltacloudTestCommon
       ENV["API_PROVIDER"] = old_provider
     end
   end
+
+  def add_created_instance(id)
+    $created_instances ||= []
+    $created_instances << id
+  end
+
 end
 
 include DeltacloudTestCommon
