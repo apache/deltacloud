@@ -338,5 +338,3 @@ class String
   end
 
 end
-
-require "lib/deltacloud/drivers/rhevm/rhevm_ip_helper"
