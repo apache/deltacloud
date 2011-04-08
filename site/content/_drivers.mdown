@@ -37,7 +37,8 @@ collection.
 Some drivers also support the notion of a *provider*. Changing the provider
 makes it possible to use the same driver against different instances of a
 cloud, for example different regions in EC2 or different installations of
-RHEV-M. The possible range of values for the provider is driver-specific.
+RHEV-M. The possible range of values for the provider is driver-specific,
+and listed below for each driver.
 
 The driver and provider can be selected in one of two ways:
 
@@ -57,9 +58,10 @@ The driver and provider can be selected in one of two ways:
 
 ### EC2 Driver
 
-For the Amazon EC2 you need to install the `amazon-ec2` Ruby gem:
+For the Amazon EC2 you need to install the
+[aws](https://github.com/appoxy/aws) Ruby gem:
 
-    # gem install amazon-ec2
+    # gem install aws
 
 When using the driver for Amazon EC2, the credentials passed in
 response to the HTTP 401 authentication challenge should be your
@@ -67,6 +69,26 @@ response to the HTTP 401 authentication challenge should be your
 
 These credentials may be found on the [Access Identifiers](http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key)
 page at Amazon AWS.
+
+The providers for the EC2 driver correspond to AWS's regions, and currently
+are `us-east-1`, `us-east-1`, `eu-west-1`, `ap-southeast-1`.
+
+### Eucalyptus Driver
+
+The Eucalyptus driver is based on the EC2 driver, and therefore also
+requires the `aws` gem.
+
+The driver allows selecting the Eucalyptus installation by setting a
+provider in the format
+
+    ec2=IP[:PORT];s3=IP[:PORT]
+
+For example, for the Eucalyptus installation at `192.168.1.1:8773` and a
+Walrus installation at `192.168.1.2:8773`, the driver can be pointed at
+that installation by passing the request headers
+
+    X-Deltacloud-Driver: eucalyptus
+    X-Deltacloud-Provider: ec2=192.168.1.1:8773;s3=192.168.1.2:8773
 
 ### RHEV-M Driver
 
