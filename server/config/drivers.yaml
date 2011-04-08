@@ -25,6 +25,9 @@
   :name: Eucalyptus
   :username: Access Key ID
   :password: Secret Access Key
+  :entrypoints:
+    default:
+      default: "ec2=EUCALYPTUS_IP[:PORT];s3=WALRUS_IP[:PORT]"
 :ec2: 
   :entrypoints: 
     s3: 

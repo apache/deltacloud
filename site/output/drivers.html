@@ -93,16 +93,19 @@
         <a href="#h4_1">EC2 Driver</a>
         </li>
         <li>
-        <a href="#h4_2">RHEV-M Driver</a>
+        <a href="#h4_2">Eucalyptus Driver</a>
         </li>
         <li>
-        <a href="#h4_3">Rackspace Driver</a>
+        <a href="#h4_3">RHEV-M Driver</a>
         </li>
         <li>
-        <a href="#h4_4">RimuHosting</a>
+        <a href="#h4_4">Rackspace Driver</a>
         </li>
         <li>
-        <a href="#h4_5">OpenNebula</a>
+        <a href="#h4_5">RimuHosting</a>
+        </li>
+        <li>
+        <a href="#h4_6">OpenNebula</a>
         </li>
         </ul></li></ul>
         <!-- = rest -->
@@ -143,7 +146,8 @@
         <p>Some drivers also support the notion of a <em>provider</em>. Changing the provider
         makes it possible to use the same driver against different instances of a
         cloud, for example different regions in EC2 or different installations of
-        RHEV-M. The possible range of values for the provider is driver-specific.</p>
+        RHEV-M. The possible range of values for the provider is driver-specific,
+        and listed below for each driver.</p>
         
         <p>The driver and provider can be selected in one of two ways:</p>
         
@@ -397,9 +401,10 @@
         
         <h3 id="h4_1">EC2 Driver</h3>
         
-        <p>For the Amazon EC2 you need to install the <code>amazon-ec2</code> Ruby gem:</p>
+        <p>For the Amazon EC2 you need to install the
+        <a href="https://github.com/appoxy/aws">aws</a> Ruby gem:</p>
         
-        <pre><code># gem install amazon-ec2&#x000A;</code></pre>
+        <pre><code># gem install aws&#x000A;</code></pre>
         
         <p>When using the driver for Amazon EC2, the credentials passed in
         response to the HTTP 401 authentication challenge should be your
@@ -408,7 +413,26 @@
         <p>These credentials may be found on the <a href="http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key">Access Identifiers</a>
         page at Amazon AWS.</p>
         
-        <h3 id="h4_2">RHEV-M Driver</h3>
+        <p>The providers for the EC2 driver correspond to AWS's regions, and currently
+        are <code>us-east-1</code>, <code>us-east-1</code>, <code>eu-west-1</code>, <code>ap-southeast-1</code>.</p>
+        
+        <h3 id="h4_2">Eucalyptus Driver</h3>
+        
+        <p>The Eucalyptus driver is based on the EC2 driver, and therefore also
+        requires the <code>aws</code> gem.</p>
+        
+        <p>The driver allows selecting the Eucalyptus installation by setting a
+        provider in the format</p>
+        
+        <pre><code>ec2=IP[:PORT];s3=IP[:PORT]&#x000A;</code></pre>
+        
+        <p>For example, for the Eucalyptus installation at <code>192.168.1.1:8773</code> and a
+        Walrus installation at <code>192.168.1.2:8773</code>, the driver can be pointed at
+        that installation by passing the request headers</p>
+        
+        <pre><code>X-Deltacloud-Driver: eucalyptus&#x000A;X-Deltacloud-Provider: ec2=192.168.1.1:8773;s3=192.168.1.2:8773&#x000A;</code></pre>
+        
+        <h3 id="h4_3">RHEV-M Driver</h3>
         
         <p>The RHEV-M driver needs to be installed on a Windows machine which has the
         RHEV-M Powershell API installed and configured. Assuming the directory
@@ -421,18 +445,18 @@
         the RHEVM.dll.config file which is referenced from the profile.ps1
         file located in My Documents/WindowsPowershell directory</p>
         
-        <h3 id="h4_3">Rackspace Driver</h3>
+        <h3 id="h4_4">Rackspace Driver</h3>
         
         <p>When using the Rackspace-cloud driver (Rackspace cloud used to be called
         "Mosso") - the password in a HTTP 401 challenge should be your API key, NOT
         your rackspace account password.  (you can get the API-key, or generate a
         new one, from the rackspace console).</p>
         
-        <h3 id="h4_4">RimuHosting</h3>
+        <h3 id="h4_5">RimuHosting</h3>
         
         <p>Further details coming soon.</p>
         
-        <h3 id="h4_5">OpenNebula</h3>
+        <h3 id="h4_6">OpenNebula</h3>
         
         <p>When using the <a href="http://www.opennebula.org/">OpenNebula</a> driver, the
         credentials passed in response to the HTTP 401 authentication challenge
