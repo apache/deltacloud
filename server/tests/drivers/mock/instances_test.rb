@@ -184,6 +184,11 @@ module DeltacloudUnitTest
       end
     end
 
+    def test_create_key_returns_201
+      post_url '/api/keys', {:name => Time.now.to_f.to_s}
+      last_response.status.should == 201
+    end
+
     private
 
     def test_instance_attributes(instance)
