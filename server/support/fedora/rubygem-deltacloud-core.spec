@@ -5,7 +5,7 @@
 
 Summary: Deltacloud REST API
 Name: rubygem-%{gemname}
-Version: 0.2.0
+Version: 0.3.0
 Release: 1%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
@@ -57,6 +57,7 @@ mkdir -p %{buildroot}%{_initddir}
 gem install --local --install-dir %{buildroot}%{gemdir} \
             --force --rdoc %{SOURCE0}
 mkdir -p %{buildroot}/%{_bindir}
+mkdir -p %{buildroot}/config
 mv %{buildroot}%{gemdir}/bin/* %{buildroot}/%{_bindir}
 mv %{buildroot}%{geminstdir}/support/fedora/%{gemname} %{buildroot}%{_initddir}
 mv -f %{buildroot}%{geminstdir}/support/fedora/deltacloudd %{buildroot}%{geminstdir}/bin
@@ -66,8 +67,8 @@ find %{buildroot}%{geminstdir}/lib -type f | xargs chmod -x
 chmod 755 %{buildroot}%{_initddir}/%{gemname}
 
 %check
-pushd ./%{geminstdir}
-rake test
+pushd %{geminstdir}
+rake test:mock
 popd
 
 %clean
@@ -105,6 +106,7 @@ fi
 %{geminstdir}/public/favicon.ico
 %{gemdir}/cache/%{gemname}-%{version}.gem
 %{gemdir}/specifications/%{gemname}-%{version}.gemspec
+%{geminstdir}/config/drivers.yaml
 # MIT
 %{gemdir}/gems/%{gemname}-%{version}/public/javascripts
 
