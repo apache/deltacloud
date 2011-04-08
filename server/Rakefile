@@ -84,7 +84,7 @@ task :install, [:install_dir, :bin_dir] do |t, args|
     Dir["views/**/**"],
     "config.ru",
     "COPYING",
-    "README",
+    "README.md",
     "*.rb"
   ]
 
