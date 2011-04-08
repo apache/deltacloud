@@ -141,13 +141,24 @@ module Deltacloud
 
         def eucalyptus_endpoint
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'])
-          #parse endpoint string into server, port, service, and protocol
-          if endpoint
-            {:server => URI.parse(endpoint).host,
-              :port => URI.parse(endpoint).port,
-              :service => URI.parse(endpoint).path,
-              :protocol => URI.parse(endpoint).scheme,
-              :connection_mode => :per_thread}
+          if endpoint && (endpoint.include?('ec2') || endpoint.include?('s3'))   # example endpoint: 'ec2=192.168.1.1; s3=192.168.1.2'
+	     default_port=8773
+	     endpoint.split(';').each do |svc_addr|
+	        addr = svc_addr.sub('ec2=','').sub('s3=','').strip
+                if addr.include?(':')
+                   host = addr.split(':')[0]
+                   port = addr.split(':')[1]
+                else
+                   host = addr
+	           port = default_port 
+                end
+                if svc_addr.include?('ec2')
+	           ENV['EC2_URL'] = "http://#{host}:#{port}/services/Eucalyptus"
+                elsif svc_addr.include?('s3')
+                   ENV['S3_URL'] = "http://#{host}:#{port}/services/Walrus" 
+	        end
+             end 
+             {}
           else
             #EC2_URL/S3_URL env variable will be used by AWS
             {:connection_mode => :per_thread}

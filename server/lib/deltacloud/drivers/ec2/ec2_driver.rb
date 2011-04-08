@@ -539,6 +539,8 @@ module Deltacloud
         end
 
         def endpoint_for_service(service)
+          ENV['EC2_URL']=''  # unset endpoints that may have been set by eucalyptus; otherwise it can conflict with the EC2/S3 endpoints in aws gem.
+          ENV['S3_URL']=''
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
