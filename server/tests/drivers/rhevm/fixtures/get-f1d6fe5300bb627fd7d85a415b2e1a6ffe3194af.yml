@@ -1,0 +1,284 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell
+    body: 
+    headers: 
+      accept: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Wed, 31 Dec 1969 16:00:00 PST
+      content-type: 
+      - application/xml
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Fri, 08 Apr 2011 23:00:28 GMT
+      content-length: 
+      - "2163"
+      link: 
+      - <https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/capabilities>; rel=capabilities,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters>; rel=clusters,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters?search={query}>; rel=clusters/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/datacenters>; rel=datacenters,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/datacenters?search={query}>; rel=datacenters/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/events>; rel=events,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/events?search={query}>; rel=events/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/hosts>; rel=hosts,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/hosts?search={query}>; rel=hosts/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/networks>; rel=networks,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/roles>; rel=roles,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/storagedomains>; rel=storagedomains,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/storagedomains?search={query}>; rel=storagedomains/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/tags>; rel=tags,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates>; rel=templates,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates?search={query}>; rel=templates/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/users>; rel=users,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/users?search={query}>; rel=users/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vmpools>; rel=vmpools,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vmpools?search={query}>; rel=vmpools/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms>; rel=vms,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms?search={query}>; rel=vms/search
+      cache-control: 
+      - no-cache
+      pragma: 
+      - No-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <api>
+          <link rel="capabilities" href="/rhevm-api-powershell/capabilities"/>
+          <link rel="clusters" href="/rhevm-api-powershell/clusters"/>
+          <link rel="clusters/search" href="/rhevm-api-powershell/clusters?search={query}"/>
+          <link rel="datacenters" href="/rhevm-api-powershell/datacenters"/>
+          <link rel="datacenters/search" href="/rhevm-api-powershell/datacenters?search={query}"/>
+          <link rel="events" href="/rhevm-api-powershell/events"/>
+          <link rel="events/search" href="/rhevm-api-powershell/events?search={query}"/>
+          <link rel="hosts" href="/rhevm-api-powershell/hosts"/>
+          <link rel="hosts/search" href="/rhevm-api-powershell/hosts?search={query}"/>
+          <link rel="networks" href="/rhevm-api-powershell/networks"/>
+          <link rel="roles" href="/rhevm-api-powershell/roles"/>
+          <link rel="storagedomains" href="/rhevm-api-powershell/storagedomains"/>
+          <link rel="storagedomains/search" href="/rhevm-api-powershell/storagedomains?search={query}"/>
+          <link rel="tags" href="/rhevm-api-powershell/tags"/>
+          <link rel="templates" href="/rhevm-api-powershell/templates"/>
+          <link rel="templates/search" href="/rhevm-api-powershell/templates?search={query}"/>
+          <link rel="users" href="/rhevm-api-powershell/users"/>
+          <link rel="users/search" href="/rhevm-api-powershell/users?search={query}"/>
+          <link rel="vmpools" href="/rhevm-api-powershell/vmpools"/>
+          <link rel="vmpools/search" href="/rhevm-api-powershell/vmpools?search={query}"/>
+          <link rel="vms" href="/rhevm-api-powershell/vms"/>
+          <link rel="vms/search" href="/rhevm-api-powershell/vms?search={query}"/>
+          <system_version revision="51796" build="4" minor="2" major="2"/>
+          <summary>
+              <vms>
+                  <total>10</total>
+                  <active>10</active>
+              </vms>
+              <hosts>
+                  <total>1</total>
+                  <active>1</active>
+              </hosts>
+              <users>
+                  <total>5</total>
+                  <active>4</active>
+              </users>
+              <storage_domains>
+                  <total>2</total>
+                  <active>2</active>
+              </storage_domains>
+          </summary>
+      </api>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates
+    body: 
+    headers: 
+      accept: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Wed, 31 Dec 1969 16:00:00 PST
+      content-type: 
+      - application/xml
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Fri, 08 Apr 2011 23:00:30 GMT
+      content-length: 
+      - "8126"
+      cache-control: 
+      - no-cache
+      pragma: 
+      - No-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <templates>
+          <template id="00000000-0000-0000-0000-000000000000" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000">
+              <name>Blank</name>
+              <description>Blank template</description>
+              <actions>
+                  <link rel="export" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000/export"/>
+              </actions>
+              <link rel="cdroms" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000/nics"/>
+              <type>DESKTOP</type>
+              <status>OK</status>
+              <memory>536870912</memory>
+              <cpu>
+                  <topology cores="1" sockets="1"/>
+              </cpu>
+              <os type="Unassigned">
+                  <boot dev="hd"/>
+              </os>
+              <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+              <creation_time>2008-04-01T00:00:00.000Z</creation_time>
+              <origin>RHEV</origin>
+              <highly_available>false</highly_available>
+              <display>
+                  <type>VNC</type>
+                  <monitors>1</monitors>
+              </display>
+              <stateless>false</stateless>
+          </template>
+          <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03">
+              <name>F14-Minimal-Srv</name>
+              <description>F14 Minimal installation with Ruby preinstalled</description>
+              <actions>
+                  <link rel="export" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03/export"/>
+              </actions>
+              <link rel="cdroms" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03/nics"/>
+              <type>SERVER</type>
+              <status>OK</status>
+              <memory>536870912</memory>
+              <cpu>
+                  <topology cores="1" sockets="1"/>
+              </cpu>
+              <os type="OtherLinux">
+                  <boot dev="hd"/>
+              </os>
+              <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+              <creation_time>2011-02-28T11:55:00.000Z</creation_time>
+              <origin>RHEV</origin>
+              <highly_available>false</highly_available>
+              <display>
+                  <type>VNC</type>
+                  <monitors>1</monitors>
+              </display>
+              <stateless>false</stateless>
+          </template>
+          <template id="a9882022-45b5-41f9-bbe6-99fa88425baa" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa">
+              <name>F14-Obsolete</name>
+              <description>Fedora 14 - DO NOT USE THIS</description>
+              <actions>
+                  <link rel="export" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa/export"/>
+              </actions>
+              <link rel="cdroms" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa/nics"/>
+              <type>DESKTOP</type>
+              <status>OK</status>
+              <memory>536870912</memory>
+              <cpu>
+                  <topology cores="1" sockets="1"/>
+              </cpu>
+              <os type="OtherLinux">
+                  <boot dev="hd"/>
+              </os>
+              <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+              <creation_time>2011-02-09T12:46:00.000Z</creation_time>
+              <origin>RHEV</origin>
+              <highly_available>false</highly_available>
+              <display>
+                  <type>VNC</type>
+                  <monitors>1</monitors>
+              </display>
+              <stateless>false</stateless>
+          </template>
+          <template id="e086279e-99df-4aaf-827c-a15ca4d3208f" href="/rhevm-api-powershell/templates/e086279e-99df-4aaf-827c-a15ca4d3208f">
+              <name>F14-W-Mongo</name>
+              <description>Fedora 14 Minimal with MongoDB from Warehouse preinstalled</description>
+              <actions>
+                  <link rel="export" href="/rhevm-api-powershell/templates/e086279e-99df-4aaf-827c-a15ca4d3208f/export"/>
+              </actions>
+              <link rel="cdroms" href="/rhevm-api-powershell/templates/e086279e-99df-4aaf-827c-a15ca4d3208f/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/templates/e086279e-99df-4aaf-827c-a15ca4d3208f/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/templates/e086279e-99df-4aaf-827c-a15ca4d3208f/nics"/>
+              <type>SERVER</type>
+              <status>OK</status>
+              <memory>2147483648</memory>
+              <cpu>
+                  <topology cores="1" sockets="1"/>
+              </cpu>
+              <os type="OtherLinux">
+                  <boot dev="hd"/>
+              </os>
+              <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+              <creation_time>2011-02-25T12:09:00.000Z</creation_time>
+              <origin>RHEV</origin>
+              <highly_available>false</highly_available>
+              <display>
+                  <type>VNC</type>
+                  <monitors>1</monitors>
+              </display>
+              <stateless>false</stateless>
+          </template>
+          <template id="6a76938d-fb93-4c53-943f-05f5e4ee47c6" href="/rhevm-api-powershell/templates/6a76938d-fb93-4c53-943f-05f5e4ee47c6">
+              <name>RHEL6-Blank</name>
+              <description>Blank RHEL6 installation. (root/deltacloud)</description>
+              <actions>
+                  <link rel="export" href="/rhevm-api-powershell/templates/6a76938d-fb93-4c53-943f-05f5e4ee47c6/export"/>
+              </actions>
+              <link rel="cdroms" href="/rhevm-api-powershell/templates/6a76938d-fb93-4c53-943f-05f5e4ee47c6/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/templates/6a76938d-fb93-4c53-943f-05f5e4ee47c6/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/templates/6a76938d-fb93-4c53-943f-05f5e4ee47c6/nics"/>
+              <type>SERVER</type>
+              <status>OK</status>
+              <memory>536870912</memory>
+              <cpu>
+                  <topology cores="1" sockets="1"/>
+              </cpu>
+              <os type="RHEL6x64">
+                  <boot dev="cdrom"/>
+                  <boot dev="hd"/>
+              </os>
+              <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+              <creation_time>2011-02-08T17:34:00.000Z</creation_time>
+              <origin>RHEV</origin>
+              <highly_available>false</highly_available>
+              <display>
+                  <type>VNC</type>
+                  <monitors>1</monitors>
+              </display>
+              <stateless>false</stateless>
+          </template>
+          <template id="5fb0ba84-26a1-43fe-b9aa-c38eb3006c6c" href="/rhevm-api-powershell/templates/5fb0ba84-26a1-43fe-b9aa-c38eb3006c6c">
+              <name>Win2k8R2-Ent</name>
+              <description>Minimal Windows 2008  (Administrator/Ovidiu9)</description>
+              <actions>
+                  <link rel="export" href="/rhevm-api-powershell/templates/5fb0ba84-26a1-43fe-b9aa-c38eb3006c6c/export"/>
+              </actions>
+              <link rel="cdroms" href="/rhevm-api-powershell/templates/5fb0ba84-26a1-43fe-b9aa-c38eb3006c6c/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/templates/5fb0ba84-26a1-43fe-b9aa-c38eb3006c6c/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/templates/5fb0ba84-26a1-43fe-b9aa-c38eb3006c6c/nics"/>
+              <type>SERVER</type>
+              <status>OK</status>
+              <memory>536870912</memory>
+              <cpu>
+                  <topology cores="1" sockets="1"/>
+              </cpu>
+              <os type="Windows2008R2x64">
+                  <boot dev="hd"/>
+                  <boot dev="cdrom"/>
+              </os>
+              <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+              <creation_time>2011-02-09T10:06:00.000Z</creation_time>
+              <origin>RHEV</origin>
+              <highly_available>false</highly_available>
+              <display>
+                  <type>VNC</type>
+                  <monitors>1</monitors>
+              </display>
+              <stateless>false</stateless>
+          </template>
+      </templates>
+
+    http_version: "1.1"
