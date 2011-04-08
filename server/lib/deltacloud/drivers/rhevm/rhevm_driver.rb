@@ -318,7 +318,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def catched_exceptions_list
     {
       :auth => RestClient::Unauthorized,
-      :error => RestClient::InternalServerError
+      :error => RestClient::InternalServerError,
       :glob => [ /(RestClient|RHEVM)::(\w+)/ ]
     }
   end
