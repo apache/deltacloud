@@ -217,7 +217,10 @@ END
 	:description => params[:description]
       })
       respond_to do |format|
-        format.xml { haml :"images/show" }
+        format.xml do
+          response.status = 201 # Created
+          haml :"images/show"
+        end
         format.html { haml :"images/show" }
       end
     end
@@ -323,7 +326,10 @@ collection :load_balancers do
     control do
       @load_balancer = driver.create_load_balancer(credentials, params)
       respond_to do |format|
-        format.xml { haml :"load_balancers/show" }
+        format.xml do
+          response.status = 201  # Created
+          haml :"load_balancers/show"
+        end
         format.html { haml :"load_balancers/show" }
       end
     end
@@ -528,6 +534,7 @@ collection :storage_snapshots do
     with_capability :create_storage_snapshot
     param :volume_id, :string,  :required
     control do
+      response.status = 201  # Created
       @storage_snapshot = driver.create_storage_snapshot(credentials, params)
       show(:storage_snapshot)
     end
@@ -588,7 +595,10 @@ collection :storage_volumes do
       @storage_volume = driver.create_storage_volume(credentials, params)
       respond_to do |format|
         format.html { haml :"storage_volumes/show" }
-        format.xml { haml :"storage_volumes/show" }
+        format.xml do
+          response.status = 201  # Created
+          haml :"storage_volumes/show"
+        end
       end
     end
   end
@@ -665,7 +675,10 @@ collection :keys do
       @key = driver.create_key(credentials, { :key_name => params[:name] })
       respond_to do |format|
         format.html { haml :"keys/show" }
-        format.xml { haml :"keys/show", :ugly => true }
+        format.xml do
+          response.status = 201  # Created
+          haml :"keys/show", :ugly => true
+        end
       end
     end
   end
