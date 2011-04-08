@@ -46,6 +46,14 @@ namespace :test do
     t.warning = false
   }
 
+  desc "Run rackspace unit tests"
+  Rake::TestTask.new("rhevm") { |t|
+    t.test_files = [ 'tests/common.rb', 'tests/drivers/rhevm/setup.rb' ] + FileList.new('tests/drivers/rhevm/*_test.rb')
+    t.options = "-v -v"
+    t.verbose = true
+    t.warning = false
+  }
+
 
 end
 

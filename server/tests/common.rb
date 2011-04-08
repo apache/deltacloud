@@ -101,7 +101,7 @@ module DeltacloudTestCommon
         get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
       end
     else
-        get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
+      get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
     end
     last_response.status.should_not == 401
   end

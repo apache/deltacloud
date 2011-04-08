@@ -134,13 +134,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
     filter_on( inst_arr, :state, opts )
   end
 
-  def reboot_instance(credentials, id)
-    client = new_client(credentials)
-    safely do
-      client.vm_action(:reboot, id)
-    end
-  end
-
   def start_instance(credentials, id)
     client = new_client(credentials)
     safely do
@@ -151,7 +144,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def stop_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      client.vm_action(:suspend, id)
+      client.vm_action(:shutdown, id)
     end
   end
 
@@ -181,14 +174,13 @@ class RHEVMDriver < Deltacloud::BaseDriver
       # FIXME: Condor is using GlobalJobId here as a name, which is malformed
       #        and contains >50 characters
       #
-      # FIXME: Memory calculation is wrong in Conductor, they are sending
-      #        value/1024. Original line is here.
+      # FIXME: Memory calculation is wrong in Conductor, they are sending value/1024
+      #
       vm_name = opts[:name] ? "<name>#{opts[:name].split("#").last}</name>" : "<name>#{Time.now.to_i}</name>"
       vm_template = "<template id='#{image_id}'/>"
       vm_cluster = opts[:realm_id] ? "<cluster id='#{opts[:realm_id]}'/>" : "<cluster id='0'/>"
       vm_type = opts[:hwp_id] ? "<type>#{opts[:hwp_id].upcase}</type>" : "<type>DESKTOP</type>"
-      #vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024*1024}</memory>"  : ''
-      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024}</memory>"  : '' # Conductor workaround
+      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024*1024}</memory>"  : ''
       vm_cpus = opts[:hwp_cpu] ? "<cpu><topology cores='#{opts[:hwp_cpu]}' sockets='1'/></cpu>"  : ''
       xml = "<vm>"+
         vm_name +
@@ -217,9 +209,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def new_client(credentials)
     url = (Thread.current[:provider] || ENV['API_PROVIDER'] || provider_uri)
-    #safely do
+    safely do
       ::RHEVM::Client.new(credentials.user, credentials.password, url)
-    #end
+    end
   end
 
   def convert_instance(client, inst)
@@ -317,8 +309,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # how to pass those message to our exception handling tool)
   def catched_exceptions_list
     {
-      :auth => RestClient::Unauthorized,
-      :error => RestClient::InternalServerError,
+      :auth => [RestClient::Unauthorized],
+      :error => [RestClient::InternalServerError],
       :glob => [ /(RestClient|RHEVM)::(\w+)/ ]
     }
   end

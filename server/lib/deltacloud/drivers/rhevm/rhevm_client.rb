@@ -111,14 +111,10 @@ module RHEVM
         :authorization => "Basic " + Base64.encode64("#{@username}:#{@password}"),
         :accept => 'application/xml',
       }
-      if ENV['RACK_ENV'] == 'test'
-        response = mock_request(:get, uri, {}, headers)
-      else
-        begin
-          response = RestClient.get(uri, headers).to_s
-        rescue Exception => e
-          raise ConnectionError::new(500, "GET #{uri}", "#{e.message} (GET #{uri})", e.backtrace)
-        end
+      begin
+        response = RestClient.get(uri, headers).to_s
+      rescue Exception => e
+        raise ConnectionError::new(500, "GET #{uri}", "#{e.message} (GET #{uri})", e.backtrace)
       end
       response
     end
@@ -130,12 +126,7 @@ module RHEVM
         :content_type => 'application/xml'
       }
       params = "<action/>" if params.size==0
-      if ENV['RACK_ENV'] == 'test'
-        response = mock_request(:post, uri, params, headers)
-      else
-        response = RestClient.post(uri, params, headers).to_s
-      end
-      response
+      RestClient.post(uri, params, headers).to_s
     end
 
     def discover_entry_points()
@@ -157,33 +148,6 @@ module RHEVM
         return JSON::parse(File.read(fixture_file))
       else
         raise FixtureNotFound.new
-      end
-    end
-
-    def mock_request(*args)
-      http_method, request_uri, params, headers = args[0].to_sym, args[1], args[2], args[3]
-      params ||= {}
-      fixture_filename = "#{Digest::MD5.hexdigest("#{http_method}#{request_uri}#{params.inspect}#{headers}")}.fixture"
-      begin
-        read_fake_url(fixture_filename)[2]["body"]
-      rescue FixtureNotFound
-        if http_method.eql?(:get)
-          r = RestClient.send(http_method, request_uri, headers)
-        elsif http_method.eql?(:post)
-          r = RestClient.send(http_method, request_uri, params, headers)
-        else
-          r = RestClient.send(http_method, request_uri, headers)
-        end
-        response = {
-          :body => r.to_s,
-          :status => r.code,
-          :content_type => r.headers[:content_type]
-        }
-        fixtures_dir = "../tests/rhevm/support/fixtures/"
-        FileUtils.mkdir_p(fixtures_dir)
-        File.open(File::join(fixtures_dir, fixture_filename), 'w') do |f|
-          f.puts [request_uri, http_method, response].to_json
-        end and retry
       end
     end
 
