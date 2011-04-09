@@ -42,16 +42,19 @@ task :release => [ :package ] do
            "server/pkg/deltacloud-core-#{versions[:server]}.gem" ]
   FileUtils.mkdir_p("release")
   files.each do |src|
-    dst = File::join("release", File::basename(src))
+    base = File::basename(src)
+    dst = File::join("release", base)
     FileUtils.cp(src, dst)
     cmd = <<EOS
 gpg -q --batch --verify #{dst}.asc > /dev/null 2>&1 || \
   gpg --output #{dst}.asc --armour --detach-sig #{dst}
 EOS
     system(cmd)
+    Dir::chdir("release") do
+      system("md5sum #{base} > #{base}.md5")
+      system("sha1sum #{base} > #{base}.sha1")
+    end
   end
-  system("md5sum #{files.join(" ")} > release/MD5SUM")
-  system("sha1sum #{files.join(" ")} > release/SHA1SUM")
 end
 
 desc "Remove the release directory"

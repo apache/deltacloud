@@ -104,7 +104,9 @@ fi
 %{_bindir}/deltacloudd
 %dir %{geminstdir}/
 %{geminstdir}/bin
-%{geminstdir}/COPYING
+%{geminstdir}/LICENSE
+%{geminstdir}/DISCLAIMER
+%{geminstdir}/NOTICE
 %{geminstdir}/config.ru
 %{geminstdir}/*.rb
 %{geminstdir}/Rakefile
@@ -127,6 +129,9 @@ fi
 %{geminstdir}/deltacloud-core.gemspec
 
 %changelog
+* Fri Apr  8 2011 David Lutterkort <lutter@redhat.com> - 0.3.0-1
+- Renamed COPYING to LICENSE, include NOTICE and DISCLAIMER
+
 * Fri Feb 04 2011 Michal Fojtik <mfojtik@redhat.com> - 0.2.0-2
 - Package renamed to deltacloud-core, since it's not library and it's providing
   full REST API server with init script.

@@ -95,7 +95,9 @@ fi
 %{_bindir}/deltacloudd
 %dir %{geminstdir}/
 %{geminstdir}/bin
-%{geminstdir}/COPYING
+%{geminstdir}/LICENSE
+%{geminstdir}/NOTICE
+%{geminstdir}/DISCLAIMER
 %{geminstdir}/config.ru
 %{geminstdir}/*.rb
 %{geminstdir}/Rakefile
@@ -118,5 +120,8 @@ fi
 %{geminstdir}/%{gemname}.gemspec
 
 %changelog
+* Fri Apr  8 2011 David Lutterkort <lutter@redhat.com> - 0.3.0-1
+- - Renamed COPYING to LICENSE, include NOTICE and DISCLAIMER
+
 * Mon Jan 31 2011 Michal Fojtik <mfojtik@redhat.com> - 0.2.0-1
 - Initial package
