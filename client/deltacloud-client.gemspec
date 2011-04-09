@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.executables = 'deltacloudc'
   s.default_executable = 'deltacloudc'
   s.test_files= Dir.glob("specs/**/**")
-  s.extra_rdoc_files = Dir["COPYING"]
+  s.extra_rdoc_files = Dir["LICENSE", "NOTICE", "DISCLAIMER"]
 
   s.add_dependency('rest-client', '>= 1.6.1')
   s.add_dependency('nokogiri', '>= 1.4.3')

@@ -83,7 +83,9 @@ task :install, [:install_dir, :bin_dir] do |t, args|
     Dir["public/**/**"],
     Dir["views/**/**"],
     "config.ru",
-    "COPYING",
+    "LICENSE",
+    "DISCLAIMER",
+    "NOTICE",
     "README.md",
     "*.rb"
   ]

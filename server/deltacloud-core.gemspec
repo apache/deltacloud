@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables = 'deltacloudd'
   s.test_files= Dir.glob("tests/*_test.rb")
-  s.extra_rdoc_files = Dir["COPYING"]
+  s.extra_rdoc_files = Dir["LICENSE", "DISCLAIMER", "NOTICE"]
   s.required_ruby_version = '>= 1.8.1'
 
   s.add_dependency('rake', '>= 0.8.7')
