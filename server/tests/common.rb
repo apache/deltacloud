@@ -20,11 +20,14 @@ $:.unshift File.join(File.dirname(__FILE__), '..')
 
 require 'rubygems'
 require 'yaml'
-require 'base64'
 require 'test/unit'
 require 'spec'
 require 'nokogiri'
 require 'json'
+require 'digest/sha1'
+require 'base64'
+require 'rack/test'
+require 'server'
 
 # Set proper environment variables for running test
 
@@ -32,18 +35,12 @@ ENV['RACK_ENV']     = 'test'
 ENV['API_HOST']     = 'localhost'
 ENV['API_PORT']     = '4040'
 
-require 'server'
-
 configure :test do
-  set :loggining, false
-  set :clean_trace, false
-  set :dump_errors, true
-  set :raise_errors => false
+  set :environment, :test
+  set :raise_errors, false
   set :show_exceptions, false
 end
 
-require 'rack/test'
-require 'digest/sha1'
 
 Spec::Runner.configure do |conf|
   conf.include Rack::Test::Methods

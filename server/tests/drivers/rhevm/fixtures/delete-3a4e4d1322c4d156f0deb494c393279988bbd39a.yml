@@ -21,7 +21,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:49:58 GMT
+      - Mon, 11 Apr 2011 16:16:05 GMT
       content-length: 
       - "2163"
       link: 
@@ -59,7 +59,7 @@
           <summary>
               <vms>
                   <total>12</total>
-                  <active>12</active>
+                  <active>10</active>
               </vms>
               <hosts>
                   <total>1</total>
@@ -99,7 +99,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:02 GMT
+      - Mon, 11 Apr 2011 16:16:09 GMT
       cache-control: 
       - no-cache
       pragma: 
@@ -146,7 +146,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="a9882022-45b5-41f9-bbe6-99fa88425baa" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa"/>
-              <start_time>2011-02-11T01:17:16.654Z</start_time>
+              <start_time>2011-02-11T01:17:07.834Z</start_time>
               <creation_time>2011-02-10T16:14:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -188,7 +188,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="00000000-0000-0000-0000-000000000000" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000"/>
-              <start_time>2011-02-09T17:29:38.654Z</start_time>
+              <start_time>2011-02-09T17:29:29.834Z</start_time>
               <creation_time>2011-02-08T16:29:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -229,7 +229,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
-              <start_time>2011-04-07T21:19:00.654Z</start_time>
+              <start_time>2011-04-07T21:18:51.835Z</start_time>
               <creation_time>2011-04-07T14:18:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -271,7 +271,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="00000000-0000-0000-0000-000000000000" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000"/>
-              <start_time>2011-02-10T20:04:28.654Z</start_time>
+              <start_time>2011-02-10T20:04:20.835Z</start_time>
               <creation_time>2011-02-09T10:26:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -313,7 +313,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="a9882022-45b5-41f9-bbe6-99fa88425baa" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa"/>
-              <start_time>2011-03-03T19:53:22.654Z</start_time>
+              <start_time>2011-03-03T19:53:14.835Z</start_time>
               <creation_time>2011-02-09T12:49:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -355,32 +355,32 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
-              <start_time>2011-03-15T17:36:37.655Z</start_time>
+              <start_time>2011-03-15T17:36:28.835Z</start_time>
               <creation_time>2011-03-15T10:36:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
           </vm>
-          <vm id="b5422bb3-979a-423c-87cb-1cd93c2ab239" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239">
+          <vm id="e1389dcd-f7ba-480f-b8d0-863bcac55437" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437">
               <name>mock-test1</name>
               <description>F14 Minimal installation with Ruby preinstalled</description>
               <actions>
-                  <link rel="migrate" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/migrate"/>
-                  <link rel="export" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/export"/>
-                  <link rel="ticket" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/ticket"/>
-                  <link rel="shutdown" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/shutdown"/>
-                  <link rel="start" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/start"/>
-                  <link rel="stop" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/stop"/>
-                  <link rel="suspend" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/suspend"/>
-                  <link rel="detach" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/detach"/>
+                  <link rel="migrate" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/migrate"/>
+                  <link rel="export" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/export"/>
+                  <link rel="ticket" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/ticket"/>
+                  <link rel="shutdown" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/shutdown"/>
+                  <link rel="start" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/start"/>
+                  <link rel="stop" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/stop"/>
+                  <link rel="suspend" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/suspend"/>
+                  <link rel="detach" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/detach"/>
               </actions>
-              <link rel="cdroms" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/cdroms"/>
-              <link rel="disks" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/disks"/>
-              <link rel="nics" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/nics"/>
-              <link rel="snapshots" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/snapshots"/>
-              <link rel="tags" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/tags"/>
-              <link rel="statistics" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/statistics"/>
+              <link rel="cdroms" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/nics"/>
+              <link rel="snapshots" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/snapshots"/>
+              <link rel="tags" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/tags"/>
+              <link rel="statistics" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/statistics"/>
               <type>DESKTOP</type>
-              <status>POWERING_UP</status>
+              <status>DOWN</status>
               <memory>536870912</memory>
               <cpu>
                   <topology cores="1" sockets="1"/>
@@ -394,35 +394,33 @@
                   <port>5919</port>
                   <monitors>1</monitors>
               </display>
-              <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
-              <start_time>2011-04-08T22:49:20.655Z</start_time>
-              <creation_time>2011-04-08T15:48:00.000Z</creation_time>
+              <creation_time>2011-04-11T09:13:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
           </vm>
-          <vm id="459acd4b-6964-4998-b619-f35e7c021e01" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01">
+          <vm id="48cb951a-806b-455f-a22e-6c2669a4e206" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206">
               <name>mock-test2</name>
               <description>F14 Minimal installation with Ruby preinstalled</description>
               <actions>
-                  <link rel="migrate" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/migrate"/>
-                  <link rel="export" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/export"/>
-                  <link rel="ticket" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/ticket"/>
-                  <link rel="shutdown" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/shutdown"/>
-                  <link rel="start" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/start"/>
-                  <link rel="stop" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/stop"/>
-                  <link rel="suspend" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/suspend"/>
-                  <link rel="detach" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/detach"/>
+                  <link rel="migrate" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/migrate"/>
+                  <link rel="export" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/export"/>
+                  <link rel="ticket" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/ticket"/>
+                  <link rel="shutdown" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/shutdown"/>
+                  <link rel="start" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/start"/>
+                  <link rel="stop" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/stop"/>
+                  <link rel="suspend" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/suspend"/>
+                  <link rel="detach" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/detach"/>
               </actions>
-              <link rel="cdroms" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/cdroms"/>
-              <link rel="disks" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/disks"/>
-              <link rel="nics" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/nics"/>
-              <link rel="snapshots" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/snapshots"/>
-              <link rel="tags" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/tags"/>
-              <link rel="statistics" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/statistics"/>
+              <link rel="cdroms" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/cdroms"/>
+              <link rel="disks" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/disks"/>
+              <link rel="nics" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/nics"/>
+              <link rel="snapshots" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/snapshots"/>
+              <link rel="tags" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/tags"/>
+              <link rel="statistics" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/statistics"/>
               <type>SERVER</type>
-              <status>POWERING_UP</status>
+              <status>DOWN</status>
               <memory>536870912</memory>
               <cpu>
                   <topology cores="1" sockets="1"/>
@@ -436,11 +434,9 @@
                   <port>5921</port>
                   <monitors>1</monitors>
               </display>
-              <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
-              <start_time>2011-04-08T22:49:34.655Z</start_time>
-              <creation_time>2011-04-08T15:48:00.000Z</creation_time>
+              <creation_time>2011-04-11T09:13:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
           </vm>
@@ -481,7 +477,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="6a76938d-fb93-4c53-943f-05f5e4ee47c6" href="/rhevm-api-powershell/templates/6a76938d-fb93-4c53-943f-05f5e4ee47c6"/>
-              <start_time>2011-02-09T17:29:25.655Z</start_time>
+              <start_time>2011-02-09T17:29:17.835Z</start_time>
               <creation_time>2011-02-09T10:25:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -522,7 +518,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="00000000-0000-0000-0000-000000000000" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000"/>
-              <start_time>2011-03-03T23:33:10.655Z</start_time>
+              <start_time>2011-03-03T23:33:01.835Z</start_time>
               <creation_time>2011-03-03T16:13:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -564,7 +560,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="a9882022-45b5-41f9-bbe6-99fa88425baa" href="/rhevm-api-powershell/templates/a9882022-45b5-41f9-bbe6-99fa88425baa"/>
-              <start_time>2011-02-25T20:04:24.655Z</start_time>
+              <start_time>2011-02-25T20:04:16.835Z</start_time>
               <creation_time>2011-02-24T17:31:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -607,7 +603,7 @@
               <host id="0" href="/rhevm-api-powershell/hosts/0"/>
               <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
               <template id="00000000-0000-0000-0000-000000000000" href="/rhevm-api-powershell/templates/00000000-0000-0000-0000-000000000000"/>
-              <start_time>2011-02-09T17:18:20.655Z</start_time>
+              <start_time>2011-02-09T17:18:12.835Z</start_time>
               <creation_time>2011-02-09T09:20:00.000Z</creation_time>
               <origin>RHEV</origin>
               <stateless>false</stateless>
@@ -637,7 +633,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:02 GMT
+      - Mon, 11 Apr 2011 16:16:09 GMT
       content-length: 
       - "769"
       cache-control: 
@@ -685,7 +681,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:02 GMT
+      - Mon, 11 Apr 2011 16:16:09 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -727,7 +723,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:03 GMT
+      - Mon, 11 Apr 2011 16:16:09 GMT
       content-length: 
       - "766"
       cache-control: 
@@ -775,7 +771,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:03 GMT
+      - Mon, 11 Apr 2011 16:16:09 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -817,7 +813,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:03 GMT
+      - Mon, 11 Apr 2011 16:16:10 GMT
       content-length: 
       - "763"
       cache-control: 
@@ -865,7 +861,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:03 GMT
+      - Mon, 11 Apr 2011 16:16:10 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -907,7 +903,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:05 GMT
+      - Mon, 11 Apr 2011 16:16:10 GMT
       content-length: 
       - "1461"
       cache-control: 
@@ -968,7 +964,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:05 GMT
+      - Mon, 11 Apr 2011 16:16:10 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1010,7 +1006,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:06 GMT
+      - Mon, 11 Apr 2011 16:16:12 GMT
       content-length: 
       - "1468"
       cache-control: 
@@ -1071,7 +1067,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:06 GMT
+      - Mon, 11 Apr 2011 16:16:12 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1113,7 +1109,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:06 GMT
+      - Mon, 11 Apr 2011 16:16:12 GMT
       content-length: 
       - "776"
       cache-control: 
@@ -1161,7 +1157,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:06 GMT
+      - Mon, 11 Apr 2011 16:16:12 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1184,7 +1180,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/disks
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/disks
     body: 
     headers: 
       accept: 
@@ -1203,9 +1199,9 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:07 GMT
+      - Mon, 11 Apr 2011 16:16:13 GMT
       content-length: 
-      - "767"
+      - "768"
       cache-control: 
       - no-cache
       pragma: 
@@ -1213,9 +1209,9 @@
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <disks>
-          <disk id="557028d9-82db-49de-889e-2ef46654e7c0" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/disks/557028d9-82db-49de-889e-2ef46654e7c0">
-              <description>_mock-test1_4/8/2011 3:48:48 PM</description>
-              <vm id="b5422bb3-979a-423c-87cb-1cd93c2ab239" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239"/>
+          <disk id="aecd97e8-e680-47b6-b980-f5d08dca557b" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/disks/aecd97e8-e680-47b6-b980-f5d08dca557b">
+              <description>_mock-test1_4/11/2011 9:13:48 AM</description>
+              <vm id="e1389dcd-f7ba-480f-b8d0-863bcac55437" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437"/>
               <size>1073741824</size>
               <type>SYSTEM</type>
               <status>OK</status>
@@ -1232,7 +1228,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/nics
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/nics
     body: 
     headers: 
       accept: 
@@ -1251,7 +1247,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:07 GMT
+      - Mon, 11 Apr 2011 16:16:13 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1261,12 +1257,12 @@
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <nics>
-          <nic id="da320823-34e0-4b84-abbe-4cdac00de038" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239/nics/da320823-34e0-4b84-abbe-4cdac00de038">
+          <nic id="a3c01d12-839f-4b1f-b9a1-30226018b53d" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437/nics/a3c01d12-839f-4b1f-b9a1-30226018b53d">
               <name>nic1</name>
-              <vm id="b5422bb3-979a-423c-87cb-1cd93c2ab239" href="/rhevm-api-powershell/vms/b5422bb3-979a-423c-87cb-1cd93c2ab239"/>
+              <vm id="e1389dcd-f7ba-480f-b8d0-863bcac55437" href="/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437"/>
               <network id="00000000-0000-0000-0000-000000000009" href="/rhevm-api-powershell/networks/00000000-0000-0000-0000-000000000009"/>
               <type>PV</type>
-              <mac address="00:1a:4a:22:20:34"/>
+              <mac address="00:1a:4a:22:20:38"/>
           </nic>
       </nics>
 
@@ -1274,7 +1270,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/disks
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/disks
     body: 
     headers: 
       accept: 
@@ -1293,9 +1289,9 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:07 GMT
+      - Mon, 11 Apr 2011 16:16:13 GMT
       content-length: 
-      - "767"
+      - "768"
       cache-control: 
       - no-cache
       pragma: 
@@ -1303,9 +1299,9 @@
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <disks>
-          <disk id="c36cf3dd-8b89-454a-91e4-9c8af5680612" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/disks/c36cf3dd-8b89-454a-91e4-9c8af5680612">
-              <description>_mock-test2_4/8/2011 3:48:52 PM</description>
-              <vm id="459acd4b-6964-4998-b619-f35e7c021e01" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01"/>
+          <disk id="59f46dd2-ea92-4cee-973e-a9ccb3619c2e" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/disks/59f46dd2-ea92-4cee-973e-a9ccb3619c2e">
+              <description>_mock-test2_4/11/2011 9:13:52 AM</description>
+              <vm id="48cb951a-806b-455f-a22e-6c2669a4e206" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206"/>
               <size>1073741824</size>
               <type>SYSTEM</type>
               <status>OK</status>
@@ -1322,7 +1318,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/nics
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/nics
     body: 
     headers: 
       accept: 
@@ -1341,7 +1337,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:07 GMT
+      - Mon, 11 Apr 2011 16:16:13 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1351,12 +1347,12 @@
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <nics>
-          <nic id="c036acb0-d63b-46ec-a24b-636e1c9ae0d6" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01/nics/c036acb0-d63b-46ec-a24b-636e1c9ae0d6">
+          <nic id="debfb925-4ac1-4121-b897-c340a4164a6f" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206/nics/debfb925-4ac1-4121-b897-c340a4164a6f">
               <name>nic1</name>
-              <vm id="459acd4b-6964-4998-b619-f35e7c021e01" href="/rhevm-api-powershell/vms/459acd4b-6964-4998-b619-f35e7c021e01"/>
+              <vm id="48cb951a-806b-455f-a22e-6c2669a4e206" href="/rhevm-api-powershell/vms/48cb951a-806b-455f-a22e-6c2669a4e206"/>
               <network id="00000000-0000-0000-0000-000000000009" href="/rhevm-api-powershell/networks/00000000-0000-0000-0000-000000000009"/>
               <type>PV</type>
-              <mac address="00:1a:4a:22:20:35"/>
+              <mac address="00:1a:4a:22:20:39"/>
           </nic>
       </nics>
 
@@ -1383,7 +1379,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:08 GMT
+      - Mon, 11 Apr 2011 16:16:13 GMT
       content-length: 
       - "774"
       cache-control: 
@@ -1431,7 +1427,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:08 GMT
+      - Mon, 11 Apr 2011 16:16:13 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1473,7 +1469,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:08 GMT
+      - Mon, 11 Apr 2011 16:16:14 GMT
       content-length: 
       - "766"
       cache-control: 
@@ -1521,7 +1517,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:08 GMT
+      - Mon, 11 Apr 2011 16:16:14 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1563,7 +1559,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:10 GMT
+      - Mon, 11 Apr 2011 16:16:14 GMT
       content-length: 
       - "775"
       cache-control: 
@@ -1576,7 +1572,7 @@
           <disk id="84b3ea61-b3cc-47f3-85b1-407c3a5c70ef" href="/rhevm-api-powershell/vms/72bb5adc-f94c-4a19-897f-c85c67236f4a/disks/84b3ea61-b3cc-47f3-85b1-407c3a5c70ef">
               <description>_warehouse-mongo01_2/24/2011 5:31:47 PM</description>
               <vm id="72bb5adc-f94c-4a19-897f-c85c67236f4a" href="/rhevm-api-powershell/vms/72bb5adc-f94c-4a19-897f-c85c67236f4a"/>
-              <size>5368709120</size>
+              <size>6442450944</size>
               <type>SYSTEM</type>
               <status>OK</status>
               <interface>VIRTIO</interface>
@@ -1611,7 +1607,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:10 GMT
+      - Mon, 11 Apr 2011 16:16:14 GMT
       content-length: 
       - "601"
       cache-control: 
@@ -1653,7 +1649,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:10 GMT
+      - Mon, 11 Apr 2011 16:16:14 GMT
       content-length: 
       - "765"
       cache-control: 
@@ -1701,7 +1697,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Fri, 08 Apr 2011 22:50:10 GMT
+      - Mon, 11 Apr 2011 16:16:14 GMT
       content-length: 
       - "606"
       cache-control: 
@@ -1720,4 +1716,109 @@
           </nic>
       </nics>
 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell
+    body: 
+    headers: 
+      accept: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Wed, 31 Dec 1969 16:00:00 PST
+      content-type: 
+      - application/xml
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Mon, 11 Apr 2011 16:16:15 GMT
+      content-length: 
+      - "2163"
+      link: 
+      - <https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/capabilities>; rel=capabilities,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters>; rel=clusters,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters?search={query}>; rel=clusters/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/datacenters>; rel=datacenters,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/datacenters?search={query}>; rel=datacenters/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/events>; rel=events,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/events?search={query}>; rel=events/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/hosts>; rel=hosts,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/hosts?search={query}>; rel=hosts/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/networks>; rel=networks,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/roles>; rel=roles,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/storagedomains>; rel=storagedomains,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/storagedomains?search={query}>; rel=storagedomains/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/tags>; rel=tags,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates>; rel=templates,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates?search={query}>; rel=templates/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/users>; rel=users,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/users?search={query}>; rel=users/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vmpools>; rel=vmpools,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vmpools?search={query}>; rel=vmpools/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms>; rel=vms,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms?search={query}>; rel=vms/search
+      cache-control: 
+      - no-cache
+      pragma: 
+      - No-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <api>
+          <link rel="capabilities" href="/rhevm-api-powershell/capabilities"/>
+          <link rel="clusters" href="/rhevm-api-powershell/clusters"/>
+          <link rel="clusters/search" href="/rhevm-api-powershell/clusters?search={query}"/>
+          <link rel="datacenters" href="/rhevm-api-powershell/datacenters"/>
+          <link rel="datacenters/search" href="/rhevm-api-powershell/datacenters?search={query}"/>
+          <link rel="events" href="/rhevm-api-powershell/events"/>
+          <link rel="events/search" href="/rhevm-api-powershell/events?search={query}"/>
+          <link rel="hosts" href="/rhevm-api-powershell/hosts"/>
+          <link rel="hosts/search" href="/rhevm-api-powershell/hosts?search={query}"/>
+          <link rel="networks" href="/rhevm-api-powershell/networks"/>
+          <link rel="roles" href="/rhevm-api-powershell/roles"/>
+          <link rel="storagedomains" href="/rhevm-api-powershell/storagedomains"/>
+          <link rel="storagedomains/search" href="/rhevm-api-powershell/storagedomains?search={query}"/>
+          <link rel="tags" href="/rhevm-api-powershell/tags"/>
+          <link rel="templates" href="/rhevm-api-powershell/templates"/>
+          <link rel="templates/search" href="/rhevm-api-powershell/templates?search={query}"/>
+          <link rel="users" href="/rhevm-api-powershell/users"/>
+          <link rel="users/search" href="/rhevm-api-powershell/users?search={query}"/>
+          <link rel="vmpools" href="/rhevm-api-powershell/vmpools"/>
+          <link rel="vmpools/search" href="/rhevm-api-powershell/vmpools?search={query}"/>
+          <link rel="vms" href="/rhevm-api-powershell/vms"/>
+          <link rel="vms/search" href="/rhevm-api-powershell/vms?search={query}"/>
+          <system_version revision="51796" build="4" minor="2" major="2"/>
+          <summary>
+              <vms>
+                  <total>12</total>
+                  <active>10</active>
+              </vms>
+              <hosts>
+                  <total>1</total>
+                  <active>1</active>
+              </hosts>
+              <users>
+                  <total>5</total>
+                  <active>4</active>
+              </users>
+              <storage_domains>
+                  <total>2</total>
+                  <active>2</active>
+              </storage_domains>
+          </summary>
+      </api>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :delete
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/e1389dcd-f7ba-480f-b8d0-863bcac55437
+    body: 
+    headers: 
+      accept: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 204
+      message: No Content
+    headers: 
+      expires: 
+      - Wed, 31 Dec 1969 16:00:00 PST
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Mon, 11 Apr 2011 16:16:27 GMT
+      cache-control: 
+      - no-cache
+      pragma: 
+      - No-cache
+    body: 
     http_version: "1.1"
