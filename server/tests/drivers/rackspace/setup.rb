@@ -7,7 +7,7 @@ require 'vcr'
 DeltacloudTestCommon::record!
 
 VCR.config do |c|
-  c.cassette_library_dir = 'tests/drivers/rackspace/fixtures/'
+  c.cassette_library_dir = "#{File.dirname(__FILE__)}/../../../tests/drivers/rackspace/fixtures/"
   c.stub_with :webmock
   c.default_cassette_options = { :record => :none }
 end

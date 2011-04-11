@@ -29,6 +29,8 @@ require 'base64'
 require 'rack/test'
 require 'server'
 
+driver
+
 # Set proper environment variables for running test
 
 ENV['RACK_ENV']     = 'test'
@@ -40,7 +42,6 @@ configure :test do
   set :raise_errors, false
   set :show_exceptions, false
 end
-
 
 Spec::Runner.configure do |conf|
   conf.include Rack::Test::Methods
