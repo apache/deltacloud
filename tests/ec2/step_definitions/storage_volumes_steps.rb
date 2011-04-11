@@ -36,7 +36,7 @@ Then /^client should GET on ([\w_\/]+)$/ do |uri|
 end
 
 Then /^a new storage_volume should be created$/ do
-  last_response.status.should == 200
+  last_response.status.should == 201
 end
 
 Then /^a list of ([\w_]+) should be returned$/ do |collection|
