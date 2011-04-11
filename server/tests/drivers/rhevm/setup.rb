@@ -9,6 +9,6 @@ DeltacloudTestCommon::record!
 VCR.config do |c|
   c.cassette_library_dir = 'tests/drivers/rhevm/fixtures/'
   c.stub_with :webmock
-  c.default_cassette_options = { :record => :new_episodes }
+  c.default_cassette_options = { :record => :none }
 end
 
