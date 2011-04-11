@@ -32,7 +32,7 @@ module DeltacloudUnitTest
     end
 
     def test_it_works_for_root_absolute
-      verify_url_for("/", "http://localhost/", :full)
+      verify_url_for("/", "http://example.org/", :full)
     end
 
     def test_it_works_with_spaces
