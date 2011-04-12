@@ -20,6 +20,16 @@ require 'digest/md5'
 require 'cgi'
 require 'open-uri'
 
+module Kernel
+  def suppress_warnings
+    original_verbosity = $VERBOSE
+    $VERBOSE = nil
+    result = yield
+    $VERBOSE = original_verbosity
+    return result
+  end
+end
+
 module OpenURI
   def self.without_ssl_verification
     old = ::OpenSSL::SSL::VERIFY_PEER
