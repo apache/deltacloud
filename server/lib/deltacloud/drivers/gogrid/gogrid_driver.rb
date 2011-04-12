@@ -320,6 +320,14 @@ class GogridDriver < Deltacloud::BaseDriver
     stopped.to( :finish )       .on( :destroy )
   end
 
+  def catched_exceptions_list
+    {
+      :auth => [ /Forbidden/ ],
+      :error => [ /Error/ ],
+      :glob => [ /(.*)/ ]
+    }
+  end
+
   private
 
   def new_client(credentials)
@@ -386,9 +394,9 @@ class GogridDriver < Deltacloud::BaseDriver
   def convert_image(gg_image, owner_id=nil)
     Image.new( {
       :id=>gg_image['id'],
-      :name => gg_image['friendlyName'],
-      :description=> convert_description(gg_image),
-      :owner_id=>gg_image['owner']['name'],
+      :name => "#{gg_image['friendlyName']}",
+      :description=> convert_description(gg_image).to_s,
+      :owner_id=>gg_image['owner']['name'].to_s,
       :architecture=>convert_arch(gg_image['description']),
       :state => gg_image['state']['name'].upcase
     } )
@@ -412,6 +420,7 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def convert_arch(description)
+    return 'i386' unless description
     description.include?('64-bit') ? 'x86_64' : 'i386'
   end
 
@@ -437,7 +446,7 @@ class GogridDriver < Deltacloud::BaseDriver
        # to uniquely identify this instance.
       :id => instance['name'],
       :owner_id => owner_id,
-      :image_id => instance['image']['id'],
+      :image_id => "#{instance['image']['id']}",
       :instance_profile => prof,
       :name => instance['name'],
       :realm_id => instance['ip']['datacenter']['id'],
@@ -471,6 +480,8 @@ class GogridDriver < Deltacloud::BaseDriver
     end
     return ip
   end
+
+
 end
 
     end

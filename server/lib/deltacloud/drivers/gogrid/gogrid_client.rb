@@ -20,6 +20,16 @@ require 'digest/md5'
 require 'cgi'
 require 'open-uri'
 
+module OpenURI
+  def self.without_ssl_verification
+    old = ::OpenSSL::SSL::VERIFY_PEER
+    suppress_warnings { ::OpenSSL::SSL.const_set :VERIFY_PEER, OpenSSL::SSL::VERIFY_NONE }
+    yield
+  ensure
+    suppress_warnings { ::OpenSSL::SSL.const_set :VERIFY_PEER, old }
+  end
+end
+
 class GoGridClient
 
   def initialize(server='https://api.gogrid.com/api',
@@ -44,7 +54,9 @@ class GoGridClient
   end
   
   def sendAPIRequest(method,params={})
-    open(getRequestURL(method,params)).read
+    OpenURI.without_ssl_verification do
+      open(getRequestURL(method,params)).read
+    end
   end
 
   def request(method, params={}, version=nil)
