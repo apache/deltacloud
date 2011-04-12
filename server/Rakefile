@@ -28,33 +28,55 @@ begin
 rescue LoadError
 end
 
+begin
+  require 'cucumber'
+  require 'cucumber/rake/task'
+  namespace :cucumber do
+    %w(mock ec2 sbc).each do |driver|
+      namespace driver do
+        Cucumber::Rake::Task.new(:test) do |t|
+          t.cucumber_opts = "../tests/#{driver} --format pretty"
+          t.rcov = false
+        end
+        Cucumber::Rake::Task.new(:features) do |t|
+          t.cucumber_opts = "../tests/#{driver} --format html --out ../tests/tmp/cucumber_#{driver}.html"
+          t.rcov = false
+        end
+        Cucumber::Rake::Task.new(:junit) do |t|
+          t.cucumber_opts = "../tests/#{driver} --format junit --out #{File.join(File.dirname(__FILE__), "tmp", "junit_#{driver}")}"
+        end
+      end
+    end
+  end
+rescue LoadError
+end
+
 namespace :test do
+  %w(mock rackspace rhevm).each do |driver|
+    desc "Run #{driver} unit tests"
+    Rake::TestTask.new(driver) { |t|
+      t.test_files = ['tests/common.rb', "tests/drivers/#{driver}/setup.rb"] + FileList.new("tests/drivers/#{driver}/*_test.rb") + FileList.new('tests/rabbit_test.rb')
+      t.options = "-v -v"
+      t.verbose = true
+      t.warning = false
+    }
+  end
+end
 
-  desc "Run mock unit tests"
-  Rake::TestTask.new("mock") { |t|
-    t.test_files = ['tests/common.rb', 'tests/drivers/mock/setup.rb'] + FileList.new('tests/drivers/mock/*_test.rb') + FileList.new('tests/rabbit_test.rb')
-    t.options = "-v -v"
-    t.verbose = true
-    t.warning = false
-  }
+desc "Call our Test::Unit suite"
+task :test do
+  %w(mock rackspace rhevm).each do |driver|
+   Rake::Task["test:#{driver}"].reenable
+   Rake::Task["test:#{driver}"].invoke
+  end
+end
 
-  desc "Run rackspace unit tests"
-  Rake::TestTask.new("rackspace") { |t|
-    t.test_files = ['tests/common.rb', 'tests/drivers/rackspace/setup.rb'] + FileList.new('tests/drivers/rackspace/*_test.rb')
-    t.options = "-v -v"
-    t.verbose = true
-    t.warning = false
-  }
-
-  desc "Run rackspace unit tests"
-  Rake::TestTask.new("rhevm") { |t|
-    t.test_files = [ 'tests/common.rb', 'tests/drivers/rhevm/setup.rb' ] + FileList.new('tests/drivers/rhevm/*_test.rb')
-    t.options = "-v -v"
-    t.verbose = true
-    t.warning = false
-  }
-
-
+desc "Call our Cucumber suite"
+task :cucumber do
+  %w(mock ec2 sbc).each do |driver|
+   Rake::Task["cucumber:#{driver}:test"].reenable
+   Rake::Task["cucumber:#{driver}:test"].invoke
+  end
 end
 
 begin
@@ -68,49 +90,4 @@ end
 spec = Gem::Specification.load('deltacloud-core.gemspec')
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true
-end
-
-desc "Install API"
-task :install, [:install_dir, :bin_dir] do |t, args|
-
-  require 'fileutils'
-  require 'pp'
-
-  files = FileList[
-    Dir["config/**/**"],
-    Dir["features/**/**"],
-    Dir["lib/**/**"],
-    Dir["public/**/**"],
-    Dir["views/**/**"],
-    "config.ru",
-    "LICENSE",
-    "DISCLAIMER",
-    "NOTICE",
-    "README.md",
-    "*.rb"
-  ]
-
-  INSTALL_DIR=args.install_dir || "/usr/local/share/deltacloud-core"
-  BIN_DIR=args.bin_dir || "/usr/local/bin"
-
-  exit(1) unless FileUtils.mkdir_p(INSTALL_DIR)
-  exit(1) unless FileUtils.mkdir_p(BIN_DIR)
-
-  files.each do |f|
-    install_path = "#{INSTALL_DIR}/#{File.dirname(f)}"
-    unless File.directory?(install_path)
-      FileUtils.mkdir_p(install_path, :mode => 0755, :verbose => true)
-    end
-    next if File.directory?(f)
-    FileUtils.install(f, "#{INSTALL_DIR}/#{File.dirname(f)}", :verbose => true)
-  end
-
-  FileUtils.install('bin/deltacloudd', BIN_DIR, :verbose => true, :mode => 0755)
-end
-
-desc "Uninstall API"
-task :uninstall do
-  require 'fileutils'
-  INSTALL_DIR="/usr/share/deltacloud-core"
-  FileUtils.rm_rf(INSTALL_DIR)
 end

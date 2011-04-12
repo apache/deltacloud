@@ -1,4 +1,7 @@
 SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
+
+ENV['API_DRIVER'] = 'mock'
+
 Dir.chdir(SERVER_DIR)
 require 'rubygems'
 require 'nokogiri'

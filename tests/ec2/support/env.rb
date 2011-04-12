@@ -1,5 +1,8 @@
 SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
 Dir.chdir(SERVER_DIR)
+
+ENV['API_DRIVER'] = 'ec2'
+
 require 'rubygems'
 require 'nokogiri'
 require '../server/server'
