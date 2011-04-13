@@ -1,5 +1,3 @@
-# Copyright 2002-2011, Distributed Systems Architecture Group, Universidad
-# Complutense de Madrid (dsa-research.org)
 #
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
