@@ -48,4 +48,4 @@ Type the following command to install it:
 Do you have a tool to make Deltacloud more useful? Let us know on our
 [deltacloud-devel mailing list][deltacloud-devel] and we'll post it here!
 
-[deltacloud-devel]: mailto:deltacloud-dev-subscribe@incubtaor.apache.org
+[deltacloud-devel]: mailto:deltacloud-dev-subscribe@incubator.apache.org
