@@ -134,32 +134,31 @@ module Deltacloud
                                          "Loadbalancer",
                           "Loadbalancer not supported in Eucalyptus", "")
                   end
-          klass.new(credentials.user, credentials.password, eucalyptus_endpoint)
+          klass.new(credentials.user, credentials.password,
+                    endpoint_for_service(type))
         end
 
-        def eucalyptus_endpoint
+        SERVICE_STUBS = {
+          "ec2" => "/services/Eucalyptus",
+          "s3" => "/services/Walrus"
+        }
+
+        DEFAULT_PORT = 8773
+
+        def endpoint_for_service(service)
+          service = service.to_s
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'])
-          if endpoint && (endpoint.include?('ec2') || endpoint.include?('s3'))   # example endpoint: 'ec2=192.168.1.1; s3=192.168.1.2'
-	     default_port=8773
-	     endpoint.split(';').each do |svc_addr|
-	        addr = svc_addr.sub('ec2=','').sub('s3=','').strip
-                if addr.include?(':')
-                   host = addr.split(':')[0]
-                   port = addr.split(':')[1]
-                else
-                   host = addr
-	           port = default_port 
-                end
-                if svc_addr.include?('ec2')
-	           ENV['EC2_URL'] = "http://#{host}:#{port}/services/Eucalyptus"
-                elsif svc_addr.include?('s3')
-                   ENV['S3_URL'] = "http://#{host}:#{port}/services/Walrus" 
-	        end
-             end 
-             {}
+          if endpoint && endpoint.include?(service)
+            # example endpoint: 'ec2=192.168.1.1; s3=192.168.1.2'
+            addr = Hash[endpoint.split(";").map { |svc| svc.strip.split("=") }][service]
+            host = addr.split(':')[0]
+            port = addr.split(':')[1] || DEFAULT_PORT
+            stub = SERVICE_STUBS[service]
+            { :endpoint_url => "http://#{host}:#{port}#{stub}",
+              :connection_mode => :per_thread }
           else
             #EC2_URL/S3_URL env variable will be used by AWS
-            {:connection_mode => :per_thread}
+            { :connection_mode => :per_thread }
           end
         end
       end
