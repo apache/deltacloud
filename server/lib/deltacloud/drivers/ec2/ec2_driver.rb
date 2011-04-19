@@ -121,6 +121,12 @@ module Deltacloud
           stopped.to( :finish )         .automatically
         end
 
+        # We do not allow users to set the endpoint through environment
+        # variables. That that would work is an implementation detail.
+        ENV.delete("EC2_URL")
+        ENV.delete("S3_URL")
+        ENV.delete("ELB_URL")
+
         def images(credentials, opts={})
           ec2 = new_client(credentials)
           img_arr = []
@@ -537,8 +543,6 @@ module Deltacloud
         end
 
         def endpoint_for_service(service)
-          ENV['EC2_URL']=''  # unset endpoints that may have been set by eucalyptus; otherwise it can conflict with the EC2/S3 endpoints in aws gem.
-          ENV['S3_URL']=''
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
