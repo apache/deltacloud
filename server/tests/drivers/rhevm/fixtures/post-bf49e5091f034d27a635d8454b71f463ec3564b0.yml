@@ -2,7 +2,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892
     body: 
     headers: 
       accept: 
@@ -21,35 +21,35 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Wed, 20 Apr 2011 20:20:51 GMT
+      - Thu, 21 Apr 2011 05:12:33 GMT
       content-length: 
-      - "3673"
+      - "3675"
       cache-control: 
       - no-cache
       pragma: 
       - No-cache
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <vm id="a4437689-0ede-4b61-ab96-6bbd97e81da7" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7">
-          <name>mock-test2</name>
+      <vm id="a01089a8-c44c-41b2-8e5a-6e1a0afb4892" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892">
+          <name>mock-test1</name>
           <description>F14 Minimal installation with Ruby preinstalled</description>
           <actions>
-              <link rel="migrate" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/migrate"/>
-              <link rel="export" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/export"/>
-              <link rel="ticket" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/ticket"/>
-              <link rel="shutdown" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/shutdown"/>
-              <link rel="start" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/start"/>
-              <link rel="stop" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/stop"/>
-              <link rel="suspend" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/suspend"/>
-              <link rel="detach" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/detach"/>
+              <link rel="migrate" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/migrate"/>
+              <link rel="export" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/export"/>
+              <link rel="ticket" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/ticket"/>
+              <link rel="shutdown" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/shutdown"/>
+              <link rel="start" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/start"/>
+              <link rel="stop" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/stop"/>
+              <link rel="suspend" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/suspend"/>
+              <link rel="detach" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/detach"/>
           </actions>
-          <link rel="cdroms" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/cdroms"/>
-          <link rel="disks" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/disks"/>
-          <link rel="nics" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/nics"/>
-          <link rel="snapshots" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/snapshots"/>
-          <link rel="tags" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/tags"/>
-          <link rel="statistics" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/statistics"/>
-          <type>server</type>
+          <link rel="cdroms" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/cdroms"/>
+          <link rel="disks" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/disks"/>
+          <link rel="nics" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/nics"/>
+          <link rel="snapshots" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/snapshots"/>
+          <link rel="tags" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/tags"/>
+          <link rel="statistics" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/statistics"/>
+          <type>desktop</type>
           <status>UP</status>
           <memory>536870912</memory>
           <cpu>
@@ -65,23 +65,23 @@
           <display>
               <type>spice</type>
               <address>10.34.32.183</address>
-              <port>5919</port>
+              <port>5914</port>
               <monitors>1</monitors>
           </display>
           <host id="0" href="/rhevm-api-powershell/hosts/0"/>
           <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
           <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
-          <start_time>2011-04-20T20:19:00.657Z</start_time>
-          <creation_time>2011-04-20T13:18:00.000Z</creation_time>
+          <start_time>2011-04-21T05:11:32.798Z</start_time>
+          <creation_time>2011-04-20T22:11:00.000Z</creation_time>
           <origin>rhev</origin>
           <stateless>false</stateless>
           <domain>
               <name>deltacloud.local</name>
           </domain>
           <disks>
-              <disk id="b68b8d09-6696-4f16-ba71-5d11d68cf81d">
-                  <description>_mock-test2_4/20/2011 1:18:26 PM</description>
-                  <vm id="a4437689-0ede-4b61-ab96-6bbd97e81da7"/>
+              <disk id="5bcaab44-3909-44a1-b1de-8b832ca5c952">
+                  <description>_mock-test1_4/20/2011 10:11:09 PM</description>
+                  <vm id="a01089a8-c44c-41b2-8e5a-6e1a0afb4892"/>
                   <size>1073741824</size>
                   <type>system</type>
                   <status>OK</status>
@@ -94,14 +94,14 @@
               </disk>
           </disks>
           <nics>
-              <nic id="60bd2833-83fd-4396-b677-6ee6b4613534">
+              <nic id="070f2622-e7c3-4ac8-97e2-f7731a1b61e9">
                   <name>nic1</name>
-                  <vm id="a4437689-0ede-4b61-ab96-6bbd97e81da7"/>
+                  <vm id="a01089a8-c44c-41b2-8e5a-6e1a0afb4892"/>
                   <network>
                       <name>rhevm</name>
                   </network>
                   <type>virtio</type>
-                  <mac address="00:1a:4a:22:20:5f"/>
+                  <mac address="00:1a:4a:22:20:61"/>
               </nic>
           </nics>
       </vm>
@@ -110,7 +110,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :post
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/shutdown
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/shutdown
     body: <action/>
     headers: 
       accept: 
@@ -131,14 +131,14 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Wed, 20 Apr 2011 20:20:51 GMT
+      - Thu, 21 Apr 2011 05:12:33 GMT
       content-length: 
       - "462"
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <action id="c1b5df61-a128-41f3-9771-404ec73eab72" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/shutdown/c1b5df61-a128-41f3-9771-404ec73eab72">
-          <link rel="parent" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7"/>
-          <link rel="replay" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/shutdown"/>
+      <action id="59979fea-10f2-4527-9bdd-69084a1bc403" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/shutdown/59979fea-10f2-4527-9bdd-69084a1bc403">
+          <link rel="parent" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892"/>
+          <link rel="replay" href="/rhevm-api-powershell/vms/a01089a8-c44c-41b2-8e5a-6e1a0afb4892/shutdown"/>
           <status>COMPLETE</status>
       </action>
 

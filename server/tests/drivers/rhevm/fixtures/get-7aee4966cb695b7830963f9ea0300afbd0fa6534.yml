@@ -2,7 +2,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49
     body: 
     headers: 
       accept: 
@@ -21,34 +21,34 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Wed, 20 Apr 2011 20:18:39 GMT
+      - Thu, 21 Apr 2011 05:11:23 GMT
       content-length: 
-      - "3499"
+      - "3500"
       cache-control: 
       - no-cache
       pragma: 
       - No-cache
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <vm id="a4437689-0ede-4b61-ab96-6bbd97e81da7" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7">
+      <vm id="41e0a7a8-b99b-427d-ac9f-bd023453ec49" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49">
           <name>mock-test2</name>
           <description>F14 Minimal installation with Ruby preinstalled</description>
           <actions>
-              <link rel="migrate" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/migrate"/>
-              <link rel="export" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/export"/>
-              <link rel="ticket" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/ticket"/>
-              <link rel="shutdown" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/shutdown"/>
-              <link rel="start" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/start"/>
-              <link rel="stop" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/stop"/>
-              <link rel="suspend" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/suspend"/>
-              <link rel="detach" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/detach"/>
+              <link rel="migrate" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/migrate"/>
+              <link rel="export" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/export"/>
+              <link rel="ticket" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/ticket"/>
+              <link rel="shutdown" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/shutdown"/>
+              <link rel="start" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/start"/>
+              <link rel="stop" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/stop"/>
+              <link rel="suspend" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/suspend"/>
+              <link rel="detach" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/detach"/>
           </actions>
-          <link rel="cdroms" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/cdroms"/>
-          <link rel="disks" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/disks"/>
-          <link rel="nics" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/nics"/>
-          <link rel="snapshots" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/snapshots"/>
-          <link rel="tags" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/tags"/>
-          <link rel="statistics" href="/rhevm-api-powershell/vms/a4437689-0ede-4b61-ab96-6bbd97e81da7/statistics"/>
+          <link rel="cdroms" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/cdroms"/>
+          <link rel="disks" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/disks"/>
+          <link rel="nics" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/nics"/>
+          <link rel="snapshots" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/snapshots"/>
+          <link rel="tags" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/tags"/>
+          <link rel="statistics" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/statistics"/>
           <type>server</type>
           <status>DOWN</status>
           <memory>536870912</memory>
@@ -68,16 +68,16 @@
           </display>
           <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
           <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
-          <creation_time>2011-04-20T13:18:00.000Z</creation_time>
+          <creation_time>2011-04-20T22:11:00.000Z</creation_time>
           <origin>rhev</origin>
           <stateless>false</stateless>
           <domain>
               <name>deltacloud.local</name>
           </domain>
           <disks>
-              <disk id="b68b8d09-6696-4f16-ba71-5d11d68cf81d">
-                  <description>_mock-test2_4/20/2011 1:18:26 PM</description>
-                  <vm id="a4437689-0ede-4b61-ab96-6bbd97e81da7"/>
+              <disk id="144aedee-b3e0-470d-a8dc-1a53e1e374cc">
+                  <description>_mock-test2_4/20/2011 10:11:13 PM</description>
+                  <vm id="41e0a7a8-b99b-427d-ac9f-bd023453ec49"/>
                   <size>1073741824</size>
                   <type>system</type>
                   <status>OK</status>
@@ -90,14 +90,14 @@
               </disk>
           </disks>
           <nics>
-              <nic id="60bd2833-83fd-4396-b677-6ee6b4613534">
+              <nic id="49305bf7-c06f-4a29-901d-192d3665474e">
                   <name>nic1</name>
-                  <vm id="a4437689-0ede-4b61-ab96-6bbd97e81da7"/>
+                  <vm id="41e0a7a8-b99b-427d-ac9f-bd023453ec49"/>
                   <network>
                       <name>rhevm</name>
                   </network>
                   <type>virtio</type>
-                  <mac address="00:1a:4a:22:20:5f"/>
+                  <mac address="00:1a:4a:22:20:62"/>
               </nic>
           </nics>
       </vm>

@@ -35,8 +35,8 @@ module RHEVMTest
     end
 
     def test_04_it_returns_single_hardware_profile
-      get_auth_url '/api;driver=rhevm/hardware_profiles/desktop'
-      (last_xml_response/'hardware_profile/name').first.text.should == 'desktop'
+      get_auth_url '/api;driver=rhevm/hardware_profiles/DESKTOP'
+      (last_xml_response/'hardware_profile/name').first.text.should == 'DESKTOP'
       (last_xml_response/'hardware_profile/property[@name="architecture"]').first[:value].should == 'x86_64'
       (last_xml_response/'hardware_profile/property[@name="memory"]').first[:value].should == '512'
       (last_xml_response/'hardware_profile/property[@name="storage"]').first[:value].should == '1'

@@ -42,15 +42,15 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # Values like RAM or STORAGE are reported by VM
   # so they are not static.
 
-  define_hardware_profile 'server' do
-    cpu         ( 1..4 )
+  define_hardware_profile 'SERVER' do
+    cpu         ( 1..16 )
     memory      ( 512 .. 32*1024 )
     storage     ( 1 .. 100*1024 )
     architecture 'x86_64'
   end
 
-  define_hardware_profile 'desktop' do
-    cpu         ( 1..4 )
+  define_hardware_profile 'DESKTOP' do
+    cpu         ( 1..16 )
     memory      ( 512 .. 32*1024 )
     storage     ( 1 .. 100*1024 )
     architecture 'x86_64'
@@ -200,8 +200,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def convert_instance(client, inst)
     state = convert_state(inst.status)
     storage_size = inst.storage.nil? ? 1 :  (inst.storage.to_i/1048576/100)
-    profile = InstanceProfile::new(inst.profile, 
-                                   :hwp_memory => inst.memory.to_i/1024/1204,
+    profile = InstanceProfile::new(inst.profile.upcase, 
+                                   :hwp_memory => inst.memory.to_i/1024/1024,
                                    :hwp_cpu => inst.cores,
                                    :hwp_storage => "#{storage_size}"
     )
