@@ -21,7 +21,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Wed, 20 Apr 2011 20:18:20 GMT
+      - Thu, 21 Apr 2011 05:11:09 GMT
       content-length: 
       - "738"
       cache-control: 
@@ -54,13 +54,13 @@
     uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms
     body: |-
       <vm>
-        <name>mock-test1</name>
+        <name>mock-test2</name>
         <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
         <cluster id="0"/>
-        <type>desktop</type>
+        <type>SERVER</type>
         <memory>536870912</memory>
         <cpu>
-          <topology sockets="1" cores="1"/>
+          <topology cores="1" sockets="1"/>
         </cpu>
       </vm>
     headers: 
@@ -71,7 +71,7 @@
       accept-encoding: 
       - gzip, deflate
       content-length: 
-      - "219"
+      - "218"
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
       code: 202
@@ -82,33 +82,33 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Wed, 20 Apr 2011 20:18:23 GMT
+      - Thu, 21 Apr 2011 05:11:13 GMT
       content-length: 
-      - "2724"
+      - "2723"
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <vm id="52ccd5ee-5a6e-4dea-8ed1-f26e57766413" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413">
-          <name>mock-test1</name>
+      <vm id="41e0a7a8-b99b-427d-ac9f-bd023453ec49" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49">
+          <name>mock-test2</name>
           <description>F14 Minimal installation with Ruby preinstalled</description>
           <actions>
-              <link rel="migrate" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/migrate"/>
-              <link rel="export" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/export"/>
-              <link rel="ticket" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/ticket"/>
-              <link rel="shutdown" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/shutdown"/>
-              <link rel="start" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/start"/>
-              <link rel="stop" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/stop"/>
-              <link rel="suspend" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/suspend"/>
-              <link rel="detach" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/detach"/>
+              <link rel="migrate" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/migrate"/>
+              <link rel="export" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/export"/>
+              <link rel="ticket" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/ticket"/>
+              <link rel="shutdown" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/shutdown"/>
+              <link rel="start" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/start"/>
+              <link rel="stop" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/stop"/>
+              <link rel="suspend" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/suspend"/>
+              <link rel="detach" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/detach"/>
           </actions>
           <creation_status>IN_PROGRESS</creation_status>
-          <link rel="cdroms" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/cdroms"/>
-          <link rel="disks" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/disks"/>
-          <link rel="nics" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/nics"/>
-          <link rel="snapshots" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/snapshots"/>
-          <link rel="tags" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/tags"/>
-          <link rel="statistics" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/statistics"/>
-          <link rel="creation_status" href="/rhevm-api-powershell/vms/52ccd5ee-5a6e-4dea-8ed1-f26e57766413/creation_status/7509202a-ade6-41da-b731-ad1a9b817026"/>
-          <type>desktop</type>
+          <link rel="cdroms" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/cdroms"/>
+          <link rel="disks" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/disks"/>
+          <link rel="nics" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/nics"/>
+          <link rel="snapshots" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/snapshots"/>
+          <link rel="tags" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/tags"/>
+          <link rel="statistics" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/statistics"/>
+          <link rel="creation_status" href="/rhevm-api-powershell/vms/41e0a7a8-b99b-427d-ac9f-bd023453ec49/creation_status/cb34bb3d-ddd1-456a-bf20-5ceffb209cfa"/>
+          <type>server</type>
           <status>IMAGE_LOCKED</status>
           <memory>536870912</memory>
           <cpu>

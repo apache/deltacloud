@@ -207,7 +207,7 @@ module RHEVM
     private
 
     def parse_xml_attributes!(xml)
-      @description = (xml/'description').first.text
+      @description = ((xml/'description').first.text rescue '')
       @status = (xml/'status').first.text
       @memory = (xml/'memory').first.text
       @profile = (xml/'type').first.text

@@ -31,7 +31,7 @@ module RHEVMTest
       params = {
         :image_id => 'bb2e79bd-fd73-46a1-b391-a390b1998f03',
         :name => 'mock-test2',
-        :hwp_id => 'server',
+        :hwp_id => 'SERVER',
         :'api[driver]' => 'rhevm',
       }
       post_url '/api/instances', params
@@ -47,7 +47,7 @@ module RHEVMTest
 
     def test_03_02_created_instance_has_correct_hardware_profile
       (@@instance2/'instance/hardware_profile').length.should == 1
-      (@@instance2/'instance/hardware_profile').first[:id].should == "server"
+      (@@instance2/'instance/hardware_profile').first[:id].should == "SERVER"
       (@@instance2/'instance/hardware_profile').first[:href].should_not == nil
     end
 
