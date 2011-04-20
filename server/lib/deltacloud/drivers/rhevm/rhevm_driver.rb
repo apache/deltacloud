@@ -42,14 +42,14 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # Values like RAM or STORAGE are reported by VM
   # so they are not static.
 
-  define_hardware_profile 'SERVER' do
+  define_hardware_profile 'server' do
     cpu         ( 1..4 )
     memory      ( 512 .. 32*1024 )
     storage     ( 1 .. 100*1024 )
     architecture 'x86_64'
   end
 
-  define_hardware_profile 'DESKTOP' do
+  define_hardware_profile 'desktop' do
     cpu         ( 1..4 )
     memory      ( 512 .. 32*1024 )
     storage     ( 1 .. 100*1024 )
@@ -77,13 +77,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
     start.to( :pending )          .automatically
     pending.to( :running )        .automatically
     pending.to( :stopped )        .automatically
-    pending.to( :finish )         .on(:destroy)
     stopped.to( :running )        .on( :start )
-    stopped.to( :finish )         .on( :destroy )
-    running.to( :running )        .on( :reboot )
     running.to( :stopping )       .on( :stop )
-    shutting_down.to( :stopped )  .automatically
-    stopped.to( :finish )         .automatically
+    stopped.to( :finish )         .on( :destroy )
   end
 
   #
@@ -96,7 +92,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     safely do
       clusters = client.clusters
       clusters.each do |r|
-        d = client.datacenters(:id => r.datacenter_id)
+        d = client.datacenters(:id => r.datacenter.id).first
         realm_arr << convert_realm(r, d)
       end
     end
@@ -123,7 +119,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
     client = new_client(credentials)
     inst_arr = []
     safely do
-      vms = client.vms
+      if opts[:id]
+        vms = client.vms(:id => opts[:id])
+      else
+        vms = client.vms
+      end
       vms.each do |vm|
         inst_arr << convert_instance(client, vm)
       end
@@ -135,21 +135,21 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def start_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      client.vm_action(:start, id)
+      raise "ERROR: Operation start failed" unless client.vm_action(id, :start)
     end
   end
 
   def stop_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      client.vm_action(:shutdown, id)
+      raise "ERROR: Operation start failed" unless client.vm_action(id, :shutdown)
     end
   end
 
   def destroy_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      client.delete_vm(id)
+      raise "ERROR: Operation start failed" unless client.vm_action(id, :delete)
     end
   end
 
@@ -167,29 +167,14 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def create_instance(credentials, image_id, opts={})
     client = new_client(credentials)
+    params = {}
     safely do
-      # TODO: Add setting CPU topology here
-      # FIXME: Condor is using GlobalJobId here as a name, which is malformed
-      #        and contains >50 characters
-      #
-      # FIXME: Memory calculation is wrong in Conductor, they are sending value/1024
-      #
-      vm_name = opts[:name] ? "<name>#{opts[:name].split("#").last}</name>" : "<name>#{Time.now.to_i}</name>"
-      vm_template = "<template id='#{image_id}'/>"
-      vm_cluster = opts[:realm_id] ? "<cluster id='#{opts[:realm_id]}'/>" : "<cluster id='0'/>"
-      vm_type = opts[:hwp_id] ? "<type>#{opts[:hwp_id].upcase}</type>" : "<type>DESKTOP</type>"
-      vm_memory = opts[:hwp_memory] ? "<memory>#{opts[:hwp_memory].to_i*1024*1024}</memory>"  : ''
-      vm_cpus = opts[:hwp_cpu] ? "<cpu><topology cores='#{opts[:hwp_cpu]}' sockets='1'/></cpu>"  : ''
-      xml = "<vm>"+
-        vm_name +
-        vm_template +
-        vm_cluster +
-        vm_type +
-        vm_memory +
-        vm_cpus +
-        "</vm>"
-      # TODO: Add storage here (it isn't supported by RHEV-M API so far)
-      convert_instance(client, ::RHEVM::Vm::new(client, client.create_vm(xml)))
+      params[:name] = opts[:name] if opts[:name]
+      params[:realm_id] = opts[:realm_id] if opts[:realm_id]
+      params[:hwp_id] = opts[:hwp_id] if opts[:hwp_id]
+      params[:hwp_memory] = opts[:hwp_memory] if opts[:hwp_memory]
+      params[:hwp_cpu] = opts[:hwp_cpu] if opts[:hwp_cpu]
+      convert_instance(client, client.create_vm(image_id, params))
     end
   end
 
@@ -214,34 +199,25 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def convert_instance(client, inst)
     state = convert_state(inst.status)
-    storage_size = inst.storage.nil? ? 1 :  (inst.storage/1024/1024)
+    storage_size = inst.storage.nil? ? 1 :  (inst.storage.to_i/1048576/100)
     profile = InstanceProfile::new(inst.profile, 
-                                   :hwp_memory => inst.memory/1024,
+                                   :hwp_memory => inst.memory.to_i/1024/1204,
                                    :hwp_cpu => inst.cores,
                                    :hwp_storage => "#{storage_size}"
     )
     # Include VNC and SPICE addresses
-    if inst.display
-      display_address = { 
-        :type => inst.display[:type],
-        :address => inst.display[:address],
-        :port => inst.display[:port]
-      }
+    if inst.ip
+      public_addresses = [ inst.ip ]
+    else
+      public_addresses = [ inst.macs ]
     end
-    public_addresses = []
-    unless inst.nics.empty?
-      inst.nics.each do |nic|
-        public_addresses << { :address => nic[:address], :mac => nic[:mac]}
-      end
-    end
-    public_addresses << display_address if display_address
     Instance.new(
       :id => inst.id,
       :name => inst.name,
       :state => state,
-      :image_id => inst.template,
-      :realm_id => inst.cluster,
-      :owner_id => client.username,
+      :image_id => inst.template.id,
+      :realm_id => inst.cluster.id,
+      :owner_id => inst.username,
       :launch_time => inst.creation_time,
       :instance_profile => profile,
       :hardware_profile_id => profile.id,
@@ -260,12 +236,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def convert_state(state)
     case state
     when 'WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
-      'RESTORING_STATE', 'POWERING_DOWN' then
+      'RESTORING_STATE', 'POWERING_DOWN', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE' then
       'PENDING'
-    when 'UNASSIGNED', 'DOWN', 'POWERING_DOWN', 'PAUSED', 'NOT_RESPONDING', 'SAVING_STATE', 
-      'SUSPENDED', 'IMAGE_ILLEGAL', 'IMAGE_LOCKED', 'UNKNOWN' then
+    when 'UNASSIGNED', 'DOWN', 'PAUSED', 'NOT_RESPONDING', 'SUSPENDED', 'IMAGE_ILLEGAL', 'UNKNOWN' then
       'STOPPED'
-    when 'POWERING_UP', 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
+    when 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
       'RUNNING'
     end
   end
@@ -274,11 +249,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
     StorageVolume.new(
       :id => volume.id,
       :state => 'AVAILABLE',
-      :capacity => ((volume.available-volume.used)/1024/1024).abs,
+      :capacity => ((volume.available.to_i-volume.used.to_i)/1024/1024).abs,
       :instance_id => nil,
       :kind => volume.kind,
       :name => volume.name,
-      :device => "#{volume.storage_address}:#{volume.storage_path}"
+      :device => volume.address ? "#{volume.address}:#{volume.path}" : nil
     )
   end
 
@@ -287,7 +262,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :id => img.id,
       :name => img.name,
       :description => img.description,
-      :owner_id => client.username,
+      :owner_id => client.credentials[:username],
       :architecture => 'x86_64', # All RHEV-M VMs are x86_64
       :state => img.status
     )

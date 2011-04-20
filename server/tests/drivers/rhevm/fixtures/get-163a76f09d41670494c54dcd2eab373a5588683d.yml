@@ -2,89 +2,11 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell
-    body: 
-    headers: 
-      accept: 
-      - application/xml
-      accept-encoding: 
-      - gzip, deflate
-  response: !ruby/struct:VCR::Response 
-    status: !ruby/struct:VCR::ResponseStatus 
-      code: 200
-      message: OK
-    headers: 
-      expires: 
-      - Wed, 31 Dec 1969 16:00:00 PST
-      content-type: 
-      - application/xml
-      server: 
-      - Apache-Coyote/1.1
-      date: 
-      - Mon, 11 Apr 2011 16:13:39 GMT
-      content-length: 
-      - "2163"
-      link: 
-      - <https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/capabilities>; rel=capabilities,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters>; rel=clusters,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters?search={query}>; rel=clusters/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/datacenters>; rel=datacenters,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/datacenters?search={query}>; rel=datacenters/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/events>; rel=events,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/events?search={query}>; rel=events/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/hosts>; rel=hosts,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/hosts?search={query}>; rel=hosts/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/networks>; rel=networks,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/roles>; rel=roles,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/storagedomains>; rel=storagedomains,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/storagedomains?search={query}>; rel=storagedomains/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/tags>; rel=tags,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates>; rel=templates,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/templates?search={query}>; rel=templates/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/users>; rel=users,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/users?search={query}>; rel=users/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vmpools>; rel=vmpools,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vmpools?search={query}>; rel=vmpools/search,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms>; rel=vms,<https://rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms?search={query}>; rel=vms/search
-      cache-control: 
-      - no-cache
-      pragma: 
-      - No-cache
-    body: |
-      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-      <api>
-          <link rel="capabilities" href="/rhevm-api-powershell/capabilities"/>
-          <link rel="clusters" href="/rhevm-api-powershell/clusters"/>
-          <link rel="clusters/search" href="/rhevm-api-powershell/clusters?search={query}"/>
-          <link rel="datacenters" href="/rhevm-api-powershell/datacenters"/>
-          <link rel="datacenters/search" href="/rhevm-api-powershell/datacenters?search={query}"/>
-          <link rel="events" href="/rhevm-api-powershell/events"/>
-          <link rel="events/search" href="/rhevm-api-powershell/events?search={query}"/>
-          <link rel="hosts" href="/rhevm-api-powershell/hosts"/>
-          <link rel="hosts/search" href="/rhevm-api-powershell/hosts?search={query}"/>
-          <link rel="networks" href="/rhevm-api-powershell/networks"/>
-          <link rel="roles" href="/rhevm-api-powershell/roles"/>
-          <link rel="storagedomains" href="/rhevm-api-powershell/storagedomains"/>
-          <link rel="storagedomains/search" href="/rhevm-api-powershell/storagedomains?search={query}"/>
-          <link rel="tags" href="/rhevm-api-powershell/tags"/>
-          <link rel="templates" href="/rhevm-api-powershell/templates"/>
-          <link rel="templates/search" href="/rhevm-api-powershell/templates?search={query}"/>
-          <link rel="users" href="/rhevm-api-powershell/users"/>
-          <link rel="users/search" href="/rhevm-api-powershell/users?search={query}"/>
-          <link rel="vmpools" href="/rhevm-api-powershell/vmpools"/>
-          <link rel="vmpools/search" href="/rhevm-api-powershell/vmpools?search={query}"/>
-          <link rel="vms" href="/rhevm-api-powershell/vms"/>
-          <link rel="vms/search" href="/rhevm-api-powershell/vms?search={query}"/>
-          <system_version revision="51796" build="4" minor="2" major="2"/>
-          <summary>
-              <vms>
-                  <total>10</total>
-                  <active>10</active>
-              </vms>
-              <hosts>
-                  <total>1</total>
-                  <active>1</active>
-              </hosts>
-              <users>
-                  <total>5</total>
-                  <active>4</active>
-              </users>
-              <storage_domains>
-                  <total>2</total>
-                  <active>2</active>
-              </storage_domains>
-          </summary>
-      </api>
-
-    http_version: "1.1"
-- !ruby/struct:VCR::HTTPInteraction 
-  request: !ruby/struct:VCR::Request 
-    method: :get
     uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters
     body: 
     headers: 
       accept: 
-      - application/xml
+      - application/xml; detail=datacenters
       accept-encoding: 
       - gzip, deflate
   response: !ruby/struct:VCR::Response 
@@ -99,7 +21,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Mon, 11 Apr 2011 16:13:39 GMT
+      - Wed, 20 Apr 2011 20:18:12 GMT
       content-length: 
       - "738"
       cache-control: 
@@ -148,7 +70,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Mon, 11 Apr 2011 16:13:39 GMT
+      - Wed, 20 Apr 2011 20:18:12 GMT
       content-length: 
       - "707"
       cache-control: 
@@ -162,7 +84,7 @@
           <description>The default Data Center</description>
           <link rel="files" href="/rhevm-api-powershell/datacenters/ae5ff258-82f3-4cf6-8280-8f685ac068ac/files"/>
           <link rel="storagedomains" href="/rhevm-api-powershell/datacenters/ae5ff258-82f3-4cf6-8280-8f685ac068ac/storagedomains"/>
-          <storage_type>ISCSI</storage_type>
+          <storage_type>iscsi</storage_type>
           <version minor="2" major="2"/>
           <supported_versions>
               <version minor="2" major="2"/>
