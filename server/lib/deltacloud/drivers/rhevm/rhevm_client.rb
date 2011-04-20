@@ -1,19 +1,4 @@
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.  The
-# ASF licenses this file to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance with the
-# License.  You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-# License for the specific language governing permissions and limitations
-# under the License.
-
+require 'rubygems'
 require 'base64'
 require 'restclient'
 require 'nokogiri'
@@ -22,281 +7,326 @@ require 'json'
 
 module RHEVM
 
-  class FixtureNotFound < Exception; end
-  class ConnectionError < StandardError
-    attr_reader :code, :cause, :details
-    def initialize(code, cause, message, details)
-      super(message)
-      @code = code
-      @cause = cause
-      @details = details
-    end
+  def self.client(url)
+    RestClient::Resource.new(url)
   end
 
   class Client
 
-    attr_reader :base_uri
-    attr_reader :host
-    attr_reader :entry_points
-    attr_reader :username
+    attr_reader :credentials, :api_entrypoint
 
-    # Define a list of supported collections which will be handled automatically
-    # by method_missing
-    @@COLLECTIONS = [ :templates, :clusters, :storagedomains, :vms, :datacenters ]
-
-    def initialize(username, password, base_uri, opts={})
-      @username, @password = username, password
-      uri = URI.parse(base_uri)
-      @host = "#{uri.scheme}://#{uri.host}:#{uri.port}"
-      @base_uri = base_uri
-      @entry_points = {}
-      discover_entry_points()
+    def initialize(username, password, api_entrypoint)
+      @credentials = { :username => username, :password => password }
+      @api_entrypoint = api_entrypoint
     end
 
-    def method_missing(method_name, *args)
-      opts = args[0] if args[0].class.eql?(Hash)
-      opts ||= {}
-      if @@COLLECTIONS.include?(method_name.to_sym)
-        if opts[:id]
-          object = Nokogiri::XML(get("#{@entry_points[method_name.to_s]}/#{opts[:id]}"))
-          element = method_name.to_s
-          element = 'data_centers' if method_name.eql?(:datacenters)
-          @current_element = element
-          inst = ::RHEVM.const_get(element.classify)
-          return inst::new(self, object)
-        else
-          objects = Nokogiri::XML(get(@entry_points[method_name.to_s]))
-          objects_arr = []
-          element = method_name.to_s
-          # FIXME:
-          # This is an exception/or bug in RHEV-M API:
-          # (uri is /datacenters but root element it 'data_centers')
-          element = 'data_centers' if method_name.eql?(:datacenters)
-          element = 'storage_domains' if method_name.eql?(:storagedomains)
-          @current_element = element
-          (objects/"#{element}/#{element.singularize}").each do |item|
-            inst = ::RHEVM.const_get(element.classify)
-            objects_arr << inst.new(self, item)
-          end
-          return objects_arr
+    def vms(opts={})
+      headers = {
+        :accept => "application/xml; detail=disks; detail=nics; detail=hosts"
+      }
+      headers.merge!(auth_header)
+      if opts[:id]
+        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/vms/%s" % opts[:id]].get(headers)).root
+        [ RHEVM::VM::new(self, vm)]
+      else
+        Client::parse_response(RHEVM::client(@api_entrypoint)["/vms"].get(headers)).xpath('/vms/vm').collect do |vm|
+          RHEVM::VM::new(self, vm)
         end
       end
     end
 
-    def vm_action(action, vm)
-      response = post("#{@base_uri}/vms/#{vm}/%s" % action)
+    def vm_action(id, action, headers={})
+      headers.merge!(auth_header)
+      headers.merge!({
+        :content_type => 'application/xml',
+        :accept => 'application/xml',
+      })
+      if action==:delete
+        RHEVM::client(@api_entrypoint)["/vms/%s" % id].delete(headers)
+      else
+        xml_response = Client::parse_response(RHEVM::client(@api_entrypoint)["/vms/%s/%s" % [id, action]].post('<action/>', headers))
+        return false if (xml_response/'action/status').first.text!="COMPLETE"
+      end
+      return true
+    end
+
+    def create_vm(template_id, opts={})
+      opts ||= {}
+      builder = Nokogiri::XML::Builder.new do
+        vm {
+          name opts[:name] || "i-#{Time.now.to_i}"
+          template_(:id => template_id)
+          cluster(:id => opts[:realm_id] || clusters.first.id)
+          type_ opts[:hwp_id] || 'desktop'
+          memory opts[:hwp_memory] || (512*1024*1024).to_s
+          cpu {
+            topology( :cores => (opts[:hwp_cpu] || '1'), :sockets => '1' )
+          }
+        }
+      end
+      headers = opts[:headers] || {}
+      headers.merge!({
+        :content_type => 'application/xml',
+        :accept => 'application/xml',
+      })
+      headers.merge!(auth_header)
+      vm = RHEVM::client(@api_entrypoint)["/vms"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
+      RHEVM::VM::new(self, Nokogiri::XML(vm).root)
+    end
+
+    def templates(opts={})
+      headers = {
+        :accept => "application/xml"
+      }
+      headers.merge!(auth_header)
+      if opts[:id]
+        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/templates/%s" % opts[:id]].get(headers)).root
+        [ RHEVM::Template::new(self, vm)]
+      else
+        Client::parse_response(RHEVM::client(@api_entrypoint)["/templates"].get(headers)).xpath('/templates/template').collect do |vm|
+          RHEVM::Template::new(self, vm)
+        end
+      end
+    end
+
+    def clusters(opts={})
+      headers = {
+        :accept => "application/xml; detail=datacenters"
+      }
+      headers.merge!(auth_header)
+      if opts[:id]
+        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/clusters/%s" % opts[:id]].get(headers)).root
+        [ RHEVM::Cluster::new(self, vm)]
+      else
+        Client::parse_response(RHEVM::client(@api_entrypoint)["/clusters"].get(headers)).xpath('/clusters/cluster').collect do |vm|
+          RHEVM::Cluster::new(self, vm)
+        end
+      end
+    end
+
+    def datacenters(opts={})
+      headers = {
+        :accept => "application/xml"
+      }
+      headers.merge!(auth_header)
+      if opts[:id]
+        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/datacenters/%s" % opts[:id]].get(headers)).root
+        [ RHEVM::DataCenter::new(self, vm)]
+      else
+        Client::parse_response(RHEVM::client(@api_entrypoint)["/datacenters"].get(headers)).xpath('/data_centers/data_center').collect do |vm|
+          RHEVM::DataCenter::new(self, vm)
+        end
+      end
+    end
+
+    def hosts(opts={})
+      headers = {
+        :accept => "application/xml"
+      }
+      headers.merge!(auth_header)
+      if opts[:id]
+        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/hosts/%s" % opts[:id]].get(headers)).root
+        [ RHEVM::Host::new(self, vm)]
+      else
+        Client::parse_response(RHEVM::client(@api_entrypoint)["/hosts"].get(headers)).xpath('/hosts/host').collect do |vm|
+          RHEVM::Host::new(self, vm)
+        end
+      end
+    end
+
+    def storagedomains(opts={})
+      headers = {
+        :accept => "application/xml"
+      }
+      headers.merge!(auth_header)
+      if opts[:id]
+        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/storagedomains/%s" % opts[:id]].get(headers)).root
+        [ RHEVM::StorageDomain::new(self, vm)]
+      else
+        Client::parse_response(RHEVM::client(@api_entrypoint)["/storagedomains"].get(headers)).xpath('/storage_domains/storage_domain').collect do |vm|
+          RHEVM::StorageDomain::new(self, vm)
+        end
+      end
+    end
+
+    def auth_header
+      { :authorization => "Basic " + Base64.encode64("#{@credentials[:username]}:#{@credentials[:password]}"), }
+    end
+
+    def base_url
+      url = URI.parse(@api_entrypoint)
+      "#{url.scheme}://#{url.host}:#{url.port}"
+    end
+
+    def self.parse_response(response)
       Nokogiri::XML(response)
     end
 
-    def create_vm(opts="")
-      (Nokogiri::XML(post("#{@base_uri}/vms", opts))/'vm').first
-    end
-
-    def delete_vm(id)
-      delete("#{@base_uri}/vms/#{id}")
-    end
-
-    def delete(uri)
-      headers = {
-        :authorization => "Basic " + Base64.encode64("#{@username}:#{@password}"),
-        :accept => 'application/xml',
-      }
-      RestClient.delete(uri, headers).to_s
-    end
-
-    def get(uri)
-      headers = {
-        :authorization => "Basic " + Base64.encode64("#{@username}:#{@password}"),
-        :accept => 'application/xml',
-      }
-      begin
-        response = RestClient.get(uri, headers).to_s
-      rescue Exception => e
-        raise ConnectionError::new(500, "GET #{uri}", "#{e.message} (GET #{uri})", e.backtrace)
-      end
-      response
-    end
-
-    def post(uri, params="")
-      headers = {
-        :authorization => "Basic " + Base64.encode64("#{@username}:#{@password}"),
-        :accept => 'application/xml',
-        :content_type => 'application/xml'
-      }
-      params = "<action/>" if params.size==0
-      RestClient.post(uri, params, headers).to_s
-    end
-
-    def discover_entry_points()
-      return if @discovered
-      begin
-        doc = Nokogiri.XML(get(@base_uri))
-      rescue Exception => e
-        raise ConnectionError::new(500, "RHEV-M Connection Error (#{@base_uri})", "#{e.message} (#{@base_uri})", e.backtrace)
-      end
-      doc.xpath('api/link').each() do |link|
-        @entry_points[link['rel']] = @host + link['href']
-      end
-      @discovered = true
-    end
-
-    def read_fake_url(filename)
-      fixture_file = "../tests/rhevm/support/fixtures/#{filename}"
-      if File.exists?(fixture_file)
-        return JSON::parse(File.read(fixture_file))
-      else
-        raise FixtureNotFound.new
-      end
-    end
-
-    def singularize(str)
-      str.gsub(/s$/, '')
-    end
-
   end
 
-  class BaseModel
-    attr_accessor(:id, :href, :name)
+  class BaseObject
+    attr_accessor :id, :href, :name
+    attr_reader :client
 
-    def initialize(client, xml)
+    def initialize(client, id, href, name)
+      @id, @href, @name = id, href, name
       @client = client
-      @id = xml[:id]
-      @href = "#{@client.base_uri}#{xml[:href]}"
-      @name = xml.xpath('name').text
-    end
-  end
-
-  class StorageDomain < BaseModel
-    attr_accessor(:status, :storage_type, :storage_address, :storage_path)
-    attr_accessor(:name, :available, :used, :kind)
-
-    def initialize(client, xml)
-      super(client, xml)
-      @kind = xml.xpath('type').text
-      @name = xml.xpath('name').text
-      @storage_type = xml.xpath('storage/type').text
-      @storage_address = xml.xpath('storage/address').text
-      @storage_path = xml.xpath('storage/path').text
-      @address = xml.xpath('storage/address').text
-      @available = xml.xpath('available').text.to_f
-      @used= xml.xpath('used').text.to_f
-    end
-  end
-
-  class Vm < BaseModel
-    attr_accessor(:status, :memory, :sockets, :cores, :bootdevs, :host, :cluster, :template, :vmpool, :profile)
-    attr_accessor(:creation_time, :storage, :nics, :display)
-
-    def initialize(client, xml)
-      super(client, xml)
-      @status = xml.xpath('status').text
-      @memory = xml.xpath('memory').text.to_f
-      @profile = xml.xpath('type').text
-      @sockets = xml.xpath('cpu/topology').first[:sockets] rescue ''
-      @cores = xml.xpath('cpu/topology').first[:cores] rescue ''
-      @bootdevs = []
-      xml.xpath('os/boot').each do |boot|
-        @bootdevs << boot[:dev]
-      end
-      @host = xml.xpath('host')[:id]
-      @cluster = xml.xpath('cluster').first[:id]
-      @template = xml.xpath('template').first[:id]
-      @vmpool = xml.xpath('vmpool').first[:id] if xml.xpath('vmpool').size >0
-      @creation_time = xml.xpath('creation_time').text
-      storage_link = xml.xpath('link[@rel="disks"]').first[:href]
-      disks_response = Nokogiri::XML(client.get("#{client.host}#{storage_link}"))
-      @storage = disks_response.xpath('disks/disk/size').collect { |s| s.text.to_f }
-      @storage = @storage.inject(nil) { |p, i| p ? p+i : i }
-      @display = {
-        :type => (xml/'display/type').text,
-        :address => (xml/'display/address').text,
-        :port => (xml/'display/port').text
-      } if (xml/'display')
-      @nics = get_nics(client, xml)
       self
     end
 
-    def get_nics(client, xml)
-      nics = []
-      doc = Nokogiri::XML(client.get(client.host + (xml/'link[@rel="nics"]').first[:href]))
-      (doc/'nics/nic').each do |nic|
-        nics << {
-          :mac => (nic/'mac').first[:address],
-          :address => (nic/'ip').first ? (nic/'ip').first[:address]  : nil
-        }
-      end
-      nics
+  end
+
+  class Link
+    attr_accessor :id, :href, :client
+
+    def initialize(client, id, href)
+      @id, @href = id, href
+      @client = client
+    end
+
+    def follow
+      xml = Client::parse_response(RHEVM::client(@client.base_url)[@href].get(@client.auth_header))
+      object_class = ::RHEVM.const_get(xml.root.name.camelize)
+      object_class.new(@client, (xml.root))
     end
 
   end
 
-  class Template < BaseModel
-    attr_accessor(:status, :memory, :name, :description)
-    
-    def initialize(client, xml)
-      super(client, xml)
-      @status = (xml/'status').text
-      @memory = (xml/'memory').text
-      @description = (xml/'description').text
-    end
-  end
-
-  class DataCenter < BaseModel
-    attr_accessor :name, :storage_type, :description, :status
+  class VM < BaseObject
+    attr_reader :description, :status, :memory, :profile, :display, :host, :cluster, :template, :macs
+    attr_reader :storage, :cores, :username, :creation_time
+    attr_reader :ip
 
     def initialize(client, xml)
-      super(client, xml)
-      @name, @storage_type, @description = (xml/'name').text, (xml/'storage_type').text, (xml/'description').text
-      @status = (xml/'status').text
+      super(client, xml[:id], xml[:href], (xml/'name').first.text)
+      @username = client.credentials[:username]
+      parse_xml_attributes!(xml)
+      self
     end
+
+    private
+
+    def parse_xml_attributes!(xml)
+      @description = (xml/'description').first.text
+      @status = (xml/'status').first.text
+      @memory = (xml/'memory').first.text
+      @profile = (xml/'type').first.text
+      @template = Link::new(@client, (xml/'template').first[:id], (xml/'template').first[:href])
+      @host = Link::new(@client, (xml/'host').first[:id], (xml/'host').first[:href]) rescue nil
+      @cluster = Link::new(@client, (xml/'cluster').first[:id], (xml/'cluster').first[:href])
+      @display = {
+        :type => (xml/'display/type').first.text,
+        :address => ((xml/'display/address').first.text rescue nil),
+        :port => ((xml/'display/port').first.text rescue nil),
+        :monitors => (xml/'display/monitors').first.text
+      }
+      @cores = ((xml/'cpu/topology').first[:cores] rescue nil)
+      @storage = ((xml/'disks/disk/size').first.text rescue nil)
+      @macs = (xml/'nics/nic/mac').collect { |mac| mac[:address] }
+      @creation_time = (xml/'creation_time').text
+      @ip = ((xml/'guest_info/ip').first[:address] rescue nil)
+    end
+
   end
 
-  class Cluster < BaseModel
-    attr_accessor :name, :datacenter_id, :cpu
+  class Template < BaseObject
+    attr_reader :description, :status, :cluster
 
     def initialize(client, xml)
-      super(client, xml)
-      @name = (xml/'name').text
-      @datacenter_id = (xml/'data_center').first['id']
-      @cpu = (xml/'cpu').first['id']
-      @name = (xml/'name').text
+      super(client, xml[:id], xml[:href], (xml/'name').first.text)
+      parse_xml_attributes!(xml)
+      self
+    end
+
+    private
+
+    def parse_xml_attributes!(xml)
+      @description = ((xml/'description').first.text rescue nil)
+      @status = (xml/'status').first.text
+      @cluster = Link::new(@client, (xml/'cluster').first[:id], (xml/'cluster').first[:href])
     end
   end
 
+  class Cluster < BaseObject
+    attr_reader :description, :datacenter
+
+    def initialize(client, xml)
+      super(client, xml[:id], xml[:href], (xml/'name').first.text)
+      parse_xml_attributes!(xml)
+      self
+    end
+
+    private
+
+    def parse_xml_attributes!(xml)
+      @description = ((xml/'description').first.text rescue nil)
+      @datacenter = Link::new(@client, (xml/'data_center').first[:id], (xml/'data_center').first[:href])
+    end
+  end
+
+  class DataCenter < BaseObject
+    attr_reader :description, :status
+
+    def initialize(client, xml)
+      super(client, xml[:id], xml[:href], (xml/'name').first.text)
+      parse_xml_attributes!(xml)
+      self
+    end
+
+    private
+
+    def parse_xml_attributes!(xml)
+      @description = ((xml/'description').first.text rescue nil)
+      @status = (xml/'status').first.text
+    end
+  end
+
+  class Host < BaseObject
+    attr_reader :description, :status, :cluster
+
+    def initialize(client, xml)
+      super(client, xml[:id], xml[:href], (xml/'name').first.text)
+      parse_xml_attributes!(xml)
+      self
+    end
+
+    private
+
+    def parse_xml_attributes!(xml)
+      @description = ((xml/'description').first.text rescue nil)
+      @status = (xml/'status').first.text
+      @clister = Link::new(@client, (xml/'cluster').first[:id], (xml/'cluster').first[:href])
+    end
+  end
+
+  class StorageDomain < BaseObject
+    attr_reader :available, :used, :kind, :address, :path
+
+    def initialize(client, xml)
+      super(client, xml[:id], xml[:href], (xml/'name').first.text)
+      parse_xml_attributes!(xml)
+      self
+    end
+
+    private
+
+    def parse_xml_attributes!(xml)
+      @available = (xml/'available').first.text
+      @used = (xml/'used').first.text
+      @kind = (xml/'storage/type').first.text
+      @address = ((xml/'storage/address').first.text rescue nil)
+      @path = ((xml/'storage/path').first.text rescue nil)
+    end
+  end
+  
 end
 
 class String
-
-  unless method_defined?(:classify)
-    # Create a class name from string
-    def classify
-      self.singularize.camelize
-    end
-  end
-
   unless method_defined?(:camelize)
     # Camelize converts strings to UpperCamelCase
     def camelize
       self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
     end
   end
-
-  unless method_defined?(:singularize)
-    # Strip 's' character from end of string
-    def singularize
-      self.gsub(/s$/, '')
-    end
-  end
-
-  # Convert string to float if string value seems like Float
-  def convert
-    return self.to_f if self.strip =~ /^([\d\.]+$)/
-    self
-  end
-
-  # Simply converts whitespaces and - symbols to '_' which is safe for Ruby
-  def sanitize
-    self.strip.gsub(/(\W+)/, '_')
-  end
-
 end
+
