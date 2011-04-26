@@ -1,0 +1,137 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/clusters
+    body: 
+    headers: 
+      accept: 
+      - application/xml; detail=datacenters
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      expires: 
+      - Wed, 31 Dec 1969 16:00:00 PST
+      content-type: 
+      - application/xml
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Tue, 26 Apr 2011 17:26:47 GMT
+      content-length: 
+      - "738"
+      cache-control: 
+      - no-cache
+      pragma: 
+      - No-cache
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <clusters>
+          <cluster id="0" href="/rhevm-api-powershell/clusters/0">
+              <name>Default</name>
+              <description>The default server cluster</description>
+              <link rel="networks" href="/rhevm-api-powershell/clusters/0/networks"/>
+              <cpu id="Intel Xeon Core i7"/>
+              <data_center id="ae5ff258-82f3-4cf6-8280-8f685ac068ac" href="/rhevm-api-powershell/datacenters/ae5ff258-82f3-4cf6-8280-8f685ac068ac"/>
+              <memory_policy>
+                  <overcommit percent="200"/>
+              </memory_policy>
+              <version minor="2" major="2"/>
+              <supported_versions>
+                  <version minor="2" major="2"/>
+              </supported_versions>
+          </cluster>
+      </clusters>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: https://rhev-m%40deltacloud.local:RedHat001@rhev-dc.lab.eng.brq.redhat.com:8443/rhevm-api-powershell/vms
+    body: |-
+      <vm>
+        <name>mock-test2</name>
+        <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
+        <cluster id="0"/>
+        <type>SERVER</type>
+        <memory>536870912</memory>
+        <cpu>
+          <topology sockets="1" cores="1"/>
+        </cpu>
+      </vm>
+    headers: 
+      accept: 
+      - application/xml
+      content-type: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "218"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 202
+      message: Accepted
+    headers: 
+      content-type: 
+      - application/xml
+      server: 
+      - Apache-Coyote/1.1
+      date: 
+      - Tue, 26 Apr 2011 17:26:50 GMT
+      content-length: 
+      - "2723"
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <vm id="590dfc04-eddf-4520-b032-984529199646" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646">
+          <name>mock-test2</name>
+          <description>F14 Minimal installation with Ruby preinstalled</description>
+          <actions>
+              <link rel="migrate" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/migrate"/>
+              <link rel="export" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/export"/>
+              <link rel="ticket" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/ticket"/>
+              <link rel="shutdown" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/shutdown"/>
+              <link rel="start" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/start"/>
+              <link rel="stop" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/stop"/>
+              <link rel="suspend" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/suspend"/>
+              <link rel="detach" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/detach"/>
+          </actions>
+          <creation_status>IN_PROGRESS</creation_status>
+          <link rel="cdroms" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/cdroms"/>
+          <link rel="disks" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/disks"/>
+          <link rel="nics" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/nics"/>
+          <link rel="snapshots" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/snapshots"/>
+          <link rel="tags" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/tags"/>
+          <link rel="statistics" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/statistics"/>
+          <link rel="creation_status" href="/rhevm-api-powershell/vms/590dfc04-eddf-4520-b032-984529199646/creation_status/eee4ff62-5598-4746-bc68-f681fa5e2d54"/>
+          <type>server</type>
+          <status>IMAGE_LOCKED</status>
+          <memory>536870912</memory>
+          <cpu>
+              <topology cores="1" sockets="1"/>
+          </cpu>
+          <os type="OtherLinux">
+              <boot dev="hd"/>
+          </os>
+          <high_availability>
+              <enabled>false</enabled>
+              <priority>0</priority>
+          </high_availability>
+          <display>
+              <type>spice</type>
+              <monitors>1</monitors>
+          </display>
+          <cluster id="0" href="/rhevm-api-powershell/clusters/0"/>
+          <template id="bb2e79bd-fd73-46a1-b391-a390b1998f03" href="/rhevm-api-powershell/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03"/>
+          <origin>rhev</origin>
+          <stateless>false</stateless>
+          <domain>
+              <name>deltacloud.local</name>
+          </domain>
+      </vm>
+
+    http_version: "1.1"
