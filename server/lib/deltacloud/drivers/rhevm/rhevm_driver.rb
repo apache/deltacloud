@@ -199,7 +199,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   def convert_instance(client, inst)
     state = convert_state(inst.status)
-    storage_size = inst.storage.nil? ? 1 :  (inst.storage.to_i/1048576/100)
+    storage_size = inst.storage.nil? ? 1 :  (inst.storage.to_i/1024/1024/1024)
     profile = InstanceProfile::new(inst.profile.upcase, 
                                    :hwp_memory => inst.memory.to_i/1024/1024,
                                    :hwp_cpu => inst.cores,
@@ -249,7 +249,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     StorageVolume.new(
       :id => volume.id,
       :state => 'AVAILABLE',
-      :capacity => ((volume.available.to_i-volume.used.to_i)/1024/1024).abs,
+      :capacity => ((volume.available.to_i-volume.used.to_i)/1024/1024/1024).abs,
       :instance_id => nil,
       :kind => volume.kind,
       :name => volume.name,
