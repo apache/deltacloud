@@ -686,7 +686,7 @@ collection :keys do
     with_capability :destroy_key
     param :id,  :string,  :required
     control do
-      driver.destroy_key(credentials, { :key_name => params[:id]})
+      driver.destroy_key(credentials, { :id => params[:id]})
       respond_to do |format|
         format.xml { 204 }
         format.json { 204 }
