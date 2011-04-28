@@ -3,15 +3,20 @@ title: Deltacloud - Download
 extension: html
 filter: markdown
 ---
+
 Download
 ========
+
+Official releases can be downloaded from the
+[Apache website](http://www.apache.org/dist/incubator/deltacloud/)
+
 ### Deltacloud Core ###
 
 Deltacloud Core provides the API server and drivers necessary for connecting
 to the cloud providers.
 
-Presently, it is packaged as a Ruby gem. You can install it by typing the
-following command:
+We also make Ruby gems of each release available. You can install it by
+typing the following command:
 
     $ sudo gem install deltacloud-core
 
