@@ -192,7 +192,7 @@ end
 def valid_credentials?(credentials)
   begin
     new_client(credentials)
-  rescue Deltacloud::AuthException
+  rescue
     return false
   end
   true
@@ -272,19 +272,16 @@ end
       vdc_id = terremark_client.default_vdc_id
     end
     if (vdc_id.nil?)
-       raise DeltaCloud::AuthException.new
+       raise "AuthFailure"
     end
     terremark_client
   end
 
-  def safely(&block)
-    begin
-      block.call
-    rescue Exception => e
-      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
+  exceptions do
+    on /AuthFailure/ do
+      status 401
     end
   end
-
 
 end
 

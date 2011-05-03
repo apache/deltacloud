@@ -391,12 +391,24 @@ private
     end
   end
 
-  def catched_exceptions_list
-    {
-      :auth => [ /Authentication failed/ ],
-      :error => [ /Error/ ],
-      :glob => [ /CloudServers::Exception::(\w+)/, /Deltacloud::Runner::(\w+)/ ]
-    }
+  exceptions do
+
+    on /No offering found/ do
+      status 400 
+    end
+
+    on /Authentication failed/ do
+      status 401
+    end
+
+    on /Error/ do
+      status 500
+    end
+
+    on /CloudServers::Exception::(\w+)/ do
+      status 500
+    end
+
   end
 
   private

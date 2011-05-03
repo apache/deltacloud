@@ -149,14 +149,11 @@ class RimuHostingDriver < Deltacloud::BaseDriver
     stopped.to( :finish )         .automatically
   end
 
-  def safely(&block)
-    begin
-      block.call
-    rescue Exception => e
-      raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
+  exceptions do
+    on /AuthFailure/ do
+      status 401
     end
   end
-
 
 end
 

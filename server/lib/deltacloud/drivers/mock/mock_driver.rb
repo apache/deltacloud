@@ -490,7 +490,7 @@ class MockDriver < Deltacloud::BaseDriver
     begin
       check_credentials(credentials)
       return true
-    rescue Deltacloud::AuthException
+    rescue
     end
     return false
   end
@@ -499,16 +499,20 @@ class MockDriver < Deltacloud::BaseDriver
 
   def check_credentials(credentials)
     if ( credentials.user != 'mockuser' ) or ( credentials.password != 'mockpassword' )
-      raise Deltacloud::AuthException.new
+      raise 'AuthFailure'
     end
   end
 
-  def catched_exceptions_list
-    {
-      :auth => [],
-      :error => [ /Deltacloud::BackendError/, /Errno::ENOENT/ ],
-      :glob => [ /Error/ ]
-    }
+  exceptions do
+
+    on /AuthFailure/ do
+      status 401
+    end
+
+    on /Err/ do
+      status 500
+    end
+
   end
 
 end

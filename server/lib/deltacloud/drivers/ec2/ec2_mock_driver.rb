@@ -178,7 +178,7 @@ Deltacloud::Drivers::EC2::EC2Driver.class_eval do
 
   def new_client(credentials, opts={})
     if credentials.user != 'mockuser' and credentials.password != 'mockpassword'
-      raise Deltacloud::AuthException.new
+      raise "AuthFailure"
     end
     RightAws::MockEc2.new
   end

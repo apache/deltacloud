@@ -180,9 +180,9 @@ class SBCClient
   #
   def backend_error!(resp)
     if resp.is_a?(Net::HTTPUnauthorized)
-      raise Deltacloud::AuthException, resp.message
+      raise "AuthFailure"
     else
-      raise Deltacloud::BackendError.new(resp.code, resp.body, resp.message, '')
+      raise "BackendError"
     end
   end
 
