@@ -1,0 +1,5 @@
+%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
+  %message
+    Requested method not allowed
+  %method
+    =request.env['REQUEST_METHOD']

@@ -1,0 +1,37 @@
+%h1 Internal Server Error
+
+%p= "#{@error.class}: #{@error.message}"
+- if @error.class.method_defined? :details
+  %p= @error.details
+
+%dl
+  %di
+    %dt Request URL
+    %dd= request.env['REQUEST_URI']
+  %di
+    %dt Request headers
+    %dd
+      %pre
+        =request.env.inspect
+  %di
+    %dt Parameters
+    %dd
+      %pre
+        =params.inspect
+  %di
+    %dt Response headers
+    %dd
+      %pre
+        =response.headers.inspect
+  %di
+    %dt Code
+    %dd 500
+  %di
+    %dt Backtrace
+    %dd
+      %pre
+        =@error.backtrace.join("\n")
+  %di
+    %dt Explanation
+    %dd
+      The server encountered an unexpected condition which prevented it from fulfilling the request.

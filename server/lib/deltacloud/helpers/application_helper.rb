@@ -105,11 +105,19 @@ module ApplicationHelper
   end
 
   def report_error(code=nil)
-    @error = request.env['sinatra.error']
-    response.status = code || @error.code
+    @error, @code = request.env['sinatra.error'], code
+    @code = 500 if not @code and not @error.class.method_defined? :code
+    if @error
+      unless @error.class.method_defined? :cause
+        @cause = nil
+      else
+        @cause = @error.cause
+      end
+    end
+    response.status = @code || @error.code
     respond_to do |format|
-      format.xml { haml :"errors/#{code || @error.code}", :layout => false }
-      format.html { haml :"errors/#{code || @error.code}", :layout => :error }
+      format.xml { haml :"errors/#{@code || @error.code}", :layout => false }
+      format.html { haml :"errors/#{@code || @error.code}", :layout => :error }
     end
   end
 
