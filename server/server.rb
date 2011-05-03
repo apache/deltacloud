@@ -57,24 +57,8 @@ end
 # whatever you want (eg. if you running API behind NAT)
 HOSTNAME=ENV['API_HOST'] ? ENV['API_HOST'] : nil
 
-error Deltacloud::Validation::Failure do
-  report_error(400, "validation_failure")
-end
-
-error Deltacloud::BackendCapability::Failure do
-  report_error(405, "backend_capability_failure")
-end
-
-error Deltacloud::AuthException do
-  report_error(401, "auth_exception")
-end
-
-error Deltacloud::BackendError do
-  report_error(500, "backend_error")
-end
-
-error Sinatra::Rabbit::UnsupportedCollectionException do
-  report_error(404, "not_found")
+error do
+  report_error
 end
 
 Sinatra::Application.register Sinatra::RespondTo
@@ -497,7 +481,7 @@ END
           format.json { convert_to_json(:hardware_profile, @profile) }
         end
       else
-        report_error(404, 'not_found')
+        report_error(404)
       end
     end
   end
@@ -752,7 +736,7 @@ head '/api/buckets/:bucket/:blob' do
         headers["X-Deltacloud-Blobmeta-#{k}"] = v
       end
    else
-    report_error(404, 'not_found')
+    report_error(404)
   end
 end
 
@@ -766,7 +750,7 @@ post '/api/buckets/:bucket/:blob' do
       headers["X-Deltacloud-Blobmeta-#{k}"] = v
     end
   else
-    report_error(404, 'not_found') #FIXME is this the right error code?
+    report_error(404) #FIXME is this the right error code?
   end
 end
 
@@ -780,7 +764,7 @@ get '/api/buckets/:bucket/:blob' do
       format.json { convert_to_json(blobs, @blob) }
       end
   else
-      report_error(404, 'not_found')
+      report_error(404)
   end
 end
 
@@ -793,7 +777,7 @@ get '/api/buckets/:bucket/:blob/content' do
     params['content_disposition'] = "attachment; filename=#{@blob.id}"
     BlobStream.call(env, credentials, params)
   else
-    report_error(404, 'not_found')
+    report_error(404)
   end
 end
 

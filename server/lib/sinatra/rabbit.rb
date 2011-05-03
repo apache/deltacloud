@@ -23,10 +23,20 @@ module Sinatra
 
   module Rabbit
 
-    class DuplicateParamException < Exception; end
-    class DuplicateOperationException < Exception; end
-    class DuplicateCollectionException < Exception; end
-    class UnsupportedCollectionException < Exception; end
+    class DuplicateParamException < Deltacloud::ExceptionHandler::DeltacloudException; end
+    class DuplicateOperationException < Deltacloud::ExceptionHandler::DeltacloudException; end
+    class DuplicateCollectionException < Deltacloud::ExceptionHandler::DeltacloudException; end
+    class UnsupportedCollectionException < Deltacloud::ExceptionHandler::DeltacloudException
+      def initialize
+        @details = "This collection is not supported for this provider."
+        @message = @details
+        # The server understood the request, but is refusing to fulfill it. Authorization will not help and the request
+        # SHOULD NOT be repeated. If the request method was not HEAD and the server wishes to make public why the request 
+        # has not been fulfilled, it SHOULD describe the reason for the refusal in the entity. If the server does not wish
+        # to make this information available to the client, the status code 404 (Not Found) can be used instead.
+        @code = 403 # 
+      end
+    end
 
     class Operation
       attr_reader :name, :method, :collection
@@ -273,8 +283,7 @@ module Sinatra
 
       def check_supported(driver)
         unless global? || driver.has_collection?(@name)
-          raise UnsupportedCollectionException,
-            "Collection #{@name} not supported by this driver"
+          raise UnsupportedCollectionException
         end
       end
     end

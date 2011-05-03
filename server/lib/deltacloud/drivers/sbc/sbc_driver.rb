@@ -118,6 +118,18 @@ class SBCDriver < Deltacloud::BaseDriver
     instance(credentials, instance_id)
   end
 
+  exceptions do
+
+    on /AuthFailure/ do
+      status 401
+    end
+
+    on /BackendError/ do
+      status 502
+    end
+
+  end
+
   #
   # --------------------- Private helpers ---------------------
   #

@@ -24,7 +24,7 @@ module Deltacloud::Validation
     end
 
     def name
-      param.name
+      param.name if @param
     end
   end
 

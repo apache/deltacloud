@@ -772,12 +772,18 @@ module Deltacloud
           end
         end
 
-        def catched_exceptions_list
-          {
-            :auth => [ /AuthFailure/ ],
-            :error => [ /Aws::AwsError/, /Error/ ],
-            :glob => [ /AWS::(\w+)/, /Deltacloud::Runner::(\w+)/ ]
-          }
+        exceptions do
+          on /(AuthFailure|InvalidAccessKeyId)/ do
+            status 401
+          end
+
+          on /Error/ do
+            status 502
+          end
+
+          on /Deltacloud::Runner::(\w+)/ do
+            status 500
+          end
         end
 
       end

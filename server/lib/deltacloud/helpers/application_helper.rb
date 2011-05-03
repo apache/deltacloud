@@ -100,16 +100,16 @@ module ApplicationHelper
         format.json { convert_to_json(model, @element) }
       end
     else
-        report_error(404, 'not_found')
+        report_error(404)
     end
   end
 
-  def report_error(status, template)
+  def report_error(code=nil)
     @error = request.env['sinatra.error']
-    response.status = status
+    response.status = code || @error.code
     respond_to do |format|
-      format.xml { haml :"errors/#{template}", :layout => false }
-      format.html { haml :"errors/#{template}", :layout => :error }
+      format.xml { haml :"errors/#{code || @error.code}", :layout => false }
+      format.html { haml :"errors/#{code || @error.code}", :layout => :error }
     end
   end
 
@@ -119,7 +119,7 @@ module ApplicationHelper
     # If original instance doesn't include called action
     # return with 405 error (Method is not Allowed)
     unless driver.instance_actions_for(original_instance.state).include?(name.to_sym)
-      return report_error(405, 'not_allowed')
+      return report_error(405)
     end
 
     @instance = driver.send(:"#{name}_instance", credentials, params["id"])

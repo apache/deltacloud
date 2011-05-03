@@ -40,6 +40,7 @@ class RimuHostingClient
     if(!@auth.nil?)
       headers["Authorization"] = @auth
     end
+    safely do
     r = @service.send_request(method, @uri.path + resource, data, headers)
          puts r.body
     res = JSON.parse(r.body)
@@ -47,7 +48,7 @@ class RimuHostingClient
 
     if(res['response_type'] == "ERROR" and ( (res['error_info']['error_class'] == "PermissionException") or
 					     (res['error_info']['error_class'] == "LoginRequired") )) 
-      raise Deltacloud::AuthException.new
+      raise "AuthFailure"
     end
     res
   end

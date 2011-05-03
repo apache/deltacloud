@@ -14,32 +14,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'lib/deltacloud/base_driver/exceptions'
+
 module Deltacloud
 
-  class AuthException < Exception
-  end
-
-  class BackendError < StandardError
-    attr_reader :code, :cause, :details
-    def initialize(code, cause, message, details)
-      super(message)
-      @code = code
-      @cause = cause
-      @details = details
-    end
-  end
-
-  class BackendFeatureUnsupported < StandardError
-    attr_reader :code, :cause, :details
-    def initialize(code, cause, message, details)
-      super(message)
-      @code = code
-      @cause = cause
-      @details = details
-    end
-  end
-
   class BaseDriver
+
+    include ExceptionHandler
+
+    def self.exceptions(&block)
+      ExceptionHandler::exceptions(&block)
+    end
     
     def self.define_hardware_profile(name,&block)
       @hardware_profiles ||= []
@@ -231,32 +216,6 @@ module Deltacloud
 
     def catched_exceptions_list
       { :error => [], :auth => [], :glob => [] }
-    end
-
-    def safely(&block)
-      begin
-        block.call
-      rescue => e
-        catched_exceptions_list[:auth].each do |ex|
-          if e.class == ex or e.class.name =~ ex or e.message =~ ex
-            raise Deltacloud::AuthException.new
-          end
-        end
-        catched_exceptions_list[:error].each do |ex|
-          if e.class == ex or e.class.name =~ ex or e.message =~ ex
-            raise Deltacloud::BackendError.new(502, e.class.to_s, e.message, e.backtrace) if e.class.name =~ ex
-          end
-        end
-        catched_exceptions_list[:glob].each do |ex|
-          if e.class == ex or e.class.name =~ ex or e.message =~ ex
-            raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
-          end
-        end
-        $stderr.puts "# UNCAUGHT EXCEPTION # -> '#{e.class}' - '#{e.message}'"
-        $stderr.puts "# #{e.backtrace.join("\n")}"
-        $stderr.puts "##############"
-        raise Deltacloud::BackendError.new(500, e.class.to_s, e.message, e.backtrace)
-      end
     end
 
   end
