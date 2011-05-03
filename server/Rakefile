@@ -89,3 +89,42 @@ spec = Gem::Specification.load('deltacloud-core.gemspec')
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
+
+namespace :mock do
+  namespace :fixtures do
+    desc "Setup Mock driver fixtures"
+    task 'setup' do
+      if ENV["DELTACLOUD_MOCK_STORAGE"]
+        storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
+      elsif ENV["USER"]
+        storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
+      else
+        raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
+      end
+      data = Dir::glob(File::join(File::dirname(__FILE__), "lib", "deltacloud", "drivers", "mock", "data", "*"))
+      FileUtils::mkdir_p(storage_root, :verbose => true)
+      FileUtils::cp_r(data, storage_root, :verbose => true)
+    end
+
+    desc "Remove Mock driver fixtures"
+    task 'clean' do
+      if ENV["DELTACLOUD_MOCK_STORAGE"]
+        storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
+      elsif ENV["USER"]
+        storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
+      else
+        raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
+      end
+      FileUtils::rm_rf(storage_root, :verbose => true)
+    end
+
+    desc "Reset Mock driver fixtures"
+    task 'reset' do
+      Rake::Task["mock:fixtures:clean"].reenable
+      Rake::Task["mock:fixtures:clean"].invoke
+      Rake::Task["mock:fixtures:setup"].reenable
+      Rake::Task["mock:fixtures:setup"].invoke
+    end
+
+  end
+end
