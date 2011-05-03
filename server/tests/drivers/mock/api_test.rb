@@ -69,7 +69,7 @@ module DeltacloudUnitTest
 
       with_provider("storage") do
         get_auth_url '/api/instances'
-        last_response.status.should == 404
+        last_response.status.should == 403
       end
     end
 
@@ -79,7 +79,7 @@ module DeltacloudUnitTest
 
       with_provider("storage") do
         get_url '/api/docs/instances'
-        last_response.status.should == 404
+        last_response.status.should == 403
       end
     end
 
