@@ -277,15 +277,20 @@ class RHEVMDriver < Deltacloud::BaseDriver
     )
   end
 
-  # Disabling this error catching will lead to more verbose messages
-  # on console (eg. response from RHEV-M API (so far I didn't figure our
-  # how to pass those message to our exception handling tool)
-  def catched_exceptions_list
-    {
-      :auth => [RestClient::Unauthorized],
-      :error => [RestClient::InternalServerError],
-      :glob => [ /(RestClient|RHEVM)::(\w+)/ ]
-    }
+  exceptions do
+
+    on /RestClient::Unauthorized/ do
+      status 401
+    end
+
+    on /RestClient::InternalServerError/ do
+      status 502
+    end
+
+    on /(RestClient|RHEVM)/ do
+      status 500
+    end
+
   end
 
 end

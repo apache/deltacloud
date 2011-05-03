@@ -28,6 +28,9 @@ module Deltacloud
     end
 
     class BackendError < DeltacloudException
+
+      attr_accessor :cause
+
       def initialize(e, details)
         super(500, e.class.name, e.message, e.backtrace, details)
       end
