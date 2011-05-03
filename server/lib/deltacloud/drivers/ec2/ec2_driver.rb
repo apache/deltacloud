@@ -33,7 +33,7 @@ module Deltacloud
       class EC2Driver < Deltacloud::BaseDriver
 
         def supported_collections
-          DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers ]
+          DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers, :addresses ]
         end
 
         feature :instances, :user_data
@@ -505,6 +505,61 @@ module Deltacloud
           safely do
             unless ec2.delete_snapshot(opts[:id])
               raise Deltacloud::BackendError.new(500, "StorageSnapshot", "Cannot destroy this snapshot")
+            end
+          end
+        end
+
+        def addresses(credentials, opts={})
+          ec2 = new_client(credentials)
+          address_id = (opts and opts[:id]) ? [opts[:id]] : []
+          safely do
+            begin
+              ec2.describe_addresses(address_id).collect do |address|
+                Address.new(:id => address[:public_ip], :instance_id => address[:instance_id])
+              end
+            rescue Exception => e
+              return [] if e.message =~ /InvalidAddress\.NotFound:/
+              raise e
+            end
+          end
+        end
+
+        def address(credentials, opts={})
+          addresses(credentials, :id => opts[:id]).first
+        end
+
+        def create_address(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            Address.new(:id => ec2.allocate_address)
+          end
+        end
+
+        def destroy_address(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            ec2.release_address(opts[:id])
+          end
+        end
+
+        def associate_address(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            if ec2.associate_address(opts[:instance_id], opts[:id])
+              Address.new(:id => opts[:id], :instance_id => opts[:instance_id])
+            else
+              raise "ERROR: Cannot associate IP address to an Instance"
+            end
+          end
+        end
+
+        def disassociate_address(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            if ec2.disassociate_address(opts[:id])
+              Address.new(:id => opts[:id])
+            else
+              raise "ERROR: Cannot disassociate an IP address from the Instance"
             end
           end
         end

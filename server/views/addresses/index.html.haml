@@ -1,0 +1,28 @@
+%h1 Addresses
+
+%table.display
+  %thead
+    %tr
+      %th ID
+      %th Instance
+      %th Actions
+  %tbody
+    - @elements.each do |address|
+      %tr
+        %td
+          = link_to address.id, address_url( address.id )
+        %td
+          - if address.instance_id
+            = link_to address.instance_id, instance_url( address.instance_id )
+        %td
+          - if driver.respond_to?(:destroy_address)
+            =link_to_action 'Destroy', destroy_address_url(address.id), :delete
+          - if driver.respond_to?(:associate_address) and not address.associated?
+            =link_to_action 'Associate', associate_address_url(address.id), :get
+          - if driver.respond_to?(:disassociate_address)
+            =link_to_action 'Disassociate', disassociate_address_url(address.id), :post
+  %tfoot
+    - if driver.respond_to?(:create_address)
+      %tr
+        %td{:colspan => 3, :style => "text-align:right;"}
+          =link_to_action "Create", create_address_url, :post

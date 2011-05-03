@@ -1,0 +1,22 @@
+%h1 Address
+
+%dl
+  %di
+    %dt Address
+    %dd=@address.id
+  %di
+    %dt Instance
+    %dd
+      - if @address.associated?
+        =link_to @address.instance_id, instance_url(@address.instance_id)
+        =link_to_action 'Disassociate', disassociate_address_url(@address.id), :post
+      - else
+        - if driver.respond_to?(:associate_address)
+          =link_to_action 'Associate', associate_address_url(@address.id), :get
+
+  %di
+    %dt Actions
+    %dd
+    - if driver.respond_to?(:destroy_address)
+      =link_to_action 'Destroy', destroy_address_url(@address.id), :delete
+
