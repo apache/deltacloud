@@ -1,0 +1,4 @@
+!!!XML
+%addresses
+  - @elements.each do |c|
+    = haml :'addresses/show', :locals => { :@address => c, :partial => true }

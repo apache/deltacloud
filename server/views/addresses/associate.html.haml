@@ -1,0 +1,8 @@
+%h1 Associate #{@address.id} to an instance
+
+%form{ :action => associate_address_url(@address.id), :method => :post, :class => :new_instance }
+  %select{:name => 'instance_id'}
+    %option
+    - @instances.each do |inst|
+      %option{ :value => inst.id } #{inst.id} - #{inst.name}
+    %input{ :type => :submit, :name => "commit", :value => "Associate" }/

@@ -1,0 +1,14 @@
+- unless defined?(partial)
+  !!! XML
+%address{ :href => address_url(@address.id), :id => @address.id }
+  %ip<
+    =@address.id
+  %actions
+    - if driver.respond_to?(:destroy_address)
+      %link{ :rel => "destroy", :method => "delete", :href => destroy_address_url(@address.id)}
+    - if driver.respond_to?(:associate_address) and not @address.instance_id
+      %link{ :rel => "associate", :method => "post", :href => associate_address_url(@address.id)}
+    - if driver.respond_to?(:disassociate_address) and @address.instance_id
+      %link{ :rel => "disassociate", :method => "post", :href => disassociate_address_url(@address.id)}
+  - if @address.instance_id
+    %instance{ :href => instance_url(@address.instance_id), :id => @address.instance_id}

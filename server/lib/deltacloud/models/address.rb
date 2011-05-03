@@ -14,39 +14,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class String
-  # Rails defines this for a number of other classes, including Object
-  # see activesupport/lib/active_support/core_ext/object/blank.rb
-  def blank?
-      self !~ /\S/
+class Address < BaseModel
+  attr_accessor :instance_id
+
+  def initialize(init=nil)
+    super(init)
   end
 
-  # Title case.
-  #
-  #   "this is a string".titlecase
-  #   => "This Is A String"
-  #
-  # CREDIT: Eliazar Parra
-  # Copied from facets
-  def titlecase
-    gsub(/\b\w/){ $`[-1,1] == "'" ? $& : $&.upcase }
+  def associated?
+    true unless self.instance_id.nil?
   end
 
-  def pluralize
-    return self + 'es' if self =~ /ess$/
-    self + "s"
-  end
-
-  def singularize
-    return self.gsub(/es$/, '') if self =~ /sses$/
-    self.gsub(/s$/, '')
-  end
-
-  def underscore
-      gsub(/::/, '/').
-          gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-          gsub(/([a-z\d])([A-Z])/,'\1_\2').
-          tr("-", "_").
-          downcase
-  end
 end

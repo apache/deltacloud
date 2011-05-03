@@ -858,3 +858,90 @@ collection :buckets do
   end
 
 end
+
+get '/api/addresses/:id/associate' do
+  @instances = driver.instances(credentials)
+  @address = Address::new(:id => params[:id])
+  respond_to do |format|
+    format.html { haml :"addresses/associate" }
+  end
+end
+
+collection :addresses do
+  description "Manage IP addresses"
+
+  operation :index do
+    description "List IP addresses assigned to your account."
+    with_capability :addresses
+    control do
+      filter_all :addresses
+    end
+  end
+
+  operation :show do
+    description "Show details about IP addresses specified by given ID"
+    with_capability :address
+    param :id,  :string,  :required
+    control { show :address }
+  end
+
+  operation :create do
+    description "Acquire a new IP address for use with your account."
+    with_capability :create_address
+    control do
+      @address = driver.create_address(credentials, {})
+      respond_to do |format|
+        format.html { haml :"addresses/show" }
+        format.xml do
+          response.status = 201  # Created
+          response['Location'] = address_url(@address.id)
+          haml :"addresses/show", :ugly => true
+        end
+      end
+    end
+  end
+
+  operation :destroy do
+    description "Release an IP address associated with your account"
+    with_capability :destroy_address
+    param :id,  :string,  :required
+    control do
+      driver.destroy_address(credentials, { :id => params[:id]})
+      respond_to do |format|
+        format.xml { 204 }
+        format.json { 204 }
+        format.html { redirect(addresses_url) }
+      end
+    end
+  end
+
+  operation :associate, :method => :post, :member => true do
+    description "Associate an IP address to an instance"
+    with_capability :associate_address
+    param :id, :string, :required
+    param :instance_id, :string, :required
+    control do
+      driver.associate_address(credentials, { :id => params[:id], :instance_id => params[:instance_id]})
+      respond_to do |format|
+        format.xml { 202 }  # Accepted
+        format.json { 202 }
+        format.html { redirect(address_url(params[:id])) }
+      end
+    end
+  end
+
+  operation :disassociate, :method => :post, :member => true do
+    description "Disassociate an IP address from an instance"
+    with_capability :associate_address
+    param :id, :string, :required
+    control do
+      driver.disassociate_address(credentials, { :id => params[:id] })
+      respond_to do |format|
+        format.xml { 202 }  # Accepted
+        format.json { 202 }
+        format.html { redirect(address_url(params[:id])) }
+      end
+    end
+  end
+
+end
