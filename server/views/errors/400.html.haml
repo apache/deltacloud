@@ -1,4 +1,4 @@
-%h1 Validation Failure
+%h1 Bad Request
 
 %p= @error.message
 
@@ -9,3 +9,10 @@
   %di
     %dt Parameter
     %dd= @error.name
+  %di
+    %dt Status code
+    %dd= response.status
+  %di
+    %dt Explanation
+    %dd
+      The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.

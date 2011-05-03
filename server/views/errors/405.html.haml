@@ -1,0 +1,21 @@
+%h1 Method Not Allowed
+
+%p
+  A 405 status code is returned when the client has tried to use a request method that the server does not allow. Request methods that are allowed should be sent with the response (common request methods are POST and GET).
+
+%dl
+  %di
+    %dt Request URL
+    %dd= request.env['REQUEST_URI']
+  %di
+    %dt Request headers
+    %dd
+      %pre
+        =request.env.inspect
+  %di
+    %dt Status code
+    %dd= response.status
+  %di
+    %dt Explanation
+    %dd
+      The method specified in the Request-Line is not allowed for the resource identified by the Request-URI. The response MUST include an Allow header containing a list of valid methods for the requested resource.

@@ -1,6 +1,13 @@
-%h1 Not Found
+%h1 Resource not found
 
 %dl
   %di
     %dt Request URL
     %dd= request.env['REQUEST_URI']
+  %di
+    %dt Status code
+    %dd= response.status
+  %di
+    %dt Explanation
+    %dd
+      The server has not found anything matching the Request-URI. No indication is given of whether the condition is temporary or permanent. 

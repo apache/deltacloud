@@ -1,4 +1,4 @@
-%h1 Backend Error
+%h1 Backend provider error
 
 %p= @error.message
 
@@ -12,3 +12,7 @@
   %di
     %dt Code
     %dd= @error.code
+  %di
+    %dt Explanation
+    %dd
+      The server, while acting as a gateway or proxy, received an invalid response from the upstream server it accessed in attempting to fulfill the request.
