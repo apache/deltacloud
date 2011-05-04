@@ -1,6 +1,6 @@
 - unless defined?(partial)
   !!! XML
-%load_balancer{ :href => key_url(@load_balancer.id), :id => @load_balancer.id}
+%load_balancer{ :href => load_balancer_url(@load_balancer.id), :id => @load_balancer.id}
   %actions
     %link{ :rel => "destroy", :method => "delete", :href => destroy_load_balancer_url(@load_balancer.id)}
   %public_addresses
