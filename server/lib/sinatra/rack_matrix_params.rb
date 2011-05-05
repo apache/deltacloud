@@ -40,6 +40,7 @@ module Rack
     def call(env)
       # Copy PATH_INFO to REQUEST_URI if Rack::Test
       env['REQUEST_URI'] = env['PATH_INFO'] if env['rack.test']
+      env['REQUEST_PATH'] = env['PATH_INFO'] if env['rack.test']
 
       # Split URI to components and then extract ;var=value pairs
       uri_components = env['REQUEST_URI'].split('/')
@@ -66,8 +67,12 @@ module Rack
 
       # For other methods it's a way complicated ;-)
       if env['REQUEST_METHOD']!='POST' and not matrix_params.keys.empty?
+        if env['REQUEST_PATH'] == '/'
+          env['REQUEST_URI'] = env['REQUEST_PATH']
+          env['REQUEST_PATH'] = env['PATH_INFO']
+        end
 	# Rewrite current path and query string and strip all matrix params from it
-	env['REQUEST_PATH'], env['PATH_INFO'] = env['REQUEST_URI'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+        env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
 	env['PATH_INFO'] = env['REQUEST_PATH']
 	env['QUERY_STRING'].gsub!(/;([^\/]*)/, '')
 	new_params = matrix_params.collect do |component, params|
