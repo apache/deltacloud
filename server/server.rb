@@ -343,9 +343,9 @@ collection :load_balancers do
     control do
       driver.destroy_load_balancer(credentials, params[:id])
       respond_to do |format|
-        format.xml { return 204 }
-        format.json { return 204 }
-        format.html { return redirect(load_balancers_url) }
+        format.xml {  204 }
+        format.json { 204 }
+        format.html { redirect(load_balancers_url) }
       end
     end
   end
@@ -529,9 +529,9 @@ collection :storage_snapshots do
     control do
       driver.destroy_storage_snapshot(credentials, params)
       respond_to do |format|
-        format.xml { return 204 }
-        format.json { return 204 }
-        format.html { return redirect(storage_snapshots_url) }
+        format.xml { 204 }
+        format.json { 204 }
+        format.html { redirect(storage_snapshots_url) }
       end
     end
   end
@@ -616,9 +616,9 @@ collection :storage_volumes do
     control do
       driver.destroy_storage_volume(credentials, params)
       respond_to do |format|
-        format.xml { return 204 }
-        format.json { return 204 }
-        format.html { return redirect(storage_volumes_url) }
+        format.xml { 204 }
+        format.json { 204 }
+        format.html { redirect(storage_volumes_url) }
       end
     end
   end
