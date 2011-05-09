@@ -22,7 +22,7 @@ module Deltacloud
       class EucalyptusDriver < EC2::EC2Driver
 
         def supported_collections
-          DEFAULT_COLLECTIONS + [ :keys, :buckets ]
+          DEFAULT_COLLECTIONS + [ :keys, :buckets, :addresses ]
         end
 
         feature :instances, :user_data
@@ -75,7 +75,7 @@ module Deltacloud
         end
 
         def default_image_owner
-          "self"
+          nil  # list all images
         end
 
         def default_image_type
