@@ -212,7 +212,7 @@ module Deltacloud
             tag_instance(credentials, new_instance, opts[:name])
             # Register Instance to Load Balancer if load_balancer_id is set.
             # This parameter is a feature parameter
-            if opts[:load_balancer_id]
+            if opts[:load_balancer_id] and opts[:load_balancer_id]!=""
               lb = lb_register_instance(credentials,
                                         {'id' => opts[:load_balancer_id],
                                          'instance_id' => new_instance.id})
