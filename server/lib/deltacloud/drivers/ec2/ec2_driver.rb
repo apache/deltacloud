@@ -43,6 +43,7 @@ module Deltacloud
         feature :images, :owner_id
         feature :buckets, :bucket_location
         feature :instances, :register_to_load_balancer
+        feature :instances, :attach_snapshot
 
         DEFAULT_REGION = 'us-east-1'
 
@@ -205,6 +206,12 @@ module Deltacloud
             :min_count => opts[:instance_count],
             :max_count => opts[:instance_count]
           ) if opts[:instance_count] and opts[:instance_count].length!=0
+          if opts[:snapshot_id] and opts[:device_name]
+            instance_options.merge!(:block_device_mappings => [{
+              :snapshot_id => opts[:snapshot_id],
+              :device_name => opts[:device_name]
+            }])
+          end
           safely do
             new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
             # TODO: Rework this to use client_id for name instead of tag
