@@ -232,6 +232,14 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :attach_snapshot do
+      description "Attach an snapshot to instance on create"
+      operation :create do
+        param :snapshot_id,  :string,  :optional
+        param :device_name,  :string,  :optional
+      end
+    end
+
     declare_feature :instances, :sandboxing do
       description "Allow lanuching sandbox images"
       operation :create do

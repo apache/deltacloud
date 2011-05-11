@@ -294,6 +294,13 @@ module DeltaCloud
           params[:hwp_id] ||= params[:hardware_profile]
         end
 
+        if args[:snapshot_id] and args[:device_name]
+          params.merge!({
+            :snapshot_id => args[:snapshot_id],
+            :device_name => args[:device_name]
+          })
+        end
+
         params[:image_id] ||= params[:image_id] || args[0] if args[0].class!=Hash
 
         obj = nil
