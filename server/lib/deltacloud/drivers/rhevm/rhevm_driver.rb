@@ -279,6 +279,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   exceptions do
 
+    on /Bad Request/ do
+      status 400
+    end
+
     on /RestClient::Unauthorized/ do
       status 401
     end
