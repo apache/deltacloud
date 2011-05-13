@@ -66,7 +66,7 @@ Feature: Managing instances
     Given URI /api/instances exists
     And authentification is required for this URI
     When client access this URI with parameters:
-    | state | STOPPED |
+    | state | RUNNING |
     Then client should get some instances
     And each instance should have 'state' element set to 'RUNNING'
 
