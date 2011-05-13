@@ -25,7 +25,7 @@ Feature: Managing instances
     When client access this URI with parameters:
     | state | RUNNING |
     Then client should get some instances
-    And each instance should have 'state' attribute set to 'RUNNING'
+    And each instance should have 'state' element set to 'RUNNING'
 
   Scenario: Get details about first instance
     Given URI /api/instances exists
