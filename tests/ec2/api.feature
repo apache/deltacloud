@@ -55,6 +55,7 @@ Feature: Accessing API entry points
     When client access this URI
     Then client should get list of features inside 'instances':
     | authentication_key |
+    | attach_snapshot |
     | user_data |
     | security_group |
     | register_to_load_balancer |
