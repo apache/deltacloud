@@ -26,4 +26,4 @@ Feature: Accessing hardware profiles
     When client access this URI with parameters:
     | architecture | i386 |
     Then client should get some hardware_profiles
-    And each hardware_profile should have 'architecture' attribute set to 'i386'
+    And each hardware_profile should have 'architecture' property set to 'i386'

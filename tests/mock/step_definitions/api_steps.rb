@@ -72,6 +72,12 @@ Then /^each (\w+) should have '(.+)' attribute with valid (.+)$/ do |el, attr, t
       path = '/api/link'
     when 'image':
       path = '/images/image'
+    when 'instance':
+      path = '/instances/instance'
+    when 'key':
+      path = '/keys/key'
+    when 'realm':
+      path = '/realms/realm'
   end
   output_xml.xpath(path).each do |entry_point|
     @entry_points.include?(entry_point[attr]).should == true if t=='name'
@@ -86,9 +92,40 @@ Then /^each ([\w\-]+) should have '(.+)' attribute set to '(.+)'$/ do |el, attr,
   case el
     when 'image':
       path = "/image/images"
+    when 'hardware_profile':
+      path = "/hardware_profiles/hardware_profile"
+    when 'instance':
+      path = "/instances/instance"
   end
   output_xml.xpath(path).each do |element|
     element[attr].should == v
+  end
+end
+
+Then /^each ([\w\-]+) should have '(.+)' element set to '(.+)'$/ do |el, child, v|
+  case el
+    when 'image':
+      path = "/images/image"
+    when 'hardware_profile':
+      path = "/hardware_profiles/hardware_profile"
+    when 'instance':
+      path = "/instances/instance"
+  end
+  output_xml.xpath(path).each do |element|
+     element.xpath(child).should_not be_nil
+     element.xpath(child).first.content.should == v
+  end
+end
+
+Then /^each ([\w\-]+) should have '(.+)' property set to '(.+)'$/ do |el, property, v|
+  case el
+    when 'hardware_profile':
+      path = "/hardware_profiles/hardware_profile"
+  end
+  output_xml.xpath(path).each do |element|
+    property_elm=element.xpath("property[@name=\"#{property}\"]")
+    property_elm.should_not be_nil
+    property_elm.first["value"].should == v
   end
 end
 

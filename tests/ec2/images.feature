@@ -40,7 +40,7 @@ Feature: Listing and showing images
     When client access this URI with parameters:
     | owner_id | 205605819716 |
     Then client should get some images
-    And each image should have 'owner_id' attribute set to '205605819716'
+    And each image should have 'owner_id' element set to '205605819716'
 
   Scenario: Filtering images by architecture
     Given URI /api/images exists
@@ -48,7 +48,7 @@ Feature: Listing and showing images
     When client access this URI with parameters:
     | architecture | i386 |
     Then client should get some images
-    And each image should have 'architecture' attribute set to 'i386'
+    And each image should have 'architecture' element set to 'i386'
 
   Scenario: Filtering images by architecture and owner_id
     Given URI /api/images exists
@@ -57,5 +57,5 @@ Feature: Listing and showing images
     | architecture | i386 |
     | owner_id | 205605819716 |
     Then client should get some images
-    And each image should have 'architecture' attribute set to 'i386'
-    And each image should have 'owner_id' attribute set to '205605819716'
+    And each image should have 'architecture' element set to 'i386'
+    And each image should have 'owner_id' element set to '205605819716'
