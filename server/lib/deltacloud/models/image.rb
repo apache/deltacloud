@@ -23,4 +23,16 @@ class Image < BaseModel
   attr_accessor :architecture
   attr_accessor :state
 
+  alias :to_hash_original :to_hash
+
+  def to_hash
+    h = self.to_hash_original
+    h.merge({
+      :actions => [ :create_instance => {
+        :method => 'post',
+        :href => "/api/instances;image_id=#{self.id}" # FIXME: Figure out how instances_url should be called here
+      }]
+    })
+  end
+
 end
