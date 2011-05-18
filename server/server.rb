@@ -77,7 +77,9 @@ get '/api\/?' do
       { :api => {
           :version => settings.version,
           :driver => driver_symbol,
-          :links => entry_points.collect { |l| { :rel => l[0], :href => l[1]} }
+          :links => entry_points.collect do |l| 
+            { :rel => l[0], :href => l[1] }.merge(json_features_for_entrypoint(l))
+          end
         }
       }.to_json
     end
