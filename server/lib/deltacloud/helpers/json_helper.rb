@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,9 +13,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/helpers/application_helper'
-require 'deltacloud/helpers/json_helper'
-require 'deltacloud/helpers/conversion_helper'
-require 'deltacloud/helpers/hardware_profiles_helper'
+module JSONHelper
 
-helpers ApplicationHelper, ConversionHelper, HardwareProfilesHelper, JSONHelper
+  def json_features_for_entrypoint(entrypoint)
+    features = driver.features(entrypoint.first).collect { |feature| feature.name }
+    features.empty? ? {} : { :features => features }
+  end
+
+end
