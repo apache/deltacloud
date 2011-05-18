@@ -205,6 +205,7 @@ END
           response.status = 201 # Created
           haml :"images/show"
         end
+        format.json { convert_to_json(:image, @image) }
         format.html { haml :"images/show" }
       end
     end
@@ -314,6 +315,7 @@ collection :load_balancers do
           response.status = 201  # Created
           haml :"load_balancers/show"
         end
+        format.json { convert_to_json(:load_balancer, @load_balancer) }
         format.html { haml :"load_balancers/show" }
       end
     end
@@ -390,6 +392,7 @@ END
           response['Location'] = instance_url(@instance.id)
           haml :"instances/show"
         end
+        format.json { convert_to_json(:instance, @instance) }
         format.html do
           redirect instance_url(@instance.id) if @instance and @instance.id
           redirect instances_url
@@ -579,6 +582,7 @@ collection :storage_volumes do
       @storage_volume = driver.create_storage_volume(credentials, params)
       respond_to do |format|
         format.html { haml :"storage_volumes/show" }
+        format.json { convert_to_json(:storage_volume, @storage_volume) }
         format.xml do
           response.status = 201  # Created
           haml :"storage_volumes/show"
@@ -663,6 +667,7 @@ collection :keys do
           response.status = 201  # Created
           haml :"keys/show", :ugly => true
         end
+        format.json { convert_to_json(:key, @key)}
       end
     end
   end
@@ -816,14 +821,17 @@ collection :buckets do
     control do
       @bucket = driver.create_bucket(credentials, params[:name], params)
       respond_to do |format|
+        format.html do
+          redirect bucket_url(@bucket.id) if @bucket and @bucket.id
+          redirect buckets_url
+        end
         format.xml do
           response.status = 201  # Created
           response['Location'] = bucket_url(@bucket.id)
           haml :"buckets/show"
         end
-        format.html do
-          redirect bucket_url(@bucket.id) if @bucket and @bucket.id
-          redirect buckets_url
+        format.json do
+          convert_to_json(:bucket, @bucket)
         end
       end
     end
@@ -878,6 +886,7 @@ collection :addresses do
       @address = driver.create_address(credentials, {})
       respond_to do |format|
         format.html { haml :"addresses/show" }
+        format.json { convert_to_json(:address, @address) }
         format.xml do
           response.status = 201  # Created
           response['Location'] = address_url(@address.id)

@@ -20,4 +20,11 @@ class Bucket < BaseModel
   attr_accessor :size
   attr_accessor :blob_list
 
+  alias :to_hash_original :to_hash
+
+  def to_hash
+    h = self.to_hash_original
+    h[:blob_list] = self.blob_list.collect { |blob| { :id => blob, :href => "/api/buckets/#{self.id}/#{blob.id}"}}
+    return h
+  end
 end
