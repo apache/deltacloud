@@ -124,6 +124,7 @@ Then /^each ([\w\-]+) should have '(.+)' property set to '(.+)'$/ do |el, proper
   end
   output_xml.xpath(path).each do |element|
     property_elm=element.xpath("property[@name=\"#{property}\"]")
+    next unless property_elm.first
     property_elm.should_not be_nil
     property_elm.first["value"].should == v
   end
