@@ -121,7 +121,7 @@ module Deltacloud
         $stderr.puts "# #{e.message}"
         $stderr.puts "# #{e.backtrace.join("\n")}"
         $stderr.puts "##############"
-        raise BackendError.new(e)
+        raise BackendError.new(e, e.message)
       end
     end
 
