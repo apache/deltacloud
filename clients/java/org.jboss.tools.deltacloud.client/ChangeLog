@@ -1,0 +1,1049 @@
+2011-03-29  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java 
+	(request): 
+	(DeltaCloudClientImpl): 
+	[JBIDE-8635] removed http client and replaced by urlConnection
+
+2011-03-11  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/StateAware.java: 
+	* src/org/jboss/tools/deltacloud/core/client/ActionAware.java 
+	(reboot): 
+	(destroy): 
+	(stop): 
+	(start): 
+	(doUpdate): 
+	(update): 
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (doUpdate): 
+	* src/org/jboss/tools/deltacloud/core/client/Key.java: (doUpdate): 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (performAction): 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (performAction): 
+	[JBIDE-8565] refreshing instance and key after performing action
+
+2011-02-18  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java 
+	(loadCloud): 
+	(printCloud): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(lastRealmName): 
+	(lastProfileId): 
+	(setLastProfileId): 
+	(getLastProfileId): 
+	(getLastRealmName): 
+	(setLastRealmName): 
+	[JBIDE-8333]
+
+2011-02-15  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (update): 
+	[JBIDE-8420] storing credentials before loading children 
+	(was: loaded children and stored afterwards. storing was skipped since loading threw an exception)
+
+2011-02-07  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (waitForState): 
+	[JBIDE-8343] increased wait delay for refreshing instance, waiting before refreshing (was: refreshed first and waited afterwards)
+
+2011-02-03  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/InstanceFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/AbstractCloudElementFilter.java:
+	[JBIDE-8187] added capability to filter for instance alias 
+
+2011-01-27  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (getServerType): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getDriver): 
+	[JBIDE-8250] 
+	- renamed Driver to DeltaCloudDriver, renamed ServerType to Driver
+	- moved driver unmarshalling to APIUnmarshaller
+	- added tests for APIUnmarshaller
+	* src/org/jboss/tools/deltacloud/core/client/HttpStatusCode.java (UNAUTHORIZED): 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (throwOnHttpErrors): 
+	[JBIDE-8250] authorization error is status code 401 (was: 403)
+	
+2011-01-11  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java 
+	(listRealms): 
+	[JBIDE-7935] moved realms unmarshalling to separate classes (and added tests).
+	* src/org/jboss/tools/deltacloud/core/client/request/TypeRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/PerformInstanceActionRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListRealmsRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListRealmRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListKeysRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListKeyRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListInstancesRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListInstanceRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListImagesRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListImageRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListHardwareProfilesRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListHardwareProfileRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/DeleteKeyRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/CreateKeyRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/CreateInstanceRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/AbstractListObjectsRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/AbstractDeltaCloudRequest.java: 
+	(urlString): 
+	(url): 
+	(getUrl): 
+	(toString): 
+	(getUrlString): 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java 
+	(request): 
+	[JBIDE-7695] delayed URL creation to request time. Gained capability to store invalid urls and report them at request time.
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/ImagesUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/ImageUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java 
+	(listImages): 
+	(listImages): 
+	[JBIDE-7935] moved image unmarshalling to its own class (and created tests for it)
+
+2011-01-10  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/HardwareProfileUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (listProfile):
+	[JBIDE-7935] moved HardwareProfile unmarshalling to HardwareProfileUnmarshaller 
+
+2011-01-04  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstancesRepository.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (loadInstances): 
+	[JBIDE-7294] added factory for DeltaCloudInstance instances, removed functionality from DeltaCloudInstanceRepository
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (createInstance): 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (createInstance): 
+	* src/org/jboss/tools/deltacloud/core/client/request/CreateInstanceRequest.java (doCreateUrl): 
+	[JBIDE-7294] removed name parameter from request since DeltaCloud does not honor the name you choose
+	* src/org/jboss/tools/deltacloud/core/IInstanceAliasMapping.java: 
+	* src/org/jboss/tools/deltacloud/core/InstanceAliasMapping.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java 
+	(setAlias): 
+	(getAlias): 
+
+2011-01-03  adietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (createInstance): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java 
+	(getAlias): 
+	(setAlias): 
+	[JBIDE-7294] implementing alias support
+	
+2010-12-27  adietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (isValid): 
+	[JBIDE-7864] added isValid property tester to offer "launch instance" on valid clouds only
+
+2010-12-23  adietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/job/AbstractCloudElementJob.java (CLOUDELEMENT.KEYS): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudKey.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(createKey): 
+	(getKeys): 
+	[JBIDE-7763] added methods to DeltaCloud to get all keys and to create a key on the server
+
+2010-12-22  adietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (DeltaCloudClientImpl): 
+	[JBIDE-7981] need to create a documentbuilder on each new parsing to avoid threads using the same builder.
+	* src/org/jboss/tools/deltacloud/core/FieldMatcher.java (FieldMatcher): 
+	[JBIDE-7981] set filter to filter in case insensitive manner
+	 
+2010-12-21  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/KeysUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/KeyUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/KeyActionUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/AbstractDOMUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/unmarshal/AbstractDeltaCloudObjectUnmarshaller.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListKeysRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/Key.java: 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java 
+	(createKey): 
+	(listKeys): 
+	(listKey): 
+	[JBIDE-7763][JBIDE-7371] implemented keys related methods & tests, now returning Key object
+
+2010-12-17  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (createKey): 
+	[JBIDE-7371] added #createKey method that now returns a key instance
+
+2010-12-16  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/request/ListKeysRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/CreateKeyRequest.java: 
+	[JBIDE-7371] implementing listing keys with deltacloud client	
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (testCredentials): 
+	[JBIDE-7911] corrected: throws exceptions on error (internal server error, connection error etc)
+
+2010-12-15  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(Driver): 
+	[JBIDE-7864] replacing cloud type strings by Driver enum
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(getInstanceJob):
+	(waitWhilePending): 
+	(registerInstanceJob):
+	[JBIDE-7912] removed since job concurrency is dealt with job scheduling rules now 
+	* src/org/jboss/tools/deltacloud/core/job/InstanceSchedulingRule.java (isConflicting): 
+	* src/org/jboss/tools/deltacloud/core/job/CloudSchedulingRule.java (isConflicting): 
+	* src/org/jboss/tools/deltacloud/core/job/CloudElementSchedulingRule.java (isConflicting): 
+	[JBIDE-7594] corrected scheduling rules to have correct blocking across the scheduling class hierarchy
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (createSecurePasswordStore): 
+	[JBIDE-7594] created #createSecurePasswordStore to be able to fake store in tests
+
+2010-12-14  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (updateInstance): 
+	[JBIDE-7889] now also set pulic_adresses and private_adresses when updating instances 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (refreshInstance): 
+	[JBIDE-7889] removed code that replaced instances in the local cache. 
+	I now set a new instance to the DeltaCloudInstance (DeltaCloudInstance#setInstance)
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java 	(setInstance): 
+	[JBIDE-7889] added #setInstance to be able to refresh instances  
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (toString): 
+	[JBIDE-7889] added #toString to facilitate debuggin
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (getActions): 
+	[JBIDE-7889] changed #getActions to return DeltaCloudInstance#Action (and not strings)
+	* src/org/jboss/tools/deltacloud/core/job/InstanceSchedulingRule.java: 
+	* src/org/jboss/tools/deltacloud/core/job/InstanceStateJob.java: 
+	* src/org/jboss/tools/deltacloud/core/job/InstanceActionJob.java: 
+	[JBIDE-7594] added instance related job & scheduling rule 
+	(blocks instance jobs on same instance and superclass jobs on same cloud & element)
+	* src/org/jboss/tools/deltacloud/core/job/CloudElementSchedulingRule.java (isOnSameElement): 
+	[JBIDE-7594] corrected scheduling rule to block superclass scheduling rule on the same cloud 
+	* src/org/jboss/tools/deltacloud/core/job/AbstractCloudElementJob.java (CLOUDELEMENT): 
+	[JBIDE-7594] added scheduling element that reflects cloud properties being processed (instances, images, realms, profiles)
+
+2010-12-13  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(loadInstances): 
+	(loadImages):
+	[JBIDE-7880] clear images and clear instances before loading them.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+ 	(PROP_INSTANCES_ADDED):
+ 	(createInstance): 
+	[JBIDE-7877] added notification for instances that are added
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(IInstanceStateMatcher.matchesState): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (State): 
+	(Action): 
+	(getState): 
+	(performInstanceAction): 
+	[JBIDE-7877] replaced state- and action-strings in DeltaCloudInstace by enums
+
+2010-12-10  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (loadImages):
+	[JBIDE-7738] made #loadImages public, RefreshImagesHandler needs access to it  
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (loadInstances):
+	[JBIDE-7738] made #loadInstances public, RefreshInstancesHandler needs access to it  
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (update): 
+	[JBIDE-7863] need to store the password if either connection name, username, pw or url changes
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (notifyCloudRename):
+	[JBIDE-7856] removed notifyCloudRename since DeltaCloud now notifies about changes in its properties (images, instances, name) 
+	* src/org/jboss/tools/internal/deltacloud/core/observable/ObservablePojo.java: 
+	[JBIDE-7856] switched the observer pattern in DeltaCloud to PropertyChangeSupport, moved ObservablePojo
+	to core to get PropertyChangeSupport in DeltaCloud.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: 
+	[JBIDE-7856] switched the observer pattern in DeltaCloud to PropertyChangeSupport, removed 
+	IInstanceListListener and IImageListlistener. 
+	(update): 
+	(setName): 
+	(updateConnectionProperties): 
+	(updateInstanceFilter): 
+	(updateImageFilter): 
+	(loadInstances): 
+	(clearImages): 
+	(clearInstances): 
+	(replaceInstance): 
+	(performInstanceAction): 
+	(loadImages): 
+	(createInstance): 
+	[JBIDE-7856] switched the observer pattern in DeltaCloud to PropertyChangeSupport, fireing changes when name is changed.
+	Loading instances and images only if url, username, pw change.
+
+2010-12-09  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(loadImages): 
+	(loadInstances):
+	(getInstances): 
+	(getImages): 
+	[JBIDE-7848] separated the usecases: actively getting images/instances and passive updates. You now get the images and dont need to trigger getting and get the update of it. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImage.java: 
+	[JBIDE-7849] removed shadowing instance variable to DeltaCloud
+
+2010-12-08  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/job/AbstractCloudElementJob.java: 
+	* src/org/jboss/tools/deltacloud/core/job/AbstractCloudJob.java: 
+	* src/org/jboss/tools/deltacloud/core/job/CloudElementSchedulingRule.java: 
+	* src/org/jboss/tools/deltacloud/core/job/CloudSchedulingRule.java: 
+	[JBIDE-7594] started scheduling rules. need further refinement. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getImage): 
+	[JBIDE-7834] implemented #getLastImage(id) that queries the local cache and the server (fallback),
+	removed #getImage(String id), #loadImage(String imageId), removed #findInstanceById
+
+2010-12-06  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/InstanceFilter.java (InstanceFilter): 
+	* src/org/jboss/tools/deltacloud/core/GetImagesCommand.java: 
+	* src/org/jboss/tools/deltacloud/core/AbstractDeltaCloudCommand.java: 
+	[JBIDE-7688][JBIDE-7813] now getting images and instances in async manner by commands
+	* src/org/jboss/tools/deltacloud/core/AbstractCloudElementFilter.java 
+	(filter): 
+	(AbstractCloudElementFilter): 
+	(getCloud): 
+	(getCloudElements): 
+	* src/org/jboss/tools/deltacloud/core/AllImageFilter.java (AllImageFilter): 
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java 
+	(ImageFilter): 
+	(getCloudElements): 
+	* src/org/jboss/tools/deltacloud/core/AllInstanceFilter.java (AllInstanceFilter): 
+	* src/org/jboss/tools/deltacloud/core/InstanceFilter.java 
+	(InstanceFilter): 
+	(getCloudElements): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java
+	(createInstanceFilter): 
+	(createImageFilter): 
+	* src/org/jboss/tools/deltacloud/core/ICloudElementFilter.java (filter): 
+	[JBIDE-7688][JBIDE-7813] CloudElementFilter#filter is now cloud instance specific (is instantiated with a reference to a cloud)
+
+2010-12-03  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/AllImageFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/AllInstanceFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/InstanceFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/ICloudElementFilter.java: 
+	[JBIDE-7688] provide common superclass and interface to ImageFilter and InstanceFilter
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImage.java: 
+	* src/org/jboss/tools/deltacloud/core/AbstractDeltaCloudElement.java: 
+	* src/org/jboss/tools/deltacloud/core/IDeltaCloudElement.java: 
+	[JBIDE-7688] provide common superclass and interface to DeltaCloudImage and DeltaCloudInstance
+
+2010-11-26  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/SecurePasswordStore.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudPasswordStorageKey.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: 
+	(editCloud): 
+	(getPassword): 
+	(createClient):
+	(dispose):
+	(loadImage): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (removeCloud): 
+	[JBIDE-7731] extracted password storage to its own class (removed duplicate code in EditCloudConnectionWizard, NewCloudConnectionWizard and DeltaCloud)
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: 
+	(loadImage): 
+	[JBIDE-7694] removed duplicate loadImage(id) / getImage(id) methods
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(images): 
+	(instances)
+	(getImages): 
+	(getInstances): 	
+	(loadImages): 
+	(loadInstances): 
+	[JBIDE-7694] corrected lazy initialisation (to signal correctly that no instances had been loaded so far)
+
+2010-11-25  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImagesRepository.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstancesRepository.java: 
+	* src/org/jboss/tools/deltacloud/core/AbstractDeltaCloudObjectRepository.java:
+	[JBIDE-7694] revamped synchronization in class DeltaCloud: extracted image- and instance-list to their own classes 
+	(and could drop all synchronization in deltacloud) 
+
+2010-11-19  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: 
+	(isRunning): 
+	[JBIDE-7678] renamed State to InstanceState, added property isRunning, testing for ShowInRemoteSystemExplorerHandler
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (InstanceState): 
+	(isRunning): 
+	[JBIDE-7678] renamed State to InstanceState, added property isRunning, testing for ShowInRemoteSystemExplorerHandler
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadCloud): 
+	[JBIDE-7663] removed loading of images and instances on startup
+
+2010-11-18  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/ICloudManagerListener.java (cloudsChanged): 
+	[JBIDE-7628] renamed notification method (to better reflect what it notifies)
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (removeCloud): 
+	[JBIDE-7628] loadClouds made private -> no explicit loading by clients, clouds should be loaded if needed
+	(saveClouds): 
+	(notifyCloudRename): 
+	[JBIDE-7628] added proper throwing (no swallowing any more)
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): 
+	[JBIDE-7628] cleanup (removed duplicate notification code)
+	* src/org/jboss/tools/deltacloud/core/client/request/DeltaCloudRequest.java (getUrl): 
+	* src/org/jboss/tools/deltacloud/core/client/request/AbstractDeltaCloudRequest.java (getUrl): 
+	[JBIDE-7593] need to return URL (not String)
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java
+ 	(addCredentials): 
+	[JBIDE-7593] need to use URL (not String)
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java
+ 	(sendRequest): 
+	[JBIDE-7593] need to add credentials using the url that is effectively used in the request (which may be either the baseURL or the url in the action)
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): 
+	[JBIDE-7625] store password in the constructor
+	(editCloud): 
+	[JBIDE-7625] have to create new client when cloud was edited	
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (removeCloud): 
+	[JBIDE-7625] removed check for pw on identical url any more since we now save the pw with the name of the cloud
+	[JBIDE-7627] reinitialize cloud list when loading clouds (otherwise clouds loaded will simply get added to the existing ones)
+	(loadClouds): 
+
+2010-11-17  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java
+	(createInstance): 
+	(createKey): 
+	(deleteKey): 
+	[JBIDE-7597] added missing methods to interface
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java 
+	(loadCloud):
+	(loadClouds): 
+	[JBIDE-7597] continue loading clouds even if a single cloud fails
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(loadImages): 
+	(loadInstances): 
+	[JBIDE-7597] added proper error messages to exceptions thrown
+	(editCloud): 
+	(updateInstanceFilter): 
+	(updateImageFilter): 
+	[JBIDE-7597] removed saving (ring dependency DeltaCloud <--> DeltaCloudManager) in DeltaCloud. 
+	Ideal solution would be dirty notification to DeltaCloud -> DeltaCloudManager
+	(getClient): 
+	[JBIDE-7597] delayed client creation after instantiation so that DeltaCloud may be created without throwing exceptions.
+	(loadChildren): 
+	[JBIDE-7597] made sure loading instances and images throw exceptions individually. Collecting them in a multi exception
+	(getProfiles): 
+	[JBIDE-7597] removed exception swalloing, made sure exceptions get thrown
+	(testConnection): 
+	[JBIDE-7597] made sure no DeltaCloudClientException gets outside of DeltaCloud
+	(destroyInstance): 
+	[JBIDE-7597] added exception to destroy instance	
+	(clearInstances): 
+	(clearImages): 
+	(loadInstances): 
+	(loadImages): 
+	(loadChildren): 
+	[JBIDE-7544] clearing images and instances before refreshing them (to avoid conflicting user actions)
+
+2010-11-16  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (DeltaCloudManager): 
+	[JBIDE-7597] removed implicit loading of persisted connections. moved to explicit loading.
+	(loadClouds): 	
+	[JBIDE-7597] collecting exceptions are returning them as errors.
+	* src/org/jboss/tools/deltacloud/core/client/Image.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImage.java: 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java 
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java 
+	[JBIDE-7617] removed equals and hash code since it resulted in odd behaviors towards selection
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java 
+	(canStart): 
+	(canStop): 
+	(canReboot): 
+	(canDestroy): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java 
+	(canStart): 
+	(canStop): 
+	(canReboot): 
+	(canDestroy): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java 
+	(registerInstanceJob): 
+	(getInstanceJob): 
+	(registerInstanceJob): 
+	(removeInstanceJob): 
+	[JBIDE-7603] renamed instance job related methods from action job to instance job (since jobs are not only used for actions)
+	(waitWhilePending): 
+	(waitForState): 
+	[JBIDE-7603] moved (duplicate) instance state waiting code to delta cloud and removed duplication 
+	(loadChildren): 
+	(loadInstances): 
+	(getCurrInstances): 
+	(refreshInstance): 
+	[JBIDE-7597] load images / instances now throw of DeltaCloudExceptions (exceptions are not swallowed any longer)
+
+2010-11-11  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (DeltaCloudInstance): 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (refreshInstance): 
+	(loadInstances): 
+	(createInstance): 
+	[JBIDE-7516] added reference to DeltaCloud in DeltaCloudInstance
+
+2010-11-10  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/utils/UrlBuilder.java: 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java (DeltaCloudClientImpl): 
+	(sendRequest): 
+	(createRequest): 
+	(getServerType): 
+	(createInstance): 
+	(createInstance): 
+	(createInstance): 
+	(createInstance): 
+	(listProfile): 
+	(listProfiles): 
+	(listImages): 
+	(listImages): 
+	(listInstances): 
+	(listInstances): 
+	(listRealms): 
+	(listRealms): 
+	(createKey): 
+	(createInstanceActions): 
+	(listDeltaCloudObjects): 
+	(getDocument): 
+	(performInstanceAction): 
+	* src/org/jboss/tools/deltacloud/core/client/request/TypeRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/PerformInstanceActionRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListRealmsRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListRealmRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListKeyRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListInstancesRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListInstanceRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListImagesRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListImageRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListHardwareProfilesRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/ListHardwareProfileRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/DeltaCloudRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/DeleteKeyRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/CreateInstanceRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/AbstractListObjectsRequest.java: 
+	* src/org/jboss/tools/deltacloud/core/client/request/AbstractDeltaCloudRequest.java: 
+	[JBIDE-7537] Created classes for each request type.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java	(createInstanceActions): 
+	[JBIDE-7537] removed base url stripping
+
+2010-11-09  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java 
+	(hashCode): 
+	(equals): 
+	[JBIDE-7513] added equals and hascode methods to be able to match new instances to old ones
+	(so that I can keep the selection in the cloud viewer)
+	* src/org/jboss/tools/deltacloud/core/client/Image.java 
+	(hashCode): 
+	(equals): 
+	[JBIDE-7513] added equals and hascode methods to be able to match new instances to old ones
+	(so that I can keep the selection in the cloud viewer)
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java (setRules): 
+	* src/org/jboss/tools/deltacloud/core/InstanceFilter.java 
+	(setRules): 
+	(createRule): 
+	[JBIDE-7518] removed duplicate code for matcher creation
+	(createRule): 
+	(setRules): 
+	[JBIDE-7518] removed duplicate code for matcher creation
+	* src/org/jboss/tools/deltacloud/core/ICloudElementFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/IImageFilter.java: 
+	* src/org/jboss/tools/deltacloud/core/IInstanceFilter.java
+	
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (editCloud): 
+	[JBIDE-7521] storing cloud after it has been edited
+	(editCloud): 
+	[JBIDE-7518] added notification after cloud was edited
+	(DeltaCloud): 
+	(createImageFilter): 
+	(updateImageFilter): 
+	(createInstanceFilter): 
+	(updateInstanceFilter): 
+	[JBIDE-7518] cleanup code duplication (imageFilter and instanceFilter creation)
+	(editCloud): 
+	[JBIDE-7518] load images and instances after editing the cloud -> notifies listeners of changes
+
+2010-11-05  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (performInstanceAction): 
+	[JBIDE-7503] added instance notification 
+
+2010-11-04  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: 
+	* src/org/jboss/tools/deltacloud/core/client/InstanceAction.java: 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientImpl.java: 
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (start), (stop), (destroy), (reboot): 
+	[JBIDE-7484] removed instance related methods from client, unified funtionality in #performAction and offered additional methods on 
+	Instance (#start, #stop, #destroy, #reboot). Furthermore update instance upon action responses from server.
+
+2010-10-29  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/HttpStatusCode.java: extracted and put in a 2 enums: 
+	HttpStatusCode, HttpStatusRange (server-, client-error)
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java 
+	(listDeltaCloudObjects): rethrows DeltaCloudClientException (was catching and wrapping)
+	(getDocument): refactored and split #listDeltaCloudObjects implementation into parts
+
+2010-10-26  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (testConnection): 
+	[JBIDE-7407] now returns <code>false</code> if listing instances fails with a DeltaCloudClientException
+
+2010-10-25  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: Move cloud type constants
+	here as the DeltaCloud contains the type field. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: Move cloud type constants
+	from here to DeltaCloud.
+	 
+2010-10-25  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): Fix constructor
+	typo caused by copying so that type is passed when it is offered.
+
+2010-10-22  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): Don't add
+	"api" to URL in constructor as the client is adding this as well.
+
+2010-10-22  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java 
+	(shutdownInstance): [JBIDE-7401] changed to POST (api break in dc 0.0.8)
+	(startInstance): [JBIDE-7401] changed to POST (api break in dc 0.0.8)
+
+2010-10-22  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (listProfile): Fix to
+ 	wrap the xml result in a StringReader before trying to unmarshal.
+	(listImages): Ditto.
+	(listRealms): Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getLastImageId): New method.
+	(setLastImageId): Ditto. 
+	(getLastKeyname): Ditto.
+	(setLastKeyname): Ditto.
+	(getImage): Ditto.
+	(save): Make public.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadClouds): Add code to get
+	the last keyname and last imageid used for the cloud. 
+	(saveClouds): Save the last keyname and last imageid used for instance launching.
+
+2010-10-21  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java 
+	(getRequest): extracted to its own method, changed to switch (from if-else)
+	(sendRequest): added http status code check (latest deltacloud 0.0.8 now reports 404 on missing resource)
+
+2010-10-20  André Dietisheim  <adietish@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (getDeltaCloudType): moved from UI to deltacloud client
+	(DCNS): Added API enum (for api requests)
+	(getServerType): moved to instance method, reuse existing client code (instead of duplication)
+
+2010-10-12  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* build.properties: Remove lib/deltacloudclient jar specification as it
+	no longer exists in the lib directory.
+
+2010-10-08  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/AllInstanceFilter.java: New file.
+	* src/org/jboss/tools/deltacloud/core/IInstanceFilter.java: New file.
+	* src/org/jboss/tools/deltacloud/core/InstanceFilter.java: New file.
+	* src/org/jboss/tools/deltacloud/core/AllFieldMatcher.java (toString): Switch back
+	to non-regex, just a wildcard.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): Add instance
+	filter rules to constructor.
+	(getInstanceFilter): New method.
+	(createInstanceFilter): Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadClouds): Add instance
+	filter support.
+	(saveClouds): Ditto.
+	* src/org/jboss/tools/deltacloud/core/FieldMatcher.java (FieldMatcher): Use the input
+	string to form a regex where all non-alphanumeric characters are escaped and wildcards
+	are expanded to a reluctant any character matcher.
+	(transform): New method to transform the input rule into a regex.
+	* src/org/jboss/tools/deltacloud/core/IImageFilter.java: Fix ALL_STRING.
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java (setRules): Fix checking for
+	AllFieldMatchers.
+
+2010-10-07  Jeff Johnston  <jjohnstn@redhat.com>
+
+	[JBIDE-7181]
+	* src/org/jboss/tools/deltacloud/core/AllFieldMatcher.java (toString): Fix to
+	return proper regex for ALL text.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): Default to
+	ALL rules if image filter regex does not parse.
+	* src/org/jboss/tools/deltacloud/core/FieldMatcher.java (FieldMatcher): Add a
+	throws statement.
+	* src/org/jboss/tools/deltacloud/core/IImageFilter.java: Fix ALL string.
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java (setRules): Adds a
+	throws statement.
+
+2010-10-07  André Dietisheim  <adietish@redhat.com>
+
+	* lib/deltacloudclient-1.0.jar: [JBIDE-7259] removed unneeded jar from classpath
+
+2010-10-06  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/AllFieldMatcher.java: New file.
+	* src/org/jboss/tools/deltacloud/core/AllImageFilter.java: New file.
+	* src/org/jboss/tools/deltacloud/core/FieldMatcher.java: New file.
+	* src/org/jboss/tools/deltacloud/core/IFieldMatcher.java: New file.
+	* src/org/jboss/tools/deltacloud/core/IImageFilter.java: New file.
+	* src/org/jboss/tools/deltacloud/core/ImageFilter.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (save): New method.
+	(createImageFilter): Ditto.
+	(getImageFilter): Ditto.
+	(DeltaCloud): Add a image filter rules parameter.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadClouds): Add
+	check for image filtering rules.
+	(saveClouds): Save image filtering rules.
+
+2010-09-17  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (editCloud): New method.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (notifyCloudRename): Ditto.
+	* src/org/jboss/tools/deltacloud/core/ICloudManagerListener.java: Add rename event.
+
+2010-09-08  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* .classpath: Fix to remove error messages.
+	* META-INF/MANIFEST.MF: Move deltaclient.jar to end of dependencies.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getActionJob): New method.
+	(registerActionJob): Ditto.
+	(removeActionJob): Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (removeCloud): Use cached
+	username and url.
+
+2010-09-03  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (addReplaceInstance): New method.
+	
+2010-09-01  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (deleteKey): Change
+	arguments to just the key name is given.  Don't delete any file. 
+	(createKey): Change the directory argument to just be a String instead of an IPath.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (deleteKey): New method.
+	(createKey): Ditto.
+	(refreshInstance): Remove stack trace on error since a pending cloud start will
+	result in not found until the cloud actually is running.
+
+2010-08-30  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/Activator.java: Add Copyright and License info.
+	* src/org/jboss/tools/deltacloud/core/client/AddressList.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/API.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudAuthException.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientException.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudObject.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/HardwareProfile.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/Image.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/Property.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/Realm.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudException.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudHardwareProfile.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudHardwareProperty.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImage.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudRealm.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/ICloudManagerListener.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/IImageListListener.java: Ditto.
+	* src/org/jboss/tools/deltacloud/core/IInstanceListListener.java: Ditto.
+	* META-INF/MANIFEST.MF: Back-leveling to 0.0.1 as not in 1.0.0 state yet.
+
+2010-08-27  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (buildInstance): Add
+	call to getAuthentication method. 
+	(getAuthentication): New method to get authentication items such as keyname.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getCurrInstances): Synchronize on
+	new instanceLock object. 
+	(getInstances): Ditto.
+	(performInstanceAction): Do not do any special actions for EC2 clouds, namely
+	deleting a key if stopping.
+	(refreshInstance): Do not reset the key.
+	(createInstance): Do not look for EC2 type, do not create a key, but just check if a keyname is specified.
+	Do not save the key if specified as this is done when creating the instance.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: Add MOCK type.
+
+2010-08-26  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (createKey): Remove
+	any empty lines so the key will work with RSE.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (notifyImageListListeners): Pass new
+	cloud argument to listeners. 
+	(notifyInstanceListListeners): Ditto. 
+	(refreshInstance): Fix the check for states to be in the String realm rather than
+	the State realm.
+	* src/org/jboss/tools/deltacloud/core/IImageListListener.java: Add new cloud argument
+	to listChanged notifier method. 
+	* src/org/jboss/tools/deltacloud/core/IInstanceListListener.java: Ditto. 
+
+2010-08-23  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (getKey): New method.
+	(setKey): Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getCurrInstances): Fix to
+	call getInstances if there aren't any instances yet.  
+	(getCurrImages): New method.
+	(refreshInstance): Pass any instance key into the new instance.
+	(getImages): Synchronize on imageLock.
+	(loadChildren): New method that loads the children in a thread.
+	(createInstance): Save the key if generated into the instance.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (getKey): New method. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadClouds): Ditto.
+
+2010-08-20  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (DCNS): Add KEYS.
+	(deleteKey): New method to delete a keypair.
+	(createKey): New method to create a keypair.
+	(checkForErrors): Add extra check for status 404.
+	(createInstance): New method with additional keyname parameter to create instance using a
+	specified keypair.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getType): New method. 
+	(DeltaCloud): Add type parameter and add keys collection.
+	(performInstanceAction): Add check for EC2 STOP action in which case look for a key in the key
+	collection and if found, delete it.
+	(createInstance): If EC2 cloud, create a key and pass the name to the new client createInstance
+	API that takes a keypair name.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (setGivenName): New method to store
+	the name chosen by the user in the dialog. 
+	(getGivenName): New method to get the name chosen by the user in the dialog.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadClouds): Add type support.
+	(saveClouds): Ditto.
+
+2010-08-18  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (checkForErrors): Make
+	the code smarter and look for status node.  There are some internal errors that don't need
+	to be stopped for.
+	(buildInstance): Throw DeltaCloudClientException instead of returning null if an
+	unexpected type of Exception occurs.
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (setState): Set to BOGUS
+	if the state is not expected. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (performInstanceAction): Throw
+	a DeltaCloudException if an low-level exception occurs. 
+	(refreshInstance): Ignore a transition to a BOGUS state.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: Add new TERMINATED and
+	BOGUS state strings.
+
+2010-08-17  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (getOwnerId): New method.
+	
+2010-08-17  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* lib/log4j-1.2.14.jar: New file.
+	* .classpath: Add log4j jar.
+	* build.properties: Ditto.
+	* META-INF/MANIFEST.MF: Remove org.apache.log4j as dependency
+	and add stored jar to classpath.
+
+2010-08-17  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (createInstance): New
+	API that takes a memory and storage setting for the hardware profile.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (createInstance): Change API to
+	accept memory and storage settings. 
+
+2010-08-16  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (buildHardwareProfile): Remove
+	extraneous statements that cause unused warning. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java: Remove extraneous import
+	that causes warning. 
+	
+2010-08-16  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* META-INF/MANIFEST.MF: Add dependency on org.eclipse.equinox.security.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): Store
+	the password for the cloud using Secure Preferences using the cloud's url
+	and username to form the key. 
+	(getPreferencesKey): New static method to formulate a preferences key used
+	to store and retrieve a password for a cloud.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (loadClouds): 
+	New method to get persisted clouds. 
+	(getClouds): Remove test stuff that creates a sample connection to the
+	mock cloud.
+	(saveClouds): New method to persist clouds minus passwords.
+	(DeltaCloudManager): Add call to loadClouds at construction.
+	(addCloud): Call saveClouds after modifying list.
+	(removeCloud): Ditto.
+
+2010-08-13  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (DeltaCloud): Take the
+	url as a String input.  Create the URL when constructing the client and add
+	"/api" to the user-specified url. 
+	(getURL): Return the url directly. 
+
+2010-08-12  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (destroyInstance): Fix to use
+	DELETE request. 
+	(sendRequest): Fix to allow DELETE request.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (destroyInstance): New method.
+
+2010-08-11  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (performInstanceAction): New method. 
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (getActionNames): Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getCurrInstances): Ditto.
+	(performInstanceAction): Ditto. 
+	(refreshInstance): Add notification.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (getActions): New method. 
+	
+2010-08-11  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getInstances): Make
+	instances a private field instead of local to the method. 
+	(refreshInstance): New method.
+	(createInstance): Add notification to IInstanceListListeners.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: Add static
+	strings for the various states.
+
+2010-08-09  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (getHostName): New method. 
+
+2010-08-06  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (sendRequest): Add
+	exception handling.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (createInstance): New method. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudRealm.java: Add state constants.
+
+2010-08-05  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudHardwareProperty.java (getKind): Fix to
+	upper-case the low-level value before converting to an enum.
+
+2010-08-04  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudHardwareProfile.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudHardwareProperty.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/HardwareProfile.java (getArchitecture): Return
+	the value instead of using toString method.
+	(getNamedProperty): Verify that properties is not null before accessing.
+	(getCPU): Return value instead of using toString.
+	* src/org/jboss/tools/deltacloud/core/client/Property.java (Range.Range): New class.
+	(getRange): New method. 
+	(Range.getLast): Ditto.
+	(Range.getFirst): Ditto.
+	(getEnums): Ditto.
+	(toString): Fix to not include unit if it is "label".
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getProfiles): New method.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (buildHardwareProfile): Fix
+	bug with getting enum properties.
+
+2010-08-04  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudAuthException.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudException.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudRealm.java: New file.
+	* src/org/jboss/tools/deltacloud/core/Activator.java (logErrorMessage): Ditto. 
+	(log): Ditto. 
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (listDeltaCloudObjects):
+	Check for errors. 
+	(checkForErrors): New method to check for connection errors.
+	(buildHardwareProfile): Check for errors and change so method throws exceptions.
+	(buildInstance): Ditto.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java (getInstances): Log error instead of
+	printing stack trace. 
+	(getImages): Ditto.
+	(getRealms): New method.
+	(testConnection): Ditto.
+
+2010-08-03  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (getClouds): Remove default
+	cloud connection that was set up for testing.
+
+2010-07-29  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (buildHardwareProfile): XML
+	has changed element name to hardware_profile from hardware-profile. 
+	(buildInstance): Ditto.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudObject.java (getId): Denote as
+	XMLAttribute now that id is no longer an element.
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (publicAddresses): Change
+	XML element name to public_addresses from public-addresses.
+	(privateAddresses): Similar except for private-addresses to private_addresses.
+
+2010-07-28  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java (findCloud): New
+	method to find a cloud by name.
+
+2010-07-27  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/Property.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java (getProfileProperties): Renamed
+	from setProfileProperties and cpu support added.
+	(buildDeltaCloudObject): Add support for HardwareProfile.
+	(buildHardwareProfile): New method to build up a hardware profile.
+	(buildInstance): Add hardware profile support.
+	(createInstance): Change to use getProfileProperties which was renamed.
+	* src/org/jboss/tools/deltacloud/core/client/HardwareProfile.java (getArchitecture): New method. 
+	(getNamedProperty): Ditto.
+	(getCPU): Ditto.
+	(toString): Ditto.
+	(getProperties): Ditto.
+	(getMemory): Change to get the memory property.
+	(getStorage): Change to get the storage property.
+	(HardwareProfile): Make private.
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java (setCPU): New method. 
+	(getCPU): Ditto.
+	(toString): Add cpu support.
+
+2010-07-26  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* src/org/jboss/tools/deltacloud/core/client/AddressList.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/API.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClient.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudClientException.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/DeltaCloudObject.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/HardwareProfile.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/Image.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/Instance.java: New file.
+	* src/org/jboss/tools/deltacloud/core/client/Realm.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: Import classes from new
+	client package.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImage.java: Ditto. 
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java (getProfileId): New
+	method. 
+
+2010-07-23  Jeff Johnston  <jjohnstn@redhat.com>
+
+	* .classpath: New file.
+	* .project: New file.
+	* .settings/org.eclipse.jdt.core.prefs: New file.
+	* .settings/org.eclipse.pde.core.prefs: New file.
+	* build.properties: New file.
+	* lib/apache-mime4j-0.6.jar: New file.
+	* lib/commons-codec-1.3.jar: New file.
+	* lib/commons-logging-1.1.1.jar: New file.
+	* lib/deltacloudclient-1.0.jar: New file.
+	* lib/httpclient-4.0.1.jar: New file.
+	* lib/httpcore-4.0.1.jar: New file.
+	* lib/httpcore-nio-4.0.1.jar: New file.
+	* lib/httpmime-4.0.1.jar: New file.
+	* META-INF/MANIFEST.MF: New file.
+	* src/org/jboss/tools/deltacloud/core/Activator.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloud.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudImage.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudInstance.java: New file.
+	* src/org/jboss/tools/deltacloud/core/DeltaCloudManager.java: New file.
+	* src/org/jboss/tools/deltacloud/core/ICloudManagerListener.java: New file.
+	* src/org/jboss/tools/deltacloud/core/IImageListListener.java: New file.
+	* src/org/jboss/tools/deltacloud/core/IInstanceListListener.java: New file.

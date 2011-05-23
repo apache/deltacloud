@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Deltacloud client tests
+Bundle-SymbolicName: org.jboss.tools.deltacloud.client.test
+Bundle-Version: 1.0.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.jboss.tools.deltacloud.client;bundle-version="0.1.0",
+ org.junit;bundle-version="[4.8.0,5.0.0)"
+Bundle-ClassPath: jruby-complete-1.5.3.jar,
+ .
