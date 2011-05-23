@@ -68,7 +68,7 @@ public class RealmMockIntegrationTest {
 		// get a profile seen in the web UI
 		Realm realm = testSetup.getClient().listRealms("eu");
 		assertNotNull(realm);
-		assertRealm("Europe", Realm.RealmState.AVAILABLE, 0, realm);
+		assertRealm("Europe", Realm.RealmState.AVAILABLE, Realm.LIMIT_DEFAULT, realm);
 	}
 
 	public void assertRealm(String name, Realm.RealmState state, int limit, Realm realm) {
