@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.jboss.tools</groupId>
-		<artifactId>org.jboss.tools.parent.pom</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
-	</parent>
 	<groupId>org.jboss.tools.deltacloud</groupId>
 	<artifactId>org.jboss.tools.deltacloud.client.test</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
-	<packaging>eclipse-plugin</packaging>
-	<properties>
-		<emma.filter/>
-		<emma.instrument.bundles/>
-	</properties>
+	<packaging>jar</packaging>
+	<name>Tests for JBoss Tools Deltacloud client</name>
+	<description>The tests for the java Deltacloud client by JBoss Tools</description>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
 	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>src</testSourceDirectory>
 		<plugins>
 			<plugin>
-				<groupId>org.sonatype.tycho</groupId>
-				<artifactId>maven-osgi-test-plugin</artifactId>
-				<version>${tychoVersion}</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
 				<configuration>
-					<excludes>
-						<exclude>**/IntegrationTestSuite*.class</exclude>
-					</excludes>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.tools.deltacloud</groupId>
+			<artifactId>org.jboss.tools.deltacloud.client</artifactId>
+			<version>0.2.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>
