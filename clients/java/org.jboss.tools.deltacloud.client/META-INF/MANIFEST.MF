@@ -5,9 +5,3 @@ Bundle-Vendor: JBoss by Red Hat
 Bundle-SymbolicName: org.jboss.tools.deltacloud.client
 Bundle-Version: 0.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0"
-Export-Package: org.jboss.tools.deltacloud.client,
- org.jboss.tools.deltacloud.client.request;x-friends:="org.jboss.tools.deltacloud.client.test",
- org.jboss.tools.deltacloud.client.transport,
- org.jboss.tools.deltacloud.client.unmarshal;x-friends:="org.jboss.tools.deltacloud.client.test",
- org.jboss.tools.deltacloud.client.utils

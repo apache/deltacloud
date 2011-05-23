@@ -22,10 +22,10 @@ package org.jboss.tools.deltacloud.client.unmarshal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
 import org.jboss.tools.deltacloud.client.HardwareProfile;
 import org.jboss.tools.deltacloud.client.Property;
 import org.jboss.tools.deltacloud.client.Property.Kind;
+import org.jboss.tools.deltacloud.client.utils.Assert;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,16 +33,19 @@ import org.w3c.dom.NodeList;
 /**
  * @author André Dietisheim
  */
-public class HardwareProfileUnmarshaller extends AbstractDOMUnmarshaller<HardwareProfile> {
+public class HardwareProfileUnmarshaller extends
+		AbstractDOMUnmarshaller<HardwareProfile> {
 
 	public HardwareProfileUnmarshaller() {
 		super("hardware_profile", HardwareProfile.class);
 	}
 
 	@Override
-	protected HardwareProfile doUnmarshall(Element element, HardwareProfile profile) throws Exception {
+	protected HardwareProfile doUnmarshall(Element element,
+			HardwareProfile profile) throws Exception {
 		profile.setId(getAttributeText("id", element));
-		profile.setProperties(createProperties(element.getElementsByTagName("property")));
+		profile.setProperties(createProperties(element
+				.getElementsByTagName("property")));
 		return profile;
 	}
 
@@ -79,14 +82,15 @@ public class HardwareProfileUnmarshaller extends AbstractDOMUnmarshaller<Hardwar
 
 	private void setRange(Element propertyElement, Property property) {
 		Node node = propertyElement.getElementsByTagName("range").item(0);
-		Assert.isLegal(node instanceof Element);
+		Assert.isTrue(node instanceof Element);
 		Element rangeElement = (Element) node;
-		property.setRange(rangeElement.getAttribute("first"), rangeElement.getAttribute("last"));
+		property.setRange(rangeElement.getAttribute("first"),
+				rangeElement.getAttribute("last"));
 	}
 
 	private void setEnum(Element propertyElement, Property property) {
 		Node node = propertyElement.getElementsByTagName("enum").item(0);
-		Assert.isLegal(node instanceof Element);
+		Assert.isTrue(node instanceof Element);
 		Element enumElement = (Element) node;
 		NodeList nodeList = enumElement.getElementsByTagName("entry");
 		ArrayList<String> enumValues = new ArrayList<String>();
@@ -98,5 +102,5 @@ public class HardwareProfileUnmarshaller extends AbstractDOMUnmarshaller<Hardwar
 		}
 		property.setEnums(enumValues);
 	}
-	
+
 }
