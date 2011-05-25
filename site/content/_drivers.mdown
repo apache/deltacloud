@@ -122,3 +122,9 @@ should be your OpenNebula user and password.
 
 The address, on which the OCCI server is listening, needs to be defined in
 an environment variable called OCCI_URL.
+
+### IBM Smartcloud Driver
+
+When using the IBM SmartCloud driver, the credentials passed in response to
+the HTTP 401 authentication challenge should be your IBM SmartCloud
+username and password.
