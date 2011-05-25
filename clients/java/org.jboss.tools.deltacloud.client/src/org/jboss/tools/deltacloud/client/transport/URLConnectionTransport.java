@@ -62,8 +62,8 @@ public class URLConnectionTransport extends AbstractHttpTransport {
 			addCredentials(connection);
 			setRequestMethod(request, connection);
 			BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
-			return in;
-		} catch (FileNotFoundException e) {
+//			return StreamUtils.writeTo(in, System.err);
+			return in;		} catch (FileNotFoundException e) {
 			/*
 			 * thrown by #connect when server resonds with 404
 			 */
