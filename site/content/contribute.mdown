@@ -64,6 +64,7 @@ your distro):
 
     ruby
     ruby-devel
+    rubygem-rake
     gcc-c++
     libxml2-devel
     libxslt-devel
