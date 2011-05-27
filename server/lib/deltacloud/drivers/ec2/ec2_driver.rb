@@ -697,7 +697,7 @@ module Deltacloud
             :image_id => instance[:aws_image_id],
             :owner_id => instance[:aws_owner],
             :actions => instance_actions_for(convert_state(instance[:aws_state])),
-            :key_name => instance[:ssh_key_name],
+            :keyname => instance[:ssh_key_name],
             :launch_time => instance[:aws_launch_time],
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type]),
             :realm_id => instance[:aws_availability_zone],

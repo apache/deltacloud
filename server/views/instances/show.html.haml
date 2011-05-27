@@ -45,6 +45,11 @@
       %dt Password
       %dd
         = @instance.password
+  - if @instance.keyname
+    %di
+      %dt Key
+      %dd
+        = @instance.keyname
   %di
     %dt
     %dd
