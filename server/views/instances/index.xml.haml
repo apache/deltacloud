@@ -23,3 +23,16 @@
       %private_addresses
         - instance.private_addresses.each do |address|
           %address  #{address}
+      - if driver_has_auth_features?
+        %authentication{ :type => driver_auth_feature_name }
+          - if instance.authn_feature_failed?
+            %error  #{instance.authn_error}
+          - else
+            - if driver_auth_feature_name == 'password'
+              %login
+                %username #{instance.username}
+                %password #{instance.password}
+            - if driver_auth_feature_name == 'key'
+              %login
+                %keyname #{instance.keyname}
+
