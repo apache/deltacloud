@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: DeltaCloud Client
-Bundle-Vendor: JBoss by Red Hat
-Bundle-SymbolicName: org.jboss.tools.deltacloud.client
-Bundle-Version: 0.2.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
