@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DeltaCloud Client
+Bundle-Vendor: Apache Software Foundation
+Bundle-SymbolicName: org.apache.deltacloud.client
+Bundle-Version: 0.2.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
