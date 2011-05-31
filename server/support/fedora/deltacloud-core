@@ -1,52 +1,74 @@
-#!/bin/bash
+#!/bin/sh
 #
-#
-# deltacloud-core       startup script for deltacloud-core server
-#
-# chkconfig: - 97 03
+# deltacloud-core   Deltacloud API Core
+# chkconfig: 345 90 60
 # description: deltacloud-core is primary server process for the \
-#    Deltacloud Core component.
-#
+#             Deltacloud Core component.
+
+### BEGIN INIT INFO
+# Provides: deltacloud-core
+# Required-Start: 
+# Required-Stop: 
+# Default-Start: 3 5 
+# Default-Stop: 0 1 2 6 
+# Short-Description: Deltacloud Core API deamon
+# Description: Deltacloud Core API provides access to different cloud providers \
+#   using single REST API 
+### END INIT INFO
+
+. /etc/rc.d/init.d/functions
 
 [ -r /etc/sysconfig/deltacloud-core ] && . /etc/sysconfig/deltacloud-core
 
-ENV="${ENV:-production}"
+exec="/usr/bin/deltacloudd"
+prog="deltacloud-core"
+
+[ ! -d /var/log/$prog ] && mkdir -p /var/log/$prog
+
+# You can overide these variables using /etc/sysconfig/deltacloud-core
+#
+# ENV=production|development
+# DRIVER=ec2|mock|gogrid
+#
+#
+API_ENV="${ENV:-production}"
 DRIVER="${DRIVER:-ec2}"
 PORT="${PORT:-3002}"
-LOCKFILE="${LOCKFILE:-/var/lock/subsys/deltacloud-core }"
-LOGFILE="${LOGFILE:-/var/log/deltacloud-core/$DRIVER.log}"
+LOGFILE="${LOGFILE:-/var/log/$prog/$DRIVER.log}"
+lockfile="${LOCKFILE:-/var/lock/subsys/$prog }"
 
-[ ! -d /var/log/deltacloud-core ] && mkdir -p /var/log/deltacloud-core
-
-PROG=/usr/bin/deltacloudd
-
-. /etc/init.d/functions
+[ -r $LOGFILE ] && chown nobody $LOGFILE
+[ -r $lockfile ] && chown nobody $lockfile
 
 start() {
-    echo -n "Starting deltacloud-core: "
+    [ -x $exec ] || exit 5
 
-    $PROG -i $DRIVER -e $ENV -p $PORT >> $LOGFILE 2>&1 &
-    RETVAL=$?
-    if [ $RETVAL -eq 0 ] && touch $LOCKFILE ; then
+    echo -n $"Starting $prog: "
+    daemon --user nobody $exec -i $DRIVER -e $API_ENV --port $PORT >> $LOGFILE 2>&1 &
+    retval=$?
+
+    if [ $retval -eq 0 ] && touch $lockfile ; then
       echo_success
       echo
     else
       echo_failure
       echo
     fi
+    return $retval
 }
 
 stop() {
-    echo -n "Shutting down deltacloud-core: "
-    RETVAL=$?
-    killall deltacloudd
-    if [ $RETVAL -eq 0 ] && rm -f $LOCKFILE ; then
+    echo -n $"Shutting down $prog: "
+    killproc deltacloudd
+    retval=$?
+    if [ $retval -eq 0 ] && rm -f $lockfile ; then
       echo_success
       echo
     else
       echo_failure
       echo
     fi
+    return $retval
 }
 
 case "$1" in
@@ -67,12 +89,12 @@ case "$1" in
       ;;
     status)
       status $PROG
-      RETVAL=$?
+      retval=$?
       ;;
     *)
-      echo "Usage: deltacloud-core {start|stop|restart|status}"
+      echo "Usage: $prog {start|stop|restart|status}"
       exit 1
   ;;
 esac
 
-exit $RETVAL
+exit $?
