@@ -1,0 +1,26 @@
+# Deltacloud API configuration 
+# http://deltacloud.org
+
+# Default port where Deltacloud API will listen on (3002)
+# You should be able to access Deltacloud API on http://localhost:PORT/api
+
+PORT=3002
+
+# Bind to HOST address (default: localhost)
+# You can use both IP address or hostname
+
+HOST=localhost
+
+# Default driver to be used (EC2).
+# NOTE: Some drivers require some additional gems to be installed.
+# Please reffer to http://deltacloud.org to see what gems are needed for specific
+# drivers
+
+DRIVER="ec2"
+
+# Default log file for Deltacloud API
+# LOGFILE="/var/log/deltacloud-core/ec2.log"
+#
+# Default user under Deltacloud API will be run (default: nobody)
+#
+# DELTACLOUD_USER="nobody"
