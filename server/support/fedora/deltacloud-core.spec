@@ -3,7 +3,7 @@
 Summary: Deltacloud REST API
 Name: deltacloud-core
 Version: 0.3.0
-Release: 6%{?dist}
+Release: 7%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
@@ -54,6 +54,93 @@ Requires: %{name} = %{version}-%{release}
 
 %description doc
 Documentation for %{name}
+
+%package azure
+Summary: Deltacloud Core for Azure
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(waz-blobs)
+
+%description azure
+The azure sub-package brings in all dependencies necessary to use deltacloud
+core to connect to Azure.
+
+%package ec2
+Summary: Deltacloud Core for EC2
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(aws)
+
+%description ec2
+The ec2 sub-package brings in all dependencies necessary to use deltacloud
+core to connect to EC2.
+
+%package gogrid
+Summary: Deltacloud Core for GoGrid
+Requires: %{name} = %{version}-%{release}
+
+%description gogrid
+The gogrid sub-package brings in all dependencies necessary to use deltacloud
+core to connect to GoGrid.
+
+%package mock
+Summary: Deltacloud Core for Mock
+Requires: %{name} = %{version}-%{release}
+
+%description mock
+The mock sub-package brings in all dependencies necessary to use deltacloud
+core to connect to Mock.
+
+%package opennebula
+Summary: Deltacloud Core for OpenNebula
+Requires: %{name} = %{version}-%{release}
+
+%description opennebula
+The opennebula sub-package brings in all dependencies necessary to use
+deltacloud core to connect to OpenNebula.
+
+%package rackspace
+Summary: Deltacloud Core for Rackspace
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(cloudfiles)
+Requires: rubygem(cloudservers)
+
+%description rackspace
+The rackspace sub-package brings in all dependencies necessary to use deltacloud
+core to connect to Rackspace.
+
+%package rhevm
+Summary: Deltacloud Core for RHEV-M
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(rest-client)
+
+%description rhevm
+The rhevm sub-package brings in all dependencies necessary to use deltacloud
+core to connect to RHEV-M.
+
+%package rimuhosting
+Summary: Deltacloud Core for Rimuhosting
+Requires: %{name} = %{version}-%{release}
+
+%description rimuhosting
+The rimuhosting sub-package brings in all dependencies necessary to use
+deltacloud core to connect to Rimuhosting.
+
+%package sbc
+Summary: Deltacloud Core for SBC
+Requires: %{name} = %{version}-%{release}
+
+%description sbc
+The sbc sub-package brings in all dependencies necessary to use deltacloud core
+to connect to SBC.
+
+%package terremark
+Summary: Deltacloud Core for Terremark
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(fog)
+Requires: rubygem(excon)
+
+%description terremark
+The terremark sub-package brings in all dependencies necessary to use deltacloud
+core to connect to Terremark.
 
 %prep
 %setup -q -c -T
@@ -127,7 +214,40 @@ fi
 %{app_root}/%{name}.gemspec
 %{app_root}/Rakefile
 
+%files azure
+%defattr(-, root, root, -)
+
+%files ec2
+%defattr(-, root, root, -)
+
+%files gogrid
+%defattr(-, root, root, -)
+
+%files mock
+%defattr(-, root, root, -)
+
+%files opennebula
+%defattr(-, root, root, -)
+
+%files rackspace
+%defattr(-, root, root, -)
+
+%files rhevm
+%defattr(-, root, root, -)
+
+%files rimuhosting
+%defattr(-, root, root, -)
+
+%files sbc
+%defattr(-, root, root, -)
+
+%files terremark
+%defattr(-, root, root, -)
+
 %changelog
+* Tue May 31 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-7
+- Create sub-packages to bring in dependencies
+
 * Tue May 31 2011 Michal Fojtik <mfojtik@redhat.com> - 0.3.0-6
 - Updated init.d script to match Fedora Guidelines
 
