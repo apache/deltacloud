@@ -3,13 +3,14 @@
 Summary: Deltacloud REST API
 Name: deltacloud-core
 Version: 0.3.0
-Release: 7%{?dist}
+Release: 8%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
 Source0: http://gems.rubyforge.org/gems/%{name}-%{version}.gem
 Source1: deltacloudd-fedora
 Source2: deltacloud-core
+Source3: deltacloud-core-config
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: rubygems
 Requires: ruby(abi) = 1.8
@@ -155,10 +156,13 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{app_root}
 mkdir -p %{buildroot}%{_initddir}
 mkdir -p %{buildroot}%{_bindir}
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 cp -r %{_builddir}/%{name}-%{version}/* %{buildroot}%{app_root}
+install -m 0655 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -m 0755 %{SOURCE1} %{buildroot}%{_bindir}/deltacloudd
 install -m 0755 %{SOURCE2} %{buildroot}%{_initddir}/%{name}
 find %{buildroot}%{app_root}/lib -type f | xargs chmod -x
+chmod -x %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 chmod 0755 %{buildroot}%{_initddir}/%{name}
 chmod 0755 %{buildroot}%{app_root}/bin/deltacloudd
 rm -rf %{buildroot}%{app_root}/support
@@ -190,6 +194,7 @@ fi
 %defattr(-, root, root, -)
 %{_initddir}/%{name}
 %{_bindir}/deltacloudd
+%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %dir %{app_root}/
 %{app_root}/bin
 %{app_root}/config.ru
@@ -245,8 +250,11 @@ fi
 %defattr(-, root, root, -)
 
 %changelog
-* Tue May 31 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-7
+* Tue May 31 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-8
 - Create sub-packages to bring in dependencies
+
+* Tue May 31 2011 Michal Fojtik <mfojtik@redhat.com> - 0.3.0-7
+- Added default config file in /etc/sysconfig/deltacloud-core
 
 * Tue May 31 2011 Michal Fojtik <mfojtik@redhat.com> - 0.3.0-6
 - Updated init.d script to match Fedora Guidelines
