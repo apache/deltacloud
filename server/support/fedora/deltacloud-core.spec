@@ -10,8 +10,6 @@ URL: http://incubator.apache.org/deltacloud
 Source0: http://gems.rubyforge.org/gems/%{name}-%{version}.gem
 Source1: deltacloudd-fedora
 Source2: deltacloud-core
-Patch0: fix_load_balancers.patch
-Patch1: fix_rhevm_memory_calculation.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: rubygems
 Requires: ruby(abi) = 1.8
@@ -52,22 +50,21 @@ which implements the REST interface.
 %package doc
 Summary: Documentation for %{name}
 Group: Documentation
-Requires:%{name} = %{version}-%{release}
+Requires: %{name} = %{version}-%{release}
 
 %description doc
 Documentation for %{name}
 
 %prep
-%setup -q -c -T 
+%setup -q -c -T
 gem unpack -V --target=%{_builddir} %{SOURCE0}
 pushd %{_builddir}/%{name}-%{version}
-%patch0
-%patch1
 popd
 
 %build
 
 %install
+rm -rf %{buildroot}
 mkdir -p %{buildroot}%{app_root}
 mkdir -p %{buildroot}%{_initddir}
 mkdir -p %{buildroot}%{_bindir}
