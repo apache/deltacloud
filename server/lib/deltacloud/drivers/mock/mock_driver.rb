@@ -121,6 +121,7 @@ class MockDriver < Deltacloud::BaseDriver
       image = YAML.load( File.read( image_file ) )
       image[:id] = File.basename( image_file, ".yml" )
       image[:name] = image[:description]
+      image[:state] = "AVAILABLE"
       images << Image.new( image )
     end
     images = filter_on( images, :id, opts )
