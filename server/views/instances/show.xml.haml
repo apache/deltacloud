@@ -1,4 +1,5 @@
-!!! XML
+- unless defined?(partial)
+  !!! XML
 %instance{:href => instance_url(@instance.id), :id => @instance.id}
   - if @instance.name
     %name<

@@ -1,8 +1,4 @@
-!!! XML
+!!!XML
 %buckets
-  - @elements.each do |bucket|
-    %bucket{:href => bucket_url(bucket.id), :id => bucket.id}
-      - bucket.attributes.select{ |attr| attr!=:id }.each do |attribute|
-        - haml_tag("#{attribute}".tr('-', '_'), :<) do
-          - haml_concat bucket.send(attribute)
-
+  - @elements.each do |c|
+    = haml :'buckets/show', :locals => { :@bucket => c, :partial => true }

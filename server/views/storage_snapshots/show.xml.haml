@@ -1,4 +1,5 @@
-!!!XML
+- unless defined?(partial)
+  !!! XML
 %storage_snapshot{:href => storage_snapshot_url(@storage_snapshot.id), :id => @storage_snapshot.id }
   %created<
     =@storage_snapshot.created
