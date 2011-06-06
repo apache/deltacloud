@@ -150,7 +150,9 @@ module RHEVM
     end
 
     def auth_header
-      { :authorization => "Basic " + Base64.encode64("#{@credentials[:username]}:#{@credentials[:password]}"), }
+      # As RDOC says this is the function for strict_encode64:
+      encoded_credentials = ["#{@credentials[:username]}:#{@credentials[:password]}"].pack("m0").gsub(/\n/,'')
+      { :authorization => "Basic " + encoded_credentials }
     end
 
     def base_url
