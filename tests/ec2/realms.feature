@@ -9,7 +9,6 @@ Feature: Accessing realms
     And each realm should have:
     | name |
     | state |
-    | limit |
     And each realm should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 

@@ -14,6 +14,7 @@ Feature: Managing instances
     | state |
     | hardware_profile |
     | actions |
+    | authentication |
     | public_addresses |
     | private_addresses |
     And each instance should have 'href' attribute with valid URL

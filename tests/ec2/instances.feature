@@ -51,6 +51,8 @@ Feature: Managing instances
     And this element contains some instances
     And each instance should have:
     | name |
+    | authentication |
+    | launch_time |
     | owner_id |
     | image |
     | realm |
