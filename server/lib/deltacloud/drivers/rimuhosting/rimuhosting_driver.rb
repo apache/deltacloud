@@ -108,13 +108,13 @@ class RimuHostingDriver < Deltacloud::BaseDriver
   end
 
   def create_instance(credentials, image_id, opts)
-     rh = RimuHostingClient.new(credentials)
+    rh = RimuHostingClient.new(credentials)
     # really need to raise an exception here.
     hwp_id = opts[:hwp_id] || 1
-    # really bad, but at least its a fqdn
-    name = Time.now.to_s + '.com'
-    if (opts[:name]) then
-      name = opts[:name]
+    name = opts[:name]
+    if not name
+      # really bad, but at least its a fqdn
+      name = Time.now.to_i.to_s + '.com'
     end
     convert_srv_to_instance(rh.create_server(image_id, hwp_id, name))
 

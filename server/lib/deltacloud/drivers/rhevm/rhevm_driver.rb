@@ -170,11 +170,15 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts={})
     client = new_client(credentials)
     params = {}
-    if opts[:name] && opts[:name].length > 50
-      raise "Parameter name must be shorter than 50 characters"
+    name = opts[:name]
+    if not name
+      name = Time.now.to_i.to_s
+    end
+    if name.length > 50
+      raise "Parameter name must be 50 characters or less"
     end
     safely do
-      params[:name] = opts[:name] if opts[:name]
+      params[:name] = name
       params[:realm_id] = opts[:realm_id] if opts[:realm_id]
       params[:hwp_id] = opts[:hwp_id] if opts[:hwp_id]
       params[:hwp_memory] = opts[:hwp_memory] if opts[:hwp_memory]

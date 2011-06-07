@@ -97,9 +97,19 @@ class GogridDriver < Deltacloud::BaseDriver
     else
       server_ram = "512MB"
     end
+
+    name = opts[:name]
+    if not name
+      name = "Server #{Time.now.to_i.to_s.reverse[0..3]}#{rand(9)}"
+    end
+
+    if name.length > 20
+      raise "Parameter name must be 20 characters or less"
+    end
+
     client = new_client(credentials)
     params = {
-      'name' => opts[:name] || get_random_instance_name,
+      'name' => name,
       'image' => image_id,
       'server.ram' => server_ram,
       'ip' => get_free_ip_from_realm(credentials, opts[:realm_id] || '1')
@@ -459,10 +469,6 @@ class GogridDriver < Deltacloud::BaseDriver
       :password => instance['password'],
       :create_image => 'true'.eql?(instance['isSandbox'])
     )
-  end
-
-  def get_random_instance_name
-    "Server #{Time.now.to_i.to_s.reverse[0..3]}#{rand(9)}"
   end
 
   def convert_server_state(state, id)

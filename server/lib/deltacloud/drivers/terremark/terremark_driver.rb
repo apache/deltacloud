@@ -130,9 +130,13 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
     new_vapp = nil
     vapp_opts = {} #assemble options to pass to Fog::Terremark::Real.instantiate_vapp_template
     terremark_hwp = hardware_profiles(credentials, {:name => 'default'}).first #sanity check values against default
-    name = opts['name'] #name could be nil or length 0 or too long
-    name = "inst#{Time.now.to_i}" if (name.nil? || (name.length == 0))
-    name = name.slice(0..13) #name < 15 chars (says terremark)
+    name = opts[:name]
+    if not name
+      name = "inst#{Time.now.to_i}"
+    end
+    if name.length > 15
+      raise "Parameter name must be 15 characters or less"
+    end
     unless ( (terremark_hwp.include?(:cpu, opts[:hwp_cpu].to_i)) &&
               (terremark_hwp.include?(:memory, opts[:hwp_memory].to_i)) ) then
        raise Deltacloud::Validation::Failure.new(Deltacloud::Validation::Param.new(["cpu"]), "Error with cpu and/or memory values. you said cpu->#{opts[:hwp_cpu]} and mem->#{opts[:hwp_memory]}")

@@ -31,6 +31,8 @@ module Deltacloud
 
 class OpennebulaDriver < Deltacloud::BaseDriver
 
+  feature :instances, :user_name
+
   ######################################################################
   # Hardware profiles
   ######################################################################
@@ -125,6 +127,10 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 	occi_client = new_client(credentials)
 
 	hwp_id = opts[:hwp_id] || 'small'
+
+	if not opts[:name]
+          opts[:name] = "#{Time.now.to_i.to_s}#{rand(9)}"
+        end
 
 	instancexml = ERB.new(OCCI_VM).result(binding)
 	instancefile = "|echo '#{instancexml}'"
