@@ -25,7 +25,7 @@ module Deltacloud
     def self.exceptions(&block)
       ExceptionHandler::exceptions(&block)
     end
-    
+
     def self.define_hardware_profile(name,&block)
       @hardware_profiles ||= []
       hw_profile = @hardware_profiles.find{|e| e.name == name}
@@ -136,7 +136,7 @@ module Deltacloud
     # def storage_volumes(credentials, ops)
     #
     # def storage_snapshots(credentials, ops)
-    # 
+    #
     # def buckets(credentials, opts = nil)
     # def create_bucket(credentials, name, opts=nil)
     # def delete_bucket(credentials, name, opts=nil)
@@ -149,7 +149,7 @@ module Deltacloud
     # def keys(credentials, opts)
     # def create_key(credentials, opts)
     # def destroy_key(credentials, opts)
-    
+
     def realm(credentials, opts)
       realms = realms(credentials, opts).first if has_capability?(:realms)
     end
@@ -174,7 +174,7 @@ module Deltacloud
       #list of objects within bucket
       buckets(credentials, opts).first if has_capability?(:buckets)
     end
-    
+
     def blob(credentials, opts = {})
       blobs(credentials, opts).first if has_capability?(:blobs)
     end
@@ -185,7 +185,7 @@ module Deltacloud
 
     MEMBER_SHOW_METHODS =
       [ :realm, :image, :instance, :storage_volume, :bucket, :blob, :key ]
-    
+
     def has_capability?(capability)
       if MEMBER_SHOW_METHODS.include?(capability.to_sym)
         has_capability?(capability.to_s.pluralize)
@@ -193,8 +193,8 @@ module Deltacloud
         respond_to?(capability)
       end
     end
-    
- 
+
+
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?
       return collection if opts[attribute].nil?

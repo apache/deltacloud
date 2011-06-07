@@ -16,7 +16,7 @@
 
 module RightAws
   class MockEc2
-    
+
     def initialize(opts={})
     end
 
@@ -161,7 +161,7 @@ module RightAws
         instance[:aws_launch_time] = instance_time_format
         instances = load_fixtures_for(:instances)
         instances.each_with_index do |inst, i|
-          instances[i] = instance if inst[:aws_instance_id].eql?(id)       
+          instances[i] = instance if inst[:aws_instance_id].eql?(id)
         end
         update_fixtures_for(:instances, instances)
         return instance

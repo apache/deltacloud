@@ -55,7 +55,7 @@ module Mock
 
     MethodSerializer::Cache::wrap_methods(self, :cache_dir => File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'tests', 'ec2', 'support'))
   end
-  
+
 end
 
 

@@ -209,7 +209,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def convert_instance(client, inst)
     state = convert_state(inst.status)
     storage_size = inst.storage.nil? ? 1 :  (inst.storage.to_i/1024/1024/1024)
-    profile = InstanceProfile::new(inst.profile.upcase, 
+    profile = InstanceProfile::new(inst.profile.upcase,
                                    :hwp_memory => inst.memory.to_i/1024/1024,
                                    :hwp_cpu => inst.cores,
                                    :hwp_storage => "#{storage_size}"
@@ -236,11 +236,12 @@ class RHEVMDriver < Deltacloud::BaseDriver
     )
   end
 
-  # STATES: 
+  # STATES:
   #
-  # UNASSIGNED, DOWN, UP, POWERING_UP, POWERED_DOWN, PAUSED, MIGRATING_FROM, MIGRATING_TO, 
-  # UNKNOWN, NOT_RESPONDING, WAIT_FOR_LAUNCH, REBOOT_IN_PROGRESS, SAVING_STATE, RESTORING_STATE, 
-  # SUSPENDED, IMAGE_ILLEGAL, IMAGE_LOCKED or POWERING_DOWN 
+  # UNASSIGNED, DOWN, UP, POWERING_UP, POWERED_DOWN, PAUSED, MIGRATING_FROM,
+  # MIGRATING_TO, UNKNOWN, NOT_RESPONDING, WAIT_FOR_LAUNCH, REBOOT_IN_PROGRESS,
+  # SAVING_STATE, RESTORING_STATE, SUSPENDED, IMAGE_ILLEGAL,
+  # IMAGE_LOCKED or POWERING_DOWN
   #
   def convert_state(state)
     case state

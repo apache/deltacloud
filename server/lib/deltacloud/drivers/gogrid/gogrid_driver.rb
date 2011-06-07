@@ -46,7 +46,7 @@ class GogridDriver < Deltacloud::BaseDriver
       server_rams = client.request('common/lookup/list', { 'lookup' => 'server.ram' })
       @hardware_profiles = []
       server_types['list'].each do |type|
-        memory_values = server_rams['list'].collect do |r| 
+        memory_values = server_rams['list'].collect do |r|
             r['name'] =~ /MB$/ ? r['name'].gsub(/MB$/, '').to_i : (r['name'].gsub(/(\w{2})$/, '')).to_i*1024
         end
         @hardware_profiles << ::Deltacloud::HardwareProfile.new(type['name'].tr(' ', '-').downcase) do
@@ -114,7 +114,7 @@ class GogridDriver < Deltacloud::BaseDriver
       'server.ram' => server_ram,
       'ip' => get_free_ip_from_realm(credentials, opts[:realm_id] || '1')
     }
-    params.merge!('isSandbox' => 'true') if opts[:sandbox] 
+    params.merge!('isSandbox' => 'true') if opts[:sandbox]
     safely do
       instance = client.request('grid/server/add', params)['list'].first
       if instance
@@ -371,7 +371,7 @@ class GogridDriver < Deltacloud::BaseDriver
     balancer.instances = get_load_balancer_instances(instance_ips, loadbalancer['instances'])
     return balancer
   end
- 
+
   def get_load_balancer_instances(instance_ips, instances)
     instances.select { |i| instance_ips.include?(i.public_addresses.first) } if instances
   end

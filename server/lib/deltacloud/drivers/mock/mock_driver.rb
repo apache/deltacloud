@@ -350,7 +350,7 @@ class MockDriver < Deltacloud::BaseDriver
     buckets=[]
     safely do
       unless (opts[:id].nil?)
-        bucket_file = File::join(@storage_root, 'buckets', "#{opts[:id]}.yml") 
+        bucket_file = File::join(@storage_root, 'buckets', "#{opts[:id]}.yml")
         bucket = YAML.load_file(bucket_file)
         bucket[:id] = opts[:id]
         bucket[:name] = bucket[:id]

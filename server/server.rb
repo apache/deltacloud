@@ -77,7 +77,7 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}\/?" do
       { :api => {
           :version => settings.version,
           :driver => driver_symbol,
-          :links => entry_points.collect do |l| 
+          :links => entry_points.collect do |l|
             { :rel => l[0], :href => l[1] }.merge(json_features_for_entrypoint(l))
           end
         }
@@ -194,8 +194,8 @@ END
     param :instance_id,	 :string, :required
     param :name,	 :string, :optional
     param :description,	 :string, :optional
-    control do 
-      @image = driver.create_image(credentials, { 
+    control do
+      @image = driver.create_image(credentials, {
 	:id => params[:instance_id],
         :name => params[:name],
 	:description => params[:description]

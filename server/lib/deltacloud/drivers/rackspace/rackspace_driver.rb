@@ -315,7 +315,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
     safely do
       blob = cf.container(opts['bucket']).object(opts[:id])
       blob.set_metadata(meta_hash)
-    end 
+    end
   end
 
 private

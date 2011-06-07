@@ -107,7 +107,7 @@ module Deltacloud
 
     def self.exceptions(&block)
       @definitions = Exceptions.new(&block).exception_definitions if block_given?
-      @definitions 
+      @definitions
     end
 
     def safely(&block)

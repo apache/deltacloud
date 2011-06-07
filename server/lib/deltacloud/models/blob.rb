@@ -15,7 +15,7 @@
 # under the License.
 
 class Blob < BaseModel
-  
+
   #already has an id from basemodel (for the key)
   attr_accessor :bucket
   attr_accessor :content_length

@@ -66,7 +66,7 @@ class Instance < BaseModel
   def authn_feature_failed?
     return true unless authn_error.nil?
   end
-  
+
   alias :to_hash_original :to_hash
 
   def to_hash
@@ -75,7 +75,7 @@ class Instance < BaseModel
       { :"#{action}" => {
         :method => collections[:instances].operations[action.to_sym].method,
         :href => collections[:instances].operations[action.to_sym].path.gsub(':id', self.id)
-      }}   
+      }}
     end
     h
   end

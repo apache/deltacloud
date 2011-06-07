@@ -39,7 +39,7 @@ module Rack
       if !headers.has_key?(@header_name)
         headers[@header_name] = "%0.6f" % request_time
       end
-      
+
       [status, headers, body]
     end
   end

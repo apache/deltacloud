@@ -320,7 +320,7 @@ module RHEVM
       @path = ((xml/'storage/path').first.text rescue nil)
     end
   end
-  
+
 end
 
 class String

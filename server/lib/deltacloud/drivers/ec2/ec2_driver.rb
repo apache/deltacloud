@@ -173,7 +173,7 @@ module Deltacloud
           ec2 = new_client(credentials)
           inst_arr = []
           safely do
-            inst_arr = ec2.describe_instances.collect do |instance| 
+            inst_arr = ec2.describe_instances.collect do |instance|
               convert_instance(instance) if instance
             end.flatten
             if tagging?
@@ -241,7 +241,7 @@ module Deltacloud
             Deltacloud::Runner.execute(opts[:cmd], param)
           end
         end
-    
+
         def reboot_instance(credentials, instance_id)
           ec2 = new_client(credentials)
           if ec2.reboot_instances([instance_id])
@@ -409,9 +409,9 @@ module Deltacloud
           opts.gsub_keys('HTTP_X_Deltacloud_Blobmeta_', 'x-amz-meta-')
           opts["Content-Type"] = data[:type]
           safely do
-            res = s3_client.interface.put(bucket_id, 
-                                        blob_id, 
-                                        file, 
+            res = s3_client.interface.put(bucket_id,
+                                        blob_id,
+                                        file,
                                         opts)
           end
           #create a new Blob object and return that
@@ -427,7 +427,7 @@ module Deltacloud
 
         #--
         # Delete Blob
-        #--  
+        #--
         def delete_blob(credentials, bucket_id, blob_id, opts={})
           s3_client = new_client(credentials, :s3)
           safely do
@@ -469,7 +469,7 @@ module Deltacloud
         def destroy_storage_volume(credentials, opts={})
           ec2 = new_client(credentials)
           safely do
-            unless ec2.delete_volume(opts[:id]) 
+            unless ec2.delete_volume(opts[:id])
               raise Deltacloud::BackendError.new(500, "StorageVolume", "Cannot delete storage volume")
             end
             storage_volume(credentials, opts[:id])
@@ -640,7 +640,7 @@ module Deltacloud
             end
           end
         end
-        
+
         def convert_bucket(s3_bucket)
           #get blob list:
           blob_list = []
@@ -664,7 +664,7 @@ module Deltacloud
             :content_type => s3_object.headers['content-type'],
             :last_modified => s3_object.last_modified,
             :user_metadata => s3_object.meta_headers
-          )  
+          )
         end
 
         def convert_realm(realm)
@@ -727,8 +727,8 @@ module Deltacloud
             :realm_id => volume[:zone],
             :device => volume[:aws_device],
             # TODO: the available actions should be tied to the current
-            # volume state                
-            :actions => [:attach, :detach, :destroy] 
+            # volume state
+            :actions => [:attach, :detach, :destroy]
           )
         end
 

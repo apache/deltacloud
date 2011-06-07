@@ -136,7 +136,7 @@ module Deltacloud
       props = []
       self.each_property do |p|
         if p.kind.eql? :fixed
-          props << { :kind => p.kind, :value => p.value, :name => p.name, :unit => p.unit } 
+          props << { :kind => p.kind, :value => p.value, :name => p.name, :unit => p.unit }
         else
           param = { :operation => "create", :method => "post", :name => p.name }
           if p.kind.eql? :range
