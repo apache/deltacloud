@@ -88,6 +88,10 @@ class SBCDriver < Deltacloud::BaseDriver
     body['location'] = opts[:realm_id] || @last_image['location']
     body['instanceType'] = opts[:hwp_id].gsub('-', '/') || @last_image['supportedInstanceTypes'][0]['id']
 
+    if not body['name']
+      body['name'] = Time.now.to_i.to_s
+    end
+
     # Submit instance, parse response
     convert_instance(sbc_client.create_instance(body).map[0])
   end
