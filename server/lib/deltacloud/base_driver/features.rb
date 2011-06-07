@@ -75,10 +75,11 @@ module Deltacloud
 
     # A specific feature enabled by a driver (see +feature+)
     class Feature
-      attr_reader :decl
+      attr_reader :decl, :constraints
 
       def initialize(decl, &block)
         @decl = decl
+        @constraints = {}
         instance_eval &block if block_given?
       end
 
@@ -92,6 +93,10 @@ module Deltacloud
 
       def description
         decl.description
+      end
+
+      def constraint(name, value)
+        @constraints[name] = value
       end
     end
 
