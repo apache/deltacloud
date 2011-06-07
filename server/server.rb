@@ -437,9 +437,9 @@ END
 END
     with_capability :run_on_instance
     param :id,          :string,  :required
-    param :cmd,         :string,  :required, "Shell command to run on instance"
-    param :private_key, :string,  :optional, "Private key in PEM format for authentication"
-    param :password,    :string,  :optional, "Password used for authentication"
+    param :cmd,         :string,  :required, [], "Shell command to run on instance"
+    param :private_key, :string,  :optional, [], "Private key in PEM format for authentication"
+    param :password,    :string,  :optional, [], "Password used for authentication"
     control do
       @output = driver.run_on_instance(credentials, params)
       respond_to do |format|

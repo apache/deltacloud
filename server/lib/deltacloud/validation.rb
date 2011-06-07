@@ -35,12 +35,8 @@ module Deltacloud::Validation
       @name = args[0]
       @klass = args[1] || :string
       @type = args[2] || :optional
-      if args[3] and args[3].class.eql?(String)
-        @description = args[3]
-        @options = []
-      end
-      @options ||= args[3] || []
-      @description ||= args[4] || ''
+      @options = args[3] || []
+      @description = args[4] || ''
     end
 
     def required?
