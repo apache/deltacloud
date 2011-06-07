@@ -16,7 +16,7 @@
     - @operations.keys.sort_by { |k| k.to_s }.each do |operation|
       %tr
         %td{:style => "width:15em"}
-          %a{:href => url_for("/api/docs/#{@collection.name.to_s}/#{operation}")} #{operation}
+          %a{:href => api_url_for("docs/#{@collection.name.to_s}/#{operation}")} #{operation}
         %td{:style => "width:10em"} #{@operations[operation].description}
 
 %h3 Features:
@@ -34,4 +34,4 @@
         %td= feature.description
         %td
           - feature.operations.each do |op|
-            %a{:href => url_for("/api/docs/#{@collection.name.to_s}/#{op.name}")} #{op.name}
+            %a{:href => api_url_for("docs/#{@collection.name.to_s}/#{op.name}")} #{op.name}

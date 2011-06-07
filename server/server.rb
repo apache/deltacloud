@@ -64,9 +64,9 @@ end
 Sinatra::Application.register Sinatra::RespondTo
 
 # Redirect to /api
-get '/' do redirect url_for('/api'), 301; end
+get '/' do redirect root_url, 301; end
 
-get '/api\/?' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}\/?" do
   if params[:force_auth]
     return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
   end
@@ -156,7 +156,7 @@ END
 
 end
 
-get "/api/images/new" do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/images/new" do
   @instance = Instance.new( :id => params[:instance_id] )
   respond_to do |format|
     format.html { haml :"images/new" }
@@ -255,7 +255,7 @@ collection :instance_states do
   end
 end
 
-get "/api/instances/new" do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/new" do
   @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
   @image   = driver.image( credentials, :id => params[:image_id] )
   @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
@@ -269,14 +269,14 @@ get "/api/instances/new" do
   end
 end
 
-get '/api/instances/:id/run' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/:id/run" do
   @instance = driver.instance(credentials, :id => params[:id])
   respond_to do |format|
     format.html { haml :"instances/run_command" }
   end
 end
 
-get '/api/load_balancers/new' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/load_balancers/new" do
   @realms = driver.realms(credentials)
   @instances = driver.instances(credentials) if driver_has_feature?(:register_instance, :load_balancers)
   respond_to do |format|
@@ -493,7 +493,7 @@ END
 
 end
 
-get '/api/storage_snapshots/new' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/storage_snapshots/new" do
   respond_to do |format|
     format.html { haml :"storage_snapshots/new" }
   end
@@ -542,13 +542,13 @@ collection :storage_snapshots do
   end
 end
 
-get '/api/storage_volumes/new' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/storage_volumes/new" do
   respond_to do |format|
     format.html { haml :"storage_volumes/new" }
   end
 end
 
-get '/api/storage_volumes/attach' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/storage_volumes/attach" do
   respond_to do |format|
     @instances = driver.instances(credentials)
     format.html { haml :"storage_volumes/attach" }
@@ -631,7 +631,7 @@ collection :storage_volumes do
 
 end
 
-get '/api/keys/new' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/keys/new" do
   respond_to do |format|
     format.html { haml :"keys/new" }
   end
@@ -689,7 +689,7 @@ collection :keys do
 end
 
 #get html form for creating a new blob
-get '/api/buckets/:bucket/new_blob' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/new_blob" do
   @bucket_id = params[:bucket]
   respond_to do |format|
     format.html {haml :"blobs/new"}
@@ -697,7 +697,7 @@ get '/api/buckets/:bucket/new_blob' do
 end
 
 #create a new blob
-post '/api/buckets/:bucket' do
+post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
   bucket_id = params[:bucket]
   blob_id = params['blob_id']
   blob_data = params['blob_data']
@@ -723,7 +723,7 @@ post '/api/buckets/:bucket' do
 end
 
 #delete a blob
-delete '/api/buckets/:bucket/:blob' do
+delete "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   bucket_id = params[:bucket]
   blob_id = params[:blob]
   driver.delete_blob(credentials, bucket_id, blob_id)
@@ -735,7 +735,7 @@ delete '/api/buckets/:bucket/:blob' do
 end
 
 #get blob metadata
-head '/api/buckets/:bucket/:blob' do
+head "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   @blob_id = params[:blob]
   @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
   if @blob_metadata
@@ -748,7 +748,7 @@ head '/api/buckets/:bucket/:blob' do
 end
 
 #update blob metadata
-post '/api/buckets/:bucket/:blob' do
+post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   meta_hash = {}
   request.env.inject({}){|current, (k,v)| meta_hash[k] = v if k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
   success = driver.update_blob_metadata(credentials, {'bucket'=>params[:bucket], :id =>params[:blob], 'meta_hash' => meta_hash})
@@ -762,7 +762,7 @@ post '/api/buckets/:bucket/:blob' do
 end
 
 #Get a particular blob's particulars (not actual blob data)
-get '/api/buckets/:bucket/:blob' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
   if @blob
     respond_to do |format|
@@ -776,7 +776,7 @@ get '/api/buckets/:bucket/:blob' do
 end
 
 #get the content of a particular blob
-get '/api/buckets/:bucket/:blob/content' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob/content" do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
   if @blob
     params['content_length'] = @blob.content_length
@@ -789,7 +789,7 @@ get '/api/buckets/:bucket/:blob/content' do
 end
 
 #Get html form for creating a new bucket
-get '/api/buckets/new' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/new" do
   respond_to do |format|
     format.html { haml :"buckets/new" }
   end
@@ -853,7 +853,7 @@ collection :buckets do
 
 end
 
-get '/api/addresses/:id/associate' do
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/addresses/:id/associate" do
   @instances = driver.instances(credentials)
   @address = Address::new(:id => params[:id])
   respond_to do |format|

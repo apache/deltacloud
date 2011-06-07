@@ -58,5 +58,5 @@
     %dt
     %dd
       - if @instance.can_create_image?
-        =link_to_action 'Create Image', url_for("/api/images/new?instance_id=#{@instance.id}"), :get
+        =link_to_action 'Create Image', api_url_for("images/new?instance_id=#{@instance.id}"), :get
 
