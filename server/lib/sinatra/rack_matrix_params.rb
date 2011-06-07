@@ -57,7 +57,7 @@ module Rack
 	    value=nil
 	    next
 	  else
-	    value = param
+	    value = param.gsub(/\?.*$/, '')
 	  end
 	end
       end

@@ -28,6 +28,19 @@ require 'uri'
 
 module Sinatra
   module UrlForHelper
+
+    DEFAULT_URI_PREFIX = "/api"
+
+    def api_url_for(url_fragment, mode=:path_only)
+      matrix_params = ''
+      if request.params['api']
+        matrix_params += ";provider=%s" % request.params['api']['provider'] if request.params['api']['provider']
+        matrix_params += ";driver=%s" % request.params['api']['driver'] if request.params['api']['driver']
+      end
+      url_fragment = "/#{url_fragment}" unless url_fragment =~ /^\// # There is no need to prefix URI with '/'
+      url_for "#{DEFAULT_URI_PREFIX}#{matrix_params}#{url_fragment}", mode
+    end
+
     # Construct a link to +url_fragment+, which should be given relative to
     # the base of this Sinatra app.  The mode should be either
     # <code>:path_only</code>, which will generate an absolute path within
@@ -70,7 +83,7 @@ module Sinatra
     end
 
     def root_url
-      url_for '/'
+      DEFAULT_URI_PREFIX
     end
   end
 
