@@ -3,3 +3,5 @@
     %link{ :rel=>entry_point[0], :href=>entry_point[1] }
       - for feature in driver.features(entry_point[0])
         %feature{ :name=>feature.name }
+          - for name,value in feature.constraints
+            %constraint{ :name=>name, :value=>value }
