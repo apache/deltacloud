@@ -24,13 +24,13 @@
           = "#{volume.state}"
         %td
           - if ["AVAILABLE", "IN-USE"].include?(volume.state)
-            =link_to_action "Snaphot", url_for("/api/storage_snapshots/new?volume_id=#{volume.id}"), :get
+            =link_to_action "Snaphot", api_url_for("storage_snapshots/new?volume_id=#{volume.id}"), :get
             - unless volume.instance_id
               =link_to_action "Delete", destroy_storage_volume_url(volume.id), :delete
-              =link_to_action "Attach", url_for("/api/storage_volumes/attach?id=#{volume.id}"), :get
+              =link_to_action "Attach", api_url_for("storage_volumes/attach?id=#{volume.id}"), :get
             - if volume.instance_id
               =link_to_action "Detach", detach_storage_volume_url(volume.id), :post
   %tfoot
     %tr
       %td{:colspan => 6}
-        %a{ :href => url_for("/api/storage_volumes/new")} Create volume
+        %a{ :href => api_url_for("storage_volumes/new")} Create volume

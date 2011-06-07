@@ -27,7 +27,7 @@
           =inst.id
           =link_to_action 'Delete', unregister_load_balancer_url(@load_balancer.id, :instance_id => inst.id), :post
 
-%form{:action => url_for("/api/load_balancers/#{@load_balancer.id}/register"), :method => :post}
+%form{:action => api_url_for("load_balancers/#{@load_balancer.id}/register"), :method => :post}
   %p
     %strong Add instances to load balancer
   %p

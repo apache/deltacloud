@@ -22,17 +22,17 @@ module ApplicationHelper
   include Deltacloud
 
   def bread_crumb
-    s = "<ul class='breadcrumb'><li class='first'><a href='#{url_for('/')}'>&#948</a></li>"
+    s = "<ul class='breadcrumb'><li class='first'><a href='#{root_url}'>&#948</a></li>"
     url = request.path_info.split('?')  #remove extra query string parameters
     levels = url[0].split('/') #break up url into different levels
     levels.each_with_index do |level, index|
       unless level.blank?
-        if index == levels.size-1 ||
-           (level == levels[levels.size-2] && levels[levels.size-1].to_i > 0)
+        next if "/#{level}" == Sinatra::UrlForHelper::DEFAULT_URI_PREFIX
+        if index == levels.size-1 || (level == levels[levels.size-2] && levels[levels.size-1].to_i > 0)
           s += "<li class='subsequent'>#{level.gsub(/_/, ' ')}</li>\n" unless level.to_i > 0
         else
-            link = levels.slice(0, index+1).join("/")
-            s += "<li class='subsequent'><a href=\"#{url_for(link)}\">#{level.gsub(/_/, ' ')}</a></li>\n"
+          link = levels.slice(2, index-1).join("/")
+          s += "<li class='subsequent'><a href=\"#{api_url_for(link)}\">#{level.gsub(/_/, ' ')}</a></li>\n"
         end
       end
     end
@@ -182,19 +182,20 @@ module ApplicationHelper
   def link_to_documentation
     return '' unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI'].dup
-    uri.gsub!('/api', '/api/docs/') unless uri.include?("docs") #i.e. if already serving under /api/docs, leave it be
+    uri.gsub!(Sinatra::UrlForHelper::DEFAULT_URI_PREFIX, 
+              api_url_for(:docs)) unless uri.include?("docs") #i.e. if already serving under /api/docs, leave it be
     '<a href="%s">[ Documentation ]</a>' % uri
   end
 
   def action_url
     if [:index].include?(@operation.name)
-      url_for("/api/#{@collection.name.to_s}")
+      api_url_for("#{@collection.name.to_s}")
     elsif [:show, :stop, :start, :reboot, :attach, :detach].include?(@operation.name)
-      url_for("/api/#{@collection.name.to_s}/:id/#{@operation.name}")
+      api_url_for("#{@collection.name.to_s}/:id/#{@operation.name}")
     elsif [:destroy].include?(@operation.name)
-      url_for("/api/#{@collection.name.to_s}/:id")
+      api_url_for("#{@collection.name.to_s}/:id")
     else
-      url_for("/api/#{@collection.name}/#{@operation.name}")
+      api_url_for("#{@collection.name}/#{@operation.name}")
     end
   end
 

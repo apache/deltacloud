@@ -16,7 +16,7 @@
         %td
           = link_to truncate_words(instance.id), instance_url( instance.id )
         %td
-          = link_to instance.owner_id, images_url
+          = link_to instance.owner_id, instances_url + "?owner_id=#{instance.owner_id}"
         %td
           = instance.name
         %td
@@ -29,4 +29,4 @@
           -instance.actions.each do |action|
             =link_to_action action, self.send(:"#{action}_instance_url", instance.id), instance_action_method(action)
           - if driver.respond_to?(:run_on_instance) and instance.state=="RUNNING"
-            =link_to_action "Run command", url_for("/api/instances/#{instance.id}/run"), :get
+            =link_to_action "Run command", api_url_for("instances/#{instance.id}/run"), :get

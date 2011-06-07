@@ -80,7 +80,7 @@ module Sinatra
 
       def generate_documentation
         coll, oper = @collection, self
-        ::Sinatra::Application.get("/api/docs/#{@collection.name}/#{@name}") do
+        ::Sinatra::Application.get("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@collection.name}/#{@name}") do
           @collection, @operation = coll, oper
           @features = driver.features_for_operation(coll.name, oper.name)
           respond_to do |format|
@@ -92,7 +92,7 @@ module Sinatra
 
       def generate_options
         current_operation = self
-        ::Sinatra::Application.options("/api/#{current_operation.collection.name}/#{current_operation.name}") do
+        ::Sinatra::Application.options("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{current_operation.collection.name}/#{current_operation.name}") do
           required_params = current_operation.effective_params(driver).collect do |name, validation|
             name.to_s if validation.type.eql?(:required)
           end.compact.join(',')
@@ -115,26 +115,20 @@ module Sinatra
         end
       end
 
-      def prefix
-        # FIXME: Make the /api prefix configurable
-        "/api"
-      end
-
       def path(args = {})
-        l_prefix = args[:prefix] || prefix
         if @member
           if standard?
-            "#{l_prefix}/#{@collection.name}/:id"
+            "#{@collection.name}/:id"
           else
-            "#{l_prefix}/#{@collection.name}/:id/#{name}"
+            "#{@collection.name}/:id/#{name}"
           end
         else
-          "#{l_prefix}/#{@collection.name}"
+          "#{@collection.name}"
         end
       end
 
       def generate
-        ::Sinatra::Application.send(@method, path, {}, &@control)
+        ::Sinatra::Application.send(@method, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{path}", {}, &@control)
         # Set up some Rails-like URL helpers
         if name == :index
           gen_route "#{@collection.name}_url"
@@ -169,12 +163,12 @@ module Sinatra
         if @member
           ::Sinatra::Application.send(:define_method, name) do |id, *args|
             url = query_url(route_url, args[0])
-            url_for url.gsub(/:id/, id.to_s), :full
+            api_url_for url.gsub(/:id/, id.to_s), :full
           end
         else
           ::Sinatra::Application.send(:define_method, name) do |*args|
             url = query_url(route_url, args[0])
-            url_for url, :full
+            api_url_for url, :full
           end
         end
       end
@@ -216,7 +210,7 @@ module Sinatra
 
       def generate_head
         current_collection = self
-        ::Sinatra::Application.head("/api/#{name}") do
+        ::Sinatra::Application.head("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}") do
           methods_allowed = current_collection.operations.collect { |o| o[1].method.to_s.upcase }.uniq.join(',')
           headers 'Allow' => "HEAD,OPTIONS,#{methods_allowed}"
           [200, '']
@@ -225,7 +219,7 @@ module Sinatra
 
       def generate_options
         current_collection = self
-        ::Sinatra::Application.options("/api/#{name}") do
+        ::Sinatra::Application.options("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}") do
           operations_allowed = current_collection.operations.collect { |o| o[0] }.join(',')
           headers 'X-Operations-Allowed' => operations_allowed
           [200, '']
@@ -234,7 +228,7 @@ module Sinatra
 
       def generate_documentation
         coll = self
-        ::Sinatra::Application.get("/api/docs/#{@name}") do
+        ::Sinatra::Application.get("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@name}") do
           coll.check_supported(driver)
           @collection = coll
           @operations = coll.operations
@@ -271,12 +265,12 @@ module Sinatra
         app = ::Sinatra::Application
         collname = name # Work around Ruby's weird scoping/capture
         app.send(:define_method, "#{name.to_s.singularize}_url") do |id|
-            url_for "/api/#{collname}/#{id}", :full
+            api_url_for "#{collname}/#{id}", :full
         end
 
         if index_op = operations[:index]
           app.send(:define_method, "#{name}_url") do
-            url_for index_op.path.gsub(/\/\?$/,''), :full
+            api_url_for index_op.path.gsub(/\/\?$/,''), :full
           end
         end
       end
@@ -304,7 +298,7 @@ module Sinatra
     end
 
     # Generate a root route for API docs
-    get '/api/docs\/?' do
+    get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs\/?" do
       respond_to do |format|
         format.html { haml :'docs/index' }
         format.xml { haml :'docs/index' }
@@ -323,7 +317,7 @@ module Sinatra
       collections.values.select { |coll|
         coll.global? || driver.has_collection?(coll.name)
       }.inject([]) do |m, coll|
-        url = url_for coll.operations[:index].path, :full
+        url = api_url_for coll.operations[:index].path, :full
         m << [ coll.name, url ]
       end
     end

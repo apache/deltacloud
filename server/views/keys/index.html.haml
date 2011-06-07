@@ -23,4 +23,4 @@
     - if driver.respond_to?(:create_key)
       %tr
         %td{:colspan => 3, :style => "text-align:right;"}
-          =link_to 'Create &raquo;', "#{url_for('/api/keys/new')}", :class => 'button'
+          =link_to 'Create &raquo;', "#{api_url_for('keys/new')}", :class => 'button'

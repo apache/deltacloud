@@ -11,5 +11,5 @@
     - collections.keys.sort_by { |k| k.to_s }.each do |collection|
       %tr
         %td{:style => "width:15em"}
-          %a{:href => url_for("/api/docs/#{collection}")} #{collection}
+          %a{:href => api_url_for("docs/#{collection}")} #{collection}
         %td{:style => "width:10em"} #{collections[collection].description}

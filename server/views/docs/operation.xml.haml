@@ -1,5 +1,5 @@
 %docs{:status => "unsupported"}
-  %operation{:url => url_for("/api/docs/#{@collection.name.to_s}"), :name => "#{@operation.name.to_s}", :href => url_for("#{@operation.path}"), :method => "#{@operation.method}"}
+  %operation{:url => api_url_for("docs/#{@collection.name.to_s}"), :name => "#{@operation.name.to_s}", :href => url_for("#{@operation.path}"), :method => "#{@operation.method}"}
     %description #{@operation.description}
     - @operation.each_param do |param|
       %parameter{:name => "#{param.name}", :type => "#{param.type}"}
