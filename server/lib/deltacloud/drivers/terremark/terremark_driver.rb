@@ -31,7 +31,9 @@ module Deltacloud
 
 class TerremarkDriver < Deltacloud::BaseDriver
 
-  feature :instances, :user_name
+  feature :instances, :user_name do
+    constraint :max_length, "15"
+  end
 
 #--
 # Vapp State Map... for use with convert_instance (get an integer back from terremark)

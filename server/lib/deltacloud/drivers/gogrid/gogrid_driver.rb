@@ -35,6 +35,9 @@ class GogridDriver < Deltacloud::BaseDriver
 
   feature :instances, :authentication_password
   feature :instances, :sandboxing
+  feature :instances, :user_name do
+    constraint :max_length, "20"
+  end
 
   def hardware_profiles(credentials, opts={})
     client = new_client(credentials)

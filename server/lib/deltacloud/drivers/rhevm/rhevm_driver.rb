@@ -33,7 +33,9 @@ module Deltacloud
 
 class RHEVMDriver < Deltacloud::BaseDriver
 
-  feature :instances, :user_name
+  feature :instances, :user_name do
+    constraint :max_length, "50"
+  end
 
   # FIXME: These values are just for ilustration
   # Also I choosed 'SERVER' and 'DESKTOP' names
