@@ -41,6 +41,7 @@ BuildRequires: rubygem(rspec) >= 1.3.0
 BuildRequires: rubygem(json) >= 1.4.0
 BuildArch: noarch
 Obsoletes: rubygem-deltacloud-core
+Provides: rubygem(deltacloud-core)
 
 %description
 The Deltacloud API is built as a service-based REST API.
