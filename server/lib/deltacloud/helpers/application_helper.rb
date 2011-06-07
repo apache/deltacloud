@@ -160,7 +160,7 @@ module ApplicationHelper
     capture_haml do
       haml_tag :form, :method => :post, :action => url, :class => [:link, method] do
         haml_tag :input, :type => :hidden, :name => '_method', :value => method
-        haml_tag :button, :type => :submit do 
+        haml_tag :button, :type => :submit do
           haml_concat action
         end
       end

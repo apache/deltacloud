@@ -47,7 +47,7 @@ class RimuHostingClient
     res = res[res.keys[0]]
 
     if(res['response_type'] == "ERROR" and ( (res['error_info']['error_class'] == "PermissionException") or
-					     (res['error_info']['error_class'] == "LoginRequired") )) 
+					     (res['error_info']['error_class'] == "LoginRequired") ))
       raise "AuthFailure"
     end
     res

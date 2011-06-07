@@ -41,7 +41,7 @@ class Key < BaseModel
   # NOTE: This is a fake PEM file, it will not work against SSH
   def self.generate_mock_pem
     chars = (('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + %w(= / + ))
-    pem_material = (1..21).map do 
+    pem_material = (1..21).map do
       (1..75).collect{|a| chars[rand(chars.size)] }.join
     end.join("\n") + "\n" + (1..68).collect{|a| chars[rand(chars.size)] }.join
     "-----BEGIN RSA PRIVATE KEY-----\n"+pem_material+"-----END RSA PRIVATE KEY-----"

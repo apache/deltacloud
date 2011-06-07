@@ -18,7 +18,7 @@ module Deltacloud::BackendCapability
 
   class Failure < StandardError
     attr_reader :capability
-    
+
     def initialize(capability, msg='')
       super(msg)
       @capability = capability
@@ -26,7 +26,7 @@ module Deltacloud::BackendCapability
   end
 
   attr_reader :capability
-  
+
   def with_capability(capability)
     @capability = capability
   end

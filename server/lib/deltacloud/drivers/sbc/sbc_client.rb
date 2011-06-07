@@ -22,9 +22,9 @@ require 'digest/md5'
 module Deltacloud
   module Drivers
     module SBC
-      
+
 class FixtureNotFound < Exception; end
-  
+
 #
 # Client for the IBM Smart Business Cloud (SBC).
 #
@@ -192,7 +192,7 @@ class SBCClient
   def urlencode(hash)
     hash.keys.map { |k| "#{URI.encode(k)}=#{URI.encode(hash[k])}" }.join("&")
   end
-  
+
   #
   # Reads a fake URL from local fixtures
   #
@@ -240,7 +240,7 @@ class SBCClient
       retry
     end
   end
-  
+
 end
     end
   end

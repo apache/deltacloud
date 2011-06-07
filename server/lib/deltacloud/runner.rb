@@ -28,11 +28,11 @@ module Deltacloud
         super
       end
     end
-    
+
     class InstanceSSHError < RunnerError; end
 
     def self.execute(command, opts={})
-      
+
       if opts[:credentials] and (not opts[:credentials][:password] and not opts[:private_key])
         raise RunnerError::new("Either password or key must be specified")
       end
@@ -118,7 +118,7 @@ module Deltacloud
     end
 
     class Response
-      
+
       attr_reader :body
       attr_reader :ssh
 

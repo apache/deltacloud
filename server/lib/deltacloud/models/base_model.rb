@@ -46,7 +46,7 @@ class BaseModel
 
   def to_hash
     out = {}
-    self.attributes.each do |attribute| 
+    self.attributes.each do |attribute|
       if self.send(:"#{attribute}")
         out.merge!({ attribute => self.send(:"#{attribute}") } )
       end

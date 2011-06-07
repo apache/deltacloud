@@ -30,7 +30,7 @@ begin
       EM.next_tick { env['async.callback'].call [200, {
         'Content-Type' => "#{params['content_type']}",
         'Content-Disposition' => params["content_disposition"],
-        'Content-Length' => "#{params['content_length']}"}, body] 
+        'Content-Length' => "#{params['content_length']}"}, body]
       }
       #call the driver from here. the driver method yields for every chunk of blob it receives. We then
       #use body.call to write that chunk as received.

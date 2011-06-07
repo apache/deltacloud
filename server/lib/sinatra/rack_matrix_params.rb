@@ -36,7 +36,7 @@ module Rack
     #
     # All HTTP methods are supported, in case of POST they will be passed as a
     # regular <form> parameters.
-    
+
     def call(env)
       # Copy PATH_INFO to REQUEST_URI if Rack::Test
       env['REQUEST_URI'] = env['PATH_INFO'] if env['rack.test']
