@@ -34,8 +34,10 @@ module Deltacloud
 class RHEVMDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name do
-    constraint :max_length, "50"
+    constraint :max_length, 50
   end
+
+  USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
 
   # FIXME: These values are just for ilustration
   # Also I choosed 'SERVER' and 'DESKTOP' names
@@ -174,8 +176,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
     if not name
       name = Time.now.to_i.to_s
     end
-    if name.length > 50
-      raise "Parameter name must be 50 characters or less"
+    if name.length > USER_NAME_MAX
+      raise "Parameter name must be #{USER_NAME_MAX} characters or less"
     end
     safely do
       params[:name] = name
