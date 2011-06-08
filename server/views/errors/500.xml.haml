@@ -2,7 +2,6 @@
   %kind backend_error
   %backend{ :driver => driver_symbol }
     %code=response.status
-    %cause= @cause
     - if @error.class.method_defined? :details
       %details< #{cdata @error.details.join("\n")}
   %message< #{cdata @error.message}

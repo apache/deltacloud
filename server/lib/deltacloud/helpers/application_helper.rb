@@ -107,13 +107,6 @@ module ApplicationHelper
   def report_error(code=nil)
     @error, @code = request.env['sinatra.error'], code
     @code = 500 if not @code and not @error.class.method_defined? :code
-    if @error
-      unless @error.class.method_defined? :cause
-        @cause = nil
-      else
-        @cause = @error.cause
-      end
-    end
     response.status = @code || @error.code
     respond_to do |format|
       format.xml { haml :"errors/#{@code || @error.code}", :layout => false }
