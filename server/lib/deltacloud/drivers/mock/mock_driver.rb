@@ -499,8 +499,10 @@ class MockDriver < Deltacloud::BaseDriver
   private
 
   def check_credentials(credentials)
-    if ( credentials.user != 'mockuser' ) or ( credentials.password != 'mockpassword' )
-      raise 'AuthFailure'
+    safely do
+      if ( credentials.user != 'mockuser' ) or ( credentials.password != 'mockpassword' )
+        raise 'AuthFailure'
+      end
     end
   end
 
