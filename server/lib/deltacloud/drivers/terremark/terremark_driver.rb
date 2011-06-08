@@ -32,8 +32,10 @@ module Deltacloud
 class TerremarkDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name do
-    constraint :max_length, "15"
+    constraint :max_length, 15
   end
+
+  USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
 
 #--
 # Vapp State Map... for use with convert_instance (get an integer back from terremark)
@@ -134,8 +136,8 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
     if not name
       name = "inst#{Time.now.to_i}"
     end
-    if name.length > 15
-      raise "Parameter name must be 15 characters or less"
+    if name.length > USER_NAME_MAX
+      raise "Parameter name must be #{USER_NAME_MAX} characters or less"
     end
     unless ( (terremark_hwp.include?(:cpu, opts[:hwp_cpu].to_i)) &&
               (terremark_hwp.include?(:memory, opts[:hwp_memory].to_i)) ) then

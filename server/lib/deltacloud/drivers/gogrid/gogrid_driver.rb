@@ -36,8 +36,10 @@ class GogridDriver < Deltacloud::BaseDriver
   feature :instances, :authentication_password
   feature :instances, :sandboxing
   feature :instances, :user_name do
-    constraint :max_length, "20"
+    constraint :max_length, 20
   end
+
+  USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
 
   def hardware_profiles(credentials, opts={})
     client = new_client(credentials)
@@ -103,8 +105,8 @@ class GogridDriver < Deltacloud::BaseDriver
       name = "Server #{Time.now.to_i.to_s.reverse[0..3]}#{rand(9)}"
     end
 
-    if name.length > 20
-      raise "Parameter name must be 20 characters or less"
+    if name.length > USER_NAME_MAX
+      raise "Parameter name must be #{USER_NAME_MAX} characters or less"
     end
 
     client = new_client(credentials)
