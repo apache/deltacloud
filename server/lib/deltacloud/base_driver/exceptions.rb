@@ -3,7 +3,7 @@ module Deltacloud
 
     class DeltacloudException < StandardError
 
-      attr_accessor :code, :name, :message, :backtrace, :request
+      attr_accessor :code, :name, :message, :backtrace, :request, :details
 
       def initialize(code, name, message, backtrace, details, request=nil)
         @code, @name, @message = code, name, message
