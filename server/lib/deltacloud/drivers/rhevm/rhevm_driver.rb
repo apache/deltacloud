@@ -192,7 +192,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     begin
       realms(credentials)
     rescue Deltacloud::BackendError
-     retval = false
+      retval = false
     end
     retval
   end
