@@ -23,11 +23,10 @@
             ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
         %td
           - balancer.listeners.each do |listener|
-            ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
+            ="#{listener.protocol}[#{listener.instance_port}]<br/>"
         %td
           =link_to_action 'Destroy', destroy_load_balancer_url(balancer.id), :delete
   %tfoot
     %tr
       %td{:colspan => 6, :style => "text-align:right;"}
         =link_to 'Create &raquo;', "#{api_url_for('load_balancers/new')}", :class => 'button'
-
