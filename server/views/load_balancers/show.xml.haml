@@ -3,6 +3,7 @@
 %load_balancer{ :href => load_balancer_url(@load_balancer.id), :id => @load_balancer.id}
   %actions
     %link{ :rel => "destroy", :method => "delete", :href => destroy_load_balancer_url(@load_balancer.id)}
+    %link{ :rel => "register", :method => "post", :href => register_load_balancer_url(@load_balancer.id)}
   %public_addresses
     - @load_balancer.public_addresses.each do |address|
       %address #{address}
@@ -18,4 +19,3 @@
     - @load_balancer.instances.each do |instance|
       %instance{:href => instance_url(instance.id), :id => instance.id}
         %link{:rel => "unregister", :href => unregister_load_balancer_url(@load_balancer.id, { :instance_id => instance.id})}
-
