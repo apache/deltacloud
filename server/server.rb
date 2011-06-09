@@ -327,7 +327,11 @@ collection :load_balancers do
     param :instance_id, :string,  :required
     control do
       driver.lb_register_instance(credentials, params)
-      redirect(load_balancer_url(params[:id]))
+      respond_to do |format|
+        format.xml { 204 }
+        format.json { 204 }
+        format.html { redirect(load_balancer_url(params[:id])) }
+      end
     end
   end
 
@@ -337,7 +341,11 @@ collection :load_balancers do
     param :instance_id, :string,  :required
     control do
       driver.lb_unregister_instance(credentials, params)
-      redirect(load_balancer_url(params[:id]))
+      respond_to do |format|
+        format.xml { 204 }
+        format.json { 204 }
+        format.html { redirect(load_balancer_url(params[:id])) }
+      end
     end
   end
 
