@@ -109,7 +109,7 @@ module DeltaCloud
         # First of all search throught array for method name
         m = search_for_method(method_name)
         if m.nil?
-          return nil
+          super
         else
           # Call appropriate handler for method
           method_handler(m, args)
