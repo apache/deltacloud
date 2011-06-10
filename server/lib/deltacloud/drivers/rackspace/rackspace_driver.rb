@@ -262,7 +262,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
   def create_blob(credentials, bucket_id, blob_id, blob_data, opts={})
     cf = cloudfiles_client(credentials)
     #insert ec2-specific header for user metadata ... X-Object-Meta-KEY = VALUE
-    opts.gsub_keys("HTTP_X_Deltacloud_Blobmeta_", "X-Object-Meta-")
+    BlobHelper::rename_metadata_headers(opts, "X-Object-Meta-)"
     opts['Content-Type'] = blob_data[:type]
     object = nil
     safely do
@@ -311,7 +311,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
     cf = cloudfiles_client(credentials)
     meta_hash = opts['meta_hash']
     #the set_metadata method actually places the 'X-Object-Meta-' prefix for us:
-    meta_hash.gsub_keys('HTTP_X_Deltacloud_Blobmeta_', '')
+    BlobHelper::rename_metadata_headers(meta_hash, '')
     safely do
       blob = cf.container(opts['bucket']).object(opts[:id])
       blob.set_metadata(meta_hash)

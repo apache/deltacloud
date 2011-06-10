@@ -105,7 +105,7 @@ class AzureDriver < Deltacloud::BaseDriver
   def create_blob(credentials, bucket_id, blob_id, blob_data, opts={})
     azure_connect(credentials)
     #insert azure-specific header for user metadata ... x-ms-meta-kEY = VALUE
-    opts.gsub_keys("HTTP_X_Deltacloud_Blobmeta_", "x-ms-meta-")
+    BlobHelper::rename_metadata_headers(opts, "x-ms-meta-")
     safely do
       #get a handle to the bucket in order to put there
       the_bucket = WAZ::Blobs::Container.find(bucket_id)
@@ -116,7 +116,7 @@ class AzureDriver < Deltacloud::BaseDriver
                 :content_lengh => blob_data[:tempfile].length,
                 :content_type => blob_data[:type],
                 :last_modified => '',
-                :user_metadata => opts.gsub_keys('x-ms-meta-','')
+                :user_metadata => opts.gsub_keys(/x-ms-meta-/,'')
             } )
   end
 
@@ -144,7 +144,7 @@ class AzureDriver < Deltacloud::BaseDriver
     end
     user_meta = {}
     all_meta.inject({}){|result_hash, (k,v)| user_meta[k]=v if k.to_s.match(/x_ms_meta/i)}
-    user_meta.gsub_keys('x_ms_meta_','')
+    user_meta.gsub_keys(/x_ms_meta_/,'')
   end
 
 #-
@@ -153,7 +153,7 @@ class AzureDriver < Deltacloud::BaseDriver
   def update_blob_metadata(credentials, opts={})
     azure_connect(credentials)
     meta_hash = opts['meta_hash']
-    meta_hash.gsub_keys("HTTP_X_Deltacloud_Blobmeta_", "x-ms-meta-")
+    BlobHelper::rename_metadata_headers(meta_hash, "x-ms-meta-")
     safely do
       the_blob = WAZ::Blobs::Container.find(opts['bucket'])[opts[:id]]
       the_blob.put_metadata!(meta_hash)
@@ -189,7 +189,7 @@ class AzureDriver < Deltacloud::BaseDriver
     blob_metadata = {}
     waz_blob.metadata.inject({}) { |result_hash, (k,v)| blob_metadata[k]=v if k.to_s.match(/x_ms_meta/i)}
     #strip off the x_ms_meta_ from each key
-    blob_metadata.gsub_keys('x_ms_meta_', '')
+    blob_metadata.gsub_keys(/x_ms_meta_/, '')
     Blob.new({   :id => waz_blob.name,
                  :bucket => bucket,
                  :content_length => waz_blob.metadata[:content_length],

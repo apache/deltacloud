@@ -410,7 +410,7 @@ module Deltacloud
           # File stream needs to be reopened in binary mode for whatever reason
           file = File::open(data[:tempfile].path, 'rb')
           #insert ec2-specific header for user metadata ... x-amz-meta-KEY = VALUE
-          opts.gsub_keys('HTTP_X_Deltacloud_Blobmeta_', 'x-amz-meta-')
+          BlobHelper::rename_metadata_headers(opts, 'x-amz-meta-')
           opts["Content-Type"] = data[:type]
           safely do
             res = s3_client.interface.put(bucket_id,
@@ -453,13 +453,11 @@ module Deltacloud
         def blob_stream_connection(params)
           #canonicalise metadata:
           #http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?RESTAuthentication.html
-          metadata = params[:metadata]
+          metadata = params[:metadata] || {}
           signature_meta_string = ""
-          unless metadata.nil?
-            metadata.gsub_keys('HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]', 'x-amz-meta-')
-            keys_array = metadata.keys.sort!
-            keys_array.each {|k| signature_meta_string << "#{k}:#{metadata[k]}\n"}
-          end
+          BlobHelper::rename_metadata_headers(metadata, 'x-amz-meta-')
+          keys_array = metadata.keys.sort!
+          keys_array.each {|k| signature_meta_string << "#{k}:#{metadata[k]}\n"}
           provider = "https://#{endpoint_for_service(:s3)}"
           uri = URI.parse(provider)
           http = Net::HTTP.new("#{params[:bucket]}.#{uri.host}", uri.port )
@@ -476,9 +474,7 @@ module Deltacloud
           request['Content-Length'] = params[:content_length]
           request['Authorization'] = "AWS #{params[:user]}:#{auth_string}"
           request['Expect'] = "100-continue"
-          unless metadata.nil?
-            metadata.each{|k,v| request[k] = v}
-          end
+          metadata.each{|k,v| request[k] = v}
           return http, request
         end
 
