@@ -65,8 +65,7 @@ end
 
 class Hash
 
-  def gsub_keys(pattern, replacement)
-    rgx_pattern = Regexp.compile(pattern, true)
+  def gsub_keys(rgx_pattern, replacement)
     remove = []
     self.each_key do |key|
       if key.to_s.match(rgx_pattern)
@@ -77,6 +76,23 @@ class Hash
     end
     #remove the original keys
     self.delete_if{|k,v| remove.include?(k)}
+  end
+
+end
+
+module BlobHelper
+
+  def self.extract_blob_metadata_hash(env_hash)
+    meta_array = env_hash.select{|k,v| k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
+    metadata = meta_array.inject({}){ |result, array| result[array.first.upcase] = array.last; result}
+    metadata
+  end
+
+DELTACLOUD_BLOBMETA_HEADER = /HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i
+
+  #e.g. from HTTP-X-Deltacloud-Blobmeta-FOO:BAR to amz-meta-FOO:BAR
+  def self.rename_metadata_headers(metadata, rename_to)
+    metadata.gsub_keys(DELTACLOUD_BLOBMETA_HEADER, rename_to)
   end
 
 end
@@ -156,8 +172,7 @@ class BlobStreamIO
     user, password = parse_credentials(request.env['HTTP_AUTHORIZATION'])
     content_type = request.env['CONTENT_TYPE'] || ""
     #deal with blob_metadata: (X-Deltacloud-Blobmeta-name: value)
-    meta_array = request.env.select{|k,v| k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
-    user_meta = meta_array.inject({}){ |result, array| result[array.first.upcase] = array.last; result}
+    user_meta = BlobHelper::extract_blob_metadata_hash(request.env)
     @content_length = request.env['CONTENT_LENGTH']
     @http, provider_request = driver.blob_stream_connection({:user=>user,
        :password=>password, :bucket=>bucket, :blob=>blob, :metadata=> user_meta,

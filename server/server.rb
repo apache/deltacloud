@@ -727,8 +727,7 @@ put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     temp_file.flush
     content_type = env['CONTENT_TYPE'] || ""
     blob_data = {:tempfile => temp_file, :type => content_type}
-    meta_array = request.env.select{|k,v| k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
-    user_meta = meta_array.inject({}){ |result, array| result[array.first.upcase] = array.last; result}
+    user_meta = BlobHelper::extract_blob_metadata_hash(request.env)
     @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
     temp_file.delete
     respond_to do |format|
@@ -788,8 +787,7 @@ end
 
 #update blob metadata
 post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
-  meta_hash = {}
-  request.env.inject({}){|current, (k,v)| meta_hash[k] = v if k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
+  meta_hash = BlobHelper::extract_blob_metadata_hash(request.env)
   success = driver.update_blob_metadata(credentials, {'bucket'=>params[:bucket], :id =>params[:blob], 'meta_hash' => meta_hash})
   if(success)
     meta_hash.each do |k,v|

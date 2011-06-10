@@ -428,16 +428,15 @@ class MockDriver < Deltacloud::BaseDriver
 # Create blob
 #--
   def create_blob(credentials, bucket_id, blob_id, blob_data, opts={})
-    check_credentials(credentials)
-      blob_meta = {}
-      opts.inject({}){|result, (k,v)| blob_meta[k] = v if k.match(/X[_-]Deltacloud[_-]Blobmeta[_-]/i)} #select{|k,v| k.match(/X[_-]Deltacloud[_-]Blobmeta[_-]/i)}
-       blob = {
+      check_credentials(credentials)
+      blob_meta = BlobHelper::extract_blob_metadata_hash(opts)
+      blob = {
       :id => blob_id,
       :bucket => bucket_id,
       :content_length => blob_data[:tempfile].length,
       :content_type => blob_data[:type],
       :last_modified => Time.now,
-      :user_metadata => blob_meta.gsub_keys('X_Deltacloud_Blobmeta_', ''),
+      :user_metadata => BlobHelper::rename_metadata_headers(blob_meta, ''),
       :content => blob_data[:tempfile].read
     }
     File.open( File::join("#{@storage_root}", "buckets", "blobs", "#{blob_id}.yml"), 'w' ) {|b| YAML.dump( blob, b )}
@@ -482,7 +481,7 @@ class MockDriver < Deltacloud::BaseDriver
     safely do
       blob = YAML.load_file(blobfile)
       return false unless blob
-      blob[:user_metadata] = opts['meta_hash'].gsub_keys('HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]', '')
+      blob[:user_metadata] = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
       File.open(File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml"), 'w' ) {|b| YAML.dump( blob, b )}
     end
   end
