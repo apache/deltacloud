@@ -3,13 +3,7 @@
 %form{ :action => bucket_url(@bucket_id), :method => :post, :enctype => 'multipart/form-data'}
   %label
     Blob Name:
-    %input{ :name => 'blob_id', :size => 512}/
-  %label
-    Blob Data:
-    %br
-    %input{ :type => "file", :name => 'blob_data', :size => 50}/
-    %br
-    %br
+    %input{ :name => 'blob', :size => 512}/
   %input{ :type => "hidden", :name => "meta_params", :value => "0"}
   %a{ :href => "javascript:;", :onclick => "more_fields();"} Add Metadata
   %div{ :id => "metadata_holder", :style => "display: none;"}
@@ -23,4 +17,10 @@
   %a{ :href => "javascript:;", :onclick => "less_fields();"} Less Metadata
   %br
   %br
+  %label
+    Blob Data:
+    %br
+    %input{ :type => "file", :name => 'blob_data', :size => 50}/
+    %br
+    %br
   %input{ :type => :submit, :name => "commit", :value => "create"}/
