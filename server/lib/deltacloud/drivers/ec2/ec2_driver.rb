@@ -387,8 +387,12 @@ module Deltacloud
           blobs = []
           safely do
             s3_bucket = s3_client.bucket(opts['bucket'])
-            s3_bucket.keys({}, true).each do |s3_object|
-              blobs << convert_object(s3_object)
+            if(opts[:id])
+              blobs << convert_object(s3_bucket.key(opts[:id], true))
+            else
+              s3_bucket.keys({}, true).each do |s3_object|
+                blobs << convert_object(s3_object)
+              end
             end
           end
           blobs = filter_on(blobs, :id, opts)
