@@ -355,9 +355,9 @@ module Deltacloud
               bucket_list = s3_client.buckets
               bucket_list.each do |current|
                 buckets << Bucket.new({:name => current.name, :id => current.name})
-              end #bucket_list.each
-            end #if
-          end #safely
+              end
+            end
+          end
           filter_on(buckets, :id, opts)
         end
 
