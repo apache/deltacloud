@@ -396,7 +396,7 @@ module Deltacloud
         end
 
         #--
-        # Create Blob
+        # Create Blob - NON Streaming way (i.e. was called with POST html multipart form data)
         #--
         def create_blob(credentials, bucket_id, blob_id, data = nil, opts = {})
           s3_client = new_client(credentials, :s3)
@@ -443,6 +443,39 @@ module Deltacloud
               yield chunk
             end
           end
+        end
+
+        #params: {:user,:password,:bucket,:blob,:content_type,:content_length,:metadata}
+        def blob_stream_connection(params)
+          #canonicalise metadata:
+          #http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?RESTAuthentication.html
+          metadata = params[:metadata]
+          signature_meta_string = ""
+          unless metadata.nil?
+            metadata.gsub_keys('HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]', 'x-amz-meta-')
+            keys_array = metadata.keys.sort!
+            keys_array.each {|k| signature_meta_string << "#{k}:#{metadata[k]}\n"}
+          end
+          provider = "https://#{endpoint_for_service(:s3)}"
+          uri = URI.parse(provider)
+          http = Net::HTTP.new("#{params[:bucket]}.#{uri.host}", uri.port )
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          timestamp = Time.now.httpdate
+          string_to_sign =
+            "PUT\n\n#{params[:content_type]}\n#{timestamp}\n#{signature_meta_string}/#{params[:bucket]}/#{params[:blob]}"
+          auth_string = Aws::Utils::sign(params[:password], string_to_sign)
+          request = Net::HTTP::Put.new("/#{params[:blob]}")
+          request['Host'] = "#{params[:bucket]}.#{uri.host}"
+          request['Date'] = timestamp
+          request['Content-Type'] = params[:content_type]
+          request['Content-Length'] = params[:content_length]
+          request['Authorization'] = "AWS #{params[:user]}:#{auth_string}"
+          request['Expect'] = "100-continue"
+          unless metadata.nil?
+            metadata.each{|k,v| request[k] = v}
+          end
+          return http, request
         end
 
         def storage_volumes(credentials, opts={})
@@ -582,7 +615,6 @@ module Deltacloud
         end
 
         private
-
         def new_client(credentials, type = :ec2)
           klass = case type
                     when :elb then Aws::Elb

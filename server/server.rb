@@ -704,13 +704,47 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/new_blob" do
   end
 end
 
-#create a new blob
+#create a new blob using PUT - streams through deltacloud
+put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
+  if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
+    content_type = env["CONTENT_TYPE"]
+    content_type ||=  ""
+    @blob = driver.blob(credentials, {:id => params[:blob],
+                                      'bucket' => params[:bucket]})
+    respond_to do |format|
+      format.html { haml :"blobs/show" }
+      format.xml { haml :"blobs/show" }
+      format.json { convert_to_json(:blobs, @blob) }
+    end
+  elsif(env["BLOB_FAIL"])
+    report_error(500) #OK?
+  else # small blobs - < 112kb dont hit the streaming monkey patch - use 'normal' create_blob
+       # also, if running under webrick don't hit the streaming patch (Thin specific)
+    bucket_id = params[:bucket]
+    blob_id = params[:blob]
+    temp_file = Tempfile.new("temp_blob_file")
+    temp_file.write(env['rack.input'].read)
+    temp_file.flush
+    content_type = env['CONTENT_TYPE'] || ""
+    blob_data = {:tempfile => temp_file, :type => content_type}
+    meta_array = request.env.select{|k,v| k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
+    user_meta = meta_array.inject({}){ |result, array| result[array.first.upcase] = array.last; result}
+    @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
+    temp_file.delete
+    respond_to do |format|
+      format.html { haml :"blobs/show"}
+      format.xml { haml :"blobs/show" }
+    end
+  end
+end
+
+#create a new blob using html interface - NON STREAMING (i.e. browser POST http form data)
 post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
   bucket_id = params[:bucket]
-  blob_id = params['blob_id']
+  blob_id = params['blob']
   blob_data = params['blob_data']
   user_meta = {}
-#first try get blob_metadata from params (i.e., passed by http form post, e.g. browser)
+  #metadata from params (i.e., passed by http form post, e.g. browser)
   max = params[:meta_params]
   if(max)
     (1..max.to_i).each do |i|
@@ -718,11 +752,8 @@ post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
       key = "HTTP_X_Deltacloud_Blobmeta_#{key}"
       value = params[:"meta_value#{i}"]
       user_meta[key] = value
-    end #max.each do
-  else #can try to get blob_metadata from http headers
-    meta_array = request.env.select{|k,v| k.match(/^HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i)}
-    meta_array.inject({}){ |result, array| user_meta[array.first.upcase] = array.last}
-  end #end if
+    end
+  end
   @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
   respond_to do |format|
     format.html { haml :"blobs/show"}
@@ -738,7 +769,7 @@ delete "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   respond_to do |format|
     format.xml {  204 }
     format.json {  204 }
-    format.html { bucket_url(bucket_id) }
+    format.html { redirect(bucket_url(bucket_id)) }
   end
 end
 
@@ -776,7 +807,7 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     respond_to do |format|
       format.html { haml :"blobs/show" }
       format.xml { haml :"blobs/show" }
-      format.json { convert_to_json(blobs, @blob) }
+      format.json { convert_to_json(:blobs, @blob) }
       end
   else
       report_error(404)
