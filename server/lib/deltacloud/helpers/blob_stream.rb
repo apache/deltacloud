@@ -17,7 +17,8 @@ include Deltacloud
 begin
   require 'eventmachine'
   #--
-  # based on the example from http://macournoyer.com/blog/2009/06/04/pusher-and-async-with-thin/
+  # based on the example from
+  #   http://macournoyer.com/blog/2009/06/04/pusher-and-async-with-thin/
   #--
   class BlobStream
     AsyncResponse = [-1, {}, []].freeze
@@ -32,11 +33,11 @@ begin
         'Content-Disposition' => params["content_disposition"],
         'Content-Length' => "#{params['content_length']}"}, body]
       }
-      #call the driver from here. the driver method yields for every chunk of blob it receives. We then
-      #use body.call to write that chunk as received.
+      #call the driver from here. the driver method yields for every chunk
+      #of blob it receives. Then use body.call to write that chunk as received.
       driver.blob_data(credentials, params[:bucket], params[:blob], params) {|chunk| body.call ["#{chunk}"]} #close blob_data block
       body.succeed
-      AsyncResponse # Tells Thin to not close the connection and continue it's work on other request
+      AsyncResponse # Tell Thin to not close connection & work other requests
     end
   end
 
