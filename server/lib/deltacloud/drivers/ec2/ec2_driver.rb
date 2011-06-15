@@ -229,7 +229,6 @@ module Deltacloud
 
         def destroy_instance(credentials, instance_id)
           ec2 = new_client(credentials)
-          instance_id = instance_id
           if ec2.terminate_instances([instance_id])
             instance(credentials, instance_id)
           else
