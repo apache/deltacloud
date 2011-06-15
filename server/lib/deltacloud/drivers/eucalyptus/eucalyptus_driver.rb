@@ -82,10 +82,6 @@ module Deltacloud
           nil
         end
 
-        def tagging?
-          false
-        end
-
         def tag_instance(credentials, instance, name)
           # dummy
         end
