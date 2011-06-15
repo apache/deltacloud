@@ -42,7 +42,6 @@ module Deltacloud
         feature :instances, :instance_count
         feature :images, :owner_id
         feature :buckets, :bucket_location
-        feature :instances, :register_to_load_balancer
         feature :instances, :attach_snapshot
 
         DEFAULT_REGION = 'us-east-1'
@@ -176,19 +175,6 @@ module Deltacloud
             inst_arr = ec2.describe_instances.collect do |instance|
               convert_instance(instance) if instance
             end.flatten
-            if tagging?
-              tags = ec2.describe_tags('Filter.1.Name' => 'resource-type',
-                                       'Filter.1.Value' => 'instance')
-              inst_arr.each do |inst|
-                name_tag = tags.select do |t|
-                  (t[:aws_resource_id] == inst.id) and t[:aws_key] == 'name'
-                end
-                unless name_tag.empty?
-                  inst.name = name_tag.first[:aws_value]
-                end
-              end
-              delete_unused_tags(credentials, inst_arr.collect {|inst| inst.id})
-            end
           end
           inst_arr = filter_on( inst_arr, :id, opts )
           filter_on( inst_arr, :state, opts )
@@ -214,16 +200,6 @@ module Deltacloud
           end
           safely do
             new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
-            # TODO: Rework this to use client_id for name instead of tag
-            #       Tags should be keept as an optional feature
-            tag_instance(credentials, new_instance, opts[:name])
-            # Register Instance to Load Balancer if load_balancer_id is set.
-            # This parameter is a feature parameter
-            if opts[:load_balancer_id] and opts[:load_balancer_id]!=""
-              lb = lb_register_instance(credentials,
-                                        {'id' => opts[:load_balancer_id],
-                                         'instance_id' => new_instance.id})
-            end
             new_instance
           end
         end
@@ -255,7 +231,6 @@ module Deltacloud
           ec2 = new_client(credentials)
           instance_id = instance_id
           if ec2.terminate_instances([instance_id])
-            untag_instance(credentials, instance_id)
             instance(credentials, instance_id)
           else
             raise Deltacloud::BackendError.new(500, "Instance", "Instance cannot be terminated", "")
@@ -632,45 +607,11 @@ module Deltacloud
           "machine"
         end
 
-        def tagging?
-          true
-        end
-
         def endpoint_for_service(service)
           endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
           Deltacloud::Drivers::driver_config[:ec2][:entrypoints][service.to_s][endpoint] || endpoint
-        end
-
-        def tag_instance(credentials, instance, name)
-          if name
-            ec2 = new_client(credentials)
-            safely do
-              ec2.create_tag(instance.id, 'name', name)
-            end
-          end
-        end
-
-        def untag_instance(credentials, instance_id)
-          ec2 = new_client(credentials)
-          safely do
-            ec2.delete_tag(instance_id, 'name')
-          end
-        end
-
-        def delete_unused_tags(credentials, inst_ids)
-          ec2 = new_client(credentials)
-          tags = []
-          safely do
-            tags = ec2.describe_tags('Filter.1.Name' => 'resource-type', 'Filter.1.Value' => 'instance')
-            tags.collect! { |t| t[:aws_resource_id] }
-            inst_ids.each do |inst_id|
-              unless tags.include?(inst_id)
-                ec2.delete_tag(inst_id, 'name')
-              end
-            end
-          end
         end
 
         def convert_bucket(s3_bucket)
