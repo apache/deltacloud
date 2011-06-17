@@ -149,7 +149,12 @@ module Deltacloud
     # def keys(credentials, opts)
     # def create_key(credentials, opts)
     # def destroy_key(credentials, opts)
-
+    #
+    # def firewalls(credentials, opts)
+    # def create_firewall(credentials, opts)
+    # def delete_firewall(credentials, opts)
+    # def create_firewall_rule(credentials, opts)
+    # def delete_firewall_rule(credentials, opts)
     def realm(credentials, opts)
       realms = realms(credentials, opts).first if has_capability?(:realms)
     end
@@ -183,8 +188,12 @@ module Deltacloud
       keys(credentials, opts).first if has_capability?(:keys)
     end
 
+    def firewall(credentials, opts={})
+      firewalls(credentials, opts).first if has_capability?(:firewalls)
+    end
+
     MEMBER_SHOW_METHODS =
-      [ :realm, :image, :instance, :storage_volume, :bucket, :blob, :key ]
+      [ :realm, :image, :instance, :storage_volume, :bucket, :blob, :key, :firewall ]
 
     def has_capability?(capability)
       if MEMBER_SHOW_METHODS.include?(capability.to_sym)
@@ -193,7 +202,6 @@ module Deltacloud
         respond_to?(capability)
       end
     end
-
 
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?

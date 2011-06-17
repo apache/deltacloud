@@ -33,12 +33,13 @@ module Deltacloud
       class EC2Driver < Deltacloud::BaseDriver
 
         def supported_collections
-          DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers, :addresses ]
+
+          DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers, :addresses, :firewalls ]
         end
 
         feature :instances, :user_data
         feature :instances, :authentication_key
-        feature :instances, :security_group
+        feature :instances, :firewall
         feature :instances, :instance_count
         feature :images, :owner_id
         feature :buckets, :bucket_location
@@ -187,7 +188,7 @@ module Deltacloud
           instance_options.merge!(:key_name => opts[:keyname]) if opts[:keyname]
           instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
           instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id] && opts[:hwp_id].length > 0
-          instance_options.merge!(:group_ids => opts[:security_group]) if opts[:security_group]
+          instance_options.merge!(:group_ids => opts[:firewalls]) if opts[:firewalls]
           instance_options.merge!(
             :min_count => opts[:instance_count],
             :max_count => opts[:instance_count]
@@ -578,6 +579,73 @@ module Deltacloud
           end
         end
 
+#--
+#FIREWALLS - ec2 security groups
+#--
+        def firewalls(credentials, opts={})
+          ec2 = new_client(credentials)
+          the_firewalls = []
+          groups = []
+          safely do
+            if opts[:id]
+              groups = ec2.describe_security_groups([opts[:id]])
+            else
+              groups = ec2.describe_security_groups()
+            end
+          end
+          groups.each do |security_group|
+            the_firewalls << convert_security_group(security_group)
+          end
+          the_firewalls
+        end
+
+#--
+#Create firewall
+#--
+        def create_firewall(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            ec2.create_security_group(opts["name"], opts["description"])
+          end
+          Firewall.new( { :id=>opts["name"], :name=>opts["name"],
+                          :description => opts["description"], :owner_id => "", :rules => [] } )
+        end
+
+#--
+#Delete firewall
+#--
+        def delete_firewall(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            ec2.delete_security_group(opts["id"])
+          end
+        end
+#--
+#Create firewall rule
+#--
+        def create_firewall_rule(credentials, opts={})
+          ec2 = new_client(credentials)
+          groups = []
+          opts['groups'].each do |k,v|
+            groups << {"group_name" => k, "owner" =>v}
+          end
+          safely do
+            ec2.manage_security_group_ingress(opts['id'], opts['from_port'], opts['to_port'], opts['protocol'],
+              "authorize", opts['addresses'], groups)
+          end
+        end
+#--
+#Delete firewall rule
+#--
+        def delete_firewall_rule(credentials, opts={})
+          ec2 = new_client(credentials)
+          firewall = opts[:id]
+          protocol, from_port, to_port, addresses, groups = firewall_rule_params(opts[:rule_id])
+          safely do
+            ec2.manage_security_group_ingress(firewall, from_port, to_port, protocol, "revoke", addresses, groups)
+          end
+        end
+
         def valid_credentials?(credentials)
           retval = true
           begin
@@ -734,6 +802,81 @@ module Deltacloud
             balancer.instances << instance(credentials, :id => instance[:id])
           end
           balancer
+        end
+
+        #generate uid from firewall rule parameters (amazon doesn't do this for us
+        def firewall_rule_id(user_id, protocol, from_port, to_port, sources)
+          sources_string = ""
+          sources.each do |source|
+            sources_string<<"@"
+            source.each_pair do |key,value|
+              sources_string<< "#{value},"
+            end
+            sources_string.chomp!(",")
+          end
+         #sources_string is @group,297467797945,test@address,ipv4,10.1.1.1,24 etc
+         id_string = "#{user_id}~#{protocol}~#{from_port}~#{to_port}~#{sources_string}"
+        end
+
+        #extract params from uid
+        def firewall_rule_params(id)
+          #user_id~protocol~from_port~to_port~sources_string
+          params = id.split("~")
+          protocol = params[1]
+          from_port = params[2]
+          to_port = params[3]
+          sources = params[4].split("@")
+          sources.shift #first match is ""
+          addresses = []
+          groups = []
+          #@group,297467797945,test@address,ipv4,10.1.1.1,24@address,ipv4,192.168.1.1,24
+          sources.each do |source|
+            current = source.split(",")
+            type = current[0]
+            case type
+              when 'group'
+                #group,297467797945,test
+                owner = current[1]
+                name = current[2]
+                groups << {'group_name' => name, 'owner' => owner}
+              when 'address'
+                #address,ipv4,10.1.1.1,24
+                address = current[2]
+                address<<"/#{current[3]}"
+                addresses << address
+            end
+          end
+          return protocol, from_port, to_port, addresses, groups
+        end
+
+        #Convert ec2 security group to server/lib/deltacloud/models/firewall
+        def convert_security_group(security_group)
+          rules = []
+          security_group[:aws_perms].each do |perm|
+            sources = []
+            perm[:groups].each do |group|
+              sources << {:type => "group", :name => group[:group_name], :owner => group[:owner]}
+            end
+            perm[:ip_ranges].each do |ip|
+              sources << {:type => "address", :family=>"ipv4",
+                          :address=>ip[:cidr_ip].split("/").first,
+                          :prefix=>ip[:cidr_ip].split("/").last}
+            end
+            rule_id = firewall_rule_id(security_group[:aws_owner], perm[:protocol],
+                                       perm[:from_port] , perm[:to_port], sources)
+            rules << FirewallRule.new({:id => rule_id,
+                                        :allow_protocol => perm[:protocol],
+                                        :port_from => perm[:from_port],
+                                        :port_to => perm[:to_port],
+                                        :direction => 'ingress',
+                                        :sources => sources})
+          end
+          Firewall.new(  {  :id => security_group[:aws_group_name],
+                            :name => security_group[:aws_group_name],
+                            :description => security_group[:aws_description],
+                            :owner_id => security_group[:aws_owner],
+                            :rules => rules
+                      }  )
         end
 
         def convert_state(ec2_state)

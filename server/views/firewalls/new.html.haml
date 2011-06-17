@@ -1,0 +1,11 @@
+%h1 New Firewall
+
+%form{:action => firewalls_url, :method => :post}
+  %label
+    Firewall Name
+    %input{:name => 'name', :size => 25}/
+    %br
+  %label
+    Firewall Description
+    %input{:name => 'description', :size => 100}/
+  %input{:type => :submit, :name => "commit", :value=>"create"}

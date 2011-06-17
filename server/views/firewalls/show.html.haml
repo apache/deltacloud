@@ -1,0 +1,44 @@
+%h1 Firewall
+%h2
+  = @firewall.id
+%dl
+  %di
+    %dt Name
+    %dd
+      = @firewall.name
+    %dt Owner
+    %dd
+      = @firewall.owner_id
+    %dt Description
+    %dd
+      = @firewall.description
+
+%h2
+  Rules
+  %br
+  %p
+    =link_to 'Create a new rule', "/api/firewalls/#{@firewall.name}/new_rule"
+%dl
+  - @firewall.rules.each do |rule|
+    %di
+      Rule
+      - rule.attributes.select{|attr| attr != :sources}.each do |attrib|
+        %dt #{attrib}
+        %dd
+          = rule.send(attrib)
+      %dt sources
+      %dd
+        - rule.sources.each do |source|
+          - if source[:type] == "group"
+            type: #{source[:type]}, name: #{source[:name]}, owner: #{source[:owner]}
+            %br
+          - else
+            type: #{source[:type]}, family: #{source[:family]}, address: #{source[:address]}, prefix: #{source[:prefix]}
+            %br
+      %dd
+        %form{ :action => "#{firewall_url(@firewall.name)}/rule", :method => :post}
+          %input{:type => "hidden", :name => "_method", :value => "delete"}
+          %input{:type => "hidden", :name => "rule_id", :value => rule.id}
+          %input{:type => :submit, :value => "Delete Rule"}
+  %dd
+    = link_to_action 'Delete Firewall', destroy_firewall_url(@firewall.name), :delete

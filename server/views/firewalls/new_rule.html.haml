@@ -1,0 +1,26 @@
+%h1 New Firewall Rule
+
+%form{ :action => "#{firewall_url(@firewall_name)}/rules", :id => "new_rule_form", :method => :post, :enctype => 'multipart/form-data'}
+  %label
+    Protocol:
+    %br
+    %input{ :name => 'protocol', :size => 10}/
+    %br
+    %br
+  %label
+    From port:
+    %br
+    %input{ :name => 'from_port', :size => 10}/
+    %br
+    %br
+    To port:
+    %br
+    %input{ :name => 'to_port', :size => 10}/
+    %br
+    %br
+  %a{ :href => "javascript:;", :onclick => "make_fields('address');"} Add source IP address
+  %br
+  %a{ :href => "javascript:;", :onclick => "make_fields('group');"} Add source group
+  %br
+  %br
+  %input{ :type => :submit, :id => "submit_button", :name => "commit", :value => "create"}/

@@ -15,7 +15,8 @@ group :azure do
 end
 
 group :ec2 do
-  gem 'aws'
+  gem 'aws', ">= 2.5.4"
+
 end
 
 group :gogrid do
