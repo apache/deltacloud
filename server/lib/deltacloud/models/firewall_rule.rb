@@ -14,18 +14,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class Bucket < BaseModel
-
-  attr_accessor :name
-  attr_accessor :size
-  attr_accessor :blob_list
-
-  alias :to_hash_original :to_hash
-
-  def to_hash
-    h = self.to_hash_original
-    h[:blob_list] = self.blob_list.collect { |blob| { :id => blob,
-      :href => "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/#{self.id}/#{blob.id}"}}
-    return h
-  end
+class FirewallRule < BaseModel
+  attr_accessor :allow_protocol # tcp/udp/icmp
+  attr_accessor :port_from
+  attr_accessor :port_to
+  attr_accessor :sources
+  attr_accessor :direction #ingress egress
 end

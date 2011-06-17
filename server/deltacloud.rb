@@ -36,6 +36,8 @@ require 'deltacloud/models/storage_volume'
 require 'deltacloud/models/bucket'
 require 'deltacloud/models/blob'
 require 'deltacloud/models/load_balancer'
+require 'deltacloud/models/firewall'
+require 'deltacloud/models/firewall_rule'
 
 require 'deltacloud/validation'
 require 'deltacloud/helpers'

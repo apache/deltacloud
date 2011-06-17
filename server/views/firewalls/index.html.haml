@@ -1,0 +1,25 @@
+%h1 Firewalls
+%br
+%p
+  =link_to 'Create new firewall', "/api/firewalls/new"
+%table.display
+  %thead
+    %tr
+      %th Id
+      %th Name
+      %th Description
+      %th Owner ID
+      %th Rules
+  %tbody
+    - @firewalls.each do |firewall|
+      %tr
+        %td
+          = link_to firewall.id, firewall_url(firewall.id)
+        %td
+          = firewall.name
+        %td
+          = firewall.description
+        %td
+          = firewall.owner_id
+        %td
+          = link_to 'view rules', firewall_url(firewall.id)

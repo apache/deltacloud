@@ -977,3 +977,115 @@ collection :addresses do
   end
 
 end
+
+#html for creating a new firewall
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/firewalls/new" do
+  respond_to do |format|
+    format.html { haml :"firewalls/new" }
+  end
+end
+
+#html for creating a new firewall rule
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/firewalls/:firewall/new_rule" do
+  @firewall_name = params[:firewall]
+  respond_to do |format|
+    format.html {haml :"firewalls/new_rule" }
+  end
+end
+
+#FIREWALLS
+collection :firewalls do
+  description "Allow user to define firewall rules for an instance (ec2 security groups) eg expose ssh access [port 22, tcp]."
+  operation :index do
+    description 'List all firewalls'
+    with_capability :firewalls
+    control { filter_all(:firewalls) }
+  end
+
+  operation :show do
+    description 'Show details for a specific firewall - list all rules'
+    with_capability :firewall
+    param :id,            :string,    :required
+    control { show(:firewall) }
+  end
+
+  operation :create do
+    description 'Create a new firewall'
+    with_capability :create_firewall
+    param :name,          :string,    :required
+    param :description,   :string,    :required
+    control do
+      @firewall = driver.create_firewall(credentials, params )
+      respond_to do |format|
+        format.xml do
+          response.status = 201  # Created
+          haml :"firewalls/show"
+        end
+        format.html {haml :"firewalls/show"}
+        format.json {convert_to_json(:firewall, @firewall)}
+      end
+    end
+  end
+
+  operation :destroy do
+    description 'Delete a specified firewall - error if firewall has rules'
+    with_capability :delete_firewall
+    param :id,            :string,    :required
+    control do
+      driver.delete_firewall(credentials, params)
+      respond_to do |format|
+        format.xml { 204 }
+        format.json {  204 }
+        format.html {  redirect(firewalls_url) }
+      end
+    end
+  end
+
+#create a new firewall rule - POST /api/firewalls/:firewall/rules
+  operation :rules, :method => :post, :member => true do
+    description 'Create a new firewall rule for the specified firewall'
+    param :firewall,  :required, :string, [],  "Name of firewall in which to apply this rule"
+    param :protocol,  :required, :string, ['tcp','udp','icmp'], "Transport layer protocol for the rule"
+    param :from_port, :required, :string, [], "Start of port range for the rule"
+    param :to_port,   :required, :string, [], "End of port range for the rule"
+    with_capability :create_firewall_rule
+    control do
+      #source IPs from params
+      addresses =  params.inject([]){|result,current| result << current.last unless current.grep(/^ip[-_]address/i).empty?; result}
+      #source groups from params
+      groups = {}
+      max_groups  = params.select{|k,v| k=~/^group/}.size/2
+      for i in (1..max_groups) do
+        groups.merge!({params["group#{i}"]=>params["group#{i}owner"]})
+      end
+      params.merge!( {'addresses' => addresses} ) ; params.merge!( {'groups' => groups} )
+      driver.create_firewall_rule(credentials, params)
+      @firewall = driver.firewall(credentials, {:id => params[:firewall]})
+      respond_to do |format|
+        format.html {haml :"firewalls/show"}
+        format.xml do
+          response.status = 201 #created
+          haml :"firewall/show"
+        end
+        format.json {convert_to_json(:firewall, @firewall)}
+      end
+    end
+  end
+
+#delete a firewall rule DELETE /api/firewalls/:firewall/rule - with param rule_id
+  operation :rule, :method => :delete, :member => true do
+    description 'Delete the specified firewall rule from the given firewall'
+    param :firewall, :required, :string
+    param :rule_id,  :required, :string
+    with_capability :delete_firewall_rule
+    control do
+      driver.delete_firewall_rule(credentials, params)
+      respond_to do |format|
+        format.html {redirect firewall_url(params[:id])}
+        format.xml {204}
+        format.json {204}
+      end
+    end
+  end
+
+end #firewalls
