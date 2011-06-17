@@ -19,7 +19,7 @@ require 'deltacloud/base_driver'
 module ConversionHelper
 
   def convert_to_json(type, obj)
-    if ( [ :image, :realm, :instance, :storage_volume, :storage_snapshot, :hardware_profile, :key, :bucket, :address ].include?( type ) )
+    if ( [ :image, :realm, :instance, :storage_volume, :storage_snapshot, :hardware_profile, :key, :bucket, :blob, :firewall, :load_balancer, :address ].include?( type ) )
       if Array.eql?(obj.class)
         data = obj.collect do |o|
           o.to_hash.merge({ :href => self.send(:"#{type}_url", type.eql?(:hardware_profile) ? o.name : o.id ) })
@@ -27,7 +27,11 @@ module ConversionHelper
         type = type.to_s.pluralize
       else
         data = obj.to_hash
-        data.merge!({ :href => self.send(:"#{type}_url", data[:id]) })
+        if type == :blob
+          data.merge!({ :href => self.send(:"bucket_url", "#{data[:bucket]}/#{data[:id]}" ) })
+        else
+          data.merge!({ :href => self.send(:"#{type}_url", data[:id]) })
+        end
       end
       return { :"#{type}" => data }.to_json
     end
