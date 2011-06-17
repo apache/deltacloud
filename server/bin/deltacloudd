@@ -40,6 +40,9 @@ BANNER
     ENV['API_PROVIDER'] = provider
   end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+  opts.on( '-t', '--timeout TIMEOUT', 'Timeout for single request (default: 60)') do |timeout|
+    ENV["API_TIMEOUT"] = timeout
+  end
   opts.on( '-h', '--help', '') { options[:help] = true }
 end
 
@@ -105,9 +108,8 @@ else
   argv_opts << ['--rackup', 'config.ru' ]
   argv_opts << ['--chdir', dirname ]
   argv_opts << ['-e', options[:env] ]
-  argv_opts << ['--timeout', '60']
+  argv_opts << ['--timeout', ENV["API_TIMEOUT"] || '60']
   argv_opts << ['--threaded', '-D', '--stats', '/stats']
-
   argv_opts.flatten!
 
   if have_rerun && options[:env] == "development"
