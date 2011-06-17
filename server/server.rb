@@ -714,7 +714,7 @@ put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     respond_to do |format|
       format.html { haml :"blobs/show" }
       format.xml { haml :"blobs/show" }
-      format.json { convert_to_json(:blobs, @blob) }
+      format.json { convert_to_json(:blob, @blob) }
     end
   elsif(env["BLOB_FAIL"])
     report_error(500) #OK?
@@ -805,7 +805,7 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     respond_to do |format|
       format.html { haml :"blobs/show" }
       format.xml { haml :"blobs/show" }
-      format.json { convert_to_json(:blobs, @blob) }
+      format.json { convert_to_json(:blob, @blob) }
       end
   else
       report_error(404)
