@@ -78,12 +78,13 @@ module Deltacloud::Drivers::VSphere
         if opts[:id]
           template_vms = [ find_vm(credentials, opts[:id]) ].compact
         else
-          template_vms = list_virtual_machines(credentials).select { |vm| vm.summary.config[:template] }
+          template_vms = list_virtual_machines(credentials).select { |vm| vm[:instance].summary.config[:template] }
         end
 
-        img_arr = template_vms.collect do |image|
+        img_arr = template_vms.collect do |image_hash|
           # Since all calls to vm are threaten as SOAP calls, reduce them using
           # local variable.
+          image, realm = image_hash[:instance], image_hash[:datastore]
           config = image.summary.config
           instance_state = convert_state(:instance, image.summary.runtime[:powerState])
           properties = {
@@ -109,23 +110,23 @@ module Deltacloud::Drivers::VSphere
     def create_image(credentials, opts={})
       vsphere = new_client(credentials)
       safely do
-        find_vm(credentials, opts[:id]).MarkAsTemplate
+        find_vm(credentials, opts[:id])[:instance].MarkAsTemplate
       end
-      image(credentials, :id => opts[:id])
+      images(credentials, :id => opts[:id])
     end
 
     # List all datacenters managed by the vSphere or vCenter entrypoint.
     def realms(credentials, opts=nil)
       vsphere = new_client(credentials)
       safely do
-        rootFolder = vsphere.serviceInstance.content.rootFolder
-        rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect do |dc|
-          Realm.new(
-            :id => dc.name,
-            :name => dc.name, 
-            :limit => :unlimited,
-            :state => convert_state(:datacenter, dc.configStatus)
-          )
+        if opts and opts[:id]
+          datastore = find_datastore(credentials, opts[:id])
+          [convert_realm(datastore)]
+        else
+          rootFolder = vsphere.serviceInstance.content.rootFolder
+          rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect do |dc|
+            dc.datastoreFolder.childEntity.collect { |datastore| convert_realm(datastore) }
+          end.flatten
         end
       end
     end
@@ -139,14 +140,14 @@ module Deltacloud::Drivers::VSphere
         if opts[:id]
           machine_vms = [ find_vm(credentials, opts[:id]) ].compact
         else
-          machine_vms = list_virtual_machines(credentials).select { |vm| !vm.summary.config[:template] }
+          machine_vms = list_virtual_machines(credentials).select { |vm| !vm[:instance].summary.config[:template] }
         end
       end
-      realm_id = realms(credentials).first.id
       safely do
-        inst_arr = machine_vms.collect do |vm|
+        inst_arr = machine_vms.collect do |vm_hash|
           # Since all calls to vm are threaten as SOAP calls, reduce them using
           # local variable.
+          vm, realm_id = vm_hash[:instance], vm_hash[:datastore]
           config = vm.summary.config
           next unless config
           next unless vm.summary.storage
@@ -186,34 +187,43 @@ module Deltacloud::Drivers::VSphere
       vsphere = new_client(credentials)
       safely do
         rootFolder = vsphere.serviceInstance.content.rootFolder
-        # FIXME: This will consume first datacenter and ignore 'realm' property
-        dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect.first
-        vm = dc.find_vm(image_id)
-        resource_pool = dc.hostFolder.childEntity.collect.first.resourcePool
-        relocateSpec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool)
-        # NOTE: 'powerOn' attribute will force machine to start after clone operation
-        #       'template' attribute will mark VM as a template if set to true
+        vm = find_vm(credentials, opts[:image_id])
+        # Find correct ResourcePool and Datastore where a new VM will be
+        # located
+        if opts and opts[:realm_id]
+          resourcePool = find_resource_pool(credentials, opts[:realm_id])
+          datastore = find_datastore(credentials, opts[:realm_id])
+        else
+          resourcePool = find_resource_pool(credentials, vm[:datastore])
+          datastore = find_datastore(credentials, opts[:datastore])
+        end
+        relocate = { :pool => resourcePool, :datastore => datastore }
+        relocateSpec = RbVmomi::VIM.VirtualMachineRelocateSpec(relocate)
+        instance_profile = hardware_profiles(credentials, :id => opts[:hwp_id]).first
         spec = RbVmomi::VIM.VirtualMachineCloneSpec(
           :location => relocateSpec,
           :powerOn => true,
           :template => false,
           :config => RbVmomi::VIM.VirtualMachineConfigSpec(
-            :memoryMB => 256,
-            :numCPUs => 1
+            :memoryMB => instance_profile.memory.value,
+            :numCPUs => instance_profile.cpu.value
           )
         )
-        # NOTE: This operation may take a very long time (about 1m) to complete
+        #
+        # WARNING: This operation may take a very long time (about 1m) to complete
+        #
+        # TODO: Use mapper?
+        #
         puts "Cloning template #{image_id} to #{opts[:name]}..."
-        vm.CloneVM_Task(:folder => vm.parent, :name => opts[:name], :spec => spec).wait_for_completion
+        vm[:instance].CloneVM_Task(:folder => vm[:instance].parent, :name => opts[:name], :spec => spec).wait_for_completion
         puts "Cloning complete!"
-        # Since task itself is not returning anything, construct Instance from things we already have
         Instance::new(
           :id => opts[:name],
           :name => opts[:name],
           :owner_id => credentials.user,
-          :realm_id => dc.name,
+          :realm_id => opts[:realm_id] || vm[:datastore],
           :state => 'PENDING',
-          :instance_profile => InstanceProfile::new('default'),
+          :instance_profile => InstanceProfile::new(instance_profile.name),
           :actions => instance_actions_for( 'PENDING' )
         )
       end
@@ -221,23 +231,23 @@ module Deltacloud::Drivers::VSphere
 
     # Reboot an instance, given its id.
     def reboot_instance(credentials, id)
-      find_vm(credentials, id).ResetVM_Task
+      find_vm(credentials, id)[:instance].ResetVM_Task
     end
 
     # Start an instance, given its id.
     def start_instance(credentials, id)
-      find_vm(credentials, id).PowerOnVM_Task
+      find_vm(credentials, id)[:instance].PowerOnVM_Task
     end
 
     # Stop an instance, given its id.
     def stop_instance(credentials, id)
-      find_vm(credentials, id).PowerOffVM_Task
+      find_vm(credentials, id)[:instance].PowerOffVM_Task
     end
 
     # Destroy an instance, given its id. Note that this will destory all
     # instance data.
     def destroy_instance(credentials, id)
-      find_vm(credentials, id).Destroy_Task.wait_for_completion
+      find_vm(credentials, id)[:instance].Destroy_Task.wait_for_completion
     end
 
     exceptions do
@@ -276,29 +286,85 @@ module Deltacloud::Drivers::VSphere
       endpoint || Deltacloud::Drivers::driver_config[:vsphere][:entrypoints]['default']['default']
     end
 
+    # This helper will traverse across all datacenters and datastores and gather
+    # all virtual machines available on vSphere
+    #
     def list_virtual_machines(credentials)
       vsphere = new_client(credentials)
       vms = []
       rootFolder = vsphere.serviceInstance.content.rootFolder
       rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-        vms += dc.vmFolder.childEntity.collect do |ent|
-          if ent.class.name == 'RbVmomi::VIM::Folder'
-            ent.childEntity.grep(RbVmomi::VIM::VirtualMachine).collect
-          else
-            ent
-          end
+        dc.datastoreFolder.childEntity.collect do |datastore|
+          vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } }
         end
       end
       vms.flatten.compact
     end
 
+    # This helper will try to find a Datastore[1] object in all Datacenters.
+    # Datastore is used to place instance on create to correct place
+    #
+    # [1] http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.Datastore.html
+    #
+    def find_datastore(credentials, name)
+      vsphere = new_client(credentials)
+      safely do
+        rootFolder = vsphere.serviceInstance.content.rootFolder
+        rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect do |dc|
+          dc.datastoreFolder.childEntity.find { |d| d.name == name }
+        end.flatten.compact.first
+      end
+    end
+
+    # Find a ResourcePool[1] object associated by given Datastore
+    # ResourcePool is defined for Datacenter and is used for launching a new
+    # instance
+    #
+    # [1] http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.ResourcePool.html
+    #
+    def find_resource_pool(credentials, name)
+      vsphere = new_client(credentials)
+      safely do
+        rootFolder = vsphere.serviceInstance.content.rootFolder
+        dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).select do |dc|
+          dc.datastoreFolder.childEntity.find { |d| d.name == name }.nil? == false
+        end.flatten.compact.first
+        dc.hostFolder.childEntity.collect.first.resourcePool
+      end
+    end
+
+    # Find a VirtualMachine traversing through all Datastores and Datacenters
+    #
+    # This helper will return a Hash: { :datastore => NAME_OF_DS, :instance => VM }
+    # Returning datastore is necesarry for constructing a correct realm for an
+    # instance
+    #
     def find_vm(credentials, name)
       vsphere = new_client(credentials)
       safely do
         rootFolder = vsphere.serviceInstance.content.rootFolder
-        dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect.first
-        dc.find_vm(name)
+        vm = {}
+        rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
+          dc.datastoreFolder.childEntity.collect do |datastore|
+            vm[:instance] = datastore.vm.find { |x| x.name == name }
+            if vm[:instance]
+              vm[:datastore] = datastore.name
+              break
+            end
+          end
+          break if [:datastore]
+        end
+        vm
       end
+    end
+
+    def convert_realm(datastore)
+      Realm::new(
+        :id => datastore.name,
+        :name => datastore.name, 
+        :limit => datastore.summary.freeSpace,
+        :state => datastore.summary.accessible ? 'AVAILABLE' : 'UNAVAILABLE'
+      )
     end
 
     def convert_state(object, state)
@@ -314,12 +380,6 @@ module Deltacloud::Drivers::VSphere
           when 'poweredOff' then 'STOPPED'
           when 'poweredOn' then 'RUNNING'
           else 'PENDING'
-        end
-      end
-      if object == :datacenter
-        new_state = case state
-          when 'gray', 'green' then 'AVAILABLE'
-          else 'UNAVAILABLE'
         end
       end
       new_state
