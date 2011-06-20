@@ -20,4 +20,12 @@ module JSONHelper
     features.empty? ? {} : { :features => features }
   end
 
+  def json_return_error(error)
+    error_output=Hash.new
+    error_output[:url]    =request.env['REQUEST_URI']
+    error_output[:status] =response.status
+    error_output[:message]=error.message if error
+    error_output.to_json
+  end
+
 end
