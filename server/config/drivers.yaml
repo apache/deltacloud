@@ -46,3 +46,10 @@
       eu-west-1: ec2.eu-west-1.amazonaws.com
       us-east-1: ec2.us-east-1.amazonaws.com
   :name: EC2
+:vsphere:
+  :name: VSphere
+  :username: Login Name
+  :password: Password
+  :entrypoints:
+    default:
+      default: "https://vsphere.provider.com/sdk"
