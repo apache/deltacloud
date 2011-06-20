@@ -3,11 +3,10 @@ module Deltacloud
 
     class DeltacloudException < StandardError
 
-      attr_accessor :code, :name, :message, :backtrace, :request, :details
+      attr_accessor :code, :name, :message, :backtrace, :request
 
-      def initialize(code, name, message, backtrace, details, request=nil)
+      def initialize(code, name, message, backtrace, request=nil)
         @code, @name, @message = code, name, message
-        @details = details
         @backtrace = backtrace
         @request = request
         self
@@ -16,26 +15,30 @@ module Deltacloud
     end
 
     class AuthenticationFailure < DeltacloudException
-      def initialize(e, details)
-        super(401, e.class.name, e.message, e.backtrace, details)
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(401, e.class.name, message, e.backtrace)
       end
     end
 
     class ValidationFailure < DeltacloudException
-      def initialize(e, details)
-        super(400, e.class.name, e.message, e.backtrace, details)
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(400, e.class.name, message, e.backtrace)
       end
     end
 
     class BackendError < DeltacloudException
-      def initialize(e, details)
-        super(500, e.class.name, e.message, e.backtrace, details)
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(500, e.class.name, message, e.backtrace, message)
       end
     end
 
     class ProviderError < DeltacloudException
-      def initialize(e, details)
-        super(502, e.class.name, e.message, e.backtrace, details)
+      def initialize(e, message)
+        message ||= e.message
+        super(502, e.class.name, message, e.backtrace)
       end
     end
 
@@ -58,10 +61,6 @@ module Deltacloud
         self.message = message
       end
 
-      def details(details)
-        self.details = details
-      end
-
       def exception(handler)
         self.handler = handler
       end
@@ -79,10 +78,10 @@ module Deltacloud
       def handler(e)
         return @handler if @handler
         case @status
-          when 401 then Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, @details)
-          when 400 then Deltacloud::ExceptionHandler::ValidationFailure.new(e, @details)
-          when 500 then Deltacloud::ExceptionHandler::BackendError.new(e, @details)
-          when 502 then Deltacloud::ExceptionHandler::ProviderError.new(e, @details)
+          when 401 then Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, @message)
+          when 400 then Deltacloud::ExceptionHandler::ValidationFailure.new(e, @message)
+          when 500 then Deltacloud::ExceptionHandler::BackendError.new(e, @message)
+          when 502 then Deltacloud::ExceptionHandler::ProviderError.new(e, @message)
         end
       end
 

@@ -137,7 +137,7 @@ class MockDriver < Deltacloud::BaseDriver
   def create_image(credentials, opts={})
     check_credentials(credentials)
     instance = instance(credentials, :id => opts[:instance_id])
-    raise BackendError::new(500, 'CreateImageNotSupported', '', '') unless instance.can_create_image?
+    raise 'CreateImageNotSupported' unless instance.can_create_image?
     ids = Dir[ "#{@storage_root}/images/*.yml" ].collect{|e| File.basename( e, ".yml" )}
     count = 0
     while true
@@ -324,8 +324,7 @@ class MockDriver < Deltacloud::BaseDriver
     }
     key_dir = File.join(@storage_root, 'keys')
     if File.exists?(key_dir + "/#{key_hash[:id]}.yml")
-     raise Deltacloud::BackendError.new(403, self.class.to_s, "key-exists",
-                                          ["Key with same name already exists"])
+     raise "KeyExist"
     end
     FileUtils.mkdir_p(key_dir) unless File.directory?(key_dir)
     File.open(key_dir + "/#{key_hash[:id]}.yml", 'w') do |f|
@@ -387,7 +386,7 @@ class MockDriver < Deltacloud::BaseDriver
     check_credentials(credentials)
     bucket = bucket(credentials, {:id => name})
     unless (bucket.size == "0")
-     raise Deltacloud::BackendError.new(403, self.class.to_s, "bucket-not-empty", "delete operation not valid for non-empty bucket")
+     raise "BucketNotEmpty"
     end
     safely do
       File.delete(File::join(@storage_root, 'buckets', "#{name}.yml"))
@@ -451,7 +450,7 @@ class MockDriver < Deltacloud::BaseDriver
     blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{blob_id}.yml")
     safely do
       unless File.exists?(blobfile)
-        raise Deltacloud::BackendError.new(500, self.class.to_s, "blob #{blob_id} doesn't exist", "cannot delete non existant blob")
+        raise "NotExistentBlob"
       end
       File.delete(blobfile)
     end
@@ -509,6 +508,26 @@ class MockDriver < Deltacloud::BaseDriver
 
     on /AuthFailure/ do
       status 401
+      message "Authentication Failure"
+    end
+
+    on /BucketNotEmpty/ do
+      status 403
+      message "Delete operation not valid for non-empty bucket"
+    end
+
+    on /KeyExist/ do
+      status 403
+      message "Key with same name already exists"
+    end
+
+    on /CreateImageNotSupported/ do
+      status 500
+    end
+
+    on /NotExistentBlob/ do
+      status 500
+      message "Could not delete a non existent blob"
     end
 
     on /Err/ do

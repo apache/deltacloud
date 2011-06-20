@@ -109,7 +109,8 @@ module ApplicationHelper
     @code = 500 if not @code and not @error.class.method_defined? :code
     response.status = @code || @error.code
     respond_to do |format|
-      format.xml { haml :"errors/#{@code || @error.code}", :layout => false }
+      format.xml {  haml :"errors/#{@code || @error.code}", :layout => false }
+      format.json { json_return_error(@error) }
       format.html { haml :"errors/#{@code || @error.code}", :layout => :error }
     end
   end
