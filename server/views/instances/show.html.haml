@@ -50,6 +50,11 @@
       %dt Key
       %dd
         = @instance.keyname
+  - if @instance.firewalls
+    %di
+      %dt Firewalls
+      %dd
+        = @instance.firewalls.join(", ")
   %di
     %dt
     %dd

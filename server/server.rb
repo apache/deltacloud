@@ -261,6 +261,7 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/new" do
   @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
   @realms = driver.realms(credentials)
   @keys = driver.keys(credentials) if driver_has_feature?(:authentication_key)
+  @firewalls = driver.firewalls(credentials) if driver_has_feature?(:firewalls)
   if driver_has_feature?(:register_to_load_balancer)
     @load_balancers = driver.load_balancers(credentials)
   end

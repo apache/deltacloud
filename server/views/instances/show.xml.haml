@@ -43,6 +43,10 @@
       - @instance.private_addresses.each do |address|
         %address<
           =address
+  - if @instance.firewalls
+    %firewalls<
+      - @instance.firewalls.each do |firewall|
+        %firewall{:href => firewall_url(firewall), :id => firewall }
   - if driver_has_auth_features?
     %authentication{ :type => driver_auth_feature_name }
       - if @instance.authn_feature_failed?

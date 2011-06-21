@@ -35,6 +35,20 @@
         %option
         - @keys.each do |key|
           %option{ :value => key.id } #{key.id}
+  -if driver_has_feature?(:firewalls)
+    %p
+      %label
+        Firewalls:
+        %br
+        %br
+    - @firewalls.each_index do |i|
+      - if @firewalls[i].name == 'default'
+        %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :checked => :true}/
+      - else
+        %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}"}/
+      = @firewalls[i].name
+    %br
+    %br
   - if !@hardware_profiles.empty?
     %h3 What size machine?
     - for hwp in @hardware_profiles
