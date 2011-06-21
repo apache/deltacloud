@@ -27,7 +27,7 @@ module Deltacloud
 
         feature :instances, :user_data
         feature :instances, :authentication_key
-        feature :instances, :security_group
+        feature :instances, :firewall
         feature :instances, :instance_count
         feature :images, :owner_id
 
