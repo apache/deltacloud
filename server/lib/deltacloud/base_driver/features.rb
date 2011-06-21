@@ -187,7 +187,7 @@ module Deltacloud
       end
     end
 
-    declare_feature :instances, :firewall do
+    declare_feature :instances, :firewalls do
       description "Put instance in one or more firewalls (security groups) on launch"
       operation :create do
         param :firewalls, :array, :optional, nil, "Array of firewall ID strings"

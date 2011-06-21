@@ -39,7 +39,7 @@ module Deltacloud
 
         feature :instances, :user_data
         feature :instances, :authentication_key
-        feature :instances, :firewall
+        feature :instances, :firewalls
         feature :instances, :instance_count
         feature :images, :owner_id
         feature :buckets, :bucket_location
@@ -188,7 +188,8 @@ module Deltacloud
           instance_options.merge!(:key_name => opts[:keyname]) if opts[:keyname]
           instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
           instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id] && opts[:hwp_id].length > 0
-          instance_options.merge!(:group_ids => opts[:firewalls]) if opts[:firewalls]
+          firewalls = opts.inject([]){|res, (k,v)| res << v if k =~ /firewalls\d+$/; res}
+          instance_options.merge!(:group_ids => firewalls ) unless firewalls.empty?
           instance_options.merge!(
             :min_count => opts[:instance_count],
             :max_count => opts[:instance_count]
@@ -743,6 +744,7 @@ module Deltacloud
             :realm_id => instance[:aws_availability_zone],
             :private_addresses => instance[:private_dns_name],
             :public_addresses => instance[:dns_name],
+            :firewalls => instance[:aws_groups],
             :create_image => can_create_image
           )
         end
