@@ -262,7 +262,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
   def create_blob(credentials, bucket_id, blob_id, blob_data, opts={})
     cf = cloudfiles_client(credentials)
     #insert ec2-specific header for user metadata ... X-Object-Meta-KEY = VALUE
-    BlobHelper::rename_metadata_headers(opts, "X-Object-Meta-)"
+    BlobHelper::rename_metadata_headers(opts, "X-Object-Meta-")
     opts['Content-Type'] = blob_data[:type]
     object = nil
     safely do
@@ -422,7 +422,7 @@ private
   exceptions do
 
     on /No offering found/ do
-      status 400 
+      status 400
     end
 
     on /Authentication failed/ do
