@@ -109,7 +109,7 @@ else
   argv_opts << ['--chdir', dirname ]
   argv_opts << ['-e', options[:env] ]
   argv_opts << ['--timeout', ENV["API_TIMEOUT"] || '60']
-  argv_opts << ['--threaded', '-D', '--stats', '/stats']
+  argv_opts << ['--threaded', '-D' ]
   argv_opts.flatten!
 
   if have_rerun && options[:env] == "development"
