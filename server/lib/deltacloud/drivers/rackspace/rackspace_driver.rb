@@ -318,6 +318,34 @@ class RackspaceDriver < Deltacloud::BaseDriver
     end
   end
 
+  #params: {:user,:password,:bucket,:blob,:content_type,:content_length,:metadata}
+  def blob_stream_connection(params)
+    #create a cloudfiles connection object to get the authtoken
+    cf, cf_host, cf_path, cf_authtoken = nil
+    safely do
+      cf = CloudFiles::Connection.new(:username => params[:user],
+                                :api_key => params[:password])
+      cf_authtoken = cf.authtoken
+      cf_host = cf.storagehost
+      cf_path = cf.storagepath
+    end
+    provider = "https://#{cf_host}"
+    uri = URI.parse(provider)
+    http = Net::HTTP.new(uri.host, uri.port )
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::Put.new("#{cf_path}/#{params[:bucket]}/#{params[:blob]}")
+    request['Host'] = "#{cf_host}"
+    request['X-Auth-Token'] = "#{cf_authtoken}"
+    request['Content-Type'] = params[:content_type]
+    request['Content-Length'] = params[:content_length]
+    request['Expect'] = "100-continue"
+    metadata = params[:metadata] || {}
+    BlobHelper::rename_metadata_headers(metadata, 'X-Object-Meta-')
+    metadata.each{|k,v| request[k] = v}
+    return http, request
+  end
+
 private
 
 
