@@ -208,6 +208,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
     end
   end
 
+  def confserver_ip(uuid)
+    client = RestClient::Resource::new(ENV['CONFIG_SERVER_ADDRESS'])
+    client["/ip/%s/%s" % [ (ENV['CONFIG_SERVER_VERSION'] || '0.0.1'), uuid]].get(:accept => 'text/plain').body.strip rescue nil
+  end
+
   def convert_instance(client, inst)
     state = convert_state(inst.status)
     storage_size = inst.storage.nil? ? 1 :  (inst.storage.to_i/1024/1024/1024)
@@ -216,12 +221,15 @@ class RHEVMDriver < Deltacloud::BaseDriver
                                    :hwp_cpu => inst.cores,
                                    :hwp_storage => "#{storage_size}"
     )
-    # Include VNC and SPICE addresses
-    if inst.ip
-      public_addresses = [ inst.ip ]
-    else
-      public_addresses = [ inst.macs ]
-    end
+    public_addresses = []
+    # First check if RHEV-M guest tools are installed and IP address is offered by them
+    public_addresses << inst.ip if inst.ip
+    # Second check if ConfServer broker is running, then ask for an IP there
+    public_addresses << confserver_ip(inst.id) if ENV['CONFIG_SERVER_ADDRESS'] and public_addresses.empty?
+    public_addresses.compact!
+    # If everything fails fallback to report MAC address
+    public_addresses = inst.macs if public_addresses.empty?
+    public_addresses.flatten!
     Instance.new(
       :id => inst.id,
       :name => inst.name,
