@@ -42,6 +42,11 @@ module Sinatra
 
       private
       def credentials!
+        if ENV["API_USER"] && ENV["API_PASSWORD"]
+          @user = ENV["API_USER"]
+          @password = ENV["API_PASSWORD"]
+          @provided = true
+        end
         unless provided?
           auth = Rack::Auth::Basic::Request.new(@app.request.env)
           unless auth.provided? && auth.basic? && auth.credentials

@@ -15,6 +15,7 @@ def library_present?(name)
   end
 end
 
+DEFAULT_CONFIG = "~/.deltacloud/config"
 options = {
   :env => 'development'
 }
@@ -39,11 +40,30 @@ BANNER
   opts.on( '-P', '--provider PROVIDER', 'Use PROVIDER (default is set in the driver)') do |provider|
     ENV['API_PROVIDER'] = provider
   end
+  opts.on( '-c', '--config [FILE]', 'Read provider and other config from FILE (default: ~/.deltacloud/config)') do |config|
+    options[:config] = File::expand_path(config || DEFAULT_CONFIG)
+  end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
   opts.on( '-t', '--timeout TIMEOUT', 'Timeout for single request (default: 60)') do |timeout|
     ENV["API_TIMEOUT"] = timeout
   end
   opts.on( '-h', '--help', '') { options[:help] = true }
+
+  opts.separator <<EOS
+
+Config file:
+
+  Server configuration can be specified in a YAML file; the file must
+  contain a hash, where the keys are driver names; each driver entry is
+  also a hash. Possible keys are
+    :provider - the provider to use for this driver
+    :user     - the user name for this driver
+    :password - the password for this driver
+
+  Note that specifying :user and :password turns off authentication on the
+  server, and any request is forwarded to the backend cloud with the
+  specified credentials.
+EOS
 end
 
 optparse.parse!
@@ -58,6 +78,15 @@ unless ENV["API_DRIVER"]
   exit(1)
 end
 
+if options[:config]
+  cfg = YAML::load(File.read(options[:config]))
+  if c = cfg[ENV["API_DRIVER"].to_sym]
+    ENV["API_PROVIDER"] ||= c[:provider]
+    ENV["API_USER"] ||= c[:user]
+    ENV["API_PASSWORD"] ||= c[:password]
+  end
+end
+
 ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
 ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
@@ -65,6 +94,10 @@ msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
 msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
 msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
 puts msg
+if ENV['API_USER'] && ENV['API_PASSWORD']
+  puts "Warning: API_USER and API_PASSWORD set in environment"
+  puts "         anybody can access this server with your credentials"
+end
 puts
 
 dirname="#{File.dirname(__FILE__)}/.."
