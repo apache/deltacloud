@@ -35,6 +35,7 @@ describe "initializing the client" do
         client.entry_points[:instances].should         eql( "#{API_URL}/instances" )
         client.entry_points[:storage_volumes].should   eql( "#{API_URL}/storage_volumes" )
         client.entry_points[:storage_snapshots].should eql( "#{API_URL}/storage_snapshots" )
+        client.entry_points[:buckets].should eql("#{API_URL}/buckets")
       end
     end
   end
