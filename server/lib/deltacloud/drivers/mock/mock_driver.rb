@@ -26,8 +26,7 @@ class MockDriver < Deltacloud::BaseDriver
   # If the provider is set to storage, pretend to be a storage-only
   # driver
   def supported_collections
-    endpoint = Thread.current[:provider] || ENV['API_PROVIDER']
-    if endpoint == 'storage'
+    if api_provider == 'storage'
       [:buckets]
     else
       DEFAULT_COLLECTIONS + [:buckets, :keys]
