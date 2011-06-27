@@ -226,6 +226,10 @@ module Deltacloud
       { :error => [], :auth => [], :glob => [] }
     end
 
+    def api_provider
+      Thread.current[:provider] || ENV['API_PROVIDER']
+    end
+
   end
 
 end

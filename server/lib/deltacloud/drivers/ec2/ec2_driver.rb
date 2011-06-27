@@ -676,7 +676,7 @@ module Deltacloud
         end
 
         def endpoint_for_service(service)
-          endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'] || DEFAULT_REGION)
+          endpoint = (api_provider || DEFAULT_REGION)
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
           Deltacloud::Drivers::driver_config[:ec2][:entrypoints][service.to_s][endpoint] || endpoint

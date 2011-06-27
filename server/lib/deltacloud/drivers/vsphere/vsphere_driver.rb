@@ -282,7 +282,7 @@ module Deltacloud::Drivers::VSphere
     end
 
     def host_endpoint
-      endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'])
+      endpoint = api_provider
       endpoint || Deltacloud::Drivers::driver_config[:vsphere][:entrypoints]['default']['default']
     end
 

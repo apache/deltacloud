@@ -143,7 +143,7 @@ module Deltacloud
 
         def endpoint_for_service(service)
           service = service.to_s
-          endpoint = (Thread.current[:provider] || ENV['API_PROVIDER'])
+          endpoint = api_provider
           if endpoint && endpoint.include?(service)
             # example endpoint: 'ec2=192.168.1.1; s3=192.168.1.2'
             addr = Hash[endpoint.split(";").map { |svc| svc.strip.split("=") }][service]

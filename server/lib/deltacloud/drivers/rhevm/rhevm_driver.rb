@@ -202,7 +202,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    url = (Thread.current[:provider] || ENV['API_PROVIDER'] || provider_uri)
+    url = api_provider || provider_uri
     safely do
       ::RHEVM::Client.new(credentials.user, credentials.password, url)
     end
