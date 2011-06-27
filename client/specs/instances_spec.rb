@@ -34,7 +34,7 @@ describe "instances" do
           instance.owner_id.should_not be_nil
           instance.owner_id.should be_a( String )
           instance.image.should_not be_nil
-          instance.image.should be_a( DeltaCloud::API::Base::Image )
+          instance.image.to_s.should match(/DeltaCloud::API::.*::Image/)
           instance.hardware_profile.should_not be_nil
           instance.hardware_profile.should be_a( DeltaCloud::API::Base::HardwareProfile )
           instance.state.should_not be_nil
@@ -185,9 +185,11 @@ describe "instances" do
       DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
         instance = client.instance( 'inst1' )
         instance.should_not be_nil
+        unless instance.state.eql?("RUNNING")
+          instance.start!
+        end
         instance.state.should eql( "RUNNING" )
-        instance.start!
-        instance.state.should eql( "RUNNING" )
+        lambda{instance.start!}.should raise_error
       end
     end
 

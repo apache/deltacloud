@@ -38,8 +38,8 @@ describe "hardware_profiles" do
         hardware_profiles.each do |hwp|
           hwp.uri.should_not be_nil
           hwp.uri.should be_a(String)
-          prop_check(hwp.architecture, String)  if hwp.architecture
-        end
+          prop_check(hwp.architecture, String) unless hwp.name.eql?("opaque")
+       end
       end
     end
   end
