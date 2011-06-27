@@ -60,23 +60,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
     architecture 'x86_64'
   end
 
-  # Instead of setting a URL for RHEV provider
-  # do it here in driver, so it can be altered by HTTP headers
-  #
-  def provider_uri=(uri)
-    @RHEVM_URI = uri
-  end
-
-  # Default Provider URI.
-  #
-  # IMPORTANT:
-  # This URI can be overridden using shell variable API_PROVIDER
-  # or setting provider using HTTP header X-Deltacloud-Provider to URL.
-  #
-  def provider_uri
-    Deltacloud::Drivers::driver_config[:rhevm][:entrypoints]['default']['default']
-  end
-
   define_instance_states do
     start.to( :pending )          .automatically
     pending.to( :running )        .on( :start )
@@ -202,7 +185,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    url = api_provider || provider_uri
+    url = api_provider
     safely do
       ::RHEVM::Client.new(credentials.user, credentials.password, url)
     end
