@@ -148,8 +148,13 @@ module DeltacloudTestCommon
 
   # Check if given URI require authentication
   def require_authentication?(uri)
+    # We need to make sure we don't have both API_USER and API_PASSWORD
+    # set in the environment; otherwise LazyAuth will use those instead
+    # of asking for credentials
+    api_user = ENV.delete("API_USER")
     get uri, {}
-    true if last_response.status == 401
+    ENV["API_USER"] = api_user
+    last_response.status == 401
   end
 
   def with_provider(new_provider, &block)
