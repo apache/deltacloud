@@ -1,0 +1,8 @@
+---
+:vsphere:
+  :name: VSphere
+  :username: Login Name
+  :password: Password
+  :entrypoints:
+    default:
+      default: "https://vsphere.provider.com/sdk"

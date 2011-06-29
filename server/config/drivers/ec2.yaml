@@ -1,30 +1,4 @@
 ---
-:gogrid:
-  :name: Gogrid
-:mock:
-  :name: Mock
-:rhevm:
-  :name: RHEVM
-:rimuhosting:
-  :name: RimuHosting
-:opennebula:
-  :class: OpennebulaDriver
-  :name: Opennebula
-:sbc:
-  :name: SBC
-:terremark:
-  :name: Terremark
-:rackspace:
-  :name: Rackspace
-:azure:
-  :name: Azure
-:eucalyptus:
-  :name: Eucalyptus
-  :username: Access Key ID
-  :password: Secret Access Key
-  :entrypoints:
-    default:
-      default: "ec2=EUCALYPTUS_IP[:PORT];s3=WALRUS_IP[:PORT]"
 :ec2:
   :entrypoints:
     s3:
@@ -43,10 +17,3 @@
       eu-west-1: ec2.eu-west-1.amazonaws.com
       us-east-1: ec2.us-east-1.amazonaws.com
   :name: EC2
-:vsphere:
-  :name: VSphere
-  :username: Login Name
-  :password: Password
-  :entrypoints:
-    default:
-      default: "https://vsphere.provider.com/sdk"
