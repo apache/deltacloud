@@ -1,0 +1,4 @@
+---
+:opennebula:
+  :class: OpennebulaDriver
+  :name: Opennebula

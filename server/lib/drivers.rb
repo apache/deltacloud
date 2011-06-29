@@ -32,7 +32,13 @@ module Deltacloud
     DRIVER=ENV['API_DRIVER'] ? ENV['API_DRIVER'].to_sym : :mock
 
     def driver_config
-      YAML::load(File.read(File.join(File.dirname(__FILE__), '..', 'config', 'drivers.yaml')))
+      if Thread::current[:drivers].nil?
+        Thread::current[:drivers] = {}
+        Dir[File.join(File::dirname(__FILE__), '..', 'config', 'drivers', '*.yaml')].each do |driver_file|
+          Thread::current[:drivers].merge!(YAML::load(File::read(driver_file)))
+        end
+      end
+      Thread::current[:drivers]
     end
 
     def driver_symbol
