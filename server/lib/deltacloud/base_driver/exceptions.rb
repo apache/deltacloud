@@ -21,6 +21,13 @@ module Deltacloud
       end
     end
 
+    class UnknownMediaTypeError < DeltacloudException
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(406, e.class.name, message, e.backtrace)
+      end
+    end
+
     class ValidationFailure < DeltacloudException
       def initialize(e, message=nil)
         message ||= e.message
