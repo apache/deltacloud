@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
     'config.ru',
     '*.rb',
     'log',
-    'config/drivers.yaml',
+    'config/drivers/*.yaml',
     'tmp',
     'support/fedora/**',
     'lib/**/*.rb',
