@@ -17,7 +17,7 @@ require 'sinatra'
 require 'deltacloud'
 require 'drivers'
 require 'json'
-require 'sinatra/respond_to'
+require 'sinatra/rack_accept'
 require 'sinatra/static_assets'
 require 'sinatra/rabbit'
 require 'sinatra/lazy_auth'
@@ -35,10 +35,13 @@ set :version, '0.3.0'
 include Deltacloud::Drivers
 set :drivers, Proc.new { driver_config }
 
+Sinatra::Application.register Rack::RespondTo
+
 use Rack::ETag
 use Rack::Runtime
 use Rack::MatrixParams
 use Rack::DriverSelect
+use Rack::MediaType
 
 configure do
   set :raise_errors => false
@@ -62,8 +65,6 @@ HOSTNAME=ENV['API_HOST'] ? ENV['API_HOST'] : nil
 error do
   report_error
 end
-
-Sinatra::Application.register Sinatra::RespondTo
 
 # Redirect to /api
 get '/' do redirect root_url, 301; end
