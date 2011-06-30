@@ -99,7 +99,6 @@ Then /^client should get created instance$/ do
 end
 
 When /^this instance should be destroyed$/ do
-  puts @instance[:href].to_s
   get @instance[:href].to_s, {}
   last_response.status.should == 404
   output_xml.xpath('/error').first[:status].should == '404'
