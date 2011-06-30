@@ -60,6 +60,12 @@ describe "return HTML in different browsers" do
     end
   end
 
+  it "raise 406 error on wrong accept" do
+    client['hardware_profiles'].get('Accept' => 'image/png;q=1') do |response, request, &block|
+      response.code.should == 406
+    end
+  end
+
   it "wants HTML using format parameter and accept set to XML" do
     client['?format=html'].get('Accept' => 'application/xml') do |response, request, &block|
       response.code.should == 200
@@ -96,7 +102,7 @@ describe "return HTML in different browsers" do
 
   it "Internet Explorer" do
     header_hash = {
-      'Accept' => "text/html, application/xhtml+xml, */*",
+      'Accept' => "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/x-ms-application, application/x-ms-xbap, application/vnd.ms-xpsdocument, application/xaml+xml, */*",
       'User-agent' => "Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)"
     }
     client.get(header_hash) do |response, request, &block|
@@ -144,9 +150,5 @@ describe "return HTML in different browsers" do
       response.headers[:content_type].should =~ /^text\/html/
     end
   end
-
-
-
-  
 
 end

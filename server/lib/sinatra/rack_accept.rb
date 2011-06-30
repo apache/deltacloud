@@ -32,7 +32,7 @@ module Rack
         def render(*args, &block)
           begin
             assumed_layout = args[1] == :layout
-            args[1] = "#{args[1]}.#{format}".to_sym if args[1].is_a?(::Symbol)
+            args[1] = "#{args[1]}.#{@media_type}".to_sym if args[1].is_a?(::Symbol)
             render_without_format *args, &block
           rescue Errno::ENOENT => e
             raise "ERROR: Missing template: #{args[1]}.#{args[0]}" unless assumed_layout
@@ -55,15 +55,14 @@ module Rack
             alias :content_type_without_save :content_type
             def content_type(*args)
               content_type_without_save *args
-              request.env['rack-accept.format'] = args.first.to_sym
+              request.env['rack-accept.formats'] = { args.first.to_sym => 1 }
               response['Content-Type']
             end
           end
         end
 
-        def format(val=nil)
-          request.env['rack-accept.format'] ||= val
-          request.env['rack-accept.format'].to_sym
+        def accepting_formats
+          request.env['rack-accept.formats']
         end
 
         def static_file?(path)
@@ -78,8 +77,17 @@ module Rack
             self[type] = handler
           end
           yield wants
-          raise Deltacloud::ExceptionHandler::UnknownMediaTypeError::new(nil, "Unknown format") unless wants[format]
-          wants[format].call
+          @media_type = accepting_formats.to_a.sort { |a,b| a[1]<=>b[1] }.reverse.select do |format, priority|
+            wants.keys.include?(format) == true
+          end.first
+          if @media_type and @media_type[0]
+            @media_type = @media_type[0]
+            headers 'Content-Type' => Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type][:return]
+            wants[@media_type.to_sym].call
+          else
+            headers 'Content-Type' => nil
+            status 406
+          end
         end
 
     end
@@ -96,7 +104,7 @@ module Rack
     ACCEPTED_MEDIA_TYPES = {
       :xml => { :return => 'application/xml', :match => ['application/xml', 'text/xml'] },
       :json => { :return => 'application/json', :match => ['application/json'] },
-      :html => { :return => 'text/html', :match => ['application/xhtml+xml', 'text/html'] },
+      :html => { :return => 'text/html', :match => ['application/xhtml+xml', 'text/html', '*/*'] },
       :png => { :return => 'image/png', :match => ['image/png'] },
       :gv => { :return => 'application/ghostscript', :match => ['application/ghostscript'] }
     }
@@ -116,7 +124,7 @@ module Rack
         index[media_type] = 1 if media_type
       else
         # Sort all requested media types in Accept using their 'q' values
-        sorted_media_types = accept.media_type.qvalues.to_a.sort{ |a,b| b[1]<=>a[1] }.collect { |t| t.first }
+        sorted_media_types = accept.media_type.qvalues.to_a.sort{ |a,b| a[1]<=>b[1] }.collect { |t| t.first }
         # If Accept header is missing or is empty, fallback to XML format
         sorted_media_types << 'application/xml' if sorted_media_types.empty?
         # Choose the right format with the media type according to the priority
@@ -128,21 +136,18 @@ module Rack
         # Reject formats with no/nil priority
         index.reject! { |format, priority| not priority }
       end
+
+      #puts sorted_media_types.inspect
+      #puts index.inspect
       
       # If after all we don't have any matching format assume that client has
       # requested unknown/wrong media type and throw an 406 error with no body
       if index.keys.empty?
         status, headers, response = 406, {}, ""
       else
-        media_type = index.to_a.sort{ |a, b| a[1]<=>b[1] }.first[0]
-        # Set this environment variable for futher pickup by the 'format' helper
-        # on top
-        env['rack-accept.format'] = media_type
+        env['rack-accept.formats'] = index
         status, headers, response = @app.call(env)
-        # Overide the Content-type with :return value of matching format
-        headers['Content-Type'] = ACCEPTED_MEDIA_TYPES[media_type][:return]
       end
-
       [status, headers, response]
     end
 
