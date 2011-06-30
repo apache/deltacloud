@@ -55,13 +55,13 @@ Feature: Managing instances
     | launch_time |
     | owner_id |
     | image |
+    | firewalls |
     | realm |
     | state |
     | hardware_profile |
     | actions |
     | public_addresses |
     | private_addresses |
-    | authentication |
     And each instance should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 
@@ -86,6 +86,7 @@ Feature: Managing instances
     | name |
     | owner_id |
     | image |
+    | firewalls |
     | realm |
     | state |
     | hardware_profile |
