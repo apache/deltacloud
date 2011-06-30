@@ -30,11 +30,10 @@ module Rack
   # used when Etag is absent and a directive when it is present. The first
   # defaults to nil, while the second defaults to "max-age=0, privaute, must-revalidate"
   class ETag
-    DEFAULT_CACHE_CONTROL = "max-age=0, private, must-revalidate".freeze
 
-    def initialize(app, no_cache_control = nil, cache_control = DEFAULT_CACHE_CONTROL)
+    def initialize(app, no_cache_control = nil, cache_control = nil)
       @app = app
-      @cache_control = cache_control
+      @cache_control = cache_control || "max-age=0, private, must-revalidate"
       @no_cache_control = no_cache_control
     end
 
