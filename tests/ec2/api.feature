@@ -59,6 +59,5 @@ Feature: Accessing API entry points
     | authentication_key |
     | attach_snapshot |
     | user_data |
-    | register_to_load_balancer |
     | instance_count |
-    | firewall |
+    | firewalls |
