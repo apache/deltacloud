@@ -239,10 +239,7 @@ collection :instance_states do
         format.png do
           # Trick respond_to into looking up the right template for the
           # graphviz file
-          format_backup = format
-          format(:gv)
           gv = erb(:"instance_states/show")
-          format(format_backup)
           png =  ''
           cmd = 'dot -Kdot -Gpad="0.2,0.2" -Gsize="5.0,8.0" -Gdpi="180" -Tpng'
           Open3.popen3( cmd ) do |stdin, stdout, stderr|
