@@ -38,7 +38,7 @@ World do
 
   Before do
     unless @no_header
-      header 'Accept', 'application/xml;q=9'
+      header 'Accept', 'application/xml'
     end
   end
 

@@ -18,7 +18,7 @@ Feature: Returning valid responses with various queries
   Given URI /api exists
     And authentification is not required for this URI
     When client use Accept header:
-    | application/xhtml+html;q=0.9 |
+    | application/xhtml+xml |
     And client perform an HTTP request for this URI
     Then client should get valid HTML response
 
@@ -34,7 +34,7 @@ Feature: Returning valid responses with various queries
     Given URI /api exists
     And authentification is not required for this URI
     When client use Accept header:
-    | application/xhtml+html;q=0.9 |
+    | application/xhtml+xml;q=0.9 |
     And client accept this URI with parameters:
     | format | xml |
     And client perform an HTTP request for this URI
@@ -66,6 +66,6 @@ Feature: Returning valid responses with various queries
     And authentification is not required for this URI
     When client wants to get URI '/api.xml'
     When client use Accept header:
-    | application/xhtml+html;q=0.9 |
+    | application/xhtml+xml;q=0.9 |
     And client perform an HTTP request for this URI
     Then client should get valid HTML response

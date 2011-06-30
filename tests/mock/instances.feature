@@ -17,7 +17,6 @@ Feature: Managing instances
     | authentication |
     | public_addresses |
     | private_addresses |
-    | authentication |
     And each instance should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 
@@ -147,12 +146,6 @@ Feature: Managing instances
     And this instance should have valid id
     And this instance should have last hardware profile
     And this instance should have name
-
-  Scenario: Create instance using HTML form
-    Given URI /api/instances/new exists in HTML format
-    And authentification is required for this URI
-    When client access this URI
-    Then client should get HTML form
 
   Scenario: Destroying created instance
     Given URI /api/instances exists
