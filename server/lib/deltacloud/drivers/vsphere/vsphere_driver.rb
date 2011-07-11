@@ -151,13 +151,16 @@ module Deltacloud::Drivers::VSphere
           config = vm.summary.config
           next unless config
           next unless vm.summary.storage
+          template_id = vm.config[:extraConfig].select { |k| k.key == 'template_id' }
+          template_id = template_id.first.value unless template_id.empty?
           properties = {
             :memory => config[:memorySizeMB],
             :cpus => config[:numCpu],
             :storage => vm.summary.storage[:unshared],
             :name => config[:name],
-            :full_name => config[:guestFullName]
+            :full_name => config[:guestFullName],
           }
+          puts properties.inspect
           instance_state = convert_state(:instance, vm.summary.runtime[:powerState])
           instance_profile = InstanceProfile::new(match_hwp_id(:memory => properties[:memory].to_s, :cpus => properties[:cpus].to_s),
                                                   :hwp_cpu => properties[:cpus],
@@ -168,6 +171,7 @@ module Deltacloud::Drivers::VSphere
             :id => properties[:name],
             :name => properties[:name],
             :owner_id => credentials.user,
+            :image_id => template_id,
             :description => properties[:full_name],
             :realm_id => realm_id,
             :state => instance_state,
@@ -206,7 +210,10 @@ module Deltacloud::Drivers::VSphere
           :template => false,
           :config => RbVmomi::VIM.VirtualMachineConfigSpec(
             :memoryMB => instance_profile.memory.value,
-            :numCPUs => instance_profile.cpu.value
+            :numCPUs => instance_profile.cpu.value,
+            :extraConfig => [
+              { :key => 'template_id', :value => image_id }
+            ]
           )
         )
         #
