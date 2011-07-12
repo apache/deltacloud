@@ -19,39 +19,39 @@ require 'rbvmomi'
 
 module Deltacloud::Drivers::VSphere
 
+  MAPPER_STORAGE_ROOT = File::join("/var/tmp", "deltacloud-vsphere-#{ENV["USER"]}")
+
   class VSphereDriver < Deltacloud::BaseDriver
 
     # Set of predefined hardware profiles
     define_hardware_profile('small') do
       cpu                1
       memory             256
-      architecture       'x86_64'
+      architecture       ['x86_64', 'i386']
     end
 
     define_hardware_profile('medium') do
       cpu                1
       memory             512
-      architecture       'x86_64'
+      architecture       ['x86_64', 'i386']
     end
 
     define_hardware_profile('large') do
       cpu                2
       memory             1024
-      architecture       'x86_64'
+      architecture       ['x86_64', 'i386']
     end
 
     define_hardware_profile('x-large') do
       cpu                4
       memory             2048
-      architecture       'x86_64'
+      architecture       ['x86_64', 'i386']
     end
 
     # Since user can launch own instance using vSphere tools 
     # with customized properties, threat this hardware profile as
     # unknown
-    define_hardware_profile('unknown') do
-      # NOTE: Memory and CPU should be set properly
-      architecture       'x86_64'
+    define_hardware_profile('custom') do
     end
 
     # Configure instance state machine
@@ -135,12 +135,17 @@ module Deltacloud::Drivers::VSphere
     # not yet support filtering instances by realm.
     def instances(credentials, opts=nil)
       cloud = new_client(credentials)
-      inst_arr, machine_vms = [], []
+      inst_arr, machine_vms, stored_vms = [], [], []
       safely do
         if opts[:id]
           machine_vms = [ find_vm(credentials, opts[:id]) ].compact
         else
           machine_vms = list_virtual_machines(credentials).select { |vm| !vm[:instance].summary.config[:template] }
+        end
+        stored_tasks(cloud) do |task|
+          if task.info.entity.class == RbVmomi::VIM::VirtualMachine and ['queued', 'running'].member? task.info.state
+            stored_vms << load_serialized_instance(task.info.key)
+          end
         end
       end
       safely do
@@ -148,6 +153,7 @@ module Deltacloud::Drivers::VSphere
           # Since all calls to vm are threaten as SOAP calls, reduce them using
           # local variable.
           vm, realm_id = vm_hash[:instance], vm_hash[:datastore]
+          next unless vm
           config = vm.summary.config
           next unless config
           next unless vm.summary.storage
@@ -160,7 +166,6 @@ module Deltacloud::Drivers::VSphere
             :name => config[:name],
             :full_name => config[:guestFullName],
           }
-          puts properties.inspect
           instance_state = convert_state(:instance, vm.summary.runtime[:powerState])
           instance_profile = InstanceProfile::new(match_hwp_id(:memory => properties[:memory].to_s, :cpus => properties[:cpus].to_s),
                                                   :hwp_cpu => properties[:cpus],
@@ -183,6 +188,10 @@ module Deltacloud::Drivers::VSphere
           )
         end
       end
+
+      # Append 'PENDING' instances
+      inst_arr += stored_vms
+      inst_arr.compact!
       filter_on( inst_arr, :state, opts )
     end
 
@@ -216,15 +225,8 @@ module Deltacloud::Drivers::VSphere
             ]
           )
         )
-        #
-        # WARNING: This operation may take a very long time (about 1m) to complete
-        #
-        # TODO: Use mapper?
-        #
-        puts "Cloning template #{image_id} to #{opts[:name]}..."
-        vm[:instance].CloneVM_Task(:folder => vm[:instance].parent, :name => opts[:name], :spec => spec).wait_for_completion
-        puts "Cloning complete!"
-        Instance::new(
+        task = vm[:instance].CloneVM_Task(:folder => vm[:instance].parent, :name => opts[:name], :spec => spec)
+        new_instance = Instance::new(
           :id => opts[:name],
           :name => opts[:name],
           :owner_id => credentials.user,
@@ -233,6 +235,7 @@ module Deltacloud::Drivers::VSphere
           :instance_profile => InstanceProfile::new(instance_profile.name),
           :actions => instance_actions_for( 'PENDING' )
         )
+        map_task_to_instance(task.info.key, new_instance)
       end
     end
 
@@ -291,6 +294,31 @@ module Deltacloud::Drivers::VSphere
     def host_endpoint
       endpoint = api_provider
       endpoint || Deltacloud::Drivers::driver_config[:vsphere][:entrypoints]['default']['default']
+    end
+
+    def map_task_to_instance(task_key, new_instance)
+      File::open(File::join(MAPPER_STORAGE_ROOT, task_key), "w") do |f|
+        f.puts(YAML::dump(new_instance))
+      end
+      new_instance
+    end
+
+    def load_serialized_instance(task_key)
+      YAML::load(File::read(File::join(MAPPER_STORAGE_ROOT, task_key)))
+    end
+
+    # Yield all tasks if they are included in mapper storage directory.
+    def stored_tasks(vsphere)
+      tasks = Dir[File::join(MAPPER_STORAGE_ROOT, '*')].collect { |file| File::basename(file) }
+      vsphere.serviceInstance.content.taskManager.recentTask.each do |task|
+        if tasks.include?(task.info.key)
+          yield task
+        else
+          # If given task is not longer listed in 'recentTasks' delete the
+          # mapper file
+          FileUtils::rm_rf(File::join(MAPPER_STORAGE_ROOT, task.info.key))
+        end
+      end
     end
 
     # This helper will traverse across all datacenters and datastores and gather
