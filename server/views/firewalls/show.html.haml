@@ -36,9 +36,8 @@
             type: #{source[:type]}, family: #{source[:family]}, address: #{source[:address]}, prefix: #{source[:prefix]}
             %br
       %dd
-        %form{ :action => "#{firewall_url(@firewall.name)}/rule", :method => :post}
+        %form{ :action => "#{firewall_url(@firewall.name)}/#{rule.id}", :method => :post}
           %input{:type => "hidden", :name => "_method", :value => "delete"}
-          %input{:type => "hidden", :name => "rule_id", :value => rule.id}
           %input{:type => :submit, :value => "Delete Rule"}
   %dd
     = link_to_action 'Delete Firewall', destroy_firewall_url(@firewall.name), :delete

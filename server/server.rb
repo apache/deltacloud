@@ -994,6 +994,19 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/firewalls/:firewall/new_rule" 
   end
 end
 
+#delete a firewall rule
+delete '/api/firewalls/:firewall/:rule' do
+  opts = {}
+  opts[:firewall] = params[:firewall]
+  opts[:rule_id] = params[:rule]
+  driver.delete_firewall_rule(credentials, opts)
+  respond_to do |format|
+    format.html {redirect firewall_url(params[:firewall])}
+    format.xml {204}
+    format.json {204}
+  end
+end
+
 #FIREWALLS
 collection :firewalls do
   description "Allow user to define firewall rules for an instance (ec2 security groups) eg expose ssh access [port 22, tcp]."
@@ -1073,20 +1086,4 @@ collection :firewalls do
     end
   end
 
-#delete a firewall rule DELETE /api/firewalls/:firewall/rule - with param rule_id
-  operation :rule, :method => :delete, :member => true do
-    description 'Delete the specified firewall rule from the given firewall'
-    param :firewall, :required, :string
-    param :rule_id,  :required, :string
-    with_capability :delete_firewall_rule
-    control do
-      driver.delete_firewall_rule(credentials, params)
-      respond_to do |format|
-        format.html {redirect firewall_url(params[:id])}
-        format.xml {204}
-        format.json {204}
-      end
-    end
-  end
-
-end #firewalls
+end

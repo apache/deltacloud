@@ -640,7 +640,7 @@ module Deltacloud
 #--
         def delete_firewall_rule(credentials, opts={})
           ec2 = new_client(credentials)
-          firewall = opts[:id]
+          firewall = opts[:firewall]
           protocol, from_port, to_port, addresses, groups = firewall_rule_params(opts[:rule_id])
           safely do
             ec2.manage_security_group_ingress(firewall, from_port, to_port, protocol, "revoke", addresses, groups)
