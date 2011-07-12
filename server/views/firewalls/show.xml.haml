@@ -9,7 +9,7 @@
         - haml_concat @firewall.send(attribute)
   %rules
     - @firewall.rules.each do |rule|
-      %rule{:id => rule.id}
+      %rule{:href => firewall_url(@firewall.id) + '/' + rule.id, :id => rule.id}
         - rule.attributes.select{|attr| attr != :sources && attr != :id}.each do |rule_attrib|
           - haml_tag("#{rule_attrib}".tr('-', '_'), :<) do
             - haml_concat rule.send(rule_attrib)
