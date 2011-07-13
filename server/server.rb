@@ -1058,7 +1058,7 @@ collection :firewalls do
 #create a new firewall rule - POST /api/firewalls/:firewall/rules
   operation :rules, :method => :post, :member => true do
     description 'Create a new firewall rule for the specified firewall'
-    param :firewall,  :required, :string, [],  "Name of firewall in which to apply this rule"
+    param :id,  :required, :string, [],  "Name of firewall in which to apply this rule"
     param :protocol,  :required, :string, ['tcp','udp','icmp'], "Transport layer protocol for the rule"
     param :from_port, :required, :string, [], "Start of port range for the rule"
     param :to_port,   :required, :string, [], "End of port range for the rule"
@@ -1074,12 +1074,12 @@ collection :firewalls do
       end
       params.merge!( {'addresses' => addresses} ) ; params.merge!( {'groups' => groups} )
       driver.create_firewall_rule(credentials, params)
-      @firewall = driver.firewall(credentials, {:id => params[:firewall]})
+      @firewall = driver.firewall(credentials, {:id => params[:id]})
       respond_to do |format|
         format.html {haml :"firewalls/show"}
         format.xml do
           response.status = 201 #created
-          haml :"firewall/show"
+          haml :"firewalls/show"
         end
         format.json {convert_to_json(:firewall, @firewall)}
       end
