@@ -810,14 +810,15 @@ module Deltacloud
         def firewall_rule_id(user_id, protocol, from_port, to_port, sources)
           sources_string = ""
           sources.each do |source|
-            sources_string<<"@"
-            source.each_pair do |key,value|
-              sources_string<< "#{value},"
-            end
-            sources_string.chomp!(",")
+          if source[:type].to_s == "group"
+            sources_string << "@#{source[:type]},#{source[:owner]},#{source[:name]},"
+          else
+            sources_string << "@#{source[:type]},#{source[:family]},#{source[:address]},#{source[:prefix]},"
           end
+        end
          #sources_string is @group,297467797945,test@address,ipv4,10.1.1.1,24 etc
-         id_string = "#{user_id}~#{protocol}~#{from_port}~#{to_port}~#{sources_string}"
+         id_string = "#{user_id}~#{protocol}~#{from_port}~#{to_port}~#{sources_string.chomp!(",")}"
+#sources_string.slice(0,sources_string.length-1)}"
         end
 
         #extract params from uid
