@@ -22,7 +22,7 @@ module Deltacloud
       class EucalyptusDriver < EC2::EC2Driver
 
         def supported_collections
-          DEFAULT_COLLECTIONS + [ :keys, :buckets, :addresses ]
+          DEFAULT_COLLECTIONS + [ :keys, :buckets, :addresses, :firewalls ]
         end
 
         feature :instances, :user_data
@@ -120,6 +120,42 @@ module Deltacloud
         def lb_unregister_instance(credentials, opts={})
           raise Deltacloud::BackendError.new(500, "Loadbalancer",
                   "Loadbalancer not supported in Eucalyptus", "")
+        end
+
+	# override EC2 implementation; Eucalyptus implements the older definition of EC2 security group;
+	# http://docs.amazonwebservices.com/AWSEC2/2009-07-15/APIReference/index.html?ApiReference-query-AuthorizeSecurityGroupIngress.html
+        # if the rule specifies a source group, port&protocol will be ignored. And source group and cidr range can't be mixed in a request
+        def create_firewall_rule(credentials, opts={})
+        # only either source groups or cidr IP range can be given, not both;
+          if !(opts['groups'].nil?) && opts['groups'].length>0
+            ec2 = new_client(credentials)
+            opts['groups'].each do |group,owner|
+              safely do
+                ec2.authorize_security_group_named_ingress(opts['id'], owner, group)
+              end
+            end
+          elsif !(opts['addresses'].nil?) && opts['addresses'].length>0
+            ec2 = new_client(credentials)
+            opts['addresses'].each do |ip|
+              ec2.authorize_security_group_IP_ingress(opts['id'], opts['from_port'], opts['to_port'], opts['protocol'], ip)
+            end
+          end
+        end
+
+        def delete_firewall_rule(credentials, opts={})
+          ec2 = new_client(credentials)
+          firewall = opts[:id]
+          protocol, from_port, to_port, addresses, groups = firewall_rule_params(opts[:rule_id])
+          unless groups.nil?
+            groups.each_index do |i|
+              ec2.revoke_security_group_named_ingress(firewall, groups[i]['owner'], groups[i]['group_name'])
+            end
+          end
+          unless addresses.nil?
+            addresses.each do |ip|
+              ec2.revoke_security_group_IP_ingress(firewall, from_port, to_port, protocol, ip )
+            end
+          end
         end
 
         def new_client(credentials, type = :ec2)
