@@ -256,9 +256,11 @@ module Deltacloud::Drivers::VSphere
 
     # Destroy an instance, given its id. Note that this will destory all
     # instance data.
-    def destroy_instance(credentials, id)
-      find_vm(credentials, id)[:instance].Destroy_Task.wait_for_completion
+    def destroy_instance(credentials, instance_id)
+      find_vm(credentials, instance_id)[:instance].Destroy_Task.wait_for_completion
     end
+
+    alias :destroy_image :destroy_instance
 
     exceptions do
 
