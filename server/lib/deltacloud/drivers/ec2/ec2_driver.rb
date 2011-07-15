@@ -169,6 +169,15 @@ module Deltacloud
           end
         end
 
+        def destroy_image(credentials, image_id)
+          ec2 = new_client(credentials)
+          safely do
+            unless ec2.deregister_image(image_id)
+              raise "ERROR: Unable to deregister AMI"
+            end
+          end
+        end
+
         def instances(credentials, opts={})
           ec2 = new_client(credentials)
           inst_arr = []

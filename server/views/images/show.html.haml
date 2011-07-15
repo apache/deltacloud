@@ -19,3 +19,4 @@
     %dt
     %dd
       = link_to 'Launch', api_url_for("instances/new?image_id=#{@image.id}")
+      = link_to_action 'Destroy', destroy_image_url(@image.id), :delete

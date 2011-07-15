@@ -214,6 +214,20 @@ END
     end
   end
 
+  operation :destroy do
+    description "Remove specified image from collection"
+    with_capability :destroy_image
+    param :id,    :string,    :required
+    control do
+      driver.destroy_image(credentials, params[:id])
+      respond_to do |format|
+        format.xml { status 204 }
+        format.json { status 204 }
+        format.html { redirect(images_url) }
+      end
+    end
+  end
+
 end
 
 collection :instance_states do
