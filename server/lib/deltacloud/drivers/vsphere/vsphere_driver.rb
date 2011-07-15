@@ -299,6 +299,7 @@ module Deltacloud::Drivers::VSphere
     end
 
     def map_task_to_instance(task_key, new_instance)
+      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
       File::open(File::join(MAPPER_STORAGE_ROOT, task_key), "w") do |f|
         f.puts(YAML::dump(new_instance))
       end
@@ -311,6 +312,7 @@ module Deltacloud::Drivers::VSphere
 
     # Yield all tasks if they are included in mapper storage directory.
     def stored_tasks(vsphere)
+      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
       tasks = Dir[File::join(MAPPER_STORAGE_ROOT, '*')].collect { |file| File::basename(file) }
       vsphere.serviceInstance.content.taskManager.recentTask.each do |task|
         if tasks.include?(task.info.key)
