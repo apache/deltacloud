@@ -98,6 +98,11 @@ module DeltacloudTestCommon
       end
     else
       get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
+      if last_response.status.to_s =~ /5(\d{2})/
+        puts "============= [ ERROR ] ================"
+        puts last_response.inspect
+        puts "========================================"
+      end
     end
     last_response.status.should_not == 401
   end
@@ -105,6 +110,11 @@ module DeltacloudTestCommon
   def get_auth_url(uri, params={}, opts={})
     opts.merge!(:auth => true)
     get_url(uri, params, opts)
+    if last_response.status.to_s =~ /5(\d{2})/
+      puts "============= [ ERROR ] ================"
+      puts last_response.inspect
+      puts "========================================"
+    end
   end
 
   def post_url(uri, params={}, opts={})
@@ -114,7 +124,12 @@ module DeltacloudTestCommon
         post(uri, params || {}, authenticate(opts))
       end
     else
-        post(uri, params || {}, authenticate(opts))
+      post(uri, params || {}, authenticate(opts))
+      if last_response.status.to_s =~ /5(\d{2})/
+        puts "============= [ ERROR ] ================"
+        puts last_response.inspect
+        puts "========================================"
+      end
     end
   end
 
@@ -125,7 +140,12 @@ module DeltacloudTestCommon
         delete(uri, params || {}, authenticate(opts))
       end
     else
-        delete(uri, params || {}, authenticate(opts))
+      delete(uri, params || {}, authenticate(opts))
+      if last_response.status.to_s =~ /5(\d{2})/
+        puts "============= [ ERROR ] ================"
+        puts last_response.inspect
+        puts "========================================"
+      end
     end
   end
 
@@ -136,7 +156,12 @@ module DeltacloudTestCommon
         put(uri, params || {}, authenticate(opts))
       end
     else
-        put(uri, params || {}, authenticate(opts))
+       put(uri, params || {}, authenticate(opts))
+      if last_response.status.to_s =~ /5(\d{2})/
+        puts "============= [ ERROR ] ================"
+        puts last_response.inspect
+        puts "========================================"
+      end
     end
   end
 

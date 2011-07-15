@@ -113,6 +113,15 @@ module DeltacloudUnitTest
       Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
     end
 
+    def test_it_can_destroy_created_image
+      post_url "/api/images", { :name => "img4", :description => "Test::Unit image", :instance_id => "inst1"}
+      last_response.status.should == 201
+      delete_url "/api/images/img4", {}
+      last_response.status.should == 204
+      get_auth_url "/api/images/img4", {}
+      last_response.status.should == 404
+    end
+
     private
 
     def test_image_attributes(image)

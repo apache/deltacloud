@@ -135,29 +135,27 @@ class MockDriver < Deltacloud::BaseDriver
 
   def create_image(credentials, opts={})
     check_credentials(credentials)
-    instance = instance(credentials, :id => opts[:instance_id])
+    instance = instance(credentials, :id => opts[:id])
     raise 'CreateImageNotSupported' unless instance.can_create_image?
-    ids = Dir[ "#{@storage_root}/images/*.yml" ].collect{|e| File.basename( e, ".yml" )}
-    count = 0
-    while true
-      next_id = "img#{count}"
-      break if not ids.include?(next_id)
-      count += 1
-    end
     safely do
       image = {
+        :id => opts[:name],
 	:name => opts[:name],
 	:owner_id => 'root',
 	:description => opts[:description],
 	:architecture => 'i386',
 	:state => 'UP'
       }
-      File.open( "#{@storage_root}/images/#{next_id}.yml", 'w' ) do |f|
+      File.open( "#{@storage_root}/images/#{opts[:name]}.yml", 'w' ) do |f|
 	YAML.dump( image, f )
       end
-      image[:id] = next_id
       Image.new(image)
     end
+  end
+
+  def destroy_image(credentials, id)
+    check_credentials( credentials )
+    FileUtils.rm( "#{@storage_root}/images/#{id}.yml" )
   end
 
   #
