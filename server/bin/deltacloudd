@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'optparse'
+require 'yaml'
 
 # See if we can require +name+ and return +true+ if the library is there,
 # +false+ otherwise. Note that, as a side effect, the library will be
