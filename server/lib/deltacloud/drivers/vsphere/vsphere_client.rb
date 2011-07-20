@@ -1,5 +1,7 @@
 module Deltacloud::Drivers::VSphere
 
+  require 'deltacloud/drivers/vsphere/vsphere_filemanager'
+
   module Helper
 
     # Find a VirtualMachine traversing through all Datastores and Datacenters
@@ -19,6 +21,11 @@ module Deltacloud::Drivers::VSphere
             if vm[:instance]
               vm[:datastore] = datastore.name
               break
+            end
+            stored_tasks(datastore, vsphere) do |task|
+              if task.info.entity.class == RbVmomi::VIM::VirtualMachine and ['queued', 'running'].member? task.info.state
+                vm = { :stored_instance => load_serialized_instance(datastore,task.info.key), :datastore => datastore.name }
+              end
             end
           end
           break if [:datastore]
@@ -67,38 +74,42 @@ module Deltacloud::Drivers::VSphere
       vms = []
       rootFolder = vsphere.serviceInstance.content.rootFolder
       rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-        dc.datastoreFolder.childEntity.collect do |datastore|
+        dc.datastoreFolder.childEntity.each do |datastore|
           vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } unless vm.nil? }
+          stored_tasks(datastore, vsphere) do |task|
+            if task.info.entity.class == RbVmomi::VIM::VirtualMachine
+              vms << { :stored_instance => load_serialized_instance(datastore, task.info.key), :datastore => datastore.name }
+            end
+          end
         end
       end
       vms.flatten.compact
     end
 
-    def map_task_to_instance(task_key, new_instance)
-      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
-      File::open(File::join(MAPPER_STORAGE_ROOT, task_key), "w") do |f|
-        f.puts(YAML::dump(new_instance))
-      end
+    # Map given instance to task. Task name is used as a filename.
+    #
+    def map_task_to_instance(datastore, task_key, new_instance)
+      VSphere::FileManager::store_mapping!(datastore, YAML::dump(new_instance).to_s, task_key)
       new_instance
     end
 
-    def load_serialized_instance(task_key)
-      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
-      YAML::load(File::read(File::join(MAPPER_STORAGE_ROOT, task_key))) rescue nil
+    def load_serialized_instance(datastore, task_key)
+      VSphere::FileManager::load_mapping(datastore, task_key)
     end
 
     # Yield all tasks if they are included in mapper storage directory.
-    def stored_tasks(vsphere)
-      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
-      tasks = Dir[File::join(MAPPER_STORAGE_ROOT, '*')].collect { |file| File::basename(file) }
+    def stored_tasks(datastore, vsphere)
+      tasks = VSphere::FileManager::list_mappings(datastore)
+      return [] if tasks.empty?
       vsphere.serviceInstance.content.taskManager.recentTask.each do |task|
-        if tasks.include?(task.info.key)
+        if tasks.include?(task.info.key) and ['queued', 'running'].member?(task.info.state)
           yield task
-        else
-          # If given task is not longer listed in 'recentTasks' delete the
-          # mapper file
-          FileUtils::rm_rf(File::join(MAPPER_STORAGE_ROOT, task.info.key))
+          tasks.delete(task.info.key)
         end
+      end
+      # Delete old left tasks
+      tasks.select { |f| f =~ /task-(\d+)/ }.each do |task|
+        VSphere::FileManager::delete_mapping!(datastore, task)
       end
     end
 

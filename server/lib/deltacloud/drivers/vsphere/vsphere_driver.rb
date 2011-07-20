@@ -15,8 +15,8 @@
 #
 
 require 'deltacloud/base_driver'
-require 'deltacloud/drivers/vsphere/vsphere_client'
 require 'rbvmomi'
+require 'deltacloud/drivers/vsphere/vsphere_client'
 
 module Deltacloud::Drivers::VSphere
 
@@ -25,10 +25,17 @@ module Deltacloud::Drivers::VSphere
   class VSphereDriver < Deltacloud::BaseDriver
 
     include Deltacloud::Drivers::VSphere::Helper
+    include Deltacloud::Drivers::VSphere::FileManager
 
+    # You can use 'user_data' feature to set 'user_data' parameter when creating
+    # a new instance where this parameter can hold gzipped CDROM iso which will
+    # be mounted into created instance after boot
     feature :instances, :user_data
     feature :instances, :user_name
 
+    # There is just one hardware profile where memory is measured using maximum
+    # memory available on ESX for virtual machines and CPU using maximum free
+    # CPU cores in ESX.
     def hardware_profiles(credentials, opts={})
       vsphere = new_client(credentials)
       safely do
@@ -58,8 +65,8 @@ module Deltacloud::Drivers::VSphere
     end
 
 
-    # List all images, across all datacenters. Note: Deltacloud API does not
-    # yet support filtering images by realm.
+    # Images are virtual machines with 'template' flag set to be true.
+    # Thus we're getting them using find_vm and list_virtual_machines
     def images(credentials, opts=nil)
       cloud = new_client(credentials)
       img_arr = []
@@ -68,21 +75,23 @@ module Deltacloud::Drivers::VSphere
       # attribute is set
       safely do
         if opts[:id]
-          template_vms = [ find_vm(credentials, opts[:id]) ].compact
+          template_vms = [ find_vm(credentials, opts[:id]) ].select { |vm| vm[:instance] }.compact
         else
-          template_vms = list_virtual_machines(credentials).select { |vm| vm[:instance].summary.config[:template] }
+          template_vms = list_virtual_machines(credentials).select { |vm| vm[:instance] && vm[:instance].summary.config[:template] }
         end
         img_arr = template_vms.collect do |image_hash|
-          # Since all calls to vm are threaten as SOAP calls, reduce them using
-          # local variable.
           image, realm = image_hash[:instance], image_hash[:datastore]
           config = image.summary.config
           instance_state = convert_state(:instance, image.summary.runtime[:powerState])
+          # Preload all properties to save multiple SOAP calls to vSphere
           properties = {
             :name => config[:name],
             :full_name => config[:guestFullName]
           }
           image_state = convert_state(:image, image.summary.runtime[:powerState])
+          # This will determine image architecture using image description.
+          # Ussualy description include '64-bit' or '32-bit'. In case you used
+          # some weird template/OS it will fallback to 64 bit
           image_architecture = extract_architecture(properties[:full_name]) || 'x86_64'
           Image.new(
             :id => properties[:name],
@@ -126,18 +135,17 @@ module Deltacloud::Drivers::VSphere
     # not yet support filtering instances by realm.
     def instances(credentials, opts=nil)
       cloud = new_client(credentials)
-      inst_arr, machine_vms, stored_vms = [], [], []
+      inst_arr, machine_vms, pending_vms = [], [], []
       safely do
+        # Using find_vm is a way faster than listing all virtual machines
         if opts[:id]
-          machine_vms = [ find_vm(credentials, opts[:id]) ].compact
+          list_vms = [ find_vm(credentials, opts[:id]) ].compact
         else
-          machine_vms = list_virtual_machines(credentials).select { |vm| !vm[:instance].summary.config[:template] }
+          list_vms = list_virtual_machines(credentials)
         end
-        stored_tasks(cloud) do |task|
-          if task.info.entity.class == RbVmomi::VIM::VirtualMachine and ['queued', 'running'].member? task.info.state
-            stored_vms << load_serialized_instance(task.info.key)
-          end
-        end
+        # Split machines to the 'real' one and PENDING one.
+        machine_vms = list_vms.select { |vm| vm[:instance] && !vm[:instance].summary.config[:template] }
+        pending_vms = list_vms.select { |vm| vm[:stored_instance] }.collect { |vm| vm[:stored_instance]}
       end
       safely do
         inst_arr = machine_vms.collect do |vm_hash|
@@ -146,6 +154,8 @@ module Deltacloud::Drivers::VSphere
           vm, realm_id = vm_hash[:instance], vm_hash[:datastore]
           config = vm.summary.config
           next if not config
+          # Template (image_id) is beeing stored as 'extraConfig' parameter in
+          # instance.
           template_id = vm.config[:extraConfig].select { |k| k.key == 'template_id' }
           template_id = template_id.first.value unless template_id.empty?
           properties = {
@@ -160,6 +170,10 @@ module Deltacloud::Drivers::VSphere
                                                   :hwp_cpu => properties[:cpus],
                                                   :hwp_memory => properties[:memory],
                                                   :hwp_storage => properties[:storage])
+
+          # We're getting IP address from 'vmware guest tools'.
+          # If guest tools are not installed, we return list of MAC addresses
+          # assigned to this instance.
           instance_address = vm.guest[:net].empty? ? vm.macs.values.first : vm.guest[:net].first[:ipAddress].first
           Instance.new(
             :id => properties[:name],
@@ -177,10 +191,12 @@ module Deltacloud::Drivers::VSphere
           )
         end
       end
-
-      # Append 'PENDING' instances
-      inst_arr += stored_vms
       inst_arr.compact!
+      # Append 'temporary' instances to real instances.
+      # 'Temporary' or 'stored' instance are used to speed up instance creation
+      # process by serializing instances to datastore and map instance to task.
+      #
+      inst_arr += pending_vms
       filter_on( inst_arr, :state, opts )
     end
 
@@ -190,8 +206,8 @@ module Deltacloud::Drivers::VSphere
       safely do
         rootFolder = vsphere.serviceInstance.content.rootFolder
         vm = find_vm(credentials, opts[:image_id])
-        # Find correct ResourcePool and Datastore where a new VM will be
-        # located
+        # New instance need valid resource pool and datastore to be placed.
+        # For this reason, realm_id **needs** to be set.
         if opts and opts[:realm_id]
           resourcePool = find_resource_pool(credentials, opts[:realm_id])
           datastore = find_datastore(credentials, opts[:realm_id])
@@ -216,11 +232,12 @@ module Deltacloud::Drivers::VSphere
         if opts[:user_data] and not opts[:user_data].empty?
           device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
           if device
-            # TODO: Upload baked ISO image to the Datastore
+            VSphere::FileManager::store_iso!(datastore, opts[:user_data], "#{opts[:name]}.iso")
             machine_config[:extraConfig] << {
               :key => 'user_data_file', :value => "#{opts[:name]}.iso"
             }
-            device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] #{opts[:name].iso}")
+            device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] "+
+                                                                     "/#{VSphere::FileManager::DIRECTORY_PATH}/#{opts[:name]}.iso")
             machine_config.merge!({
               :deviceChange => [{
                 :operation => :edit,
@@ -253,7 +270,10 @@ module Deltacloud::Drivers::VSphere
           :actions => instance_actions_for( 'PENDING' ),
           :create_image => false
         )
-        map_task_to_instance(task.info.key, new_instance)
+        # This will 'serialize' instance to YAML file and map it to the task.
+        # Ussualy it takes like 2-3 minutes (depending on storage size) to
+        # complete instance cloning process.
+        map_task_to_instance(datastore, task.info.key, new_instance)
       end
     end
 
@@ -272,10 +292,16 @@ module Deltacloud::Drivers::VSphere
       find_vm(credentials, id)[:instance].PowerOffVM_Task
     end
 
-    # Destroy an instance, given its id. Note that this will destory all
+    # Destroy an instance, given its id. Note that this will destroy all
     # instance data.
+    #
+    # If there is user-data dile asocciated with instance, remove this file as
+    # well.
     def destroy_instance(credentials, instance_id)
-      find_vm(credentials, instance_id)[:instance].Destroy_Task.wait_for_completion
+      vm = find_vm(credentials, instance_id)
+      user_file = vm[:instance].config[:extraConfig].select { |k| k.key == 'user_data_file' }.first
+      VSphere::FileManager::delete_iso!(vm[:instance].send(:datastore).first, user_file.value) if user_file
+      vm[:instance].Destroy_Task.wait_for_completion
     end
 
     alias :destroy_image :destroy_instance
