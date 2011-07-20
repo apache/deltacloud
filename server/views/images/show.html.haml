@@ -9,7 +9,7 @@
       = @image.name
     %dt Owner
     %dd
-      = link_to @image.owner_id, image_url( :owner_id => @image.owner_id )
+      = link_to @image.owner_id, images_url + "?owner_id=#{@image.owner_id}"
     %dt Architecture
     %dd
       = @image.architecture
