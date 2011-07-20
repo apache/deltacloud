@@ -28,6 +28,7 @@ require 'lib/deltacloud/helpers/blob_stream'
 require 'sinatra/rack_driver_select'
 require 'sinatra/rack_runtime'
 require 'sinatra/rack_etag'
+require 'sinatra/rack_date'
 require 'sinatra/rack_matrix_params'
 
 set :version, '0.3.0'
@@ -42,6 +43,7 @@ use Rack::Runtime
 use Rack::MatrixParams
 use Rack::DriverSelect
 use Rack::MediaType
+use Rack::Date
 
 configure do
   set :raise_errors => false
