@@ -15,6 +15,7 @@
 #
 
 require 'deltacloud/base_driver'
+require 'deltacloud/drivers/vsphere/vsphere_client'
 require 'rbvmomi'
 
 module Deltacloud::Drivers::VSphere
@@ -23,35 +24,25 @@ module Deltacloud::Drivers::VSphere
 
   class VSphereDriver < Deltacloud::BaseDriver
 
-    # Set of predefined hardware profiles
-    define_hardware_profile('small') do
-      cpu                1
-      memory             256
-      architecture       ['x86_64', 'i386']
-    end
+    include Deltacloud::Drivers::VSphere::Helper
 
-    define_hardware_profile('medium') do
-      cpu                1
-      memory             512
-      architecture       ['x86_64', 'i386']
-    end
+    feature :instances, :user_data
 
-    define_hardware_profile('large') do
-      cpu                2
-      memory             1024
-      architecture       ['x86_64', 'i386']
-    end
-
-    define_hardware_profile('x-large') do
-      cpu                4
-      memory             2048
-      architecture       ['x86_64', 'i386']
-    end
-
-    # Since user can launch own instance using vSphere tools 
-    # with customized properties, threat this hardware profile as
-    # unknown
-    define_hardware_profile('custom') do
+    def hardware_profiles(credentials, opts={})
+      vsphere = new_client(credentials)
+      safely do
+        service = vsphere.serviceInstance.content
+        max_memory, max_cpu_cores = 0, 0
+        service.rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
+          max_memory += dc.hostFolder.childEntity.first.summary.effectiveMemory
+          max_cpu_cores += dc.hostFolder.childEntity.first.summary.numCpuCores
+        end
+        [Deltacloud::HardwareProfile::new('default') do
+          cpu (1..max_cpu_cores)
+          memory (128..max_memory)
+          architecture ['x86_64', 'i386']
+        end]
+      end
     end
 
     # Configure instance state machine
@@ -92,10 +83,11 @@ module Deltacloud::Drivers::VSphere
             :full_name => config[:guestFullName]
           }
           image_state = convert_state(:image, image.summary.runtime[:powerState])
+          image_architecture = extract_architecture(properties[:full_name]) || 'x86_64'
           Image.new(
             :id => properties[:name],
             :name => properties[:name],
-            :architecture => 'x86_64',  # FIXME: I'm not sure if all templates/VM's in vSphere are x86_64
+            :architecture => image_architecture,
             :owner_id => credentials.user,
             :description => properties[:full_name],
             :state => image_state
@@ -167,7 +159,7 @@ module Deltacloud::Drivers::VSphere
             :full_name => config[:guestFullName],
           }
           instance_state = convert_state(:instance, vm.summary.runtime[:powerState])
-          instance_profile = InstanceProfile::new(match_hwp_id(:memory => properties[:memory].to_s, :cpus => properties[:cpus].to_s),
+          instance_profile = InstanceProfile::new('default',
                                                   :hwp_cpu => properties[:cpus],
                                                   :hwp_memory => properties[:memory],
                                                   :hwp_storage => properties[:storage])
@@ -212,28 +204,54 @@ module Deltacloud::Drivers::VSphere
         end
         relocate = { :pool => resourcePool, :datastore => datastore }
         relocateSpec = RbVmomi::VIM.VirtualMachineRelocateSpec(relocate)
-        instance_profile = hardware_profiles(credentials, :id => opts[:hwp_id]).first
+        # Set extra configuration for VM, like template_id
+        machine_config = {
+          :memoryMB => opts[:hwp_memory],
+          :numCPUs => opts[:hwp_cpu],
+          :extraConfig => [
+            { :key => 'template_id', :value => image_id }
+          ]
+        }
+        # If user wants to inject data into instance he need to submit a Base64
+        # encoded gzipped ISO image.
+        # This image will be uplaoded to the Datastore given in 'realm_id'
+        # parameter and them attached to instance.
+        if opts[:user_data] and not opts[:user_data].empty?
+          device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
+          if device
+            # TODO: Upload baked ISO image to the Datastore
+            device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] test.iso")
+            machine_config.merge!({
+              :deviceChange => [{
+                :operation => :edit,
+                :device => device
+              }]
+            })
+          else
+            raise "Failed to inject data to device because there is no CD-ROM drive defined in given template"
+          end
+        end
         spec = RbVmomi::VIM.VirtualMachineCloneSpec(
           :location => relocateSpec,
           :powerOn => true,
           :template => false,
-          :config => RbVmomi::VIM.VirtualMachineConfigSpec(
-            :memoryMB => instance_profile.memory.value,
-            :numCPUs => instance_profile.cpu.value,
-            :extraConfig => [
-              { :key => 'template_id', :value => image_id }
-            ]
-          )
+          :config => RbVmomi::VIM.VirtualMachineConfigSpec(machine_config)
         )
+        instance_profile = InstanceProfile::new('default', :hwp_memory => opts[:hwp_memory], :hwp_cpu => opts[:hwp_cpu])
         task = vm[:instance].CloneVM_Task(:folder => vm[:instance].parent, :name => opts[:name], :spec => spec)
         new_instance = Instance::new(
           :id => opts[:name],
           :name => opts[:name],
+          :description => opts[:name],
           :owner_id => credentials.user,
+          :image_id => opts[:image_id],
           :realm_id => opts[:realm_id] || vm[:datastore],
           :state => 'PENDING',
-          :instance_profile => InstanceProfile::new(instance_profile.name),
-          :actions => instance_actions_for( 'PENDING' )
+          :public_addresses => [],
+          :private_addresses => [],
+          :instance_profile => instance_profile,
+          :actions => instance_actions_for( 'PENDING' ),
+          :create_image => false
         )
         map_task_to_instance(task.info.key, new_instance)
       end
@@ -298,105 +316,6 @@ module Deltacloud::Drivers::VSphere
       endpoint || Deltacloud::Drivers::driver_config[:vsphere][:entrypoints]['default']['default']
     end
 
-    def map_task_to_instance(task_key, new_instance)
-      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
-      File::open(File::join(MAPPER_STORAGE_ROOT, task_key), "w") do |f|
-        f.puts(YAML::dump(new_instance))
-      end
-      new_instance
-    end
-
-    def load_serialized_instance(task_key)
-      YAML::load(File::read(File::join(MAPPER_STORAGE_ROOT, task_key)))
-    end
-
-    # Yield all tasks if they are included in mapper storage directory.
-    def stored_tasks(vsphere)
-      FileUtils::mkdir_p(MAPPER_STORAGE_ROOT) unless File::directory?(MAPPER_STORAGE_ROOT)
-      tasks = Dir[File::join(MAPPER_STORAGE_ROOT, '*')].collect { |file| File::basename(file) }
-      vsphere.serviceInstance.content.taskManager.recentTask.each do |task|
-        if tasks.include?(task.info.key)
-          yield task
-        else
-          # If given task is not longer listed in 'recentTasks' delete the
-          # mapper file
-          FileUtils::rm_rf(File::join(MAPPER_STORAGE_ROOT, task.info.key))
-        end
-      end
-    end
-
-    # This helper will traverse across all datacenters and datastores and gather
-    # all virtual machines available on vSphere
-    #
-    def list_virtual_machines(credentials)
-      vsphere = new_client(credentials)
-      vms = []
-      rootFolder = vsphere.serviceInstance.content.rootFolder
-      rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-        dc.datastoreFolder.childEntity.collect do |datastore|
-          vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } }
-        end
-      end
-      vms.flatten.compact
-    end
-
-    # This helper will try to find a Datastore[1] object in all Datacenters.
-    # Datastore is used to place instance on create to correct place
-    #
-    # [1] http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.Datastore.html
-    #
-    def find_datastore(credentials, name)
-      vsphere = new_client(credentials)
-      safely do
-        rootFolder = vsphere.serviceInstance.content.rootFolder
-        rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect do |dc|
-          dc.datastoreFolder.childEntity.find { |d| d.name == name }
-        end.flatten.compact.first
-      end
-    end
-
-    # Find a ResourcePool[1] object associated by given Datastore
-    # ResourcePool is defined for Datacenter and is used for launching a new
-    # instance
-    #
-    # [1] http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.ResourcePool.html
-    #
-    def find_resource_pool(credentials, name)
-      vsphere = new_client(credentials)
-      safely do
-        rootFolder = vsphere.serviceInstance.content.rootFolder
-        dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).select do |dc|
-          dc.datastoreFolder.childEntity.find { |d| d.name == name }.nil? == false
-        end.flatten.compact.first
-        dc.hostFolder.childEntity.collect.first.resourcePool
-      end
-    end
-
-    # Find a VirtualMachine traversing through all Datastores and Datacenters
-    #
-    # This helper will return a Hash: { :datastore => NAME_OF_DS, :instance => VM }
-    # Returning datastore is necesarry for constructing a correct realm for an
-    # instance
-    #
-    def find_vm(credentials, name)
-      vsphere = new_client(credentials)
-      safely do
-        rootFolder = vsphere.serviceInstance.content.rootFolder
-        vm = {}
-        rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-          dc.datastoreFolder.childEntity.collect do |datastore|
-            vm[:instance] = datastore.vm.find { |x| x.name == name }
-            if vm[:instance]
-              vm[:datastore] = datastore.name
-              break
-            end
-          end
-          break if [:datastore]
-        end
-        vm
-      end
-    end
-
     def convert_realm(datastore)
       Realm::new(
         :id => datastore.name,
@@ -423,16 +342,6 @@ module Deltacloud::Drivers::VSphere
       end
       new_state
     end
-
-    # Match hardware profile ID against given properties
-    def match_hwp_id(prop)
-      return 'small' if prop[:memory] == '256' and prop[:cpus] == '1'
-      return 'medium' if prop[:memory] == '512' and prop[:cpus] == '1'
-      return 'large' if prop[:memory] == '1024' and prop[:cpus] == '2'
-      return 'x-large' if prop[:memory] == '2048' and prop[:cpus] == '4'
-      'unknown'
-    end
-
 
   end
 
