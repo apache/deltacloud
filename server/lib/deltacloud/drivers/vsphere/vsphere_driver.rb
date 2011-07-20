@@ -27,6 +27,7 @@ module Deltacloud::Drivers::VSphere
     include Deltacloud::Drivers::VSphere::Helper
 
     feature :instances, :user_data
+    feature :instances, :user_name
 
     def hardware_profiles(credentials, opts={})
       vsphere = new_client(credentials)
@@ -71,7 +72,6 @@ module Deltacloud::Drivers::VSphere
         else
           template_vms = list_virtual_machines(credentials).select { |vm| vm[:instance].summary.config[:template] }
         end
-
         img_arr = template_vms.collect do |image_hash|
           # Since all calls to vm are threaten as SOAP calls, reduce them using
           # local variable.
@@ -94,7 +94,6 @@ module Deltacloud::Drivers::VSphere
           )
         end
       end
-
       img_arr = filter_on( img_arr, :architecture, opts )
       img_arr.sort_by{|e| [e.owner_id, e.name]}
     end
@@ -145,10 +144,8 @@ module Deltacloud::Drivers::VSphere
           # Since all calls to vm are threaten as SOAP calls, reduce them using
           # local variable.
           vm, realm_id = vm_hash[:instance], vm_hash[:datastore]
-          next unless vm
           config = vm.summary.config
-          next unless config
-          next unless vm.summary.storage
+          next if not config
           template_id = vm.config[:extraConfig].select { |k| k.key == 'template_id' }
           template_id = template_id.first.value unless template_id.empty?
           properties = {
@@ -209,7 +206,7 @@ module Deltacloud::Drivers::VSphere
           :memoryMB => opts[:hwp_memory],
           :numCPUs => opts[:hwp_cpu],
           :extraConfig => [
-            { :key => 'template_id', :value => image_id }
+            { :key => 'template_id', :value => image_id },
           ]
         }
         # If user wants to inject data into instance he need to submit a Base64
@@ -220,7 +217,10 @@ module Deltacloud::Drivers::VSphere
           device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
           if device
             # TODO: Upload baked ISO image to the Datastore
-            device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] test.iso")
+            machine_config[:extraConfig] << {
+              :key => 'user_data_file', :value => "#{opts[:name]}.iso"
+            }
+            device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] #{opts[:name].iso}")
             machine_config.merge!({
               :deviceChange => [{
                 :operation => :edit,
@@ -287,6 +287,10 @@ module Deltacloud::Drivers::VSphere
       end
 
       on /RbVmomi::Fault/ do
+        status 502
+      end
+
+      on /Failed to inject data/ do
         status 502
       end
 

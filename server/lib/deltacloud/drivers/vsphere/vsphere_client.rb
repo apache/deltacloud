@@ -68,7 +68,7 @@ module Deltacloud::Drivers::VSphere
       rootFolder = vsphere.serviceInstance.content.rootFolder
       rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
         dc.datastoreFolder.childEntity.collect do |datastore|
-          vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } }
+          vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } unless vm.nil? }
         end
       end
       vms.flatten.compact
