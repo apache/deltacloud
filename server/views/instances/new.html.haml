@@ -27,6 +27,11 @@
         %option
         - @load_balancers.each do |load_balancer|
           %option{:value => load_balancer.id} #{load_balancer.id}
+  -if driver_has_feature?(:user_data)
+    %p
+      %label
+        User data (Base64):
+      %textarea{:name => :user_data, :cols => 60, :rows => 10, :placeholder => "Copy&Paste a Base64 string here..."}
   -if driver_has_feature?(:authentication_key)
     %p
       %label
