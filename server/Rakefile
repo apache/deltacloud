@@ -19,12 +19,7 @@
 
 require 'rake'
 require 'rake/testtask'
-
-begin
-  require 'rubygems/package_task'
-rescue LoadError
-  require 'rake/gempackagetask'
-end
+require 'rake/gempackagetask'
 
 begin
   require 'ci/reporter/rake/test_unit'
