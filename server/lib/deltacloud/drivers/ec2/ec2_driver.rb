@@ -734,7 +734,7 @@ module Deltacloud
             :description => image[:aws_description] || image[:aws_location],
             :owner_id => image[:aws_owner],
             :architecture => image[:aws_architecture],
-            :state => image[:state]
+            :state => image[:aws_state]
           )
         end
 
