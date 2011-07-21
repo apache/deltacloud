@@ -797,6 +797,10 @@ head "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
       @blob_metadata.each do |k,v|
         headers["X-Deltacloud-Blobmeta-#{k}"] = v
       end
+      respond_to do |format|
+        format.xml {  204 }
+        format.json {  204 }
+      end
    else
     report_error(404)
   end
@@ -809,6 +813,10 @@ post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   if(success)
     meta_hash.each do |k,v|
       headers["X-Deltacloud-Blobmeta-#{k}"] = v
+    end
+    respond_to do |format|
+      format.xml {  204 }
+      format.json {  204 }
     end
   else
     report_error(404) #FIXME is this the right error code?
