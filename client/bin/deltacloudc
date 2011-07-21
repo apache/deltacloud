@@ -179,7 +179,7 @@ if options[:collection] and options[:operation]
     params.merge!('metadata'=>options[:blob_metadata]) unless options[:blob_metadata].nil?
     case options[:operation]
         when 'show' then puts format(client.send( options[:collection], params))
-        when 'data' then puts (client.blob_data(params))
+        when 'data' then puts client.blob_data(params)
         when 'create' then
             invalid_usage("Specify the location of the new blob data (full local path) using -f option") unless options[:file_path]
             params.merge!('file_path'=>options[:file_path])
