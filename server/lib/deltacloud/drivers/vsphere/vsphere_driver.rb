@@ -27,10 +27,10 @@ module Deltacloud::Drivers::VSphere
     include Deltacloud::Drivers::VSphere::Helper
     include Deltacloud::Drivers::VSphere::FileManager
 
-    # You can use 'user_data' feature to set 'user_data' parameter when creating
+    # You can use 'user_iso' feature to set 'user_iso' parameter when creating
     # a new instance where this parameter can hold gzipped CDROM iso which will
     # be mounted into created instance after boot
-    feature :instances, :user_data
+    feature :instances, :user_iso
     feature :instances, :user_name
 
     # There is just one hardware profile where memory is measured using maximum
@@ -229,12 +229,12 @@ module Deltacloud::Drivers::VSphere
         # encoded gzipped ISO image.
         # This image will be uplaoded to the Datastore given in 'realm_id'
         # parameter and them attached to instance.
-        if opts[:user_data] and not opts[:user_data].empty?
+        if opts[:user_iso] and not opts[:user_iso].empty?
           device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
           if device
-            VSphere::FileManager::store_iso!(datastore, opts[:user_data], "#{opts[:name]}.iso")
+            VSphere::FileManager::store_iso!(datastore, opts[:user_iso], "#{opts[:name]}.iso")
             machine_config[:extraConfig] << {
-              :key => 'user_data_file', :value => "#{opts[:name]}.iso"
+              :key => 'user_iso_file', :value => "#{opts[:name]}.iso"
             }
             device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] "+
                                                                      "/#{VSphere::FileManager::DIRECTORY_PATH}/#{opts[:name]}.iso")
@@ -299,7 +299,7 @@ module Deltacloud::Drivers::VSphere
     # well.
     def destroy_instance(credentials, instance_id)
       vm = find_vm(credentials, instance_id)
-      user_file = vm[:instance].config[:extraConfig].select { |k| k.key == 'user_data_file' }.first
+      user_file = vm[:instance].config[:extraConfig].select { |k| k.key == 'user_iso_file' }.first
       VSphere::FileManager::delete_iso!(vm[:instance].send(:datastore).first, user_file.value) if user_file
       vm[:instance].Destroy_Task.wait_for_completion
     end

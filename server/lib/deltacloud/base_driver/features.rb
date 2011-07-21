@@ -175,6 +175,14 @@ module Deltacloud
       end
     end
 
+    declare_feature :instances, :user_iso do
+      description "Make user-defined ISO available inside instance"
+      operation :create do
+        param :user_iso, :string, :optional, [],
+        "Base64 encoded gzipped ISO file will be accessible as CD-ROM drive in instance"
+      end
+    end
+
     declare_feature :instances, :user_files do
       description "Accept up to 5 files to be placed into the instance before launch."
       operation :create do
