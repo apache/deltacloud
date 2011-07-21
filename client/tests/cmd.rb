@@ -49,7 +49,7 @@ class CommandLineTest < Test::Unit::TestCase
 
     should 'respond with proper error when accessing unknow collection' do
       output = client('unknown_collection')
-      assert_match /^ERROR: Unknown collection/, output
+      assert_match /ERROR: Unknown collection:/, output
     end
 
   end
