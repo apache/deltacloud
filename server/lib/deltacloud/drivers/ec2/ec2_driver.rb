@@ -424,6 +424,23 @@ module Deltacloud
           end
         end
 
+        def blob_metadata(credentials, opts={})
+          s3_client = new_client(credentials, :s3)
+          blob_meta = {}
+          safely do
+            the_blob = s3_client.bucket(opts['bucket']).key(opts[:id], true)
+            blob_meta = the_blob.meta_headers
+          end
+        end
+
+        def update_blob_metadata(credentials, opts={})
+          s3_client = new_client(credentials, :s3)
+          meta_hash = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
+          safely do
+            the_blob = s3_client.bucket(opts['bucket']).key(opts[:id])
+            the_blob.save_meta(meta_hash)
+          end
+        end
 
         def blob_data(credentials, bucket_id, blob_id, opts={})
           s3_client = new_client(credentials, :s3)
