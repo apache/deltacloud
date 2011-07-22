@@ -109,6 +109,16 @@ class RackspaceDriver < Deltacloud::BaseDriver
     end
   end
 
+  def destroy_image(credentials, image_id)
+    rax_client = new_client(credentials)
+    safely do
+      image = rax_client.get_image(image_id.to_i)
+      unless image.delete!
+        raise "ERROR: Cannot delete image with ID:#{image_id}"
+      end
+    end
+  end
+
   def run_on_instance(credentials, opts={})
     target = instance(credentials, :id => opts[:id])
     param = {}
