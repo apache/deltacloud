@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
     '*.rb',
     'log',
     'config/drivers/*.yaml',
+    'config/*.yaml',
     'tmp',
     'support/fedora/**',
     'lib/**/*.rb',
