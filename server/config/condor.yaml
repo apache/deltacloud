@@ -1,0 +1,30 @@
+---
+
+# The network bridge used for VMs.
+:default_bridge: br0
+:username: condor
+:password: deltacloud
+
+# The location of your images.  These would be regular KVM formatted images.
+# Note that this variable also exists in the condor cloud configuration in
+# /usr/libexec/condor/cloud_functions.  This directory must also be shared
+# accross all nodes so that they all have access to the images.
+#
+# *** If you change this check /usr/libexec/condor/cloud_functions ***
+:image_storage: /var/lib/condor-cloud/shared_images
+
+# There are currently 2 ways to configure the IP addresses of instances,
+# one is to use the ip server agent in each image, the other is a simple
+# mapping between MAC and IP.  The latter is the default.
+#
+# For the simple mac/ip mapping, see config/addresses.xml for the mapping list.
+# You must then configure your DHCPD server to hand out those addresses
+# for the given macs.
+:default_ip_agent: DefaultIPAgent
+
+#:default_ip_agent: ConfServerIPAgent
+#:ip_agent_address: '10.34.32.181:4444'
+#:ip_agent_version: '0.0.1'
+
+:vnc_listen_port: '5900'
+:vnc_listen_ip: '0.0.0.0'

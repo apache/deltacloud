@@ -1,0 +1,14 @@
+<addresses>
+  <address mac="00:1A:4A:22:20:01">172.31.0.101</address>
+  <address mac="00:1A:4A:22:20:02">172.31.0.102</address>
+  <address mac="00:1A:4A:22:20:03">172.31.0.103</address>
+  <address mac="00:1A:4A:22:20:04">172.31.0.104</address>
+  <address mac="00:1A:4A:22:20:05">172.31.0.105</address>
+  <address mac="00:1A:4A:22:20:06">172.31.0.106</address>
+  <address mac="00:1A:4A:22:20:07">172.31.0.107</address>
+  <address mac="00:1A:4A:22:20:08">172.31.0.108</address>
+  <address mac="00:1A:4A:22:20:09">172.31.0.109</address>
+  <address mac="00:1A:4A:22:20:10">172.31.0.110</address>
+  <address mac="00:1A:4A:22:20:11">172.31.0.111</address>
+  <address mac="00:1A:4A:22:20:12">172.31.0.112</address>
+</addresses>
