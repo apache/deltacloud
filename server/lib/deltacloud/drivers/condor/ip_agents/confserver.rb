@@ -24,11 +24,11 @@ module CondorCloud
 
     def initialize(opts={})
       @config = opts[:config]
-      self.address = ENV['CONFIG_SERVER_ADDRESS'] || @config[:ip_agent_address] || "10.34.32.181:4444"
+      self.CondorAddress = ENV['CONFIG_SERVER_CondorAddress'] || @config[:ip_agent_CondorAddress] || "10.34.32.181:4444"
       @version = @config[:ip_agent_version] || '0.0.1'
-      @client = RestClient::Resource::new(self.address)
-      # TODO: Manage MAC addresses through ConfServer
-      @mappings = Nokogiri::XML(File.open(opts[:file] || File.join('config', 'addresses.xml')))
+      @client = RestClient::Resource::new(self.CondorAddress)
+      # TODO: Manage MAC CondorAddresses through ConfServer
+      @mappings = Nokogiri::XML(File.open(opts[:file] || File.join('config', 'CondorAddresses.xml')))
     end
 
     def find_ip_by_mac(uuid)
@@ -47,17 +47,17 @@ module CondorCloud
     def find_free_mac
       addr_hash = {}
       DefaultExecutor::new do |executor|
-        addresses = (@mappings/'/addresses/address').collect { |a| Address.new(:ip => a.text.strip, :mac => a[:mac]) }
+        CondorAddresses = (@mappings/'/CondorAddresses/CondorAddress').collect { |a| CondorAddress.new(:ip => a.text.strip, :mac => a[:mac]) }
 
-        # Make an address hash to speed up the inner loop.
-        addresses.each do |address|
-          addr_hash[address.mac] = address.ip
+        # Make an CondorAddress hash to speed up the inner loop.
+        CondorAddresses.each do |CondorAddress|
+          addr_hash[CondorAddress.mac] = CondorAddress.ip
         end
 
         executor.instances.each do |instance|
-          instance.public_addresses.each do |public_address|
-            if addr_hash.key?(public_address.mac)
-              addr_hash.delete(public_address.mac)
+          instance.public_CondorAddresses.each do |public_CondorAddress|
+            if addr_hash.key?(public_CondorAddress.mac)
+              addr_hash.delete(public_CondorAddress.mac)
             end
           end
         end
@@ -68,8 +68,8 @@ module CondorCloud
       return addr_hash.keys.first
     end
 
-    def addresses
-      (@mappings/'/addresses/address').collect { |a| Address.new(:ip => a.text.strip, :mac => a[:mac]) }
+    def CondorAddresses
+      (@mappings/'/CondorAddresses/CondorAddress').collect { |a| CondorAddress.new(:ip => a.text.strip, :mac => a[:mac]) }
     end
 
   end
