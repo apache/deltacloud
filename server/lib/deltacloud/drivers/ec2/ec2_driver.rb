@@ -657,7 +657,7 @@ module Deltacloud
             groups << {"group_name" => k, "owner" =>v}
           end
           safely do
-            ec2.manage_security_group_ingress(opts['id'], opts['from_port'], opts['to_port'], opts['protocol'],
+            ec2.manage_security_group_ingress(opts['id'], opts['port_from'], opts['port_to'], opts['protocol'],
               "authorize", opts['addresses'], groups)
           end
         end

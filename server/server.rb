@@ -1084,8 +1084,8 @@ collection :firewalls do
     description 'Create a new firewall rule for the specified firewall'
     param :id,  :required, :string, [],  "Name of firewall in which to apply this rule"
     param :protocol,  :required, :string, ['tcp','udp','icmp'], "Transport layer protocol for the rule"
-    param :from_port, :required, :string, [], "Start of port range for the rule"
-    param :to_port,   :required, :string, [], "End of port range for the rule"
+    param :port_from, :required, :string, [], "Start of port range for the rule"
+    param :port_to,   :required, :string, [], "End of port range for the rule"
     with_capability :create_firewall_rule
     control do
       #source IPs from params
