@@ -5,6 +5,13 @@ module VSphere
 
 
   DIRECTORY_PATH="deltacloud"
+  MKISOFS_EXECUTABLE="mkisofs"
+  # This value is setted in this way because
+  # mkisofs man said, less than this amount
+  # he have to pad the content of the iso file
+  # that mean a limit of 400 kb file since
+  # 1 sector of iso file = 2048 bytes
+  ISO_SECTORS=200
 
   RbVmomi::VIM::Datastore::class_eval do
     def soap
@@ -18,6 +25,18 @@ module VSphere
       file = StringIO.new(get_plain_iso(base64_iso).read)
       uploadFile(datastore, file, file_name)
     end
+
+    def user_data!(datastore,base64_content,file_name="deltacloud")
+      command="#{MKISOFS_EXECUTABLE} -stream-file-name #{file_name}.txt -stream-media-size #{ISO_SECTORS}"
+      iso_file=''
+      Open3::popen3(command) do |stdin, stdout, stderr|
+        stdin.write(base64_content.unpack("m"))
+        stdin.close()
+        iso_file=StringIO::new(stdout.read)
+      end
+      uploadFile(datastore,iso_file,[file_name,"iso"].join("."))
+    end
+
 
     def delete_iso!(datastore,file_name)
       deleteFile(datastore, file_name)
@@ -109,6 +128,7 @@ module VSphere
     end
 
     def uploadFile(datastore,file,file_name)
+      raise "You need to set the realm_id" if datastore.nil?
       make_directory!(datastore,DIRECTORY_PATH) unless _exist?(datastore)
       @uri = buildUrl(datastore,file_name)
       http=Net::HTTP.new(@uri.host, @uri.port)
