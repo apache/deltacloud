@@ -213,7 +213,7 @@ module Deltacloud::Drivers::VSphere
           datastore = find_datastore(credentials, opts[:realm_id])
         else
           resourcePool = find_resource_pool(credentials, vm[:datastore])
-          datastore = find_datastore(credentials, opts[:datastore])
+          datastore = find_datastore(credentials, vm[:datastore])
         end
         relocate = { :pool => resourcePool, :datastore => datastore }
         relocateSpec = RbVmomi::VIM.VirtualMachineRelocateSpec(relocate)
