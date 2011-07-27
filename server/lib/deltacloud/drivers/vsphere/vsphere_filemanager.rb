@@ -26,7 +26,7 @@ module VSphere
       uploadFile(datastore, file, file_name)
     end
 
-    def user_data!(datastore,base64_content,file_name="deltacloud")
+    def user_data!(datastore,base64_content,file_name)
       command="#{MKISOFS_EXECUTABLE} -stream-file-name #{file_name}.txt -stream-media-size #{ISO_SECTORS}"
       iso_file=''
       Open3::popen3(command) do |stdin, stdout, stderr|
@@ -34,7 +34,7 @@ module VSphere
         stdin.close()
         iso_file=StringIO::new(stdout.read)
       end
-      uploadFile(datastore,iso_file,[file_name,"iso"].join("."))
+      uploadFile(datastore,iso_file,file_name)
     end
 
 
