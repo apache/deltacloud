@@ -147,7 +147,7 @@ module ApplicationHelper
   end
 
   def render_cdata(text)
-    "<pem><![CDATA[#{text.strip}]]></pem>"
+    "<![CDATA[#{text.strip}]]>"
   end
 
   def link_to_action(action, url, method)
@@ -176,7 +176,7 @@ module ApplicationHelper
   def link_to_documentation
     return '' unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI'].dup
-    uri.gsub!(Sinatra::UrlForHelper::DEFAULT_URI_PREFIX, 
+    uri.gsub!(Sinatra::UrlForHelper::DEFAULT_URI_PREFIX,
               api_url_for(:docs)) unless uri.include?("docs") #i.e. if already serving under /api/docs, leave it be
     '<a href="%s">[ Documentation ]</a>' % uri
   end
