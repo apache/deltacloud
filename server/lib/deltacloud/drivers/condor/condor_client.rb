@@ -38,10 +38,7 @@ module CondorCloud
 
     CONDOR_Q_CMD = ENV['CONDOR_Q_CMD'] || "condor_q"
     CONDOR_RM_CMD = ENV['CONDOR_RM_CMD'] || "condor_rm"
-
-    # deltacloudd runs as root from the init script so we have to use su to move to
-    # 'condor' user.
-    CONDOR_SUBMIT_CMD = ENV['CONDOR_SUBMIT_CMD'] || 'su condor -m -c condor_submit'
+    CONDOR_SUBMIT_CMD = ENV['CONDOR_SUBMIT_CMD'] || 'condor_submit'
 
     # This directory needs to be readable for user running Deltacloud API
     CONDOR_CONFIG = ENV['CONDOR_CONFIG'] || 'config/condor.yaml'
