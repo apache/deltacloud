@@ -31,6 +31,7 @@ module Deltacloud::Drivers::VSphere
     # a new instance where this parameter can hold gzipped CDROM iso which will
     # be mounted into created instance after boot
     feature :instances, :user_iso
+    feature :instances, :user_data
     feature :instances, :user_name
 
     # There is just one hardware profile where memory is measured using maximum
@@ -225,6 +226,9 @@ module Deltacloud::Drivers::VSphere
             { :key => 'template_id', :value => image_id },
           ]
         }
+        if (opts[:user_data] and not opts[:user_data].empty?) and (opts[:user_iso] and not opts[:user_iso].empty?)
+          raise "ERROR: You cannot use user_data and user_iso features together"
+        end
         # If user wants to inject data into instance he need to submit a Base64
         # encoded gzipped ISO image.
         # This image will be uplaoded to the Datastore given in 'realm_id'
@@ -232,12 +236,12 @@ module Deltacloud::Drivers::VSphere
         if opts[:user_data] and not opts[:user_data].empty?
           device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
           if device
-            VSphere::FileManager::user_data!(datastore, opts[:user_data],"deltacloud_user_data")
+            VSphere::FileManager::user_data!(datastore, opts[:user_data], "#{opts[:name]}.iso")
             machine_config[:extraConfig] << {
-              :key => 'user_data_file', :value => "deltacloud_user_data.iso"
+              :key => 'user_data_file', :value => "#{opts[:name]}.iso"
             }
             device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] "+
-                                                                     "/#{VSphere::FileManager::DIRECTORY_PATH}/deltacloud_user_data.iso")
+                                                                     "/#{VSphere::FileManager::DIRECTORY_PATH}/#{opts[:name]}.iso")
             machine_config.merge!({
               :deviceChange => [{
                 :operation => :edit,
@@ -329,6 +333,10 @@ module Deltacloud::Drivers::VSphere
 
       on /InvalidLogin/ do
         status 401
+      end
+
+      on /ERROR/ do
+        status 500
       end
 
       on /RbVmomi::Fault/ do
