@@ -229,6 +229,25 @@ module Deltacloud::Drivers::VSphere
         # encoded gzipped ISO image.
         # This image will be uplaoded to the Datastore given in 'realm_id'
         # parameter and them attached to instance.
+        if opts[:user_data] and not opts[:user_data].empty?
+          device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
+          if device
+            VSphere::FileManager::user_data!(datastore, opts[:user_data],"deltacloud_user_data")
+            machine_config[:extraConfig] << {
+              :key => 'user_data_file', :value => "deltacloud_user_data.iso"
+            }
+            device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] "+
+                                                                     "/#{VSphere::FileManager::DIRECTORY_PATH}/deltacloud_user_data.iso")
+            machine_config.merge!({
+              :deviceChange => [{
+                :operation => :edit,
+                :device => device
+              }]
+            })
+          else
+            raise "Failed to inject data to device because there is no CD-ROM drive defined in given template"
+          end
+        end
         if opts[:user_iso] and not opts[:user_iso].empty?
           device = vm[:instance].config.hardware.device.select { |hw| hw.class == RbVmomi::VIM::VirtualCdrom }.first
           if device
