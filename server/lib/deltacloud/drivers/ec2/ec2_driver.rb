@@ -351,7 +351,7 @@ module Deltacloud
           safely do
             s3_client = new_client(credentials, :s3)
             bucket_location = opts['location']
-            if bucket_location
+            if (bucket_location && bucket_location.size >0)
               bucket = Aws::S3::Bucket.create(s3_client, name, true, nil, :location => bucket_location)
             else
               bucket = Aws::S3::Bucket.create(s3_client, name, true)

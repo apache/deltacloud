@@ -100,7 +100,7 @@ module DeltaCloud
           @obj.id,
           @obj.name,
           @obj.size ? @obj.size : "0",
-          @obj.blob_list ? @obj.blob_list : ""
+          @obj.instance_variables.include?("@blob_list") ? @obj.blob_list : ""
           )
         end
       end

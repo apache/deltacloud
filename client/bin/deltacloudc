@@ -61,6 +61,7 @@ BANNER
   opts.on( '-i', '--id ID', 'ID for operation') { |id| options[:id] = id }
   opts.on( '-d', '--image-id ID', 'Image ID') { |id| options[:image_id] = id }
   opts.on( '-b', '--bucket-id ID', 'Bucket ID') {|id| options[:bucket_id] = id }
+  opts.on( '-r', '--bucket-location NAME', 'Bucket location') {|name| options[:bucket_location] = name }
   opts.on( '-a', '--arch ARCH', 'Architecture (x86, x86_64)') { |id| options[:architecture] = id }
   opts.on( '-p', '--hardware-profile HARDWARE_PROFILE', 'Hardware Profile') { |id| options[:hwp_id] = id }
   opts.on( '-n', '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
@@ -217,7 +218,7 @@ if options[:collection] and options[:operation]
   if options[:collection].eql?('buckets')
     if options[:operation].eql?('create')
         invalid_usage("Please specify an id for the new bucket with -i") unless options[:id]
-        bucket = client.create_bucket('id'=>options[:id])
+        bucket = client.create_bucket('id'=>options[:id], 'bucket_location'=>options[:bucket_location])
         puts format(bucket)
     elsif options[:operation].eql?('destroy')
         invalid_usage("Please specify the bucket you wish to destroy with -i") unless options[:id]

@@ -2,7 +2,7 @@ module ClientBucketMethods
 
   def create_bucket(params)
     obj = nil
-    request(:post, "#{api_uri.to_s}/buckets", {:name => params['id'] }) do |response|
+    request(:post, "#{api_uri.to_s}/buckets", {:name => params['id'],:location=>params['bucket_location'] }) do |response|
       handle_backend_error(response) if response.code!=201
       obj = base_object(:bucket, response)
     end
