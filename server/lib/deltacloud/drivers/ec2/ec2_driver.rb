@@ -232,7 +232,7 @@ module Deltacloud
         def reboot_instance(credentials, instance_id)
           ec2 = new_client(credentials)
           if ec2.reboot_instances([instance_id])
-            instance(credentials, instance_id)
+            instance(credentials, :id => instance_id)
           else
             raise Deltacloud::BackendError.new(500, "Instance", "Instance reboot failed", "")
           end
@@ -241,7 +241,7 @@ module Deltacloud
         def destroy_instance(credentials, instance_id)
           ec2 = new_client(credentials)
           if ec2.terminate_instances([instance_id])
-            instance(credentials, instance_id)
+            instance(credentials, :id => instance_id)
           else
             raise Deltacloud::BackendError.new(500, "Instance", "Instance cannot be terminated", "")
           end
