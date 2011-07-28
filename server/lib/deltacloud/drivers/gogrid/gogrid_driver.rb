@@ -84,11 +84,14 @@ class GogridDriver < Deltacloud::BaseDriver
   end
 
   def realms(credentials, opts=nil)
+    realms = []
+    client = new_client(credentials)
     safely do
-      new_client(credentials).request('common/lookup/list', { 'lookup' => 'ip.datacenter' })['list'].collect do |realm|
-        convert_realm(realm)
+        client.request('common/lookup/list', { 'lookup' => 'ip.datacenter' })['list'].collect do |realm|
+         realms << convert_realm(realm)
       end
     end
+    realms = filter_on(realms, :id, opts)
   end
 
   def create_instance(credentials, image_id, opts={})
@@ -228,7 +231,7 @@ class GogridDriver < Deltacloud::BaseDriver
       if opts['instance_id']
         l_instance = instance(credentials, :id => opts['instance_id'])
         real_ip = {
-          'realiplist.0.port' => opts['listener_inst_port'],
+          'realiplist.0.port' => opts['listener_instance_port'].to_i,
           'realiplist.0.ip' => l_instance ? l_instance.public_addresses.first : ""
         }
       else
@@ -237,7 +240,7 @@ class GogridDriver < Deltacloud::BaseDriver
       request = {
         'name' => opts['name'],
         'virtualip.ip' => virtip,
-        'virtualip.port' => opts['listener_lbr_port'],
+        'virtualip.port' => opts['listener_balancer_port'].to_i,
       }
       request.merge!(real_ip) if real_ip
       balancer = gogrid.request('grid/loadbalancer/add', request)['list'].first
@@ -252,9 +255,7 @@ class GogridDriver < Deltacloud::BaseDriver
     balancer = nil
     safely do
       balancer = gogrid.request('grid/loadbalancer/delete', { 'name' => id })
-      balancer = load_balancer(credentials, :id => id) unless balancer
     end
-    convert_load_balancer(credentials, balancer)
   end
 
   def load_balancers(credentials, opts={})
@@ -349,7 +350,7 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def convert_load_balancer(credentials, loadbalancer)
     if loadbalancer['datacenter']
-      b_realm = realm(credentials, :id => loadbalancer['datacenter']['id'])
+      b_realm = realm(credentials, :id => loadbalancer['datacenter']['id'].to_s)
     else
       # Report first Realm until loadbalancer become ready
       b_realm = realm(credentials, :id => 1)
@@ -362,15 +363,20 @@ class GogridDriver < Deltacloud::BaseDriver
     balancer.listeners = []
     balancer.instances = []
     instance_ips = []
-    loadbalancer['realiplist'].each do |instance_ip|
-      balancer.add_listener({
-        :protocol => 'TCP',
-        :load_balancer_port => loadbalancer['virtualip']['port'],
-        :instance_port => instance_ip['port']
-      })
-      instance_ips << instance_ip['ip']['ip']
-    end if loadbalancer['realiplist']
-    balancer.instances = get_load_balancer_instances(instance_ips, loadbalancer['instances'])
+    if loadbalancer['realiplist'].size > 0
+      loadbalancer['realiplist'].each do |instance_ip|
+       balancer.add_listener({
+          :protocol => 'TCP',
+          :load_balancer_port => loadbalancer['virtualip']['port'],
+          :instance_port => instance_ip['port']
+        })
+        instance_ips << instance_ip['ip']['ip']
+      end
+    else
+      balancer.add_listener({:protocol=>'TCP', :load_balancer_port =>loadbalancer['virtualip']['port'],
+                             :instance_port => "unassigned"})
+    end
+    balancer.instances = get_load_balancer_instances(instance_ips, loadbalancer['instances']) if loadbalancer['instances']
     return balancer
   end
 
@@ -425,7 +431,7 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def convert_realm(realm)
     Realm.new(
-      :id => realm['id'],
+      :id => realm['id'].to_s,
       :name => realm['name'],
       :state => :unlimited,
       :storage => :unlimited
