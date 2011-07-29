@@ -623,8 +623,13 @@ collection :storage_volumes do
     param :instance_id,:string,  :required
     param :device,     :string,  :required
     control do
-      driver.attach_storage_volume(credentials, params)
-      redirect(storage_volume_url(params[:id]))
+      @storage_volume = driver.attach_storage_volume(credentials, params)
+      status 202
+      respond_to do |format|
+        format.html { redirect(storage_volume_url(params[:id]))}
+        format.xml  { haml :"storage_volumes/show" }
+        format.json { convert_to_json(:storage_volume, @storage_volume) }
+      end
     end
   end
 
@@ -634,9 +639,13 @@ collection :storage_volumes do
     param :id,         :string,  :required
     control do
       volume = driver.storage_volume(credentials, :id => params[:id])
-      driver.detach_storage_volume(credentials, :id => volume.id, :instance_id => volume.instance_id,
-                                   :device => volume.device)
-      redirect(storage_volume_url(params[:id]))
+      @storage_volume =  driver.detach_storage_volume(credentials, :id => volume.id, :instance_id => volume.instance_id, :device => volume.device)
+      status 202
+      respond_to do |format|
+        format.html { redirect(storage_volume_url(params[:id]))}
+        format.xml  { haml :"storage_volumes/show" }
+        format.json { convert_to_json(:storage_volume, @storage_volume) }
+      end
     end
   end
 
