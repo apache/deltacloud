@@ -1,22 +1,27 @@
-%h1
-  = @key.id
+=header "Key"
+=subheader @key.id
 
-%dl
-  - if @key.is_key?
-    %di
-      %dt Fingerprint
-      %dd
-        = @key.fingerprint
-      - if @key.pem_rsa_key
-        %dt PEM key
-        %dd
-          %pre
-            = @key.pem_rsa_key
-  - if @key.is_password?
-    %di
-      %dt Username
-      %dd
-        = @key.username
-      %dt Password
-      %dd
-        = @key.password
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Identifier
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@key.id
+    - if @key.is_password?
+      %li{ :'data-role' => 'list-divider'} Username
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=@key.username
+      %li{ :'data-role' => 'list-divider'} Password
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=@key.password
+    - else
+      %li{ :'data-role' => 'list-divider'} Fingerprint
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=@key.fingerprint
+      %li{ :'data-role' => 'list-divider'} PEM key
+      %li
+        %p{ :'data-role' => 'fieldcontain'}
+          %pre=@key.pem_rsa_key
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        =link_to_action "Destroy", destroy_key_url(@key.id), :delete

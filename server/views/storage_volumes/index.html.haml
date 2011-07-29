@@ -1,36 +1,13 @@
-%h1 Storage Volumes
+=header "Storage volumes" do
+  %a{ :href => api_url_for('storage_volumes/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new volume
 
-%table.display
-  %thead
-    %tr
-      %th ID
-      %th Created
-      %th Realm
-      %th Capacity
-      %th Status
-      %th Actions
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    %li{ :'data-role' => 'list-divider'}=driver_symbol
     - @storage_volumes.each do |volume|
-      %tr
-        %td
-          = link_to volume.id, storage_volume_url( volume.id )
-        %td
-          = volume.created
-        %td
-          = volume.realm_id
-        %td
-          = "#{volume.capacity} GB"
-        %td
-          = "#{volume.state}"
-        %td
-          - if ["AVAILABLE", "IN-USE"].include?(volume.state)
-            =link_to_action "Snaphot", api_url_for("storage_snapshots/new?volume_id=#{volume.id}"), :get
-            - unless volume.instance_id
-              =link_to_action "Delete", destroy_storage_volume_url(volume.id), :delete
-              =link_to_action "Attach", api_url_for("storage_volumes/attach?id=#{volume.id}"), :get
-            - if volume.instance_id
-              =link_to_action "Detach", detach_storage_volume_url(volume.id), :post
-  %tfoot
-    %tr
-      %td{:colspan => 6}
-        %a{ :href => api_url_for("storage_volumes/new")} Create volume
+      %li
+        %a{ :href => storage_volume_url(volume.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/volume.png'}
+          %h3= volume.id
+          %p=[volume.realm_id, volume.capacity].join(', ')
+          %span{ :class => 'ui-li-count'}=volume.state

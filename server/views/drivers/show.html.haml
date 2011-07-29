@@ -1,20 +1,20 @@
-%h1
-  Details for driver #{@name}
+=header @name
+=subheader "Deltacloud API #{settings.version}"
 
-%dl
-  %di
-    %dt ID
-    %dd= @name
-  %di
-    %dt Name
-    %dd= @driver[:name]
-  %di
-    %dt Provider
-    %dd
-      - providers = driver_provider(@driver).keys.collect { |k| k.to_s }.sort
-      - if providers.empty?
-        None
-      - else
-        %ol
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Identifier
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@name
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@driver[:name]
+    %li{ :'data-role' => 'list-divider'} Provider
+    %li
+      %p{ :'data-role' => 'fieldcontain'}
+        - providers = driver_provider(@driver).keys.collect { |k| k.to_s }.sort
+        - if providers.empty?
+          None
+        - else
           - providers.each do |k|
-            %li= k
+            %p= k

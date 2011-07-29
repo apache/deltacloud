@@ -1,8 +1,8 @@
-%h1 New key
+=header "Create new SSH key"
 
-%form{ :action => keys_url, :method => :post }
-  %p
-    %label
-      Name:
-    %input{ :name => 'name', :size => 30 }/
-    %input{ :type => :submit, :name => "commit", :value => "create" }/
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => keys_url, :method => :post}
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :name} Key name:
+      %input{ :type => :text, :id => :name, :name => :name, :value => '' }
+    %button{ :type => :submit} Create key

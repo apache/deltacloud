@@ -1,25 +1,17 @@
-%h1
-  Hardware Profiles
+=header "Hardware profiles"
+=subheader "#{driver_symbol}@#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
-%table.display
-  %thead
-    %tr
-      %th
-        Name
-      %th
-        Architecture
-      %th
-        Memory
-      %th
-        Storage
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview, :'data-inset' => :true }
     - for profile in @profiles
-      %tr
-        %td
-          = link_to profile.name, hardware_profile_url( profile.name )
-        %td
-          = format_hardware_property profile.architecture
-        %td
-          = format_hardware_property profile.memory
-        %td
-          = format_hardware_property profile.storage
+      %li{ :'data-theme' => 'c'}
+        %a{ :href => hardware_profile_url(profile.name)}
+          %img{ :class => 'ui-link-thumb', :src => '/images/profile.png'}
+          %h3= profile.name
+          %p
+            %strong Architecture:
+            = format_hardware_property profile.architecture
+            %strong Memory:
+            = format_hardware_property profile.memory
+            %strong Storage:
+            = format_hardware_property profile.storage

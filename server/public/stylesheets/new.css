@@ -1,0 +1,36 @@
+#copyright {
+  font-size : 75%;
+  padding : 10px;
+  text-align : right;
+}
+
+table#dataset {
+  width : 100%;
+}
+
+table#dataset tr td:first-child {
+  font-weight : bold;
+  width : 20%;
+}
+
+p.inner-right {
+  text-align : right;
+  padding-right : 1.5em;
+}
+
+div.middle-dialog {
+  width : 60%;
+  margin : 0 auto;
+}
+
+.ui-select {
+  width : 300px!important;
+}
+
+form.link {
+  display : inline;
+}
+
+p.right-float {
+  float : right;
+}

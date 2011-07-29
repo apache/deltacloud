@@ -1,26 +1,13 @@
-%h1
-  Realms
+=header "Realms"
+=subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
-%table.display
-  %thead
-    %tr
-      %th
-        ID
-      %th
-        Name
-      %th
-        State
-      %th
-        Limit
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    %li{ :'data-role' => 'list-divider'}=driver_symbol
     - @realms.each do |realm|
-      %tr
-        %td
-          = link_to realm.id, realm_url( realm.id )
-        %td
-          = realm.name
-        %td
-          = realm.state
-        %td
-          = realm.limit
-
+      %li
+        %a{ :href => realm_url(realm.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/realm.png'}
+          %h3= realm.name
+          %p=[realm.id, realm.limit].join(', ')
+          %span{ :class => 'ui-li-count'}=realm.state

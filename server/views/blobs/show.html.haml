@@ -1,32 +1,31 @@
-%h1 Blob
-%h2
-  = @blob.id
+=header "Blob"
+=subheader @blob.id
 
-%dl
-  %di
-    %dt Bucket
-    %dd
-      = @blob.bucket
-    %dt Content_Length
-    %dd
-      = @blob.content_length
-    %dt Content_Type
-    %dd
-      = @blob.content_type
-    %dt Last_Modified
-    %dd
-      = @blob.last_modified
-    %dt Content
-    %dd
-      =link_to 'Blob content', bucket_url(@blob.bucket) + '/' + @blob.id + '/content'
-    %dt User_Metadata
-    %dd
-      -@blob.user_metadata.each do |k,v|
-        %b #{k} :
-        #{v}
-        %br
-    %dt Delete this Blob
-    %dd
-      %form{ :action => bucket_url(@blob.bucket) + '/' + @blob.id , :method => :post }
-        %input{ :type => "hidden", :name => "_method", :value => "delete"}
-        %input{ :type => :submit, :value => "Delete"}/
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Bucket
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@blob.bucket
+    %li{ :'data-role' => 'list-divider'} Content length
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@blob.content_length
+    %li{ :'data-role' => 'list-divider'} Content type
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@blob.content_type
+    %li{ :'data-role' => 'list-divider'} Last modified
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@blob.last_modified
+    %li{ :'data-role' => 'list-divider'} Content
+    %li
+      %a{ :href => bucket_url(@blob.bucket) + '/' + @blob.id + '/content' }="Download"
+    %li{ :'data-role' => 'list-divider'} User meta-data
+    %li
+      %p{ :'data-role' => 'fieldcontain'}
+        - @blob.user_metadata.each do |k,v|
+          %b #{k} :
+          #{v}
+          %br
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        =link_to_action 'Delete',bucket_url(@blob.bucket) + '/' + @blob.id, :delete
