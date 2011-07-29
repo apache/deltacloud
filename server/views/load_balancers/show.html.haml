@@ -1,37 +1,36 @@
-%h1
-  = @load_balancer.id
+=header "Loadbalancer"
+=subheader @load_balancer.id
 
-%dl
-  %di
-    %dt Public addresses
-    %dd
-      = @load_balancer.public_addresses.join(',')
-    - if @load_balancer.created_at
-      %dt Created at
-      %dd
-        = @load_balancer.created_at
-    %dt Realms
-    %dd
-      = @load_balancer.realms.collect { |r| "#{r.id} - #{r.name}" }.join(',')
-    %dt Listeners
-    %dd
-      - @load_balancer.listeners.each do |listener|
-        ="Load balancer port: #{listener.load_balancer_port}"
-        %br
-        ="Instance port: #{listener.instance_port}"
-        %br
-    - if @load_balancer.instances.class.eql?(Array)
-      %dt Instances
-      - @load_balancer.instances.each do |inst|
-        %dd
-          =inst.id
-          =link_to_action 'Delete', unregister_load_balancer_url(@load_balancer.id, :instance_id => inst.id), :post
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Created at
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@load_balancer.created_at
+    %li{ :'data-role' => 'list-divider'} Public addresses
+    - @load_balancer.public_addresses.each do |address|
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=address
+    %li{ :'data-role' => 'list-divider'} Realms
+    - @load_balancer.realms.each do |realm|
+      %li
+        %a{ :href => realm_url(realm.id), :'data-ajax' => 'false'}
+          %h3=realm.name
+    %li{ :'data-role' => 'list-divider'} Instances
+    - @load_balancer.instances.each do |instance|
+      %li
+        %a{ :href => instance_url(instance.id), :'data-ajax' => 'false'}
+          %h3=instance.name
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      =link_to_action "Destroy", destroy_load_balancer_url(@load_balancer.id), :delete
 
-%form{:action => api_url_for("load_balancers/#{@load_balancer.id}/register"), :method => :post}
-  %p
-    %strong Add instances to load balancer
-  %p
-    %label Instance
-    %select{:name => :instance_id, :id => "list_instances"}
-    %input{:type => :submit, :value => "Assign"}
+  =header "Listeners", :back => 'false'
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    - @load_balancer.listeners.each do |listener|
+      %li{ :'data-role' => 'list-divider'} Load balancer port
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=listener.load_balancer_port
+      %li{ :'data-role' => 'list-divider'} Instance port
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=listener.instance_port
 

@@ -1,26 +1,15 @@
-%h1 Keys
+=header "Keys" do
+  %a{ :href => api_url_for('keys/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new key
 
-%table.display
-  %thead
-    %tr
-      %th ID
-      %th Credentials details
-      %th Actions
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     - @elements.each do |key|
-      %tr
-        %td
-          = link_to key.id, key_url( key.id )
-        %td
-          - if key.credential_type.eql?(:key)
-            = key.fingerprint
-          - if key.credential_type.eql?(:password)
-            = "#{key.username} - #{key.password}"
-        %td
-          - if driver.respond_to?(:destroy_key)
-            =link_to_action 'Destroy', destroy_key_url(key.id), :delete
-  %tfoot
-    - if driver.respond_to?(:create_key)
-      %tr
-        %td{:colspan => 3, :style => "text-align:right;"}
-          =link_to 'Create &raquo;', "#{api_url_for('keys/new')}", :class => 'button'
+      %li
+        %a{ :href => key_url(key.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/key.png'}
+          %h3=key.id
+          %p
+            - if key.credential_type.eql?(:key)
+              = key.fingerprint
+            - if key.credential_type.eql?(:password)
+              = "#{key.username} - #{key.password}"

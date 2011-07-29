@@ -1,25 +1,15 @@
-%h1 Firewalls
-%br
-%p
-  =link_to 'Create new firewall', "/api/firewalls/new"
-%table.display
-  %thead
-    %tr
-      %th Id
-      %th Name
-      %th Description
-      %th Owner ID
-      %th Rules
-  %tbody
+=header "Firewalls" do
+  %a{ :href => api_url_for('firewalls/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new firewall
+=subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    %li{ :'data-role' => 'list-divider'}=driver_symbol
     - @firewalls.each do |firewall|
-      %tr
-        %td
-          = link_to firewall.id, firewall_url(firewall.id)
-        %td
-          = firewall.name
-        %td
-          = firewall.description
-        %td
-          = firewall.owner_id
-        %td
-          = link_to 'view rules', firewall_url(firewall.id)
+      %li
+        %a{ :href => firewall_url(firewall.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/firewall.png'}
+          %h3=firewall.id
+          %p=firewall.description
+          %span{ :class => 'ui-li-count'}=firewall.owner_id
+

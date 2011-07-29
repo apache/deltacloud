@@ -1,19 +1,23 @@
-%h1
-  = @profile.name
+=header "Hardware profiles"
+=subheader @profile.name
 
-%dl
-  %di
-    %dt
-      Architecture
-    %dd
-      = format_hardware_property @profile.architecture
-  %di
-    %dt
-      Memory
-    %dd
-      = format_hardware_property @profile.memory
-  %di
-    %dt
-      Storage
-    %dd
-      = format_hardware_property @profile.storage
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@profile.name
+    - @profile.each_property do |p|
+      %li{ :'data-role' => 'list-divider'} #{p.name.to_s.titlecase}
+      %li
+        %p{ :'data-role' => 'fieldcontain'}
+          - if p.kind == :fixed
+            =p.value
+            =p.unit if not ['label', 'count'].include? p.unit
+          -elsif p.kind == :range
+            Minimum: #{p.first}
+            =p.unit if not ['label', 'count'].include? p.unit
+            Maximum: #{p.last}
+            =p.unit if not ['label', 'count'].include? p.unit
+          -elsif p.kind == :enum
+            =p.values.join(" #{p.unit} or ")
+            =p.unit

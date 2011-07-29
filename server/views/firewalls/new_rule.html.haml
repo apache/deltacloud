@@ -1,26 +1,19 @@
-%h1 New Firewall Rule
+=header "New firewall rule"
 
-%form{ :action => "#{firewall_url(@firewall_name)}/rules", :id => "new_rule_form", :method => :post, :enctype => 'multipart/form-data'}
-  %label
-    Protocol:
-    %br
-    %input{ :name => 'protocol', :size => 10}/
-    %br
-    %br
-  %label
-    From port:
-    %br
-    %input{ :name => 'from_port', :size => 10}/
-    %br
-    %br
-    To port:
-    %br
-    %input{ :name => 'to_port', :size => 10}/
-    %br
-    %br
-  %a{ :href => "javascript:;", :onclick => "make_fields('address');"} Add source IP address
-  %br
-  %a{ :href => "javascript:;", :onclick => "make_fields('group');"} Add source group
-  %br
-  %br
-  %input{ :type => :submit, :id => "submit_button", :name => "commit", :value => "create"}/
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog', :id => "new_rule_form"}
+  %form{ :action => "#{firewall_url(@firewall_name)}/rules", :method => :post}
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :name} Protocol:
+      %input{ :type => :text, :id => :protocol, :name => :protocol, :value => '', :size => 10 }
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :name} From port:
+      %input{ :type => :text, :id => :from_port, :name => :from_port, :value => '', :size => 10 }
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :name} To port:
+      %input{ :type => :text, :id => :to_port, :name => :to_port, :value => '', :size => 10 }
+    %div{ 'data-role' => :fieldcontain }
+      %a{ :href => "javascript:;", :onclick => "make_fields('address');"} Add source IP address
+      %br
+      %a{ :href => "javascript:;", :onclick => "make_fields('group');"} Add source group
+    %button{ :type => :submit} Create
+

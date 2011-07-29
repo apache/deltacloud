@@ -1,25 +1,13 @@
-%h1 Images
+=header "Images"
+=subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
-%table.display
-  %thead
-    %tr
-      %th
-        ID
-      %th
-        Name
-      %th
-        Owner
-      %th
-        Description
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    %li{ :'data-role' => 'list-divider'}=driver_symbol
     - @images.each do |image|
-      %tr
-        %td
-          = link_to image.id, image_url(image.id)
-        %td
-          = image.name
-        %td
-          = link_to image.owner_id, images_url + "?owner_id=#{image.owner_id}"
-        %td
-          = image.description
-
+      %li
+        %a{ :href => image_url(image.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/image.png'}
+          %h3= image.name
+          %p=[image.description, image.owner_id, image.architecture].join(', ')
+          %span{ :class => 'ui-li-count'}=image.state

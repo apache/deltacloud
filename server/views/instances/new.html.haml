@@ -1,111 +1,80 @@
-%h1 Launch new Instance
+=header "Launch new instance"
+=subheader @image.description
 
-%h3{:class => "description"}= @image.description
-%h2= @image.id
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => instances_url, :method => :post, :class => :new_instance }
+    %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
 
-%form{ :action => instances_url, :method => :post, :class => :new_instance }
-  %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
-  %p
-    %label
-      Name:
-    %input{ :name => 'name', :size => 30, :type => :text }/
-  -if driver_has_feature?(:instance_count)
-    %p
-      %label
-        Number of instances:
-      %input{ :type => :text, :value => "1", :name => :instance_count }
-  -if driver_has_feature?(:sandboxing)
-    %p
-      %label
-        Sandbox?:
-      %input{ :type => :checkbox, :value => "1", :name => :sandbox }
-  -if driver_has_feature?(:register_to_load_balancer)
-    %p
-      %label
-        Load balancer to assign:
-      %select{:name => 'load_balancer_id'}
-        %option
-        - @load_balancers.each do |load_balancer|
-          %option{:value => load_balancer.id} #{load_balancer.id}
-  -if driver_has_feature?(:user_iso)
-    %p
-      %label
-        User ISO (Base64):
-      %textarea{:name => :user_iso, :cols => 60, :rows => 10, :placeholder => "Copy&Paste a Base64 string here..."}
-  -if driver_has_feature?(:authentication_key)
-    %p
-      %label
-        Instance Keyname:
-      %select{:name => 'keyname'}
-        %option
-        - @keys.each do |key|
-          %option{ :value => key.id } #{key.id}
-  -if driver_has_feature?(:firewalls)
-    %p
-      %label
-        Firewalls:
-        %br
-        %br
-    - @firewalls.each_index do |i|
-      - if @firewalls[i].name == 'default'
-        %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :checked => :true}/
-      - else
-        %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}"}/
-      = @firewalls[i].name
-    %br
-    %br
-  - if !@hardware_profiles.empty?
-    %h3 What size machine?
-    - for hwp in @hardware_profiles
-      .radio-group
-        %label{ :for => "hwp_id_#{hwp.name}" }
-          %input{ :type => :radio, :name => 'hwp_id', :value => hwp.name }/
-          = hwp.name
-          %br/
-          %span.radio-group-details
-            - first = true
-            - hwp.properties.select { |prop| prop.fixed? }.each do |prop|
-              - unless first
-                ,
-              - first = false
-              = format_hardware_property prop
-          - hwp.properties.reject { |prop| prop.fixed? }.each do |prop|
-            %span.radio-group-details
-              %label{ :for => "#{prop.param}_#{hwp.name}" }
-                = prop.name
-              - if prop.kind == :enum
-                %select{ :size => 1, :name => prop.param }
-                  - for v in prop.values
-                    %option= v
-                = prop.unit
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :name} Instance name:
+      %input{ :type => :text, :id => :name, :name => :name, :value => '' }
+
+    %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+      %h3 Additional parameters
+
+      - if driver_has_feature?(:instance_count)
+        %div{ 'data-role' => :fieldcontain }
+          %label{ :for => :instance_count} # of instances to be launched:
+          %input{ :type => :text, :id => :instance_count, :name => :instance_count, :value => '1' }
+
+      - if driver_has_feature?(:authentication_key)
+        %div{ 'data-role' => :fieldcontain }
+          %label{ :for => :keyname, :class => 'ui-input-text'} Instance SSH key:
+          %select{:name => 'keyname', :'data-native-menu' => "true" }
+            %option{ :value => ''} None
+            - @keys.each do |key|
+              %option{ :value => key.id } #{key.id}
+
+      - if driver_has_feature?(:register_to_load_balancer)
+        %div{ 'data-role' => :fieldcontain }
+          %label{ :for => :load_balancer_id, :class => 'ui-input-text'} Register to loadbalancer:
+          %select{:name => 'load_balancer_id', :'data-native-menu' => "true" }
+            %option{ :value => ''} None
+            - @load_balancers.each do |load_balancer|
+              %option{:value => load_balancer.id} #{load_balancer.id}
+
+      - if driver_has_feature?(:firewalls)
+        %div{ 'data-role' => :fieldcontain }
+          %fieldset{ :'data-role' => 'controlgroup'}
+            %legend Register to firewall:
+            - @firewalls.each_index do |i|
+              - if @firewalls[i].name == 'default'
+                %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :checked => :true, :id => "firewalls#{i}"}/
+                %label{:for => "firewalls#{i}"} Default
               - else
-                %input{ :name => prop.param, :size => 10, :value => "#{prop.default}" }
-                = prop.unit
-                (value must be between #{prop.first} #{prop.unit} and #{prop.last} #{prop.unit})
-  - if !@realms.empty?
-    %h3 Where do you want it?
-    - for realm in @realms
-      .radio-group
-        %label{ :for => "realm_id_#{realm.id}" }
-          %input{ :type => :radio, :name => 'realm_id', :value => realm.id }/
-          = realm.id
-          %br/
-          %span.radio-group-details
-            = "#{realm.name}, #{realm.limit}"
-  - if driver_has_feature?(:user_files, :instances)
-    %h2 User-supplied files
-    %table
-      %thead
-        %tr
-          %th
-          %th Path
-          %th Content (must be base64 encoded)
-      %tbody
-        - 1.upto(5) do |i|
-          %tr
-            %td #{i.ordinalize} File:
-            %td
-              %input{ :name => "path#{i}", :size => 20 }
-            %td
-              %input{ :name => "content#{i}", :size => 50 }
-  %input{ :type => :submit, :name => "commit", :value => "create" }/
+                %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :id => "firewalls#{i}"}/
+                %label{:for => "firewalls#{i}"}=@firewalls[i].name
+
+    - if !@hardware_profiles.empty?
+      %div{ 'data-role' => :fieldcontain }
+        %h3 Instance profile
+        %fieldset{ :'data-role' => :fieldcontain}
+          - @hardware_profiles.each do |profile|
+            %input{ :type => :radio, :name => 'hwp_id', :value => profile.name, :id => profile.name, :'data-theme' => 'b'}/
+            %label{ :for => profile.name}=profile.name
+            - profile.properties.reject { |prop| prop.fixed? }.each do |prop|
+              %div{ :'data-role' => :fieldcontain}
+                %label{ :for => "#{prop.param}_#{profile.name}" }=prop.name
+                %span.radio-group-details
+                  - if prop.kind == :enum
+                    %select{ :size => 1, :name => prop.param }
+                      - for v in prop.values
+                        %option= v
+                    = prop.unit
+                  - elsif prop.kind == :range
+                    %input{ :type => :range, :value => prop.first, :min => prop.first, :max => prop.last, :name => prop.param}
+                  - else
+                    %input{ :name => prop.param, :size => 10, :value => "#{prop.default}" }
+                    = prop.unit
+
+    - if !@realms.empty?
+      %div{ 'data-role' => :fieldcontain }
+        %h3 Where do you want it?
+        %fieldset{ :'data-role' => :fieldcontain}
+          %legend
+          - @realms.each do |realm|
+            %div{ :'data-role' => :fieldcontain}
+              %label{ :for => realm.id }= "#{realm.name}, #{realm.limit}"
+              %input{ :type => :radio, :name => 'realm_id', :value => realm.id, :id => realm.id, :'data-theme' => 'b' }/
+
+    %button{ :type => :submit} Create instance

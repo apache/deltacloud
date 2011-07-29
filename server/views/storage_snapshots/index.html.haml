@@ -1,23 +1,13 @@
-%h1 Storage Snapshots
+=header "Storage Snapshots"
 
-%table
-  %thead
-    %tr
-      %th ID
-      %th Volume
-      %th Created
-      %th State
-      %th Actions
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    %li{ :'data-role' => 'list-divider'}=driver_symbol
     - @storage_snapshots.each do |snapshot|
-      %tr
-        %td
-          = link_to snapshot.id, storage_snapshot_url( snapshot.id )
-        %td
-          = link_to snapshot.storage_volume_id, storage_volume_url( snapshot.storage_volume_id )
-        %td
-          = snapshot.created
-        %td
-          = snapshot.state
-        %td
-          = link_to_action "Delete", destroy_storage_snapshot_url(snapshot.id), :delete
+      %li
+        %a{ :href => storage_snapshot_url(snapshot.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/snapshot.png'}
+          %h3= snapshot.id
+          %p=[snapshot.storage_volume_id, snapshot.created].join(', ')
+          %span{ :class => 'ui-li-count'}=snapshot.state
+

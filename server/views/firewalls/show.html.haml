@@ -1,43 +1,42 @@
-%h1 Firewall
-%h2
-  = @firewall.id
-%dl
-  %di
-    %dt Name
-    %dd
-      = @firewall.name
-    %dt Owner
-    %dd
-      = @firewall.owner_id
-    %dt Description
-    %dd
-      = @firewall.description
+=header "Firewall"
+=subheader @firewall.id
 
-%h2
-  Rules
-  %br
-  %p
-    =link_to 'Create a new rule', "/api/firewalls/#{@firewall.name}/new_rule"
-%dl
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Identifier
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@firewall.id
+    %li{ :'data-role' => 'list-divider'} Description
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@firewall.description
+    %li{ :'data-role' => 'list-divider'} Owner
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@firewall.owner_id
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        =link_to_action "Destroy", destroy_firewall_url(@firewall.id), :delete
+
+=header "Rules", :back => 'false' do
+  %a{ :href => api_url_for("firewalls/#{@firewall.id}/new_rule"), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => 'false'} Add new rule
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
   - @firewall.rules.each do |rule|
-    %di
-      Rule
-      - rule.attributes.select{|attr| attr != :sources}.each do |attrib|
-        %dt #{attrib}
-        %dd
-          = rule.send(attrib)
-      %dt sources
-      %dd
-        - rule.sources.each do |source|
-          - if source[:type] == "group"
-            type: #{source[:type]}, name: #{source[:name]}, owner: #{source[:owner]}
-            %br
-          - else
-            type: #{source[:type]}, family: #{source[:family]}, address: #{source[:address]}, prefix: #{source[:prefix]}
-            %br
-      %dd
-        %form{ :action => "#{firewall_url(@firewall.name)}/#{rule.id}", :method => :post}
-          %input{:type => "hidden", :name => "_method", :value => "delete"}
-          %input{:type => :submit, :value => "Delete Rule"}
-  %dd
-    = link_to_action 'Delete Firewall', destroy_firewall_url(@firewall.name), :delete
+    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+      %li{ :'data-role' => 'list-divider'}
+        %strong=rule.id
+      %li
+        %p{ :'data-role' => 'fieldcontain'}
+          = rule.attributes.select{|attr| ![:sources, :id].include?(attr)}.collect { |a| "<strong>#{a}</strong>=#{rule.send(a)}" }.join(", ")
+      %li{ :'data-role' => 'list-divider'} Sources
+      - rule.sources.each do |source|
+        %li
+          %p{ :'data-role' => 'fieldcontain'}
+            - if source[:type] == "group"
+              type: #{source[:type]}, name: #{source[:name]}, owner: #{source[:owner]}
+            - else
+              type: #{source[:type]}, family: #{source[:family]}, address: #{source[:address]}, prefix: #{source[:prefix]}
+      %li{ :'data-role' => 'list-divider'} Actions
+      %li
+        %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+          =link_to_action "Delete", "#{firewall_url(@firewall.name)}/#{rule.id}", :delete

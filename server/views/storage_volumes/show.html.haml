@@ -1,28 +1,34 @@
-%h1
-  = @storage_volume.id
+=header "Storage volume"
+=subheader @storage_volume.id
 
-%dl
-  %di
-    %dt Name
-    %dd
-      = @storage_volume.name
-  %di
-    %dt Created
-    %dd
-      = @storage_volume.created
-  %di
-    %dt Capacity
-    %dd
-      = "#{@storage_volume.capacity} GB"
-  %di
-    %dt Realm
-    %dd
-      = @storage_volume.realm_id
-  %di
-    %dt State
-    %dd
-      = @storage_volume.state
-  %di
-    %dt Attached
-    %dd
-      = link_to(@storage_volume.instance_id, instance_url( @storage_volume.instance_id)) + ' - ' + @storage_volume.device.to_s if @storage_volume.instance_id
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.id
+    %li{ :'data-role' => 'list-divider'} Created
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.created
+    %li{ :'data-role' => 'list-divider'} Capacity
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.capacity
+    %li{ :'data-role' => 'list-divider'} Realm
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.realm_id
+    %li{ :'data-role' => 'list-divider'} State
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.state
+    %li{ :'data-role' => 'list-divider'} Attached to
+    %li
+      %a{ :href => instance_url( @storage_volume.instance_id) + ' - ' + @storage_volume.device.to_s}
+        =@storage_volume.instance_id || 'unknown'
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        - if ["AVAILABLE", "IN-USE"].include?(@storage_volume.state)
+          =link_to_action "Snaphot", api_url_for("storage_snapshots/new?volume_id=#{@storage_volume.id}"), :get
+          - unless @storage_volume.instance_id
+            =link_to_action "Delete", destroy_storage_volume_url(@storage_volume.id), :delete
+            =link_to_action "Attach", api_url_for("storage_volumes/attach?id=#{@storage_volume.id}"), :get
+          - if @storage_volume.instance_id
+            =link_to_action "Detach", detach_storage_volume_url(@storage_volume.id), :post

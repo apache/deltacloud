@@ -1,23 +1,23 @@
-%h1 Bucket
-%h2
-  = @bucket.id
+=header "Bucket"
+=subheader @bucket.id
 
-%dl
-  %di
-    %dt Name
-    %dd
-      = @bucket.name
-    %dt Size
-    %dd
-      = @bucket.size
-    %dt Blobs
-    %dd
-      -@bucket.blob_list.each do |blob|
-        = link_to blob, bucket_url(@bucket.name) + '/' + blob
-    %dt Create a new blob
-    %dd
-      =link_to 'Create Blob', bucket_url(@bucket.name) + '/new_blob'
-    %dt Delete bucket (must be empty)
-    %dd
-      -if @bucket.size == 0
-        =link_to_action 'Delete', destroy_bucket_url(@bucket.name), :delete
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@bucket.name
+    %li{ :'data-role' => 'list-divider'} Size
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@bucket.name
+    %li{ :'data-role' => 'list-divider'}
+      Blobs
+    - @bucket.blob_list.each do |blob|
+      %li
+        %a{ :href => bucket_url(@bucket.name) + "/" + blob, :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/blob.png'}
+          %h3=blob
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        %a{ :href => bucket_url(@bucket.name) + "/new_blob", :'data-role' => "button", :'data-ajax' => 'false'} Create a new blob
+        =link_to_action 'Delete bucket', destroy_bucket_url(@bucket.name), :delete

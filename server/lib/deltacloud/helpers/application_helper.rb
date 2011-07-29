@@ -154,7 +154,7 @@ module ApplicationHelper
     capture_haml do
       haml_tag :form, :method => :post, :action => url, :class => [:link, method] do
         haml_tag :input, :type => :hidden, :name => '_method', :value => method
-        haml_tag :button, :type => :submit do
+        haml_tag :button, :type => :submit, :'data-ajax' => 'false', :'data-inline' => "true" do
           haml_concat action
         end
       end
@@ -170,7 +170,7 @@ module ApplicationHelper
     else
       uri+="?format=#{format}"
     end
-    '<a href="%s">%s</a>' % [uri, "#{format}".upcase]
+    '<a data-ajax="false" data-icon="grid" href="%s">%s</a>' % [uri, "#{format}".upcase]
   end
 
   def link_to_documentation
@@ -219,4 +219,32 @@ module ApplicationHelper
     end
     result
   end
+
+  def header(title, opts={}, &block)
+    opts[:theme] ||= 'b'
+    opts[:back] ||= 'true'
+    capture_haml do
+      haml_tag :div, :'data-role' => :header, :'data-theme' => opts[:theme], :'data-add-back-btn' => opts[:back] do
+        haml_tag :a, :'data-rel' => :back do
+          haml_concat "Back"
+        end if opts[:back] == 'true'
+        haml_tag :h1 do
+          haml_concat title
+        end
+        block.call if block_given?
+      end
+    end
+  end
+
+  def subheader(title, opts={})
+    opts[:theme] ||= 'a'
+    capture_haml do
+      haml_tag :div, :'data-role' => :header, :'data-theme' => opts[:theme] do
+        haml_tag :p, :class => 'inner-right' do
+          haml_concat title
+        end
+      end
+    end
+  end
+
 end

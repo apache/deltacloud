@@ -1,23 +1,11 @@
-%h1
-  Buckets
-%br
-%p
-  =link_to 'Create new bucket', api_url_for("buckets/new")
+=header "Buckets" do
+  %a{ :href => api_url_for('buckets/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new bucket
 
-%table.display
-  %thead
-    %tr
-      %th
-        ID
-      %th
-        Name
-
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     - @buckets.each do |bucket|
-      %tr
-        %td
-          = link_to bucket.id, bucket_url(bucket.id)
-        %td
-          = bucket.name
-        %td
-          =link_to_action 'Delete', destroy_bucket_url(bucket.name), :delete
+      %li
+        %a{ :href => bucket_url(bucket.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/bucket.png'}
+          %h3=bucket.name
+          %p=bucket.id

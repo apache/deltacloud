@@ -1,32 +1,13 @@
-%h1 Load Balancers
+=header "Load balancers" do
+  %a{ :href => api_url_for('load_balancers/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new load balancer
+=subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
-%table.display
-  %thead
-    %tr
-      %th ID
-      %th Hostname
-      %th Realm
-      %th Balancer port
-      %th Instances port
-      %th Actions
-  %tbody
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     - @elements.each do |balancer|
-      %tr
-        %td
-          = link_to balancer.id, load_balancer_url( balancer.id )
-        %td
-          = balancer.public_addresses.first
-        %td
-          =link_to balancer.realms.first.id, realm_url( balancer.realms.first.id )
-        %td
-          - balancer.listeners.each do |listener|
-            ="#{listener.protocol}[#{listener.load_balancer_port}]<br/>"
-        %td
-          - balancer.listeners.each do |listener|
-            ="#{listener.protocol}[#{listener.instance_port}]<br/>"
-        %td
-          =link_to_action 'Destroy', destroy_load_balancer_url(balancer.id), :delete
-  %tfoot
-    %tr
-      %td{:colspan => 6, :style => "text-align:right;"}
-        =link_to 'Create &raquo;', "#{api_url_for('load_balancers/new')}", :class => 'button'
+      %li
+        %a{ :href => load_balancer_url(balancer.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/balancer.png'}
+          %h3=balancer.id
+          %p=balancer.public_addresses.join(', ')
+          %span{ :class => 'ui-li-count'}=balancer.realms.first.id

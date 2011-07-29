@@ -1,15 +1,17 @@
-%h1
-  = @realm.id
-%dl
-  %di
-    %dt Name
-    %dd
-      = @realm.name
-  %di
-    %dt State
-    %dd
-      = @realm.state
-  %di
-    %dt Limit
-    %dd
-      = @realm.limit
+=header Realm
+=subheader @realm.id
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Identifier
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@realm.id
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@realm.name
+    %li{ :'data-role' => 'list-divider'} State
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@realm.state
+    %li{ :'data-role' => 'list-divider'} Limit
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@realm.limit

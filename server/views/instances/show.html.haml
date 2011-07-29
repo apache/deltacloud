@@ -1,67 +1,55 @@
-%h1
-  = @instance.id
+=header "Instance"
+=subheader @instance.id
 
-%dl
-  %di
-    %dt Image
-    %dd
-      = link_to @instance.image_id, image_url( @instance.image_id )
-  %di
-    %dt Owner
-    %dd
-      = @instance.owner_id
-  %di
-    %dt Name
-    %dd
-      = @instance.name
-  %di
-    %dt Hardware Profile
-    %dd
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@instance.name
+    %li{ :'data-role' => 'list-divider'} Owner
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@instance.owner_id
+    %li{ :'data-role' => 'list-divider'} State
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@instance.state
+    %li{ :'data-role' => 'list-divider'} Image
+    %li
+      %a{ :href => image_url(@instance.image_id), :'data-ajax' => 'false' }=@instance.image_id
+    %li{ :'data-role' => 'list-divider'} Hardware Profile
+    %li
       - prof = @instance.instance_profile
-      = link_to(prof.name, hardware_profile_url(prof.name))
-      = format_instance_profile(prof)
-  %di
-    %dt Realm
-    %dd
-      = @instance.realm_id ? link_to(@instance.realm_id, realm_url(@instance.realm_id)) : 'default'
-  %di
-    %dt State
-    %dd
-      = @instance.state
-  %di
-    %dt Public Addresses
-    %dd
-      = @instance.public_addresses.collect { |address| "<div>#{address}</div>" }.join
-  %di
-    %dt Private Addresses
-    %dd
-      = @instance.private_addresses.collect { |address| "<div>#{address}</div>" }.join
-  - if @instance.password
-    %di
-      %dt Username
-      %dd
-        = @instance.username
-    %di
-      %dt Password
-      %dd
-        = @instance.password
-  - if @instance.keyname
-    %di
-      %dt Key
-      %dd
-        = @instance.keyname
-  - if @instance.firewalls
-    %di
-      %dt Firewalls
-      %dd
-        = @instance.firewalls.join(", ")
-  %di
-    %dt
-    %dd
-      -@instance.actions.each do |action|
-        =link_to_action action, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
-    %dt
-    %dd
-      - if @instance.can_create_image?
-        =link_to_action 'Create Image', api_url_for("images/new?instance_id=#{@instance.id}"), :get
-
+      %a{ :href => hardware_profile_url(prof.name), :'data-ajax' => 'false'}
+        =[prof.name, format_instance_profile(prof)].join(', ')
+    %li{ :'data-role' => 'list-divider'} Realm
+    %li
+      - if @instance.realm_id
+        %a{ :href => realm_url(@instance.realm_id), :'data-ajax' => 'false' }=@instance.realm_id
+      - else
+        default
+    %li{ :'data-role' => 'list-divider'} Public addresses
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@instance.public_addresses.map.join(',')
+    %li{ :'data-role' => 'list-divider'} Private addresses
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@instance.private_addresses.map.join(',')
+    - if @instance.password or @instance.keyname
+      %li{ :'data-role' => 'list-divider'} Authentication
+    - if @instance.password
+      %li{ :'data-role' => 'list-divider'} Username
+      %li=@instance.username
+      %li{ :'data-role' => 'list-divider'} Password
+      %li=@instance.password
+    - if @instance.keyname
+      %li{ :'data-role' => 'list-divider'} SSH key name
+      %li
+        %a{ :href => key_url(@instance.keyname), :'data-ajax' => 'false'}=@instance.keyname
+    - if @instance.firewalls
+      %li{ :'data-role' => 'list-divider'} Firewalls
+      %li=@instance.firewalls.join(", ")
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        - @instance.actions.each do |action|
+          =link_to_action action, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
+        - if @instance.can_create_image?
+          =link_to_action 'Create Image', api_url_for("images/new?instance_id=#{@instance.id}"), :get
