@@ -827,7 +827,7 @@ module Deltacloud
             balancer.add_listener(listener)
           end
           loadbalancer[:instances].each do |instance|
-            balancer.instances << instance(credentials, :id => instance[:id])
+            balancer.instances << instance(credentials, :id => instance[:instance_id])
           end
           balancer
         end
