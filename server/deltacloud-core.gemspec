@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
     'public/images/*.png',
     'public/javascripts/*.js',
     'public/stylesheets/*.css',
+    'public/stylesheets/images/*.png',
     'public/stylesheets/compiled/*.css',
     'bin/deltacloudd'
   ].to_a
