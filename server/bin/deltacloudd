@@ -45,6 +45,7 @@ BANNER
     options[:config] = File::expand_path(config || DEFAULT_CONFIG)
   end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+  opts.on( '-s', '--ssl', 'Enable SSL (default: disabled)') { |env| options[:ssl] = true }
   opts.on( '-t', '--timeout TIMEOUT', 'Timeout for single request (default: 60)') do |timeout|
     ENV["API_TIMEOUT"] = timeout
   end
@@ -64,6 +65,9 @@ Config file:
   Note that specifying :user and :password turns off authentication on the
   server, and any request is forwarded to the backend cloud with the
   specified credentials.
+
+  Note, for SSL you need to have API_SSL_KEY and API_SSL_CERT environment
+  variables set.
 EOS
 end
 
@@ -77,6 +81,17 @@ end
 unless ENV["API_DRIVER"]
   puts "You need to specify a driver to use (-i <driver>)"
   exit(1)
+end
+
+if options[:ssl]
+  unless ENV['API_SSL_KEY']
+    puts "You need to set SSL key using 'export API_SSL_KEY=/path/to/keyfile'"
+    exit(1)
+  end
+  unless ENV['API_SSL_CERT']
+    puts "You need to set SSL certificate using 'export API_SSL_CERT=/path/to/certfile'"
+    exit(1)
+  end
 end
 
 if options[:config]
@@ -93,7 +108,11 @@ ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
 msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
 msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
-msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+if options[:ssl]
+  msg << ":: https://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+else
+  msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+end
 puts msg
 if ENV['API_USER'] && ENV['API_PASSWORD']
   puts "Warning: API_USER and API_PASSWORD set in environment"
@@ -144,6 +163,9 @@ else
   argv_opts << ['-e', options[:env] ]
   argv_opts << ['--timeout', ENV["API_TIMEOUT"] || '60']
   argv_opts << ['--threaded', '-D' ]
+  if options[:ssl]
+    argv_opts << [ '--ssl', '--ssl-key-file', ENV['API_SSL_KEY'], '--ssl-cert-file', ENV['API_SSL_CERT']]
+  end
   argv_opts.flatten!
 
   if have_rerun && options[:env] == "development"
