@@ -51,6 +51,7 @@ Gem::Specification.new do |s|
     'public/favicon.ico',
     'public/images/*.png',
     'public/javascripts/*.js',
+    'public/stylesheets/*.css',
     'public/stylesheets/compiled/*.css',
     'bin/deltacloudd'
   ].to_a
