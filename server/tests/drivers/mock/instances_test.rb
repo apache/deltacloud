@@ -197,10 +197,12 @@ module DeltacloudUnitTest
       (instance/'public_addreses').should_not == nil
       (instance/'public_addresses/address').to_a.size.should > 0
       (instance/'public_addresses/address').first.text.should_not == ""
+      (instance/'public_addresses/address').first[:type].should == "hostname"
 
       (instance/'private_addresses').should_not == nil
       (instance/'private_addresses/address').to_a.size.should > 0
       (instance/'private_addresses/address').first.text.should_not == ""
+      (instance/'private_addresses/address').first[:type].should == "hostname"
 
       (instance/'actions/link').to_a.size.should > 0
       (instance/'actions/link').each do |link|

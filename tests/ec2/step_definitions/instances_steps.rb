@@ -64,6 +64,13 @@ Then /^this instance should be in '(.+)' state$/ do |state|
   output_xml.xpath('/instance/state').first.text.should == state
 end
 
+Then /^each instance should have address type set to "([^"]*)"$/ do |t|
+  puts output_xml
+  output_xml.xpath('/instances/instance/public_addresses/address').first[:type].should == t
+  output_xml.xpath('/instances/instance/private_addresses/address').first[:type].should == t
+end
+
+
 When /^client want to create a new instance$/ do
 end
 
