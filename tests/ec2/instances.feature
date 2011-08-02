@@ -72,6 +72,7 @@ Feature: Managing instances
     | state | RUNNING |
     Then client should get some instances
     And each instance should have 'state' element set to 'RUNNING'
+    And each instance should have address type set to "hostname"
 
   Scenario: Get details about first instance
     Given URI /api/instances exists

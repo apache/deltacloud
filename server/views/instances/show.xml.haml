@@ -33,16 +33,13 @@
     %public_addresses<
       - @instance.public_addresses.each do |address|
         - if address.class.eql?(Hash) and address[:address]!=""
-          %address{ :port => address[:port], :type => address[:type], :mac => address[:mac] }<
-            =address[:address]
+          =format_address(address[:address], :port => address[:port], :type => address[:type], :mac => address[:mac])
         - elsif address.class.eql?(String)
-          %address<
-            =address
+          =format_address(address)
   - if @instance.private_addresses
     %private_addresses<
       - @instance.private_addresses.each do |address|
-        %address<
-          =address
+        =format_address(address)
   - if @instance.firewalls
     %firewalls<
       - @instance.firewalls.each do |firewall|

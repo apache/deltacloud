@@ -247,4 +247,17 @@ module ApplicationHelper
     end
   end
 
+  def format_address(address, opts={})
+    address_type = case address
+                    when /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})?$/; :ipv4
+                    when /^(\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2})?$/; :mac
+                    else :hostname
+                  end
+    capture_haml do
+      haml_tag :address, { :type => address_type }.merge(opts) do
+        haml_concat address
+      end
+    end
+  end
+
 end
