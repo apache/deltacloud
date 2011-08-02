@@ -16,6 +16,8 @@
 
 class Instance < BaseModel
 
+  include ApplicationHelper
+
   attr_accessor :owner_id
   attr_accessor :image_id
   attr_accessor :name
@@ -72,6 +74,9 @@ class Instance < BaseModel
 
   def to_hash
     h = self.to_hash_original
+    h[:public_addresses] = h[:public_addresses].collect do |address|
+      { :address => { :type => address_type(address), :value => address } }
+    end
     h[:actions] = self.actions.collect do |action|
       { :"#{action}" => {
         :method => collections[:instances].operations[action.to_sym].method,
