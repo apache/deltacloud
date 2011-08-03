@@ -83,6 +83,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
         realm_arr << convert_realm(r, d)
       end
     end
+    realm_arr = filter_on( realm_arr, :id, opts )
     realm_arr
   end
 
