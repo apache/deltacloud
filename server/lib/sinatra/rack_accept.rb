@@ -83,7 +83,7 @@ module Rack
           if @media_type and @media_type[0]
             @media_type = @media_type[0]
             headers 'Content-Type' => Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type][:return]
-            wants[@media_type.to_sym].call
+            wants[@media_type.to_sym].call if wants[@media_type.to_sym]
           else
             headers 'Content-Type' => nil
             status 406
