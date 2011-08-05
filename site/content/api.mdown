@@ -1,5 +1,5 @@
 ---
-title: Deltacloud - Documentation
+title: Deltacloud - Documentation - REST API and Developer Guide
 area: documentation
 extension: html
 filter:
@@ -7,310 +7,3364 @@ filter:
   - outline
 ---
 
-[basic-relationships]: styles/basic-relationships.png
+# Apache Deltacloud API
 
-# Deltacloud API
+<a name=toc>
 
-<toc numbering="off" toc_style="ul" toc_range='h2-h3' />
+<toc numbering="off" toc_style="ul" toc_range='h2-h4' />
 
-The Deltacloud API is built as a service-based REST API. You do not
-directly link a Deltacloud library into your program to use it.
-Instead, a client speaks the Deltacloud API over HTTP to a server
-which implements the REST interface.
+* * *
 
-Since cloud providers use their own APIs instead of the Deltacloud
-API, we provide a translation layer that makes it possible to use
-Deltacloud with these providers.
+## 1. Introduction
 
-## REST
+Apache Deltacloud is a REST-based (HATEOAS) cloud abstraction API, that enables
+management of resources in different IaaS clouds using a single API. A series of
+ back-end drivers 'speak' each cloud provider's native API and the Deltacloud Core
+ Framework provides the basis for implementing drivers as needed for other/new IaaS
+cloud providers. Apache Deltacloud currently supports many back-end cloud providers,
+ as listed in [Drivers](./drivers.html).
 
-The Deltacloud API is a [RESTful API][1], using HATEOAS architectural
-style. The API requires no client-side URL construction. Access is
-based entirely off a single entry-point resource. This allows other
-implementors to structure their URL space however they like.
+The Apache Deltacloud project empowers its users in avoiding lockin to any single
+cloud provider. Deltacloud provides an API abstraction that can be implemented as a
+ wrapper around a large number of clouds, freeing users of cloud from dealing with the
+particulars of each cloud's API.
 
-[1]: http://en.wikipedia.org/wiki/Representational_State_Transfer
+* * *
 
-Additionally, the Deltacloud API uses _content negotiation_ to
-determine the format of the returned representation. As of the current
-revision, the only required representation is XML. Clients wishing to
-receive XML representations must specify the HTTP `Accept` header as
-`application/xml`.
+### 1.1 Collections
 
-## Authentication
+The following terms represent the abstractions used in the Apache Deltacloud API and
+are introduced here to aid the reader. Each represents an entity in the 'back-end'
+provider cloud such as a running virtual server or a server image. It should be
+noted that not all clouds support all of the following entity collections. Only
+ the appropriate entity collections are exposed for a given back-end driver
+(e.g. the Microsoft Azure driver currently exposes only the 'Buckets' collection).
 
-The Deltacloud API uses HTTP authentication methods for authenticating
-a given client. There is no explicit _login_ action required. If
-authentication is required, an HTTP status of 401 will be returned to
-challenge for credentials.
+##### Realms
 
-## Primary Entry Point
+A distinct organizational unit within the back-end cloud such as a datacenter.
+A realm may but does not necessarily represent the geographical location of the
+compute resources being accessed.
 
-Any Deltacloud implementor _must_ provide exactly one well-known URL
-as an entry-point. For example, `http://fancycloudprovider.com/api`.
+##### Instances
 
-The result of this entry-point is a set of entry-points into other
-collections, such as _images_, _instances_, _hardware profiles_ and
-_realms_, among others.
+ A realized virtual server, running in a given back-end cloud. These are instantiated
+from server Images.
 
-Each collection is defined by a `<link>` tag with an `href` attribute
-which includes the fully-qualified URL to the collection (which _may_
-exist on different servers) and a `rel` attribute to denote which
-collection is being specified.
+##### Images
 
-    <api driver='ec2' version='1.0'>
-      <link href='http://fancycloudprovider.com/api/hardware_profiles' rel='hardware_profiles' />
-      <link href='http://fancycloudprovider.com/api/instance_states' rel='instance_states' />
-      <link href='http://fancycloudprovider.com/api/realms' rel='realms' />
-      <link href='http://fancycloudprovider.com/api/images' rel='images' />
-      <link href='http://fancycloudprovider.com/api/instances' rel='instances' />
+These are templates (virtual machine images) from which Instances are created.
+Each Image defines the root partition and initial storage for the Instance operating system.
+
+##### Instance States
+
+These represent the Instance lifecycle; at any time an Instance will be in one of
+ *start, pending, running, stopped, shutting_down, finished*.
+
+##### Keys
+
+These represent credentials used to access a running Instance. These can be of type
+*key* (e.g., an *RSA* key), or of type *password* (i.e., with *username* and
+*password* attributes).
+
+##### Storage_Volume
+
+This is a virtual storage device that can be attached to an Instance and mounted
+by the OS therein.
+
+##### Storage_Snapshot
+
+These are copies, snapshots of a Storage_Volume at a specified point in time.
+
+##### Bucket
+
+A container for data blobs. The organisational unit of a generic *key* ==> *value*
+ based data store (such as Rackspace CloudFiles or Amazon S3). Individual data
+items, *Blobs*, are exposed as a subcollection under a bucket.
+
+##### Blob
+
+A generic binary data item that exists with a specified bucket (an `object' in
+ Amazon S3 and Rackspace CloudFiles).
+
+##### Address
+
+Represents an IP addresses. Depending on the back-end cloud provider addresses
+can be 'public' in which case they represent a unique, globally routable IP
+address, or 'private' in which case they represent an address routable only
+within a private network.
+
+##### Load Balancer
+
+Allows distribution of ingress network traffic received by a specified IP address
+to a number of instances.
+
+##### Firewalls
+
+Represent sets of rules that govern the accessibility of a running instance over
+the public Internet
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 1.2 Client Requests
+
+In keeping with REST, clients make requests through HTTP, with the usual
+meanings assigned to the standard HTTP verbs GET, POST, PUT, and DELETE.
+
+Beyond the generally accepted REST design principles, Apache Deltacloud
+follows the guidelines discussed in the Fedora Project [Cloud APIs Rest Style Guide](http://fedoraproject.org/wiki/Cloud_APIs_REST_Style_Guide "Fedora Cloud APIs REST Style Guide").
+
+The URL space of the API is structured into collections of resources
+(entities, objects). The top level entities used in the Deltacloud API are:
+Realms, Images, Instance States, Instances, Keys, Storage Volume,
+Storage Snapshots, Blob Storage.
+
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 1.3 Authentication
+
+The Deltacloud API server is stateless, and does not keep any information
+about the current client. In particular, it does not store the credentials for
+the backend cloud it is talking to. Instead, it uses HTTP basic authentication,
+and clients have to send the username/password for the backend cloud on every request.
+
+The specifics of what needs to be sent varies from cloud to cloud; some
+cloud providers employ a username and password for API access, whilst
+others use special-purpose API keys. A list of the credentials that a given
+cloud provider expects for API access is [available here](documentation.html)
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 1.4 Server responses
+
+The server can respond to client requests in a variety of formats. The
+appropriate response format is determined by HTTP content negotiation.
+The primary format is XML, which is the basis for this document. Output is
+also available as JSON and, mostly for testing, as HTML. Clients can also
+explicitly request a specific response format by including the
+'format=' request parameter (e.g., http://deltacloudserver.foo/api?format=xml
+or http://deltacloudserver.foo/api?format=json).
+
+In general and especially for the html inteface, list operations such as
+`GET /api/realms` will only provide a list of the objects of this resource type
+with only brief details; full details can be retrieved by making a request
+`GET /api/realms/:id` to the URL of the individual realm.
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 1.5 API conventions
+
+Any XML element that represents an object, such as an instance has an
+href and a id attribute. The href provides the URL at which object-specific
+actions can be performed (e.g., a GET to the URL will give details
+of the object). The id provides an identifier of the object and this is unique
+within its collection (i.e., unique id for each Instance, Image, Realm etc).
+
+Generally, objects also have a human-readable name; the name is provided in a
+`<name/>` child element of the object’s container tag.
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 1.6 API stability and evolution
+
+Future changes to the API will be made in a manner that allows old clients
+to work against newer versions of the the API server.
+
+The stability guarantees given by the Apache Deltacloud API imply that the
+following changes may happen in newer versions of the API:
+
+  * adding new collections, or supporting new operations on existing collections
+  * adding optional parameters to existing operations
+  * adding additional attributes and elements to the XML/JSON responses
+
+On the other hand, these changes would violate API stability and will therefore
+not be made:
+
+  * removing an operation on a collection
+  * making an optional parameter for an operation mandatory
+  * removing attributes or elements from XML responses
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 1.7 Online documentation
+
+Automatically generated documentation can be accessed on every server running
+the Deltacloud Core API service through the URL `http://localhost:3001/api/docs/`.
+The documentation is both available in HTML and XML, though the XML format is not
+part of this specification, and may change in an incompatible way.
+
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+## 2. The API entry point
+
+Any part of the official API can be reached through the main entry point,
+by default http://localhost:3001/api. The entry point list the resources
+the server knows about for the current cloud provider; for the Amazon EC2 driver for example, these are:
+
+* Instances
+* Instance states
+* Images
+* Realms
+* Hardware profiles
+* Keys
+* Buckets
+* Storage volumes
+* Storage snapshots
+* Load Balancers
+* Addresses
+* Firewalls
+
+`Example request:`
+
+    GET /api?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 1439
+
+    <api driver='ec2' version='0.3.0'>
+      <link href='http://localhost:3001/api/instance_states' rel='instance_states'>
+      </link>
+      <link href='http://localhost:3001/api/drivers' rel='drivers'>
+      </link>
+      <link href='http://localhost:3001/api/addresses' rel='addresses'>
+      </link>
+      <link href='http://localhost:3001/api/hardware_profiles' rel='hardware_profiles'>
+      </link>
+      <link href='http://localhost:3001/api/firewalls' rel='firewalls'>
+      </link>
+      <link href='http://localhost:3001/api/storage_volumes' rel='storage_volumes'>
+      </link>
+      <link href='http://localhost:3001/api/images' rel='images'>
+        <feature name='owner_id'>
+        </feature>
+      </link>
+      <link href='http://localhost:3001/api/realms' rel='realms'>
+      </link>
+      <link href='http://localhost:3001/api/buckets' rel='buckets'>
+        <feature name='bucket_location'>
+        </feature>
+      </link>
+      <link href='http://localhost:3001/api/instances' rel='instances'>
+        <feature name='user_data'>
+        </feature>
+        <feature name='authentication_key'>
+        </feature>
+        <feature name='firewalls'>
+        </feature>
+        <feature name='instance_count'>
+        </feature>
+        <feature name='attach_snapshot'>
+        </feature>
+      </link>
+      <link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'>
+      </link>
+      <link href='http://localhost:3001/api/keys' rel='keys'>
+      </link>
+      <link href='http://localhost:3001/api/load_balancers' rel='load_balancers'>
+      </link>
     </api>
 
-## Resources
 
-From the primary entry-point, a client may follow the URL provided for
-a collection to retrieve the resources within that collection. The
-collection representation will include the full representations of the
-items within it, along with links to retrieve each item individually.
-
-![Basic relationships][basic-relationships]
-
-### Hardware Profiles
-
-Within a cloud provider a _hardware profile_ represents a
-configuration of resources upon which a machine may be deployed. A
-hardware profile defines aspects such as local disk storage, available
-RAM, and architecture. A future revision of the Deltacloud API will
-include more aspects, including number and speed of CPUs available.
-Each provider is free to define as many (or as few) hardware profiles
-as desired.
-
-    <hardware_profiles>
-      <hardware_profile href='http://fancycloudprovider.com/api/hardware_profiles/m1-small' id='m1-small'>
-        <property kind='fixed' name='storage' unit='GB' value='160' />
-        <property kind='fixed' name='architecture' unit='label' value='i386' />
-        <property kind='fixed' name='cpu' unit='count' value='1' />
-        <property kind='fixed' name='memory' unit='MB' value='1740.8' />
-      </hardware_profile>
-
-Each `<hardware_profile>` block shall contain an `href` attribute providing a
-URL to manipulate a specific profile, along with property elements for each
-attribute of the hardware.
-
-- **`id`**            is a unique identifier for the profile
-- **`property`**      describes each of the hardware aspects
-
-Properties have the following attributes:
-
-- **`name`**          the type of the property: *e.g.* `memory` or `storage`
-- **`unit`**          the units in which the value is specified: `MB`, `GB`, `count` or `label`
-- **`value`**         the actual value of the property. It depends on the specified unit: `1024`, `2` on `x86_64`
-- **`kind`**          describes the values to chose from.
-  - **`fixed`**         only the value specified in the property is available
-  - **`enum`**          a list of available values is provided
-  - **`range`**         available values are described by a numeric range
-
-When the `kind` is either an `enum` or a `range`, there must be two additional elements specified. One
-that specifies the allowed values and the second with a way of picking a value.
-
-In the non-fixed case, the `value` property attribute specifies the default value.
-
-      <hardware_profile href='http://fancycloudprovider.com/api/hardware_profiles/m1-xlarge' id='m1-xlarge'>
-        <property kind='enum' name='storage' unit='GB' value='1024'>
-          <param href='http://fancycloudprovider.com/api/instances' method='post' name='hwp_storage' operation='create' />
-          <enum>
-            <entry value='1024' />
-            <entry value='2048' />
-            <entry value='4096' />
-          </enum>
-        </property>
-        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
-        <property kind='fixed' name='cpu' unit='count' value='4' />
-        <property kind='range' name='memory' unit='MB' value='12288'>
-          <param href='http://fancycloudprovider.com/api/instances' method='post' name='hwp_memory' operation='create' />
-          <range first='12288' last='32768' />
-        </property>
-      </hardware_profile>
-    </hardware_profiles>
+Specific implementations for the Apache Deltacloud API may not support all resource
+types defined by this API. For example, a Deltacloud instance pointing at a storage-only
+service will not expose compute resources like instances and hardware profiles.
 
 
-At this time, hardware profile resources are immutable and read-only. In a
-future revision they may be mutable.
+<br/>
+[Contents](#toc)
+<br/>
+* * *
 
-### Realms
+### 2.1 Features
 
-Within a cloud provider a _realm_ represents a boundary containing
-resources. The exact definition of a realm is left to the cloud
-provider. In some cases, a realm may represent different datacenters,
-different continents, or different pools of resources within a single
-datacenter. A cloud provider may insist that resources must all exist
-within a single realm in order to cooperate. For instance, storage
-volumes may only be allowed to be mounted to instances within the same
-realm.
+The Apache Deltacloud API defines the standard behavior and semantics
+for each of the resource types as a baseline for any API implementation; it
+is often desirable to enhance standard API behavior with specific features.
+The API also defines all the features that can be supported by an API
+implementation - each of them has a fixed, predefined meaning. As an
+example, the feature user-name indicates that a user-specified name can be
+assigned to an instance when it is created. Features are advertised in the
+top-level entry point as illustrated below:
 
+    <api driver='mock' version='0.3.0'>
+      ...
+      <link href='http://localhost:3001/api/instances' rel='instances'>
+        <feature name='hardware_profiles'></feature>
+        <feature name='user_name'></feature>
+        <feature name='authentication_key'></feature>
+      </link>
+      ...
+    </api>
+
+The following describes the features available to each collection in
+the Deltacloud API together with a brief description:
+
+    Feature                 Collection   Operation             Description
+    -------                 ----------   ---------             -----------
+    owner_id                Images       GET /api/images       Allows filtering of the
+                                                               image list by owner_id
+    --                      --           --                    --
+    user_name               Instances    POST /api/instances   Accept a user-defined name
+                                                               on instance creation
+    --                      --           --                    --
+    user_data               Instances    POST /api/instances   Provide user-defined data
+                                                               that is accessible by the
+                                                               running instance
+    --                      --           --                    --
+    user_iso                Instances    POST /api/instances   Provide a base64 encoded
+                                                               gzipped ISO file accessible
+                                                               as CD-ROM drive by the
+                                                               running instnace
+    --                      --           --                    --
+    user_files              Instances    POST /api/instances   Accept files that will be
+                                                               placed into the launched
+                                                               instance
+    --                      --           --                    --
+    firewalls               Instances    POST /api/instances   Put the instance into one
+                                                               or more firewalls on launch
+    --                      --           --                    --
+    authentication_key      Instances    POST /api/instances   Provide the authentication
+                                                               key to be used for
+                                                               accessing the instance
+    --                      --           --                    --
+    authentication_password Instances    POST /api/instances   Provide the password to be
+                                                               used to access the running
+                                                               instance
+    --                      --           --                    --
+    instance_count          Instances    POST /api/instances   Specify the number of
+                                                               instances to launch in
+                                                               one operation
+    --                      --           --                    --
+    attach_snapshot         Instances    POST /api/instances   Attach a storage_snapshot
+                                                               to an instance as a
+                                                               storage_volume
+    --                      --           --                    --
+    sandboxing              Instances    POST /api/instances   Launch a instance from
+                                                               a sandbox image
+                                                               (Gogrid specific)
+    --                      --           --                    --
+    bucket_location         Buckets      POST /api/buckets     Specify a location that
+                                                               the bucket should be
+                                                               created in (e.g.
+                                                               specific cloud-provider
+                                                               datacenter)
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+## 3. Compute Resources
+
+The compute resources are ***instances, instance states, images, realms, hardware profiles,
+firewalls, load balancers, addresses*** and ***keys***.
+
+
+### 3.1 Realms
+
+A ***realm*** represents a boundary containing resources, such as a data
+center. The exact definition of a ***realm*** is left to the cloud provider.
+In some cases, a ***realm*** may represent different datacenters, different continents,
+or different pools of resources within a single datacenter. A cloud provider may
+insist that resources must all exist within a single ***realm*** in order to cooperate.
+For instance, storage volumes may only be allowed to be mounted to instances within
+the same ***realm***. Generally speaking, going from one ***realm*** to another within the same
+cloud may change many aspects of the cloud, such as SLA’s, pricing terms, etc.
+
+#### `GET /api/realms`
+
+List all realms. Can be filtered by adding a request parameter ***architecture***
+to the realms that support a specific ***architecture*** such as ***i386***. The example
+below shows the retrieval of all ***realms*** for the AWS EC2 driver, which correspond
+to EC2 "availability zones":
+
+`Example request:`
+
+    GET /api/realms?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 639
+    <?xml version='1.0' encoding='utf-8' ?>
     <realms>
-      <realm href="http://fancycloudprovider.com/api/realms/us" id='us'>
-        <name>United States</name>
-        <state>AVAILABLE</state>
-        <limit/>
+      <realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'>
+        <name>us-east-1a</name>
+        <state>available</state>
       </realm>
-      <realm href="http://fancycloudprovider.com/api/realms/eu" id='eu'>
-        <name>Europe</name>
-        <state>AVAILABLE</state>
-        <limit/>
+      <realm href='http://localhost:3001/api/realms/us-east-1b' id='us-east-1b'>
+        <name>us-east-1b</name>
+        <state>available</state>
+      </realm>
+      <realm href='http://localhost:3001/api/realms/us-east-1c' id='us-east-1c'>
+        <name>us-east-1c</name>
+        <state>available</state>
+      </realm>
+      <realm href='http://localhost:3001/api/realms/us-east-1d' id='us-east-1d'>
+        <name>us-east-1d</name>
+        <state>available</state>
       </realm>
     </realms>
 
-Each `<realm>` block shall contain an `href` attribute providing a URL
-to manipulate a specific realm, along with elements for each attribute
-of a realm.
+#### `GET /api/realms/:id`
 
-- **`id`**          A unique identifier for the realm
-- **`name`**        A short label
-- **`state`**       Indicator of the current state of a realm
-  - AVAILABLE
-  - UNAVAILABLE
-- **`limit`**       Limits applicable for the _current requester_
+Provide the details of a ***realm***. Currently, these are a ***name***, a  ***state*** and a
+ ***limit** applicable to the current requester. The ***name*** is an arbitrary label
+with no specific meaning in the API. The ***state*** can be either ***AVAILABLE***
+ or ***UNAVAILABLE***. The example below shows the ***realm*** for the Rackspace driver.
+Since Rackspace does not currently have a notion of ***realms*** the Deltacloud
+Rackspace driver provides a single ***realm*** called 'US', signifying that all
+compute resources for that cloud provider are hosted in the United States:
 
-### Images
+`Example request:`
 
-An _image_ is a platonic form of a machine. Images are not directly
-executable, but are a template for creating actual instances of
-machines.
+    GET /api/realms/us?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
 
-The instances collection will return a set of all images available to
-the current user.
+`Server response:`
 
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 182
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <realm href='http://localhost:3001/api/realms/us' id='us'>
+        <name>United States</name>
+        <state>AVAILABLE</state>
+        <limit></limit>
+    </realm>
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.2 Hardware Profiles
+
+A ***hardware profile*** describes the sizing of a virtual machine in a cloud and
+prescribes details such as how many virtual CPUs, how much memory or
+how much local storage an instance might have. The attributes of a ***hardware profile***
+consist of a human-readable ***name*** and a list of ***<property/>*** elements.
+Each property defines possible values along a sizing dimension.
+
+Since clouds differ sharply in how virtual machine sizing is represented
+and influenced, hardware profiles provide a generic mechanism to express sizing
+constraints. For each dimension (amount of memory etc.), the hardware
+profile can express one of the following:
+
+1. Size is **fixed** in this dimension, e.g. instances all have 2GB of memory, *or*
+2. Size can be varied freely within some **range**, e.g. instances can have
+   from 1GB to 4GB of memory, *or*
+3. Size can be chosen from a predefined set of values, an **enumeration**,
+   e.g., instances can have 512 MB, 1 GB or 4GB of memory.
+
+When creating a new ***instance***, a client must specify the ***hardware profile***
+on which the ***instance*** is based.
+
+In addition to the sizing constraints, a hardware profile may also indicate the
+parameters (if any) that can be specified by a client in ***instance*** operations.
+These user-defined, variable dimensions are denoted by a *\<param\>* XML tag within
+the given property. For instance, the following extract shows the *memory* dimension
+for a hardware profile that can be specified in the HTTP POST *create* operation of the
+***instances*** collection (i.e., creating a new instance). The given parameter must be
+specified using the name *hwp_memory*, its default value is *10240* but the client may
+specify a value in the range *7680* upto *15360*:
+
+    ...
+    <property kind='range' name='memory' unit='MB' value='10240'>
+        <param href='http://localhost:3003/api/instances' method='post' name='hwp_memory' operation='create' />
+        <range first='7680.0' last='15360' />
+    </property>
+    ...
+
+#### `GET /api/hardware_profiles`
+
+Produce a list if all ***hardware profiles*** availaible with this cloud. The example
+below lists the hardware profiles available in the Amazon EC2 cloud. As EC2 provides
+a set of pre-defined ***hardware profiles***, the properties of each dimension
+(memory,cpu etc) are of type *fixed*:
+
+`Example request:`
+
+    GET /api/hardware_profiles?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 3896
+    <?xml version='1.0' encoding='utf-8' ?>
+    <hardware_profiles>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/t1.micro' id='t1.micro'>
+        <name>t1.micro</name>
+        <property kind='fixed' name='cpu' unit='count' value='1' />
+        <property kind='fixed' name='memory' unit='MB' value='645.12' />
+        <property kind='fixed' name='architecture' unit='label' value='i386' />
+        <property kind='fixed' name='storage' unit='GB' value='160' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1.small' id='m1.small'>
+        <name>m1.small</name>
+        <property kind='fixed' name='cpu' unit='count' value='1' />
+        <property kind='fixed' name='memory' unit='MB' value='1740.8' />
+        <property kind='fixed' name='architecture' unit='label' value='i386' />
+        <property kind='fixed' name='storage' unit='GB' value='160' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1.large' id='m1.large'>
+        <name>m1.large</name>
+        <property kind='fixed' name='cpu' unit='count' value='4' />
+        <property kind='fixed' name='memory' unit='MB' value='7680.0' />
+        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+        <property kind='fixed' name='storage' unit='GB' value='850' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1.xlarge' id='m1.xlarge'>
+        <name>m1.xlarge</name>
+        <property kind='fixed' name='cpu' unit='count' value='8' />
+        <property kind='fixed' name='memory' unit='MB' value='15360' />
+        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+        <property kind='fixed' name='storage' unit='GB' value='1690' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/c1.medium' id='c1.medium'>
+        <name>c1.medium</name>
+        <property kind='fixed' name='cpu' unit='count' value='5' />
+        <property kind='fixed' name='memory' unit='MB' value='1740.8' />
+        <property kind='fixed' name='architecture' unit='label' value='i386' />
+        <property kind='fixed' name='storage' unit='GB' value='350' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/c1.xlarge' id='c1.xlarge'>
+        <name>c1.xlarge</name>
+        <property kind='fixed' name='cpu' unit='count' value='20' />
+        <property kind='fixed' name='memory' unit='MB' value='7168' />
+        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+        <property kind='fixed' name='storage' unit='GB' value='1690' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m2.xlarge' id='m2.xlarge'>
+        <name>m2.xlarge</name>
+        <property kind='fixed' name='cpu' unit='count' value='6.5' />
+        <property kind='fixed' name='memory' unit='MB' value='17510.4' />
+        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+        <property kind='fixed' name='storage' unit='GB' value='420' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m2.2xlarge' id='m2.2xlarge'>
+        <name>m2.2xlarge</name>
+        <property kind='fixed' name='cpu' unit='count' value='13' />
+        <property kind='fixed' name='memory' unit='MB' value='35020.8' />
+        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+        <property kind='fixed' name='storage' unit='GB' value='850' />
+      </hardware_profile>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m2.4xlarge' id='m2.4xlarge'>
+        <name>m2.4xlarge</name>
+        <property kind='fixed' name='cpu' unit='count' value='26' />
+        <property kind='fixed' name='memory' unit='MB' value='70041.6' />
+        <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+        <property kind='fixed' name='storage' unit='GB' value='1690' />
+      </hardware_profile>
+    </hardware_profiles>
+
+#### `GET /api/hardware profiles/:id`
+
+This call retrieves the details of a specific ***hardware profile***.
+The example below shows a request for the *m1-large* profile of the Deltacloud *mock* driver.
+ This ***hardware profile*** demonstrates the three different types of parameters (i.e.,
+ *fixed*, *range*, *enum*). The example shows that ***instances*** launched with this
+ ***hardware profile*** will have exactly *2* virtual CPUs, memory in the range *7.5* to
+*15GB* and local storage that can either be 850MB or 1GB. The default value for
+each dimension is indicated by the value attribute on the property element:
+
+
+`Example request:`
+
+    GET /api/hardware_profiles/m1-large?format=xml HTTP/1.1
+    Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3003
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 808
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <hardware_profile href='http://localhost:3003/api/hardware_profiles/m1-large' id='m1-large'>
+      <name>m1-large</name>
+      <property kind='fixed' name='cpu' unit='count' value='2' />
+      <property kind='range' name='memory' unit='MB' value='10240'>
+        <param href='http://localhost:3003/api/instances' method='post' name='hwp_memory' operation='create' />
+        <range first='7680.0' last='15360' />
+      </property>
+      <property kind='enum' name='storage' unit='GB' value='850'>
+        <param href='http://localhost:3003/api/instances' method='post' name='hwp_storage' operation='create' />
+        <enum>
+          <entry value='850' />
+          <entry value='1024' />
+        </enum>
+      </property>
+      <property kind='fixed' name='architecture' unit='label' value='x86_64' />
+    </hardware_profile>
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.3 Images
+
+***Images*** are used to launch ***instances***. Each ***image*** represents
+a virtual machine image in the back-end cloud, containing the root
+partition and initial storage for an instance operating system.
+
+An ***image*** has human-readable *name* and *description*, an *owner_id*
+that identifies the user account to which the ***image*** belongs, as well as
+an *architecture* and a *state*. The *architecture* attribute refers to whether the
+***image*** will create an ***instance*** with *32* or *64* bit processor; the values
+that the Deltacloud server returns for this attribute are thus *i386* and *x86_64* respectively.
+The *state* attribute is as reported by the cloud provider and so will vary between back-end clouds.
+For example AWS EC2 ***image*** state can be one of *AVAILABLE*, *PENDING* or *FAILED*
+whereas Rackspace Cloudservers ***image*** state can be one of *UNKNOWN*, *PREPARING*,
+ *ACTIVE*, *QUEUED* or *FAILED*. Finally, each ***image*** also contains an \<actions\>
+attribute that specifies the URI to which a client may issue a **HTTP POST** for creation of
+an ***instance*** from the given ***image***.
+
+#### `GET /api/images`
+
+Return a list of all ***images*** available in the back-end cloud. By default this call will
+return **all** images that are available to the given user account. Optionally a client
+may restrict the list of ***images*** returned by specifying the **owner_id** or **architecture**
+parameters in the request (**architecture** is one of *x86_64* for 64-bit processors or *i386*
+for 32-bit processors). The example below restricts the image list to **64-bit** architecture images
+belonging to **owner_id 023801271342**:
+
+`Example request:`
+
+    GET /api/images?owner_id=023801271342&architecture=x86_64&format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 1971
+
+    <?xml version='1.0' encoding='utf-8' ?>
     <images>
-      <image href="http://fancycloudprovider.com/api/images/img1" id='img1'>
-        <owner_id>fedoraproject</owner_id>
-        <name>Fedora 10</name>
-        <description>Fedora 10</description>
+      <image href='http://localhost:3001/api/images/ami-eea35787' id='ami-eea35787'>
+        <name>sles-10-sp3-v1.00.x86_64</name>
+        <owner_id>013907871322</owner_id>
+        <description>SUSE Linux Enterprise Server 10 Service Pack 3 for x86_64 (v1.00)</description>
         <architecture>x86_64</architecture>
+        <state></state>
+        <actions>
+          <link href='http://localhost:3001/api/instances;image_id=ami-eea35787' method='post' rel='create_instance' />
+        </actions>
       </image>
-      <image href="http://fancycloudprovider.com/api/images/img2" id='img2'>
-        <owner_id>fedoraproject</owner_id>
-        <name>Fedora 10</name>
-        <description>Fedora 10</description>
-        <architecture>i386</architecture>
+      <image href='http://localhost:3001/api/images/ami-6e649707' id='ami-6e649707'>
+        <name>sles-11-sp1-hvm-v1.00.x86_64</name>
+        <owner_id>013907871322</owner_id>
+        <description>SUSE Linux Enterprise Server 11 Service Pack 1 for HVM x86_64 (v1.00)</description>
+        <architecture>x86_64</architecture>
+        <state></state>
+        <actions>
+          <link href='http://localhost:3001/api/instances;image_id=ami-6e649707' method='post' rel='create_instance' />
+        </actions>
       </image>
-      <image href="http://fancycloudprovider.com/api/images/img3" id='img3'>
-        <owner_id>ted</owner_id>
-        <name>JBoss</name>
-        <description>JBoss</description>
-        <architecture>i386</architecture>
+      <image href='http://localhost:3001/api/images/ami-e4a7558d' id='ami-e4a7558d'>
+        <name>sles-11-sp1-hvm-v1.01.x86_64</name>
+        <owner_id>013907871322</owner_id>
+        <description>SUSE Linux Enterprise Server 11 Service Pack 1 for HVM x86_64 (v1.01)</description>
+        <architecture>x86_64</architecture>
+        <state></state>
+        <actions>
+          <link href='http://localhost:3001/api/instances;image_id=ami-e4a7558d' method='post' rel='create_instance' />
+        </actions>
+      </image>
+      <image href='http://localhost:3001/api/images/ami-e4a3578d' id='ami-e4a3578d'>
+        <name>sles-11-sp1-v1.00.x86_64</name>
+        <owner_id>013907871322</owner_id>
+        <description>SUSE Linux Enterprise Server 11 Service Pack 1 for x86_64 (v1.00)</description>
+        <architecture>x86_64</architecture>
+        <state></state>
+        <actions>
+          <link href='http://localhost:3001/api/instances;image_id=ami-e4a3578d' method='post' rel='create_instance' />
+        </actions>
       </image>
     </images>
 
-Each `<image>` block _shall_ contain an `href` attribute providing a
-URL to manipulate a specific image, along with elements for each
-attribute of an image. Each element, including those for optional
-attributes must be present. Optional attributes may be specified as a
-element with empty content.
+#### `GET /api/images/:id`
 
-These attributes include
+Retrieve the description of a specific ***image***.
 
-- **`id`**            A unique identifier for the image
-- **`owner_id`**      An opaque identifier which indicates the owner of an image
-- **`name`**          An _optional_ short label describing the image
-- **`description`**   An _optional_ description describing the image more fully
-- **`architecture`**  A description of the machine architecture of the image
-  which may contain values such as:
-  - `i386`
-  - `x86_64`
+`Example request:`
 
-At this time, image resources are immutable and read-only.  In a future revision
-they will be mutable.
+    GET /api/images/14?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
 
-### Instances
+`Server response:`
 
-An _instance_ is a concrete machine realized from an _image_. The
-images collection may be obtained by following the link from the
-primary entry-point.
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 433
 
+    <?xml version='1.0' encoding='utf-8' ?>
+    <image href='http://localhost:3002/api/images/14' id='14'>
+      <name>Red Hat Enterprise Linux 5.4</name>
+      <owner_id>jsmith</owner_id>
+      <description>Red Hat Enterprise Linux 5.4</description>
+      <architecture>x86_64</architecture>
+      <state>ACTIVE</state>
+      <actions>
+        <link href='http://localhost:3002/api/instances;image_id=14' method='post' rel='create_instance' />
+      </actions>
+    </image>
+
+#### `POST /api/images`
+
+Create a new ***image*** from an existing, running ***instance***. This operation is not
+available in all cloud providers and for some cloud providers this operation is not
+possible for all ***instances***. For example, in the Amazon EC2 cloud, a custom
+***image*** can be created from EBS backed ***instances*** but not from ***root-store***
+instances. The Deltacloud API provides a mechanism with which clients can determine whether
+a given ***instance*** may be saved as a custom ***image***. For those cases where
+***instance*** 'snapshot' is possible, the ***instance*** XML \<actions\> list will
+contain a **create_image** action that defines the URI for a client to use in creating
+the new image. For example:
+
+    ...
+    <actions>
+      <link href='http://localhost:3002/api/instances/20109341/reboot' method='post' rel='reboot' />
+      <link href='http://localhost:3002/api/instances/20109341/stop' method='post' rel='stop' />
+      <link href='http://localhost:3002/api/instances/20109341/run;id=20109341' method='post' rel='run' />
+      <link href='http://localhost:3002/api/images;instance_id=20109341' method='post' rel='create_image' />
+    </actions>
+    ...
+
+To create a new ***image*** the client must specify the *instance_id* of the running instance.
+ Optionally, the client may also provide a *name* and a *description*. The parameters are
+specified as multipart/form-data fields in the client POST. The Deltacloud server will
+respond to a successful operation with **HTTP 201 Created** and provide details of the
+newly created ***image***:
+
+
+
+`Example request:`
+
+    POST /api/images?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
+    Content-Length: 404
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------ba9acb193034
+
+    ------------------------------ba9acb193034
+    Content-Disposition: form-data; name="instance_id"
+
+    20109341
+    ------------------------------ba9acb193034
+    Content-Disposition: form-data; name="name"
+
+    customisedserver
+    ------------------------------ba9acb193034
+    Content-Disposition: form-data; name="description"
+
+    jsmith customised web server July 21 2011
+    ------------------------------ba9acb193034--
+
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Content-Length: 427
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <image href='http://localhost:3002/api/images/12346145' id='12346145'>
+      <name>customisedserver</name>
+      <owner_id>mandreou</owner_id>
+      <description>customisedserver</description>
+      <architecture>x86_64</architecture>
+      <state>QUEUED</state>
+      <actions>
+        <link href='http://localhost:3002/api/instances;image_id=12346145' method='post' rel='create_instance' />
+      </actions>
+    </image>
+
+
+#### `DELETE /api/images/:id`
+
+Deletes the specified ***image*** from the back-end cloud. The Deltacloud server
+will return a **HTTP 204 No Content** after a succesful operation:
+
+`Example request:`
+
+    DELETE /api/images/12346145?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.4 Instance States
+
+Each cloud defines a slightly different lifecycle model for ***instances***. In some
+clouds, ***instances*** start running immediately after creation, in others, they
+enter a pending state and they need to be explicitly started to become
+running.
+
+These differences between clouds are modelled by expressing the lifecycle
+of an instance as a finite state machine and capturing this in a ***instance states***
+entity. The start state of the automaton is start and its final state is
+finished. The API defines the following states for an ***instance***:
+
+#####Instance states and their meanings:
+
+    State             Meaning
+    -----             -------
+    start             Instances are in this state before they are created
+    --
+    pending           Creation of the instance has been requested and is in progress
+    --
+    running           The instance is running
+    --
+    shutting-down     A shutdown has been requested for the instance and is in progress
+    --
+    stopped           The instance is stopped
+    --
+    finished          All resources for this instance have now been freed
+
+
+The actions (state transitions) possible for an ***instance*** are as shown below.
+The precise actions that can be performed on a specific ***instance*** are
+expressed as part of the details for that ***instance***.
+
+#####Instance actions and their meanings:
+
+    Action            Meaning
+    ------            -------
+    start             Start the instance
+    --
+    stop              Stop (and for some providers, Shutdown) the instance
+    --
+    reboot            Reboot the instance
+    --
+    destroy           Stop the instance and completely destroy it
+
+
+#### `GET /api/instance_states`
+
+This call retrieves the ***instance_states*** entity for a back-end cloud. The ***instance_states***
+entity defines the transitions possible between the various states of an ***instance***,
+and these are back-end cloud specific. In effect ***instance_states*** defines the finite state
+machine for ***instances*** from the given cloud.
+
+`Example request:`
+
+    GET /api/instance_states?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 583
+
+    <states>
+      <state name='start'>
+        <transition action='create' to='pending'></transition>
+      </state>
+      <state name='pending'>
+        <transition auto='true' to='running'></transition>
+      </state>
+      <state name='running'>
+        <transition action='reboot' to='running'></transition>
+        <transition action='stop' to='shutting_down'></transition>
+      </state>
+      <state name='shutting_down'>
+        <transition auto='true' to='stopped'></transition>
+      </state>
+      <state name='stopped'>
+        <transition auto='true' to='finish'></transition>
+      </state>
+      <state name='finish'>
+      </state>
+    </states>
+
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.5 Instances
+
+An ***instance*** represents the focus of all cloud compute activity: a running
+virtual machine. An ***instance*** is created from an ***image***, with a specified
+***hardware profile*** and in a given ***realm***. Each ***instance*** can have a
+number of other attributes, not all of which are exposed for all back-end cloud
+providers. The full list of possible ***instance*** attributes is:
+
+    Attribute           Meaning
+    ---------           -------
+    owner_id            The id of the cloud provider account that launched the instance
+    --
+    image_id            The id of the image from which the instance was launched
+    --
+    name                A human readable name for the instance given at launch time
+    --
+    realm_id            Realm into which the instance was launced
+    --
+    state               Current state of the instance (e.g., 'running')
+    --
+    actions             Actions that a client may effect on the instance, based on current state.
+    --
+    public_addresses    The globally routable IP address of the instance
+    --
+    private_addresses   The private IP address of the instance, routable within its private network
+    --
+    instance_profile    The specific values of memory, cpu, storage
+    --
+    launch_time         Timestamp at which the instance was launched
+    --
+    keyname             Name of authentication Key, if this method is used for authentication (e.g., EC2)
+    --
+    username            The username for authentication when connecting to the instance
+    --
+    password            The password used together with username above.
+    --
+    firewalls           The firewalls that this instance was launched into (EC2 specific)
+    --
+
+#### `GET /api/instances`
+
+Produce a listing of all current ***Instances*** in the given cloud (belonging to
+the specified account). The example shown below displays ***instances*** in the Amazon EC2 cloud:
+
+`Example request:`
+
+    GET /api/instances?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+
+`Client response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 2790
+    <?xml version='1.0' encoding='utf-8' ?>
     <instances>
-      <instance href="http://fancycloudprovider.com/api/instances/inst1" id='inst1'>
-        <owner_id>larry</owner_id>
-        <name>Production JBoss Instance</name>
-        <image href="http://fancycloudprovider.com/api/images/img3"/>
-        <hardware_profile href="http://fancycloudprovider.com/api/hardware_profiles/m1-small"/>
-        <realm href="http://fancycloudprovider.com/api/realms/us"/>
-
+      <instance href='http://localhost:3001/api/instances/i-1fbc627e' id='i-1fbc627e'>
+        <name>ami-f51aff9c</name>
+        <owner_id>393485797142</owner_id>
+        <image href='http://localhost:3001/api/images/ami-f51aff9c' id='ami-f51aff9c'></image>
+        <realm href='http://localhost:3001/api/realms/us-east-1c' id='us-east-1c'></realm>
         <state>RUNNING</state>
+        <hardware_profile href='http://localhost:3001/api/hardware_profiles/c1.medium' id='c1.medium'>
+        </hardware_profile>
         <actions>
-          <link rel="reboot" href="http://fancycloudprovider.com/api/instances/inst1/reboot"/>
-          <link rel="stop" href="http://fancycloudprovider.com/api/instances/inst1/stop"/>
+          <link href='http://localhost:3001/api/instances/i-1fbc627e/reboot' method='post' rel='reboot' />
+          <link href='http://localhost:3001/api/instances/i-1fbc627e/stop' method='post' rel='stop' />
+          <link href='http://localhost:3001/api/instances/i-1fbc627e/run;id=i-1fbc627e' method='post' rel='run' />
         </actions>
-        <public_addresses>
-          <address>inst1.larry.fancycloudprovider.com</address>
-        </public_addresses>
-
-        <private_addresses>
-          <address>inst1.larry.internal</address>
-        </private_addresses>
+        <launch_time>2011-07-22T11:29:48.000Z</launch_time>
+        <public_addresses><address>ec2-50-16-183-107.compute-1.amazonaws.com</address></public_addresses>
+        <private_addresses><address>domU-12-31-39-0F-79-D4.compute-1.internal</address></private_addresses>
+        <firewalls>
+          <firewall href='http://localhost:3001/api/firewalls/default' id='default'></firewall>
+        </firewalls>
+        <authentication type='key'>
+          <login>
+            <keyname>eftah</keyname>
+          </login>
+        </authentication>
+      </instance>
+      <instance href='http://localhost:3001/api/instances/i-f3ba6492' id='i-f3ba6492'>
+        <name>ami-2b5fba42</name>
+        <owner_id>393485797142</owner_id>
+        <image href='http://localhost:3001/api/images/ami-2b5fba42' id='ami-2b5fba42'></image>
+        <realm href='http://localhost:3001/api/realms/us-east-1d' id='us-east-1d'></realm>
+        <state>RUNNING</state>
+        <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1.small' id='m1.small'>
+        </hardware_profile>
+        <actions>
+          <link href='http://localhost:3001/api/instances/i-f3ba6492/reboot' method='post' rel='reboot' />
+          <link href='http://localhost:3001/api/instances/i-f3ba6492/stop' method='post' rel='stop' />
+          <link href='http://localhost:3001/api/instances/i-f3ba6492/run;id=i-f3ba6492' method='post' rel='run' />
+        </actions>
+        <launch_time>2011-07-22T11:32:25.000Z</launch_time>
+        <public_addresses><address>ec2-184-73-78-87.compute-1.amazonaws.com</address></public_addresses>
+        <private_addresses><address>ip-10-196-89-221.ec2.internal</address></private_addresses>
+        <firewalls>
+          <firewall href='http://localhost:3001/api/firewalls/default' id='default'></firewall>
+          <firewall href='http://localhost:3001/api/firewalls/test' id='test'></firewall>
+        </firewalls>
+        <authentication type='key'>
+          <login>
+            <keyname>eftah</keyname>
+          </login>
+        </authentication>
       </instance>
     </instances>
 
-Each `<instance>` block shall contain an href attribute providing a
-URL to manipulate a specific instance, along with elements for each
-attribute of an instance. Each element, including those for optional
-attributes must be present. Optional attributes may be specified as a
-element with empty content.
+#### `GET /api/instances/:id`
 
-Simple attributes include
+Get the details for a specific ***Instance***. The example shown below is for an ***instance***
+launched in the Rackspace Cloudservers cloud. As can be seen, the authentication type used is
+**password** but the *username* and *password* attributes are blank. This is because Rackspace
+only reports these values once, during instance creation and not for subsequent requests.
+An example of the response from ***instance*** creation can be found under the
+[POST /api/instances](#create_instance) subsection below, showing how the*username*/*password*
+fields are populated.
 
-- **`id`**           A unique identifier for the instance
-- **`owner_id`**     An opaque identifier which indicates the owner of an instance
-- **`name`**         An _optional_ short label describing the instance
-- **`image`**        Provides a link to the platonic image from which the instance is based
-- **`hardware_profile`**       Provides a link to the hardware profile in use by the instance
-- **`realm`**        Provides a link to the realm where the instance is deployed
-- **`state`**        Indicator of the instance's current state
-  - `PENDING`
-  - `STOPPED`
-  - `RUNNING`
+`Example request:`
 
-Multiple-valued attributes include
+    GET /api/instances/20112212?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
 
-- **`public_addresses`**  Publicly routable IP addresses or names for the instance
-- **`private_addresses`**  Private network IP addresses or names for the instance
+`Server response:`
+<a name=get_instance> .
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 1167
+    <?xml version='1.0' encoding='utf-8' ?>
+    <instance href='http://localhost:3002/api/instances/20112212' id='20112212'>
+      <name>myserver</name>
+      <owner_id>mandreou</owner_id>
+      <image href='http://localhost:3002/api/images/53' id='53'></image>
+      <realm href='http://localhost:3002/api/realms/us' id='us'></realm>
+      <state>RUNNING</state>
+      <hardware_profile href='http://localhost:3002/api/hardware_profiles/1' id='1'>
+      </hardware_profile>
+      <actions>
+        <link href='http://localhost:3002/api/instances/20112212/reboot' method='post' rel='reboot' />
+        <link href='http://localhost:3002/api/instances/20112212/stop' method='post' rel='stop' />
+        <link href='http://localhost:3002/api/instances/20112212/run;id=20112212' method='post' rel='run' />
+        <link href='http://localhost:3002/api/images;instance_id=20112212' method='post' rel='create_image' />
+      </actions>
+      <public_addresses><address>50.57.116.72</address></public_addresses>
+      <private_addresses><address>10.182.143.64</address></private_addresses>
+      <authentication type='password'>
+        <login>
+          <username>root</username>
+          <password></password>
+        </login>
+      </authentication>
+    </instance>
 
-In addition to the abovementioned attributes, each `<instance>` may contain an
-`<actions>` block specifying valid actions for the instance, along with the URL
-which may be used to perform the action.  Each action is specified by a `<link>`
-with an `href` attribute providing the URL, and a `rel` attribute providing
-a key to determine what the action will do.
+#### `POST /api/instances/:id/:action`
 
-Representative actions include
+The valid actions for an ***instance*** are specified by the ***instance_states*** entity.
+The set of permissible actions that a client may effect on an ***instance*** at a given time
+depends on the current ***instance state***. These are as reported by the \<actions\> attribute
+in the Deltacloud server response to a [GET /api/instances/:id](#get_instance) call. The first
+example shown below is to **reboot** a currently running instance, followed by a **stop**.
 
-- `reboot`
-- `start`
-- `stop`
+Note that after invoking the **stop** operation, the ***instance*** state may be reported as **RUNNING**
+in the Deltacloud server response. This is because it may take some time for the ***instance*** state
+ to change in the backend cloud provider (and this will vary between providers). Subsequent requests
+ for either the list of ***instances*** or a specific ***instance*** will confirm that the action was
+ effected correctly.
 
-Not all actions may be valid at all times for all instances. To invoke
-an action, a client must perform an HTTP `POST` to the URL indicated.
+The Deltacloud server also allows a special 'run-on-instance' action for some cloud provider
+***instances***.This enables a client to perform a command on a running ***instance*** over
+**SSH** and the Deltacloud server will return the output of that command to the client.
+ Where available, this is reported as the **run** action in the list of ***instance***
+actions. The command to be executed on the running ***instance*** is specified by the
+**cmd** parameter, whilst authentication is specified either by the **private_key** parameter
+for cloud providers that expect key based authentication for connecting to ***instances***
+or the **password** parameter for those cloud providers that use a **username/password** for
+authentication. The last examples shown below illustrate the 'run-on-instance' feature for
+an Amazon EC2 ***instance*** and a Rackspace Cloudservers ***instance***. The two examples
+differ in how authentication is performed (private RSA Key for EC2 and username/password
+for Rackspace).
 
-#### Creating a new Instance
+`Example request: (reboot)`
 
-Per usual REST architectural style, new instances are created by
-issuing an HTTP `POST` to the instances collection as defined through
-the primary entry-point URL. Data should be sent in
-`application/x-www-form-urlencoded` format.
+    POST /api/instances/i-f3ba6492/reboot?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
 
-To create a new instance, only one parameter is required
+`Server response:`
 
-- **`image_id`**   The identifier (not URL) of the image from which to base the instance
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 1322
 
-Optional parameters may also be provided
+    <?xml version='1.0' encoding='utf-8' ?>
+    <instance href='http://localhost:3001/api/instances/i-f3ba6492' id='i-f3ba6492'>
+      <name>ami-f51aff9c</name>
+      <owner_id>393485797142</owner_id>
+      <image href='http://localhost:3001/api/images/ami-f51aff9c' id='ami-f51aff9c'></image>
+      <realm href='http://localhost:3001/api/realms/us-east-1c' id='us-east-1c'></realm>
+      <state>RUNNING</state>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/c1.medium' id='c1.medium'>
+      </hardware_profile>
+      <actions>
+        <link href='http://localhost:3001/api/instances/i-f3ba6492/reboot' method='post' rel='reboot' />
+        <link href='http://localhost:3001/api/instances/i-f3ba6492/stop' method='post' rel='stop' />
+        <link href='http://localhost:3001/api/instances/i-f3ba6492/run;id=i-f3ba6492' method='post' rel='run' />
+      </actions>
+      <launch_time>2011-07-22T11:29:48.000Z</launch_time>
+      <public_addresses><address>ec2-50-16-183-107.compute-1.amazonaws.com</address></public_addresses>
+      <private_addresses><address>domU-12-31-39-0F-79-D4.compute-1.internal</address></private_addresses>
+      <firewalls>  <firewall href='http://localhost:3001/api/firewalls/default' id='default'></firewall></firewalls>
+      <authentication type='key'>
+        <login>
+          <keyname>eftah</keyname>
+        </login>
+      </authentication>
+    </instance>
 
-- **`realm_id`**   The realm in which to launch the instance
-- **`hwp_name`**  The hardware profile upon which to launch the instance
-- **`name`**       A short label to identify the instance
+`Example request: (stop)`
 
-If `realm_id` or `hwp_name` are not specified, the provider _must_
-select reasonable defaults. The architecture of the selected harware profile
-_must_ match the architecture of the specified image.
+    POST /api/instances/20112212/stop?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
 
-After `POST`ing the data, the server _shall_ return a representation
-of the newly-created instance's XML, including a URL to retrieve the
-instance in the future.
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 1167
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <instance href='http://localhost:3002/api/instances/20112212' id='20112212'>
+      <name>myserver</name>
+      <owner_id>mandreou</owner_id>
+      <image href='http://localhost:3002/api/images/53' id='53'></image>
+      <realm href='http://localhost:3002/api/realms/us' id='us'></realm>
+      <state>STOPPED</state>
+      <hardware_profile href='http://localhost:3002/api/hardware_profiles/1' id='1'>
+      </hardware_profile>
+      <actions>
+        <link href='http://localhost:3002/api/instances/20112212/reboot' method='post' rel='reboot' />
+        <link href='http://localhost:3002/api/instances/20112212/stop' method='post' rel='stop' />
+        <link href='http://localhost:3002/api/instances/20112212/run;id=20112212' method='post' rel='run' />
+        <link href='http://localhost:3002/api/images;instance_id=20112212' method='post' rel='create_image' />
+      </actions>
+      <public_addresses><address>50.57.116.72</address></public_addresses>
+      <private_addresses><address>10.182.143.64</address></private_addresses>
+      <authentication type='password'>
+        <login>
+          <username>root</username>
+          <password></password>
+        </login>
+      </authentication>
+    </instance>
+
+`Example request (run-on-instance Amazon EC2):`
+NOTE: run-on-instance requests to EC2 ***instances*** will fail with
+**502 Bad Gateway - Execution Expired** if the ***firewall*** in which the ***instance***
+was launched does not grant **SSH** access (tcp, port 22) to the requesting client's
+IP address. This access may be given using the [firewalls](#firewalls) collection.
+
+    POST /api/instances/i-afde73ce/run?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Content-Length: 1927
+    Content-Type: multipart/form-data; boundary=----------------------------332ed6691ab8
+
+    ------------------------------332ed6691ab8
+    Content-Disposition: form-data; name="cmd"
+
+    uname -a; ls -l
+    ------------------------------332ed6691ab8
+    Content-Disposition: form-data; name="private_key"
+
+    -----BEGIN RSA PRIVATE KEY-----.BTTEpATBAAKDAQEA4t3R/PgUo3KDDuX4
+    vZZpZuXFkAA/5X2lFRY2/xsQqbPz9utPOsUoPf9Aajy+.vGRJrO2KAJ9U/JTNDzr
+    3NPbG3aHYPSnwsSxkFSG4Q6ukqYlxT9TPF/+wvdxfAtp3nYw3ZGuSX/DOtToWtQ8
+    F/+GvHTHKDQSB+TeEs1Sa/PFwxpspB+RqHbqOTWPsFOHL+9sZGTqd6D4B.R6DBNh
+    9Dabu9BVZrl5BTOKlbAgrKnzsGKvaBST/D2.AB/HB9/GOT36OoBmEr1y9gFwu4Xf
+    aKw+AXVf9y9TKxVD3TE5uB.oDZG8s4gr2e691xHG9YGzBBBbNzfFh94b3Td5JBGS
+    zRDTKYBfOgv+Zu5N+WyeaZ0ab50DwK9BXYB5hsRu5zbAqObbTZkwN9qwBOZHzATX
+    wVTZU+eTz.39OZPqu4fQwrBN13lDbUoZxlqT9g2+haQBB9sTDzQEZ08QKBgQDJyw
+    lBBZqQKBgQDz5E2rL59lNS5pBxDO9r6B9rXtBBTZ5tZUWNFRvyNsxY5nJT03.KDw
+    qo2VP5WDZeOhRWEUY96./pWN3hNFDkT44vDpeXQUh3rBHyD5DWvWxAze9Ds+UTO/
+    esuLwP5vXhfoYp6gV9XG.BEBzSVq8kZ2kZtlbWHTR/SGepTkDgYEA9zwHTDhtKR2
+    KS8/BSFZQ884ZqFkbwT9fTW6s0rgUSBDTUDgYEA9W5HXTOEPGFDnqBhKPLN.xD9D
+    vZZpZuXFkAA/5X2lFRY2/xsQqbPz9utPOsUoPf9Aajy+.vGRJrO2KAJ9U/JTNDzr
+    lBBZqQKBgQDz5E2rL59lNS5pBxDO9r6B9rXtBBTZ5tZUWNFRvyNsxY5nJT03.KDw
+    F/+GvHTHKDQSB+TeEs1Sa/PFwxpspB+RqHbqOTWPsFOHL+9sZGTqd6D4B.R6DBNh
+    wVTZU+eTz.39OZPqu4fQwrBN13lDbUoZxlqT9g2+haQBB9sTDzQEZ08QKBgQDJyw
+    lBBZqQKBgQDz5E2rL59lNS5pBxDO9r6B9rXtBBTZ5tZUWNFRvyNsxY5nJT03.KDw
+    DAAeVWKU1OyDXfN4v6Zn1nNrhSkdrd+XV0nTLExsfg==.-----END RSA PRIVAT
+    E KEY-----
+    ------------------------------332ed6691ab8--
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Mon, 25 Jul 2011 12:56:02 GMT
+    Content-Length: 497
+
+    <instance href='http://localhost:3001/api/instances/i-afde73ce' id='i-afde73ce'>
+      <public_address>
+        ec2-50-19-59-126.compute-1.amazonaws.com
+      </public_address>
+      <command>
+        uname -a; ls -l
+      </command>
+      <output>Linux domU-12-31-39-0F-E1-78 2.6.21.7-2.fc8xen #1 SMP Fri Feb 15 12:39:36 EST 2008 i686 i686 i386 GNU/Linux
+      total 140
+      -rw-r--r-- 1 root root 137263 Mar 26  2008 ec2-ami-tools-1.3-19974.noarch.rpm
+      -rw-r--r-- 1 root root      0 Mar 26  2008 firstlogin
+      </output>
+    </instance>
+
+
+`Example request (run-on-instance Rackspace Cloudservers):`
+
+    POST /api/instances/20117112/run?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
+    Content-Length: 275
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------9b05ece66f4d
+    ------------------------------9b05ece66f4d
+    Content-Disposition: form-data; name="cmd"
+
+    uname -a; ifconfig; pwd
+    ------------------------------9b05ece66f4d
+    Content-Disposition: form-data; name="password"
+
+    myserverqB2Uwk21I
+    ------------------------------9b05ece66f4d--
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Mon, 25 Jul 2011 13:02:15 GMT
+    Content-Length: 1781
+
+    <instance href='http://localhost:3002/api/instances/20117112' id='20117112'>
+      <public_address>
+        50.57.117.249
+      </public_address>
+      <command>
+        uname -a; ifconfig; pwd
+      </command>
+      <output>Linux myserver 2.6.35.4-rscloud #8 SMP Mon Sep 20 15:54:33 UTC 2010 x86_64 x86_64 x86_64 GNU/Linux
+      eth0      Link encap:Ethernet  HWaddr 40:40:B1:7A:52:7E
+                inet addr:50.57.117.249  Bcast:50.57.117.255  Mask:255.255.255.0
+                inet6 addr: fe80::4240:b1ff:fe7a:527e/64 Scope:Link
+                UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+                RX packets:54 errors:0 dropped:0 overruns:0 frame:0
+                TX packets:62 errors:0 dropped:0 overruns:0 carrier:0
+                collisions:0 txqueuelen:1000
+                RX bytes:5880 (5.7 KiB)  TX bytes:6331 (6.1 KiB)
+                Interrupt:24
+
+      eth1      Link encap:Ethernet  HWaddr 40:40:8E:4B:52:23
+                inet addr:10.182.131.159  Bcast:10.182.159.255  Mask:255.255.224.0
+                inet6 addr: fe80::4240:8eff:fe4b:5223/64 Scope:Link
+                UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+                RX packets:3 errors:0 dropped:0 overruns:0 frame:0
+                TX packets:12 errors:0 dropped:0 overruns:0 carrier:0
+                collisions:0 txqueuelen:1000
+                RX bytes:188 (188.0 b)  TX bytes:720 (720.0 b)
+                Interrupt:25
+
+      lo        Link encap:Local Loopback
+                inet addr:127.0.0.1  Mask:255.0.0.0
+                inet6 addr: ::1/128 Scope:Host
+                UP LOOPBACK RUNNING  MTU:16436  Metric:1
+                RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+                TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+                collisions:0 txqueuelen:0
+                RX bytes:0 (0.0 b)  TX bytes:0 (0.0 b)
+
+      /root</output>
+    </instance>
+
+
+<a name=create_instance>.
+#### `POST /api/instances`
+
+Create a new ***instance***. At a minimum clients must specify the ***image*** from
+which the virtual machine ***instance*** is to be created. Optionally a client
+may also specify a ***hardware profile*** and ***realm*** (with default values used
+otherwise). Clients can also provide a *name* for the new *instance* though this is not
+supported by all back-end cloud providers. Whether a given feature is available is advertised
+in the response to the Deltacloud server API entry point.
+The details of the new ***instance*** are returned in response to this operation.
+
+For creation of an ***instance*** in the Amazon EC2 cloud a client can also specify the
+name of the EC2 keypair to be used as well as the firewalls (EC2 security groups) that the
+***instance*** should be launched into. The EC2 keypair is specified with the parameter *keyname*
+while firewalls are specified sequentially as *firewalls1* ... *firewalls2* ... etc. These parameters
+are specified in the first ***instance*** creation example below. Note that the values for
+public and private addresses are blank in the server response, as these have not yet been
+assigned by the cloud provider. Subsequent requests for the ***instance*** details
+will provide these values.
+
+<a name=create_instance_ec2>.
+
+`Client request: (AWS EC2)`
+
+    POST /api/instances?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 676
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------cce0758d1679
+
+    ------------------------------cce0758d1679
+    Content-Disposition: form-data; name="keyname"
+
+    eftah
+    ------------------------------cce0758d1679
+    Content-Disposition: form-data; name="image_id"
+
+    ami-f51aff9c
+    ------------------------------cce0758d1679
+    Content-Disposition: form-data; name="realm_id"
+
+    us-east-1c
+    ------------------------------cce0758d1679
+    Content-Disposition: form-data; name="hwp_id"
+
+    c1.medium
+    ------------------------------cce0758d1679
+    Content-Disposition: form-data; name="firewalls1"
+
+    default
+    ------------------------------cce0758d1679
+    Content-Disposition: form-data; name="firewalls2"
+
+    test
+    ------------------------------cce0758d1679--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Content-Length: 1183
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <instance href='http://localhost:3001/api/instances/i-cbb861aa' id='i-cbb861aa'>
+      <name>ami-f51aff9c</name>
+      <owner_id>393485797142</owner_id>
+      <image href='http://localhost:3001/api/images/ami-f51aff9c' id='ami-f51aff9c'></image>
+      <realm href='http://localhost:3001/api/realms/us-east-1c' id='us-east-1c'></realm>
+      <state>PENDING</state>
+      <hardware_profile href='http://localhost:3001/api/hardware_profiles/c1.medium' id='c1.medium'>
+      </hardware_profile>
+      <actions>
+        <link href='http://localhost:3001/api/instances/i-cbb861aa/stop' method='post' rel='stop' />
+        <link href='http://localhost:3001/api/instances/i-cbb861aa/run;id=i-cbb861aa' method='post' rel='run' />
+      </actions>
+      <launch_time>2011-07-22T16:09:45.000Z</launch_time>
+      <public_addresses></public_addresses>
+      <private_addresses></private_addresses>
+      <firewalls>
+        <firewall href='http://localhost:3001/api/firewalls/test' id='test'></firewall>
+        <firewall href='http://localhost:3001/api/firewalls/default' id='default'></firewall>
+      </firewalls>
+      <authentication type='key'>
+        <login>
+          <keyname>eftah</keyname>
+        </login>
+      </authentication>
+    </instance>
+
+The second example given below shows creation of an ***instance*** in the Rackspace
+Cloudservers cloud. Here you can see that the client provides the optional *name*
+ parameter and that the created instance uses authentication of type **password**.
+The *username* and *password* are returned with the details of the newly created
+***instance***:
+
+`Example request: (Rackspace Cloudservers)`
+
+    POST /api/instances?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3002
+    Accept: */*
+    Content-Length: 342
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------7424b11a955d
+
+    ------------------------------7424b11a955d
+    Content-Disposition: form-data; name="image_id"
+
+    53
+    ------------------------------7424b11a955d
+    Content-Disposition: form-data; name="hwp_id"
+
+    1
+    ------------------------------7424b11a955d
+    Content-Disposition: form-data; name="name"
+
+    myserver
+    ------------------------------7424b11a955d--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Content-Length: 883
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <instance href='http://localhost:3002/api/instances/20112212' id='20112212'>
+      <name>myserver</name>
+      <owner_id>mandreou</owner_id>
+      <image href='http://localhost:3002/api/images/53' id='53'></image>
+      <realm href='http://localhost:3002/api/realms/us' id='us'></realm>
+      <state>PENDING</state>
+      <hardware_profile href='http://localhost:3002/api/hardware_profiles/1' id='1'>
+      </hardware_profile>
+      <actions>
+        <link href='http://localhost:3002/api/instances/20112212/run;id=20112212' method='post' rel='run' />
+      </actions>
+      <public_addresses><address>50.57.116.72</address></public_addresses>
+      <private_addresses><address>10.182.143.64</address></private_addresses>
+      <authentication type='password'>
+        <login>
+          <username>root</username>
+          <password>myserver4OvKh7Ak3</password>
+        </login>
+      </authentication>
+    </instance>
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.6 Keys
+
+A ***key*** captures the credentials required to access an ***Instance***. The Deltacloud API supports
+two main types of ***keys***: type **password** which have *username* and *password* attributes, or type
+**key** which have *fingerprint* and *pem* (private key) attributes (public/private keypair).
+The key type is determined by the back-end cloud provider.
+
+Some cloud providers require that the client specify the credentials to be used for connecting to an
+ ***instance*** as a parameter to ***instance*** creation. An example is the Amazon EC2 cloud which uses
+***keys*** of type **key** and where the identifier of the **key** to be used with a given ***instance***
+is supplied in the *keyname* parameter to the [POST /api/instances](#create_instance_ec2) call.
+
+Other cloud providers report the ***instance*** credentials in the response to ***instance***
+creation and make them available for subsequent retrieval. An example is the Gogrid Cloud,
+ which uses ***keys*** of type  **password** (note: the Rackspace cloud also reports credentials
+during ***instance*** creation though it does not provide a mechanism with which to retrieve
+those passwords thereafter).
+
+#### `GET /api/keys`
+
+This gives a listing of all available keys. The example shown below is for ***keys*** from the Amazon
+EC2 cloud, which are of type **key**. Note that the XML response does not contain the private key
+attribute. This is because EC2 only provides the private key once, when the key is created (see
+[key creation](#key_create) for an example):
+
+<a name=get_keys>.
+
+`Example request:`
+
+    GET /api/keys?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Tue, 26 Jul 2011 08:09:26 GMT
+    Content-Length: 733
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <keys>
+      <key href='http://localhost:3001/api/keys/deltacloud_jsmith' id='deltacloud_jsmith' type='key'>
+        <actions>
+          <link href='http://localhost:3001/api/keys/deltacloud_jsmith' method='delete' rel='destroy' />
+        </actions>
+        <fingerprint>38:93:81:11:83:c2:c7:27:e8:79:17:e2:08:c9:13:99:73:90:8e:cc</fingerprint>
+        <state>AVAILABLE</state>
+      </key>
+      <key href='http://localhost:3001/api/keys/the_key' id='the_key' type='key'>
+        <actions>
+          <link href='http://localhost:3001/api/keys/the_key' method='delete' rel='destroy' />
+        </actions>
+        <fingerprint>39:d3:9b:bb:93:92:97:27:e9:7d:b7:e2:09:9d:b3:dd:73:d0:9e:99</fingerprint>
+        <state>AVAILABLE</state>
+      </key>
+    </keys>
+
+
+#### `GET /api/keys/:id`
+
+Get the XML description for a specific key. The example below shows a key of type **password** from the
+Gogrid cloud:
+
+`Example request:`
+
+    GET /api/keys/72398?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.21.2 (x86_64-apple-darwin10.3.1)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Tue, 26 Jul 2011 11:13:25 GMT
+    Content-Length: 269
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <key href='http://localhost:3001/api/keys/72398' id='72398' type='password'>
+        <actions>
+        </actions>
+        <username><![CDATA[26648]]></username>
+        <password><![CDATA[3woc7UWdJsJEcm8@]]></password>
+        <state></state>
+    </key>
+
+#### `POST /api/keys`
+
+Some back-end cloud providers allow a client to create new credentials for
+accessing Instances. The parameters (key attributes) required by this function will depend on the
+ back-end and are specified in the relevant driver. At present only the Amazon EC2 cloud implements a key
+create method and this requires the key *name* to be specified as a parameter. It should be noted that
+the private key attribute of a newly created key is reported only once, in response to the create
+operation as shown in the example below. The client should save the private key for future use with
+ ***instance*** authentication. In all subsequent calls, only the fingerprint attribute is displayed
+ in the Deltacloud server response, as illustrated by the [GET /api/keys](#get_keys) call above.
+
+<a name=key_create>.
+
+`Example request:`
+
+    POST /api/keys?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 153
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------92fbd163f915
+
+    ------------------------------92fbd163f915
+    Content-Disposition: form-data; name="name"
+
+    jsmith_new_key
+    ------------------------------92fbd163f915--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Date: Tue, 26 Jul 2011 10:58:58 GMT
+    Content-Length: 2062
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <key href='http://localhost:3001/api/keys/jsmith_new_key' id='jsmith_new_key' type='key'>
+      <actions>
+        <link href='http://localhost:3001/api/keys/jsmith_new_key' method='delete' rel='destroy' />
+      </actions>
+      <fingerprint>c6:80:5c:0a:b8:66:0d:58:5a:bf:0f:c2:5d:35:d3:c7:49:f3:5a:5f</fingerprint>
+      <pem>
+        <![CDATA[-----BEGIN RSA PRIVATE KEY-----
+        MIIEpgIBAAKCAQEAsPIzLQEpoLkxd0WESPEWQ4AMn9e0T6jHIMl/a2GUx2TA2Q10n6i5h4VAXXrK
+        m9fNnPJhw1uRbuL7Oz57QSftGUfz05EaLOsvIEq3OXA0HqnFPF7Dd4yvy07KfgNHe2c26NqIqxgw
+        GCy6tfd/9iKQIlFCG8I/M6fgEG/vw30GP5EywYLS0J7lYfNHJAVAznjX0LoOWvT0zYajZ7gWJ30/
+        sQ/IFaKxC3BpT6K2aQP+RgAimALHinFuoT4+07SsrQXEezLemAG/gdbw3+7DL9BGq0CCoY1RxeC7
+        qNh9BJwHtq9QPYg/RKruiYak/TSoB71/VP67lJv0WEkCRJKEFpz5SQIDAQABAoIBAQChVyZcmdvI
+        JjS5aVSWYeWIBMD+GmPZ4q428iPR2LcdHHxPLVqyndkVfeXTlrwZX6umuMd1pw+zyRmEypL+NRaW
+        36mutnbkkEl3K0loASw07V3fjxSx9EDyo1Q1lG3gUpuZtHG7eCGaWWahtxwhZSCBehBKWVLhmefP
+        dRFs8Zn56LhfxByS/HcmHYddq1ggynFgg1DszYKTiJ0k5Zd/w4gh3GXH02S50cNFumJh9tbZNeDz
+        yqa6a12N21loZ/VRRL7lEjpf3K2n0DCQ5pp0I9/FiwuwHMWr6qPSsQt9N/XclNiVg7fz+btNsqVY
+        US1kBkvazoaANmF3VOXT9bmiFnuBAoGBAOkURD2uBe9UUl7xvWON7yS+tBcs1KyYDsTEhsS5dLdk
+        n73/5vyEVzozdywTR7lQWVQhWWwkK/FJd9Xo/VV5bGXl+MK/JxIQHrEhLzO1OeYEBiw2eKhigyDb
+        lm7pk/DuBNqgnA9YVnSvRYjpnvgBeb89CHvdhqn52GcbB2ShXurRAoGBAMJYyqNyl8CiIqesigts
+        tlRk0UmS/LS6I58f7nbcrkgO3ZDsYhXhj9aKSJx56bpWTwoFdl7nTSUwkFgq2ts3g7EPQbYD/5G6
+        kwpq0tvC23zZTfYvjExNVORh9PJBCrBl1tC/5nqYSrHC7H3Ys/SW3DF+0LPTdOtx5FwL5Utr3lT5
+        AoGBAM3Y8EvpHaS5O+ZOaY07FTHGmxa8qTelM6XkS4ICqGovnEUZdM8fskncmit6+6VWqQ38RhWT
+        /Jsk34k0NEkA7BMyf/i/CaqSQgj93co1C+VxOGJj2TwdhOHIDZv2/omSLQdJQYrr4a87/JVmftdZ
+        tkSHiq6afwwvdEfbPzRIsKOBAoGBAK5EjEAP6z+So1yS/J3N95ipZnmA0hUErBhtu5jdvXFj0w22
+        ySUxw5bvHLkjIJA0AF/OEhx7b9OfPm+wzdqwZugH9DZQU4TLNjqrGzRv//xtptjQPg/Vb//yToBE
+        Dl+qkftReEwJ70CCtykJfiQeeofvXRlCzZ6p28kl6Y+9w/mRAoGBANI8AGB1iUDMQDiEfTAuH7jB
+        nZTZUsfAaysoku3gyVmtcu1Zo7T02b8YW3ypuNu664KO7eNik9q68yKa7oDuLVrVj6Sh2DInoeW9
+        vbjp2KcyMVEPHzWh86LV9IY5oHjQxlK/PMhQWMEeysi6j2qFqrx2rqRhG6kZUcFHFoHQpmv2
+        -----END RSA PRIVATE KEY-----]]>
+      </pem>
+      <state>AVAILABLE</state>
+    </key>
+
+
+#### `DELETE /api/keys/:id`
+
+Delete a ***key***, specified by its :id attribute. Note that as with the :create
+operation, this feature is currently only available in the Amazon EC2 driver.
+
+`Example request:`
+
+    DELETE /api/keys/jsmith_new_key?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Tue, 26 Jul 2011 10:18:38 GMT
+
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+<a name=firewalls>.
+### 3.7 Firewalls
+
+Firewalls represent sets of rules that govern the accessibility of a running
+ ***instance*** over the  public Internet. At present only the Amazon EC2 cloud
+supports this collection (Amazon EC2 'Security Groups'). A ***firewall*** has
+a **name** and **description**, an **owner_id** and a set of **rules**. An
+***instance*** is 'launched into' a ***firewall*** where this is supported,
+by specifying the **firewalls1 ... firewallsN** parameters in the
+ [POST /api/instances](#create_instance_ec2) operation.
+
+Each ***firewall rule*** has a number of attributes describing the access granted
+to clients that want to communicate with the ***instance*** over the Internet.
+Each rule has an **allow_protocol** (*tcp*, *udp*  or *icmp*) a **port_from**
+and **port_to** that delimit the port range for access, a **sources** list which
+can contain ***firewalls*** (i.e. allow ***instances*** in another ***firewall***
+to communicate with ***instances*** in the ***firewall*** in which this rule exists),
+or a number of IP addresses in CIDR format, or  a mix of both. Finally each rule
+also specifies a **direction**, indicating whether it applies to ingress
+or egress traffic.
+
+As Amazon EC2 has no notion of a ***firewall rule*** ID, the Deltacloud server constructs one
+for each rule as the concatenation of its attributes. The format used is:
+owner_id~protocol~from_port~to_port~@sources.
+
+As explained above a source can be of type **address** in which case it defines an
+*IP type* (ipv4/ipv6), an *IP address* and *routing prefix* (CIDR netmask). Sources
+of type **group** have a *name* that defines the ***firewall*** to which access
+is being granted and an *owner_id* (identifier of the account that created the
+specified firewall).
+
+An example of a rule id is:
+
+    393485797142~tcp~22~22~@group,393485797142,default,@address,ipv4,10.1.2.3,24
+              {owner_id~protocol~from_port~to_port~@sources}
+
+By creating the rule identifier abstraction, the Deltacloud API supports deletion of
+an entire firewall rule as one operation,
+[DELETE /api/firewalls/:firewall_id/:rule_id](#delete_firewall_rule).
+
+#### `GET /api/firewalls`
+
+Retrieve a list of all ***firewalls***.
+
+`Example request:`
+
+    GET /api/firewalls?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Tue, 26 Jul 2011 15:56:04 GMT
+    Content-Length: 1640
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <firewalls>
+      <firewall href='http://localhost:3001/api/firewalls/default' id='default'>
+        <name><![CDATA[default]]></name>
+        <description><![CDATA[default group]]></description>
+        <owner_id>393485797142</owner_id>
+        <rules>
+          <rule id='393485797142~tcp~22~22~@address,ipv4,87.228.192.251,32'>
+            <allow_protocol>tcp</allow_protocol>
+            <port_from>22</port_from>
+            <port_to>22</port_to>
+            <direction>ingress</direction>
+            <sources>
+              <source address='87.228.192.251' family='ipv4' prefix='32' type='address'></source>
+            </sources>
+          </rule>
+        </rules>
+      </firewall>
+      <firewall href='http://localhost:3001/api/firewalls/test' id='test'>
+        <name><![CDATA[test]]></name>
+        <description><![CDATA[this is just a test]]></description>
+        <owner_id>393485797142</owner_id>
+        <rules>
+          <rule id='393485797142~tcp~22~22~@group,393485797142,default,@address,ipv4,10.1.2.3,24'>
+            <allow_protocol>tcp</allow_protocol>
+            <port_from>22</port_from>
+            <port_to>22</port_to>
+            <direction>ingress</direction>
+            <sources>
+              <source name='default' owner='393485797142' type='group'></source>
+              <source address='10.1.2.3' family='ipv4' prefix='24' type='address'></source>
+            </sources>
+          </rule>
+        </rules>
+      </firewall>
+      <firewall href='http://localhost:3001/api/firewalls/new_firewall' id='new_firewall'>
+        <name><![CDATA[new_firewall]]></name>
+        <description><![CDATA[new_one]]></description>
+        <owner_id>393485797142</owner_id>
+        <rules>
+        </rules>
+      </firewall>
+    </firewalls>
+
+
+#### `GET /api/firewalls/:id`
+
+Retrieve details of a single specified ***firewall***.
+
+`Example request:`
+
+    GET /api/firewalls/test?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server reponse:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 08:20:29 GMT
+    Content-Length: 835
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <firewall href='http://localhost:3001/api/firewalls/test' id='test'>
+      <name><![CDATA[test]]></name>
+      <description><![CDATA[this is just a test]]></description>
+      <owner_id>393485797142</owner_id>
+      <rules>
+        <rule href='http://localhost:3001/api/firewalls/test/393485797142~tcp~22~22~@group,393485797142,default,@address,ipv4,10.1.2.3,24' id='393485797142~tcp~22~22~@group,393485797142,default,@address,ipv4,10.1.2.3,24'>
+          <allow_protocol>tcp</allow_protocol>
+          <port_from>22</port_from>
+          <port_to>22</port_to>
+          <direction>ingress</direction>
+          <sources>
+            <source name='default' owner='393485797142' type='group'></source>
+            <source address='10.1.2.3' family='ipv4' prefix='24' type='address'></source>
+          </sources>
+        </rule>
+      </rules>
+    </firewall>
+
+
+#### `POST /api/firewalls`
+
+Creates a new ***firewall***. Clients must specify the ***firewall*** *name* and *description* as
+parameters to the request. On succesful completion the Deltacloud server will respond with **HTTP 201
+Created** and return details of the newly created ***firewall***:
+
+`Example request:`
+
+    POST /api/firewalls?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 285
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------cdbcabd8ab04
+
+    ------------------------------cdbcabd8ab04
+    Content-Disposition: form-data; name="name"
+
+    Devel_Group
+    ------------------------------cdbcabd8ab04
+    Content-Disposition: form-data; name="description"
+
+    Access for all development machines
+    ------------------------------cdbcabd8ab04--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 08:35:43 GMT
+    Content-Length: 296
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <firewall href='http://localhost:3001/api/firewalls/Devel_Group' id='Devel_Group'>
+      <name><![CDATA[Devel_Group]]></name>
+      <description><![CDATA[Access for all development machines]]></description>
+      <owner_id></owner_id>
+      <rules>
+      </rules>
+    </firewall>
+
+<a name=delete_firewall_rule> .
+
+#### `DELETE /api/firewalls/:id`
+
+Deletes the specified ***firewall*** from the back-end cloud provider. The Deltacloud server will respond
+with **HTTP 204 No Content** after a successful deletion:
+
+`Example request:`
+
+    DELETE /api/firewalls/test?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Client response:`
+
+    HTTP/1.1 204 No Content
+    Date: Wed, 27 Jul 2011 09:47:43 GMT
+
+The rules governing the deletion of a ***firewall*** are back-end cloud specific.
+Since at present only the Amazon EC2 cloud supports the ***firewalls*** collection we describe the
+***firewall*** deletion rules for EC2 here.
+
+It is permitted to delete a ***firewall*** that has rules defined within it, with two caveats.
+You cannot delete a  ***firewall*** if it is referenced by another ***firewall***; for instance
+ **firewall_1** has a rule giving access to **firewall_2**. An attempt to delete
+**firewall_2** will result in the error **InvalidGroup.InUse**, as shown in the example below. The second
+caveat is that you cannot delete a ***firewall*** if there are currently any running ***instances*** within
+that ***firewall*** (i.e. ***instances*** that specified the given ***firewall*** when they were launched).
+The error message in that case is **InvalidGroup.InUse: There are active instances using security group**.
+In both cases the error message is propagated from the back-end cloud provider to the requesting client:
+
+`Example request: (error deleting a firewall referenced by another firewall)`
+
+    DELETE /api/firewalls/firewall_2?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 502 Bad Gateway
+    Content-Type: application/xml
+    Content-Length: 626
+
+    <error status='502' url='/api/firewalls/firewall_2?format=xml'>
+      <kind>backend_error</kind>
+      <backend driver='ec2'>
+        <code>502</code>
+      </backend>
+      <message><![CDATA[InvalidGroup.InUse: Group 393485797142:firewall_2 is used by groups: 393485797142:firewall_1
+      REQUEST=ec2.us-east-1.amazonaws.com:443/?AWSAccessKeyId=AGG332FWWR5A11F327Q&Action=DeleteSecurityGroup&GroupName=firewall_2&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2011-07-27T08%3A50%3A50.000Z&Version=2010-08-31&Signature=g613223efwv5WAVhAosmPcrsfHqApAuw\nnwfYnZp0k3U%3D
+      REQUEST ID=8591fa20-a6ee-4db7-b30f-3022ecc9a9f5]]></message>
+    </error>
+
+#### `POST /api/firewalls/:id/rules`
+
+Create a new ***firewall rule*** within a specified ***firewall***. A client must supply the **protocol**
+(one of *udp*, *tcp* or *icmp*), **port_from** and **port_to** as parameters. Ofcourse the client must also
+specify the **sources** to which the given rule is to apply. IP addresses are specified in CIDR format
+sequentially: *ip_address1=192.168.10.10/24*, *ip_address2=10.1.1.1/16* ... *ip_addressN=...*. The IP
+address '0.0.0.0/0' acts as a wildcard to specify **any** IP address.
+Source ***firewalls*** are also specified sequentially but the *owner_id* of the ***firewall*** that is to
+ be authorized must also be supplied (this is an Amazon EC2 requirement): group1=name1,
+group1owner=1234567890, group2=name2, group2owner=0987654321, ... groupN=nameN, groupNowner=...
+
+The Deltacloud server responds with a **HTTP 201 Created** after a successful operation together with the
+details of the affected ***firewall***:
+
+`Example request:`
+
+    POST /api/firewalls/default/rules?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 1005
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------4c9e7fa0a35e
+
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="protocol"
+
+    tcp
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="port_from"
+
+    22
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="port_to"
+
+    22
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="group1"
+
+    devel_group
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="group1owner"
+
+    393485797142
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="group2"
+
+    outside
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="group2owner"
+
+    393485797142
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="ip_address1"
+
+    192.168.1.1/24
+    ------------------------------4c9e7fa0a35e
+    Content-Disposition: form-data; name="ip_address2"
+
+    65.128.31.27/32
+    ------------------------------4c9e7fa0a35e--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 10:18:51 GMT
+    Content-Length: 1143
+
+    <firewall href='http://localhost:3001/api/firewalls/default' id='default'>
+      <name><![CDATA[default]]></name>
+      <description><![CDATA[default group]]></description>
+      <owner_id>393485797142</owner_id>
+      <rules>
+        <rule href='http://localhost:3001/api/firewalls/default/393485797142~tcp~22~22~@group,393485797142,devel_group,@group,393485797142,outside,@address,ipv4,192.168.1.1,24,@address,ipv4,65.128.31.27,32' id='393485797142~tcp~22~22~@group,393485797142,devel_group,@group,393485797142,outside,@address,ipv4,192.168.1.1,24,@address,ipv4,65.128.31.27,32'>
+          <allow_protocol>tcp</allow_protocol>
+          <port_from>22</port_from>
+          <port_to>22</port_to>
+          <direction>ingress</direction>
+          <sources>
+            <source name='devel_group' owner='393485797142' type='group'></source>
+            <source name='outside' owner='393485797142' type='group'></source>
+            <source address='192.168.1.1' family='ipv4' prefix='24' type='address'></source>
+            <source address='65.128.31.27' family='ipv4' prefix='32' type='address'></source>
+          </sources>
+        </rule>
+      </rules>
+    </firewall>
+
+#### `DELETE /api/firewalls/:id/:rule_id`
+
+Delete the specified firewall rule. The Deltacloud server will respond with **HTTP 204 No Content** on
+completion of a successful delete operation:
+
+`Example request:`
+
+    DELETE /api/firewalls/default/393485797142~tcp~0~0~@group,393485797142,devel_group,@group,393485797142,outside,@address,ipv4,192.168.1.1,24,@address,ipv4,65.128.31.27,32?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Wed, 27 Jul 2011 10:39:52 GMT
+
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.8 Addresses
+
+The ***addresses*** collection represents IP addresses and is intended to allow IP address management.
+ This collection is currently implemented for the Amazon EC2 cloud driver. For EC2, IP address management
+corresponds to Amazon's 'Elastic IP' feature. As such, the ***addresses*** collection supports operations
+for creating or destroying an ***address*** as well as associating or disassociating an ***address*** from
+a running ***instance***.
+
+#### `GET /api/addresses`
+
+Retrieve a list of all ***addresses***:
+
+`Example request:`
+
+    GET /api/addresses?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 12:55:16 GMT
+    Content-Length: 817
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <addresses>
+      <address href='http://localhost:3001/api/addresses/107.20.232.251' id='107.20.232.251'>
+        <ip>107.20.232.251</ip>
+        <actions>
+          <link href='http://localhost:3001/api/addresses/107.20.232.251' method='delete' rel='destroy' />
+          <link href='http://localhost:3001/api/addresses/107.20.232.251/associate' method='post' rel='associate' />
+        </actions>
+      </address>
+      <address href='http://localhost:3001/api/addresses/107.20.234.161' id='107.20.234.161'>
+        <ip>107.20.234.161</ip>
+        <actions>
+          <link href='http://localhost:3001/api/addresses/107.20.234.161' method='delete' rel='destroy' />
+          <link href='http://localhost:3001/api/addresses/107.20.234.161/associate' method='post' rel='associate' />
+        </actions>
+      </address>
+    </addresses>
+
+
+#### `GET /api/addresses/:id`
+
+Retrieve details for a specific ***address***.
+
+`Example request:`
+
+    GET /api/addresses/107.20.232.251?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 12:57:27 GMT
+    Content-Length: 402
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <address href='http://localhost:3001/api/addresses/107.20.232.251' id='107.20.232.251'>
+      <ip>107.20.232.251</ip>
+      <actions>
+        <link href='http://localhost:3001/api/addresses/107.20.232.251' method='delete' rel='destroy' />
+        <link href='http://localhost:3001/api/addresses/107.20.232.251/associate' method='post' rel='associate' />
+      </actions>
+    </address>
+
+
+
+#### `POST /api/addresses`
+
+This operation creates a new ***address***. The Deltacloud server will respond with **HTTP 201 Created** and
+provide the details of the newly created ***address*** after a succesful operation:
+
+`Example request:`
+
+    POST /api/addresses?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Content-Length: 388
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <address href='http://localhost:3001/api/addresses/107.20.232.251' id='107.20.232.251'>
+      <ip>107.20.232.251</ip>
+      <actions>
+        <link href='http://localhost:3001/api/addresses/107.20.232.251' method='delete' rel='destroy' />
+        <link href='http://localhost:3001/api/addresses/107.20.232.251/associate' method='post' rel='associate' />
+      </actions>
+    </address>
+
+
+
+#### `DELETE /api/addresses/:id`
+
+Delete a specified address. The Deltacloud server responds with a **HTTP 204 No Content** after a
+succesful operation.
+
+`Example request:`
+
+    DELETE /api/addresses/107.20.232.251?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Wed, 27 Jul 2011 13:29:00 GMT
+
+#### `POST /api/addresses/:id/associate`
+
+This operation associates a given ***address*** with a running ***instance***. The client must
+specify the *instance_id* as a parameter to this call. For Amazon EC2, the specified ***address***
+will replace the currently assigned *public_address* of the ***instance***. A succesful operation will
+produce a **HTTP 202 Accepted** response:
+
+
+
+`Example request:`
+
+    POST /api/addresses/107.20.232.251/associate?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 156
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------e4c1d4718683
+
+    ------------------------------e4c1d4718683
+    Content-Disposition: form-data; name="instance_id"
+
+    i-9d8a3dfc
+    ------------------------------e4c1d4718683--
+
+`Server response:`
+
+    HTTP/1.1 202 Accepted
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 13:01:11 GMT
+    Content-Length: 0
+
+#### `POST /api/addresses/:id/disassociate`
+
+This operation disassociates a given ***address*** from the ***instance*** to which it is currently
+assigned.
+
+`Example request:`
+
+    POST /api/addresses/107.20.232.251/disassociate?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 202 Accepted
+    Content-Type: application/xml
+    Date: Wed, 27 Jul 2011 13:05:38 GMT
+    Content-Length: 0
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 3.9 Load Balancers
+
+***Load balancers*** allow distribution of ingress network traffic received by a specified IP address
+to a number of running ***instances***. For example, a number of ***instances*** that are fulfilling the
+role of web servers can be attached to a single ***load_balancer***. This would allow
+handling of large numbers of requests without degradation to the website performance.
+
+This collection is not supported by all back-end cloud providers and at present is implemented for the
+Gogrid and Amazon EC2 cloud drivers. A ***load_balancer*** is launched into a specific ***realm***
+and typically only ***instances*** within that ***realm*** may be 'attached' to the balancer. Each
+***load_balancer*** also has a list of ***instances***, a **public address** representing the IP address
+that the balancer will respond to client requests on, a **created_at** timestamp and a list of
+**listeners**. Each **listener** has a **protocol** (e.g., 'TCP'), a **load balancer port** and
+an **instance port** which represent the network ports on which the balancer accepts
+connections and the port to which network traffic is forwarded to ***instances*** in the
+**instance list**, respectively.
+
+#### `GET /api/load_balancers`
+
+Retrieves details of all ***load_balancers***
+
+`Example request:`
+
+    GET /api/load_balancers?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 13:37:19 GMT
+    Content-Length: 1844
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <load_balancers>
+      <load_balancer href='http://localhost:3001/api/load_balancers/webtraffic-balancer' id='webtraffic-balancer'>
+        <actions>
+          <link href='http://localhost:3001/api/load_balancers/webtraffic-balancer' method='delete' rel='destroy' />
+          <link href='http://localhost:3001/api/load_balancers/webtraffic-balancer/register' method='post' rel='register' />
+        </actions>
+        <public_addresses>
+          <address>webtraffic-balancer-1306196965.us-east-1.elb.amazonaws.com</address>
+        </public_addresses>
+        <created_at>Thu Jul 28 13:29:52 UTC 2011</created_at>
+        <realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'></realm>
+        <listeners>
+          <listener protocol='HTTP'>
+            <load_balancer_port>80</load_balancer_port>
+            <instance_port>3001</instance_port>
+          </listener>
+        </listeners>
+        <instances>
+        </instances>
+      </load_balancer>
+      <load_balancer href='http://localhost:3001/api/load_balancers/secure-site-balancer' id='secure-site-balancer'>
+        <actions>
+          <link href='http://localhost:3001/api/load_balancers/secure-site-balancer' method='delete' rel='destroy' />
+          <link href='http://localhost:3001/api/load_balancers/secure-site-balancer/register' method='post' rel='register' />
+        </actions>
+        <public_addresses>
+          <address>secure-site-balancer-1347100846.us-east-1.elb.amazonaws.com</address>
+        </public_addresses>
+        <created_at>Thu Jul 28 13:36:29 UTC 2011</created_at>
+        <realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'></realm>
+        <listeners>
+          <listener protocol='HTTP'>
+            <load_balancer_port>443</load_balancer_port>
+            <instance_port>443</instance_port>
+          </listener>
+        </listeners>
+        <instances>
+        </instances>
+      </load_balancer>
+    </load_balancers>
+
+
+#### `GET /api/load_balancers/:id`
+
+Retrieve details for a specific load balancer:
+
+
+`Example request:`
+
+    GET /api/load_balancers/secure-site-balancer?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 18:11:49 GMT
+    Content-Length: 1361
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <load_balancer href='http://localhost:3001/api/load_balancers/secure-site-balancer' id='secure-site-balancer'>
+      <actions>
+        <link href='http://localhost:3001/api/load_balancers/secure-site-balancer' method='delete' rel='destroy' />
+        <link href='http://localhost:3001/api/load_balancers/secure-site-balancer/register' method='post' rel='register' />
+      </actions>
+      <public_addresses>
+        <address>secure-site-balancer-1347100846.us-east-1.elb.amazonaws.com</address>
+      </public_addresses>
+      <created_at>Thu Jul 28 13:36:29 UTC 2011</created_at>
+      <realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'></realm>
+      <listeners>
+        <listener protocol='HTTP'>
+          <load_balancer_port>443</load_balancer_port>
+          <instance_port>443</instance_port>
+        </listener>
+      </listeners>
+      <instances>
+        <instance href='http://localhost:3001/api/instances/i-4f06b52e' id='i-4f06b52e'>
+          <link href='http://localhost:3001/api/load_balancers/secure-site-balancer/unregister?instance_id=i-4f06b52e' rel='unregister' />
+        </instance>
+        <instance href='http://localhost:3001/api/instances/i-d706b5b6' id='i-d706b5b6'>
+          <link href='http://localhost:3001/api/load_balancers/secure-site-balancer/unregister?instance_id=i-d706b5b6' rel='unregister' />
+        </instance>
+      </instances>
+    </load_balancer>
+
+
+#### `POST /api/load_balancers`
+
+This operation creates a new ***load_balancer***. Clients must provide the ***load_balancer*** **name**,
+ the **realm_id** to which the balancer is to apply, a **listener_protocol** which the balancer will
+respond to (one of **HTTP** or **TCP**), the **listener_balancer_port** which specifies the port
+that the ***load_balancer*** will be expecting network traffic on and finally the **listener_instance_port**
+which specifies the port on which ***instances*** will be receiving network traffic forwarded by the
+***load_balancer***.
+
+`Example request:`
+
+    POST /api/load_balancers?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 603
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------395a7b3a9c77
+
+    ------------------------------395a7b3a9c77
+    Content-Disposition: form-data; name="name"
+
+    webtraffic-balancer
+    ------------------------------395a7b3a9c77
+    Content-Disposition: form-data; name="realm_id"
+
+    us-east-1c
+    ------------------------------395a7b3a9c77
+    Content-Disposition: form-data; name="listener_protocol"
+
+    HTTP
+    ------------------------------395a7b3a9c77
+    Content-Disposition: form-data; name="listener_balancer_port"
+
+    80
+    ------------------------------395a7b3a9c77
+    Content-Disposition: form-data; name="listener_instance_port"
+
+    3001
+    ------------------------------395a7b3a9c77--
+
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 13:30:05 GMT
+    Content-Length: 884
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <load_balancer href='http://localhost:3001/api/load_balancers/webtraffic-balancer' id='webtraffic-balancer'>
+      <actions>
+        <link href='http://localhost:3001/api/load_balancers/webtraffic-balancer' method='delete' rel='destroy' />
+        <link href='http://localhost:3001/api/load_balancers/webtraffic-balancer/register' method='post' rel='register' />
+      </actions>
+      <public_addresses>
+        <address>webtraffic-balancer-1306196965.us-east-1.elb.amazonaws.com</address>
+      </public_addresses>
+      <created_at>Thu Jul 28 13:29:52 UTC 2011</created_at>
+      <realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'></realm>
+      <listeners>
+        <listener protocol='HTTP'>
+          <load_balancer_port>80</load_balancer_port>
+          <instance_port>3001</instance_port>
+        </listener>
+      </listeners>
+      <instances>
+      </instances>
+    </load_balancer>
+
+
+
+#### `DELETE /api/load_balancers/:id`
+
+Delete the specified ***load_balancer*** from the back-end cloud provider. The Deltacloud
+server will respond with **HTTP 204 No Content** for a succesful operation:
+
+`Example request:`
+
+    DELETE /api/load_balancers/webtraffic-balancer?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Thu, 28 Jul 2011 13:23:33 GMT
+
+
+#### `POST /api/load_balancers/:id/register`
+
+This operation registers a running ***instance*** with a specified ***load_balancer***. Clients
+must provide the **instance_id** as a parameter to the request. The Deltacloud server will respond
+with a **HTTP 204 No Content** after a succesful operation:
+
+`Example request:`
+
+    POST /api/load_balancers/secure-site-balancer/register?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 156
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------6af752b909b2
+
+    ------------------------------6af752b909b2
+    Content-Disposition: form-data; name="instance_id"
+
+    i-4f06b52e
+    ------------------------------6af752b909b2--
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Thu, 28 Jul 2011 18:20:03 GMT
+
+#### `POST /api/load_balancers/:id/unregister`
+
+This operation will unregister a specified ***instance*** from the given ***load_balancer***. The
+client must supply the **instance_id** parameter to identify the ***instance***:
+
+`Example request:`
+
+    POST /api/load_balancers/secure-site-balancer/unregister?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 156
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------987218f60703
+
+    ------------------------------987218f60703
+    Content-Disposition: form-data; name="instance_id"
+
+    i-4f06b52e
+    ------------------------------987218f60703--
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Thu, 28 Jul 2011 19:09:17 GMT
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+## 4. Storage Resources
+
+Storage resources are divided into two groups: ***storage volumes*** can be attached
+to a running instance (accessible by the instance OS), and *blob storage*
+which represents a generic 'key <−−> value' based data store, as implemented
+by Rackspace CloudFiles or Amazon S3. ***Storage snapshots*** represent a ***storage volume***,
+a backup of which is created at a particular point in time (a snapshot).
+
+### 4.1 Storage Volumes
+
+A ***storage_volume*** has a **capacity** expressed in Gigabytes, a **created** timestamp, a **realm_id**
+specifying the ***realm*** in which the volume exists, a **state** (for Amazon EC2 this is one of
+creating | available | in-use | deleting | deleted | error) and a set of **actions**. When attached to
+an ***instance***, a ***storage_volume*** will also expose a **mount** element which contains the
+attributes **instance** and **device**, specifying the ***instance*** to which the volume is attached
+and the mount point (e.g. /dev/sdh), respectively.
+
+#### `GET /api/storage_volumes`
+
+List all ***storage volumes***.
+
+`Example request:`
+
+    GET /api/storage_volumes?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 21:04:09 GMT
+    Content-Length: 1341
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_volumes>
+      <storage_volume href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' id='vol-0bc0de60'>
+        <created>Thu Jul 28 20:44:18 UTC 2011</created>
+        <capacity unit='GB'>10</capacity>
+            <realm_id>us-east-1c</realm_id>
+        <state>AVAILABLE</state>
+        <actions>
+          <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/attach' method='post' rel='attach' />
+          <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/detach' method='post' rel='detach' />
+          <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' method='delete' rel='destroy' />
+        </actions>
+      </storage_volume>
+      <storage_volume href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' id='vol-99fbe5f2'>
+        <created>Thu Jul 28 20:56:07 UTC 2011</created>
+        <capacity unit='GB'>15</capacity>
+        <realm_id>us-east-1c</realm_id>
+        <state>AVAILABLE</state>
+        <actions>
+          <link href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2/attach' method='post' rel='attach' />
+          <link href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2/detach' method='post' rel='detach' />
+          <link href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' method='delete' rel='destroy' />
+        </actions>
+      </storage_volume>
+    </storage_volumes>
+
+
+#### `GET /api/storage_volumes/:id`
+
+This operation retrieves the details for the specified storage_volume:
+
+
+`Example request:`
+
+    GET /api/storage_volumes/vol-99fbe5f2?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 21:06:39 GMT
+    Content-Length: 794
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_volume href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' id='vol-99fbe5f2'>
+      <created>Thu Jul 28 20:56:07 UTC 2011</created>
+      <capacity unit='GB'>15</capacity>
+      <realm_id>us-east-1c</realm_id>
+      <state>IN-USE</state>
+      <mount>
+        <instance href='i-b100b3d0' id='i-b100b3d0'></instance>
+        <device name='/dev/sdh'></device>
+      </mount>
+      <actions>
+        <link href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2/attach' method='post' rel='attach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2/detach' method='post' rel='detach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' method='delete' rel='destroy' />
+      </actions>
+    </storage_volume>
+
+#### `POST /api/storage_volumes`
+
+This operation will create a new ***storage_volume***. A client may specify a **snapshot_id** from which
+to instantiate the ***storage_volume*** though this is optional. The **capacity** parameter, expressed in
+Gigabytes, is also optional and will default to 1 Gigabyte. Finally clients may also specify the
+**realm_id** as a ***storage_volume*** can typically only be attached to ***instances*** running within
+the specified ***realm***. If the ***realm*** is not specified it will default to the first realm returned
+ by the cloud provider. A succesful operation will return **HTTP 201 Created** with the details of the newly
+created ***storage_volume***:
+
+
+`Example request:`
+
+    POST /api/storage_volumes?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 252
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------90dea979a9f4
+
+    ------------------------------90dea979a9f4
+    Content-Disposition: form-data; name="capacity"
+
+    10
+    ------------------------------90dea979a9f4
+    Content-Disposition: form-data; name="realm_id"
+
+    us-east-1c
+    ------------------------------90dea979a9f4--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Date: Thu, 28 Jul 2011 20:44:27 GMT
+    Content-Length: 649
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_volume href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' id='vol-0bc0de60'>
+      <created>Thu Jul 28 20:44:18 UTC 2011</created>
+      <capacity unit='GB'>10</capacity>
+      <realm_id>us-east-1c</realm_id>
+      <state>CREATING</state>
+      <actions>
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/attach' method='post' rel='attach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/detach' method='post' rel='detach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' method='delete' rel='destroy' />
+      </actions>
+    </storage_volume>
+
+
+#### `DELETE /api/storage_volumes/:id`
+
+Deletes the specified ***storage_volume***. The operation will return a **HTTP 204 No Content** after
+a succesful operation. Note that the operation will fail if the given ***storage_volume*** is currently
+attached to an ***instance***.
+
+`Example request:`
+
+    DELETE /api/storage_volumes/vol-0bc0de60?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Thu, 28 Jul 2011 22:34:29 GMT
+
+`Example request: (error deleting a volume currently attached to an instance`
+
+    DELETE /api/storage_volumes/vol-0bc0de60?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 502 Bad Gateway
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 22:30:07 GMT
+    Content-Length: 617
+
+    <error status='502' url='/api/storage_volumes/vol-0bc0de60?format=xml'>
+      <kind>backend_error</kind>
+      <backend driver='ec2'>
+        <code>502</code>
+      </backend>
+      <message><![CDATA[Client.VolumeInUse: Volume vol-0bc0de60 is currently attached to i-b100b3d0
+      REQUEST=ec2.us-east-1.amazonaws.com:443/?AWSAccessKeyId=AKIAJATNOR5HKG3FK27Q&Action=DeleteVolume&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2011-07-28T22%3A30%3A00.000Z&Version=2010-08-31&VolumeId=vol-0bc0de60&Signature=WnZTd9vFaUZEwfuifyo3%2FWa2HBEG1S7R8Iv%2FHqc%2BmqE%3D
+      REQUEST ID=5dff67bb-d63a-4055-b550-f323fa16e185]]></message>
+    </error>
+
+
+#### `POST /api/storage_volumes/:id/attach`
+
+This operation will attach the specified ***storage_volume*** to a running ***instance***. Clients must
+specify the **instance_id** and the **device** as parameters. The **device** parameter is used as the
+'mount point', that is, the location at which the ***storage_volume*** will be exposed to the given
+***instance*** (e.g., /dev/sdh). The Deltacloud server will respond with a **HTTP 202 Accepted** after
+a succesful attach operation together with details of the ***storage_volume***. Note in the example
+ below that the **state** is reported as 'unknown' although the **mount** element is present, as the
+processing has not yet been completed (hence the **202** status code).
+
+`Example request:`
+
+    POST /api/storage_volumes/vol-0bc0de60/attach?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 259
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------5a074e9c5fcc
+
+    ------------------------------5a074e9c5fcc
+    Content-Disposition: form-data; name="instance_id"
+
+    i-b100b3d0
+    ------------------------------5a074e9c5fcc
+    Content-Disposition: form-data; name="device"
+
+    /dev/sdi
+    ------------------------------5a074e9c5fcc--
+
+`Server response:`
+
+    HTTP/1.1 202 Accepted
+    Date: Thu, 28 Jul 2011 21:36:17 GMT
+    Content-Length: 709
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_volume href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' id='vol-0bc0de60'>
+      <capacity unit='GB'></capacity>
+      <device>/dev/sdi</device>
+      <state>unknown</state>
+      <mount>
+        <instance href='i-b100b3d0' id='i-b100b3d0'></instance>
+        <device name='/dev/sdi'></device>
+      </mount>
+      <actions>
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/attach' method='post' rel='attach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/detach' method='post' rel='detach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' method='delete' rel='destroy' />
+      </actions>
+    </storage_volume>
+
+
+#### `POST /api/storage_volumes/:id/detach`
+
+This operation detaches the given ***storage_volume*** from the ***instance*** to which it is currently
+attached. A succesful operation will return **HTTP 201 Accepted** together with details of the
+***storage_volume***. Note in the example that like the ***attach*** operation above, **state** is
+ reported as 'unknown' and the **mount** element is still present as the processing has not yet been
+completed (hence the **202** status code).
+
+`Example request:`
+
+    POST /api/storage_volumes/vol-0bc0de60/detach?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 202 Accepted
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 21:29:18 GMT
+    Content-Length: 709
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_volume href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' id='vol-0bc0de60'>
+      <capacity unit='GB'></capacity>
+      <device>/dev/sdi</device>
+      <state>unknown</state>
+      <mount>
+        <instance href='i-b100b3d0' id='i-b100b3d0'></instance>
+        <device name='/dev/sdi'></device>
+      </mount>
+      <actions>
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/attach' method='post' rel='attach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60/detach' method='post' rel='detach' />
+        <link href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' method='delete' rel='destroy' />
+      </actions>
+    </storage_volume>
+
+
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 4.2 Storage Snapshots
+
+A ***storage_snapshot*** captures the point-in-time state of a ***storage_volume***. Each snapshot has
+a **created** timestamp, and a ***storage_volume*** attribute referring to the volume from which the
+snapshot was made.
+
+#### `GET /api/storage_snapshots`
+
+List all available ***storage snapshots***. For Amazon EC2 this list includes *any* snapshots that
+are available to the requesting client account, including those that may not have been created by that
+account. As this list is very long the example below shows only part of the response:
+
+`Example request:`
+
+    GET /api/storage_snapshots?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 22:08:36 GMT
+    Content-Length: 156897
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_snapshots>
+      <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-45b8d024' id='snap-45b8d024'>
+        <created>Thu Jul 28 21:54:19 UTC 2011</created>
+        <storage_volume href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' id='vol-0bc0de60'></storage_volume>
+      </storage_snapshot>
+      <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-d5a1c9b4' id='snap-d5a1c9b4'>
+        <created>Thu Jul 28 21:46:12 UTC 2011</created>
+        <storage_volume href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' id='vol-99fbe5f2'></storage_volume>
+      </storage_snapshot>
+      <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-dda6cebc' id='snap-dda6cebc'>
+        <created>Thu Jul 28 21:51:55 UTC 2011</created>
+        <storage_volume href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' id='vol-99fbe5f2'></storage_volume>
+      </storage_snapshot>
+      <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-d010f6b9' id='snap-d010f6b9'>
+        <created>Mon Oct 20 18:23:59 UTC 2008</created>
+        <storage_volume href='http://localhost:3001/api/storage_volumes/vol-351efb5c' id='vol-351efb5c'></storage_volume>
+      </storage_snapshot>
+      <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-a310f6ca' id='snap-a310f6ca'>
+        <created>Mon Oct 20 18:25:53 UTC 2008</created>
+        <storage_volume href='http://localhost:3001/api/storage_volumes/vol-001efb69' id='vol-001efb69'></storage_volume>
+      </storage_snapshot>
+      (...)
+    </storage_snapshots>
+
+
+
+#### `GET /api/storage_snapshots/:id`
+
+Get all details for a specified ***storage snapshot***, as shown below:
+
+`Example request:`
+
+    GET /api/storage_snapshots/snap-45b8d024?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Date: Thu, 28 Jul 2011 22:08:36 GMT
+    Content-Length: 329
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-45b8d024' id='snap-45b8d024'>
+      <created>Thu Jul 28 21:54:19 UTC 2011</created>
+      <storage_volume href='http://localhost:3001/api/storage_volumes/vol-0bc0de60' id='vol-0bc0de60'></storage_volume>
+    </storage_snapshot>
+
+
+
+#### `POST /api/storage_snapshots`
+
+This operation will create a new ***storage_snapshot***. Clients must specify the ***storage_volume***
+from which the snapshot is to be created, by supplying the **volume_id** parameter. The Deltacloud
+server responds with **HTTP 201 Created** after a succesful operation and provides details of the
+newly created ***storage_snapshot***:
+
+`Example request:`
+
+    POST /api/storage_snapshots?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 156
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------91f7fa88be76
+
+    ------------------------------91f7fa88be76
+    Content-Disposition: form-data; name="volume_id"
+
+    vol-99fbe5f2
+    ------------------------------91f7fa88be76--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Date: Thu, 28 Jul 2011 21:46:48 GMT
+    Content-Length: 329
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <storage_snapshot href='http://localhost:3001/api/storage_snapshots/snap-d5a1c9b4' id='snap-d5a1c9b4'>
+      <created>Thu Jul 28 21:46:12 UTC 2011</created>
+      <storage_volume href='http://localhost:3001/api/storage_volumes/vol-99fbe5f2' id='vol-99fbe5f2'></storage_volume>
+    </storage_snapshot>
+
+
+#### `DELETE /api/storage_snapshots/:id`
+
+Deletes the specified ***storage_snapshot***. The operation returns a **HTTP 204 No Content** after a
+succesful operation:
+
+`Example request:`
+
+    DELETE /api/storage_snapshots/snap-dda6cebc?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Date: Thu, 28 Jul 2011 22:26:07 GMT
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
+### 4.3 Blob Storage
+
+Blob storage represents a generic *key* ==> *value* data store, as implemented by Amazon S3
+or Rackspace Cloudfiles. In Deltacloud, the organisational unit of blob storage is a
+ ***Bucket***. Individual data items, ***Blobs*** are exposed as a subcollection
+under each ***Bucket***.
+
+A ***bucket*** has a ***name***, a **size** (denotes the number of ***blobs*** it
+contains) and a list of links to each ***blob***.
+
+A ***blob*** has a **content_length**, a **content_type**, a **last_modified**
+timestamp, a structure containing **user_metadata**, a link to the blob **content**
+ and the name of the ***bucket*** in which this ***blob*** exists.
+
+#### `GET /api/buckets`
+
+Returns a list of all ***buckets*** belonging to the given cloud provider account.
+The response from the Deltacloud server includes the *name* and *URI* of each
+***bucket*** but not the *size* or the list of ***blobs*** contained within them.
+ These details are available when a client requests (*GET*s) a specific ***bucket***.
+
+`Example request:`
+
+    GET /api/buckets?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 597
+    <?xml version='1.0' encoding='utf-8' ?>
+    <buckets>
+      <bucket href='http://localhost:3001/api/buckets/mybucket1' id='mybucket1'>
+        <name>mybucket1</name>
+        <size></size>
+      </bucket>
+      <bucket href='http://localhost:3001/api/buckets/mybucket2' id='mybucket2'>
+        <name>mybucket2</name>
+        <size></size>
+      </bucket>
+      <bucket href='http://localhost:3001/api/buckets/mybucket3' id='mybucket3'>
+        <name>mybucket3</name>
+        <size></size>
+      </bucket>
+      <bucket href='http://localhost:3001/api/buckets/mybucket4' id='mybucket4'>
+        <name>mybucket4</name>
+        <size></size>
+      </bucket>
+    </buckets>
+
+#### `GET /api/buckets/:id`
+
+Returns the details of a specific ***bucket***, as shown below. The Deltacloud server
+response includes the *size* of the ***bucket*** and the URI for each ***blob*** object
+that it contains.
+
+`Example request:`
+
+    GET /api/buckets/mybucket1?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 534
+    <?xml version='1.0' encoding='utf-8' ?>
+    <bucket href='http://localhost:3001/api/buckets/mybucket1' id='mybucket1'>
+      <name>mybucket1</name>
+      <size>4</size>
+      <blob href='http://localhost:3001/api/buckets/mybucket1/myfile' id='myfile'></blob>
+      <blob href='http://localhost:3001/api/buckets/mybucket1/an_object' id='an_object'></blob>
+      <blob href='http://localhost:3001/api/buckets/mybucket1/picture_blob' id='picture_blob'></blob>
+      <blob href='http://localhost:3001/api/buckets/mybucket1/some_blob id='some_blob'></blob>
+    </bucket>
+
+
+#### `POST /api/buckets`
+
+Creates a new ***bucket*** and requires that you specify the ***name*** as a parameter,
+in the form of multipart/form-data (i.e., HTTP form field). Optionally for Amazon S3
+buckets, you can specify a bucket location with the ***location*** parameter, as per
+ [Regions and Endpoints for Amazon Simple Storage Service](http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html "AWS Regions and Endpoints");
+valid values for S3 bucket *location* parameter are: "us-west-1", "EU",
+"ap-southeast-1", "ap-northeast-1" (while not specifying a location defaults to
+the "US Standard" region).
+
+On succesful creation this call will return a ***201*** HTTP status, specifying the URI
+of the newly created bucket in the **Location** header and the newly created
+***bucket*** object in the response message body. The example request below creates a
+new ***bucket*** in the *EU (Ireland)* region. If the given backend cloud does not
+support locations then the *location* parameter is silently ignored.
+
+`Example request:`
+
+    POST /api/buckets?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1
+    Host: localhost:3001
+    Accept: */*
+    Content-Length: 252
+    Content-Type: multipart/form-data; boundary=----------------------------4e90611c39f2
+
+    ------------------------------4e90611c39f2
+    Content-Disposition: form-data; name="name"
+
+    mybucketeurope
+    ------------------------------4e90611c39f2
+    Content-Disposition: form-data; name="location"
+
+    EU
+    ------------------------------4e90611c39f2--
+
+`Server response:`
+
+    HTTP/1.1 201 Created
+    Location: http://localhost:3001/api/buckets/mybucketeurope
+    Content-Type: application/xml
+    Content-Length: 182
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <bucket href='http://localhost:3001/api/buckets/mybucketeurope' id='mybucketeurope'>
+      <name>mybucketeurope</name>
+      <size>0</size>
+    </bucket>
+
+#### `DELETE /api/buckets/:id`
+
+Deletes the specified ***bucket***, which must be empty (otherwise the call will
+fail with an error response). A succesful operation will return ***204 No Content***.
+
+`Example request:`
+
+    DELETE /api/buckets/mybucketeurope?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+
+
+#### `GET /api/buckets/:bucket_id/:blob_id`
+
+Retrieve the details of a specific ***blob***. The ***blob*** content is *not* returned
+as part of the response but rather a URI is given from which the content may be
+retrieved as shown below:
+
+`Example request:`
+
+    GET /api/buckets/mariosbucket1/some_more_blob_woo?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Type: application/xml
+    Content-Length: 586
+    <?xml version='1.0' encoding='utf-8' ?>
+    <blob href='http://localhost:3001/api/buckets/mariosbucket1/some_more_blob_woo' id='some_more_blob_woo'>
+      <bucket>mariosbucket1</bucket>
+      <content_length>86</content_length>
+      <content_type>text/plain</content_type>
+      <last_modified>Fri Jan 28 12:23:08 UTC 2011</last_modified>
+      <user_metadata>
+        <entry key='v'>
+          <![CDATA[0.2.0]]>
+        </entry>
+        <entry key='test'>
+          <![CDATA[value]]>
+        </entry>
+      </user_metadata>
+      <content href='http://localhost:3001/api/buckets/mariosbucket1/some_more_blob_woo/content'></content>
+    </blob>
+
+#### `GET /api/buckets/:bucket_id/:blob_id/content`
+
+Retrieve the actual blob content, the location of which is specified in the ***content***
+URI returned from the `GET /api/buckets/:bucket_id/:blob_id` call. The content is streamed
+through the deltacloud server as this is received from the back-end cloud provider, to
+avoid the creation of a temporary file (especially significant in the case of large
+***blobs***). The Deltacloud server sets *Content-Disposition: attachment;
+filename=blob_name* in the HTTP response headers.
+
+`Example request:`
+
+    GET /api/buckets/mariosanotherbucketohyeah/Im_a_blob_beholdme/content?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 200 OK
+    Content-Disposition: attachment; filename=Im_a_blob_beholdme
+    Content-Type: text/plain
+    Content-Length: 50
+
+    <BLOB DATA HERE>
+
+#### `PUT /api/buckets/:bucket_id/:blob_id`
+
+Creates a ***blob*** object and sets its content. If the ***blob*** already exists then
+its data and metadata are overwritten with those specified in this call. The request
+must specify the *name* of the ***blob*** and the *name* of the ***bucket*** in which
+the ***blob*** is to be placed, in the call URI. The client must also specify in the
+HTTP headers the *content_length* of the ***blob*** data and the ***blob*** data
+itself. Optionally the call may also specify a *content_type* and any number of
+***key:value*** pairs of user defined *metadata*. User metadata is defined using
+'X-Deltacloud-Blobmeta-' header, e.g. ***X-Deltacloud-Blobmeta-Version:2.1***.
+
+To eliminate the necessity of creating a local file at the deltacloud server for
+each ***blob*** created, the deltacloud server starts to stream the blob data to
+the back-end cloud provider as soon as the request headers are processed. A
+succesful operation will return the newly created blob object, as shown below:
+
+`Example request:`
+
+    PUT /api/buckets/mybucket/12Jul2011blob?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    Content-Type: text/plain
+    Content-Length: 128988
+    X-Deltacloud-Blobmeta-Version:2.1
+    X-Deltacloud-Blobmeta-Author:msa
+
+    ... BLOB DATA ...
+
+`Server response:`
+    <?xml version='1.0' encoding='utf-8' ?>
+    <blob href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob' id='12Jul2011blob'>
+      <bucket>mybucket</bucket>
+      <content_length>128988</content_length>
+      <content_type>text/plain</content_type>
+      <last_modified>Wed Jul 13 13:27:22 UTC 2011</last_modified>
+      <user_metadata>
+        <entry key='author'>
+          <![CDATA[msa]]>
+        </entry>
+        <entry key='version'>
+          <![CDATA[2.1]]>
+        </entry>
+      </user_metadata>
+      <content href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob/content'>
+      </content>
+    </blob>
+
+#### `POST /api/buckets/:bucket_id`
+
+The deltacloud server also responds to an alternative `POST` route for creating or
+updating a ***blob*** object. As with the `PUT` method for creating/updating a
+***blob***, the client must specify the ***bucket*** in which the ***blob*** is to
+be created through the call URI (i.e. you `POST` to the specified ***bucket***).
+The rest of the required fields, that is, the name of the ***blob***, the
+ ***blob_data*** and the ***content-length*** are specified by the client as
+***multipart/form-data*** (i.e. in `HTTP POST` form fields).
+
+In order to specify the optional user metadata for a given ***blob*** the client
+must set the form field ***meta_params*** to specify the number of metadata
+key/value pairs. The metadata itself is then specified by the client with fields
+of the form ***meta_nameN*** and ***meta_valueN*** where *N* is an integer from
+*1* upto the number specified by the ***meta_params*** field (e.g.
+***meta_name1=author***, ***meta_value1=jrd***).
+
+It should be noted that the `POST` method for creating a blob is *non streaming*
+- that is, the Deltacloud server will create a temporary file with the blob data,
+before this is transferred to the backend cloud. Thus, it should only be used for
+***blobs*** with a relatively small content-length and in general the `PUT` method
+should be preferred for larger ***blobs***. This `POST` method is mainly provided
+for clients that cannot easily invoke a `HTTP PUT` operation (for instance,
+web browsers) and can be used for creating/updating a  ***blob*** through the
+deltacloud HTML interface (provided for testing purposes).
+
+`Example request:`
+
+    POST /api/buckets/mybucket?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N
+    Accept: */*
+    Content-Length: 113582
+    Expect: 100-continue
+    Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858
+
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="blob"
+
+    12Jul2011blob
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="blob_data"; filename="small.txt"
+    Content-Type: text/plain
+
+    <THE_BLOB_DATA_HERE>
+
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="meta_params"
+
+    2
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="meta_name1"
+
+    author
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="meta_value1"
+    jjs
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="meta_name2"
+
+    version
+    ------------------------------517f5f2df858
+    Content-Disposition: form-data; name="meta_value2"
+
+    2.2
+    ------------------------------517f5f2df858--
+
+`Server response:`
+
+    <?xml version='1.0' encoding='utf-8' ?>
+    <blob href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob' id='12Jul2011blob'>
+      <bucket>mybucket</bucket>
+      <content_length>112766</content_length>
+      <content_type>text/plain</content_type>
+      <last_modified></last_modified>
+      <user_metadata>
+        <entry key='x-amz-meta-author'>
+          <![CDATA[jjs]]>
+        </entry>
+        <entry key='x-amz-meta-version'>
+          <![CDATA[2.2]]>
+        </entry>
+      </user_metadata>
+      <content href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob/content'>
+      </content>
+    </blob>
+
+#### `DELETE /api/buckets/:bucket_id/:blob_id`
+
+This call deletes the specified ***blob*** object from the back-end cloud. The names
+of the ***blob*** and the ***bucket*** in which this exists are specified the in call
+URI. After a succesful operation the Deltacloud server will respond with a `HTTP 204`
+ (No Content) with no message body.
+
+`Example request:`
+
+    DELETE /api/buckets/mybucket/12Jul2011blob?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    Connection: close
+    Server: thin 1.2.11
+
+
+#### `HEAD /api/buckets/:bucket_id/:blob_id`
+
+The `HTTP HEAD` operation on a specified ***blob*** URI will return all user defined
+metadata fields. As per [RFC 2616](http://www.ietf.org/rfc/rfc2616.txt "RFC 2616 HTTP/1.1")
+this `HEAD` operation does not return a message body. Rather, the ***blob*** user
+metadata values are returned in the response ***X-Deltacloud-Blobmeta-***
+headers (e.g., X-Deltacloud-Blobmeta-version:1.2).
+
+`Example request:`
+
+    HEAD /api/buckets/mybucket/myblob?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1
+    Host: localhost:3001
+    Accept: */*
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    X-Deltacloud-Blobmeta-version: 1.21
+    X-Deltacloud-Blobmeta-author: jrd
+
+#### `POST /api/buckets/:bucket_id/:blob_id`
+
+A `POST` operation on the URI of a ***blob*** allows a client to update the user-defined
+***blob metadata***. Note that this operation will overwrite all previously set
+user-metadata values (if any) and replace them with those specified in this call.
+The client must set the user-defined metadata in the ***X-Deltacloud-Blobmeta-***
+headers (e.g., X-Deltacloud-Blobmeta-Model:2012).
+
+`Example request:`
+
+    POST /api/buckets/mybucket/myblob?format=xml HTTP/1.1
+    Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+    User-Agent: curl/7.20.1
+    Host: localhost:3001
+    Accept: */*
+    X-Deltacloud-Blobmeta-model: 2012
+    X-Deltacloud-Blobmeta-paint: Stannite_Grey
+
+`Server response:`
+
+    HTTP/1.1 204 No Content
+    X-Deltacloud-Blobmeta-model: 2012
+    X-Deltacloud-Blobmeta-paint: Stannite_Grey
+
+<br/>
+[Contents](#toc)
+<br/>
+* * *
+
