@@ -171,7 +171,7 @@ end
 collection :images do
   description <<END
   An image is a platonic form of a machine. Images are not directly executable,
-  but are a template for creating actual instances of machines."
+  but are a template for creating actual instances of machines.
 END
 
   operation :index do
@@ -205,11 +205,10 @@ END
         :name => params[:name],
 	:description => params[:description]
       })
+      status 201  # Created
+      response['Location'] = image_url(@instance.id)
       respond_to do |format|
-        format.xml do
-          response.status = 201 # Created
-          haml :"images/show"
-        end
+        format.xml  { haml :"images/show" }
         format.json { convert_to_json(:image, @image) }
         format.html { haml :"images/show" }
       end
@@ -222,9 +221,10 @@ END
     param :id,    :string,    :required
     control do
       driver.destroy_image(credentials, params[:id])
+      status 204
       respond_to do |format|
-        format.xml { status 204 }
-        format.json { status 204 }
+        format.xml
+        format.json
         format.html { redirect(images_url) }
       end
     end
@@ -327,11 +327,10 @@ collection :load_balancers do
     param :listener_instance_port,  :string,  :required
     control do
       @load_balancer = driver.create_load_balancer(credentials, params)
+      status 201  # Created
+      response['Location'] = load_balancer_url(@instance.id)
       respond_to do |format|
-        format.xml do
-          response.status = 201  # Created
-          haml :"load_balancers/show"
-        end
+        format.xml  { haml :"load_balancers/show" }
         format.json { convert_to_json(:load_balancer, @load_balancer) }
         format.html { haml :"load_balancers/show" }
       end
@@ -344,9 +343,10 @@ collection :load_balancers do
     param :instance_id, :string,  :required
     control do
       driver.lb_register_instance(credentials, params)
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(load_balancer_url(params[:id])) }
       end
     end
@@ -358,9 +358,10 @@ collection :load_balancers do
     param :instance_id, :string,  :required
     control do
       driver.lb_unregister_instance(credentials, params)
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(load_balancer_url(params[:id])) }
       end
     end
@@ -371,9 +372,10 @@ collection :load_balancers do
     param :id,  :string,  :required
     control do
       driver.destroy_load_balancer(credentials, params[:id])
+      status 204
       respond_to do |format|
-        format.xml {  204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(load_balancers_url) }
       end
     end
@@ -385,7 +387,7 @@ end
 collection :instances do
   description <<END
   An instance is a concrete machine realized from an image.
-  The images collection may be obtained by following the link from the primary entry-point."
+  The images collection may be obtained by following the link from the primary entry-point.
 END
 
   operation :index do
@@ -411,12 +413,10 @@ END
     param :hwp_id,       :string, :optional
     control do
       @instance = driver.create_instance(credentials, params[:image_id], params)
+      status 201  # Created
+      response['Location'] = instance_url(@instance.id)
       respond_to do |format|
-        format.xml do
-          response.status = 201  # Created
-          response['Location'] = instance_url(@instance.id)
-          haml :"instances/show"
-        end
+        format.xml  { haml :"instances/show" }
         format.json { convert_to_json(:instance, @instance) }
         format.html do
           redirect instance_url(@instance.id) if @instance and @instance.id
@@ -546,8 +546,9 @@ collection :storage_snapshots do
     with_capability :create_storage_snapshot
     param :volume_id, :string,  :required
     control do
-      response.status = 201  # Created
       @storage_snapshot = driver.create_storage_snapshot(credentials, params)
+      status 201  # Created
+      response['Location'] = storage_snapshot_url(@storage_snapshot.id)
       show(:storage_snapshot)
     end
   end
@@ -558,9 +559,10 @@ collection :storage_snapshots do
     param :id,  :string,  :required
     control do
       driver.destroy_storage_snapshot(credentials, params)
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(storage_snapshots_url) }
       end
     end
@@ -605,13 +607,12 @@ collection :storage_volumes do
     param :realm_id,    :string,  :optional
     control do
       @storage_volume = driver.create_storage_volume(credentials, params)
+      status 201
+      response['Location'] = storage_volume_url(@storage_volume.id)
       respond_to do |format|
+        format.xml  { haml :"storage_volumes/show" }
         format.html { haml :"storage_volumes/show" }
         format.json { convert_to_json(:storage_volume, @storage_volume) }
-        format.xml do
-          response.status = 201  # Created
-          haml :"storage_volumes/show"
-        end
       end
     end
   end
@@ -655,9 +656,10 @@ collection :storage_volumes do
     param :id,          :string,  :optional
     control do
       driver.destroy_storage_volume(credentials, params)
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(storage_volumes_url) }
       end
     end
@@ -695,12 +697,11 @@ collection :keys do
     param :name,  :string,  :required
     control do
       @key = driver.create_key(credentials, { :key_name => params[:name] })
+      status 201
+      response['Location'] = key_url(@key.id)
       respond_to do |format|
+        format.xml  { haml :"keys/show", :ugly => true }
         format.html { haml :"keys/show" }
-        format.xml do
-          response.status = 201  # Created
-          haml :"keys/show", :ugly => true
-        end
         format.json { convert_to_json(:key, @key)}
       end
     end
@@ -712,9 +713,10 @@ collection :keys do
     param :id,  :string,  :required
     control do
       driver.destroy_key(credentials, { :id => params[:id]})
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(keys_url) }
       end
     end
@@ -738,8 +740,8 @@ put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     @blob = driver.blob(credentials, {:id => params[:blob],
                                       'bucket' => params[:bucket]})
     respond_to do |format|
-      format.html { haml :"blobs/show" }
       format.xml { haml :"blobs/show" }
+      format.html { haml :"blobs/show" }
       format.json { convert_to_json(:blob, @blob) }
     end
   elsif(env["BLOB_FAIL"])
@@ -757,8 +759,8 @@ put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
     temp_file.delete
     respond_to do |format|
-      format.html { haml :"blobs/show"}
       format.xml { haml :"blobs/show" }
+      format.html { haml :"blobs/show"}
     end
   end
 end
@@ -781,8 +783,8 @@ post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
   end
   @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
   respond_to do |format|
-    format.html { haml :"blobs/show"}
     format.xml { haml :"blobs/show" }
+    format.html { haml :"blobs/show"}
   end
 end
 
@@ -791,9 +793,10 @@ delete "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   bucket_id = params[:bucket]
   blob_id = params[:blob]
   driver.delete_blob(credentials, bucket_id, blob_id)
+  status 204
   respond_to do |format|
-    format.xml {  204 }
-    format.json {  204 }
+    format.xml
+    format.json
     format.html { redirect(bucket_url(bucket_id)) }
   end
 end
@@ -806,9 +809,10 @@ head "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
       @blob_metadata.each do |k,v|
         headers["X-Deltacloud-Blobmeta-#{k}"] = v
       end
+      status 204
       respond_to do |format|
-        format.xml {  204 }
-        format.json {  204 }
+        format.xml
+        format.json
       end
    else
     report_error(404)
@@ -823,9 +827,10 @@ post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
     meta_hash.each do |k,v|
       headers["X-Deltacloud-Blobmeta-#{k}"] = v
     end
+    status 204
     respond_to do |format|
-      format.xml {  204 }
-      format.json {  204 }
+      format.xml
+      format.json
     end
   else
     report_error(404) #FIXME is this the right error code?
@@ -837,8 +842,8 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
   if @blob
     respond_to do |format|
-      format.html { haml :"blobs/show" }
       format.xml { haml :"blobs/show" }
+      format.html { haml :"blobs/show" }
       format.json { convert_to_json(:blob, @blob) }
       end
   else
@@ -891,18 +896,14 @@ collection :buckets do
     param :name,      :string,    :required
     control do
       @bucket = driver.create_bucket(credentials, params[:name], params)
+      status 201
+      response['Location'] = bucket_url(@bucket.id)
       respond_to do |format|
+        format.xml  { haml :"buckets/show" }
+        format.json { convert_to_json(:bucket, @bucket) }
         format.html do
           redirect bucket_url(@bucket.id) if @bucket and @bucket.id
           redirect buckets_url
-        end
-        format.xml do
-          response.status = 201  # Created
-          response['Location'] = bucket_url(@bucket.id)
-          haml :"buckets/show"
-        end
-        format.json do
-          convert_to_json(:bucket, @bucket)
         end
       end
     end
@@ -914,9 +915,10 @@ collection :buckets do
     param :id,    :string,    :required
     control do
       driver.delete_bucket(credentials, params[:id], params)
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json {  204 }
+        format.xml
+        format.json
         format.html {  redirect(buckets_url) }
       end
     end
@@ -955,14 +957,12 @@ collection :addresses do
     with_capability :create_address
     control do
       @address = driver.create_address(credentials, {})
+      status 201    # Created
+      response['Location'] = address_url(@address.id)
       respond_to do |format|
+        format.xml  { haml :"addresses/show", :ugly => true }
         format.html { haml :"addresses/show" }
         format.json { convert_to_json(:address, @address) }
-        format.xml do
-          response.status = 201  # Created
-          response['Location'] = address_url(@address.id)
-          haml :"addresses/show", :ugly => true
-        end
       end
     end
   end
@@ -973,9 +973,10 @@ collection :addresses do
     param :id,  :string,  :required
     control do
       driver.destroy_address(credentials, { :id => params[:id]})
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json { 204 }
+        format.xml
+        format.json
         format.html { redirect(addresses_url) }
       end
     end
@@ -988,9 +989,10 @@ collection :addresses do
     param :instance_id, :string, :required
     control do
       driver.associate_address(credentials, { :id => params[:id], :instance_id => params[:instance_id]})
+      status 202   # Accepted
       respond_to do |format|
-        format.xml { 202 }  # Accepted
-        format.json { 202 }
+        format.xml
+        format.json
         format.html { redirect(address_url(params[:id])) }
       end
     end
@@ -1002,9 +1004,10 @@ collection :addresses do
     param :id, :string, :required
     control do
       driver.disassociate_address(credentials, { :id => params[:id] })
+      status 202   # Accepted
       respond_to do |format|
-        format.xml { 202 }  # Accepted
-        format.json { 202 }
+        format.xml
+        format.json
         format.html { redirect(address_url(params[:id])) }
       end
     end
@@ -1033,10 +1036,11 @@ delete '/api/firewalls/:firewall/:rule' do
   opts[:firewall] = params[:firewall]
   opts[:rule_id] = params[:rule]
   driver.delete_firewall_rule(credentials, opts)
+  status 204
   respond_to do |format|
+    format.xml
+    format.json
     format.html {redirect firewall_url(params[:firewall])}
-    format.xml {204}
-    format.json {204}
   end
 end
 
@@ -1063,13 +1067,12 @@ collection :firewalls do
     param :description,   :string,    :required
     control do
       @firewall = driver.create_firewall(credentials, params )
+      status 201  # Created
+      response['Location'] = firewall_url(@firewall.id)
       respond_to do |format|
-        format.xml do
-          response.status = 201  # Created
-          haml :"firewalls/show"
-        end
-        format.html {haml :"firewalls/show"}
-        format.json {convert_to_json(:firewall, @firewall)}
+        format.xml  { haml :"firewalls/show" }
+        format.html { haml :"firewalls/show" }
+        format.json { convert_to_json(:firewall, @firewall) }
       end
     end
   end
@@ -1080,9 +1083,10 @@ collection :firewalls do
     param :id,            :string,    :required
     control do
       driver.delete_firewall(credentials, params)
+      status 204
       respond_to do |format|
-        format.xml { 204 }
-        format.json {  204 }
+        format.xml
+        format.json
         format.html {  redirect(firewalls_url) }
       end
     end
@@ -1108,13 +1112,11 @@ collection :firewalls do
       params.merge!( {'addresses' => addresses} ) ; params.merge!( {'groups' => groups} )
       driver.create_firewall_rule(credentials, params)
       @firewall = driver.firewall(credentials, {:id => params[:id]})
+      status 201
       respond_to do |format|
-        format.html {haml :"firewalls/show"}
-        format.xml do
-          response.status = 201 #created
-          haml :"firewalls/show"
-        end
-        format.json {convert_to_json(:firewall, @firewall)}
+        format.xml  { haml :"firewalls/show" }
+        format.html { haml :"firewalls/show" }
+        format.json { convert_to_json(:firewall, @firewall) }
       end
     end
   end
