@@ -247,9 +247,18 @@ module ApplicationHelper
     end
   end
 
+  # FIXME: It would be cleaner if we stored the type of address explicitly in
+  # public_addresses instead of guessing it; especially since now a RHEV-M
+  # vnc address in theory could look like type ipv4.
+  #
+  # Instead of pushing just the address onto public_addresses, we should
+  # just push a pair [type, address], i.e. [:vnc, "172.16.0.1"] or a hash
+  # { :vnc => "172.16.0.1" }
+  #
   def address_type(address)
     case address
       when /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})?$/; :ipv4
+      when /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})?:([\-\d]+)$/; :vnc
       when /^(\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2})?$/; :mac
       else :hostname
     end
