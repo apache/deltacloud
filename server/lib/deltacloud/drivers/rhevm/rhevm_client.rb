@@ -197,7 +197,7 @@ module RHEVM
   class VM < BaseObject
     attr_reader :description, :status, :memory, :profile, :display, :host, :cluster, :template, :macs
     attr_reader :storage, :cores, :username, :creation_time
-    attr_reader :ip
+    attr_reader :ip, :vnc
 
     def initialize(client, xml)
       super(client, xml[:id], xml[:href], (xml/'name').first.text)
@@ -227,6 +227,10 @@ module RHEVM
       @macs = (xml/'nics/nic/mac').collect { |mac| mac[:address] }
       @creation_time = (xml/'creation_time').text
       @ip = ((xml/'guest_info/ip').first[:address] rescue nil)
+      unless @ip
+        @vnc = ((xml/'display/address').first.text rescue "127.0.0.1")
+        @vnc += ":#{((xml/'display/port').first.text rescue "5890")}"
+      end
     end
 
   end

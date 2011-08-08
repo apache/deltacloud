@@ -214,6 +214,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     # If everything fails fallback to report MAC address
     public_addresses = inst.macs if public_addresses.empty?
     public_addresses.flatten!
+    public_addresses << inst.vnc if inst.vnc
     Instance.new(
       :id => inst.id,
       :name => inst.name,
