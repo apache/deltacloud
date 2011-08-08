@@ -178,6 +178,23 @@ module Deltacloud
           end
         end
 
+        def instance(credentials, opts={})
+          ec2 = new_client(credentials)
+          inst_arr = []
+          safely do
+            instance = ec2.describe_instances([opts[:id]]).first
+            instance = convert_instance(instance)
+            return nil unless instance
+            console_output = ec2.get_console_output(instance.id)
+            windows_password = console_output[:aws_output][%r{<Password>(.+)</Password>}m] && $1
+            if windows_password
+              instance.username = 'Administrator'
+              instance.password = windows_password
+            end
+            instance
+          end
+        end
+
         def instances(credentials, opts={})
           ec2 = new_client(credentials)
           inst_arr = []
