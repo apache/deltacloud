@@ -103,6 +103,20 @@ class RHEVMDriver < Deltacloud::BaseDriver
     img_arr.sort_by{|e| [e.owner_id, e.name]}
   end
 
+  def create_image(credentials, opts={})
+    client = new_client(credentials)
+    unless opts[:name]
+      instance = instances(credentials, :id => opts[:id])
+      raise "ERROR: Unknown instance ID"
+      template_name = "#{instance.first.name}-template"
+    end
+    safely do
+      new_image = client.create_template(opts[:id], :name => (opts[:name] || template_name),
+                                         :description => opts[:description])
+      convert_image(client, new_image)
+    end
+  end
+
   def instances(credentials, opts={})
     client = new_client(credentials)
     inst_arr = []
@@ -227,7 +241,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :hardware_profile_id => profile.id,
       :actions=>instance_actions_for( state ),
       :public_addresses => public_addresses,
-      :private_addresses => []
+      :private_addresses => [],
+      :create_image => true
     )
   end
 
@@ -297,6 +312,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
     end
 
     on /(RestClient|RHEVM)/ do
+      status 500
+    end
+
+    on /ERROR:(.*)/ do
       status 500
     end
 
