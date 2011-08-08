@@ -96,6 +96,16 @@ module RHEVM
       RHEVM::Template::new(self, Nokogiri::XML(template).root)
     end
 
+    def destroy_template(id, headers={})
+      headers.merge!({
+        :content_type => 'application/xml',
+        :accept => 'application/xml',
+      })
+      headers.merge!(auth_header)
+      RHEVM::client(@api_entrypoint)["/templates/%s" % id].delete(headers)
+      return true
+    end
+
     def templates(opts={})
       headers = {
         :accept => "application/xml"

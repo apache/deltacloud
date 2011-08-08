@@ -107,13 +107,22 @@ class RHEVMDriver < Deltacloud::BaseDriver
     client = new_client(credentials)
     unless opts[:name]
       instance = instances(credentials, :id => opts[:id])
-      raise "ERROR: Unknown instance ID"
+      raise "Specified instance '#{opts[:id]}' not found"
       template_name = "#{instance.first.name}-template"
     end
     safely do
       new_image = client.create_template(opts[:id], :name => (opts[:name] || template_name),
                                          :description => opts[:description])
       convert_image(client, new_image)
+    end
+  end
+
+  def destroy_image(credentials, image_id)
+    client = new_client(credentials)
+    safely do
+      unless client.destroy_template(image_id)
+        raise "ERROR: Unable to remove image"
+      end
     end
   end
 
@@ -315,8 +324,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 500
     end
 
-    on /ERROR:(.*)/ do
-      status 500
+    on /(.*) not found^/ do
+      status 400
     end
 
     on /Parameter name/ do
