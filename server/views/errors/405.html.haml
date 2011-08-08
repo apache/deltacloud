@@ -1,21 +1,29 @@
-%h1 Method Not Allowed
+%div{ :'data-role' => :content, :'data-theme' => 'b'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+    %li{ :'data-role' => 'list-divider'} Server message
+    %li
+      %h3 Method not allowed on given resource
+    %li{ :'data-role' => 'list-divider'} Original request URI
+    %li
+      %a{ :href => request.env['REQUEST_URI'], :'data-ajax' => 'false'}
+        %span=request.env['REQUEST_URI']
+        %span{ :class => 'ui-li-count'} Retry
 
-%p
-  A 405 status code is returned when the client has tried to use a request method that the server does not allow. Request methods that are allowed should be sent with the response (common request methods are POST and GET).
+  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+    %h3 Parameters
+    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+      - if params.keys.empty?
+        %li{ :'data-role' => 'list-divider'} No parameters
+      - params.each do |key, value|
+        %li{ :'data-role' => 'list-divider'}=key
+        %li
+          %span{:style => 'font-weight:normal;'}=value.inspect
 
-%dl
-  %di
-    %dt Request URL
-    %dd= request.env['REQUEST_URI']
-  %di
-    %dt Request headers
-    %dd
-      %pre
-        =request.env.inspect
-  %di
-    %dt Status code
-    %dd= response.status
-  %di
-    %dt Explanation
-    %dd
-      The method specified in the Request-Line is not allowed for the resource identified by the Request-URI. The response MUST include an Allow header containing a list of valid methods for the requested resource.
+
+  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+    %h3 Request details
+    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+      - request.env.each do |key, value|
+        %li{ :'data-role' => 'list-divider'}=key
+        %li
+          %span{:style => 'font-weight:normal;'}=value.inspect
