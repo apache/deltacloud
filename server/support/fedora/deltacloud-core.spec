@@ -3,7 +3,7 @@
 Summary: Deltacloud REST API
 Name: deltacloud-core
 Version: 0.3.0
-Release: 8%{?dist}
+Release: 12%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
@@ -56,6 +56,23 @@ Requires: %{name} = %{version}-%{release}
 
 %description doc
 Documentation for %{name}
+
+%package all
+Summary: Deltacloud Core with all drivers
+Requires: %{name} = %{version}-%{release}
+Requires: deltacloud-core-azure
+Requires: deltacloud-core-ec2
+Requires: deltacloud-core-gogrid
+Requires: deltacloud-core-mock
+Requires: deltacloud-core-opennebula
+Requires: deltacloud-core-rackspace
+Requires: deltacloud-core-rhevm
+Requires: deltacloud-core-rimuhosting
+Requires: deltacloud-core-sbc
+Requires: deltacloud-core-terremark
+
+%description all
+Deltacloud core with all available drivers
 
 %package azure
 Summary: Deltacloud Core for Azure
@@ -159,9 +176,9 @@ mkdir -p %{buildroot}%{_initddir}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 cp -r %{_builddir}/%{name}-%{version}/* %{buildroot}%{app_root}
-install -m 0655 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -m 0755 %{SOURCE1} %{buildroot}%{_bindir}/deltacloudd
 install -m 0755 %{SOURCE2} %{buildroot}%{_initddir}/%{name}
+install -m 0655 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 find %{buildroot}%{app_root}/lib -type f | xargs chmod -x
 chmod -x %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 chmod 0755 %{buildroot}%{_initddir}/%{name}
@@ -220,6 +237,9 @@ fi
 %{app_root}/%{name}.gemspec
 %{app_root}/Rakefile
 
+%files all
+%defattr(-, root, root, -)
+
 %files azure
 %defattr(-, root, root, -)
 
@@ -251,6 +271,9 @@ fi
 %defattr(-, root, root, -)
 
 %changelog
+* Mon Aug 01 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-12
+- Add the -all package
+
 * Tue May 31 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-8
 - Create sub-packages to bring in dependencies
 
