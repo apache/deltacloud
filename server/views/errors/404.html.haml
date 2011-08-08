@@ -1,13 +1,29 @@
-%h1 Resource not found
+%div{ :'data-role' => :content, :'data-theme' => 'b'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+    %li{ :'data-role' => 'list-divider'} Server message
+    %li
+      %h3 Not Found
+    %li{ :'data-role' => 'list-divider'} Original request URI
+    %li
+      %a{ :href => request.env['REQUEST_URI'], :'data-ajax' => 'false'}
+        %span=request.env['REQUEST_URI']
+        %span{ :class => 'ui-li-count'} Retry
 
-%dl
-  %di
-    %dt Request URL
-    %dd= request.env['REQUEST_URI']
-  %di
-    %dt Status code
-    %dd= response.status
-  %di
-    %dt Explanation
-    %dd
-      The server has not found anything matching the Request-URI. No indication is given of whether the condition is temporary or permanent. 
+  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+    %h3 Parameters
+    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+      - if params.keys.empty?
+        %li{ :'data-role' => 'list-divider'} No parameters
+      - params.each do |key, value|
+        %li{ :'data-role' => 'list-divider'}=key
+        %li
+          %span{:style => 'font-weight:normal;'}=value.inspect
+
+
+  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+    %h3 Request details
+    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+      - request.env.each do |key, value|
+        %li{ :'data-role' => 'list-divider'}=key
+        %li
+          %span{:style => 'font-weight:normal;'}=value.inspect

@@ -263,4 +263,17 @@ module ApplicationHelper
     end
   end
 
+  def translate_error_code(code)
+    case code
+      when 400; { :message => "Bad Request" }
+      when 401; { :message => "Unauthorized" }
+      when 403; { :message => "Forbidden" }
+      when 404; { :message => "Not Found" }
+      when 405; { :message => "Method Not Allowed" }
+      when 406; { :message => "Not Acceptable" }
+      when 500; { :message => "Internal Server Error" }
+      when 502; { :message => "Backend Server Error" }
+    end
+  end
+
 end
