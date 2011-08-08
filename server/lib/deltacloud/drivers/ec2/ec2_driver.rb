@@ -182,14 +182,16 @@ module Deltacloud
           ec2 = new_client(credentials)
           inst_arr = []
           safely do
-            instance = ec2.describe_instances([opts[:id]]).first
-            instance = convert_instance(instance)
+            ec2_inst = ec2.describe_instances([opts[:id]]).first
+            instance = convert_instance(ec2_inst)
             return nil unless instance
-            console_output = ec2.get_console_output(instance.id)
-            windows_password = console_output[:aws_output][%r{<Password>(.+)</Password>}m] && $1
-            if windows_password
-              instance.username = 'Administrator'
-              instance.password = windows_password
+            if ec2_inst[:aws_platform] == 'windows'
+              console_output = ec2.get_console_output(instance.id)
+              windows_password = console_output[:aws_output][%r{<Password>(.+)</Password>}m] && $1
+              if windows_password
+                instance.username = 'Administrator'
+                instance.password = windows_password
+              end
             end
             instance
           end
