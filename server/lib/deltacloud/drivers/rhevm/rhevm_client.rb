@@ -74,6 +74,28 @@ module RHEVM
       RHEVM::VM::new(self, Nokogiri::XML(vm).root)
     end
 
+    def create_template(vm_id, opts={})
+      opts ||= {}
+      puts vm_id
+      puts opts.inspect
+      builder = Nokogiri::XML::Builder.new do
+        template_ {
+          name opts[:name]
+          description opts[:description]
+          vm(:id => vm_id)
+        }
+      end
+      headers = opts[:headers] || {}
+      headers.merge!({
+        :content_type => 'application/xml',
+        :accept => 'application/xml',
+      })
+      headers.merge!(auth_header)
+      template = RHEVM::client(@api_entrypoint)["/templates"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
+      puts template
+      RHEVM::Template::new(self, Nokogiri::XML(template).root)
+    end
+
     def templates(opts={})
       headers = {
         :accept => "application/xml"
