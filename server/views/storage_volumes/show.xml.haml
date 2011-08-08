@@ -16,6 +16,7 @@
     %device<
       = @storage_volume.device
   - if @storage_volume.realm_id
+    %realm{:id => @storage_volume.realm_id, :href => realm_url(@storage_volume.realm_id)}
     %realm_id<
       = @storage_volume.realm_id
   - if @storage_volume.state
@@ -24,7 +25,7 @@
 
   - unless @storage_volume.instance_id.nil?
     %mount
-      %instance{:href => @storage_volume.instance_id, :id => @storage_volume.instance_id}
+      %instance{:href => instance_url(@storage_volume.instance_id), :id => @storage_volume.instance_id}
       - unless @storage_volume.device.nil?
         %device{ :name => @storage_volume.device }
   - if @storage_volume.actions

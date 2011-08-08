@@ -43,6 +43,7 @@ module Mock
         :create_key_pair,
         :delete_key_pair,
         :create_volume,
+        :get_console_output,
         :describe_volumes,
         :delete_volume,
         :attach_volume,

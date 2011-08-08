@@ -37,7 +37,7 @@ Feature: Managing storage volumes
     When client want to attach storage volume to RUNNING instance
     Then client should POST on /api/storage_volumes/$storage_volume_id/attach using
       | device | /dev/sdc |
-      | instance_id | $instance_id |
+      | instance_id | i-7f6a021e |
     And storage_volume should be attached to this instance
     And this storage_volume should have mounted instance with:
       | instance |

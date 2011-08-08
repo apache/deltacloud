@@ -71,8 +71,8 @@ Then /^each (\w+) should have (\w+)$/ do |object, key|
 end
 
 Then /^storage_volume should be attached to this instance$/ do
-  get "/api/storage_volumes/#{@storage_volume_id}"
-  (output_xml/"/storage_volume/mount/instance").first['id'].should == @instance_id
+  get "/api/storage_volumes/vol-de30ccb4"
+  (output_xml/"/storage_volume/mount/instance").first['id'].should == 'i-7f6a021e'
 end
 
 Then /^this storage_volume should have mounted instance with:$/ do |table|
