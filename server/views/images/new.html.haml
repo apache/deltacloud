@@ -1,14 +1,13 @@
-%h1 Create image from #{@instance.id}
+=header "Create new image"
+=subheader "#{@instance.id}"
 
-%form{ :action => images_url, :method => :post, :class => :new_instance }
-  %input{ :name => :instance_id, :type => :hidden, :value => @instance.id }/
-  %p
-    %label
-      Name:
-    %input{ :name => :name, :size => 30, :type => :text }/
-  %p
-    %label
-      Description:
-    %textarea{ :name => :description, :cols => 70, :rows => 20}
-  %p
-    %input{ :type => :submit, :value => 'Create' }
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => images_url, :method => :post}
+    %input{ :type => :hidden, :name => :instance_id, :value => @instance.id}
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :name} Name:
+      %input{ :type => :text, :id => :name, :name => :name, :value => '' }
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :description} Description:
+      %input{ :type => :text, :id => :description, :name => :description, :value => '' }
+    %button{ :type => :submit} Create
