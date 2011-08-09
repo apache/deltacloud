@@ -85,6 +85,7 @@ class MockDriver < Deltacloud::BaseDriver
   end
 
   feature :instances, :user_name
+  feature :instances, :user_data
   feature :instances, :authentication_key
 
   def initialize
@@ -221,7 +222,8 @@ class MockDriver < Deltacloud::BaseDriver
       :instance_profile => InstanceProfile.new(hwp.name, opts),
       :realm_id=>realm_id,
       :create_image=>true,
-      :actions=>instance_actions_for( 'RUNNING' )
+      :actions=>instance_actions_for( 'RUNNING' ),
+      :user_data => opts[:user_data]
     }
     File.open( "#{@storage_root}/instances/#{next_id}.yml", 'w' ) {|f|
       YAML.dump( instance, f )

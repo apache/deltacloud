@@ -12,6 +12,13 @@
     %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
       %h3 Additional parameters
 
+      - if driver_has_feature?(:user_data)
+        %div{ 'data-role' => :fieldcontain }
+          %label{ :for => :user_data} Base64 encoded user-data:
+          %textarea{ :id => :user_data, :name => :user_data, :value => '' }
+          %br/
+          %a{ :href => "", :onclick => 'encodeb64();', :'data-ajax' => 'false'} Encode data
+
       - if driver_has_feature?(:instance_count)
         %div{ 'data-role' => :fieldcontain }
           %label{ :for => :instance_count} # of instances to be launched:
