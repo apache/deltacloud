@@ -141,14 +141,14 @@ class MockDriver < Deltacloud::BaseDriver
     safely do
       image = {
         :id => opts[:name],
-	:name => opts[:name],
-	:owner_id => 'root',
-	:description => opts[:description],
-	:architecture => 'i386',
-	:state => 'UP'
+	      :name => opts[:name],
+	      :owner_id => 'root',
+      	:description => opts[:description],
+      	:architecture => 'i386',
+      	:state => 'UP'
       }
       File.open( "#{@storage_root}/images/#{opts[:name]}.yml", 'w' ) do |f|
-	YAML.dump( image, f )
+	    YAML.dump( image, f )
       end
       Image.new(image)
     end
@@ -215,6 +215,7 @@ class MockDriver < Deltacloud::BaseDriver
     instance = {
       :name=>name,
       :state=>'RUNNING',
+      :keyname => opts[:keyname],
       :image_id=>image_id,
       :owner_id=>credentials.user,
       :public_addresses=>["#{image_id}.#{next_id}.public.com"],
