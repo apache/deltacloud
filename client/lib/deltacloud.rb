@@ -213,7 +213,7 @@ module DeltaCloud
         # If there are actions, add they to ActionObject/StateFullObject
         if attribute.name == 'actions'
           (attribute/'link').each do |link|
-            (obj.add_run_action!(item['id'], link) && next) if link[:rel] == 'run' 
+            (obj.add_run_action!(item['id'], link) && next) if link[:rel] == 'run'
             obj.add_action_link!(item['id'], link)
           end && next
         end

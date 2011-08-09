@@ -149,7 +149,7 @@ module DeltaCloud
         @actions = []
       end
 
-      # This trigger is called right after action. 
+      # This trigger is called right after action.
       # This method does nothing inside ActionObject
       # but it can be redifined and used in meta-programming
       def action_trigger(action)
@@ -314,14 +314,14 @@ module DeltaCloud
         DeltaCloud::API.class_eval("class #{class_name} < DeltaCloud::#{parent_class}; end")
         @defined_classes << class_name
       end
-      
+
       DeltaCloud::API.const_get(parent.classify).const_get(name.classify)
     end
 
     def self.guess_model_type(response)
       response = Nokogiri::XML(response.to_s)
-      return :action if ((response/'//actions').length == 1) and ((response/'//state').length == 0)
-      return :stateful if ((response/'//actions').length == 1) and ((response/'//state').length == 1)
+      return :action if ((response/'//actions').length >= 1) and ((response/'//state').length == 0)
+      return :stateful if ((response/'//actions').length >= 1) and ((response/'//state').length >= 1)
       return :base
     end
 
