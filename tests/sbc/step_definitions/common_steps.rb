@@ -24,9 +24,9 @@ end
 
 Given /^result should be valid ([A-Z]+)$/ do |format|
   if format == 'HTML'
-    last_response.body.should =~ /^\<\!DOCTYPE html PUBLIC/
+    last_response.body.should =~ /^\<\!DOCTYPE html/
   else
-    last_response.body.should_not =~ /^\<\!DOCTYPE html PUBLIC/
+    last_response.body.should_not =~ /^\<\!DOCTYPE html/
   end
 end
 
