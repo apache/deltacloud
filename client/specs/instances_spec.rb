@@ -70,7 +70,9 @@ describe "instances" do
       instance.uri.should_not be_nil
       instance.uri.should be_a( String )
       instance.owner_id.should eql( "mockuser" )
-      instance.public_addresses.first.should eql( "img1.inst0.public.com" )
+      instance.public_addresses.first.class.should eql(Hash)
+      instance.public_addresses.first[:type].should eql('hostname')
+      instance.public_addresses.first[:address].should eql('img1.inst0.public.com')
       instance.image.should_not be_nil
       instance.image.uri.should eql( API_URL + "/images/img1" )
       instance.hardware_profile.should_not be_nil
