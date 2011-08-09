@@ -126,7 +126,7 @@ module DeltacloudUnitTest
       (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_data"]').first.should_not == nil
       get_auth_url "/api;driver=mock"
       (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_name"]').first.should_not == nil
-      (last_xml_response/'api/link[@rel="instances"]/feature[@name="user_data"]').first.should == nil
+      (last_xml_response/'api/link[@rel="instances"]/feature[@name="firewalls"]').first.should == nil
     end
 
   end
