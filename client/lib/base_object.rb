@@ -84,6 +84,19 @@ module DeltaCloud
       #               <address>127.0.0.1</address>
       #               <address>127.0.0.2</address>
       #             </addresses>
+      def add_addresses!(collection_name, values=[])
+        @objects << {
+          :type => :collection,
+          :method_name => collection_name.sanitize,
+          :values => values.collect { |v| { :address => v.text.strip, :type => v[:type] }}
+        }
+      end
+
+      # This method define collection of text elements inside REST model
+      # XML syntax: <addresses>
+      #               <address>127.0.0.1</address>
+      #               <address>127.0.0.2</address>
+      #             </addresses>
       def add_collection!(collection_name, values=[])
         @objects << {
           :type => :collection,

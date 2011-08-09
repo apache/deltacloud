@@ -23,7 +23,7 @@ require 'logger'
 require 'hwp_properties'
 require 'instance_state'
 require 'documentation'
-require 'base_object'
+require 'lib/base_object'
 require 'client_bucket_methods'
 
 module DeltaCloud
@@ -225,13 +225,17 @@ module DeltaCloud
         end
 
         #deal with blob metadata
-        if(attribute.name == 'user_metadata')
+        if (attribute.name == 'user_metadata')
           meta = {}
           attribute.children.select {|x| x.name=="entry" }.each  do |element|
             value = element.content.gsub!(/(\n) +/,'')
             meta[element['key']] = value
           end
           obj.add_collection!(attribute.name, meta.inspect) && next
+        end
+
+        if (['public_addresses', 'private_addresses'].include? attribute.name)
+          obj.add_addresses!(attribute.name, (attribute/'*')) && next
         end
 
         # Deal with collections like public-addresses, private-addresses
