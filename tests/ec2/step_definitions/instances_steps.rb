@@ -65,7 +65,6 @@ Then /^this instance should be in '(.+)' state$/ do |state|
 end
 
 Then /^each instance should have address type set to "([^"]*)"$/ do |t|
-  puts output_xml
   output_xml.xpath('/instances/instance/public_addresses/address').first[:type].should == t
   output_xml.xpath('/instances/instance/private_addresses/address').first[:type].should == t
 end
@@ -156,6 +155,5 @@ Then /^I set mock scenario to default$/ do
 end
 
 Then /^IP address for this instance should be '([\w\.]+)'$/ do |address|
-  puts output_xml.to_s
 end
 
