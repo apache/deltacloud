@@ -79,6 +79,22 @@ module DeltaCloud
         }
       end
 
+      def add_authentication!(auth_type, values=[])
+        value = { :key => (values/'login/keyname').text.strip } if auth_type == 'key'
+        if auth_type == 'password'
+          value = {
+            :username => (values/'login/username').text.strip,
+            :username => (values/'login/password').text.strip
+          }
+        end
+        @objects << {
+          :type => :collection,
+          :method_name => 'authentication',
+          :values => value
+        }
+      end
+      
+
       # This method define collection of text elements inside REST model
       # XML syntax: <addresses>
       #               <address>127.0.0.1</address>

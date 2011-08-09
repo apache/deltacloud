@@ -238,6 +238,10 @@ module DeltaCloud
           obj.add_addresses!(attribute.name, (attribute/'*')) && next
         end
 
+        if ('authentication'.include? attribute.name)
+          obj.add_authentication!(attribute[:type], (attribute/'*')) && next
+        end
+
         # Deal with collections like public-addresses, private-addresses
         if (attribute/'./*').length > 0
           obj.add_collection!(attribute.name, (attribute/'*').collect { |value| value.text }) && next
