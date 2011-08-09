@@ -5,10 +5,8 @@ end
 
 Given /^I am authorized with my credentials$/ do
   #unless CONFIG[:username] == 'sbc_test_username' && CONFIG[:password] == 'sbc_test_password'
-    puts 'going to authorize...'
     authorize CONFIG[:username], CONFIG[:password]
   #end
-  puts 'done doing authorize test'
 end
 
 When /^I request ([A-Z]+) response$/ do |format|
@@ -40,7 +38,6 @@ end
 
 Given /^each ([A-Za-z_]+) should have properties set to$/ do |object, table|
   table.raw.each do |property|
-    puts property[0]
     (xml/"*/#{object}/#{property[0]}").size.should_not == 0
     (xml/"*/#{object}/#{property[0]}").each do |element|
       element.text.should == property[1]
