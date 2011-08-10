@@ -263,7 +263,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # IMAGE_LOCKED or POWERING_DOWN
   #
   def convert_state(state)
-    case state
+    unless state.respond_to?(:upcase)
+      raise "State #{state.inspect} is not a string"
+    end
+    case state.upcase
     when 'WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
       'RESTORING_STATE', 'POWERING_DOWN', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE' then
       'PENDING'
@@ -272,7 +275,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     when 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
       'RUNNING'
     else
-      raise "Unexpected state #{state}"
+      raise "Unexpected state '#{state}'"
     end
   end
 
