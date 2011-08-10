@@ -271,6 +271,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
       'STOPPED'
     when 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
       'RUNNING'
+    else
+      raise "Unexpected state #{state}"
     end
   end
 
