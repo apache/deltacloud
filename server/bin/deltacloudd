@@ -45,7 +45,9 @@ BANNER
     options[:config] = File::expand_path(config || DEFAULT_CONFIG)
   end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
-  opts.on( '-s', '--ssl', 'Enable SSL (default: disabled)') { |env| options[:ssl] = true }
+  opts.on( '-s', '--ssl', 'Enable SSL (default: disabled)') { |ssl| options[:ssl] = true }
+  opts.on( '-k', '--ssl-key KEY', 'SSL key file to use') { |key| options[:ssl_key] = key }
+  opts.on( '-C', '--ssl-cert CERT', 'SSL certificate file to use') { |cert| options[:ssl_cert] = cert }
   opts.on( '-t', '--timeout TIMEOUT', 'Timeout for single request (default: 60)') do |timeout|
     ENV["API_TIMEOUT"] = timeout
   end
@@ -84,12 +86,12 @@ unless ENV["API_DRIVER"]
 end
 
 if options[:ssl]
-  unless ENV['API_SSL_KEY']
-    puts "You need to set SSL key using 'export API_SSL_KEY=/path/to/keyfile'"
+  unless options[:ssl_key]
+    puts "You need to set SSL key using '-k /path/to/keyfile.key'"
     exit(1)
   end
-  unless ENV['API_SSL_CERT']
-    puts "You need to set SSL certificate using 'export API_SSL_CERT=/path/to/certfile'"
+  unless options[:ssl_cert]
+    puts "You need to set SSL certificate using '-C /path/to/certificate.crt'"
     exit(1)
   end
 end
@@ -164,9 +166,11 @@ else
   argv_opts << ['--timeout', ENV["API_TIMEOUT"] || '60']
   argv_opts << ['--threaded', '-D' ]
   if options[:ssl]
-    argv_opts << [ '--ssl', '--ssl-key-file', ENV['API_SSL_KEY'], '--ssl-cert-file', ENV['API_SSL_CERT']]
+    argv_opts << [ '--ssl', '--ssl-key-file', options[:ssl_key], '--ssl-cert-file', options[:ssl_cert]]
   end
   argv_opts.flatten!
+
+  puts argv_opts.inspect
 
   if have_rerun && options[:env] == "development"
     argv_opts.unshift "thin"
