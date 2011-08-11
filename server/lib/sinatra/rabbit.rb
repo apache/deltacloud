@@ -265,7 +265,9 @@ module Sinatra
       # This also defines a helper method like show_instance_url that returns
       # the URL to this operation (in request context)
       def operation(name, opts = {}, &block)
-        raise DuplicateOperationException if @operations[name]
+        if @operations.keys.include?(name)
+          raise DuplicateOperationException::new(500, "DuplicateOperation", "Operation #{name} is already defined", [])
+        end
         @operations[name] = Operation.new(self, name, opts, &block)
       end
 
