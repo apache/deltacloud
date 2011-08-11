@@ -14,8 +14,8 @@ All development of Deltacloud takes place in the open. Communication is run
 through the mailing list and all source code changes are tracked publicly.
 
 * <strong>Mailing Lists</strong><br/>
-  For Deltacloud API: <deltacloud-dev@incubator.apache.org>.
-  To subscribe to it, send an email to <deltacloud-dev-subscribe@incubator.apache.org>. You can also view [Archive][1] in case you are missing something.
+  For Deltacloud API: [deltacloud-dev@incubator.apache.org](mailto:deltacloud-dev@incubator.apache.org).
+  To subscribe to it, send an email to [deltacloud-dev-subscribe@incubator.apache.org](deltacloud-dev-subscribe@incubator.apache.org). You can also view [Archive][1] in case you are missing something.
 
   [1]: http://mail-archives.apache.org/mod_mbox/incubator-deltacloud-dev/
 * <strong>IRC</strong><br/>
@@ -59,7 +59,7 @@ You can find the Subversion repository at: <https://svn.apache.org/repos/asf/inc
 Required packages
 -----------------
 In order to make the Deltacloud components work, you'll need to
-have the following packages installed (on Fedora 12; the names may vary on
+have the following packages installed (on Fedora 14; the names may vary on
 your distro):
 
     ruby
@@ -73,6 +73,12 @@ your distro):
 that Deltacloud requires. If you want to install the gems using your system's
 package manager (yum, apt, ports, etc.) you won't need to install these
 packages manually.
+
+To install all required ruby gems manually you should run:
+
+    $ yum install rubygem-haml rubygem-sinatra rubygem-thin rubygem-json \
+      rubygem-net-json rubygem-rack-accept rubygem-nokogiri rubygem-aws \
+      rubygem-rest-client
 
 Installing the Deltacloud Core
 ------------------------------
