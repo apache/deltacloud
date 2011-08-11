@@ -38,12 +38,14 @@ module Sinatra
     end
 
     class Operation
-      attr_reader :name, :method, :collection
+      attr_reader :name, :method, :collection, :member
 
       include ::Deltacloud::BackendCapability
       include ::Deltacloud::Validation
+      include ::ApplicationHelper
 
       STANDARD = {
+        :new => { :method => :get, :member => false, :form => true },
         :index => { :method => :get, :member => false },
         :show =>  { :method => :get, :member => true },
         :create => { :method => :post, :member => false },
@@ -70,6 +72,10 @@ module Sinatra
 
       def standard?
         STANDARD.keys.include?(name)
+      end
+
+      def form?
+        STANDARD[name] and STANDARD[name][:form]
       end
 
       def description(text="")
@@ -122,7 +128,11 @@ module Sinatra
             "#{@collection.name}/:id/#{name}"
           end
         else
-          "#{@collection.name}"
+          if form?
+            "#{@collection.name}/#{name}"
+          else
+            "#{@collection.name}"
+          end
         end
       end
 
@@ -260,13 +270,13 @@ module Sinatra
       end
 
       def generate
-        operations.values.each { |op| op.generate }
+        operations.values.reject { |op| op.member }.each { |o| o.generate }
+        operations.values.select { |op| op.member }.each { |o| o.generate }
         app = ::Sinatra::Application
         collname = name # Work around Ruby's weird scoping/capture
         app.send(:define_method, "#{name.to_s.singularize}_url") do |id|
             api_url_for "#{collname}/#{id}", :full
         end
-
         if index_op = operations[:index]
           app.send(:define_method, "#{name}_url") do
             api_url_for index_op.path.gsub(/\/\?$/,''), :full

@@ -161,18 +161,22 @@ END
 
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/images/new" do
-  @instance = Instance.new( :id => params[:instance_id] )
-  respond_to do |format|
-    format.html { haml :"images/new" }
-  end
-end
-
 collection :images do
   description <<END
   An image is a platonic form of a machine. Images are not directly executable,
   but are a template for creating actual instances of machines.
 END
+
+  operation :new do
+    description "Form to create a new image resource"
+    param :instance_id, :string,  "An instance from which the new image will be created from"
+    control do
+      @instance = Instance.new( :id => params[:instance_id] )
+      respond_to do |format|
+        format.html { haml :"images/new" }
+      end
+    end
+  end
 
   operation :index do
     description <<END
@@ -271,21 +275,6 @@ collection :instance_states do
   end
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/new" do
-  @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
-  @image   = driver.image( credentials, :id => params[:image_id] )
-  @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
-  @realms = driver.realms(credentials)
-  @keys = driver.keys(credentials) if driver_has_feature?(:authentication_key)
-  @firewalls = driver.firewalls(credentials) if driver_has_feature?(:firewalls)
-  if driver_has_feature?(:register_to_load_balancer)
-    @load_balancers = driver.load_balancers(credentials)
-  end
-  respond_to do |format|
-    format.html { haml :"instances/new" }
-  end
-end
-
 get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/:id/run" do
   @instance = driver.instance(credentials, :id => params[:id])
   respond_to do |format|
@@ -293,17 +282,19 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/:id/run" do
   end
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/load_balancers/new" do
-  @realms = driver.realms(credentials)
-  @instances = driver.instances(credentials) if driver_has_feature?(:register_instance, :load_balancers)
-  respond_to do |format|
-    format.html { haml :"load_balancers/new" }
-  end
-end
-
-
 collection :load_balancers do
   description "Load balancers"
+
+  operation :new do
+    description "Form to create a new load balancer"
+    control do
+      @realms = driver.realms(credentials)
+      @instances = driver.instances(credentials) if driver_has_feature?(:register_instance, :load_balancers)
+      respond_to do |format|
+        format.html { haml :"load_balancers/new" }
+      end
+    end
+  end
 
   operation :index do
     description "List of all active load balancers"
@@ -389,6 +380,32 @@ collection :instances do
   An instance is a concrete machine realized from an image.
   The images collection may be obtained by following the link from the primary entry-point.
 END
+
+  operation :new do
+    description "Form for creating a new instance resource"
+    param :image_id,  :string,  "Image from which will be the new instance created from"
+    param :realm_id,  :string, :optional
+    if driver_has_feature? :authentication_key
+      param :authentication_key, :string, :optional
+    end
+    if driver_has_feature? :firewalls
+      param :firewalls, :string, :optional
+    end
+    control do
+      @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
+      @image   = Image.new( :id => params[:image_id] )
+      @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
+      @realms = Realm.new(:id => params[:realm_id]) if params[:realm_id]
+      @realms ||= []
+      @keys = driver.keys(credentials) if driver_has_feature?(:authentication_key)
+      @firewalls = driver.firewalls(credentials) if driver_has_feature?(:firewalls)
+      respond_to do |format|
+        format.html do
+          haml :'instances/new'
+        end
+      end
+    end
+  end
 
   operation :index do
     description "List all instances."
@@ -518,14 +535,17 @@ END
 
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/storage_snapshots/new" do
-  respond_to do |format|
-    format.html { haml :"storage_snapshots/new" }
-  end
-end
-
 collection :storage_snapshots do
   description "Storage snapshots description here"
+
+  operation :new do
+    description "A form to create a new storage snapshot"
+    control do
+      respond_to do |format|
+        format.html { haml :"storage_snapshots/new" }
+      end
+    end
+  end
 
   operation :index do
     description "List of storage snapshots."
@@ -569,21 +589,17 @@ collection :storage_snapshots do
   end
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/storage_volumes/new" do
-  respond_to do |format|
-    format.html { haml :"storage_volumes/new" }
-  end
-end
-
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/storage_volumes/attach" do
-  respond_to do |format|
-    @instances = driver.instances(credentials)
-    format.html { haml :"storage_volumes/attach" }
-  end
-end
-
 collection :storage_volumes do
   description "Storage volumes description here"
+
+  operation :new do
+    description "A form to create a new storage volume"
+    control do
+      respond_to do |format|
+        format.html { haml :"storage_volumes/new" }
+      end
+    end
+  end
 
   operation :index do
     description "List of storage volumes."
@@ -667,14 +683,17 @@ collection :storage_volumes do
 
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/keys/new" do
-  respond_to do |format|
-    format.html { haml :"keys/new" }
-  end
-end
-
 collection :keys do
   description "Instance authentication credentials."
+
+  operation :new do
+    description "A form to create a new key resource"
+    control do
+      respond_to do |format|
+        format.html { haml :"keys/new" }
+      end
+    end
+  end
 
   operation :index do
     description "List all available credentials which could be used for instance authentication."
@@ -722,14 +741,6 @@ collection :keys do
     end
   end
 
-end
-
-#get html form for creating a new blob
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/new_blob" do
-  @bucket_id = params[:bucket]
-  respond_to do |format|
-    format.html {haml :"blobs/new"}
-  end
 end
 
 #create a new blob using PUT - streams through deltacloud
@@ -864,15 +875,27 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob/content"
   end
 end
 
-#Get html form for creating a new bucket
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/new" do
-  respond_to do |format|
-    format.html { haml :"buckets/new" }
-  end
-end
-
 collection :buckets do
   description "Cloud Storage buckets - aka buckets|directories|folders"
+
+  operation :new do
+    description "A form to create a new bucket resource"
+    control do
+      respond_to do |format|
+        format.html { haml :"buckets/new" }
+      end
+    end
+  end
+
+  operation :new_bucket, :form => true, :method => :get, :member => true do
+    param :bucket,  :string
+    control do
+      @bucket_id = params[:bucket]
+      respond_to do |format|
+        format.html {haml :"blobs/new"}
+      end
+    end
+  end
 
   operation :index do
     description "List buckets associated with this account"
@@ -1015,21 +1038,6 @@ collection :addresses do
 
 end
 
-#html for creating a new firewall
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/firewalls/new" do
-  respond_to do |format|
-    format.html { haml :"firewalls/new" }
-  end
-end
-
-#html for creating a new firewall rule
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/firewalls/:firewall/new_rule" do
-  @firewall_name = params[:firewall]
-  respond_to do |format|
-    format.html {haml :"firewalls/new_rule" }
-  end
-end
-
 #delete a firewall rule
 delete '/api/firewalls/:firewall/:rule' do
   opts = {}
@@ -1047,6 +1055,27 @@ end
 #FIREWALLS
 collection :firewalls do
   description "Allow user to define firewall rules for an instance (ec2 security groups) eg expose ssh access [port 22, tcp]."
+
+  operation :new do
+    description "A form to create a new firewall resource"
+    control do
+      respond_to do |format|
+        format.html { haml :"firewalls/new" }
+      end
+    end
+  end
+
+  operation :new_rule, :form => true, :member => true, :method => :get do
+    description "A form to create a new firewall rule"
+    param :firewall,  :string,  :optional
+    control do
+      @firewall_name = params[:firewall]
+      respond_to do |format|
+        format.html {haml :"firewalls/new_rule" }
+      end
+    end
+  end
+
   operation :index do
     description 'List all firewalls'
     with_capability :firewalls
@@ -1092,7 +1121,7 @@ collection :firewalls do
     end
   end
 
-#create a new firewall rule - POST /api/firewalls/:firewall/rules
+  #create a new firewall rule - POST /api/firewalls/:firewall/rules
   operation :rules, :method => :post, :member => true do
     description 'Create a new firewall rule for the specified firewall'
     param :id,  :required, :string, [],  "Name of firewall in which to apply this rule"
