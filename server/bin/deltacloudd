@@ -45,6 +45,7 @@ BANNER
     options[:config] = File::expand_path(config || DEFAULT_CONFIG)
   end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+  opts.on( '-l', '--drivers', 'List available drivers') { |env| options[:drivers] = true }
   opts.on( '-s', '--ssl', 'Enable SSL (default: disabled)') { |ssl| options[:ssl] = true }
   opts.on( '-k', '--ssl-key KEY', 'SSL key file to use') { |key| options[:ssl_key] = key }
   opts.on( '-C', '--ssl-cert CERT', 'SSL certificate file to use') { |cert| options[:ssl_cert] = cert }
@@ -80,10 +81,20 @@ if options[:help]
  exit(0)
 end
 
-unless ENV["API_DRIVER"]
+unless options[:drivers] or ENV["API_DRIVER"]
   puts "You need to specify a driver to use (-i <driver>)"
+  puts "To list all available drivers try: deltacloudd --drivers"
   exit(1)
 end
+
+if options[:drivers]
+  require 'server.rb'
+  puts "Available drivers:\n\n"
+  puts "* " + driver_config.keys.map{ |d| d.to_s }.join("\n* ")
+  puts
+  exit(0)
+end
+
 
 if options[:ssl]
   unless options[:ssl_key]
@@ -121,6 +132,7 @@ if ENV['API_USER'] && ENV['API_PASSWORD']
   puts "         anybody can access this server with your credentials"
 end
 puts
+
 
 dirname="#{File.dirname(__FILE__)}/.."
 
@@ -170,8 +182,6 @@ else
   end
   argv_opts.flatten!
 
-  puts argv_opts.inspect
-
   if have_rerun && options[:env] == "development"
     argv_opts.unshift "thin"
     command = argv_opts.join(" ")
@@ -181,7 +191,6 @@ else
     rerun.join
   else
     thin = Thin::Runner.new(argv_opts)
-
     begin
       thin.run!
     rescue Exception => e
