@@ -16,7 +16,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rake/testtask'
 
 load 'deltacloud-client.gemspec'
@@ -28,7 +28,7 @@ end
 
 
 spec = Gem::Specification.load('deltacloud-client.gemspec')
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 

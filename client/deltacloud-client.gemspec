@@ -23,12 +23,11 @@ Gem::Specification.new do |s|
   s.email = 'deltacloud-users@lists.fedorahosted.org'
   s.name = 'deltacloud-client'
   s.description = %q{Deltacloud REST Client for API}
-  s.version = '0.3.0'
+  s.version = '0.4.0'
   s.summary = %q{Deltacloud REST Client}
   s.files = Dir['Rakefile', 'lib/**/*.rb', 'init.rb', 'bin/deltacloudc']
   s.bindir = 'bin'
   s.executables = 'deltacloudc'
-  s.default_executable = 'deltacloudc'
   s.test_files= Dir.glob("specs/**/**")
   s.extra_rdoc_files = Dir["LICENSE", "NOTICE", "DISCLAIMER"]
 

@@ -19,7 +19,7 @@
 
 require 'rake'
 require 'rake/testtask'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 
 begin
   require 'ci/reporter/rake/test_unit'
@@ -87,14 +87,8 @@ end
 
 spec = Gem::Specification.load('deltacloud-core.gemspec')
 
-if Rake::PackageTask
-  Rake::PackageTask.new(spec) do |pkg|
-    pkg.version = '0.3.0'
-  end
-else
-  Rake::GemPackageTask.new(spec) do |pkg|
-    pkg.need_tar = true
-  end
+Gem::PackageTask.new(spec) do |pkg|
+  pkg.need_tar = true
 end
 
 namespace :mock do

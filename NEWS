@@ -1,0 +1,135 @@
+0.4.0 - 2011-08-12
+Server:
+  * deltacloudd: new option --drivers to list all drivers
+  * deltacloudd: new options --ssl, --ssl-key and --ssl-cert to
+    enable HTTPS support
+  * API entrypoint reports features in JSON
+  * unify response behavior: any operation returning a 201 Created also
+    sets the Location header to point to the new resource; ensure the
+    status for an operation is the same regardless of output format
+  * Add type to public addresses; type can be one of 'ipv4', 'mac', 'vnc',
+    and 'hostname'
+  * Complete overhaul of the HTML UI, now uses jquery-mobile
+  * Response status for attach/detach storage is now 202 (instead of 302)
+  * Response status for get/set blob metadata is 204 No Content
+  * Response status for (un)register with load balancer is 204 No Content
+  * The user_name feature now reports the permissible length of the name
+    as the 'max_length' constraint
+  * Add Date header to responses as per RFC 2616
+  * New collection 'firewalls' for managing sets of firewalling rules
+  * split server/config/drivers.yaml into individual files so each driver
+    can be packaged separately; gives deployers better choice of what
+    drivers they want enabled
+  * Numerous bug fixes and improvements to the test suite
+  * Drivers
+    + Condor
+      - new driver to run a simple cloud based on the Condor grid scheduler
+    + EC2
+      - Fix bug in reboot instance so that the details returned are those
+        of the stopped instance, not some random instance
+      - Support getting and updating blob metadata
+      - support destroying images
+      - support firewalls (security groups)
+      - do not support user_name anymore; instance tagging is too fragile
+        in EC2 to be used reliably for this
+      - do not support registering an instance with a load balancer upon
+        creation anymore
+      - stream blob PUT to backend (requires thin)
+      - support attaching EBS snapshot to instance upon creation (feature
+        'attach_snapshot')
+      - support elastic IP's
+    + Eucalyptus
+      - support firewalls (security groups)
+      - support elastic IP's
+    + Gogrid
+      - when retrieving single realm, make sure we return the right one
+      - correctly capture load_balancer params
+      - report a listener if load_balancer has no instances
+    + Mock
+      - support destroying images
+    + Rackspace
+      - support destroying images
+      - stream blob PUT to backend (requires thin)
+    + RHEV-M
+      - support creating and destroying images
+      - report VNC address of instances
+      - can use Audrey's confserver to fetch IP of an instance
+    + vSphere
+      - turns a VMWare vSphere installation into a cloud
+      - driver stateless, state is stored in vSphere's data store in
+        'deltacloud' folder
+      - images are template VM's
+      - single HWP, whose max_cpu and max_memory are based on available
+        cpus and memory across all vSphere hosts
+      - support data injection via user_data and user_iso (upload entire
+        ISO image) For both, instance gets virtual CD-ROM with injected
+        data
+
+Client:
+  * make authentication info for instances available
+  * retrieve type and address for public addresses of an instance
+  * deltacloudc: allow specifying bucket location when creating a bucket
+
+Site:
+  * Major rewrite of REST API docs, covers the entire API now
+  * Add libdeltacloud API docs
+
+0.3.0 - 2011-04-01
+Server:
+  * Dynamic driver switching: select driver on a per-request basis; new
+    toplevel 'drivers' collection describing drivers supported by server
+  * Create images from running instances (EC2, Mock, GoGrid, Rackspace);
+    advertised as action 'create_image' in instance details when possible
+  * New 'user_files' feature for create_instance to advertise RAX-style
+    injection of user data
+  * Return status 204 after successful DELETE operation
+  * Return status 401 when authentication fails because of invalid
+    credentials
+  * Blobs: support user metadata as key/value pairs passed through
+    X-Deltacloud-Blobmeta-KEY: VALUE headers
+  * Support HEAD requests to retrieve the operations and methods supported
+    by a collection
+  * Support for OPTIONS request to retrieve optional and required
+    parameters for operations
+  * Advertise 'create_instance' action for each image
+  * Drivers
+    + EC2
+      - instance_count feature to allow creating multiple instances at once
+      - run commands inside an insance via ssh
+      - by default, list images owned by 'amazon', when passing in empty
+        owner_id, list _all_ images (thousands)
+    + Eucalyptus
+      - new driver for Eucalyptus (Sang-Min Park)
+    + Gogrid
+      - run commands inside an insance via ssh
+      - allow creating sandbox instances
+    + Rackspace
+      - report root password after instance creation
+    + SBC
+      - new driver for IBM SBC cloud (Eric Woods)
+
+Client:
+  * run: new method to run commands via ssh
+  * drivers: list drivers supported by server
+  * properly list blobs in a bucket when showing bucket details
+  * full support for managing blobs and buckets
+
+0.2.0 - 2011-01-25
+
+Server:
+  * Dynamically select driver through the X-Deltacloud-Driver HTTP header;
+    allow passing in driver-specific endpoint with the
+    X-Deltacloud-Provider header
+  * New 'load_balancers' collection, supported for EC2 and GoGrid
+  * Support 'keys' collection in Mock driver
+  * Allow creation/deletion of blobs (S3, CloudFiles, Azure)
+  * Return HTTP status 405 when trying to perform an action on a instance
+    that is not available
+  * Drivers
+    + EC2
+      - security_group and public_ip features for instance creation
+      - switched to aws gem
+    + GoGrid: now have two hardware profiles
+    + RHEV-M: completely rewritten; now uses RHEV-M REST API, not Powershell
+
+Client:

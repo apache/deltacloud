@@ -16,7 +16,7 @@
 # under the License.
 
 require 'rake'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'fileutils'
 require 'pp'
 
