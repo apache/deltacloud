@@ -1,43 +1,33 @@
-%h2
-  = action_method(@operation.name, @collection.name).to_s.upcase
-  = action_url
+=header "Deltacloud API #{settings.version} documentation", :back => 'false'
+=subheader "#{action_method(@operation.name, @collection.name).to_s.upcase} /api/#{@collection.name}/#{@operation.name}"
 
-%p
-  #{@operation.description}
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'}
+      %h3
+        Description:
+    %li
+      %br
+      %p=@operation.description
 
-%br
-
-%h2 Parameters:
-
-
-%table
-  %thead
-    %tr
-      %th Name
-      %th Type
-      %th Class
-      %th Valid values
-      %th Description
-  %tbody
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider', :'data-divider-theme' => 'a'}
+      %h3 Parameters:
     - @operation.each_param do |p|
-      %tr
-        %td{:style => "width:15em"}
-          %em #{p.name}
-        %td{:style => "width:10em"} #{p.type}
-        %td #{p.klass}
-        %td{:style => "width:10em"} #{p.options.join(', ')}
-        %td #{p.description}
+      %li{ :'data-role' => 'list-divider'}
+        =p.name
+        %span{ :class => 'ui-li-count'}
+          =[p.type,p.klass].join(',')
+      %li
+        %br
+        %p=p.description.empty? ? '<strong>FIXME:</strong> No description for this parameter' : p.description
     - @features.sort { |a,b| a.name.to_s <=> b.name.to_s }.each do |f|
-      %tr
-        %th{:colspan => 4}
-          Feature #{f.name}
-        %th{:colspan => 1}
-          %em= f.description
       - f.decl.operation(@operation.name).each_param do |p|
-        %tr
-          %td{:style => "width:15em"}
-            %em #{p.name}
-          %td{:style => "width:10em"} #{p.type}
-          %td #{p.klass}
-          %td{:style => "width:10em"} #{p.options.join(', ')}
-          %td #{p.description}
+        %li{ :'data-role' => 'list-divider'}
+          =p.name
+          %span{ :class => 'ui-li-count'}
+            =[p.type,p.klass].join(',')
+        %li
+          %br
+          %p=p.description.empty? ? '<strong>FIXME:</strong> No description for this parameter' : p.description
+
