@@ -395,8 +395,8 @@ END
       @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
       @image   = Image.new( :id => params[:image_id] )
       @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
-      @realms = Realm.new(:id => params[:realm_id]) if params[:realm_id]
-      @realms ||= []
+      @realms = [Realm.new(:id => params[:realm_id])] if params[:realm_id]
+      @realms ||= driver.realms(credentials)
       @keys = driver.keys(credentials) if driver_has_feature?(:authentication_key)
       @firewalls = driver.firewalls(credentials) if driver_has_feature?(:firewalls)
       respond_to do |format|
