@@ -31,7 +31,7 @@ require 'sinatra/rack_etag'
 require 'sinatra/rack_date'
 require 'sinatra/rack_matrix_params'
 
-set :version, '0.3.0'
+set :version, '0.4.0'
 
 include Deltacloud::Drivers
 set :drivers, Proc.new { driver_config }
