@@ -62,25 +62,42 @@ module Rack
         end
       end
 
-      # If request method is POST, simply include matrix params in form_hash
-      env['rack.request.form_hash'].merge!(matrix_params) if env['rack.request.form_hash']
+      # Two things need to happen to make matrix params work:
+      #     (1) the parameters need to be appended to the 'normal' params
+      #         for the request. 'Normal' really depends on the content
+      #         type of the request, which does not seem accessible from
+      #         Middleware, so we use the existence of
+      #         rack.request.form_hash in the environment to distinguish
+      #         between basic and application/x-www-form-urlencoded
+      #         requests
+      #     (2) the parameters need to be stripped from the appropriate
+      #         path related env variables, so that request dispatching
+      #         does not trip over them
 
-      # For other methods it's a way complicated ;-)
-      if env['REQUEST_METHOD']!='POST' and not matrix_params.keys.empty?
-        if env['REQUEST_PATH'] == '/'
-          env['REQUEST_URI'] = env['REQUEST_PATH']
-          env['REQUEST_PATH'] = env['PATH_INFO']
+      # (1) Rewrite current path by stripping all matrix params from it
+      if env['REQUEST_PATH'] == '/'
+        env['REQUEST_URI'] = env['REQUEST_PATH']
+        env['REQUEST_PATH'] = env['PATH_INFO']
+      end
+      env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+      env['PATH_INFO'] = env['REQUEST_PATH']
+
+      # (2) Append the matrix params to the 'normal' request params
+      # FIXME: Make this work for multipart/form-data
+      if env['rack.request.form_hash']
+        # application/x-www-form-urlencoded, most likely a POST
+        env['rack.request.form_hash'].merge!(matrix_params)
+      else
+        # For other methods it's more complicated
+        if env['REQUEST_METHOD']!='POST' and not matrix_params.keys.empty?
+          env['QUERY_STRING'].gsub!(/;([^\/]*)/, '')
+          new_params = matrix_params.collect do |component, params|
+            params.collect { |k,v| "#{component}[#{k}]=#{CGI::escape(v.to_s)}" }
+          end.flatten
+          # Add matrix params as a regular GET params
+          env['QUERY_STRING'] += '&' if not env['QUERY_STRING'].empty?
+          env['QUERY_STRING'] += "#{new_params.join('&')}"
         end
-        # Rewrite current path and query string and strip all matrix params from it
-        env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
-        env['PATH_INFO'] = env['REQUEST_PATH']
-        env['QUERY_STRING'].gsub!(/;([^\/]*)/, '')
-        new_params = matrix_params.collect do |component, params|
-          params.collect { |k,v| "#{component}[#{k}]=#{CGI::escape(v.to_s)}" }
-        end.flatten
-        # Add matrix params as a regular GET params
-        env['QUERY_STRING'] += '&' if not env['QUERY_STRING'].empty?
-        env['QUERY_STRING'] += "#{new_params.join('&')}"
       end
       @app.call(env)
     end
