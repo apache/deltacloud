@@ -696,7 +696,7 @@ module Deltacloud
           retval = true
           begin
             realms(credentials)
-          rescue Deltacloud::BackendError
+          rescue
             retval = false
           end
           retval
