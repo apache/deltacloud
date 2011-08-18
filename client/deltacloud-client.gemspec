@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.description = %q{Deltacloud REST Client for API}
   s.version = '0.4.0'
   s.summary = %q{Deltacloud REST Client}
-  s.files = Dir['Rakefile', 'lib/**/*.rb', 'init.rb', 'bin/deltacloudc']
+  s.files = Dir['Rakefile', 'lib/**/*.rb', 'bin/deltacloudc']
   s.bindir = 'bin'
   s.executables = 'deltacloudc'
   s.test_files= Dir.glob("specs/**/**")
