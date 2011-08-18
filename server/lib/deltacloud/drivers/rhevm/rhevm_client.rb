@@ -131,8 +131,8 @@ module RHEVM
         [ RHEVM::Cluster::new(self, vm)]
       else
         Client::parse_response(RHEVM::client(@api_entrypoint)["/clusters"].get(headers)).xpath('/clusters/cluster').collect do |vm|
-          RHEVM::Cluster::new(self, vm)
-        end
+          RHEVM::Cluster::new(self, vm) if has_datacenter?(vm)
+        end.compact
       end
     end
 
@@ -196,6 +196,10 @@ module RHEVM
       Nokogiri::XML(response)
     end
 
+    def has_datacenter?(vm)
+      value=!(vm/'data_center').empty?
+      value
+    end
   end
 
   class BaseObject
@@ -300,6 +304,7 @@ module RHEVM
       @description = ((xml/'description').first.text rescue nil)
       @datacenter = Link::new(@client, (xml/'data_center').first[:id], (xml/'data_center').first[:href])
     end
+
   end
 
   class DataCenter < BaseObject

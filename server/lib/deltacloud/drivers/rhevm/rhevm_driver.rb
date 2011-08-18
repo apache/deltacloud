@@ -78,6 +78,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     realm_arr = []
     safely do
       clusters = client.clusters
+      puts clusters.size
       clusters.each do |r|
         d = client.datacenters(:id => r.datacenter.id).first
         realm_arr << convert_realm(r, d)
