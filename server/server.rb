@@ -62,6 +62,8 @@ end
 
 configure :development do
   # So we can just use puts for logging
+  set :raise_errors => false
+  set :show_exceptions, false
   $stdout.sync = true
   $stderr.sync = true
 end
