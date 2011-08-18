@@ -116,15 +116,16 @@ module Deltacloud
     def safely(&block)
       begin
         block.call
-      rescue => e
+      rescue
+        report_method = $stderr.respond_to?(:err) ? :err : :puts
         Deltacloud::ExceptionHandler::exceptions.each do |exdef|
-          raise exdef.handler(e) if exdef.match?(e)
+          if exdef.match?($!)
+            $stderr.send(report_method, "#{[$!.class.to_s, $!.message].join(':')}\n#{$!.backtrace.join("\n")}")
+            raise exdef.handler($!)
+          end
         end
-        $stderr.puts "# UNCAUGHT EXCEPTION  ~> '#{e.class}' - "
-        $stderr.puts "# #{e.message}"
-        $stderr.puts "# #{e.backtrace.join("\n")}"
-        $stderr.puts "##############"
-        raise BackendError.new(e, e.message)
+        $stderr.send(report_method, "[NO HANDLED] #{[$!.class.to_s, $!.message].join(': ')}\n#{$!.backtrace.join("\n")}")
+        raise BackendError.new($!, $!.message)
       end
     end
 

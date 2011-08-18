@@ -30,6 +30,7 @@ require 'sinatra/rack_runtime'
 require 'sinatra/rack_etag'
 require 'sinatra/rack_date'
 require 'sinatra/rack_matrix_params'
+require 'sinatra/rack_syslog'
 
 set :version, '0.4.0'
 
@@ -46,12 +47,17 @@ use Rack::MediaType
 use Rack::Date
 
 configure do
-  set :raise_errors => false
-  set :show_exceptions, false
   set :views, File.dirname(__FILE__) + '/views'
   set :public, File.dirname(__FILE__) + '/public'
   # Try to load the driver on startup to fail early if there are issues
   driver
+end
+
+configure :production do
+  use Rack::SyslogLogger
+  disable :logging
+  enable :show_errors
+  set :dump_errors, false
 end
 
 configure :development do
