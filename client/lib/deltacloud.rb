@@ -23,7 +23,7 @@ require 'logger'
 require 'hwp_properties'
 require 'instance_state'
 require 'documentation'
-require 'lib/base_object'
+require 'base_object'
 require 'client_bucket_methods'
 
 module DeltaCloud
