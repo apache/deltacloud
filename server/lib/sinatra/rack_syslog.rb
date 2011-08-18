@@ -24,11 +24,6 @@ class SyslogFile < File
 
 end
 
-if settings.environment == :production
-  $stdout = SyslogFile.new
-  $stderr = $stdout
-end
-
 # Code bellow was originaly copied from Rack::CommonLogger
 # https://raw.github.com/rack/rack/master/lib/rack/commonlogger.rb
 

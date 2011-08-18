@@ -58,6 +58,8 @@ configure :production do
   disable :logging
   enable :show_errors
   set :dump_errors, false
+  $stdout = SyslogFile.new
+  $stderr = $stdout
 end
 
 configure :development do
