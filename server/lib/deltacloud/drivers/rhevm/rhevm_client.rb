@@ -76,8 +76,6 @@ module RHEVM
 
     def create_template(vm_id, opts={})
       opts ||= {}
-      puts vm_id
-      puts opts.inspect
       builder = Nokogiri::XML::Builder.new do
         template_ {
           name opts[:name]
@@ -92,7 +90,6 @@ module RHEVM
       })
       headers.merge!(auth_header)
       template = RHEVM::client(@api_entrypoint)["/templates"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
-      puts template
       RHEVM::Template::new(self, Nokogiri::XML(template).root)
     end
 
@@ -211,7 +208,6 @@ module RHEVM
       @client = client
       self
     end
-
   end
 
   class Link
