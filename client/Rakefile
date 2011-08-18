@@ -32,7 +32,15 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
-if Gem.available?('rspec')
+def available?(name)
+  Gem::Specification.find_by_name(name)
+rescue Gem::LoadError
+  false
+rescue
+  Gem.available?(name)
+end
+
+if available?('rspec')
   require 'spec/rake/spectask'
   desc "Run all examples"
   Spec::Rake::SpecTask.new('spec') do |t|
