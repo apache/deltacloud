@@ -45,6 +45,11 @@ BANNER
     options[:config] = File::expand_path(config || DEFAULT_CONFIG)
   end
   opts.on( '-e', '--env ENV', 'Environment (default: "development")') { |env| options[:env] = env }
+  opts.on( '-d', '--daemon', 'Run daemonized in the background, logging to SYSLOG (default: "disabled")') do
+    options[:daemon] = true
+  end
+  opts.on( '-u', '--user USER', 'User to run daemon as. Use with -d (default: "nobody")') { |user| options[:user] = user }
+  opts.on( '', '--pid PID', 'File to store PID (default: tmp/pids/thin.pid)') { |pid| options[:pid] = pid }
   opts.on( '-l', '--drivers', 'List available drivers') { |env| options[:drivers] = true }
   opts.on( '-s', '--ssl', 'Enable SSL (default: disabled)') { |ssl| options[:ssl] = true }
   opts.on( '-k', '--ssl-key KEY', 'SSL key file to use') { |key| options[:ssl_key] = key }
@@ -119,20 +124,23 @@ end
 ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
 ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
-msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
-msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
-if options[:ssl]
-  msg << ":: https://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
-else
-  msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+unless options[:daemon]
+  msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
+  msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
+  if options[:ssl]
+    msg << ":: https://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+  else
+    msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+  end
+  puts msg
+  puts
 end
-puts msg
+
 if ENV['API_USER'] && ENV['API_PASSWORD']
   puts "Warning: API_USER and API_PASSWORD set in environment"
   puts "         anybody can access this server with your credentials"
+  puts
 end
-puts
-
 
 dirname="#{File.dirname(__FILE__)}/.."
 
@@ -180,6 +188,12 @@ else
   if options[:ssl]
     argv_opts << [ '--ssl', '--ssl-key-file', options[:ssl_key], '--ssl-cert-file', options[:ssl_cert]]
   end
+
+  if options[:daemon]
+    options[:env] = "production"
+    argv_opts << [ "--daemonize", "--user", options[:user] || 'nobody', "--tag", "deltacloud-#{ENV['API_DRIVER']}"]
+    argv << [ "--pid", options[:pid]] if options[:pid]
+  end
   argv_opts.flatten!
 
   if have_rerun && options[:env] == "development"
@@ -191,10 +205,6 @@ else
     rerun.join
   else
     thin = Thin::Runner.new(argv_opts)
-    begin
-      thin.run!
-    rescue Exception => e
-      puts "ERROR: #{e.message}"
-    end
+    thin.run!
   end
 end

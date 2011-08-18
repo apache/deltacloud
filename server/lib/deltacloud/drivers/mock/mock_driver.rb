@@ -137,8 +137,8 @@ class MockDriver < Deltacloud::BaseDriver
   def create_image(credentials, opts={})
     check_credentials(credentials)
     instance = instance(credentials, :id => opts[:id])
-    raise 'CreateImageNotSupported' unless instance.can_create_image?
     safely do
+      raise 'CreateImageNotSupported' unless instance and instance.can_create_image?
       image = {
         :id => opts[:name],
 	      :name => opts[:name],
