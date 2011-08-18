@@ -65,8 +65,8 @@ module DeltaCloud
             @obj.name ? @obj.name[0,15] : 'unknown',
             @obj.image.name ? @obj.image.name[0,15] : 'unknown',
             @obj.state ? @obj.state.to_s[0,10] : 'unknown',
-            @obj.public_addresses.join(',')[0,32],
-            @obj.private_addresses.join(',')[0,32]
+            @obj.public_addresses.collect { |a| a[:address] }.join(',')[0,32],
+            @obj.private_addresses.collect { |a| a[:address] }.join(',')[0,32]
           )
         end
       end
