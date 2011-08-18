@@ -28,12 +28,11 @@ module Sinatra
     class DuplicateCollectionException < Deltacloud::ExceptionHandler::DeltacloudException; end
     class UnsupportedCollectionException < Deltacloud::ExceptionHandler::DeltacloudException
       def initialize
-        @message = "This collection is not supported for this provider."
         # The server understood the request, but is refusing to fulfill it. Authorization will not help and the request
         # SHOULD NOT be repeated. If the request method was not HEAD and the server wishes to make public why the request
         # has not been fulfilled, it SHOULD describe the reason for the refusal in the entity. If the server does not wish
         # to make this information available to the client, the status code 404 (Not Found) can be used instead.
-        @code = 403 #
+        super(403, 'UnsupportedCollection', "Requested collection is not supported for current provider", [])
       end
     end
 
