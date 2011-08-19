@@ -258,7 +258,7 @@ module ApplicationHelper
   def address_type(address)
     case address
       when /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})?$/; :ipv4
-      when /^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})?:([\-\d]+)$/; :vnc
+      when /^.*:([\-\d]+)$/; :vnc
       when /^(\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2}:\S{1,2})?$/; :mac
       else :hostname
     end

@@ -321,6 +321,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 401
     end
 
+    on /RestClient::ResourceNotFound/ do
+      status 404
+    end
+
     on /RestClient::InternalServerError/ do
       status 502
     end

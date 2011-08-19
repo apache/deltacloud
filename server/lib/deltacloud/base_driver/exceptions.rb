@@ -28,6 +28,13 @@ module Deltacloud
       end
     end
 
+    class MethodNotAllowed < DeltacloudException
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(405, e.class.name, message, e.backtrace)
+      end
+    end
+
     class ValidationFailure < DeltacloudException
       def initialize(e, message=nil)
         message ||= e.message
@@ -46,6 +53,13 @@ module Deltacloud
       def initialize(e, message)
         message ||= e.message
         super(502, e.class.name, message, e.backtrace)
+      end
+    end
+
+    class ObjectNotFound < DeltacloudException
+      def initialize(e, message)
+        message ||= e.message
+        super(404, e.class.name, message, e.backtrace)
       end
     end
 
@@ -86,6 +100,9 @@ module Deltacloud
         return @handler if @handler
         case @status
           when 401 then Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, @message)
+          when 404 then Deltacloud::ExceptionHandler::ObjectNotFound.new(e, @message)
+          when 406 then Deltacloud::ExceptionHandler::UnknownMediaTypeError.new(e, @message)
+          when 405 then Deltacloud::ExceptionHandler::MethodNotAllowed.new(e, @message)
           when 400 then Deltacloud::ExceptionHandler::ValidationFailure.new(e, @message)
           when 500 then Deltacloud::ExceptionHandler::BackendError.new(e, @message)
           when 502 then Deltacloud::ExceptionHandler::ProviderError.new(e, @message)
@@ -121,11 +138,12 @@ module Deltacloud
         Deltacloud::ExceptionHandler::exceptions.each do |exdef|
           if exdef.match?($!)
             $stderr.send(report_method, "#{[$!.class.to_s, $!.message].join(':')}\n#{$!.backtrace.join("\n")}")
-            raise exdef.handler($!)
+            new_exception = exdef.handler($!)
+            raise exdef.handler($!) if new_exception
           end
         end
         $stderr.send(report_method, "[NO HANDLED] #{[$!.class.to_s, $!.message].join(': ')}\n#{$!.backtrace.join("\n")}")
-        raise BackendError.new($!, $!.message)
+        raise Deltacloud::ExceptionHandler::BackendError.new($!, "Unhandled exception or status code (#{$!.message})")
       end
     end
 
