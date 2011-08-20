@@ -144,7 +144,7 @@ module Deltacloud
 
         def delete_firewall_rule(credentials, opts={})
           ec2 = new_client(credentials)
-          firewall = opts[:id]
+          firewall = opts[:firewall]
           protocol, from_port, to_port, addresses, groups = firewall_rule_params(opts[:rule_id])
           unless groups.nil?
             groups.each_index do |i|
