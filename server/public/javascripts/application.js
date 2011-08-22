@@ -108,33 +108,27 @@ var addresses = 0;
 var groups = 0;
 function make_fields(type)
 {
-  form = document.getElementById("new_rule_form")
-  button = document.getElementById("submit_button")
-  if(type == "address")
+  if (type == "address")
   {
     name = "ip_address" + eval(++addresses)
-    create_rule_source_field(name, "Address " + eval(addresses) + " [use CIDR notation 0.0.0.0/0]", form, button)
+    create_rule_source_field(name, "Address " + eval(addresses),
+                             "[use CIDR notation 0.0.0.0/0]")
   }
-  else if(type == "group")
+  else if (type == "group")
   {
     name = "group" + eval(++groups)
-    create_rule_source_field(name, "Name of group " + eval(groups), form, button)
+    create_rule_source_field(name, "Name of group " + eval(groups), "")
     name = "group" + eval(groups) + "owner"
-    create_rule_source_field(name, "Group " + eval(groups) + " owner (required)", form, button)
+    create_rule_source_field(name, "Group " + eval(groups) + " owner", "(required)")
   }
 }
 
-function create_rule_source_field(name, label, form, button)
+function create_rule_source_field(name, label, hint)
 {
-    element = document.createElement("INPUT")
-    element.type = "input"
-    element.size = 35
-    element.name = name
-    text = document.createTextNode(label)
-    form.insertBefore(element, button)
-    form.insertBefore(text, element)
-    form.insertBefore(document.createElement('BR'), element)
-    form.insertBefore(document.createElement('BR'), button)
-    form.insertBefore(document.createElement('BR'), button)
-    form.insertBefore(document.createElement('BR'), button)
+  html = "<br/>" +
+    "<label>" + label + "</label>&nbsp;" +
+    "<input name='" + name + "' size=35 type='text'/>" +
+    "<span>&nbsp;" + hint + "</span>"
+
+  $(html).insertBefore("#new_rule_form_fields")
 }
