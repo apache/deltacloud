@@ -277,13 +277,22 @@ head:first-child+body #projects dl {
   background: url(footer_corner.png) no-repeat;
 }
 
+#footer-deltacloud .container {
+  padding-top: 10px;
+}
+
 #footer-deltacloud p {
   top: 0px;
   left: 0px;
   margin: 0px;
   border: 0px;
-  width: 220px;
   float: left;
+  color: white
+}
+
+#footer-deltacloud p#disclaimer {
+  width: 700px;
+  padding-left: 5px;
 }
 
 #footer-deltacloud p a img {
