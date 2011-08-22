@@ -1,15 +1,9 @@
 =header "Addresses" do
-  %a{ :href => create_address_url, :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => "false", :'method' => :post} Create new address
+  %a{ :href => "#", :onclick => "create_address('#{create_address_url}')", :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => "false", :method => :post} Create new address
 =subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
-  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+  %ul#address_list{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     %li{ :'data-role' => 'list-divider'}=driver_symbol
     - @elements.each do |address|
-      %li
-        %a{ :href => address_url(address.id), :'data-ajax' => 'false'}
-          %img{ :class => 'ui-link-thumb', :src => '/images/address.png'}
-          %h3=address.id
-          %span{ :class => 'ui-li-count'}=address.instance_id ? address.instance_id : 'Free'
-
-
+      = haml :"addresses/_address", :locals => { :@address => address, :partial => true }
