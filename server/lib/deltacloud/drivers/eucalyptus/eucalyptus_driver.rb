@@ -137,7 +137,7 @@ module Deltacloud
           elsif !(opts['addresses'].nil?) && opts['addresses'].length>0
             ec2 = new_client(credentials)
             opts['addresses'].each do |ip|
-              ec2.authorize_security_group_IP_ingress(opts['id'], opts['from_port'], opts['to_port'], opts['protocol'], ip)
+              ec2.authorize_security_group_IP_ingress(opts['id'], opts['port_from'], opts['port_to'], opts['protocol'], ip)
             end
           end
         end
