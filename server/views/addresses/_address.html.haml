@@ -1,0 +1,6 @@
+%li
+  %a{ :href => address_url(@address.id), :'data-ajax' => 'false'}
+    %img{ :class => 'ui-link-thumb', :src => '/images/address.png'}
+    %h3= @address.id
+    %span{ :class => 'ui-li-count'}
+      = @address.instance_id ? @address.instance_id : 'Free'

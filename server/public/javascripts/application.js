@@ -132,3 +132,12 @@ function create_rule_source_field(name, label, hint)
 
   $(html).insertBefore("#new_rule_form_fields")
 }
+
+function create_address(url)
+{
+  $.post(url, function(data) {
+    var ul = $('#address_list')
+    ul.append($(data))
+    ul.listview('refresh')
+  })
+}
