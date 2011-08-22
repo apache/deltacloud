@@ -1077,9 +1077,9 @@ collection :firewalls do
 
   operation :new_rule, :form => true, :member => true, :method => :get do
     description "A form to create a new firewall rule"
-    param :firewall,  :string,  :optional
+    param :id,  :string,  :required
     control do
-      @firewall_name = params[:firewall]
+      @firewall_name = params[:id]
       respond_to do |format|
         format.html {haml :"firewalls/new_rule" }
       end
