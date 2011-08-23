@@ -1,26 +1,27 @@
 =header "Create new blob"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => bucket_url(@bucket_id), :method => :post, :enctype => 'multipart/form-data'}
+  %form{ :action => bucket_url(@bucket_id), :method => :post, :enctype => 'multipart/form-data', "data-ajax" => "false"}
     %div{ 'data-role' => :fieldcontain }
       %label
         Blob Name:
       %input{ :name => 'blob_id', :size => 512}/
-      %input{ :type => "hidden", :name => "meta_params", :value => "0"}
-    %a{ :href => "javascript:;", :onclick => "more_fields();"} Add Metadata
-    %div{ :id => "metadata_holder", :style => "display: none;", :'data-role' => :fieldcontain}
-      %div{ 'data-role' => :fieldcontain }
-        %label
-          Metadata Key:
-        %input{ :type => "text", :name => "meta_name", :value => ""}/
-      %div{ 'data-role' => :fieldcontain }
-        %label
-          Metadata Value:
-        %input{ :type => "text", :name => "meta_value", :value => ""}/
-    %a{ :href => "javascript:;", :onclick => "less_fields();"} Less Metadata
     %div{ 'data-role' => :fieldcontain }
       %label
         Blob Data:
       %input{ :type => "file", :name => 'blob_data', :size => 50}/
-
+    %input{ :type => "hidden", :name => "meta_params", :value => "0"}
+    %a{ :href => "javascript:;", :onclick => "more_fields();"} Add Metadata
+    %div{ :id => "metadata_holder", :style => "display: none;", :'data-role' => :fieldcontain}
+      %label
+        Metadata Key:
+      %input{ :type => "text", :name => "meta_name", :value => ""}/
+      %br
+      %label
+        Metadata Value:
+      %input{ :type => "text", :name => "meta_value", :value => ""}/
+      %br
+    %a{ :href => "javascript:;", :onclick => "less_fields();"} Less Metadata
+    %br
+    %br
     %input{ :type => :submit, :name => "commit", :value => "create"}/
