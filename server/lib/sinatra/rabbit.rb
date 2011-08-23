@@ -23,6 +23,10 @@ module Sinatra
 
   module Rabbit
 
+    def self.routes
+      @routes ||= []
+    end
+
     class DuplicateParamException < Deltacloud::ExceptionHandler::DeltacloudException; end
     class DuplicateOperationException < Deltacloud::ExceptionHandler::DeltacloudException; end
     class DuplicateCollectionException < Deltacloud::ExceptionHandler::DeltacloudException; end
@@ -84,6 +88,7 @@ module Sinatra
 
       def generate_documentation
         coll, oper = @collection, self
+        Rabbit::routes << [:get, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@collection.name}/#{@name}"]
         ::Sinatra::Application.get("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@collection.name}/#{@name}") do
           @collection, @operation = coll, oper
           @features = driver.features_for_operation(coll.name, oper.name)
@@ -96,6 +101,7 @@ module Sinatra
 
       def generate_options
         current_operation = self
+        Rabbit::routes << [:options, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{current_operation.collection.name}/#{current_operation.name}"]
         ::Sinatra::Application.options("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{current_operation.collection.name}/#{current_operation.name}") do
           required_params = current_operation.effective_params(driver).collect do |name, validation|
             name.to_s if validation.type.eql?(:required)
@@ -136,6 +142,7 @@ module Sinatra
       end
 
       def generate
+        Rabbit::routes << [@method, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{path}"]
         ::Sinatra::Application.send(@method, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{path}", {}, &@control)
         # Set up some Rails-like URL helpers
         if name == :index
@@ -218,6 +225,7 @@ module Sinatra
 
       def generate_head
         current_collection = self
+        Rabbit::routes << [:head, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}"]
         ::Sinatra::Application.head("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}") do
           methods_allowed = current_collection.operations.collect { |o| o[1].method.to_s.upcase }.uniq.join(',')
           headers 'Allow' => "HEAD,OPTIONS,#{methods_allowed}"
@@ -227,6 +235,7 @@ module Sinatra
 
       def generate_options
         current_collection = self
+        Rabbit::routes << [:options, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}"]
         ::Sinatra::Application.options("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}") do
           operations_allowed = current_collection.operations.collect { |o| o[0] }.join(',')
           headers 'X-Operations-Allowed' => operations_allowed
@@ -236,6 +245,7 @@ module Sinatra
 
       def generate_documentation
         coll = self
+        Rabbit::routes << [:get, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@name}"]
         ::Sinatra::Application.get("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@name}") do
           coll.check_supported(driver)
           @collection = coll
