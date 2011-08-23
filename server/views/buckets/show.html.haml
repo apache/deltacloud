@@ -8,7 +8,7 @@
       %p{ :'data-role' => 'fieldcontain'}=@bucket.name
     %li{ :'data-role' => 'list-divider'} Size
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@bucket.name
+      %p{ :'data-role' => 'fieldcontain'}=@bucket.size
     %li{ :'data-role' => 'list-divider'}
       Blobs
     - @bucket.blob_list.each do |blob|
