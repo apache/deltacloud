@@ -91,6 +91,14 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
+desc "List all REST routes defined through Rabbit"
+task :routes do
+  require 'server.rb'
+  Sinatra::Rabbit::routes.each do |m, path|
+    puts sprintf("\033[1;30m%-8s\033[0m %s", m.to_s.upcase, path)
+  end
+end
+
 namespace :mock do
   namespace :fixtures do
     desc "Setup Mock driver fixtures"
