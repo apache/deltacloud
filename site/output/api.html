@@ -1905,8 +1905,8 @@
         updating a <strong><em>blob</em></strong> object. As with the <code>PUT</code> method for creating/updating a
         <strong><em>blob</em></strong>, the client must specify the <strong><em>bucket</em></strong> in which the <strong><em>blob</em></strong> is to
         be created through the call URI (i.e. you <code>POST</code> to the specified <strong><em>bucket</em></strong>).
-        The rest of the required fields, that is, the name of the <strong><em>blob</em></strong>, the
-         <strong><em>blob_data</em></strong> and the <strong><em>content-length</em></strong> are specified by the client as
+        The rest of the required fields, that is, the <strong><em>blob_id</em></strong> (name of the blob),
+        the  <strong><em>blob_data</em></strong> and the <strong><em>content-length</em></strong> are specified by the client as
         <strong><em>multipart/form-data</em></strong> (i.e. in <code>HTTP POST</code> form fields).</p>
         
         <p>In order to specify the optional user metadata for a given <strong><em>blob</em></strong> the client
@@ -1927,7 +1927,7 @@
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/buckets/mybucket?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N&#x000A;Accept: */*&#x000A;Content-Length: 113582&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob"&#x000A;&#x000A;12Jul2011blob&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob_data"; filename="small.txt"&#x000A;Content-Type: text/plain&#x000A;&#x000A;&lt;THE_BLOB_DATA_HERE&gt;&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_params"&#x000A;&#x000A;2&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name1"&#x000A;&#x000A;author&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value1"&#x000A;jjs&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name2"&#x000A;&#x000A;version&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value2"&#x000A;&#x000A;2.2&#x000A;------------------------------517f5f2df858--&#x000A;</code></pre>
+        <pre><code>POST /api/buckets/mybucket?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N&#x000A;Accept: */*&#x000A;Content-Length: 113584&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob_id"&#x000A;&#x000A;12Jul2011blob&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob_data"; filename="small.txt"&#x000A;Content-Type: text/plain&#x000A;&#x000A;&lt;THE_BLOB_DATA_HERE&gt;&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_params"&#x000A;&#x000A;2&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name1"&#x000A;&#x000A;author&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value1"&#x000A;jjs&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name2"&#x000A;&#x000A;version&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value2"&#x000A;&#x000A;2.2&#x000A;------------------------------517f5f2df858--&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -2000,14 +2000,14 @@
         </p>
         <p id='disclaimer'>
           Apache Deltacloud is an effort undergoing incubation at The
-          Apache Software Foundation (ASF), sponsored by the name of
-          sponsor. Incubation is required of all newly accepted projects
-          until a further review indicates that the infrastructure,
-          communications, and decision making process have stabilized in a
-          manner consistent with other successful ASF projects. While
-          incubation status is not necessarily a reflection of the
-          completeness or stability of the code, it does indicate that the
-          project has yet to be fully endorsed by the ASF.
+          Apache Software Foundation (ASF), sponsored by the Apache
+          Incubator PMC. Incubation is required of all newly accepted
+          projects until a further review indicates that the
+          infrastructure, communications, and decision making process have
+          stabilized in a manner consistent with other successful ASF
+          projects. While incubation status is not necessarily a reflection
+          of the completeness or stability of the code, it does indicate
+          that the project has yet to be fully endorsed by the ASF.
         </p>
       </div>
     </div>
