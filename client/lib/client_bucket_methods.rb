@@ -42,7 +42,7 @@ module ClientBucketMethods
       end
       headers = headers.merge(metadata_headers)
     end
-    resource.send(:post, {:blob_data => File.new(params['file_path'], 'rb'), :blob => params[:id]}, headers) do |response, request, block|
+    resource.send(:post, {:blob_data => File.new(params['file_path'], 'rb'), :blob_id => params[:id]}, headers) do |response, request, block|
       handle_backend_error(response) if response.code.eql?(500)
       blob = base_object(:blob, response)
       yield blob if block_given?

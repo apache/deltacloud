@@ -789,7 +789,7 @@ end
 #create a new blob using html interface - NON STREAMING (i.e. browser POST http form data)
 post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
   bucket_id = params[:bucket]
-  blob_id = params['blob'] || params['blob_id']
+  blob_id = params['blob_id'] || params['blob'] #keep 'blob' just in case
   blob_data = params['blob_data']
   user_meta = {}
   #metadata from params (i.e., passed by http form post, e.g. browser)

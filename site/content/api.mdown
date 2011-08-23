@@ -3214,8 +3214,8 @@ The deltacloud server also responds to an alternative `POST` route for creating 
 updating a ***blob*** object. As with the `PUT` method for creating/updating a
 ***blob***, the client must specify the ***bucket*** in which the ***blob*** is to
 be created through the call URI (i.e. you `POST` to the specified ***bucket***).
-The rest of the required fields, that is, the name of the ***blob***, the
- ***blob_data*** and the ***content-length*** are specified by the client as
+The rest of the required fields, that is, the ***blob_id*** (name of the blob),
+the  ***blob_data*** and the ***content-length*** are specified by the client as
 ***multipart/form-data*** (i.e. in `HTTP POST` form fields).
 
 In order to specify the optional user metadata for a given ***blob*** the client
@@ -3240,12 +3240,12 @@ deltacloud HTML interface (provided for testing purposes).
     Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N
     Accept: */*
-    Content-Length: 113582
+    Content-Length: 113584
     Expect: 100-continue
     Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858
 
     ------------------------------517f5f2df858
-    Content-Disposition: form-data; name="blob"
+    Content-Disposition: form-data; name="blob_id"
 
     12Jul2011blob
     ------------------------------517f5f2df858
