@@ -1,9 +1,10 @@
 %global app_root %{_datadir}/%{name}
+%%global alphatag git
 
 Summary: Deltacloud REST API
 Name: deltacloud-core
-Version: 0.3.0
-Release: 12%{?dist}
+Version: 0.4.0
+Release: 0.1.%{alphatag}
 Group: Development/Languages
 License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
@@ -11,6 +12,7 @@ Source0: http://gems.rubyforge.org/gems/%{name}-%{version}.gem
 Source1: deltacloudd-fedora
 Source2: deltacloud-core
 Source3: deltacloud-core-config
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: rubygems
 Requires: ruby(abi) = 1.8
@@ -41,7 +43,6 @@ BuildRequires: rubygem(rspec) >= 1.3.0
 BuildRequires: rubygem(json) >= 1.4.0
 BuildArch: noarch
 Obsoletes: rubygem-deltacloud-core
-Provides: rubygem(deltacloud-core)
 
 %description
 The Deltacloud API is built as a service-based REST API.
@@ -60,28 +61,26 @@ Documentation for %{name}
 %package all
 Summary: Deltacloud Core with all drivers
 Requires: %{name} = %{version}-%{release}
-Requires: deltacloud-core-azure
 Requires: deltacloud-core-ec2
-Requires: deltacloud-core-gogrid
-Requires: deltacloud-core-mock
-Requires: deltacloud-core-opennebula
 Requires: deltacloud-core-rackspace
-Requires: deltacloud-core-rhevm
+Requires: deltacloud-core-gogrid
 Requires: deltacloud-core-rimuhosting
+Requires: deltacloud-core-rhevm
 Requires: deltacloud-core-sbc
-Requires: deltacloud-core-terremark
 
 %description all
 Deltacloud core with all available drivers
 
-%package azure
-Summary: Deltacloud Core for Azure
-Requires: %{name} = %{version}-%{release}
-Requires: rubygem(waz-blobs)
+# FIXME: Azure requires waz-blobs gem which is not yet included in Fedora repos
+#
+#%package azure
+#Summary: Deltacloud Core for Azure
+#Requires: %{name} = %{version}-%{release}
+#Requires: rubygem(waz-blobs)
 
-%description azure
-The azure sub-package brings in all dependencies necessary to use deltacloud
-core to connect to Azure.
+#%description azure
+#The azure sub-package brings in all dependencies necessary to use deltacloud
+#core to connect to Azure.
 
 %package ec2
 Summary: Deltacloud Core for EC2
@@ -92,6 +91,15 @@ Requires: rubygem(aws)
 The ec2 sub-package brings in all dependencies necessary to use deltacloud
 core to connect to EC2.
 
+%package eucalyptus
+Summary: Deltacloud Core for Eucalyptus
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(aws)
+
+%description eucalyptus
+The eucalyptus sub-package brings in all dependencies necessary to use deltacloud
+core to connect to EC2.
+
 %package gogrid
 Summary: Deltacloud Core for GoGrid
 Requires: %{name} = %{version}-%{release}
@@ -99,14 +107,6 @@ Requires: %{name} = %{version}-%{release}
 %description gogrid
 The gogrid sub-package brings in all dependencies necessary to use deltacloud
 core to connect to GoGrid.
-
-%package mock
-Summary: Deltacloud Core for Mock
-Requires: %{name} = %{version}-%{release}
-
-%description mock
-The mock sub-package brings in all dependencies necessary to use deltacloud
-core to connect to Mock.
 
 %package opennebula
 Summary: Deltacloud Core for OpenNebula
@@ -135,6 +135,15 @@ Requires: rubygem(rest-client)
 The rhevm sub-package brings in all dependencies necessary to use deltacloud
 core to connect to RHEV-M.
 
+%package vsphere
+Summary: Deltacloud Core for vSphere
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(rbvmomi)
+
+%description vsphere
+The vsphere sub-package brings in all dependencies necessary to use deltacloud
+core to connect to VMware vSphere.
+
 %package rimuhosting
 Summary: Deltacloud Core for Rimuhosting
 Requires: %{name} = %{version}-%{release}
@@ -150,6 +159,19 @@ Requires: %{name} = %{version}-%{release}
 %description sbc
 The sbc sub-package brings in all dependencies necessary to use deltacloud core
 to connect to SBC.
+
+%package condor
+Summary: Deltacloud Core for CondorCloud
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(uuid)
+Requires: rubygem(rest-client)
+Requires: condor >= 7.4.0
+# FIXME: condor-vm-gaph is not yet included in Fedora
+# Requires: condor-vm-gaph >= 7.4.0
+
+%description condor
+The condor sub-package brings in all dependencies necessary to use deltacloud core
+to connect to CondorCloud.
 
 %package terremark
 Summary: Deltacloud Core for Terremark
@@ -183,11 +205,23 @@ find %{buildroot}%{app_root}/lib -type f | xargs chmod -x
 chmod -x %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 chmod 0755 %{buildroot}%{_initddir}/%{name}
 chmod 0755 %{buildroot}%{app_root}/bin/deltacloudd
-rm -rf %{buildroot}%{app_root}/support
+# Temporary remove Azure drivers until all dependencies will be pushed in to Fedora
+rm -rf %{buildroot}%{app_root}/config/drivers/azure.yaml
+rm -rf %{buildroot}%{app_root}/support/fedora
 rdoc --op %{buildroot}%{_defaultdocdir}/%{name}
+
+%install condor
+install -m 0655 %{buildroot}%{app_root}/support/condor/config/condor-cloud \
+  %{buildroot}%{_sysconfdir}/sysconfig/condor-cloud
+install -m 0655 %{buildroot}%{app_root}/support/condor/config/50* \
+  %{buildroot}%{_sysconfdir}/condor/config.d
+install -m 0755 %{buildroot}%{app_root}/support/condor/bash/* \
+  %{buildroot}%{_libexecdir}/condor
+rm -rf %{buildroot}%{app_root}/support/condor
 
 %check
 pushd %{buildroot}%{app_root}
+rake mock:fixtures:clean
 rake test:mock
 popd
 
@@ -219,7 +253,8 @@ fi
 %{app_root}/*.rb
 %{app_root}/views
 %{app_root}/lib
-%{app_root}/config
+%dir %{app_root}/config/drivers
+%{app_root}/config/drivers/mock.yaml
 %dir %{app_root}/public
 %{app_root}/public/images
 %{app_root}/public/stylesheets
@@ -237,42 +272,82 @@ fi
 %{app_root}/%{name}.gemspec
 %{app_root}/Rakefile
 
-%files all
-%defattr(-, root, root, -)
-
-%files azure
-%defattr(-, root, root, -)
+#%files azure
+#%defattr(-, root, root, -)
 
 %files ec2
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/ec2.yaml
+
+%files eucalyptus
+%defattr(-, root, root, -)
+%{app_root}/config/drivers/eucalyptus.yaml
 
 %files gogrid
 %defattr(-, root, root, -)
-
-%files mock
-%defattr(-, root, root, -)
+%{app_root}/config/drivers/gogrid.yaml
 
 %files opennebula
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/opennebula.yaml
 
 %files rackspace
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/rackspace.yaml
 
 %files rhevm
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/rhevm.yaml
 
 %files rimuhosting
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/rimuhosting.yaml
 
 %files sbc
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/sbc.yaml
+
+%files vsphere
+%defattr(-, root, root, -)
+%{app_root}/config/drivers/vsphere.yaml
 
 %files terremark
 %defattr(-, root, root, -)
+%{app_root}/config/drivers/terremark.yaml
+
+%files condor
+%defattr(-, root, root, -)
+%{app_root}/config/drivers/condor.yaml
+%{app_root}/config/condor.yaml
+%{app_root}/config/addresses.xml
+%%config(noreplace) %{_sysconfdir}/sysconfig/condor-cloud
+%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud.config
+%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud_node.config
+%{_libexecdir}/condor/cached_images.sh
+%{_libexecdir}/condor/cloud_exit_hook.sh
+%{_libexecdir}/condor/cloud_functions
+%{_libexecdir}/condor/cloud_prepare_hook.sh
+%{_libexecdir}/condor/libvirt_cloud_script.sh
+
+%files all
+%defattr(-, root, root, -)
 
 %changelog
-* Mon Aug 01 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-12
-- Add the -all package
+* Mon Jul 26 2011 Michal Fojtik <mfojtik@redhat.com> - 0.4.0-0.1.git
+- Deltacloud core GIT build
+
+* Mon Jul 11 2011 Michal Fojtik <mfojtik@redhat.com> - 0.4.0-1
+- Version bump to 0.4.0
+- Added CondorCloud driver
+
+* Mon Jul 11 2011 Michal Fojtik <mfojtik@redhat.com> - 0.3.0-11
+- Added virtual package with all drivers
+
+* Fri Jun 7 2011 Michal Fojtik <mfojtik@redhat.com> - 0.3.0-10
+- Added patch to handle long usernames
+
+* Fri Jun 3 2011 Michal Fojtik <mfojtik@redhat.com> - 0.3.0-9
+- Removed Azure and Terremark driver because of unsatisfied dependencies
 
 * Tue May 31 2011 Chris Lalancette <clalance@redhat.com> - 0.3.0-8
 - Create sub-packages to bring in dependencies

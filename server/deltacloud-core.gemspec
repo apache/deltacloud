@@ -43,6 +43,8 @@ Gem::Specification.new do |s|
     'config/*.xml',
     'tmp',
     'support/fedora/**',
+    'support/condor/bash/**',
+    'support/condor/config/**',
     'lib/**/*.rb',
     'lib/**/*.yml',
     'tests/**/*.rb',
