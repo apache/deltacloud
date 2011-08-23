@@ -786,6 +786,21 @@ put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
   end
 end
 
+#get html form for creating a new blob
+
+# The URL for getting the new blob form for the HTML UI looks like the URL
+# for getting the details of an existing blob. To make collisions less
+# likely, we use a name for the form that will rarely be the name of an
+# existing blob
+NEW_BLOB_FORM_ID = "new_blob_form_d15cfd90"
+
+get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/#{NEW_BLOB_FORM_ID}" do
+  @bucket_id = params[:bucket]
+  respond_to do |format|
+    format.html {haml :"blobs/new"}
+  end
+end
+
 #create a new blob using html interface - NON STREAMING (i.e. browser POST http form data)
 post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
   bucket_id = params[:bucket]
@@ -893,16 +908,6 @@ collection :buckets do
     control do
       respond_to do |format|
         format.html { haml :"buckets/new" }
-      end
-    end
-  end
-
-  operation :new_bucket, :form => true, :method => :get, :member => true do
-    param :bucket,  :string
-    control do
-      @bucket_id = params[:bucket]
-      respond_to do |format|
-        format.html {haml :"blobs/new"}
       end
     end
   end
