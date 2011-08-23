@@ -17,6 +17,7 @@
 
 require 'deltacloud/base_driver'
 require 'yaml'
+require 'deltacloud/drivers/mock/mock_client'
 
 module Deltacloud::Drivers::Mock
 
@@ -87,18 +88,13 @@ module Deltacloud::Drivers::Mock
 
     def initialize
       if ENV["DELTACLOUD_MOCK_STORAGE"]
-        @storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
+        storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
       elsif ENV["USER"]
-        @storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
+        storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
       else
         raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
       end
-      if ! File::directory?(@storage_root)
-        FileUtils::rm_rf(@storage_root)
-        FileUtils::mkdir_p(@storage_root)
-        data = Dir::glob(File::join(File::dirname(__FILE__), "data", "*"))
-        FileUtils::cp_r(data, @storage_root)
-      end
+      @client = Client.new(storage_root)
     end
 
     def realms(credentials, opts=nil)
@@ -114,13 +110,7 @@ module Deltacloud::Drivers::Mock
     def images(credentials, opts=nil )
       check_credentials( credentials )
       images = []
-      Dir[ "#{@storage_root}/images/*.yml" ].each do |image_file|
-        image = YAML.load( File.read( image_file ) )
-        image[:id] = File.basename( image_file, ".yml" )
-        image[:name] = image[:description]
-        image[:state] = "AVAILABLE"
-        images << Image.new( image )
-      end
+      images = @client.build_all(Image)
       images = filter_on( images, :id, opts )
       images = filter_on( images, :architecture, opts )
       if ( opts && opts[:owner_id] == 'self' )
@@ -138,22 +128,20 @@ module Deltacloud::Drivers::Mock
         raise 'CreateImageNotSupported' unless instance and instance.can_create_image?
         image = {
           :id => opts[:name],
-	      :name => opts[:name],
-	      :owner_id => 'root',
+          :name => opts[:name],
+          :owner_id => 'root',
+          :state => "AVAILABLE",
           :description => opts[:description],
-          :architecture => 'i386',
-          :state => 'UP'
+          :architecture => 'i386'
         }
-        File.open( "#{@storage_root}/images/#{opts[:name]}.yml", 'w' ) do |f|
-          YAML.dump( image, f )
-        end
+        @client.store(:images, image)
         Image.new(image)
       end
     end
 
     def destroy_image(credentials, id)
       check_credentials( credentials )
-      FileUtils.rm( "#{@storage_root}/images/#{id}.yml" )
+      @client.destroy(:images, id)
     end
 
     #
@@ -162,25 +150,15 @@ module Deltacloud::Drivers::Mock
 
     def instance(credentials, opts={})
       check_credentials( credentials )
-      instance_filename = File.join(@storage_root, 'instances', "#{opts[:id]}.yml")
-      return nil unless File.exists?(instance_filename)
-      instance = YAML::load_file(instance_filename)
-      instance[:actions] = instance_actions_for( instance[:state] )
-      instance[:id] = File::basename(instance_filename, ".yml")
-      Instance.new(instance)
+      if instance = @client.load(:instances, opts[:id])
+        Instance.new(instance)
+      end
     end
 
     def instances(credentials, opts=nil)
       check_credentials( credentials )
-      instances = []
-      Dir[ "#{@storage_root}/instances/*.yml" ].each do |instance_file|
-        instance = YAML::load_file(instance_file)
-        if ( instance[:owner_id] == credentials.user )
-          instance[:id] = File.basename( instance_file, ".yml" )
-          instance[:actions] = instance_actions_for( instance[:state] )
-          instances << Instance.new( instance )
-        end
-      end
+      instances = @client.build_all(Instance)
+      instances = filter_on( instances, :owner_id, :owner_id => credentials.user )
       instances = filter_on( instances, :id, opts )
       instances = filter_on( instances, :state, opts )
       instances
@@ -188,7 +166,7 @@ module Deltacloud::Drivers::Mock
 
     def create_instance(credentials, image_id, opts)
       check_credentials( credentials )
-      ids = Dir[ "#{@storage_root}/instances/*.yml" ].collect{|e| File.basename( e, ".yml" )}
+      ids = @client.members(:instances)
 
       count = 0
       while true
@@ -210,6 +188,7 @@ module Deltacloud::Drivers::Mock
       name = opts[:name] || "i-#{Time.now.to_i}"
 
       instance = {
+        :id => next_id,
         :name=>name,
         :state=>'RUNNING',
         :keyname => opts[:keyname],
@@ -223,23 +202,16 @@ module Deltacloud::Drivers::Mock
         :actions=>instance_actions_for( 'RUNNING' ),
         :user_data => opts[:user_data]
       }
-      File.open( "#{@storage_root}/instances/#{next_id}.yml", 'w' ) {|f|
-        YAML.dump( instance, f )
-      }
-      instance[:id] = next_id
+      @client.store(:instances, instance)
       Instance.new( instance )
     end
 
     def update_instance_state(credentials, id, state)
-      instance_file = "#{@storage_root}/instances/#{id}.yml"
-      instance_yml  = YAML.load( File.read( instance_file ) )
-      instance_yml[:id] = id
-      instance_yml[:state] = state
-      instance_yml[:actions] = instance_actions_for( instance_yml[:state] )
-      File.open( instance_file, 'w' ) do |f|
-        f << YAML.dump( instance_yml )
-      end
-      Instance.new( instance_yml )
+      instance  = @client.load(:instances, id)
+      instance[:state] = state
+      instance[:actions] = instance_actions_for( instance[:state] )
+      @client.store(:instances, instance)
+      Instance.new( instance )
     end
 
     def start_instance(credentials, id)
@@ -257,7 +229,7 @@ module Deltacloud::Drivers::Mock
 
     def destroy_instance(credentials, id)
       check_credentials( credentials )
-      FileUtils.rm( "#{@storage_root}/instances/#{id}.yml" )
+      @client.destroy(:instances, id)
     end
 
     #
@@ -266,14 +238,7 @@ module Deltacloud::Drivers::Mock
 
     def storage_volumes(credentials, opts=nil)
       check_credentials( credentials )
-      volumes = []
-      Dir[ "#{@storage_root}/storage_volumes/*.yml" ].each do |storage_volume_file|
-        storage_volume = YAML.load( File.read( storage_volume_file ) )
-        if ( storage_volume[:owner_id] == credentials.user )
-          storage_volume[:id] = File.basename( storage_volume_file, ".yml" )
-          volumes << StorageVolume.new( storage_volume )
-        end
-      end
+      volumes = @client.build_all(StorageVolume)
       volumes = filter_on( volumes, :id, opts )
       volumes
     end
@@ -284,25 +249,14 @@ module Deltacloud::Drivers::Mock
 
     def storage_snapshots(credentials, opts=nil)
       check_credentials( credentials )
-      snapshots = []
-      Dir[ "#{@storage_root}/storage_snapshots/*.yml" ].each do |storage_snapshot_file|
-        storage_snapshot = YAML.load( File.read( storage_snapshot_file ) )
-        if ( storage_snapshot[:owner_id] == credentials.user )
-          storage_snapshot[:id] = File.basename( storage_snapshot_file, ".yml" )
-          snapshots << StorageSnapshot.new( storage_snapshot )
-        end
-      end
-      snapshots = filter_on( snapshots, :id, opts )
+      snapshots = @client.build_all(StorageSnapshot)
+      snapshots = filter_on(snapshots, :id, opts )
       snapshots
     end
 
     def keys(credentials, opts={})
       check_credentials(credentials)
-      result = []
-      key_dir = File.join(@storage_root, 'keys')
-      Dir[key_dir + '/*.yml'].each do |key_file|
-        result << Key.new(YAML::load(File.read(key_file)))
-      end
+      result = @client.build_all(Key)
       result = filter_on( result, :id, opts )
       result
     end
@@ -319,23 +273,15 @@ module Deltacloud::Drivers::Mock
         :fingerprint => Key::generate_mock_fingerprint,
         :pem_rsa_key => Key::generate_mock_pem
       }
-      key_dir = File.join(@storage_root, 'keys')
-      if File.exists?(key_dir + "/#{key_hash[:id]}.yml")
-        raise "KeyExist"
-      end
-      FileUtils.mkdir_p(key_dir) unless File.directory?(key_dir)
-      File.open(key_dir + "/#{key_hash[:id]}.yml", 'w') do |f|
-        f.puts(YAML::dump(key_hash))
-      end
+
+      raise "KeyExist" if @client.load(:keys, key_hash[:id])
+      @client.store(:keys, key_hash)
       return Key.new(key_hash)
     end
 
     def destroy_key(credentials, opts={})
       key = key(credentials, opts)
-      safely do
-        key_dir = File.join(@storage_root, 'keys')
-        File.delete(key_dir + "/#{key.id}.yml")
-      end
+      @client.destroy(:keys, key.id)
     end
 
     #--
@@ -343,22 +289,14 @@ module Deltacloud::Drivers::Mock
     #--
     def buckets(credentials, opts={})
       check_credentials(credentials)
-      buckets=[]
-      safely do
-        unless (opts[:id].nil?)
-          bucket_file = File::join(@storage_root, 'buckets', "#{opts[:id]}.yml")
-          bucket = YAML.load_file(bucket_file)
-          bucket[:id] = opts[:id]
-          bucket[:name] = bucket[:id]
-          buckets << Bucket.new( bucket )
-        else
-          Dir[ File::join(@storage_root, 'buckets', '*.yml')].each do |bucket_file|
-            bucket_id = File.basename( bucket_file, ".yml" )
-            buckets << Bucket.new( {:id => bucket_id, :name => bucket_id } )
-          end
-        end
+      buckets = @client.build_all(Bucket)
+      blob_map = @client.load_all(:blobs).inject({}) do |map, blob|
+        map[blob[:bucket]] ||= []
+        map[blob[:bucket]] << blob[:id]
+        map
       end
-      buckets = filter_on( buckets, :id, opts )
+      buckets.each { |bucket| bucket.blob_list = blob_map[bucket.id] }
+      filter_on( buckets, :id, opts )
     end
 
     #--
@@ -372,7 +310,7 @@ module Deltacloud::Drivers::Mock
         :size=>'0',
         :blob_list=>[]
       }
-      File.open( File::join(@storage_root, 'buckets', "#{name}.yml"), 'w') {|b| YAML.dump( bucket, b )}
+      @client.store(:buckets, bucket)
       Bucket.new(bucket)
     end
 
@@ -382,12 +320,8 @@ module Deltacloud::Drivers::Mock
     def delete_bucket(credentials, name, opts={})
       check_credentials(credentials)
       bucket = bucket(credentials, {:id => name})
-      unless (bucket.size == "0")
-        raise "BucketNotEmpty"
-      end
-      safely do
-        File.delete(File::join(@storage_root, 'buckets', "#{name}.yml"))
-      end
+      raise "BucketNotEmpty" unless (bucket.size == "0")
+      @client.destroy(:buckets, bucket.id)
     end
 
     #--
@@ -395,16 +329,9 @@ module Deltacloud::Drivers::Mock
     #--
     def blobs(credentials, opts = {})
       check_credentials(credentials)
-      blobs=[]
-      blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml")
-      safely do
-        blob = YAML.load_file(blobfile)
-        return [] unless blob[:bucket] == opts['bucket'] #can't return nil since base_driver invokes .first on return
-        blob[:id] = File.basename( blobfile, ".yml" )
-        blob[:name] = blob[:id]
-        blobs << Blob.new( blob )
-        blobs = filter_on( blobs, :id, opts )
-      end
+      blobs = @client.build_all(Blob)
+      filter_on( blobs, :bucket, :bucket => opts['bucket'] )
+      filter_on( blobs, :id, opts )
     end
 
     #--
@@ -412,12 +339,9 @@ module Deltacloud::Drivers::Mock
     #--
     def blob_data(credentials, bucket_id, blob_id, opts = {})
       check_credentials(credentials)
-      blob=nil
-      safely do
-        blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts['blob']}.yml")
-        blob = YAML.load_file(blobfile)
+      if blob = @client.load(:blobs, blob_id)
+        blob[:content].each {|part| yield part}
       end
-      blob[:content].each {|part| yield part}
     end
 
     #--
@@ -428,6 +352,7 @@ module Deltacloud::Drivers::Mock
       blob_meta = BlobHelper::extract_blob_metadata_hash(opts)
       blob = {
         :id => blob_id,
+        :name => blob_id,
         :bucket => bucket_id,
         :content_length => blob_data[:tempfile].length,
         :content_type => blob_data[:type],
@@ -435,7 +360,7 @@ module Deltacloud::Drivers::Mock
         :user_metadata => BlobHelper::rename_metadata_headers(blob_meta, ''),
         :content => blob_data[:tempfile].read
       }
-      File.open( File::join("#{@storage_root}", "buckets", "blobs", "#{blob_id}.yml"), 'w' ) {|b| YAML.dump( blob, b )}
+      @client.store(:blobs, blob)
       Blob.new(blob)
     end
 
@@ -444,12 +369,9 @@ module Deltacloud::Drivers::Mock
     #--
     def delete_blob(credentials, bucket_id, blob_id, opts={})
       check_credentials(credentials)
-      blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{blob_id}.yml")
       safely do
-        unless File.exists?(blobfile)
-          raise "NotExistentBlob"
-        end
-        File.delete(blobfile)
+        raise "NotExistentBlob" unless @client.load(:blobs, blob_id)
+        @client.destroy(:blobs, blob_id)
       end
     end
 
@@ -458,14 +380,11 @@ module Deltacloud::Drivers::Mock
     #--
     def blob_metadata(credentials, opts={})
       check_credentials(credentials)
-      blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml")
-      #safely do - mechanism not suitable here since head requests don't return a body response
-      begin
-        blob = YAML.load_file(blobfile)
-      rescue Errno::ENOENT
-        return nil #server.rb picks this up and gives 404
+      if blob = @client.load(:blobs, params[:id])
+        blob[:user_metadata]
+      else
+        nil
       end
-      blob[:user_metadata]
     end
 
     #--
@@ -473,12 +392,11 @@ module Deltacloud::Drivers::Mock
     #--
     def update_blob_metadata(credentials, opts={})
       check_credentials(credentials)
-      blobfile = File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml")
       safely do
-        blob = YAML.load_file(blobfile)
+        blob = @client.load(:blobs, params[:id])
         return false unless blob
         blob[:user_metadata] = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
-        File.open(File::join("#{@storage_root}", "buckets", "blobs", "#{opts[:id]}.yml"), 'w' ) {|b| YAML.dump( blob, b )}
+        @client.store(:blobs, blob)
       end
     end
 

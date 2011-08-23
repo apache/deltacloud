@@ -1,7 +1,8 @@
-:owner_id: fedoraproject
+---
 :realm_id: us
-:created: Thu Jul 30 14:35:11 UTC 2009
-:state: AVAILABLE
 :capacity: 1
 :device:
+:created: Thu Jul 30 14:35:11 UTC 2009
 :instance_id:
+:id: vol1
+:state: AVAILABLE

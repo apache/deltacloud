@@ -1,4 +1,5 @@
-:owner_id: mockuser
+---
 :created: Wed Jul 29 18:15:24 UTC 2009
-:state: COMPLETED
 :storage_volume_id: vol2
+:id: snap3
+:state: COMPLETED

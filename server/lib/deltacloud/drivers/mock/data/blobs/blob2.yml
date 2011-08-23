@@ -1,8 +1,10 @@
---- 
-:user_metadata: 
-  VERSION: "1.2"
-:content_type: text/html
+---
 :content_length: 56
-:bucket: bucket1
+:content_type: text/html
 :last_modified: 2010-09-23 16:55:05 +0100
 :content: <html><head></head><body>content of blob 2</body></html>
+:name: blob2
+:user_metadata:
+  VERSION: "1.2"
+:bucket: bucket1
+:id: blob2

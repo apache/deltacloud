@@ -1,0 +1,10 @@
+---
+:content_length: 17
+:content_type: text/plain
+:last_modified: 2010-09-23 16:44:54 +0100
+:content: content of blob 1
+:name: blob1
+:user_metadata:
+  SOMENEWKEY: NEWVALUE
+:bucket: bucket1
+:id: blob1

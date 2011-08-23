@@ -1,10 +1,17 @@
-:name: AnotherInstance
-:state: RUNNING
-:image_id: img1
-:owner_id: anotheruser
-:public_addresses: [ img1.inst2.public.com ]
-:private_addresses: [ img1.inst2.private.com ]
-:realm_id: us
+---
 :instance_profile: !ruby/object:InstanceProfile
   id: m1-large
+:realm_id: us
+:owner_id: anotheruser
+:public_addresses:
+- img1.inst2.public.com
+:private_addresses:
+- img1.inst2.private.com
 :create_image: true
+:image_id: img1
+:name: AnotherInstance
+:id: inst2
+:state: RUNNING
+:actions:
+- :reboot
+- :stop
