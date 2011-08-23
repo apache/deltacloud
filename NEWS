@@ -3,6 +3,8 @@ Server:
   * deltacloudd: new option --drivers to list all drivers
   * deltacloudd: new options --ssl, --ssl-key and --ssl-cert to
     enable HTTPS support
+  * deltacloudd: new option -d to daemonize server, --user and --pid to
+    control the user server runs as and where pid file goes
   * API entrypoint reports features in JSON
   * unify response behavior: any operation returning a 201 Created also
     sets the Location header to point to the new resource; ensure the
@@ -20,6 +22,7 @@ Server:
   * split server/config/drivers.yaml into individual files so each driver
     can be packaged separately; gives deployers better choice of what
     drivers they want enabled
+  * new rake task 'routes' that prints all server routes
   * Numerous bug fixes and improvements to the test suite
   * Drivers
     + Condor
@@ -47,6 +50,8 @@ Server:
       - report a listener if load_balancer has no instances
     + Mock
       - support destroying images
+      - split into driver and client to make the code clearer; this should
+        help driver writers in understanding what a driver must do
     + Rackspace
       - support destroying images
       - stream blob PUT to backend (requires thin)
@@ -73,6 +78,7 @@ Client:
 Site:
   * Major rewrite of REST API docs, covers the entire API now
   * Add libdeltacloud API docs
+  * Add Incubator logo and disclaimer to all pages
 
 0.3.0 - 2011-04-01
 Server:
