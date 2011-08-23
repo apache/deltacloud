@@ -1,7 +1,0 @@
-:bucket: bucket1
-:content_length: 17
-:content_type: text/plain
-:last_modified: 2010-08-14 02:14:31 +0100
-:content:
-    content of blob 3
-:user_metadata: ''

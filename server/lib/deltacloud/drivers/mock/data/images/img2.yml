@@ -1,3 +1,7 @@
-:description: Fedora 10
-:owner_id: fedoraproject
+---
 :architecture: i386
+:owner_id: fedoraproject
+:state: AVAILABLE
+:id: img2
+:name: img2
+:description: Fedora 10

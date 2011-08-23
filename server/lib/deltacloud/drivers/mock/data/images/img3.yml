@@ -1,3 +1,7 @@
-:description: JBoss
-:owner_id: mockuser
+---
 :architecture: i386
+:owner_id: mockuser
+:state: AVAILABLE
+:id: img3
+:name: img3
+:description: JBoss

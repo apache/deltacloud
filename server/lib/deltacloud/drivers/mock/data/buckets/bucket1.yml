@@ -1,2 +1,8 @@
-:blob_list: [blob1, blob2, blob3]
+---
+:blob_list:
+- blob1
+- blob2
+- blob3
 :size: 3
+:name: bucket1
+:id: bucket1

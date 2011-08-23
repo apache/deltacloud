@@ -1,8 +1,10 @@
-:bucket: bucket2
+---
 :content_length: 17
 :content_type: application/octet-stream
 :last_modified: 2010-09-21 06:17:24 +0100
-:content:
-    content of blob 4
+:content: content of blob 4
+:name: blob4
 :user_metadata:
-    some: "value"
+  some: value
+:bucket: bucket2
+:id: blob4

@@ -1,3 +1,7 @@
-:description: Fedora 10
-:owner_id: fedoraproject
+---
 :architecture: x86_64
+:owner_id: fedoraproject
+:state: AVAILABLE
+:id: img1
+:name: img1
+:description: Fedora 10
