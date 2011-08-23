@@ -266,7 +266,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     unless state.respond_to?(:upcase)
       raise "State #{state.inspect} is not a string"
     end
-    case state.upcase
+    case state.strip.upcase
     when 'WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
       'RESTORING_STATE', 'POWERING_DOWN', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE' then
       'PENDING'
