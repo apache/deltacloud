@@ -1,0 +1,175 @@
+source /etc/sysconfig/condor-cloud
+
+ERROR_MSG=
+
+MISSING_DEPS=
+which qemu-img > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+   MISSING_DEPS="$MISSING_DEPS qemu-img"
+   return 1
+fi
+
+#
+# image_exists_global <image>
+#
+# Test to see if the given image is in the global image store. 0 is
+# returned if the image is present, 1 otherwise.
+#
+# This implementation uses the filesystem path $STORAGE as the global
+# store.
+#
+function image_exists_global {
+   IMAGE=$1
+   test -e $STORAGE/$IMAGE
+}
+
+#
+# image_exists_local <image>
+#
+# Test to see if the given image is in the local image store. 0 is
+# returned if the image is present, 1 otherwise.
+#
+# This implementation uses the filesystem path $CACHE as the local
+# store.
+#
+function image_exists_local {
+   IMAGE=$1
+   test -e $CACHE/$IMAGE
+}
+
+#
+# put_image <image>
+#
+# Put the image passed as the first argument, into the global image
+# store.  Return 0 on success and 1 on any failure.
+#
+# This implementation uses the filesystem path $STORAGE as the global
+# store.
+#
+function put_image {
+   IMAGE=$1
+   IMAGE_NAME=$(basename $IMAGE)
+
+   LOCK="$STORAGE/$IMAGE_NAME.lock"
+
+   CAT=cat; which pv > /dev/null 2>&1 && CAT=pv
+
+   while ! ( set -o noclobber; echo "$$" > $LOCK ) 2> /dev/null; do
+      echo "$LOCK held by $(cat $LOCK)" >2
+      sleep $((RANDOM % 29))
+   done
+
+   trap 'rm -f $LOCK; exit $?' INT TERM EXIT
+
+   RC=0
+   if ! image_exists_global $IMAGE_NAME; then
+      trap 'rm -f $LOCK; rm -f $STORAGE/$IMAGE_NAME; exit $?' INT TERM EXIT
+      ERROR_MSG=$($CAT $IMAGE > $STORAGE/$IMAGE_NAME)
+      if [ $? -eq 0 ]; then
+         # Permissions on the image are entirely open
+         chmod a=r $STORAGE/$IMAGE_NAME
+      else
+         RC=1
+      fi
+   fi
+
+   rm -f $LOCK; trap - INT TERM EXIT
+
+   return $RC
+}
+
+#
+# get_image <image>
+#
+# Get an image from the global image store and make a copy locally for
+# use by guest VMs. Return 0 on success and 1 on any failure.
+#
+# This implementation uses the filesystem path $STORAGE as the global
+# store and $CACHE as the local.
+#
+function get_image {
+   IMAGE=$1
+
+   LOCK="$CACHE/$IMAGE.lock"
+
+   if ! image_exists_global $IMAGE; then
+      ERROR_MSG="$STORAGE/$IMAGE not found"
+      return 1
+   fi
+
+   while ! ( set -o noclobber; echo "$$" > $LOCK ) 2> /dev/null; do
+      echo "$LOCK held by $(cat $LOCK)" >2
+      sleep $((RANDOM % 29))
+   done
+
+   trap 'rm -f $LOCK; exit $?' INT TERM EXIT
+
+   if ! image_exists_local $IMAGE; then
+      trap 'rm -f $LOCK; rm -f $CACHE/$IMAGE; exit $?' INT TERM EXIT
+      ERROR_MSG=$(cp $STORAGE/$IMAGE $CACHE/$IMAGE)
+      if [ $? -ne 0 ]; then
+         return 1
+      fi
+
+      # libvirt chowns the qcow2 image to qemu.qemu so that qemu can
+      # read/write it. The base image is not chowned, so we must make sure
+      # it is readable by qemu. If this is not done, a common VMGahpLog
+      # error will be:
+      #   Failed to create libvirt domain: monitor socket did not show up.:
+      #    No such file or directory
+      # Other than readable, no one should ever write to the file, so write
+      # perms are removed.
+      chmod a+r $CACHE/$IMAGE
+   fi
+
+   rm -f $LOCK
+   trap - INT TERM EXIT
+
+   return 0
+}
+
+#
+# make_image <image>
+#
+# Create a qcow2 image based off the given image and place it in the
+# local image store. The qcow2 image is echo'd to stdout. The return
+# value has no meaning.
+#
+# This implementation uses the filesystem path $CACHE as the local
+# store.
+#
+function make_image {
+   BASE_IMAGE=$1
+   LOCATION=$2
+
+   LOCK="$CACHE/$BASE_IMAGE.lock"
+
+   if ! image_exists_local $BASE_IMAGE; then
+      ERROR_MSG="$BASE_IMAGE not found"
+      return 1
+   fi
+
+   #
+   # Use the $LOCK as a barrier in case the image is concurrently
+   # being added to the $CACHE. Granted, that is a case that should
+   # never happen. Unfortunately, the existence of the $LOCK cannot be
+   # used as an assertion condition because a concurrent get_image
+   # will briefly create $LOCK even when the $BASE_IMAGE is already in
+   # the $CACHE.
+   #
+   while ! ( set -o noclobber; echo "$$" > $LOCK ) 2> /dev/null; do
+      echo "$LOCK held by $(cat $LOCK)" >2
+      sleep $((RANDOM % 29))
+   done
+   trap 'rm -f $LOCK; exit $?' INT TERM EXIT
+
+   IMAGE=$LOCATION/$BASE_IMAGE.qcow2
+
+   qemu-img create -f qcow2 -b $CACHE/$BASE_IMAGE $IMAGE > /dev/null 2>&1
+   # XXX: test for success, give return value meaning
+
+   rm -f $LOCK
+
+   echo $IMAGE
+   return 0
+}

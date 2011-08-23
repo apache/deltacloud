@@ -1,0 +1,2 @@
+STORAGE=/var/lib/condor-cloud/shared_images
+CACHE=/var/lib/condor-cloud/local_cache
