@@ -2,7 +2,7 @@
 =subheader @image.description
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => instances_url, :method => :post, :class => :new_instance }
+  %form{ :action => instances_url, :method => :post, :class => :new_instance, :'data-ajax' => 'false'}
     %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
 
     %div{ 'data-role' => :fieldcontain }
