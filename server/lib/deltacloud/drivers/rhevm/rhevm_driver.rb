@@ -37,6 +37,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
     constraint :max_length, 50
   end
 
+  feature :instances, :user_data
+
   USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
 
   # FIXME: These values are just for ilustration
@@ -192,6 +194,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
       params[:hwp_id] = opts[:hwp_id] if opts[:hwp_id]
       params[:hwp_memory] = opts[:hwp_memory] if opts[:hwp_memory]
       params[:hwp_cpu] = opts[:hwp_cpu] if opts[:hwp_cpu]
+      if opts[:user_data]
+        # NOTE: Injected data will be Base64 encoded to pass through XML
+        # attribute. You *need* to decode this file using a script inside guest.
+        params[:user_data] = opts[:user_data].gsub(/\n/,'')
+      end
       convert_instance(client, client.create_vm(image_id, params))
     end
   end
