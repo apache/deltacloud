@@ -23,8 +23,25 @@ require 'json'
 
 module RHEVM
 
+  #
+  # NOTE: Change this if you want to use Windows machine to (/c/something)
+  #
+  FILEINJECT_PATH = "/tmp/deltacloud.txt"
+
   def self.client(url)
     RestClient::Resource.new(url)
+  end
+
+  class BackendVersionUnsupportedException < StandardError; end
+  class RHEVMBackendException < StandardError
+    def initialize(message)
+      @message = message
+      super
+    end
+
+    def message
+      @message
+    end
   end
 
   class Client
@@ -66,6 +83,32 @@ module RHEVM
       return true
     end
 
+    def api_version?(major)
+      headers = {
+        :content_type => 'application/xml',
+        :accept => 'application/xml'
+      }
+      headers.merge!(auth_header)
+      result_xml = Nokogiri::XML(RHEVM::client(@api_entrypoint)["/"].get(headers))
+      (result_xml/'/api/system_version').first[:major].strip == major
+    end
+
+    def cluster_version?(cluster_id, major)
+      headers = {
+        :content_type => 'application/xml',
+        :accept => 'application/xml'
+      }
+      headers.merge!(auth_header)
+      result_xml = Nokogiri::XML(RHEVM::client(@api_entrypoint)["/clusters/%s" % cluster_id].get(headers))
+      (result_xml/'/cluster/version').first[:major].strip == major
+    end
+
+    def escape_user_data(data)
+      # Replace " with ' to keep quotes in XML attribute safe
+      data.gsub!(/"/, "'")
+      data
+    end
+
     def create_vm(template_id, opts={})
       opts ||= {}
       builder = Nokogiri::XML::Builder.new do
@@ -78,6 +121,30 @@ module RHEVM
           cpu {
             topology( :cores => (opts[:hwp_cpu] || '1'), :sockets => '1' )
           }
+          if opts[:user_data] and not opts[:user_data].empty?
+            if api_version?('3') and cluster_version?((opts[:realm_id] || clusters.first.id), '3')
+              #
+              # Clone is necessary to keep provisioning same as original template
+              # https://bugzilla.redhat.com/show_bug.cgi?id=733695
+              #
+              disks {
+                clone_ "true"
+              }
+              custom_properties {
+                #
+                # FIXME: 'regexp' parameter is just a temporary workaround. This
+                # is a reported and verified bug and should be fixed in next
+                # RHEV-M release.
+                #
+                custom_property({
+                  :name => "fileinject",
+                  :value => "#{RHEVM::FILEINJECT_PATH}:#{escape_user_data(Base64.decode64(opts[:user_data]))}",
+                  :regexp => "^.*:.*$"})
+              }
+            else
+              raise BackendVersionUnsupportedException.new
+            end
+          end
         }
       end
       headers = opts[:headers] || {}
@@ -86,7 +153,16 @@ module RHEVM
         :accept => 'application/xml',
       })
       headers.merge!(auth_header)
-      vm = RHEVM::client(@api_entrypoint)["/vms"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
+      begin
+        vm = RHEVM::client(@api_entrypoint)["/vms"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
+      rescue
+        if $!.respond_to?(:http_body)
+          fault = (Nokogiri::XML($!.http_body)/'/fault/detail').first
+          fault = fault.text.gsub(/\[|\]/, '') if fault
+        end
+        fault ||= $!.message
+        raise RHEVMBackendException::new(fault)
+      end
       RHEVM::VM::new(self, Nokogiri::XML(vm).root)
     end
 
