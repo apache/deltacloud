@@ -73,6 +73,9 @@ BANNER
   opts.on( '-t', '--timeout TIMEOUT', 'Timeout for single request (default: 60)') do |timeout|
     ENV["API_TIMEOUT"] = timeout
   end
+  opts.on( '-V', '--verbose', 'Set verbose logging on') do |verbose|
+    ENV["API_VERBOSE"] ||= 'true'
+  end
   opts.on( '-h', '--help', '') { options[:help] = true }
 
   opts.separator <<EOS
