@@ -201,9 +201,9 @@ module DeltaCloud
         # Do a HWP property for hardware profile properties
         if attribute.name == 'property'
           if attribute['value'] =~ /^(\d+)$/
-            obj.add_hwp_property!(attribute['name'], attribute, :float) && next
-          else
             obj.add_hwp_property!(attribute['name'], attribute, :integer) && next
+          else
+            obj.add_hwp_property!(attribute['name'], attribute, :float) && next
           end
         end
 
