@@ -211,7 +211,7 @@ else
   if options[:daemon]
     options[:env] = "production"
     argv_opts << [ "--daemonize", "--user", options[:user] || 'nobody', "--tag", "deltacloud-#{ENV['API_DRIVER']}"]
-    argv << [ "--pid", options[:pid]] if options[:pid]
+    argv_opts << [ "--pid", options[:pid]] if options[:pid]
   end
   argv_opts.flatten!
 
