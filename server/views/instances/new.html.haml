@@ -5,9 +5,10 @@
   %form{ :action => instances_url, :method => :post, :class => :new_instance, :'data-ajax' => 'false'}
     %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
 
-    %div{ 'data-role' => :fieldcontain }
-      %label{ :for => :name} Instance name:
-      %input{ :type => :text, :id => :name, :name => :name, :value => '' }
+    - if driver_has_feature?(:user_name)
+      %div{ 'data-role' => :fieldcontain }
+        %label{ :for => :name} Instance name:
+        %input{ :type => :text, :id => :name, :name => :name, :value => '' }
 
     %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
       %h3 Additional parameters

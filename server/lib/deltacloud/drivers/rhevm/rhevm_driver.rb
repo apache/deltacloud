@@ -195,8 +195,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
       params[:hwp_memory] = opts[:hwp_memory] if opts[:hwp_memory]
       params[:hwp_cpu] = opts[:hwp_cpu] if opts[:hwp_cpu]
       if opts[:user_data]
-        # NOTE: Injected data will be Base64 encoded to pass through XML
-        # attribute. You *need* to decode this file using a script inside guest.
         params[:user_data] = opts[:user_data].gsub(/\n/,'')
       end
       convert_instance(client, client.create_vm(image_id, params))

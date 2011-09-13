@@ -207,6 +207,7 @@ module Deltacloud::Drivers::VSphere
       safely do
         rootFolder = vsphere.serviceInstance.content.rootFolder
         vm = find_vm(credentials, opts[:image_id])
+        raise "ERROR: Could not find the image in given datacenter" unless vm[:instance]
         # New instance need valid resource pool and datastore to be placed.
         # For this reason, realm_id **needs** to be set.
         if opts and opts[:realm_id]
