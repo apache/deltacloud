@@ -27,7 +27,7 @@ module VSphere
   # he have to pad the content of the iso file
   # that mean a limit of 400 kb file since
   # 1 sector of iso file = 2048 bytes
-  ISO_SECTORS=200
+  ISO_SECTORS=202
 
   RbVmomi::VIM::Datastore::class_eval do
     def soap
