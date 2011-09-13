@@ -219,6 +219,7 @@ module Deltacloud::Drivers::VSphere
         relocate = { :pool => resourcePool, :datastore => datastore }
         relocateSpec = RbVmomi::VIM.VirtualMachineRelocateSpec(relocate)
         # Set extra configuration for VM, like template_id
+        raise "ERROR: Memory must be multiple of 4" unless valid_memory_value?(opts[:hwp_memory])
         machine_config = {
           :memoryMB => opts[:hwp_memory],
           :numCPUs => opts[:hwp_cpu],
@@ -240,6 +241,7 @@ module Deltacloud::Drivers::VSphere
             machine_config[:extraConfig] << {
               :key => 'user_data_file', :value => "#{opts[:name]}.iso"
             }
+            device.connectable.startConnected = true
             device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] "+
                                                                      "/#{VSphere::FileManager::DIRECTORY_PATH}/#{opts[:name]}.iso")
             machine_config.merge!({
@@ -259,6 +261,7 @@ module Deltacloud::Drivers::VSphere
             machine_config[:extraConfig] << {
               :key => 'user_iso_file', :value => "#{opts[:name]}.iso"
             }
+            device.connectable.startConnected = true
             device.backing = RbVmomi::VIM.VirtualCdromIsoBackingInfo(:fileName => "[#{opts[:realm_id] || vm[:datastore]}] "+
                                                                      "/#{VSphere::FileManager::DIRECTORY_PATH}/#{opts[:name]}.iso")
             machine_config.merge!({
@@ -376,7 +379,7 @@ module Deltacloud::Drivers::VSphere
     def convert_realm(datastore)
       Realm::new(
         :id => datastore.name,
-        :name => datastore.name, 
+        :name => datastore.name,
         :limit => datastore.summary.freeSpace,
         :state => datastore.summary.accessible ? 'AVAILABLE' : 'UNAVAILABLE'
       )
@@ -398,6 +401,10 @@ module Deltacloud::Drivers::VSphere
         end
       end
       new_state
+    end
+
+    def valid_memory_value?(val)
+      true if (val.to_i%4) == 0
     end
 
   end
