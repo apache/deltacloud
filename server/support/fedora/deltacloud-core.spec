@@ -210,6 +210,8 @@ rm -rf %{buildroot}%{app_root}/config/drivers/azure.yaml
 rm -rf %{buildroot}%{app_root}/support/fedora
 rdoc --op %{buildroot}%{_defaultdocdir}/%{name}
 
+mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
+
 %install condor
 install -m 0655 %{buildroot}%{app_root}/support/condor/config/condor-cloud \
   %{buildroot}%{_sysconfdir}/sysconfig/condor-cloud
@@ -264,6 +266,7 @@ fi
 %doc %{app_root}/LICENSE
 # MIT
 %{app_root}/public/javascripts
+%dir %attr(0755, nobody, nobody) %{_localstatedir}/log/%{name}
 
 %files doc
 %defattr(-, root, root, -)
