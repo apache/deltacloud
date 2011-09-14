@@ -92,6 +92,7 @@ module ApplicationHelper
     @benchmark = Benchmark.measure do
       @element = driver.send(model, credentials, { :id => params[:id]} )
     end
+    headers['X-Backend-Runtime'] = @benchmark.real.to_s
     instance_variable_set("@#{model}", @element)
     if @element
       respond_to do |format|
