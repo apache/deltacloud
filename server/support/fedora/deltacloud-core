@@ -88,7 +88,7 @@ case "$1" in
       restart
       ;;
     status)
-      status -p $PIDFILE $PROG
+      status -p $PIDFILE $prog
       retval=$?
       ;;
     *)
@@ -97,4 +97,4 @@ case "$1" in
   ;;
 esac
 
-exit $?
+exit $retval
