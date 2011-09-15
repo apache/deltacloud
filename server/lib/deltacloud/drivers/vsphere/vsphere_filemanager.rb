@@ -43,7 +43,7 @@ module VSphere
     end
 
     def user_data!(datastore,base64_content,file_name)
-      command="#{MKISOFS_EXECUTABLE} -stream-file-name #{file_name}.txt -stream-media-size #{ISO_SECTORS}"
+      command="#{MKISOFS_EXECUTABLE} -stream-file-name deltacloud-user-data.txt -stream-media-size #{ISO_SECTORS}"
       iso_file=''
       Open3::popen3(command) do |stdin, stdout, stderr|
         stdin.write(base64_content.unpack("m"))
