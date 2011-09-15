@@ -25,6 +25,8 @@ module Sinatra
         puts sprintf("\033[1;34m[INFO: #{caller_method_name}]\033[0m: %s", message.inspect)
       end
 
+      alias :debug :info
+
       def warn(message)
         puts sprintf("\033[1;31m[WARN: #{caller_method_name}]\033[0m: %s", message.inspect)
       end
