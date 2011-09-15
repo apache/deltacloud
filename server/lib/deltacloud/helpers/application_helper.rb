@@ -153,7 +153,7 @@ module ApplicationHelper
 
   def link_to_action(action, url, method)
     capture_haml do
-      haml_tag :form, :method => :post, :action => url, :class => [:link, method] do
+      haml_tag :form, :method => :post, :action => url, :class => [:link, method], :'data-ajax' => 'false' do
         haml_tag :input, :type => :hidden, :name => '_method', :value => method
         haml_tag :button, :type => :submit, :'data-ajax' => 'false', :'data-inline' => "true" do
           haml_concat action
