@@ -41,14 +41,14 @@ module Deltacloud::Drivers::VSphere
       vsphere = new_client(credentials)
       safely do
         service = vsphere.serviceInstance.content
-        max_memory, max_cpu_cores = 0, 0
+        max_memory, max_cpu_cores = [], []
         service.rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-          max_memory += dc.hostFolder.childEntity.first.summary.effectiveMemory
-          max_cpu_cores += dc.hostFolder.childEntity.first.summary.numCpuCores
+          max_memory << dc.hostFolder.childEntity.first.summary.effectiveMemory
+          max_cpu_cores << dc.hostFolder.childEntity.first.summary.numCpuCores
         end
         [Deltacloud::HardwareProfile::new('default') do
-          cpu (1..max_cpu_cores)
-          memory (128..max_memory)
+          cpu (1..max_cpu_cores.min)
+          memory (128..max_memory.min)
           architecture ['x86_64', 'i386']
         end]
       end
