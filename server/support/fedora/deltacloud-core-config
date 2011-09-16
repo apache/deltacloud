@@ -1,26 +1,28 @@
-# Deltacloud API configuration 
+# Deltacloud API configuration
 # http://deltacloud.org
 
-# Default port where Deltacloud API will listen on (3002)
-# You should be able to access Deltacloud API on http://localhost:PORT/api
+# Environment under which to run deltacloud-core (default: production)
+#API_ENV="production"
 
-PORT=3002
+# Default driver to be used (mock).
+# NOTE: Some drivers require some additional gems to be installed.
+# Please refer to http://deltacloud.org to see what gems are needed for specific
+# drivers
+#DRIVER="mock"
+
+# Port where deltacloud core will listen (default: localhost)
+# You should be able to access Deltacloud API on http://localhost:PORT/api
+#PORT="3002"
 
 # Bind to HOST address (default: localhost)
-# You can use both IP address or hostname
+# You can use both IP address or hostname; use 0.0.0.0 to bind to all addresses
+#HOST="localhost"
 
-HOST=localhost
+# Default user that deltacloud core will be run under (default: nobody)
+#DELTACLOUD_USER="nobody"
 
-# Default driver to be used (EC2).
-# NOTE: Some drivers require some additional gems to be installed.
-# Please reffer to http://deltacloud.org to see what gems are needed for specific
-# drivers
+# Default log file for deltacloud-core (default: /var/log/deltacloud-core/$DRIVER.log)
+#LOGFILE="/var/log/deltacloud-core/$DRIVER.log"
 
-DRIVER="ec2"
-
-# Default log file for Deltacloud API
-# LOGFILE="/var/log/deltacloud-core/ec2.log"
-#
-# Default user under Deltacloud API will be run (default: nobody)
-#
-# DELTACLOUD_USER="nobody"
+# Default lock file for deltacloud-core (default: /var/lock/subsys/deltacloud-core)
+#LOCKFILE="/var/lock/subsys/deltacloud-core"

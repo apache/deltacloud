@@ -26,28 +26,25 @@ prog="deltacloud-core"
 [ ! -d /var/log/$prog ] && mkdir -p /var/log/$prog
 
 # You can overide these variables using /etc/sysconfig/deltacloud-core
-#
-# ENV=production|development
-# DRIVER=ec2|mock|gogrid
-#
-#
-API_ENV="${ENV:-production}"
+API_ENV="${API_ENV:-production}"
 DRIVER="${DRIVER:-mock}"
 PORT="${PORT:-3002}"
+HOST="${HOST:-localhost}"
+DELTACLOUD_USER="${DELTACLOUD_USER:-nobody}"
 LOGFILE="${LOGFILE:-/var/log/$prog/$DRIVER.log}"
-lockfile="${LOCKFILE:-/var/lock/subsys/$prog}"
+LOCKFILE="${LOCKFILE:-/var/lock/subsys/$prog}"
 
 [ -r $LOGFILE ] && chown nobody $LOGFILE
-[ -r $lockfile ] && chown nobody $lockfile
+[ -r $LOCKFILE ] && chown nobody $LOCKFILE
 
 start() {
     [ -x $exec ] || exit 5
 
     echo -n $"Starting $prog: "
-    daemon --user nobody "$exec -i $DRIVER -e $API_ENV --port $PORT >> $LOGFILE 2>&1 &"
+    daemon --user "$DELTACLOUD_USER" "$exec -i $DRIVER -e $API_ENV --port $PORT -r $HOST >> $LOGFILE 2>&1 &"
     retval=$?
 
-    if [ $retval -eq 0 ] && touch $lockfile ; then
+    if [ $retval -eq 0 ] && touch $LOCKFILE ; then
       echo_success
       echo
     else
@@ -61,7 +58,7 @@ stop() {
     echo -n $"Shutting down $prog: "
     killproc deltacloudd
     retval=$?
-    if [ $retval -eq 0 ] && rm -f $lockfile ; then
+    if [ $retval -eq 0 ] && rm -f $LOCKFILE ; then
       echo_success
       echo
     else
