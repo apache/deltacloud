@@ -754,39 +754,6 @@ collection :keys do
 
 end
 
-#create a new blob using PUT - streams through deltacloud
-put "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
-  if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
-    content_type = env["CONTENT_TYPE"]
-    content_type ||=  ""
-    @blob = driver.blob(credentials, {:id => params[:blob],
-                                      'bucket' => params[:bucket]})
-    respond_to do |format|
-      format.xml { haml :"blobs/show" }
-      format.html { haml :"blobs/show" }
-      format.json { convert_to_json(:blob, @blob) }
-    end
-  elsif(env["BLOB_FAIL"])
-    report_error(500) #OK?
-  else # small blobs - < 112kb dont hit the streaming monkey patch - use 'normal' create_blob
-       # also, if running under webrick don't hit the streaming patch (Thin specific)
-    bucket_id = params[:bucket]
-    blob_id = params[:blob]
-    temp_file = Tempfile.new("temp_blob_file")
-    temp_file.write(env['rack.input'].read)
-    temp_file.flush
-    content_type = env['CONTENT_TYPE'] || ""
-    blob_data = {:tempfile => temp_file, :type => content_type}
-    user_meta = BlobHelper::extract_blob_metadata_hash(request.env)
-    @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
-    temp_file.delete
-    respond_to do |format|
-      format.xml { haml :"blobs/show" }
-      format.html { haml :"blobs/show"}
-    end
-  end
-end
-
 #get html form for creating a new blob
 
 # The URL for getting the new blob form for the HTML UI looks like the URL
@@ -802,107 +769,160 @@ get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/#{NEW_BLOB_FOR
   end
 end
 
-#create a new blob using html interface - NON STREAMING (i.e. browser POST http form data)
-post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket" do
-  bucket_id = params[:bucket]
-  blob_id = params['blob_id'] || params['blob'] #keep 'blob' just in case
-  blob_data = params['blob_data']
-  user_meta = {}
-  #metadata from params (i.e., passed by http form post, e.g. browser)
-  max = params[:meta_params]
-  if(max)
-    (1..max.to_i).each do |i|
-      key = params[:"meta_name#{i}"]
-      key = "HTTP_X_Deltacloud_Blobmeta_#{key}"
-      value = params[:"meta_value#{i}"]
-      user_meta[key] = value
-    end
-  end
-  @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
-  respond_to do |format|
-    format.xml { haml :"blobs/show" }
-    format.html { haml :"blobs/show"}
-  end
-end
-
-#delete a blob
-delete "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
-  bucket_id = params[:bucket]
-  blob_id = params[:blob]
-  driver.delete_blob(credentials, bucket_id, blob_id)
-  status 204
-  respond_to do |format|
-    format.xml
-    format.json
-    format.html { redirect(bucket_url(bucket_id)) }
-  end
-end
-
-#get blob metadata
-head "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
-  @blob_id = params[:blob]
-  @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
-  if @blob_metadata
-      @blob_metadata.each do |k,v|
-        headers["X-Deltacloud-Blobmeta-#{k}"] = v
-      end
-      status 204
-      respond_to do |format|
-        format.xml
-        format.json
-      end
-   else
-    report_error(404)
-  end
-end
-
-#update blob metadata
-post "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
-  meta_hash = BlobHelper::extract_blob_metadata_hash(request.env)
-  success = driver.update_blob_metadata(credentials, {'bucket'=>params[:bucket], :id =>params[:blob], 'meta_hash' => meta_hash})
-  if(success)
-    meta_hash.each do |k,v|
-      headers["X-Deltacloud-Blobmeta-#{k}"] = v
-    end
-    status 204
-    respond_to do |format|
-      format.xml
-      format.json
-    end
-  else
-    report_error(404) #FIXME is this the right error code?
-  end
-end
-
-#Get a particular blob's particulars (not actual blob data)
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob" do
-  @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
-  if @blob
-    respond_to do |format|
-      format.xml { haml :"blobs/show" }
-      format.html { haml :"blobs/show" }
-      format.json { convert_to_json(:blob, @blob) }
-      end
-  else
-      report_error(404)
-  end
-end
-
-#get the content of a particular blob
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/:blob/content" do
-  @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
-  if @blob
-    params['content_length'] = @blob.content_length
-    params['content_type'] = @blob.content_type
-    params['content_disposition'] = "attachment; filename=#{@blob.id}"
-    BlobStream.call(env, credentials, params)
-  else
-    report_error(404)
-  end
-end
-
 collection :buckets do
   description "Cloud Storage buckets - aka buckets|directories|folders"
+
+  collection :blobs do
+    description "Blobs associated with given bucket"
+
+    operation :show do
+      description "Display blob"
+      control do
+        @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
+        if @blob
+          respond_to do |format|
+            format.xml { haml :"blobs/show" }
+            format.html { haml :"blobs/show" }
+            format.json { convert_to_json(:blob, @blob) }
+          end
+        else
+          report_error(404)
+        end
+      end
+
+    end
+
+    operation :create do
+      description "Create new blob"
+      control do
+        bucket_id = params[:bucket]
+        blob_id = params['blob_id']
+        blob_data = params['blob_data']
+        user_meta = {}
+        #metadata from params (i.e., passed by http form post, e.g. browser)
+        max = params[:meta_params]
+        if(max)
+          (1..max.to_i).each do |i|
+            key = params[:"meta_name#{i}"]
+            key = "HTTP_X_Deltacloud_Blobmeta_#{key}"
+            value = params[:"meta_value#{i}"]
+            user_meta[key] = value
+          end
+        end
+        @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
+        respond_to do |format|
+          format.xml { haml :"blobs/show" }
+          format.html { haml :"blobs/show"}
+        end
+      end
+    end
+
+    operation :destroy do
+      description "Destroy given blob"
+      control do
+        bucket_id = params[:bucket]
+        blob_id = params[:blob]
+        driver.delete_blob(credentials, bucket_id, blob_id)
+        status 204
+        respond_to do |format|
+          format.xml
+          format.json
+          format.html { redirect(bucket_url(bucket_id)) }
+        end
+      end
+    end
+
+    operation :stream, :member => true, :standard => true, :method => :put do
+      description "Stream new blob data into the blob"
+      control do
+        if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
+          content_type = env["CONTENT_TYPE"]
+          content_type ||=  ""
+          @blob = driver.blob(credentials, {:id => params[:blob],
+                                            'bucket' => params[:bucket]})
+          respond_to do |format|
+            format.xml { haml :"blobs/show" }
+            format.html { haml :"blobs/show" }
+            format.json { convert_to_json(:blob, @blob) }
+          end
+        elsif(env["BLOB_FAIL"])
+          report_error(500) #OK?
+        else # small blobs - < 112kb dont hit the streaming monkey patch - use 'normal' create_blob
+          # also, if running under webrick don't hit the streaming patch (Thin specific)
+          bucket_id = params[:bucket]
+          blob_id = params[:blob]
+          temp_file = Tempfile.new("temp_blob_file")
+          temp_file.write(env['rack.input'].read)
+          temp_file.flush
+          content_type = env['CONTENT_TYPE'] || ""
+          blob_data = {:tempfile => temp_file, :type => content_type}
+          user_meta = BlobHelper::extract_blob_metadata_hash(request.env)
+          @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
+          temp_file.delete
+          respond_to do |format|
+            format.xml { haml :"blobs/show" }
+            format.html { haml :"blobs/show"}
+          end
+        end
+      end
+    end
+
+    operation :metadata, :member => true, :standard => true, :method => :head do
+      description "Get blob metadata"
+      control do
+        @blob_id = params[:blob]
+        @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
+        if @blob_metadata
+          @blob_metadata.each do |k,v|
+            headers["X-Deltacloud-Blobmeta-#{k}"] = v
+          end
+          status 204
+          respond_to do |format|
+            format.xml
+            format.json
+          end
+        else
+          report_error(404)
+        end
+      end
+    end
+
+    operation :update, :member => true, :method => :post do
+      description "Update blob metadata"
+      control do
+        meta_hash = BlobHelper::extract_blob_metadata_hash(request.env)
+        success = driver.update_blob_metadata(credentials, {'bucket'=>params[:bucket], :id =>params[:blob], 'meta_hash' => meta_hash})
+        if(success)
+          meta_hash.each do |k,v|
+            headers["X-Deltacloud-Blobmeta-#{k}"] = v
+          end
+          status 204
+          respond_to do |format|
+            format.xml
+            format.json
+          end
+        else
+          report_error(404) #FIXME is this the right error code?
+        end
+      end
+    end
+
+    operation :content, :member => true, :method => :get do
+      description "Download blob content"
+      control do
+        @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
+        if @blob
+          params['content_length'] = @blob.content_length
+          params['content_type'] = @blob.content_type
+          params['content_disposition'] = "attachment; filename=#{@blob.id}"
+          BlobStream.call(env, credentials, params)
+        else
+          report_error(404)
+        end
+      end
+    end
+
+  end
 
   operation :new do
     description "A form to create a new bucket resource"
