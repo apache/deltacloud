@@ -32,10 +32,10 @@ prog="deltacloud-core"
 #
 #
 API_ENV="${ENV:-production}"
-DRIVER="${DRIVER:-ec2}"
+DRIVER="${DRIVER:-mock}"
 PORT="${PORT:-3002}"
 LOGFILE="${LOGFILE:-/var/log/$prog/$DRIVER.log}"
-lockfile="${LOCKFILE:-/var/lock/subsys/$prog }"
+lockfile="${LOCKFILE:-/var/lock/subsys/$prog}"
 
 [ -r $LOGFILE ] && chown nobody $LOGFILE
 [ -r $lockfile ] && chown nobody $lockfile
