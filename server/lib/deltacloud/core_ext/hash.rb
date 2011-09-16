@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,6 +13,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/core_ext/string'
-require 'deltacloud/core_ext/integer'
-require 'deltacloud/core_ext/hash'
+class Hash
+  def gsub_keys(rgx_pattern, replacement)
+    remove = []
+    self.each_key do |key|
+      if key.to_s.match(rgx_pattern)
+         new_key = key.to_s.gsub(rgx_pattern, replacement).downcase
+         self[new_key] = self[key]
+         remove << key
+      end
+    end
+    #remove the original keys
+    self.delete_if{|k,v| remove.include?(k)}
+  end
+end

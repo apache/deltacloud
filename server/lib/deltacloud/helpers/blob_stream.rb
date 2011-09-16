@@ -63,23 +63,6 @@ rescue LoadError => e
   end
 end
 
-class Hash
-
-  def gsub_keys(rgx_pattern, replacement)
-    remove = []
-    self.each_key do |key|
-      if key.to_s.match(rgx_pattern)
-         new_key = key.to_s.gsub(rgx_pattern, replacement).downcase
-         self[new_key] = self[key]
-         remove << key
-      end
-    end
-    #remove the original keys
-    self.delete_if{|k,v| remove.include?(k)}
-  end
-
-end
-
 module BlobHelper
 
   def self.extract_blob_metadata_hash(env_hash)
