@@ -59,7 +59,8 @@ module Sinatra
       def initialize(coll, name, opts, &block)
         @name = name.to_sym
         opts = STANDARD[@name].merge(opts) if standard?
-        @collection = coll
+        @path_generator = opts[:path_generator]
+        @collection, @standard = coll, opts[:standard]
         raise "No method for operation #{name}" unless opts[:method]
         @method = opts[:method].to_sym
         @member = opts[:member]
@@ -74,7 +75,7 @@ module Sinatra
       end
 
       def standard?
-        STANDARD.keys.include?(name)
+        STANDARD.keys.include?(name) || @standard
       end
 
       def form?
@@ -125,8 +126,17 @@ module Sinatra
         end
       end
 
+      def member?
+        if standard?
+          @member || STANDARD[name][:member]
+        else
+          @member
+        end
+      end
+
       def path(args = {})
-        if @member
+        return @path_generator.call(self) if @path_generator
+        if member?
           if standard?
             "#{@collection.name}/:id"
           else
@@ -190,17 +200,21 @@ module Sinatra
     end
 
     class Collection
-      attr_reader :name, :operations
+      attr_reader :name, :operations, :subcollections
 
       def initialize(name, &block)
         @name = name
         @description = ""
-        @operations = {}
+        @operations, @subcollections = {}, {}
         @global = false
         instance_eval(&block) if block_given?
         generate_documentation
         generate_head
         generate_options
+      end
+
+      def subcollection?
+        self.class == SubCollection
       end
 
       # Set/Return description for collection
@@ -280,13 +294,21 @@ module Sinatra
         @operations[name] = Operation.new(self, name, opts, &block)
       end
 
+      def collection(name, opts={}, &block)
+        if subcollections.keys.include?(name)
+          raise DuplicateOperationException::new(500, "DuplicateSubcollection", "Subcollection #{name} is already defined", [])
+        end
+        subcollections[name] = SubCollection.new(self, name, opts, &block)
+        subcollections[name].generate
+      end
+
       def generate
         operations.values.reject { |op| op.member }.each { |o| o.generate }
         operations.values.select { |op| op.member }.each { |o| o.generate }
         app = ::Sinatra::Application
         collname = name # Work around Ruby's weird scoping/capture
         app.send(:define_method, "#{name.to_s.singularize}_url") do |id|
-            api_url_for "#{collname}/#{id}", :full
+          api_url_for "#{collname}/#{id}", :full
         end
         if index_op = operations[:index]
           app.send(:define_method, "#{name}_url") do
@@ -296,10 +318,64 @@ module Sinatra
       end
 
       def check_supported(driver)
-        unless global? || driver.has_collection?(@name)
+        unless global? || driver.has_collection?(@name) || self.kind_of?(Sinatra::Rabbit::SubCollection)
           raise UnsupportedCollectionException
         end
       end
+    end
+
+    class SubCollection < Collection
+
+      attr_accessor :parent
+
+      def initialize(parent, name, opts={}, &block)
+        self.parent = parent
+        super(name, &block)
+      end
+
+      def operation(name, opts = {}, &block)
+        if @operations.keys.include?(name)
+          raise DuplicateOperationException::new(500, "DuplicateOperation", "Operation #{name} is already defined", [])
+        end
+        # Preserve self as local variable to workaround Ruby namespace
+        # weirdness
+        c = self
+        path_generator = Proc.new do |obj|
+          if obj.member?
+            if obj.standard?
+              "#{parent.name}/:#{parent.name.to_s.singularize}/:#{c.name.to_s.singularize}"
+            else
+              "#{parent.name}/:#{parent.name.to_s.singularize}/:#{c.name.to_s.singularize}/#{name}"
+            end
+          else
+            if obj.form?
+              "#{parent.name}/:id/:#{parent.name.to_s.singularize}/#{obj.name}"
+            else
+              "#{parent.name}/:#{parent.name.to_s.singularize}"
+            end
+          end
+        end
+        opts.merge!({
+          :path_generator => path_generator
+        })
+        @operations[name] = Operation.new(self, name, opts, &block)
+      end
+
+      def generate
+        operations.values.reject { |op| op.member }.each { |o| o.generate }
+        operations.values.select { |op| op.member }.each { |o| o.generate }
+        app = ::Sinatra::Application
+        collname = name # Work around Ruby's weird scoping/capture
+        app.send(:define_method, "#{parent.name.to_s}_#{name.to_s.singularize}_url") do |id, subid|
+          api_url_for "#{collname}/#{id}/#{subid}", :full
+        end
+        if index_op = operations[:index]
+          app.send(:define_method, "#{parent.name.to_s}_#{name}_url") do
+            api_url_for index_op.path.gsub(/\/\?$/,''), :full
+          end
+        end
+      end
+
     end
 
     def collections
