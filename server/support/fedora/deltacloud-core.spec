@@ -9,7 +9,7 @@ License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
 Source0: http://gems.rubyforge.org/gems/%{name}-%{version}.gem
 Source1: deltacloudd-fedora
-Source2: deltacloud-core
+Source2: deltacloud-core.init
 Source3: deltacloud-core-config
 Requires: rubygems
 Requires: ruby(abi) = 1.8
