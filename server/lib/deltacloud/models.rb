@@ -14,12 +14,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'rubygems'
-
-top_srcdir = File.dirname(__FILE__)
-
-$:.unshift File.join(top_srcdir, 'lib')
-
-load File.join(top_srcdir, 'server.rb')
-
-run Sinatra::Application
+require 'deltacloud/models/base_model'
+require 'deltacloud/models/realm'
+require 'deltacloud/models/image'
+require 'deltacloud/models/instance'
+require 'deltacloud/models/key'
+require 'deltacloud/models/address'
+require 'deltacloud/models/instance_profile'
+require 'deltacloud/models/storage_snapshot'
+require 'deltacloud/models/storage_volume'
+require 'deltacloud/models/bucket'
+require 'deltacloud/models/blob'
+require 'deltacloud/models/load_balancer'
+require 'deltacloud/models/firewall'
+require 'deltacloud/models/firewall_rule'

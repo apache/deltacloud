@@ -34,7 +34,8 @@ module Deltacloud
     def driver_config
       if Thread::current[:drivers].nil?
         Thread::current[:drivers] = {}
-        Dir[File.join(File::dirname(__FILE__), '..', 'config', 'drivers', '*.yaml')].each do |driver_file|
+        top_srcdir = File.join(File.dirname(__FILE__), '..', '..')
+        Dir[File.join(top_srcdir, 'config', 'drivers', '*.yaml')].each do |driver_file|
           Thread::current[:drivers].merge!(YAML::load(File::read(driver_file)))
         end
       end
