@@ -1,10 +1,9 @@
 %global app_root %{_datadir}/%{name}
-%%global alphatag git
 
 Summary: Deltacloud REST API
 Name: deltacloud-core
 Version: 0.4.0
-Release: 0.1.%{alphatag}
+Release: 2%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
@@ -12,8 +11,6 @@ Source0: http://gems.rubyforge.org/gems/%{name}-%{version}.gem
 Source1: deltacloudd-fedora
 Source2: deltacloud-core
 Source3: deltacloud-core-config
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: rubygems
 Requires: ruby(abi) = 1.8
 Requires: rubygem(haml)
@@ -61,26 +58,45 @@ Documentation for %{name}
 %package all
 Summary: Deltacloud Core with all drivers
 Requires: %{name} = %{version}-%{release}
-Requires: deltacloud-core-ec2
-Requires: deltacloud-core-rackspace
-Requires: deltacloud-core-gogrid
-Requires: deltacloud-core-rimuhosting
-Requires: deltacloud-core-rhevm
-Requires: deltacloud-core-sbc
+#Requires: %{name}-azure = %{version}-%{release}
+#Requires: %{name}-condor = %{version}-%{release}
+Requires: %{name}-ec2 = %{version}-%{release}
+Requires: %{name}-eucalyptus = %{version}-%{release}
+Requires: %{name}-gogrid = %{version}-%{release}
+Requires: %{name}-opennebula = %{version}-%{release}
+Requires: %{name}-rackspace = %{version}-%{release}
+Requires: %{name}-rimuhosting = %{version}-%{release}
+Requires: %{name}-rhevm = %{version}-%{release}
+Requires: %{name}-sbc = %{version}-%{release}
+Requires: %{name}-terremark = %{version}-%{release}
+Requires: %{name}-vsphere = %{version}-%{release}
 
 %description all
 Deltacloud core with all available drivers
 
 # FIXME: Azure requires waz-blobs gem which is not yet included in Fedora repos
 #
-#%package azure
+#% package azure
 #Summary: Deltacloud Core for Azure
 #Requires: %{name} = %{version}-%{release}
 #Requires: rubygem(waz-blobs)
 
-#%description azure
+#% description azure
 #The azure sub-package brings in all dependencies necessary to use deltacloud
 #core to connect to Azure.
+
+# FIXME: the required packages are not yet in Fedora, so disable condor for now
+#% package condor
+#Summary: Deltacloud Core for CondorCloud
+#Requires: %{name} = %{version}-%{release}
+#Requires: rubygem(uuid)
+#Requires: rubygem(rest-client)
+#Requires: condor >= 7.4.0
+#Requires: condor-vm-gahp >= 7.4.0
+
+#% description condor
+#The condor sub-package brings in all dependencies necessary to use deltacloud core
+#to connect to CondorCloud.
 
 %package ec2
 Summary: Deltacloud Core for EC2
@@ -135,15 +151,6 @@ Requires: rubygem(rest-client)
 The rhevm sub-package brings in all dependencies necessary to use deltacloud
 core to connect to RHEV-M.
 
-%package vsphere
-Summary: Deltacloud Core for vSphere
-Requires: %{name} = %{version}-%{release}
-Requires: rubygem(rbvmomi)
-
-%description vsphere
-The vsphere sub-package brings in all dependencies necessary to use deltacloud
-core to connect to VMware vSphere.
-
 %package rimuhosting
 Summary: Deltacloud Core for Rimuhosting
 Requires: %{name} = %{version}-%{release}
@@ -160,19 +167,6 @@ Requires: %{name} = %{version}-%{release}
 The sbc sub-package brings in all dependencies necessary to use deltacloud core
 to connect to SBC.
 
-%package condor
-Summary: Deltacloud Core for CondorCloud
-Requires: %{name} = %{version}-%{release}
-Requires: rubygem(uuid)
-Requires: rubygem(rest-client)
-Requires: condor >= 7.4.0
-# FIXME: condor-vm-gaph is not yet included in Fedora
-# Requires: condor-vm-gaph >= 7.4.0
-
-%description condor
-The condor sub-package brings in all dependencies necessary to use deltacloud core
-to connect to CondorCloud.
-
 %package terremark
 Summary: Deltacloud Core for Terremark
 Requires: %{name} = %{version}-%{release}
@@ -182,6 +176,15 @@ Requires: rubygem(excon)
 %description terremark
 The terremark sub-package brings in all dependencies necessary to use deltacloud
 core to connect to Terremark.
+
+%package vsphere
+Summary: Deltacloud Core for vSphere
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(rbvmomi)
+
+%description vsphere
+The vsphere sub-package brings in all dependencies necessary to use deltacloud
+core to connect to VMware vSphere.
 
 %prep
 %setup -q -c -T
@@ -205,21 +208,28 @@ find %{buildroot}%{app_root}/lib -type f | xargs chmod -x
 chmod -x %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 chmod 0755 %{buildroot}%{_initddir}/%{name}
 chmod 0755 %{buildroot}%{app_root}/bin/deltacloudd
-# Temporary remove Azure drivers until all dependencies will be pushed in to Fedora
+rm -rf %{buildroot}%{app_root}/support
+
+# temporarily remove Azure drivers until all dependencies will be pushed in to Fedora
 rm -rf %{buildroot}%{app_root}/config/drivers/azure.yaml
-rm -rf %{buildroot}%{app_root}/support/fedora
+
+# temporarily remove condor support files until we enable condor
+rm -f %{buildroot}%{app_root}/config/addresses.xml
+rm -f %{buildroot}%{app_root}/config/condor.yaml
+rm -f %{buildroot}%{app_root}/config/drivers/condor.yaml
+
 rdoc --op %{buildroot}%{_defaultdocdir}/%{name}
 
 mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
 
-%install condor
-install -m 0655 %{buildroot}%{app_root}/support/condor/config/condor-cloud \
-  %{buildroot}%{_sysconfdir}/sysconfig/condor-cloud
-install -m 0655 %{buildroot}%{app_root}/support/condor/config/50* \
-  %{buildroot}%{_sysconfdir}/condor/config.d
-install -m 0755 %{buildroot}%{app_root}/support/condor/bash/* \
-  %{buildroot}%{_libexecdir}/condor
-rm -rf %{buildroot}%{app_root}/support/condor
+#% install condor
+#install -m 0655 %{buildroot}%{app_root}/support/condor/config/condor-cloud \
+#  %{buildroot}%{_sysconfdir}/sysconfig/condor-cloud
+#install -m 0655 %{buildroot}%{app_root}/support/condor/config/50* \
+#  %{buildroot}%{_sysconfdir}/condor/config.d
+#install -m 0755 %{buildroot}%{app_root}/support/condor/bash/* \
+#  %{buildroot}%{_libexecdir}/condor
+#rm -rf %{buildroot}%{app_root}/support/condor
 
 %check
 pushd %{buildroot}%{app_root}
@@ -245,7 +255,6 @@ if [ "$1" -ge "1" ] ; then
 fi
 
 %files
-%defattr(-, root, root, -)
 %{_initddir}/%{name}
 %{_bindir}/deltacloudd
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
@@ -269,71 +278,57 @@ fi
 %dir %attr(0755, nobody, nobody) %{_localstatedir}/log/%{name}
 
 %files doc
-%defattr(-, root, root, -)
 %{_defaultdocdir}/%{name}
 %{app_root}/tests
 %{app_root}/%{name}.gemspec
 %{app_root}/Rakefile
 
+%files all
+
 #%files azure
-#%defattr(-, root, root, -)
+
+#%files condor
+#%{app_root}/config/drivers/condor.yaml
+#%{app_root}/config/condor.yaml
+#%{app_root}/config/addresses.xml
+#%%config(noreplace) %{_sysconfdir}/sysconfig/condor-cloud
+#%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud.config
+#%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud_node.config
+#%{_libexecdir}/condor/cached_images.sh
+#%{_libexecdir}/condor/cloud_exit_hook.sh
+#%{_libexecdir}/condor/cloud_functions
+#%{_libexecdir}/condor/cloud_prepare_hook.sh
+#%{_libexecdir}/condor/libvirt_cloud_script.sh
 
 %files ec2
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/ec2.yaml
 
 %files eucalyptus
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/eucalyptus.yaml
 
 %files gogrid
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/gogrid.yaml
 
 %files opennebula
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/opennebula.yaml
 
 %files rackspace
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/rackspace.yaml
 
 %files rhevm
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/rhevm.yaml
 
 %files rimuhosting
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/rimuhosting.yaml
 
 %files sbc
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/sbc.yaml
 
-%files vsphere
-%defattr(-, root, root, -)
-%{app_root}/config/drivers/vsphere.yaml
-
 %files terremark
-%defattr(-, root, root, -)
 %{app_root}/config/drivers/terremark.yaml
 
-%files condor
-%defattr(-, root, root, -)
-%{app_root}/config/drivers/condor.yaml
-%{app_root}/config/condor.yaml
-%{app_root}/config/addresses.xml
-%%config(noreplace) %{_sysconfdir}/sysconfig/condor-cloud
-%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud.config
-%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud_node.config
-%{_libexecdir}/condor/cached_images.sh
-%{_libexecdir}/condor/cloud_exit_hook.sh
-%{_libexecdir}/condor/cloud_functions
-%{_libexecdir}/condor/cloud_prepare_hook.sh
-%{_libexecdir}/condor/libvirt_cloud_script.sh
-
-%files all
-%defattr(-, root, root, -)
+%files vsphere
+%{app_root}/config/drivers/vsphere.yaml
 
 %changelog
 * Mon Jul 26 2011 Michal Fojtik <mfojtik@redhat.com> - 0.4.0-0.1.git
