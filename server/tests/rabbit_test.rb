@@ -17,7 +17,7 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
 require 'tests/common'
 
-require 'drivers'
+require 'deltacloud/drivers'
 require 'deltacloud/drivers/mock/mock_driver'
 
 module DeltacloudUnitTest
