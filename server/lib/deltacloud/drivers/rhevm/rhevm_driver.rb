@@ -310,7 +310,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def convert_realm(r, dc)
     Realm.new(
       :id => r.id,
-      :name => dc.name,
+      :name => r.name,
       :state => dc.status == 'UP' ? 'AVAILABLE' : 'DOWN',
       :limit => :unlimited
     )
