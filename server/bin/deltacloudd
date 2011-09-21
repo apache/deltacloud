@@ -195,7 +195,7 @@ else
   argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
   argv_opts << ['--address', ENV["API_HOST"] ]
   argv_opts << ['--port', ENV["API_PORT"] ]
-  argv_opts << ['--rackup', 'config.ru' ]
+  argv_opts << ['--rackup', File.join(dirname, 'config.ru') ]
   argv_opts << ['-e', options[:env] ]
   argv_opts << ['--timeout', ENV["API_TIMEOUT"] || '60']
   argv_opts << ['--threaded', '-D' ]
@@ -218,6 +218,7 @@ else
     rerun.start
     rerun.join
   else
+    $:.unshift File.join(dirname)
     thin = Thin::Runner.new(argv_opts)
     thin.run!
   end
