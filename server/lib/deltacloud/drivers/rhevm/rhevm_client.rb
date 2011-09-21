@@ -23,10 +23,9 @@ require 'json'
 
 module RHEVM
 
-  #
-  # NOTE: Change this if you want to use Windows machine to (/c/something)
-  #
-  FILEINJECT_PATH = "/tmp/deltacloud.txt"
+  # NOTE: Injected file will be available in floppy drive inside
+  #       the instance. (Be sure you 'modprobe floppy' on Linux)
+  FILEINJECT_PATH = "deltacloud.txt"
 
   def self.client(url)
     RestClient::Resource.new(url)
@@ -123,13 +122,6 @@ module RHEVM
           }
           if opts[:user_data] and not opts[:user_data].empty?
             if api_version?('3') and cluster_version?((opts[:realm_id] || clusters.first.id), '3')
-              #
-              # Clone is necessary to keep provisioning same as original template
-              # https://bugzilla.redhat.com/show_bug.cgi?id=733695
-              #
-              disks {
-                clone_ "true"
-              }
               custom_properties {
                 #
                 # FIXME: 'regexp' parameter is just a temporary workaround. This
@@ -137,7 +129,7 @@ module RHEVM
                 # RHEV-M release.
                 #
                 custom_property({
-                  :name => "fileinject",
+                  :name => "floppyinject",
                   :value => "#{RHEVM::FILEINJECT_PATH}:#{escape_user_data(Base64.decode64(opts[:user_data]))}",
                   :regexp => "^.*:.*$"})
               }
