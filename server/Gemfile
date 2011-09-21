@@ -1,62 +1,17 @@
 source "http://rubygems.org"
 
-gem "haml"
-gem "sinatra"
-gem "rack"
-gem "thin"
-gem "net-ssh"
-gem "json"
-gem "rack-accept"
-gem "rake"
-gem "nokogiri"
+gemspec
 
-group :azure do
-  gem 'waz-blobs'
-end
-
-group :ec2 do
-  gem 'aws', ">= 2.5.4"
-
-end
-
-group :gogrid do
-end
-
-group :mock do
-end
-
-group :opennebula do
-end
-
-group :rackspace do
-  gem 'cloudservers'
-  gem 'cloudfiles'
-end
-
-group :rhevm do
-  gem 'rest-client'
-end
-
-group :rimuhosting do
-end
-
-group :sbc do
-end
-
-group 'terremark' do
-  gem 'fog'
-  gem 'excon'
-end
-
-group :test do
+group :development do
   gem 'ruby-debug', :platforms => :mri_18
   gem 'ruby-debug19', :platforms => :mri_19, :require => 'ruby-debug'
-  gem "compass"
+  gem "compass", ">= 0.8.17"
   gem "vcr"
   gem "webmock"
-  gem "rack-test"
+  gem "rack-test", ">= 0.5.3"
   gem "ci_reporter"
-  gem "cucumber"
-  gem "rcov"
+  gem "cucumber", ">= 0.6.3"
+  gem "rcov", ">= 0.9.8"
   gem "rspec", "< 2.0.0"
 end
+
