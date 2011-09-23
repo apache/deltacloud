@@ -311,7 +311,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     Realm.new(
       :id => r.id,
       :name => r.name,
-      :state => dc.status == 'UP' ? 'AVAILABLE' : 'DOWN',
+      :state => dc.status.strip.upcase == 'UP' ? 'AVAILABLE' : 'DOWN',
       :limit => :unlimited
     )
   end
