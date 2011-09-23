@@ -77,7 +77,7 @@ module RHEVM
         RHEVM::client(@api_entrypoint)["/vms/%s" % id].delete(headers)
       else
         xml_response = Client::parse_response(RHEVM::client(@api_entrypoint)["/vms/%s/%s" % [id, action]].post('<action/>', headers))
-        return false if (xml_response/'action/status').first.text!="COMPLETE"
+        return false if (xml_response/'action/status').first.text.strip.upcase!="COMPLETE"
       end
       return true
     end
