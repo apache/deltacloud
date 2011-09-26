@@ -319,6 +319,7 @@ module DeltaCloud
       if driver
         @api_driver = driver 
         @driver_name = driver
+        @features, @entry_points = {}, {}
         discover_entry_points
       end
       @username = opts[:username] if opts[:username]
