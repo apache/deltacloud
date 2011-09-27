@@ -77,6 +77,10 @@ error do
   report_error
 end
 
+after do
+  headers 'Server' => 'Apache-Deltacloud/' + settings.version
+end
+
 # Redirect to /api
 get '/' do redirect root_url, 301; end
 
