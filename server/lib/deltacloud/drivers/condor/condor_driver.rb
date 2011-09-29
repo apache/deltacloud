@@ -36,7 +36,7 @@ module Deltacloud
     module Condor
 
       require 'base64'
-      require 'uuid'
+      require 'uuidtools'
       require 'fileutils'
 
       class CondorDriver < Deltacloud::BaseDriver
@@ -139,7 +139,7 @@ module Deltacloud
               config_server_address = nil
             end
           end
-          vm_uuid ||= UUID::new.generate
+          vm_uuid ||= UUIDTools::UUID.random_create.to_s
           vm_otp ||= vm_uuid[0..7]
           new_client(credentials) do |condor|
             config_server_address ||= condor.ip_agent.address

@@ -89,7 +89,10 @@ Gem::Specification.new do |s|
   s.add_dependency('fog')
   s.add_dependency('excon')
 
-# Rhevm
+# Rhevm and Condor Cloud
   s.add_dependency('rest-client')
+
+# Condor Cloud
+  s.add_dependency('uuidtools', '>= 2.1.1')
 
 end
