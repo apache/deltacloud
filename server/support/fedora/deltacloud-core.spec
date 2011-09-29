@@ -3,7 +3,7 @@
 Summary: Deltacloud REST API
 Name: deltacloud-core
 Version: 0.4.0
-Release: 2%{?dist}
+Release: 4%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
 URL: http://incubator.apache.org/deltacloud
@@ -59,7 +59,7 @@ Documentation for %{name}
 Summary: Deltacloud Core with all drivers
 Requires: %{name} = %{version}-%{release}
 #Requires: %{name}-azure = %{version}-%{release}
-#Requires: %{name}-condor = %{version}-%{release}
+Requires: %{name}-condor = %{version}-%{release}
 Requires: %{name}-ec2 = %{version}-%{release}
 Requires: %{name}-eucalyptus = %{version}-%{release}
 Requires: %{name}-gogrid = %{version}-%{release}
@@ -85,18 +85,17 @@ Deltacloud core with all available drivers
 #The azure sub-package brings in all dependencies necessary to use deltacloud
 #core to connect to Azure.
 
-# FIXME: the required packages are not yet in Fedora, so disable condor for now
-#% package condor
-#Summary: Deltacloud Core for CondorCloud
-#Requires: %{name} = %{version}-%{release}
-#Requires: rubygem(uuid)
-#Requires: rubygem(rest-client)
-#Requires: condor >= 7.4.0
-#Requires: condor-vm-gahp >= 7.4.0
+%package condor
+Summary: Deltacloud Core for CondorCloud
+Requires: %{name} = %{version}-%{release}
+Requires: rubygem(uuidtools)
+Requires: rubygem(rest-client)
+Requires: condor >= 7.4.0
+Requires: condor-vm-gahp >= 7.4.0
 
-#% description condor
-#The condor sub-package brings in all dependencies necessary to use deltacloud core
-#to connect to CondorCloud.
+%description condor
+The condor sub-package brings in all dependencies necessary to use deltacloud core
+to connect to CondorCloud.
 
 %package ec2
 Summary: Deltacloud Core for EC2
@@ -208,28 +207,20 @@ find %{buildroot}%{app_root}/lib -type f | xargs chmod -x
 chmod -x %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 chmod 0755 %{buildroot}%{_initddir}/%{name}
 chmod 0755 %{buildroot}%{app_root}/bin/deltacloudd
-rm -rf %{buildroot}%{app_root}/support
 
 # temporarily remove Azure drivers until all dependencies will be pushed in to Fedora
 rm -rf %{buildroot}%{app_root}/config/drivers/azure.yaml
-
-# temporarily remove condor support files until we enable condor
-rm -f %{buildroot}%{app_root}/config/addresses.xml
-rm -f %{buildroot}%{app_root}/config/condor.yaml
-rm -f %{buildroot}%{app_root}/config/drivers/condor.yaml
 
 rdoc --op %{buildroot}%{_defaultdocdir}/%{name}
 
 mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
 
-#% install condor
-#install -m 0655 %{buildroot}%{app_root}/support/condor/config/condor-cloud \
-#  %{buildroot}%{_sysconfdir}/sysconfig/condor-cloud
-#install -m 0655 %{buildroot}%{app_root}/support/condor/config/50* \
-#  %{buildroot}%{_sysconfdir}/condor/config.d
-#install -m 0755 %{buildroot}%{app_root}/support/condor/bash/* \
-#  %{buildroot}%{_libexecdir}/condor
-#rm -rf %{buildroot}%{app_root}/support/condor
+# the condor stuff is provided by the condor-cloud package; it really doesn't
+# belong in deltacloud, but until it is removed from upstream we just manually
+# delete it here
+rm -rf %{buildroot}%{app_root}/support/condor
+
+rm -rf %{buildroot}%{app_root}/support/fedora
 
 %check
 pushd %{buildroot}%{app_root}
@@ -287,18 +278,10 @@ fi
 
 #%files azure
 
-#%files condor
-#%{app_root}/config/drivers/condor.yaml
-#%{app_root}/config/condor.yaml
-#%{app_root}/config/addresses.xml
-#%%config(noreplace) %{_sysconfdir}/sysconfig/condor-cloud
-#%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud.config
-#%%config(noreplace) %{_sysconfdir}/condor/config.d/50condor_cloud_node.config
-#%{_libexecdir}/condor/cached_images.sh
-#%{_libexecdir}/condor/cloud_exit_hook.sh
-#%{_libexecdir}/condor/cloud_functions
-#%{_libexecdir}/condor/cloud_prepare_hook.sh
-#%{_libexecdir}/condor/libvirt_cloud_script.sh
+%files condor
+%{app_root}/config/drivers/condor.yaml
+%{app_root}/config/condor.yaml
+%{app_root}/config/addresses.xml
 
 %files ec2
 %{app_root}/config/drivers/ec2.yaml
