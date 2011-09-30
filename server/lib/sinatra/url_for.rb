@@ -59,15 +59,21 @@ module Sinatra
       when :path_only
         base = request.script_name
       when :full
-        scheme = request.env['HTTP_X_FORWARDED_SCHEME'] || request.scheme
-        port = request.env['HTTP_X_FORWARDED_PORT'] || request.port
-        if ((scheme == 'http' && port.to_s == '80') ||
+        scheme = request.scheme
+        port = request.port
+        request_host = request.host
+        if request.env['HTTP_X_FORWARDED_FOR']
+          scheme = request.env['HTTP_X_FORWARDED_SCHEME'] || scheme
+          port = request.env['HTTP_X_FORWARDED_PORT']
+          request_host = request.env['HTTP_X_FORWARDED_HOST']
+        end
+        if (port.nil? || port == "" ||
+            (scheme == 'http' && port.to_s == '80') ||
             (scheme == 'https' && port.to_s == '443'))
           port = ""
         else
           port = ":#{port}"
         end
-        request_host = HOSTNAME ? HOSTNAME : request.host
         base = "#{scheme}://#{request_host}#{port}#{request.script_name}"
       else
         raise TypeError, "Unknown url_for mode #{mode}"
