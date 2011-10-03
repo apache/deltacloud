@@ -25,7 +25,7 @@ module RHEVM
 
   # NOTE: Injected file will be available in floppy drive inside
   #       the instance. (Be sure you 'modprobe floppy' on Linux)
-  FILEINJECT_PATH = "deltacloud.txt"
+  FILEINJECT_PATH = "deltacloud-user-data.txt"
 
   def self.client(url)
     RestClient::Resource.new(url)
