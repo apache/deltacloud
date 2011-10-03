@@ -215,20 +215,20 @@ module Deltacloud
           if opts[:user_data]
             instance_options[:user_data] = Base64::decode64(opts[:user_data])
           end
-          instance_options.merge!(:key_name => opts[:keyname]) if opts[:keyname]
-          instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
-          instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id] && opts[:hwp_id].length > 0
+          instance_options[:key_name] = opts[:keyname] if opts[:keyname]
+          instance_options[:availability_zone] = opts[:realm_id] if opts[:realm_id]
+          instance_options[:instance_type] = opts[:hwp_id] if opts[:hwp_id] && opts[:hwp_id].length > 0
           firewalls = opts.inject([]){|res, (k,v)| res << v if k =~ /firewalls\d+$/; res}
-          instance_options.merge!(:group_ids => firewalls ) unless firewalls.empty?
-          instance_options.merge!(
-            :min_count => opts[:instance_count],
-            :max_count => opts[:instance_count]
-          ) if opts[:instance_count] and opts[:instance_count].length!=0
+          instance_options[:group_ids] = firewalls unless firewalls.empty?
+          if opts[:instance_count] and opts[:instance_count].length != 0
+            instance_options[:min_count] = opts[:instance_count]
+            instance_options[:max_count] = opts[:instance_count]
+          end
           if opts[:snapshot_id] and opts[:device_name]
-            instance_options.merge!(:block_device_mappings => [{
+            instance_options[:block_device_mappings] = [{
               :snapshot_id => opts[:snapshot_id],
               :device_name => opts[:device_name]
-            }])
+            }]
           end
           safely do
             new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
