@@ -212,7 +212,9 @@ module Deltacloud
         def create_instance(credentials, image_id, opts={})
           ec2 = new_client(credentials)
           instance_options = {}
-          instance_options.merge!(:user_data => opts[:user_data]) if opts[:user_data]
+          if opts[:user_data]
+            instance_options[:user_data] = Base64::decode64(opts[:user_data])
+          end
           instance_options.merge!(:key_name => opts[:keyname]) if opts[:keyname]
           instance_options.merge!(:availability_zone => opts[:realm_id]) if opts[:realm_id]
           instance_options.merge!(:instance_type => opts[:hwp_id]) if opts[:hwp_id] && opts[:hwp_id].length > 0
