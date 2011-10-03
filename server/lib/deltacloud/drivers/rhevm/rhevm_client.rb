@@ -125,7 +125,7 @@ module RHEVM
                 custom_property({
                   :name => "floppyinject",
                   :value => "#{RHEVM::FILEINJECT_PATH}:#{Base64.decode64(opts[:user_data])}",
-                  :regexp => "^.*:.*$"})
+                  :regexp => "^([^:]+):(.*)$"})
               }
             else
               raise BackendVersionUnsupportedException.new
