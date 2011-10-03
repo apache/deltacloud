@@ -47,7 +47,7 @@ use Rack::Date
 
 configure do
   set :views, File.dirname(__FILE__) + '/views'
-  set :public, File.dirname(__FILE__) + '/public'
+  set :public_folder, File.dirname(__FILE__) + '/public'
   # Try to load the driver on startup to fail early if there are issues
   driver
 end
