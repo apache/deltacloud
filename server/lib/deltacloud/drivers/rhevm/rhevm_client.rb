@@ -102,12 +102,6 @@ module RHEVM
       (result_xml/'/cluster/version').first[:major].strip == major
     end
 
-    def escape_user_data(data)
-      # Replace " with ' to keep quotes in XML attribute safe
-      data.gsub!(/"/, "'")
-      data
-    end
-
     def create_vm(template_id, opts={})
       opts ||= {}
       builder = Nokogiri::XML::Builder.new do
@@ -130,7 +124,7 @@ module RHEVM
                 #
                 custom_property({
                   :name => "floppyinject",
-                  :value => "#{RHEVM::FILEINJECT_PATH}:#{escape_user_data(Base64.decode64(opts[:user_data]))}",
+                  :value => "#{RHEVM::FILEINJECT_PATH}:#{Base64.decode64(opts[:user_data])}",
                   :regexp => "^.*:.*$"})
               }
             else
