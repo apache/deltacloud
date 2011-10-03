@@ -290,6 +290,7 @@ module DeltaCloud
 
         params[:realm_id] ||= params[:realm] if params[:realm]
         params[:keyname] ||= params[:key_name] if params[:key_name]
+        params[:user_data] = Base64::encode64(params[:user_data]) if params[:user_data]
 
         if params[:hardware_profile] and params[:hardware_profile].class.eql?(Hash)
           params[:hardware_profile].each do |k,v|
