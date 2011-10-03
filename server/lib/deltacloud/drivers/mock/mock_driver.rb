@@ -18,6 +18,7 @@
 require 'deltacloud/base_driver'
 require 'yaml'
 require 'deltacloud/drivers/mock/mock_client'
+require 'base64'
 
 module Deltacloud::Drivers::Mock
 
@@ -200,7 +201,7 @@ module Deltacloud::Drivers::Mock
         :realm_id=>realm_id,
         :create_image=>true,
         :actions=>instance_actions_for( 'RUNNING' ),
-        :user_data => opts[:user_data]
+        :user_data => opts[:user_data] ? Base64::decode64(opts[:user_data]) : nil
       }
       @client.store(:instances, instance)
       Instance.new( instance )
