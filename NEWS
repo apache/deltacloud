@@ -1,3 +1,32 @@
+0.4.1 - 2011-10-04
+  * change how dependencies are managed: canonical deps are now in the
+    gemspecs
+Server:
+  * clarify how user_data injection should work; make sure all drivers
+    accept base64 encoded data and make the decoded version available to
+    instance
+  * fix URL generation so that server works when run behind a reverse proxy
+  * init script: honor defaults from sysconfig file
+  * init script: fix 'status', properly background deltacloudd
+  * deltacloudd: support verbose option
+  * Drivers:
+    + Condor
+      - use UUIDTools instead of UUID to simplify deps
+    + Google
+      - new driver for Google storage API
+    + RHEV-M
+      - treat status as case-insensitive
+      - inject data through a virtual floppy rather than modifying
+        the instance storage directly
+    + vSphere
+      - report minimum of max memory across all hosts in a data center, so
+        that instances can be placed on any host
+      - user_data is placed in file 'deltacloud-user-data.txt'
+
+Client:
+  * fix parsing of enums in HWP properties
+  * fix handling of float value for number of vCPU in HWP
+
 0.4.0 - 2011-08-12
 Server:
   * deltacloudd: new option --drivers to list all drivers
