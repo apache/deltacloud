@@ -41,6 +41,12 @@ start() {
     [ -x $exec ] || exit 5
 
     echo -n $"Starting $prog: "
+    # By default, thin starts in PWD.  If your PWD is /root, it will fail to
+    # start since we change to nobody user first, and the nobody user doesn't
+    # have access to /root.  Make sure we change to / before trying to start
+    # the process.  Note that for systemd, this has no real effect;
+    # systemd always starts initscripts with a clean environment and PWD of /
+    cd /
     daemon --user "$DELTACLOUD_USER" "$exec -i $DRIVER -e $API_ENV --port $PORT -r $HOST >> $LOGFILE 2>&1 &"
     retval=$?
 
