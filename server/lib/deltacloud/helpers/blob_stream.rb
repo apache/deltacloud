@@ -104,6 +104,7 @@ module Thin
 end
 
 require 'net/http'
+require 'net/https'
 #monkey patch for Net:HTTP
 module Net
   class HTTP
