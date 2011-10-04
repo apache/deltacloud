@@ -20,8 +20,11 @@
       %p{ :'data-role' => 'fieldcontain'}=@storage_volume.state
     %li{ :'data-role' => 'list-divider'} Attached to
     %li
-      %a{ :href => instance_url( @storage_volume.instance_id) + ' - ' + @storage_volume.device.to_s}
-        =@storage_volume.instance_id || 'unknown'
+      %a{ :href => instance_url( @storage_volume.instance_id)}
+        = @storage_volume.instance_id || 'unknown'
+    %li{ :'data-role' => 'list-divider'} Device
+    %li
+      %p{ :'data-role' => 'fieldcontain'}= @storage_volume.device
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
