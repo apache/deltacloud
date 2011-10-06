@@ -423,11 +423,14 @@ module Sinatra
   helpers RabbitHelper
 end
 
-configure do
-  class << Sinatra::Base
-    def options(path, opts={}, &block)
-      route 'OPTIONS', path, opts, &block
+# In Sinatra < 1.2 there was no helper to create OPTIONS route
+unless Sinatra::Base.respond_to? :options
+  configure do
+    class << Sinatra::Base
+      def options(path, opts={}, &block)
+        route 'OPTIONS', path, opts, &block
+      end
     end
+    Sinatra::Delegator.delegate :options
   end
-  Sinatra::Delegator.delegate :options
 end
