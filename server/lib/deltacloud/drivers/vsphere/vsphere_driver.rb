@@ -171,7 +171,8 @@ module Deltacloud::Drivers::VSphere
                                                   :hwp_cpu => properties[:cpus],
                                                   :hwp_memory => properties[:memory],
                                                   :hwp_storage => properties[:storage])
-
+          # Check if all values are set in required format
+          validate_instance_profile!(instance_profile)
           # We're getting IP address from 'vmware guest tools'.
           # If guest tools are not installed, we return list of MAC addresses
           # assigned to this instance.
@@ -205,6 +206,9 @@ module Deltacloud::Drivers::VSphere
     def create_instance(credentials, image_id, opts)
       vsphere = new_client(credentials)
       safely do
+        if opts[:hwp_cpu]
+          raise "Invalid CPU value. Must be in integer format" unless valid_cpu_value?(opts[:hwp_cpu])
+        end
         rootFolder = vsphere.serviceInstance.content.rootFolder
         vm = find_vm(credentials, opts[:image_id])
         raise "ERROR: Could not find the image in given datacenter" unless vm[:instance]
@@ -351,6 +355,10 @@ module Deltacloud::Drivers::VSphere
         status 502
       end
 
+      on /Invalid/ do
+        status 400
+      end
+
     end
 
     def valid_credentials?(credentials)
@@ -402,6 +410,10 @@ module Deltacloud::Drivers::VSphere
         end
       end
       new_state
+    end
+
+    def valid_cpu_value?(val)
+      true if val =~ /^(\d+)$/
     end
 
     def valid_memory_value?(val)
