@@ -64,7 +64,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   define_instance_states do
     start.to( :pending )          .automatically
-    pending.to( :running )        .on( :start )
     pending.to( :stopped )        .automatically
     stopped.to( :running )        .on( :start )
     running.to( :stopping )       .on( :stop )
