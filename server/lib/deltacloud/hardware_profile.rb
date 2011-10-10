@@ -69,6 +69,7 @@ module Deltacloud
       end
 
       def valid?(v)
+        v = convert_property_value_type(v)
         case kind
           # NOTE:
           # Currently we cannot validate fixed values because of UI
@@ -82,8 +83,8 @@ module Deltacloud
           #
           # when :fixed then (v == @default.to_s)
           when :fixed then true
-          when :range then ((first..last).include?(v.to_i))
-          when :enum then (values.include?(v.to_i))
+          when :range then match_type?(first, v) and (first..last).include?(v)
+          when :enum then match_type?(values.first, v) and values.include?(v)
           else false
         end
       end
@@ -98,6 +99,18 @@ module Deltacloud
         else
           return values.include?(v)
         end
+      end
+
+      private
+
+      def match_type?(reference, value)
+        true if reference.class == value.class
+      end
+
+      def convert_property_value_type(v)
+        return v.to_f if v =~ /(\d+)\.(\d+)/
+        return v.to_i if v =~ /(\d+)/
+        v.to_s
       end
     end
 
