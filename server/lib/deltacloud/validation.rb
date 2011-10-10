@@ -16,13 +16,12 @@
 
 module Deltacloud::Validation
 
-  class Failure < StandardError
+  class Failure < Deltacloud::ExceptionHandler::DeltacloudException
     attr_reader :param
-    def initialize(param, msg='')
-      super(msg)
-      @param = param
+    def initialize(e, message=nil)
+      message ||= e.message
+      super(400, e.class.name, message, [])
     end
-
     def name
       param.name if @param
     end
@@ -45,6 +44,19 @@ module Deltacloud::Validation
 
     def optional?
       type.eql?(:optional)
+    end
+
+    def valid_value?(value)
+      true if (options.kind_of?(Range) or options.kind_of?(Array)) and options.include?(value)
+      true if options.kind_of?(String) and not options.empty?
+    end
+
+    def valid_hwp_value?(profile, value)
+      profile.property(@name.to_s.gsub(/^hwp_/, '')).valid?(value)
+    end
+
+    def hwp_property?
+      true if name.to_s =~ /^hwp_(cpu|memory|storage|architecture)/
     end
   end
 
@@ -72,15 +84,23 @@ module Deltacloud::Validation
     params.each_value { |p| yield p }
   end
 
-  def validate(all_params, values)
+  def validate(all_params, values, credentials)
     all_params.each_value do |p|
       if p.required? and not values[p.name]
         raise Failure.new(p, "Required parameter #{p.name} not found")
       end
-      if values[p.name] and not p.options.empty? and
-          not p.options.include?(values[p.name])
-        raise Failure.new(p, "Parameter #{p.name} has value #{values[p.name]} which is not in #{p.options.join(", ")}")
+      next unless values[p.name]
+      if p.hwp_property?
+        profile = driver.hardware_profile(credentials, values['hwp_id'])
+        unless p.valid_hwp_value?(profile, values[p.name])
+          raise Failure.new(p, "Hardware profile property #{p.name} has invalid value #{values[p.name]}")
+        end
+      else
+        if not p.options.empty? and p.valid_value?(values[p.name])
+          raise Failure.new(p, "Parameter #{p.name} has value #{values[p.name]} which is not in #{p.options.join(", ")}")
+        end
       end
     end
   end
+
 end

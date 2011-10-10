@@ -109,18 +109,33 @@ module DeltacloudUnitTest
       test_instance_attributes(last_xml_response/'instance')
     end
 
-    def test_it_create_a_new_instance_using_image_id_and_name_and_hwp
+    def test_it_create_a_new_instance_using_image_id_and_name_and_hwp_storage_and_hwp_cpu
       params = {
         :image_id => 'img1',
-        :name => "unit_test_instance1",
-        :hwp_id => "m1-xlarge"
+        :realm_id => '',
+        :name => "unit_test_instance3",
+        :hwp_id => "m1-small",
+        :hwp_storage => '160',
+        :hwp_memory => '1740.8',
+        :hwp_cpu => "1.0",
+      }
+      post_url '/api/instances', params
+      last_response.status.should == 400
+    end
+
+    def test_it_create_a_new_instance_using_image_id_and_name_and_hwp_storage
+      params = {
+        :image_id => 'img1',
+        :name => "unit_test_instance2",
+        :hwp_id => "m1-small",
+        :hwp_storage => "160"
       }
       post_url '/api/instances', params
       last_response.status.should == 201
       last_response.headers['Location'].should_not == nil
       get_auth_url last_response.headers['Location'], {}
-      (last_xml_response/'instance/name').text.should == 'unit_test_instance1'
-      (last_xml_response/'instance/hardware_profile').first['id'].should == 'm1-xlarge'
+      (last_xml_response/'instance/name').text.should == 'unit_test_instance2'
+      (last_xml_response/'instance/hardware_profile').first['id'].should == 'm1-small'
       add_created_instance (last_xml_response/'instance').first['id']
       test_instance_attributes(last_xml_response/'instance')
     end

@@ -44,7 +44,7 @@ module DeltacloudUnitTest
       features.should =~ [:hardware_profiles, :user_name, :authentication_key, :user_data]
 
       op = @app.collections[:instances].operations[:create]
-      op.effective_params(@driver).keys.should =~ [:image_id, :hwp_memory, :hwp_id, :keyname, :name, :hwp_storage, :realm_id, :user_data]
+      op.effective_params(@driver).keys.should =~ [:image_id, :hwp_memory, :hwp_id, :keyname, :name, :hwp_storage, :realm_id, :user_data, :hwp_architecture, :hwp_cpu]
 
       op.params.keys =~ [:realm_id, :image_id, :hwp_id]
     end

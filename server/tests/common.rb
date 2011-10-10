@@ -100,7 +100,9 @@ module DeltacloudTestCommon
       get(uri, params || {}, opts[:auth] ? authenticate(opts) : {})
       if last_response.status.to_s =~ /5(\d{2})/
         puts "============= [ ERROR ] ================"
-        puts last_response.inspect
+        puts last_response.body
+        puts "============= [ RESPONSE ] ================"
+        puts last_response.errors
         puts "========================================"
       end
     end
@@ -112,7 +114,9 @@ module DeltacloudTestCommon
     get_url(uri, params, opts)
     if last_response.status.to_s =~ /5(\d{2})/
       puts "============= [ ERROR ] ================"
-      puts last_response.inspect
+      puts last_response.body
+      puts "============= [ RESPONSE ] ================"
+      puts last_response.errors
       puts "========================================"
     end
   end
@@ -127,7 +131,9 @@ module DeltacloudTestCommon
       post(uri, params || {}, authenticate(opts))
       if last_response.status.to_s =~ /5(\d{2})/
         puts "============= [ ERROR ] ================"
-        puts last_response.inspect
+        puts last_response.body
+        puts "============= [ RESPONSE ] ================"
+        puts last_response.errors
         puts "========================================"
       end
     end
@@ -143,8 +149,9 @@ module DeltacloudTestCommon
       delete(uri, params || {}, authenticate(opts))
       if last_response.status.to_s =~ /5(\d{2})/
         puts "============= [ ERROR ] ================"
-        puts last_response.inspect
-        puts "========================================"
+        puts last_response.body
+        puts "============= [ RESPONSE ] ================"
+        puts last_response.errors
       end
     end
   end
@@ -159,8 +166,9 @@ module DeltacloudTestCommon
        put(uri, params || {}, authenticate(opts))
       if last_response.status.to_s =~ /5(\d{2})/
         puts "============= [ ERROR ] ================"
-        puts last_response.inspect
-        puts "========================================"
+        puts last_response.body
+        puts "============= [ RESPONSE ] ================"
+        puts last_response.errors
       end
     end
   end
