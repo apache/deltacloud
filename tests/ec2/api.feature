@@ -61,3 +61,4 @@ Feature: Accessing API entry points
     | user_data |
     | instance_count |
     | firewalls |
+    | hardware_profiles |
