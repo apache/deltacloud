@@ -114,9 +114,9 @@ module DeltacloudUnitTest
         :image_id => 'img1',
         :realm_id => '',
         :name => "unit_test_instance3",
-        :hwp_id => "m1-small",
-        :hwp_storage => '160',
-        :hwp_memory => '1740.8',
+        :hwp_id => "m1-large",
+        :hwp_storage => '850',
+        :hwp_memory => '7680.0',
         :hwp_cpu => "1.0",
       }
       post_url '/api/instances', params

@@ -15,7 +15,7 @@ Feature: Accessing hardware profiles
     When client want to show 'm1-large' hardware_profile
     And client should get this hardware_profile
     And it should have a href attribute
-    And it should have a fixed property 'cpu'
+    And it should have a range property 'cpu'
     And it should have a range property 'memory'
     And it should have a enum property 'storage'
     And this URI should be available in XML, HTML, JSON format
