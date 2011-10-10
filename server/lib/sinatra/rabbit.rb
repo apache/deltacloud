@@ -121,7 +121,7 @@ module Sinatra
         @control = Proc.new do
           op.collection.check_supported(driver)
           op.check_capability(driver)
-          op.validate(op.effective_params(driver), params)
+          op.validate(op.effective_params(driver), params, credentials)
           instance_eval(&block)
         end
       end

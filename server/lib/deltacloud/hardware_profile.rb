@@ -68,22 +68,21 @@ module Deltacloud
         kind == :fixed
       end
 
-      def to_param
-        return nil if kind == :fixed
-        if kind == :range
-          # FIXME: We can't validate ranges currently
-          args = [param, :string, :optional]
-        else
-          args = [param, :string, :optional, values.collect { |v| v.to_s} ]
+      def valid?(v)
+        case kind
+          when :fixed then (v == @default.to_s)
+          when [:range, :enum] then (value.include?(v.to_i))
+          else false
         end
-        Validation::Param.new(args)
+      end
+
+      def to_param
+        Validation::Param.new([param, :string, :optional, []])
       end
 
       def include?(v)
         if kind == :fixed
           return v == value
-        elsif kind == :range
-          return v >= first && v <= last
         else
           return values.include?(v)
         end
