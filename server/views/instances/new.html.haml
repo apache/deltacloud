@@ -1,5 +1,5 @@
 =header "Launch new instance"
-=subheader @image.description
+=subheader "#{@image.id}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
   %form{ :action => instances_url, :method => :post, :class => :new_instance, :'data-ajax' => 'false'}
@@ -62,7 +62,7 @@
             %label{ :for => profile.name}=profile.name
             - profile.properties.reject { |prop| prop.fixed? }.each do |prop|
               %div{ :'data-role' => :fieldcontain}
-                %label{ :for => "#{prop.param}_#{profile.name}" }=prop.name
+                %label{ :for => "#{prop.param}_#{profile.name}", :class => 'ui-input-text' }=prop.name
                 %span.radio-group-details
                   - if prop.kind == :enum
                     %select{ :size => 1, :name => prop.param }
