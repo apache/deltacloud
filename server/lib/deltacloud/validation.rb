@@ -85,7 +85,7 @@ module Deltacloud::Validation
   end
 
   def validate(all_params, values, credentials)
-    all_params.each_value do |p|
+    all_params.each do |key, p|
       if p.required? and not values[p.name]
         raise Failure.new(p, "Required parameter #{p.name} not found")
       end

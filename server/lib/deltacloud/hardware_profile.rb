@@ -70,8 +70,20 @@ module Deltacloud
 
       def valid?(v)
         case kind
-          when :fixed then (v == @default.to_s)
-          when [:range, :enum] then (value.include?(v.to_i))
+          # NOTE:
+          # Currently we cannot validate fixed values because of UI
+          # limitation. In UI we have multiple hwp_* properties which overide
+          # each other.
+          # Then provider have one 'static' hardware profile and one
+          # 'customizable' when user select the static one the UI also send
+          # values from the customizable one (which will lead to a validation
+          # error because validation algorith will think that client want to
+          # overide fixed values.
+          #
+          # when :fixed then (v == @default.to_s)
+          when :fixed then true
+          when :range then ((first..last).include?(v.to_i))
+          when :enum then (values.include?(v.to_i))
           else false
         end
       end
