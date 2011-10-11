@@ -30,6 +30,11 @@ $(document).ready(function() {
 
 })
 
+function expandHWP(id) {
+  $('div.hwp_properties .property_block').appendTo('.hidden_content');
+  $('div#hwp_properties_'+id).hide().appendTo('div#property_container_'+id).fadeIn();
+}
+
 // NOTE: This code was copied from http://phpjs.org/functions/base64_encode:358
 // phpjs.org license it under the MIT and GPL licenses
 

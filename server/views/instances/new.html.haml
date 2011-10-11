@@ -1,6 +1,22 @@
 =header "Launch new instance"
 =subheader "#{@image.id}"
 
+.hidden_content
+  - @hardware_profiles.each do |profile|
+    %div{ :'data-role' => :fieldcontain, :id => "hwp_properties_#{profile.name}", :class => 'property_block'}
+      - profile.properties.reject { |prop| prop.fixed? }.each do |prop|
+        %label{ :for => "#{prop.param}_#{profile.name}", :class => 'ui-input-text' }=prop.name
+        %span.radio-group-details
+          - if prop.kind == :enum
+            %select{ :size => 1, :name => prop.param }
+              - for v in prop.values
+                %option= v
+                = prop.unit
+          - elsif prop.kind == :range
+            %input{ :type => :range, :value => prop.first, :min => prop.first, :max => prop.last, :name => prop.param}
+          - else
+            %input{ :name => prop.param, :size => 10, :value => "#{prop.default}" }= prop.unit
+
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
   %form{ :action => instances_url, :method => :post, :class => :new_instance, :'data-ajax' => 'false'}
     %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
@@ -59,21 +75,8 @@
         %fieldset{ :'data-role' => :fieldcontain}
           - @hardware_profiles.each do |profile|
             %input{ :type => :radio, :name => 'hwp_id', :value => profile.name, :id => profile.name, :'data-theme' => 'b'}/
-            %label{ :for => profile.name}=profile.name
-            - profile.properties.reject { |prop| prop.fixed? }.each do |prop|
-              %div{ :'data-role' => :fieldcontain}
-                %label{ :for => "#{prop.param}_#{profile.name}", :class => 'ui-input-text' }=prop.name
-                %span.radio-group-details
-                  - if prop.kind == :enum
-                    %select{ :size => 1, :name => prop.param }
-                      - for v in prop.values
-                        %option= v
-                    = prop.unit
-                  - elsif prop.kind == :range
-                    %input{ :type => :range, :value => prop.first, :min => prop.first, :max => prop.last, :name => prop.param}
-                  - else
-                    %input{ :name => prop.param, :size => 10, :value => "#{prop.default}" }
-                    = prop.unit
+            %label{ :for => profile.name, :onclick => "expandHWP('#{profile.name}');"}=profile.name
+            %div{ :'data-role' => :fieldcontain, :id => "property_container_#{profile.name}", :class => 'hwp_properties'}
 
     - if !@realms.empty?
       %div{ 'data-role' => :fieldcontain }
