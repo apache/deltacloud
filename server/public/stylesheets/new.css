@@ -51,3 +51,7 @@ form.link {
 p.right-float {
   float : right;
 }
+
+.hidden_content {
+  display : none;
+}
