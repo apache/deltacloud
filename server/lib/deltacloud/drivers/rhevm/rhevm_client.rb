@@ -15,7 +15,6 @@
 #
 
 require 'rubygems'
-require 'base64'
 require 'restclient'
 require 'nokogiri'
 require 'digest/md5'
@@ -124,7 +123,7 @@ module RHEVM
                 #
                 custom_property({
                   :name => "floppyinject",
-                  :value => "#{RHEVM::FILEINJECT_PATH}:#{Base64.decode64(opts[:user_data])}",
+                  :value => "#{RHEVM::FILEINJECT_PATH}:#{opts[:user_data]}",
                   :regexp => "^([^:]+):(.*)$"})
               }
             else
