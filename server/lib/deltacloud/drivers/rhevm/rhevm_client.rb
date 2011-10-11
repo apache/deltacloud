@@ -75,7 +75,18 @@ module RHEVM
       if action==:delete
         RHEVM::client(@api_entrypoint)["/vms/%s" % id].delete(headers)
       else
-        xml_response = Client::parse_response(RHEVM::client(@api_entrypoint)["/vms/%s/%s" % [id, action]].post('<action/>', headers))
+        begin
+          client_response = RHEVM::client(@api_entrypoint)["/vms/%s/%s" % [id, action]].post('<action/>', headers)
+        rescue
+          if $!.is_a?(RestClient::BadRequest)
+            fault = (Nokogiri::XML($!.http_body)/'//fault/detail')
+            fault = fault.text.gsub(/\[|\]/, '') if fault
+          end
+          fault ||= $!.message
+          raise RHEVMBackendException::new(fault)
+        end
+        xml_response = Client::parse_response(client_response)
+
         return false if (xml_response/'action/status').first.text.strip.upcase!="COMPLETE"
       end
       return true
