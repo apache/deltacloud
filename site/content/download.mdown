@@ -7,8 +7,8 @@ filter: markdown
 Download
 ========
 
-Official releases can be downloaded from the
-[Apache website](http://www.apache.org/dist/incubator/deltacloud/)
+Official releases can be downloaded from one of the
+[Apache mirrors](http://www.apache.org/dyn/closer.cgi?path=incubator/deltacloud/)
 
 ### Deltacloud Core ###
 
