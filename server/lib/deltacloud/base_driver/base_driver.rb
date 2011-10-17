@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'lib/deltacloud/base_driver/exceptions'
+require 'deltacloud/base_driver/exceptions'
 
 module Deltacloud
 

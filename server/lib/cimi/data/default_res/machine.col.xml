@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Machine xmlns="http://www.dmtf.org/cimi">
+  <uri>machine</uri>
+  <name>Default machine name </name>
+  <description>Default machine description</description>
+  <created>2011-01-01 00:00:01 UTC</created>
+  <property name="prop1" content="prop1 value" />
+  <status>Started</status>
+  <cpu>Intel</cpu>
+  <memory quantity="4" units="gigabyte" />
+  <disk>
+    <capacity quantity="200" units="gigabyte" />
+    <format>ntgs</format>
+    <attachmentPoint>/dev/sdb0</attachmentPoint>
+    <guestInterface>SATA</guestInterface>
+  </disk>
+  <volume href="http://host:port/volume/vol01" attachmentPoint="/dev/sdc01" protocol="NFS" />
+  <networkInterface>
+    <vsp href="http://host:port/vsp/vsp01" />
+    <hostname>example host name</hostname>
+    <macAddress>00:00:00:00:00:00</macAddress>
+    <state>Active</state>
+    <protocol>IPv6</protocol>
+    <allocation>Dynamic</allocation>
+    <address>10.10.10.1</address>
+    <defaultGateway>10.10.0.1</defaultGateway>
+    <dns>10.10.0.1</dns>
+    <maxTransmissionUnit>512</maxTransmissionUnit>
+  </networkInterface>
+  <meter href="/meter" />
+  <eventLog href="eventLog" />
+  <operation rel="edit" href="/machine"/>
+  <operation rel="delete" href="/machine"/>
+  <operation rel="http://www.dmtf.org/cimi/stop" href="/machine/stop"/>
+</Machine>

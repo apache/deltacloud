@@ -26,6 +26,9 @@ begin
 rescue LoadError
 end
 
+$top_srcdir = File.dirname(__FILE__)
+$:.unshift File.join($top_srcdir, 'lib')
+
 begin
   require 'cucumber'
   require 'cucumber/rake/task'
@@ -91,13 +94,24 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
-desc "List all REST routes defined through Rabbit"
-task :routes do
-  require 'server.rb'
-  Sinatra::Rabbit::routes.each do |m, path|
-    puts sprintf("\033[1;30m%-8s\033[0m %s", m.to_s.upcase, path)
+namespace :routes do
+  desc "List all REST routes for the Deltacloud API"
+  task :api do
+    require 'deltacloud/server.rb'
+    Sinatra::Rabbit::routes.each do |m, path|
+      puts sprintf("\033[1;30m%-8s\033[0m %s", m.to_s.upcase, path)
+    end
+  end
+
+  desc "List all REST routes for the CIMI API"
+  task :cimi do
+    require 'cimi/server.rb'
+    Sinatra::Rabbit::routes.each do |m, path|
+      puts sprintf("\033[1;30m%-8s\033[0m %s", m.to_s.upcase, path)
+    end
   end
 end
+
 
 namespace :mock do
   namespace :fixtures do

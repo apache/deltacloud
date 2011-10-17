@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -13,15 +12,20 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
+#
 
-require 'rubygems'
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..', '..')
+require 'tests/common'
 
-$top_srcdir = File.dirname(__FILE__)
+require 'deltacloud/drivers'
+require 'deltacloud/drivers/mock/mock_driver'
 
-$:.unshift File.join($top_srcdir, 'lib')
+module DeltacloudUnitTest
 
-server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
-
-load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
-
-run Sinatra::Application
+  class StringTest < Test::Unit::TestCase
+    def test_camelize
+      "hello_camel".camelize.should == "helloCamel"
+      "hello_camel_lots_of_humps".camelize.should == "helloCamelLotsOfHumps"
+    end
+  end
+end

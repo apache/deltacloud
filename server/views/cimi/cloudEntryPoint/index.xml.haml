@@ -1,0 +1,9 @@
+!!!XML
+%CloudEntryPoint{ :xmlns => CMWG_NAMESPACE }
+  %uri= api_url_for("/cloudEntryPoint")
+  %name cloud entry point
+  %description cloud entry point
+  %created= Time.new.getutc.to_s
+  - @collections.each do |api|
+    - res_name = api[0].to_s.camelize
+    = "<#{res_name} href=\"#{api[1]}\"/>"

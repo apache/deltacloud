@@ -49,4 +49,9 @@ class String
           tr("-", "_").
           downcase
   end
+
+
+  def camelize
+    gsub(/_[a-z]/) { |match| match[1].chr.upcase }
+  end
 end

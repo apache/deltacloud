@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<MachineConfigurationCollection xmlns="http://www.dmtf.org/cimi">
+ <uri>machineConfiguration</uri>
+ <name>Machine Configuration collection </name>
+ <description>That is jsut a test</description>
+ <created>2011-09-12 11:37:28 UTC</created>
+ <operation rel="add" href="/machine_configurations" />
+</MachineConfigurationCollection>

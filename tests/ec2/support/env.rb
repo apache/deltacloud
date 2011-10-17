@@ -1,11 +1,15 @@
 SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
+
+$top_srcdir = SERVER_DIR
+$:.unshift File::join($top_srcdir, 'lib')
+
 Dir.chdir(SERVER_DIR)
 
 ENV['API_DRIVER'] = 'ec2'
 
 require 'rubygems'
 require 'nokogiri'
-require '../server/server'
+require 'deltacloud/server'
 require 'rack/test'
 
 Sinatra::Application.set :environment, :test
@@ -53,4 +57,3 @@ World do
   end
 
 end
-

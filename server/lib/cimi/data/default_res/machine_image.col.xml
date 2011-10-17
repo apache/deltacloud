@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<MachineImage xmlns="http://www.dmtf.org/cimi">
+  <uri>machineImage</uri>
+  <name>Default machine image name </name>
+  <description>Default machine image description</description>
+  <created>2011-01-01 00:00:01 UTC</created>
+  <imageLocation>http://</imageLocation>
+  <imageData></imageData>
+  <operation rel="edit" href="/machine_image"/>
+  <operation rel="delete" href="/machinie_image"/>
+</MachineImage>

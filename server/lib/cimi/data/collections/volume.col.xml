@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<VolumeCollection xmlns="http://www.dmtf.org/cimi">
+ <uri>volume</uri>
+ <name>Volume collection </name>
+ <description>The volume collection</description>
+ <created>2011-09-12 11:37:28 UTC</created>
+ <operation rel="add" href="/volumes" />
+</VolumeCollection>
