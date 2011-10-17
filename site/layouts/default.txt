@@ -17,8 +17,11 @@ filter: haml
 
     - if @page.filename == "index"
       %link{ :href => "./styles/firstpage.css", :rel => "stylesheet", :type => "text/css" }
+      %link{ :href => "./styles/jquery.tweet.css", :rel => "stylesheet", :type => "text/css" }
       %link{ :href => "./jquery.fancybox/jquery.fancybox-1.3.1.css", :rel => "stylesheet", :type => "text/css", :media => "screen" }
-      %script{ :type => "text/javascript", :src => "./jquery.fancybox/jquery-1.3.2.min.js" }
+      %script{ :type => "text/javascript", :src => "./js/jquery.min.js" }
+      %script{ :type => "text/javascript", :src => "./js/jquery.tweet.js" }
+      %script{ :type => "text/javascript", :src => "./js/tweet.js" }
       %script{ :type => "text/javascript", :src => "./jquery.fancybox/jquery.easing-1.3.pack.js" }
       %script{ :type => "text/javascript", :src => "./jquery.fancybox/jquery.fancybox-1.3.1.pack.js" }
       %script{ :src => "Scripts/swfobject_modified.js", :type => "text/javascript" }
