@@ -46,6 +46,7 @@ use Rack::MediaType
 use Rack::Date
 
 configure do
+  set :root_url, "/api"
   set :views, File.dirname(__FILE__) + '/views'
   set :public_folder, File.dirname(__FILE__) + '/public'
   # Try to load the driver on startup to fail early if there are issues
@@ -89,7 +90,16 @@ end
 # Redirect to /api
 get '/' do redirect root_url, 301; end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}\/?" do
+
+# Generate a root route for API docs
+get "#{settings.root_url}/docs\/?" do
+  respond_to do |format|
+    format.html { haml :'docs/index' }
+    format.xml { haml :'docs/index' }
+  end
+end
+
+get "#{settings.root_url}\/?" do
   if params[:force_auth]
     return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
   end
@@ -293,7 +303,7 @@ collection :instance_states do
   end
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances/:id/run" do
+get "#{settings.root_url}/instances/:id/run" do
   @instance = driver.instance(credentials, :id => params[:id])
   respond_to do |format|
     format.html { haml :"instances/run_command" }
@@ -769,7 +779,7 @@ end
 # existing blob
 NEW_BLOB_FORM_ID = "new_blob_form_d15cfd90"
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/:bucket/#{NEW_BLOB_FORM_ID}" do
+get "#{settings.root_url}/buckets/:bucket/#{NEW_BLOB_FORM_ID}" do
   @bucket_id = params[:bucket]
   respond_to do |format|
     format.html {haml :"blobs/new"}
@@ -992,7 +1002,7 @@ collection :buckets do
 
 end
 
-get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/addresses/:id/associate" do
+get "#{settings.root_url}/addresses/:id/associate" do
   @instances = driver.instances(credentials)
   @address = Address::new(:id => params[:id])
   respond_to do |format|

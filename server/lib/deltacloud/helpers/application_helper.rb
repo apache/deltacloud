@@ -22,12 +22,12 @@ module ApplicationHelper
   include Deltacloud
 
   def bread_crumb
-    s = "<ul class='breadcrumb'><li class='first'><a href='#{root_url}'>&#948</a></li>"
+    s = "<ul class='breadcrumb'><li class='first'><a href='#{settings.root_url}'>&#948</a></li>"
     url = request.path_info.split('?')  #remove extra query string parameters
     levels = url[0].split('/') #break up url into different levels
     levels.each_with_index do |level, index|
       unless level.blank?
-        next if "/#{level}" == Sinatra::UrlForHelper::DEFAULT_URI_PREFIX
+        next if "/#{level}" == settings.root_url
         if index == levels.size-1 || (level == levels[levels.size-2] && levels[levels.size-1].to_i > 0)
           s += "<li class='subsequent'>#{level.gsub(/_/, ' ')}</li>\n" unless level.to_i > 0
         else
@@ -177,7 +177,7 @@ module ApplicationHelper
   def link_to_documentation
     return '' unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI'].dup
-    uri.gsub!(Sinatra::UrlForHelper::DEFAULT_URI_PREFIX,
+    uri.gsub!(settings.root_url,
               api_url_for(:docs)) unless uri.include?("docs") #i.e. if already serving under /api/docs, leave it be
     '<a href="%s">[ Documentation ]</a>' % uri
   end

@@ -89,8 +89,8 @@ module Sinatra
 
       def generate_documentation
         coll, oper = @collection, self
-        Rabbit::routes << [:get, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@collection.name}/#{@name}"]
-        ::Sinatra::Application.get("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@collection.name}/#{@name}") do
+        Rabbit::routes << [:get, "#{settings.root_url}/docs/#{@collection.name}/#{@name}"]
+        ::Sinatra::Application.get("#{settings.root_url}/docs/#{@collection.name}/#{@name}") do
           @collection, @operation = coll, oper
           @features = driver.features_for_operation(coll.name, oper.name)
           respond_to do |format|
@@ -102,8 +102,8 @@ module Sinatra
 
       def generate_options
         current_operation = self
-        Rabbit::routes << [:options, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{current_operation.collection.name}/#{current_operation.name}"]
-        ::Sinatra::Application.options("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{current_operation.collection.name}/#{current_operation.name}") do
+        Rabbit::routes << [:options, "#{settings.root_url}/#{current_operation.collection.name}/#{current_operation.name}"]
+        ::Sinatra::Application.options("#{settings.root_url}/#{current_operation.collection.name}/#{current_operation.name}") do
           required_params = current_operation.effective_params(driver).collect do |name, validation|
             name.to_s if validation.type.eql?(:required)
           end.compact.join(',')
@@ -152,8 +152,8 @@ module Sinatra
       end
 
       def generate
-        Rabbit::routes << [@method, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{path}"]
-        ::Sinatra::Application.send(@method, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{path}", {}, &@control)
+        Rabbit::routes << [@method, "#{settings.root_url}/#{path}"]
+        ::Sinatra::Application.send(@method, "#{settings.root_url}/#{path}", {}, &@control)
         # Set up some Rails-like URL helpers
         if name == :index
           gen_route "#{@collection.name}_url"
@@ -239,8 +239,8 @@ module Sinatra
 
       def generate_head
         current_collection = self
-        Rabbit::routes << [:head, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}"]
-        ::Sinatra::Application.head("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}") do
+        Rabbit::routes << [:head, "#{settings.root_url}/#{name}"]
+        ::Sinatra::Application.head("#{settings.root_url}/#{name}") do
           methods_allowed = current_collection.operations.collect { |o| o[1].method.to_s.upcase }.uniq.join(',')
           headers 'Allow' => "HEAD,OPTIONS,#{methods_allowed}"
           [200, '']
@@ -249,8 +249,8 @@ module Sinatra
 
       def generate_options
         current_collection = self
-        Rabbit::routes << [:options, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}"]
-        ::Sinatra::Application.options("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/#{name}") do
+        Rabbit::routes << [:options, "#{settings.root_url}/#{name}"]
+        ::Sinatra::Application.options("#{settings.root_url}/#{name}") do
           operations_allowed = current_collection.operations.collect { |o| o[0] }.join(',')
           headers 'X-Operations-Allowed' => operations_allowed
           [200, '']
@@ -259,8 +259,8 @@ module Sinatra
 
       def generate_documentation
         coll = self
-        Rabbit::routes << [:get, "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@name}"]
-        ::Sinatra::Application.get("#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs/#{@name}") do
+        Rabbit::routes << [:get, "#{settings.root_url}/docs/#{@name}"]
+        ::Sinatra::Application.get("#{settings.root_url}/docs/#{@name}") do
           coll.check_supported(driver)
           @collection = coll
           @operations = coll.operations
@@ -392,15 +392,6 @@ module Sinatra
       collections[name] = Collection.new(name, &block)
       collections[name].generate
     end
-
-    # Generate a root route for API docs
-    get "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/docs\/?" do
-      respond_to do |format|
-        format.html { haml :'docs/index' }
-        format.xml { haml :'docs/index' }
-      end
-    end
-
   end
 
   module RabbitHelper
