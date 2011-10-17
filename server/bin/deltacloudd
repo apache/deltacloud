@@ -57,6 +57,9 @@ BANNER
   opts.on( '-P', '--provider PROVIDER', 'Use PROVIDER (default is set in the driver)') do |provider|
     ENV['API_PROVIDER'] = provider
   end
+  opts.on('--cimi', 'USe the DMTF CIMI frontend, not the Deltacloud frontend') do
+    ENV['API_FRONTEND'] = 'cimi'
+  end
   opts.on( '-c', '--config [FILE]', 'Read provider and other config from FILE (default: ~/.deltacloud/config)') do |config|
     options[:config] = File::expand_path(config || DEFAULT_CONFIG)
   end

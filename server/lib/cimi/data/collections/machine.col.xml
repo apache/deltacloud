@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<MachineCollection xmlns="http://www.dmtf.org/cimi">
+ <uri>machine</uri>
+ <name>Machine collection </name>
+ <description>The machine collection</description>
+ <created>2011-09-12 11:37:28 UTC</created>
+ <operation rel="add" href="/machines" />
+</MachineCollection>

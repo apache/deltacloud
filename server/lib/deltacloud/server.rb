@@ -47,8 +47,8 @@ use Rack::Date
 
 configure do
   set :root_url, "/api"
-  set :views, File.dirname(__FILE__) + '/views'
-  set :public_folder, File.dirname(__FILE__) + '/public'
+  set :views, File::join($top_srcdir, 'views')
+  set :public_folder, File::join($top_srcdir, 'public')
   # Try to load the driver on startup to fail early if there are issues
   driver
 end

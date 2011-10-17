@@ -1,5 +1,5 @@
 require 'syslog'
-require 'lib/sinatra/body_proxy'
+require 'sinatra/body_proxy'
 
 class SyslogFile < File
 

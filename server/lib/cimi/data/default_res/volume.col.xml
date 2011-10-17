@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<Volume xmlns="http://www.dmtf.org/cimi">
+  <uri>volume</uri>
+  <name>Default volume name </name>
+  <description>Default volume description</description>
+  <created>2011-01-01 00:00:01 UTC</created>
+  <capacity quantity="200" units="gigabyte"/>
+  <bootable>true</bootable>
+  <format>ext4</format>
+  <supportsSnapshots>true</supportsSnapshots>
+  <guestInterface>SATA</guestInterface>
+  <operation rel="edit" href="/volume"/>
+  <operation rel="delete" href="/volume"/>
+</Volume>

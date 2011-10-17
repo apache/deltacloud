@@ -14,7 +14,8 @@
 # under the License.
 #
 
-$:.unshift File.join(File.dirname(__FILE__), '..')
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+$top_srcdir = File::dirname(File::dirname(__FILE__))
 
 require 'rubygems'
 require 'yaml'
@@ -25,7 +26,7 @@ require 'json'
 require 'digest/sha1'
 require 'base64'
 require 'rack/test'
-require 'server'
+require 'deltacloud/server'
 
 driver
 
