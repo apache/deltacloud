@@ -67,14 +67,14 @@ These represent credentials used to access a running Instance. These can be of t
 *key* (e.g., an *RSA* key), or of type *password* (i.e., with *username* and
 *password* attributes).
 
-##### Storage_Volume
+##### Storage\_Volume
 
 This is a virtual storage device that can be attached to an Instance and mounted
 by the OS therein.
 
-##### Storage_Snapshot
+##### Storage\_Snapshot
 
-These are copies, snapshots of a Storage_Volume at a specified point in time.
+These are copies, snapshots of a Storage\_Volume at a specified point in time.
 
 ##### Bucket
 
@@ -128,6 +128,7 @@ Storage Snapshots, Blob Storage.
 <br/>
 * * *
 
+<a name=authentication>.
 ### 1.3 Authentication
 
 The Deltacloud API server is stateless, and does not keep any information
@@ -138,7 +139,8 @@ and clients have to send the username/password for the backend cloud on every re
 The specifics of what needs to be sent varies from cloud to cloud; some
 cloud providers employ a username and password for API access, whilst
 others use special-purpose API keys. A list of the credentials that a given
-cloud provider expects for API access is [available here](documentation.html)
+cloud provider expects for API access is
+[available here](drivers.html#credentials)
 
 <br/>
 [Contents](#toc)
@@ -222,7 +224,8 @@ part of this specification, and may change in an incompatible way.
 
 Any part of the official API can be reached through the main entry point,
 by default http://localhost:3001/api. The entry point list the resources
-the server knows about for the current cloud provider; for the Amazon EC2 driver for example, these are:
+the server knows about for the current cloud provider; for the Amazon EC2
+driver for example, these are:
 
 * Instances
 * Instance states
@@ -398,8 +401,8 @@ In some cases, a ***realm*** may represent different datacenters, different cont
 or different pools of resources within a single datacenter. A cloud provider may
 insist that resources must all exist within a single ***realm*** in order to cooperate.
 For instance, storage volumes may only be allowed to be mounted to instances within
-the same ***realm***. Generally speaking, going from one ***realm*** to another within the same
-cloud may change many aspects of the cloud, such as SLA’s, pricing terms, etc.
+the same ***realm***. Generally speaking, going from one ***realm*** to another within
+the same cloud may change many aspects of the cloud, such as SLA’s, pricing terms, etc.
 
 #### `GET /api/realms`
 
@@ -443,10 +446,10 @@ to EC2 "availability zones":
 
 #### `GET /api/realms/:id`
 
-Provide the details of a ***realm***. Currently, these are a ***name***, a  ***state*** and a
- ***limit** applicable to the current requester. The ***name*** is an arbitrary label
-with no specific meaning in the API. The ***state*** can be either ***AVAILABLE***
- or ***UNAVAILABLE***. The example below shows the ***realm*** for the Rackspace driver.
+Provide the details of a ***realm***. Currently, these are a **name**, a  **state** and a
+ **limit** applicable to the current requester. The ***name*** is an arbitrary label
+with no specific meaning in the API. The **state** can be either **AVAILABLE**
+ or **UNAVAILABLE**. The example below shows the ***realm*** for the Rackspace driver.
 Since Rackspace does not currently have a notion of ***realms*** the Deltacloud
 Rackspace driver provides a single ***realm*** called 'US', signifying that all
 compute resources for that cloud provider are hosted in the United States:
@@ -668,6 +671,7 @@ whereas Rackspace Cloudservers ***image*** state can be one of *UNKNOWN*, *PREPA
 attribute that specifies the URI to which a client may issue a **HTTP POST** for creation of
 an ***instance*** from the given ***image***.
 
+<a name=list_images>.
 #### `GET /api/images`
 
 Return a list of all ***images*** available in the back-end cloud. By default this call will
@@ -787,12 +791,13 @@ the new image. For example:
     ...
 
 To create a new ***image*** the client must specify the *instance_id* of the running instance.
- Optionally, the client may also provide a *name* and a *description*. The parameters are
-specified as multipart/form-data fields in the client POST. The Deltacloud server will
-respond to a successful operation with **HTTP 201 Created** and provide details of the
+ Optionally, the client may also provide a *name* and a *description*. The parameters may
+be specified as multipart/form-data fields in the client POST.
+
+Alternatively, clients may also specify parameters using a content-type of
+application/x-www-form-urlencoded. The Deltacloud server will respond to a
+successful operation with **HTTP 201 Created** and provide details of the
 newly created ***image***:
-
-
 
 `Example request:`
 
@@ -801,24 +806,11 @@ newly created ***image***:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3002
     Accept: */*
-    Content-Length: 404
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------ba9acb193034
+    Content-Length: 96
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------ba9acb193034
-    Content-Disposition: form-data; name="instance_id"
-
-    20109341
-    ------------------------------ba9acb193034
-    Content-Disposition: form-data; name="name"
-
-    customisedserver
-    ------------------------------ba9acb193034
-    Content-Disposition: form-data; name="description"
-
-    jsmith customised web server July 21 2011
-    ------------------------------ba9acb193034--
-
+    instance_id=20109341&name=customisedserver&description=jsmith%20cu
+    stomised%20web%20server%20July%2021%202011
 
 `Server response:`
 
@@ -1355,22 +1347,28 @@ IP address. This access may be given using the [firewalls](#firewalls) collectio
 <a name=create_instance>.
 #### `POST /api/instances`
 
-Create a new ***instance***. At a minimum clients must specify the ***image*** from
-which the virtual machine ***instance*** is to be created. Optionally a client
-may also specify a ***hardware profile*** and ***realm*** (with default values used
-otherwise). Clients can also provide a *name* for the new *instance* though this is not
-supported by all back-end cloud providers. Whether a given feature is available is advertised
-in the response to the Deltacloud server API entry point.
-The details of the new ***instance*** are returned in response to this operation.
+Create a new ***instance***. At a minimum clients must specify the ***image***
+from which the virtual machine ***instance*** is to be created. Optionally a
+client may also specify a ***hardware profile*** and ***realm*** (with default
+values used otherwise). Clients can also provide a *name* for the new *instance*
+ though this is not supported by all back-end cloud providers. Whether a given
+feature is available is advertised in the response to the Deltacloud server
+API entry point. The details of the new ***instance*** are returned in
+response to this operation.
 
-For creation of an ***instance*** in the Amazon EC2 cloud a client can also specify the
-name of the EC2 keypair to be used as well as the firewalls (EC2 security groups) that the
-***instance*** should be launched into. The EC2 keypair is specified with the parameter *keyname*
-while firewalls are specified sequentially as *firewalls1* ... *firewalls2* ... etc. These parameters
-are specified in the first ***instance*** creation example below. Note that the values for
-public and private addresses are blank in the server response, as these have not yet been
-assigned by the cloud provider. Subsequent requests for the ***instance*** details
-will provide these values.
+For creation of an ***instance*** in the Amazon EC2 cloud a client can also
+specify the name of the EC2 keypair to be used as well as the firewalls
+(EC2 security groups) that the ***instance*** should be launched into. The
+EC2 keypair is specified with the parameter *keyname* while firewalls are
+specified sequentially as *firewalls1* ... *firewalls2* ... etc. These parameters
+are specified in the first ***instance*** creation example below. Note that the
+values for public and private addresses are blank in the server response, as
+these have not yet been assigned by the cloud provider. Subsequent requests
+for the ***instance*** details will provide these values.
+
+As with other POST operations in the Deltacloud API, clients may specify parameters
+as multipart/form-data or as  x-www-url-form-urlencoded content type, as demonstrated
+by the examples below.
 
 <a name=create_instance_ec2>.
 
@@ -1381,35 +1379,11 @@ will provide these values.
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 676
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------cce0758d1679
+    Content-Length: 107
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------cce0758d1679
-    Content-Disposition: form-data; name="keyname"
-
-    eftah
-    ------------------------------cce0758d1679
-    Content-Disposition: form-data; name="image_id"
-
-    ami-f51aff9c
-    ------------------------------cce0758d1679
-    Content-Disposition: form-data; name="realm_id"
-
-    us-east-1c
-    ------------------------------cce0758d1679
-    Content-Disposition: form-data; name="hwp_id"
-
-    c1.medium
-    ------------------------------cce0758d1679
-    Content-Disposition: form-data; name="firewalls1"
-
-    default
-    ------------------------------cce0758d1679
-    Content-Disposition: form-data; name="firewalls2"
-
-    test
-    ------------------------------cce0758d1679--
+    keyname=eftah&image_id=ami-f51aff9c&realm_id=us-east-1c&hwp_id=c1.medium&
+    firewalls1=default&firewalls2=test
 
 `Server response:`
 
@@ -1444,11 +1418,14 @@ will provide these values.
       </authentication>
     </instance>
 
+<a name=create_instance_rax>.
+
 The second example given below shows creation of an ***instance*** in the Rackspace
 Cloudservers cloud. Here you can see that the client provides the optional *name*
  parameter and that the created instance uses authentication of type **password**.
-The *username* and *password* are returned with the details of the newly created
-***instance***:
+Furthermore, in this example the requesting client uses a content-type of
+application/x-www-form-urlencoded. The *username* and *password* are returned with
+the details of the newly created ***instance***:
 
 `Example request: (Rackspace Cloudservers)`
 
@@ -1457,23 +1434,10 @@ The *username* and *password* are returned with the details of the newly created
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3002
     Accept: */*
-    Content-Length: 342
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------7424b11a955d
+    Content-Length: 34
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------7424b11a955d
-    Content-Disposition: form-data; name="image_id"
-
-    53
-    ------------------------------7424b11a955d
-    Content-Disposition: form-data; name="hwp_id"
-
-    1
-    ------------------------------7424b11a955d
-    Content-Disposition: form-data; name="name"
-
-    myserver
-    ------------------------------7424b11a955d--
+    image_id=53&hwp_id=1&name=myserver
 
 `Server response:`
 
@@ -1510,27 +1474,31 @@ The *username* and *password* are returned with the details of the newly created
 
 ### 3.6 Keys
 
-A ***key*** captures the credentials required to access an ***Instance***. The Deltacloud API supports
-two main types of ***keys***: type **password** which have *username* and *password* attributes, or type
-**key** which have *fingerprint* and *pem* (private key) attributes (public/private keypair).
+A ***key*** captures the credentials required to access an ***Instance***. The
+Deltacloud API supports two main types of ***keys***: type **password** which
+have *username* and *password* attributes, or type **key** which have
+*fingerprint* and *pem* (private key) attributes (public/private keypair).
 The key type is determined by the back-end cloud provider.
 
-Some cloud providers require that the client specify the credentials to be used for connecting to an
- ***instance*** as a parameter to ***instance*** creation. An example is the Amazon EC2 cloud which uses
-***keys*** of type **key** and where the identifier of the **key** to be used with a given ***instance***
-is supplied in the *keyname* parameter to the [POST /api/instances](#create_instance_ec2) call.
+Some cloud providers require that the client specify the credentials to be used
+for connecting to an  ***instance*** as a parameter to ***instance*** creation.
+An example is the Amazon EC2 cloud which uses ***keys*** of type **key** and
+where the identifier of the **key** to be used with a given ***instance***
+is supplied in the *keyname* parameter to the
+[POST /api/instances](#create_instance_ec2) call.
 
-Other cloud providers report the ***instance*** credentials in the response to ***instance***
-creation and make them available for subsequent retrieval. An example is the Gogrid Cloud,
- which uses ***keys*** of type  **password** (note: the Rackspace cloud also reports credentials
-during ***instance*** creation though it does not provide a mechanism with which to retrieve
-those passwords thereafter).
+Other cloud providers report the ***instance*** credentials in the response to
+ ***instance*** creation and make them available for subsequent retrieval. An
+example is the Gogrid Cloud, which uses ***keys*** of type  **password**
+(note: the Rackspace cloud also reports credentials during ***instance*** creation
+though it does not provide a mechanism with which to retrieve those passwords thereafter).
 
 #### `GET /api/keys`
 
-This gives a listing of all available keys. The example shown below is for ***keys*** from the Amazon
-EC2 cloud, which are of type **key**. Note that the XML response does not contain the private key
-attribute. This is because EC2 only provides the private key once, when the key is created (see
+This gives a listing of all available keys. The example shown below is for
+***keys*** from the Amazon EC2 cloud, which are of type **key**. Note that the
+XML response does not contain the private key attribute. This is because EC2 only
+provides the private key once, when the key is created (see
 [key creation](#key_create) for an example):
 
 <a name=get_keys>.
@@ -1601,13 +1569,20 @@ Gogrid cloud:
 #### `POST /api/keys`
 
 Some back-end cloud providers allow a client to create new credentials for
-accessing Instances. The parameters (key attributes) required by this function will depend on the
- back-end and are specified in the relevant driver. At present only the Amazon EC2 cloud implements a key
-create method and this requires the key *name* to be specified as a parameter. It should be noted that
-the private key attribute of a newly created key is reported only once, in response to the create
-operation as shown in the example below. The client should save the private key for future use with
- ***instance*** authentication. In all subsequent calls, only the fingerprint attribute is displayed
- in the Deltacloud server response, as illustrated by the [GET /api/keys](#get_keys) call above.
+accessing Instances. The parameters (key attributes) required by this function
+will depend on the back-end and are specified in the relevant driver. At
+present only the Amazon EC2 cloud implements a key create method and this
+requires the key *name* to be specified as a parameter. It should be noted that
+the private key attribute of a newly created key is reported only once, in
+response to the create operation as shown in the example below.
+The client should save the private key for future use with  ***instance***
+authentication. In all subsequent calls, only the fingerprint attribute
+is displayed in the Deltacloud server response, as illustrated by
+the [GET /api/keys](#get_keys) call above.
+
+Note that as with other HTTP POST calls in the Deltacloud REST API, client requests
+may specify the required parameters as multipart/form-data, or using the
+application/x-www-form-urlencoded content type.
 
 <a name=key_create>.
 
@@ -1618,15 +1593,10 @@ operation as shown in the example below. The client should save the private key 
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 153
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------92fbd163f915
+    Content-Length: 19
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------92fbd163f915
-    Content-Disposition: form-data; name="name"
-
-    jsmith_new_key
-    ------------------------------92fbd163f915--
+    name=jsmith_new_key
 
 `Server response:`
 
@@ -1717,7 +1687,7 @@ or egress traffic.
 
 As Amazon EC2 has no notion of a ***firewall rule*** ID, the Deltacloud server constructs one
 for each rule as the concatenation of its attributes. The format used is:
-owner_id~protocol~from_port~to_port~@sources.
+owner\_id~protocol~from\_port~to\_port~@sources.
 
 As explained above a source can be of type **address** in which case it defines an
 *IP type* (ipv4/ipv6), an *IP address* and *routing prefix* (CIDR netmask). Sources
@@ -1839,9 +1809,12 @@ Retrieve details of a single specified ***firewall***.
 
 #### `POST /api/firewalls`
 
-Creates a new ***firewall***. Clients must specify the ***firewall*** *name* and *description* as
-parameters to the request. On succesful completion the Deltacloud server will respond with **HTTP 201
-Created** and return details of the newly created ***firewall***:
+Creates a new ***firewall***. Clients must specify the ***firewall*** *name*
+and *description* as parameters to the request. On succesful completion the
+Deltacloud server will respond with **HTTP 201 Created** and return details
+of the newly created ***firewall***. As with other POST operations in the
+Deltacloud API, a client may specify parameters as multipart/form-data or using
+the application/x-www-form-urlencoded content-type.
 
 `Example request:`
 
@@ -1850,19 +1823,10 @@ Created** and return details of the newly created ***firewall***:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 285
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------cdbcabd8ab04
+    Content-Length: 64
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------cdbcabd8ab04
-    Content-Disposition: form-data; name="name"
-
-    Devel_Group
-    ------------------------------cdbcabd8ab04
-    Content-Disposition: form-data; name="description"
-
-    Access for all development machines
-    ------------------------------cdbcabd8ab04--
+    name=Devel_Group&description=Access%20for%20all%20development%20machines
 
 `Server response:`
 
@@ -1880,12 +1844,12 @@ Created** and return details of the newly created ***firewall***:
       </rules>
     </firewall>
 
-<a name=delete_firewall_rule> .
+<a name=delete_firewall> .
 
 #### `DELETE /api/firewalls/:id`
 
-Deletes the specified ***firewall*** from the back-end cloud provider. The Deltacloud server will respond
-with **HTTP 204 No Content** after a successful deletion:
+Deletes the specified ***firewall*** from the back-end cloud provider. The Deltacloud
+server will respond with **HTTP 204 No Content** after a successful deletion:
 
 `Example request:`
 
@@ -1901,17 +1865,20 @@ with **HTTP 204 No Content** after a successful deletion:
     Date: Wed, 27 Jul 2011 09:47:43 GMT
 
 The rules governing the deletion of a ***firewall*** are back-end cloud specific.
-Since at present only the Amazon EC2 cloud supports the ***firewalls*** collection we describe the
-***firewall*** deletion rules for EC2 here.
+Since at present only the Amazon EC2 cloud supports the ***firewalls*** collection
+we describe the ***firewall*** deletion rules for EC2 here.
 
-It is permitted to delete a ***firewall*** that has rules defined within it, with two caveats.
-You cannot delete a  ***firewall*** if it is referenced by another ***firewall***; for instance
- **firewall_1** has a rule giving access to **firewall_2**. An attempt to delete
-**firewall_2** will result in the error **InvalidGroup.InUse**, as shown in the example below. The second
-caveat is that you cannot delete a ***firewall*** if there are currently any running ***instances*** within
-that ***firewall*** (i.e. ***instances*** that specified the given ***firewall*** when they were launched).
-The error message in that case is **InvalidGroup.InUse: There are active instances using security group**.
-In both cases the error message is propagated from the back-end cloud provider to the requesting client:
+It is permitted to delete a ***firewall*** that has rules defined within it, with
+two caveats. You cannot delete a  ***firewall*** if it is referenced by another
+***firewall***; for instance  **firewall_1** has a rule giving access to
+**firewall_2**. An attempt to delete **firewall_2** will result in the error
+**InvalidGroup.InUse**, as shown in the example below. The second caveat is that
+you cannot delete a ***firewall*** if there are currently any running ***instances***
+within that ***firewall*** (i.e. ***instances*** that specified the given
+***firewall*** when they were launched). The error message in that case is
+**InvalidGroup.InUse: There are active instances using security group**. In both
+cases the error message is propagated from the back-end cloud provider to the
+requesting client:
 
 `Example request: (error deleting a firewall referenced by another firewall)`
 
@@ -1939,17 +1906,23 @@ In both cases the error message is propagated from the back-end cloud provider t
 
 #### `POST /api/firewalls/:id/rules`
 
-Create a new ***firewall rule*** within a specified ***firewall***. A client must supply the **protocol**
-(one of *udp*, *tcp* or *icmp*), **port_from** and **port_to** as parameters. Ofcourse the client must also
-specify the **sources** to which the given rule is to apply. IP addresses are specified in CIDR format
-sequentially: *ip_address1=192.168.10.10/24*, *ip_address2=10.1.1.1/16* ... *ip_addressN=...*. The IP
-address '0.0.0.0/0' acts as a wildcard to specify **any** IP address.
-Source ***firewalls*** are also specified sequentially but the *owner_id* of the ***firewall*** that is to
- be authorized must also be supplied (this is an Amazon EC2 requirement): group1=name1,
-group1owner=1234567890, group2=name2, group2owner=0987654321, ... groupN=nameN, groupNowner=...
+Create a new ***firewall rule*** within a specified ***firewall***. A client
+must supply the **protocol** (one of *udp*, *tcp* or *icmp*), **port_from**
+and **port_to** as parameters. Ofcourse the client must also specify the
+**sources** to which the given rule is to apply. IP addresses are specified
+in CIDR format sequentially: *ip_address1=192.168.10.10/24*,
+*ip_address2=10.1.1.1/16* ... *ip_addressN=...*. The IP address '0.0.0.0/0'
+acts as a wildcard to specify **any** IP address. Source ***firewalls*** are
+also specified sequentially but the *owner_id* of the ***firewall*** that is
+to be authorized must also be supplied (this is an Amazon EC2 requirement):
+group1=name1, group1owner=1234567890, group2=name2, group2owner=0987654321,
+... groupN=nameN, groupNowner=...
 
-The Deltacloud server responds with a **HTTP 201 Created** after a successful operation together with the
-details of the affected ***firewall***:
+The Deltacloud server responds with a **HTTP 201 Created** after a successful
+operation together with the details of the affected ***firewall***. The example
+client request below specifies the required parameters as multipart/form-data.
+However clients may also legitimately use the application/x-www-form-urlencoded
+to provide firewall rule parameters.
 
 `Example request:`
 
@@ -2027,10 +2000,12 @@ details of the affected ***firewall***:
       </rules>
     </firewall>
 
+<a name=delete_firewall_rule> .
+
 #### `DELETE /api/firewalls/:id/:rule_id`
 
-Delete the specified firewall rule. The Deltacloud server will respond with **HTTP 204 No Content** on
-completion of a successful delete operation:
+Delete the specified firewall rule. The Deltacloud server will respond with
+**HTTP 204 No Content** on completion of a successful delete operation:
 
 `Example request:`
 
@@ -2053,11 +2028,12 @@ completion of a successful delete operation:
 
 ### 3.8 Addresses
 
-The ***addresses*** collection represents IP addresses and is intended to allow IP address management.
- This collection is currently implemented for the Amazon EC2 cloud driver. For EC2, IP address management
-corresponds to Amazon's 'Elastic IP' feature. As such, the ***addresses*** collection supports operations
-for creating or destroying an ***address*** as well as associating or disassociating an ***address*** from
-a running ***instance***.
+The ***addresses*** collection represents IP addresses and is intended to allow
+IP address management. This collection is currently implemented for the Amazon
+EC2 cloud driver. For EC2, IP address management corresponds to Amazon's
+'Elastic IP' feature. As such, the ***addresses*** collection supports operations
+for creating or destroying an ***address*** as well as associating or
+disassociating an ***address*** from a running ***instance***.
 
 #### `GET /api/addresses`
 
@@ -2177,12 +2153,14 @@ succesful operation.
 
 #### `POST /api/addresses/:id/associate`
 
-This operation associates a given ***address*** with a running ***instance***. The client must
-specify the *instance_id* as a parameter to this call. For Amazon EC2, the specified ***address***
-will replace the currently assigned *public_address* of the ***instance***. A succesful operation will
-produce a **HTTP 202 Accepted** response:
-
-
+This operation associates a given ***address*** with a running ***instance***.
+The client must specify the *instance_id* as a parameter to this call.
+For Amazon EC2, the specified ***address*** will replace the currently assigned
+*public_address* of the ***instance***. A succesful operation will produce a
+**HTTP 202 Accepted** response. The example client request below specifies the
+required  *instance_id* parameter using the application/x-www-form-urlencoded
+content-type, however this can also legitimately be specified using
+multipart/form-data.
 
 `Example request:`
 
@@ -2191,15 +2169,10 @@ produce a **HTTP 202 Accepted** response:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 156
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------e4c1d4718683
+    Content-Length: 22
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------e4c1d4718683
-    Content-Disposition: form-data; name="instance_id"
-
-    i-9d8a3dfc
-    ------------------------------e4c1d4718683--
+    instance_id=i-9d8a3dfc
 
 `Server response:`
 
@@ -2235,20 +2208,23 @@ assigned.
 
 ### 3.9 Load Balancers
 
-***Load balancers*** allow distribution of ingress network traffic received by a specified IP address
-to a number of running ***instances***. For example, a number of ***instances*** that are fulfilling the
-role of web servers can be attached to a single ***load_balancer***. This would allow
-handling of large numbers of requests without degradation to the website performance.
+***Load balancers*** allow distribution of ingress network traffic received by a
+ specified IP address to a number of running ***instances***. For example, a
+number of ***instances*** that are fulfilling the role of web servers can be
+attached to a single ***load_balancer***. This would allow handling of large
+numbers of requests without degradation to the website performance.
 
-This collection is not supported by all back-end cloud providers and at present is implemented for the
-Gogrid and Amazon EC2 cloud drivers. A ***load_balancer*** is launched into a specific ***realm***
-and typically only ***instances*** within that ***realm*** may be 'attached' to the balancer. Each
-***load_balancer*** also has a list of ***instances***, a **public address** representing the IP address
-that the balancer will respond to client requests on, a **created_at** timestamp and a list of
-**listeners**. Each **listener** has a **protocol** (e.g., 'TCP'), a **load balancer port** and
-an **instance port** which represent the network ports on which the balancer accepts
-connections and the port to which network traffic is forwarded to ***instances*** in the
-**instance list**, respectively.
+This collection is not supported by all back-end cloud providers and at present
+is implemented for the Gogrid and Amazon EC2 cloud drivers. A
+***load_balancer*** is launched into a specific ***realm*** and typically only
+ ***instances*** within that ***realm*** may be 'attached' to the balancer. Each
+***load_balancer*** also has a list of ***instances***, a **public address**
+representing the IP address that the balancer will respond to client requests
+on, a **created_at** timestamp and a list of **listeners**. Each **listener**
+has a **protocol** (e.g., 'TCP'), a **load balancer port** and an
+**instance port** which represent the network ports on which the balancer accepts
+connections and the port to which network traffic is forwarded to ***instances***
+in the **instance list**, respectively.
 
 #### `GET /api/load_balancers`
 
@@ -2362,12 +2338,16 @@ Retrieve details for a specific load balancer:
 
 #### `POST /api/load_balancers`
 
-This operation creates a new ***load_balancer***. Clients must provide the ***load_balancer*** **name**,
- the **realm_id** to which the balancer is to apply, a **listener_protocol** which the balancer will
-respond to (one of **HTTP** or **TCP**), the **listener_balancer_port** which specifies the port
-that the ***load_balancer*** will be expecting network traffic on and finally the **listener_instance_port**
-which specifies the port on which ***instances*** will be receiving network traffic forwarded by the
-***load_balancer***.
+This operation creates a new ***load_balancer***. Clients must provide the
+***load_balancer*** **name**, the **realm_id** to which the balancer is to
+apply, a **listener_protocol** which the balancer will respond to (one of
+**HTTP** or **TCP**), the **listener_balancer_port** which specifies the port
+that the ***load_balancer*** will be expecting network traffic on and finally
+the **listener_instance_port** which specifies the port on which ***instances***
+will be receiving network traffic forwarded by the ***load_balancer***. As with
+other operations in the Deltacloud API, parameters may be specified by a requesting
+client using multipart/form-data or as application/x-www-form-urlencoded data
+as shown below:
 
 `Example request:`
 
@@ -2376,32 +2356,11 @@ which specifies the port on which ***instances*** will be receiving network traf
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 603
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------395a7b3a9c77
+    Content-Length: 121
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------395a7b3a9c77
-    Content-Disposition: form-data; name="name"
-
-    webtraffic-balancer
-    ------------------------------395a7b3a9c77
-    Content-Disposition: form-data; name="realm_id"
-
-    us-east-1c
-    ------------------------------395a7b3a9c77
-    Content-Disposition: form-data; name="listener_protocol"
-
-    HTTP
-    ------------------------------395a7b3a9c77
-    Content-Disposition: form-data; name="listener_balancer_port"
-
-    80
-    ------------------------------395a7b3a9c77
-    Content-Disposition: form-data; name="listener_instance_port"
-
-    3001
-    ------------------------------395a7b3a9c77--
-
+    name=webtraffic-balancer&realm_id=us-east-1c&listener_protocol=HTTP&
+    listener_balancer_port=80&listener_instance_port=3001
 
 `Server response:`
 
@@ -2454,9 +2413,12 @@ server will respond with **HTTP 204 No Content** for a succesful operation:
 
 #### `POST /api/load_balancers/:id/register`
 
-This operation registers a running ***instance*** with a specified ***load_balancer***. Clients
-must provide the **instance_id** as a parameter to the request. The Deltacloud server will respond
-with a **HTTP 204 No Content** after a succesful operation:
+This operation registers a running ***instance*** with a specified
+***load_balancer***. Clients must provide the **instance_id** as a parameter
+to the request. The Deltacloud server will respond with a **HTTP 204 No Content**
+after a succesful operation. The Deltacloud server will accept client request
+parameters encoded as multipart/form-data or as
+application/x-www-form-urlencoded data.
 
 `Example request:`
 
@@ -2465,15 +2427,10 @@ with a **HTTP 204 No Content** after a succesful operation:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 156
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------6af752b909b2
+    Content-Length: 22
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------6af752b909b2
-    Content-Disposition: form-data; name="instance_id"
-
-    i-4f06b52e
-    ------------------------------6af752b909b2--
+    instance_id=i-4f06b52e
 
 `Server response:`
 
@@ -2482,8 +2439,10 @@ with a **HTTP 204 No Content** after a succesful operation:
 
 #### `POST /api/load_balancers/:id/unregister`
 
-This operation will unregister a specified ***instance*** from the given ***load_balancer***. The
-client must supply the **instance_id** parameter to identify the ***instance***:
+This operation will unregister a specified ***instance*** from the given
+***load_balancer***. The client must supply the **instance_id** parameter to
+identify the ***instance***, either as multipart/form-data or as
+application/x-www-form-urlencoded data (as shown below).
 
 `Example request:`
 
@@ -2492,15 +2451,10 @@ client must supply the **instance_id** parameter to identify the ***instance***:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 156
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------987218f60703
+    Content-Length: 22
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------987218f60703
-    Content-Disposition: form-data; name="instance_id"
-
-    i-4f06b52e
-    ------------------------------987218f60703--
+    instance_id=i-4f06b52e
 
 `Server response:`
 
@@ -2517,17 +2471,19 @@ client must supply the **instance_id** parameter to identify the ***instance***:
 Storage resources are divided into two groups: ***storage volumes*** can be attached
 to a running instance (accessible by the instance OS), and *blob storage*
 which represents a generic 'key <−−> value' based data store, as implemented
-by Rackspace CloudFiles or Amazon S3. ***Storage snapshots*** represent a ***storage volume***,
-a backup of which is created at a particular point in time (a snapshot).
+by Rackspace CloudFiles or Amazon S3. ***Storage snapshots*** represent a
+***storage volume***, a backup of which is created at a particular point in time
+(a snapshot).
 
 ### 4.1 Storage Volumes
 
-A ***storage_volume*** has a **capacity** expressed in Gigabytes, a **created** timestamp, a **realm_id**
-specifying the ***realm*** in which the volume exists, a **state** (for Amazon EC2 this is one of
-creating | available | in-use | deleting | deleted | error) and a set of **actions**. When attached to
-an ***instance***, a ***storage_volume*** will also expose a **mount** element which contains the
-attributes **instance** and **device**, specifying the ***instance*** to which the volume is attached
-and the mount point (e.g. /dev/sdh), respectively.
+A ***storage_volume*** has a **capacity** expressed in Gigabytes, a **created**
+timestamp, a **realm_id** specifying the ***realm*** in which the volume exists,
+a **state** (for Amazon EC2 this is one of creating | available | in-use | deleting
+| deleted | error) and a set of **actions**. When attached to an ***instance***,
+a ***storage_volume*** will also expose a **mount** element which contains the
+attributes **instance** and **device**, specifying the ***instance*** to which
+the volume is attached and the mount point (e.g. /dev/sdh), respectively.
 
 #### `GET /api/storage_volumes`
 
@@ -2613,13 +2569,19 @@ This operation retrieves the details for the specified storage_volume:
 
 #### `POST /api/storage_volumes`
 
-This operation will create a new ***storage_volume***. A client may specify a **snapshot_id** from which
-to instantiate the ***storage_volume*** though this is optional. The **capacity** parameter, expressed in
-Gigabytes, is also optional and will default to 1 Gigabyte. Finally clients may also specify the
-**realm_id** as a ***storage_volume*** can typically only be attached to ***instances*** running within
-the specified ***realm***. If the ***realm*** is not specified it will default to the first realm returned
- by the cloud provider. A succesful operation will return **HTTP 201 Created** with the details of the newly
-created ***storage_volume***:
+This operation will create a new ***storage_volume***. A client may specify a
+**snapshot_id** from which to instantiate the ***storage_volume*** though this
+is optional. The **capacity** parameter, expressed in Gigabytes, is also optional
+and will default to 1 Gigabyte. Finally clients may also specify the **realm_id**
+as a ***storage_volume*** can typically only be attached to ***instances***
+ running within the specified ***realm***. If the ***realm*** is not specified
+it will default to the first realm returned by the cloud provider.
+A succesful operation will return **HTTP 201 Created** with the details of
+the newly created ***storage_volume***.
+
+As with the other **POST** operations in the Deltacloud API, clients
+may choose to specify operation parameters as multipart/form-data or
+as application/x-www-form-urlencoded data.
 
 
 `Example request:`
@@ -2629,19 +2591,10 @@ created ***storage_volume***:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 252
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------90dea979a9f4
+    Content-Length: 31
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------90dea979a9f4
-    Content-Disposition: form-data; name="capacity"
-
-    10
-    ------------------------------90dea979a9f4
-    Content-Disposition: form-data; name="realm_id"
-
-    us-east-1c
-    ------------------------------90dea979a9f4--
+    capacity=10&realm_id=us-east-1c
 
 `Server response:`
 
@@ -2665,9 +2618,9 @@ created ***storage_volume***:
 
 #### `DELETE /api/storage_volumes/:id`
 
-Deletes the specified ***storage_volume***. The operation will return a **HTTP 204 No Content** after
-a succesful operation. Note that the operation will fail if the given ***storage_volume*** is currently
-attached to an ***instance***.
+Deletes the specified ***storage_volume***. The operation will return a
+**HTTP 204 No Content** after a succesful operation. Note that the operation will
+fail if the given ***storage_volume*** is currently attached to an ***instance***.
 
 `Example request:`
 
@@ -2710,13 +2663,17 @@ attached to an ***instance***.
 
 #### `POST /api/storage_volumes/:id/attach`
 
-This operation will attach the specified ***storage_volume*** to a running ***instance***. Clients must
-specify the **instance_id** and the **device** as parameters. The **device** parameter is used as the
-'mount point', that is, the location at which the ***storage_volume*** will be exposed to the given
-***instance*** (e.g., /dev/sdh). The Deltacloud server will respond with a **HTTP 202 Accepted** after
-a succesful attach operation together with details of the ***storage_volume***. Note in the example
- below that the **state** is reported as 'unknown' although the **mount** element is present, as the
+This operation will attach the specified ***storage_volume*** to a running
+***instance***. Clients must specify the **instance_id** and the **device**
+as parameters. The **device** parameter is used as the 'mount point', that is,
+ the location at which the ***storage_volume*** will be exposed to the given
+***instance*** (e.g., /dev/sdh). The Deltacloud server will respond with a
+**HTTP 202 Accepted** after a succesful attach operation together with details
+of the ***storage_volume***. Note in the example below that the **state** is
+reported as 'unknown' although the **mount** element is present, as the
 processing has not yet been completed (hence the **202** status code).
+Clients may specify the required parameters as multipart/form-data
+or as application/x-www-form-urlencoded data.
 
 `Example request:`
 
@@ -2725,19 +2682,10 @@ processing has not yet been completed (hence the **202** status code).
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 259
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------5a074e9c5fcc
+    Content-Length: 38
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------5a074e9c5fcc
-    Content-Disposition: form-data; name="instance_id"
-
-    i-b100b3d0
-    ------------------------------5a074e9c5fcc
-    Content-Disposition: form-data; name="device"
-
-    /dev/sdi
-    ------------------------------5a074e9c5fcc--
+    instance_id=i-b100b3d0&device=/dev/sdi
 
 `Server response:`
 
@@ -2764,11 +2712,12 @@ processing has not yet been completed (hence the **202** status code).
 
 #### `POST /api/storage_volumes/:id/detach`
 
-This operation detaches the given ***storage_volume*** from the ***instance*** to which it is currently
-attached. A succesful operation will return **HTTP 201 Accepted** together with details of the
-***storage_volume***. Note in the example that like the ***attach*** operation above, **state** is
- reported as 'unknown' and the **mount** element is still present as the processing has not yet been
-completed (hence the **202** status code).
+This operation detaches the given ***storage_volume*** from the ***instance***
+to which it is currently attached. A succesful operation will return
+**HTTP 201 Accepted** together with details of the ***storage_volume***. Note
+in the example that like the ***attach*** operation above, **state** is
+ reported as 'unknown' and the **mount** element is still present as the
+processing has not yet been completed (hence the **202** status code).
 
 `Example request:`
 
@@ -2810,15 +2759,16 @@ completed (hence the **202** status code).
 
 ### 4.2 Storage Snapshots
 
-A ***storage_snapshot*** captures the point-in-time state of a ***storage_volume***. Each snapshot has
-a **created** timestamp, and a ***storage_volume*** attribute referring to the volume from which the
-snapshot was made.
+A ***storage_snapshot*** captures the point-in-time state of a ***storage_volume***.
+Each snapshot has a **created** timestamp, and a ***storage_volume*** attribute
+referring to the volume from which the snapshot was made.
 
 #### `GET /api/storage_snapshots`
 
-List all available ***storage snapshots***. For Amazon EC2 this list includes *any* snapshots that
-are available to the requesting client account, including those that may not have been created by that
-account. As this list is very long the example below shows only part of the response:
+List all available ***storage snapshots***. For Amazon EC2 this list includes
+*any* snapshots that are available to the requesting client account, including
+those that may not have been created by that account. As this list is very long
+the example below shows only part of the response:
 
 `Example request:`
 
@@ -2891,10 +2841,12 @@ Get all details for a specified ***storage snapshot***, as shown below:
 
 #### `POST /api/storage_snapshots`
 
-This operation will create a new ***storage_snapshot***. Clients must specify the ***storage_volume***
-from which the snapshot is to be created, by supplying the **volume_id** parameter. The Deltacloud
-server responds with **HTTP 201 Created** after a succesful operation and provides details of the
-newly created ***storage_snapshot***:
+This operation will create a new ***storage_snapshot***. Clients must specify
+the ***storage_volume*** from which the snapshot is to be created, by supplying
+the **volume_id** parameter. The Deltacloud server responds with
+**HTTP 201 Created** after a succesful operation and provides details of the
+newly created ***storage_snapshot***. Clients may specify operation parameters as
+multipart/form-data, or as application/x-www-form-urlencoded data:
 
 `Example request:`
 
@@ -2903,15 +2855,10 @@ newly created ***storage_snapshot***:
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
     Host: localhost:3001
     Accept: */*
-    Content-Length: 156
-    Expect: 100-continue
-    Content-Type: multipart/form-data; boundary=----------------------------91f7fa88be76
+    Content-Length: 22
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------91f7fa88be76
-    Content-Disposition: form-data; name="volume_id"
-
-    vol-99fbe5f2
-    ------------------------------91f7fa88be76--
+    volume_id=vol-99fbe5f2
 
 `Server response:`
 
@@ -2928,8 +2875,8 @@ newly created ***storage_snapshot***:
 
 #### `DELETE /api/storage_snapshots/:id`
 
-Deletes the specified ***storage_snapshot***. The operation returns a **HTTP 204 No Content** after a
-succesful operation:
+Deletes the specified ***storage_snapshot***. The operation returns a
+**HTTP 204 No Content** after a succesful operation:
 
 `Example request:`
 
@@ -3035,19 +2982,21 @@ that it contains.
 
 #### `POST /api/buckets`
 
-Creates a new ***bucket*** and requires that you specify the ***name*** as a parameter,
-in the form of multipart/form-data (i.e., HTTP form field). Optionally for Amazon S3
-buckets, you can specify a bucket location with the ***location*** parameter, as per
+Creates a new ***bucket*** and requires that you specify the ***name*** as a
+parameter. Optionally for Amazon S3 buckets, you can specify a bucket location
+with the ***location*** parameter, as per
  [Regions and Endpoints for Amazon Simple Storage Service](http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html "AWS Regions and Endpoints");
 valid values for S3 bucket *location* parameter are: "us-west-1", "EU",
 "ap-southeast-1", "ap-northeast-1" (while not specifying a location defaults to
-the "US Standard" region).
+the "US Standard" region). Note that clients may specify parameters as
+multipart/form-data or using a content-type of application/x-www-form-urlencoded.
 
-On succesful creation this call will return a ***201*** HTTP status, specifying the URI
-of the newly created bucket in the **Location** header and the newly created
-***bucket*** object in the response message body. The example request below creates a
-new ***bucket*** in the *EU (Ireland)* region. If the given backend cloud does not
-support locations then the *location* parameter is silently ignored.
+On succesful creation this call will return a ***201*** HTTP status, specifying
+the URI of the newly created bucket in the **Location** header and the newly
+created ***bucket*** object in the response message body. The example request
+below creates a new ***bucket*** in the *EU (Ireland)* region. If the given
+backend cloud does not support locations then the *location* parameter is
+silently ignored.
 
 `Example request:`
 
@@ -3056,18 +3005,10 @@ support locations then the *location* parameter is silently ignored.
     User-Agent: curl/7.20.1
     Host: localhost:3001
     Accept: */*
-    Content-Length: 252
-    Content-Type: multipart/form-data; boundary=----------------------------4e90611c39f2
+    Content-Length: 31
+    Content-Type: application/x-www-form-urlencoded
 
-    ------------------------------4e90611c39f2
-    Content-Disposition: form-data; name="name"
-
-    mybucketeurope
-    ------------------------------4e90611c39f2
-    Content-Disposition: form-data; name="location"
-
-    EU
-    ------------------------------4e90611c39f2--
+    name=mybucketeurope&location=EU
 
 `Server response:`
 
@@ -3082,6 +3023,7 @@ support locations then the *location* parameter is silently ignored.
       <size>0</size>
     </bucket>
 
+<a name=delete_bucket>.
 #### `DELETE /api/buckets/:id`
 
 Deletes the specified ***bucket***, which must be empty (otherwise the call will
@@ -3162,6 +3104,7 @@ filename=blob_name* in the HTTP response headers.
 
     <BLOB DATA HERE>
 
+<a name=create_blob>.
 #### `PUT /api/buckets/:bucket_id/:blob_id`
 
 Creates a ***blob*** object and sets its content. If the ***blob*** already exists then
@@ -3214,8 +3157,8 @@ The deltacloud server also responds to an alternative `POST` route for creating 
 updating a ***blob*** object. As with the `PUT` method for creating/updating a
 ***blob***, the client must specify the ***bucket*** in which the ***blob*** is to
 be created through the call URI (i.e. you `POST` to the specified ***bucket***).
-The rest of the required fields, that is, the ***blob_id*** (name of the blob),
-the  ***blob_data*** and the ***content-length*** are specified by the client as
+The rest of the required fields, that is, the name of the ***blob***, the
+ ***blob_data*** and the ***content-length*** are specified by the client as
 ***multipart/form-data*** (i.e. in `HTTP POST` form fields).
 
 In order to specify the optional user metadata for a given ***blob*** the client
@@ -3240,12 +3183,12 @@ deltacloud HTML interface (provided for testing purposes).
     Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
     User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N
     Accept: */*
-    Content-Length: 113584
+    Content-Length: 113582
     Expect: 100-continue
     Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858
 
     ------------------------------517f5f2df858
-    Content-Disposition: form-data; name="blob_id"
+    Content-Disposition: form-data; name="blob"
 
     12Jul2011blob
     ------------------------------517f5f2df858

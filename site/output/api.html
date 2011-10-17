@@ -31,10 +31,13 @@
             <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
           </li>
           <li>
-            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+            <a class='inactive' href='./developers.html' title='Information for developers'>Developers</a>
           </li>
           <li>
             <a class='active' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contact.html' title='Contact us!'>Contact</a>
           </li>
         </ul>
       </div>
@@ -44,7 +47,7 @@
         <ul class='l1'>
           <li>
             <a class='inactive' href='documentation.html'>
-              Overview
+              Installation
             </a>
           </li>
           <li>
@@ -55,11 +58,6 @@
           <li>
             <a class='inactive' href='drivers.html'>
               Drivers
-            </a>
-          </li>
-          <li>
-            <a class='inactive' href='framework.html'>
-              Framework
             </a>
           </li>
           <li>
@@ -477,6 +475,8 @@
         
         <hr />
         
+        <p><a name="authentication">.</a></p>
+        
         <h3 id="h1_3">1.3 Authentication</h3>
         
         <p>The Deltacloud API server is stateless, and does not keep any information
@@ -487,7 +487,8 @@
         <p>The specifics of what needs to be sent varies from cloud to cloud; some
         cloud providers employ a username and password for API access, whilst
         others use special-purpose API keys. A list of the credentials that a given
-        cloud provider expects for API access is <a href="documentation.html">available here</a></p>
+        cloud provider expects for API access is
+        <a href="drivers.html#credentials">available here</a></p>
         
         <br />
         
@@ -601,7 +602,8 @@
         
         <p>Any part of the official API can be reached through the main entry point,
         by default http://localhost:3001/api. The entry point list the resources
-        the server knows about for the current cloud provider; for the Amazon EC2 driver for example, these are:</p>
+        the server knows about for the current cloud provider; for the Amazon EC2
+        driver for example, these are:</p>
         
         <ul>
         <li>Instances</li>
@@ -682,8 +684,8 @@
         or different pools of resources within a single datacenter. A cloud provider may
         insist that resources must all exist within a single <strong><em>realm</em></strong> in order to cooperate.
         For instance, storage volumes may only be allowed to be mounted to instances within
-        the same <strong><em>realm</em></strong>. Generally speaking, going from one <strong><em>realm</em></strong> to another within the same
-        cloud may change many aspects of the cloud, such as SLA’s, pricing terms, etc.</p>
+        the same <strong><em>realm</em></strong>. Generally speaking, going from one <strong><em>realm</em></strong> to another within
+        the same cloud may change many aspects of the cloud, such as SLA’s, pricing terms, etc.</p>
         
         <h4 id="h3_1_1"><code>GET /api/realms</code></h4>
         
@@ -702,12 +704,12 @@
         
         <h4 id="h3_1_2"><code>GET /api/realms/:id</code></h4>
         
-        <p>Provide the details of a <strong><em>realm</em></strong>. Currently, these are a <strong><em>name</em></strong>, a  <strong><em>state</em></strong> and a
-         <em><strong>limit</strong> applicable to the current requester. The </em><strong>name</strong><em> is an arbitrary label
-        with no specific meaning in the API. The </em><strong>state</strong><em> can be either </em><strong>AVAILABLE</strong><em>
-         or </em><strong>UNAVAILABLE</strong><em>. The example below shows the </em><strong>realm</strong><em> for the Rackspace driver.
-        Since Rackspace does not currently have a notion of </em><strong>realms</strong><em> the Deltacloud
-        Rackspace driver provides a single </em><strong>realm</strong>* called 'US', signifying that all
+        <p>Provide the details of a <strong><em>realm</em></strong>. Currently, these are a <strong>name</strong>, a  <strong>state</strong> and a
+         <strong>limit</strong> applicable to the current requester. The <strong><em>name</em></strong> is an arbitrary label
+        with no specific meaning in the API. The <strong>state</strong> can be either <strong>AVAILABLE</strong>
+         or <strong>UNAVAILABLE</strong>. The example below shows the <strong><em>realm</em></strong> for the Rackspace driver.
+        Since Rackspace does not currently have a notion of <strong><em>realms</em></strong> the Deltacloud
+        Rackspace driver provides a single <strong><em>realm</em></strong> called 'US', signifying that all
         compute resources for that cloud provider are hosted in the United States:</p>
         
         <p><code>Example request:</code></p>
@@ -825,6 +827,8 @@
         attribute that specifies the URI to which a client may issue a <strong>HTTP POST</strong> for creation of
         an <strong><em>instance</em></strong> from the given <strong><em>image</em></strong>.</p>
         
+        <p><a name="list_images">.</a></p>
+        
         <h4 id="h3_3_1"><code>GET /api/images</code></h4>
         
         <p>Return a list of all <strong><em>images</em></strong> available in the back-end cloud. By default this call will
@@ -869,14 +873,17 @@
         <pre><code>...&#x000A;&lt;actions&gt;&#x000A;  &lt;link href='http://localhost:3002/api/instances/20109341/reboot' method='post' rel='reboot' /&gt;&#x000A;  &lt;link href='http://localhost:3002/api/instances/20109341/stop' method='post' rel='stop' /&gt;&#x000A;  &lt;link href='http://localhost:3002/api/instances/20109341/run;id=20109341' method='post' rel='run' /&gt;&#x000A;  &lt;link href='http://localhost:3002/api/images;instance_id=20109341' method='post' rel='create_image' /&gt;&#x000A;&lt;/actions&gt;&#x000A;...&#x000A;</code></pre>
         
         <p>To create a new <strong><em>image</em></strong> the client must specify the <em>instance_id</em> of the running instance.
-         Optionally, the client may also provide a <em>name</em> and a <em>description</em>. The parameters are
-        specified as multipart/form-data fields in the client POST. The Deltacloud server will
-        respond to a successful operation with <strong>HTTP 201 Created</strong> and provide details of the
+         Optionally, the client may also provide a <em>name</em> and a <em>description</em>. The parameters may
+        be specified as multipart/form-data fields in the client POST.</p>
+        
+        <p>Alternatively, clients may also specify parameters using a content-type of
+        application/x-www-form-urlencoded. The Deltacloud server will respond to a
+        successful operation with <strong>HTTP 201 Created</strong> and provide details of the
         newly created <strong><em>image</em></strong>:</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/images?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3002&#x000A;Accept: */*&#x000A;Content-Length: 404&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------ba9acb193034&#x000A;&#x000A;------------------------------ba9acb193034&#x000A;Content-Disposition: form-data; name="instance_id"&#x000A;&#x000A;20109341&#x000A;------------------------------ba9acb193034&#x000A;Content-Disposition: form-data; name="name"&#x000A;&#x000A;customisedserver&#x000A;------------------------------ba9acb193034&#x000A;Content-Disposition: form-data; name="description"&#x000A;&#x000A;jsmith customised web server July 21 2011&#x000A;------------------------------ba9acb193034--&#x000A;</code></pre>
+        <pre><code>POST /api/images?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3002&#x000A;Accept: */*&#x000A;Content-Length: 96&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;instance_id=20109341&amp;name=customisedserver&amp;description=jsmith%20cu&#x000A;stomised%20web%20server%20July%2021%202011&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1063,42 +1070,51 @@
         
         <h4 id="h3_5_4"><code>POST /api/instances</code></h4>
         
-        <p>Create a new <strong><em>instance</em></strong>. At a minimum clients must specify the <strong><em>image</em></strong> from
-        which the virtual machine <strong><em>instance</em></strong> is to be created. Optionally a client
-        may also specify a <strong><em>hardware profile</em></strong> and <strong><em>realm</em></strong> (with default values used
-        otherwise). Clients can also provide a <em>name</em> for the new <em>instance</em> though this is not
-        supported by all back-end cloud providers. Whether a given feature is available is advertised
-        in the response to the Deltacloud server API entry point.
-        The details of the new <strong><em>instance</em></strong> are returned in response to this operation.</p>
+        <p>Create a new <strong><em>instance</em></strong>. At a minimum clients must specify the <strong><em>image</em></strong>
+        from which the virtual machine <strong><em>instance</em></strong> is to be created. Optionally a
+        client may also specify a <strong><em>hardware profile</em></strong> and <strong><em>realm</em></strong> (with default
+        values used otherwise). Clients can also provide a <em>name</em> for the new <em>instance</em>
+         though this is not supported by all back-end cloud providers. Whether a given
+        feature is available is advertised in the response to the Deltacloud server
+        API entry point. The details of the new <strong><em>instance</em></strong> are returned in
+        response to this operation.</p>
         
-        <p>For creation of an <strong><em>instance</em></strong> in the Amazon EC2 cloud a client can also specify the
-        name of the EC2 keypair to be used as well as the firewalls (EC2 security groups) that the
-        <strong><em>instance</em></strong> should be launched into. The EC2 keypair is specified with the parameter <em>keyname</em>
-        while firewalls are specified sequentially as <em>firewalls1</em> ... <em>firewalls2</em> ... etc. These parameters
-        are specified in the first <strong><em>instance</em></strong> creation example below. Note that the values for
-        public and private addresses are blank in the server response, as these have not yet been
-        assigned by the cloud provider. Subsequent requests for the <strong><em>instance</em></strong> details
-        will provide these values.</p>
+        <p>For creation of an <strong><em>instance</em></strong> in the Amazon EC2 cloud a client can also
+        specify the name of the EC2 keypair to be used as well as the firewalls
+        (EC2 security groups) that the <strong><em>instance</em></strong> should be launched into. The
+        EC2 keypair is specified with the parameter <em>keyname</em> while firewalls are
+        specified sequentially as <em>firewalls1</em> ... <em>firewalls2</em> ... etc. These parameters
+        are specified in the first <strong><em>instance</em></strong> creation example below. Note that the
+        values for public and private addresses are blank in the server response, as
+        these have not yet been assigned by the cloud provider. Subsequent requests
+        for the <strong><em>instance</em></strong> details will provide these values.</p>
+        
+        <p>As with other POST operations in the Deltacloud API, clients may specify parameters
+        as multipart/form-data or as  x-www-url-form-urlencoded content type, as demonstrated
+        by the examples below.</p>
         
         <p><a name="create_instance_ec2">.</a></p>
         
         <p><code>Client request: (AWS EC2)</code></p>
         
-        <pre><code>POST /api/instances?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 676&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------cce0758d1679&#x000A;&#x000A;------------------------------cce0758d1679&#x000A;Content-Disposition: form-data; name="keyname"&#x000A;&#x000A;eftah&#x000A;------------------------------cce0758d1679&#x000A;Content-Disposition: form-data; name="image_id"&#x000A;&#x000A;ami-f51aff9c&#x000A;------------------------------cce0758d1679&#x000A;Content-Disposition: form-data; name="realm_id"&#x000A;&#x000A;us-east-1c&#x000A;------------------------------cce0758d1679&#x000A;Content-Disposition: form-data; name="hwp_id"&#x000A;&#x000A;c1.medium&#x000A;------------------------------cce0758d1679&#x000A;Content-Disposition: form-data; name="firewalls1"&#x000A;&#x000A;default&#x000A;------------------------------cce0758d1679&#x000A;Content-Disposition: form-data; name="firewalls2"&#x000A;&#x000A;test&#x000A;------------------------------cce0758d1679--&#x000A;</code></pre>
+        <pre><code>POST /api/instances?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 107&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;keyname=eftah&amp;image_id=ami-f51aff9c&amp;realm_id=us-east-1c&amp;hwp_id=c1.medium&amp;&#x000A;firewalls1=default&amp;firewalls2=test&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
         <pre><code>HTTP/1.1 201 Created&#x000A;Content-Type: application/xml&#x000A;Content-Length: 1183&#x000A;&#x000A;&lt;?xml version='1.0' encoding='utf-8' ?&gt;&#x000A;&lt;instance href='http://localhost:3001/api/instances/i-cbb861aa' id='i-cbb861aa'&gt;&#x000A;  &lt;name&gt;ami-f51aff9c&lt;/name&gt;&#x000A;  &lt;owner_id&gt;393485797142&lt;/owner_id&gt;&#x000A;  &lt;image href='http://localhost:3001/api/images/ami-f51aff9c' id='ami-f51aff9c'&gt;&lt;/image&gt;&#x000A;  &lt;realm href='http://localhost:3001/api/realms/us-east-1c' id='us-east-1c'&gt;&lt;/realm&gt;&#x000A;  &lt;state&gt;PENDING&lt;/state&gt;&#x000A;  &lt;hardware_profile href='http://localhost:3001/api/hardware_profiles/c1.medium' id='c1.medium'&gt;&#x000A;  &lt;/hardware_profile&gt;&#x000A;  &lt;actions&gt;&#x000A;    &lt;link href='http://localhost:3001/api/instances/i-cbb861aa/stop' method='post' rel='stop' /&gt;&#x000A;    &lt;link href='http://localhost:3001/api/instances/i-cbb861aa/run;id=i-cbb861aa' method='post' rel='run' /&gt;&#x000A;  &lt;/actions&gt;&#x000A;  &lt;launch_time&gt;2011-07-22T16:09:45.000Z&lt;/launch_time&gt;&#x000A;  &lt;public_addresses&gt;&lt;/public_addresses&gt;&#x000A;  &lt;private_addresses&gt;&lt;/private_addresses&gt;&#x000A;  &lt;firewalls&gt;&#x000A;    &lt;firewall href='http://localhost:3001/api/firewalls/test' id='test'&gt;&lt;/firewall&gt;&#x000A;    &lt;firewall href='http://localhost:3001/api/firewalls/default' id='default'&gt;&lt;/firewall&gt;&#x000A;  &lt;/firewalls&gt;&#x000A;  &lt;authentication type='key'&gt;&#x000A;    &lt;login&gt;&#x000A;      &lt;keyname&gt;eftah&lt;/keyname&gt;&#x000A;    &lt;/login&gt;&#x000A;  &lt;/authentication&gt;&#x000A;&lt;/instance&gt;&#x000A;</code></pre>
         
+        <p><a name="create_instance_rax">.</a></p>
+        
         <p>The second example given below shows creation of an <strong><em>instance</em></strong> in the Rackspace
         Cloudservers cloud. Here you can see that the client provides the optional <em>name</em>
          parameter and that the created instance uses authentication of type <strong>password</strong>.
-        The <em>username</em> and <em>password</em> are returned with the details of the newly created
-        <strong><em>instance</em></strong>:</p>
+        Furthermore, in this example the requesting client uses a content-type of
+        application/x-www-form-urlencoded. The <em>username</em> and <em>password</em> are returned with
+        the details of the newly created <strong><em>instance</em></strong>:</p>
         
         <p><code>Example request: (Rackspace Cloudservers)</code></p>
         
-        <pre><code>POST /api/instances?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3002&#x000A;Accept: */*&#x000A;Content-Length: 342&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------7424b11a955d&#x000A;&#x000A;------------------------------7424b11a955d&#x000A;Content-Disposition: form-data; name="image_id"&#x000A;&#x000A;53&#x000A;------------------------------7424b11a955d&#x000A;Content-Disposition: form-data; name="hwp_id"&#x000A;&#x000A;1&#x000A;------------------------------7424b11a955d&#x000A;Content-Disposition: form-data; name="name"&#x000A;&#x000A;myserver&#x000A;------------------------------7424b11a955d--&#x000A;</code></pre>
+        <pre><code>POST /api/instances?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3002&#x000A;Accept: */*&#x000A;Content-Length: 34&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;image_id=53&amp;hwp_id=1&amp;name=myserver&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1116,27 +1132,31 @@
         
         <h3 id="h3_6">3.6 Keys</h3>
         
-        <p>A <strong><em>key</em></strong> captures the credentials required to access an <strong><em>Instance</em></strong>. The Deltacloud API supports
-        two main types of <strong><em>keys</em></strong>: type <strong>password</strong> which have <em>username</em> and <em>password</em> attributes, or type
-        <strong>key</strong> which have <em>fingerprint</em> and <em>pem</em> (private key) attributes (public/private keypair).
+        <p>A <strong><em>key</em></strong> captures the credentials required to access an <strong><em>Instance</em></strong>. The
+        Deltacloud API supports two main types of <strong><em>keys</em></strong>: type <strong>password</strong> which
+        have <em>username</em> and <em>password</em> attributes, or type <strong>key</strong> which have
+        <em>fingerprint</em> and <em>pem</em> (private key) attributes (public/private keypair).
         The key type is determined by the back-end cloud provider.</p>
         
-        <p>Some cloud providers require that the client specify the credentials to be used for connecting to an
-         <strong><em>instance</em></strong> as a parameter to <strong><em>instance</em></strong> creation. An example is the Amazon EC2 cloud which uses
-        <strong><em>keys</em></strong> of type <strong>key</strong> and where the identifier of the <strong>key</strong> to be used with a given <strong><em>instance</em></strong>
-        is supplied in the <em>keyname</em> parameter to the <a href="#create_instance_ec2">POST /api/instances</a> call.</p>
+        <p>Some cloud providers require that the client specify the credentials to be used
+        for connecting to an  <strong><em>instance</em></strong> as a parameter to <strong><em>instance</em></strong> creation.
+        An example is the Amazon EC2 cloud which uses <strong><em>keys</em></strong> of type <strong>key</strong> and
+        where the identifier of the <strong>key</strong> to be used with a given <strong><em>instance</em></strong>
+        is supplied in the <em>keyname</em> parameter to the
+        <a href="#create_instance_ec2">POST /api/instances</a> call.</p>
         
-        <p>Other cloud providers report the <strong><em>instance</em></strong> credentials in the response to <strong><em>instance</em></strong>
-        creation and make them available for subsequent retrieval. An example is the Gogrid Cloud,
-         which uses <strong><em>keys</em></strong> of type  <strong>password</strong> (note: the Rackspace cloud also reports credentials
-        during <strong><em>instance</em></strong> creation though it does not provide a mechanism with which to retrieve
-        those passwords thereafter).</p>
+        <p>Other cloud providers report the <strong><em>instance</em></strong> credentials in the response to
+         <strong><em>instance</em></strong> creation and make them available for subsequent retrieval. An
+        example is the Gogrid Cloud, which uses <strong><em>keys</em></strong> of type  <strong>password</strong>
+        (note: the Rackspace cloud also reports credentials during <strong><em>instance</em></strong> creation
+        though it does not provide a mechanism with which to retrieve those passwords thereafter).</p>
         
         <h4 id="h3_6_1"><code>GET /api/keys</code></h4>
         
-        <p>This gives a listing of all available keys. The example shown below is for <strong><em>keys</em></strong> from the Amazon
-        EC2 cloud, which are of type <strong>key</strong>. Note that the XML response does not contain the private key
-        attribute. This is because EC2 only provides the private key once, when the key is created (see
+        <p>This gives a listing of all available keys. The example shown below is for
+        <strong><em>keys</em></strong> from the Amazon EC2 cloud, which are of type <strong>key</strong>. Note that the
+        XML response does not contain the private key attribute. This is because EC2 only
+        provides the private key once, when the key is created (see
         <a href="#key_create">key creation</a> for an example):</p>
         
         <p><a name="get_keys">.</a></p>
@@ -1165,19 +1185,26 @@
         <h4 id="h3_6_3"><code>POST /api/keys</code></h4>
         
         <p>Some back-end cloud providers allow a client to create new credentials for
-        accessing Instances. The parameters (key attributes) required by this function will depend on the
-         back-end and are specified in the relevant driver. At present only the Amazon EC2 cloud implements a key
-        create method and this requires the key <em>name</em> to be specified as a parameter. It should be noted that
-        the private key attribute of a newly created key is reported only once, in response to the create
-        operation as shown in the example below. The client should save the private key for future use with
-         <strong><em>instance</em></strong> authentication. In all subsequent calls, only the fingerprint attribute is displayed
-         in the Deltacloud server response, as illustrated by the <a href="#get_keys">GET /api/keys</a> call above.</p>
+        accessing Instances. The parameters (key attributes) required by this function
+        will depend on the back-end and are specified in the relevant driver. At
+        present only the Amazon EC2 cloud implements a key create method and this
+        requires the key <em>name</em> to be specified as a parameter. It should be noted that
+        the private key attribute of a newly created key is reported only once, in
+        response to the create operation as shown in the example below.
+        The client should save the private key for future use with  <strong><em>instance</em></strong>
+        authentication. In all subsequent calls, only the fingerprint attribute
+        is displayed in the Deltacloud server response, as illustrated by
+        the <a href="#get_keys">GET /api/keys</a> call above.</p>
+        
+        <p>Note that as with other HTTP POST calls in the Deltacloud REST API, client requests
+        may specify the required parameters as multipart/form-data, or using the
+        application/x-www-form-urlencoded content type.</p>
         
         <p><a name="key_create">.</a></p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/keys?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 153&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------92fbd163f915&#x000A;&#x000A;------------------------------92fbd163f915&#x000A;Content-Disposition: form-data; name="name"&#x000A;&#x000A;jsmith_new_key&#x000A;------------------------------92fbd163f915--&#x000A;</code></pre>
+        <pre><code>POST /api/keys?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 19&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;name=jsmith_new_key&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1272,24 +1299,27 @@
         
         <h4 id="h3_7_3"><code>POST /api/firewalls</code></h4>
         
-        <p>Creates a new <strong><em>firewall</em></strong>. Clients must specify the <strong><em>firewall</em></strong> <em>name</em> and <em>description</em> as
-        parameters to the request. On succesful completion the Deltacloud server will respond with <strong>HTTP 201
-        Created</strong> and return details of the newly created <strong><em>firewall</em></strong>:</p>
+        <p>Creates a new <strong><em>firewall</em></strong>. Clients must specify the <strong><em>firewall</em></strong> <em>name</em>
+        and <em>description</em> as parameters to the request. On succesful completion the
+        Deltacloud server will respond with <strong>HTTP 201 Created</strong> and return details
+        of the newly created <strong><em>firewall</em></strong>. As with other POST operations in the
+        Deltacloud API, a client may specify parameters as multipart/form-data or using
+        the application/x-www-form-urlencoded content-type.</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/firewalls?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 285&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------cdbcabd8ab04&#x000A;&#x000A;------------------------------cdbcabd8ab04&#x000A;Content-Disposition: form-data; name="name"&#x000A;&#x000A;Devel_Group&#x000A;------------------------------cdbcabd8ab04&#x000A;Content-Disposition: form-data; name="description"&#x000A;&#x000A;Access for all development machines&#x000A;------------------------------cdbcabd8ab04--&#x000A;</code></pre>
+        <pre><code>POST /api/firewalls?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 64&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;name=Devel_Group&amp;description=Access%20for%20all%20development%20machines&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
         <pre><code>HTTP/1.1 201 Created&#x000A;Content-Type: application/xml&#x000A;Date: Wed, 27 Jul 2011 08:35:43 GMT&#x000A;Content-Length: 296&#x000A;&#x000A;&lt;?xml version='1.0' encoding='utf-8' ?&gt;&#x000A;&lt;firewall href='http://localhost:3001/api/firewalls/Devel_Group' id='Devel_Group'&gt;&#x000A;  &lt;name&gt;&lt;![CDATA[Devel_Group]]&gt;&lt;/name&gt;&#x000A;  &lt;description&gt;&lt;![CDATA[Access for all development machines]]&gt;&lt;/description&gt;&#x000A;  &lt;owner_id&gt;&lt;/owner_id&gt;&#x000A;  &lt;rules&gt;&#x000A;  &lt;/rules&gt;&#x000A;&lt;/firewall&gt;&#x000A;</code></pre>
         
-        <p><a name="delete_firewall_rule"> .</a></p>
+        <p><a name="delete_firewall"> .</a></p>
         
         <h4 id="h3_7_4"><code>DELETE /api/firewalls/:id</code></h4>
         
-        <p>Deletes the specified <strong><em>firewall</em></strong> from the back-end cloud provider. The Deltacloud server will respond
-        with <strong>HTTP 204 No Content</strong> after a successful deletion:</p>
+        <p>Deletes the specified <strong><em>firewall</em></strong> from the back-end cloud provider. The Deltacloud
+        server will respond with <strong>HTTP 204 No Content</strong> after a successful deletion:</p>
         
         <p><code>Example request:</code></p>
         
@@ -1300,17 +1330,20 @@
         <pre><code>HTTP/1.1 204 No Content&#x000A;Date: Wed, 27 Jul 2011 09:47:43 GMT&#x000A;</code></pre>
         
         <p>The rules governing the deletion of a <strong><em>firewall</em></strong> are back-end cloud specific.
-        Since at present only the Amazon EC2 cloud supports the <strong><em>firewalls</em></strong> collection we describe the
-        <strong><em>firewall</em></strong> deletion rules for EC2 here.</p>
+        Since at present only the Amazon EC2 cloud supports the <strong><em>firewalls</em></strong> collection
+        we describe the <strong><em>firewall</em></strong> deletion rules for EC2 here.</p>
         
-        <p>It is permitted to delete a <strong><em>firewall</em></strong> that has rules defined within it, with two caveats.
-        You cannot delete a  <strong><em>firewall</em></strong> if it is referenced by another <strong><em>firewall</em></strong>; for instance
-         <strong>firewall_1</strong> has a rule giving access to <strong>firewall_2</strong>. An attempt to delete
-        <strong>firewall_2</strong> will result in the error <strong>InvalidGroup.InUse</strong>, as shown in the example below. The second
-        caveat is that you cannot delete a <strong><em>firewall</em></strong> if there are currently any running <strong><em>instances</em></strong> within
-        that <strong><em>firewall</em></strong> (i.e. <strong><em>instances</em></strong> that specified the given <strong><em>firewall</em></strong> when they were launched).
-        The error message in that case is <strong>InvalidGroup.InUse: There are active instances using security group</strong>.
-        In both cases the error message is propagated from the back-end cloud provider to the requesting client:</p>
+        <p>It is permitted to delete a <strong><em>firewall</em></strong> that has rules defined within it, with
+        two caveats. You cannot delete a  <strong><em>firewall</em></strong> if it is referenced by another
+        <strong><em>firewall</em></strong>; for instance  <strong>firewall_1</strong> has a rule giving access to
+        <strong>firewall_2</strong>. An attempt to delete <strong>firewall_2</strong> will result in the error
+        <strong>InvalidGroup.InUse</strong>, as shown in the example below. The second caveat is that
+        you cannot delete a <strong><em>firewall</em></strong> if there are currently any running <strong><em>instances</em></strong>
+        within that <strong><em>firewall</em></strong> (i.e. <strong><em>instances</em></strong> that specified the given
+        <strong><em>firewall</em></strong> when they were launched). The error message in that case is
+        <strong>InvalidGroup.InUse: There are active instances using security group</strong>. In both
+        cases the error message is propagated from the back-end cloud provider to the
+        requesting client:</p>
         
         <p><code>Example request: (error deleting a firewall referenced by another firewall)</code></p>
         
@@ -1322,17 +1355,23 @@
         
         <h4 id="h3_7_5"><code>POST /api/firewalls/:id/rules</code></h4>
         
-        <p>Create a new <strong><em>firewall rule</em></strong> within a specified <strong><em>firewall</em></strong>. A client must supply the <strong>protocol</strong>
-        (one of <em>udp</em>, <em>tcp</em> or <em>icmp</em>), <strong>port_from</strong> and <strong>port_to</strong> as parameters. Ofcourse the client must also
-        specify the <strong>sources</strong> to which the given rule is to apply. IP addresses are specified in CIDR format
-        sequentially: <em>ip_address1=192.168.10.10/24</em>, <em>ip_address2=10.1.1.1/16</em> ... <em>ip_addressN=...</em>. The IP
-        address '0.0.0.0/0' acts as a wildcard to specify <strong>any</strong> IP address.
-        Source <strong><em>firewalls</em></strong> are also specified sequentially but the <em>owner_id</em> of the <strong><em>firewall</em></strong> that is to
-         be authorized must also be supplied (this is an Amazon EC2 requirement): group1=name1,
-        group1owner=1234567890, group2=name2, group2owner=0987654321, ... groupN=nameN, groupNowner=...</p>
+        <p>Create a new <strong><em>firewall rule</em></strong> within a specified <strong><em>firewall</em></strong>. A client
+        must supply the <strong>protocol</strong> (one of <em>udp</em>, <em>tcp</em> or <em>icmp</em>), <strong>port_from</strong>
+        and <strong>port_to</strong> as parameters. Ofcourse the client must also specify the
+        <strong>sources</strong> to which the given rule is to apply. IP addresses are specified
+        in CIDR format sequentially: <em>ip_address1=192.168.10.10/24</em>,
+        <em>ip_address2=10.1.1.1/16</em> ... <em>ip_addressN=...</em>. The IP address '0.0.0.0/0'
+        acts as a wildcard to specify <strong>any</strong> IP address. Source <strong><em>firewalls</em></strong> are
+        also specified sequentially but the <em>owner_id</em> of the <strong><em>firewall</em></strong> that is
+        to be authorized must also be supplied (this is an Amazon EC2 requirement):
+        group1=name1, group1owner=1234567890, group2=name2, group2owner=0987654321,
+        ... groupN=nameN, groupNowner=...</p>
         
-        <p>The Deltacloud server responds with a <strong>HTTP 201 Created</strong> after a successful operation together with the
-        details of the affected <strong><em>firewall</em></strong>:</p>
+        <p>The Deltacloud server responds with a <strong>HTTP 201 Created</strong> after a successful
+        operation together with the details of the affected <strong><em>firewall</em></strong>. The example
+        client request below specifies the required parameters as multipart/form-data.
+        However clients may also legitimately use the application/x-www-form-urlencoded
+        to provide firewall rule parameters.</p>
         
         <p><code>Example request:</code></p>
         
@@ -1342,10 +1381,12 @@
         
         <pre><code>HTTP/1.1 201 Created&#x000A;Content-Type: application/xml&#x000A;Date: Wed, 27 Jul 2011 10:18:51 GMT&#x000A;Content-Length: 1143&#x000A;&#x000A;&lt;firewall href='http://localhost:3001/api/firewalls/default' id='default'&gt;&#x000A;  &lt;name&gt;&lt;![CDATA[default]]&gt;&lt;/name&gt;&#x000A;  &lt;description&gt;&lt;![CDATA[default group]]&gt;&lt;/description&gt;&#x000A;  &lt;owner_id&gt;393485797142&lt;/owner_id&gt;&#x000A;  &lt;rules&gt;&#x000A;    &lt;rule href='http://localhost:3001/api/firewalls/default/393485797142~tcp~22~22~@group,393485797142,devel_group,@group,393485797142,outside,@address,ipv4,192.168.1.1,24,@address,ipv4,65.128.31.27,32' id='393485797142~tcp~22~22~@group,393485797142,devel_group,@group,393485797142,outside,@address,ipv4,192.168.1.1,24,@address,ipv4,65.128.31.27,32'&gt;&#x000A;      &lt;allow_protocol&gt;tcp&lt;/allow_protocol&gt;&#x000A;      &lt;port_from&gt;22&lt;/port_from&gt;&#x000A;      &lt;port_to&gt;22&lt;/port_to&gt;&#x000A;      &lt;direction&gt;ingress&lt;/direction&gt;&#x000A;      &lt;sources&gt;&#x000A;        &lt;source name='devel_group' owner='393485797142' type='group'&gt;&lt;/source&gt;&#x000A;        &lt;source name='outside' owner='393485797142' type='group'&gt;&lt;/source&gt;&#x000A;        &lt;source address='192.168.1.1' family='ipv4' prefix='24' type='address'&gt;&lt;/source&gt;&#x000A;        &lt;source address='65.128.31.27' family='ipv4' prefix='32' type='address'&gt;&lt;/source&gt;&#x000A;      &lt;/sources&gt;&#x000A;    &lt;/rule&gt;&#x000A;  &lt;/rules&gt;&#x000A;&lt;/firewall&gt;&#x000A;</code></pre>
         
+        <p><a name="delete_firewall_rule"> .</a></p>
+        
         <h4 id="h3_7_6"><code>DELETE /api/firewalls/:id/:rule_id</code></h4>
         
-        <p>Delete the specified firewall rule. The Deltacloud server will respond with <strong>HTTP 204 No Content</strong> on
-        completion of a successful delete operation:</p>
+        <p>Delete the specified firewall rule. The Deltacloud server will respond with
+        <strong>HTTP 204 No Content</strong> on completion of a successful delete operation:</p>
         
         <p><code>Example request:</code></p>
         
@@ -1367,11 +1408,12 @@
         
         <h3 id="h3_8">3.8 Addresses</h3>
         
-        <p>The <strong><em>addresses</em></strong> collection represents IP addresses and is intended to allow IP address management.
-         This collection is currently implemented for the Amazon EC2 cloud driver. For EC2, IP address management
-        corresponds to Amazon's 'Elastic IP' feature. As such, the <strong><em>addresses</em></strong> collection supports operations
-        for creating or destroying an <strong><em>address</em></strong> as well as associating or disassociating an <strong><em>address</em></strong> from
-        a running <strong><em>instance</em></strong>.</p>
+        <p>The <strong><em>addresses</em></strong> collection represents IP addresses and is intended to allow
+        IP address management. This collection is currently implemented for the Amazon
+        EC2 cloud driver. For EC2, IP address management corresponds to Amazon's
+        'Elastic IP' feature. As such, the <strong><em>addresses</em></strong> collection supports operations
+        for creating or destroying an <strong><em>address</em></strong> as well as associating or
+        disassociating an <strong><em>address</em></strong> from a running <strong><em>instance</em></strong>.</p>
         
         <h4 id="h3_8_1"><code>GET /api/addresses</code></h4>
         
@@ -1425,14 +1467,18 @@
         
         <h4 id="h3_8_5"><code>POST /api/addresses/:id/associate</code></h4>
         
-        <p>This operation associates a given <strong><em>address</em></strong> with a running <strong><em>instance</em></strong>. The client must
-        specify the <em>instance_id</em> as a parameter to this call. For Amazon EC2, the specified <strong><em>address</em></strong>
-        will replace the currently assigned <em>public_address</em> of the <strong><em>instance</em></strong>. A succesful operation will
-        produce a <strong>HTTP 202 Accepted</strong> response:</p>
+        <p>This operation associates a given <strong><em>address</em></strong> with a running <strong><em>instance</em></strong>.
+        The client must specify the <em>instance_id</em> as a parameter to this call.
+        For Amazon EC2, the specified <strong><em>address</em></strong> will replace the currently assigned
+        <em>public_address</em> of the <strong><em>instance</em></strong>. A succesful operation will produce a
+        <strong>HTTP 202 Accepted</strong> response. The example client request below specifies the
+        required  <em>instance_id</em> parameter using the application/x-www-form-urlencoded
+        content-type, however this can also legitimately be specified using
+        multipart/form-data.</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/addresses/107.20.232.251/associate?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 156&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------e4c1d4718683&#x000A;&#x000A;------------------------------e4c1d4718683&#x000A;Content-Disposition: form-data; name="instance_id"&#x000A;&#x000A;i-9d8a3dfc&#x000A;------------------------------e4c1d4718683--&#x000A;</code></pre>
+        <pre><code>POST /api/addresses/107.20.232.251/associate?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 22&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;instance_id=i-9d8a3dfc&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1463,20 +1509,23 @@
         
         <h3 id="h3_9">3.9 Load Balancers</h3>
         
-        <p><strong><em>Load balancers</em></strong> allow distribution of ingress network traffic received by a specified IP address
-        to a number of running <strong><em>instances</em></strong>. For example, a number of <strong><em>instances</em></strong> that are fulfilling the
-        role of web servers can be attached to a single <strong><em>load_balancer</em></strong>. This would allow
-        handling of large numbers of requests without degradation to the website performance.</p>
+        <p><strong><em>Load balancers</em></strong> allow distribution of ingress network traffic received by a
+         specified IP address to a number of running <strong><em>instances</em></strong>. For example, a
+        number of <strong><em>instances</em></strong> that are fulfilling the role of web servers can be
+        attached to a single <strong><em>load_balancer</em></strong>. This would allow handling of large
+        numbers of requests without degradation to the website performance.</p>
         
-        <p>This collection is not supported by all back-end cloud providers and at present is implemented for the
-        Gogrid and Amazon EC2 cloud drivers. A <strong><em>load_balancer</em></strong> is launched into a specific <strong><em>realm</em></strong>
-        and typically only <strong><em>instances</em></strong> within that <strong><em>realm</em></strong> may be 'attached' to the balancer. Each
-        <strong><em>load_balancer</em></strong> also has a list of <strong><em>instances</em></strong>, a <strong>public address</strong> representing the IP address
-        that the balancer will respond to client requests on, a <strong>created_at</strong> timestamp and a list of
-        <strong>listeners</strong>. Each <strong>listener</strong> has a <strong>protocol</strong> (e.g., 'TCP'), a <strong>load balancer port</strong> and
-        an <strong>instance port</strong> which represent the network ports on which the balancer accepts
-        connections and the port to which network traffic is forwarded to <strong><em>instances</em></strong> in the
-        <strong>instance list</strong>, respectively.</p>
+        <p>This collection is not supported by all back-end cloud providers and at present
+        is implemented for the Gogrid and Amazon EC2 cloud drivers. A
+        <strong><em>load_balancer</em></strong> is launched into a specific <strong><em>realm</em></strong> and typically only
+         <strong><em>instances</em></strong> within that <strong><em>realm</em></strong> may be 'attached' to the balancer. Each
+        <strong><em>load_balancer</em></strong> also has a list of <strong><em>instances</em></strong>, a <strong>public address</strong>
+        representing the IP address that the balancer will respond to client requests
+        on, a <strong>created_at</strong> timestamp and a list of <strong>listeners</strong>. Each <strong>listener</strong>
+        has a <strong>protocol</strong> (e.g., 'TCP'), a <strong>load balancer port</strong> and an
+        <strong>instance port</strong> which represent the network ports on which the balancer accepts
+        connections and the port to which network traffic is forwarded to <strong><em>instances</em></strong>
+        in the <strong>instance list</strong>, respectively.</p>
         
         <h4 id="h3_9_1"><code>GET /api/load_balancers</code></h4>
         
@@ -1504,16 +1553,20 @@
         
         <h4 id="h3_9_3"><code>POST /api/load_balancers</code></h4>
         
-        <p>This operation creates a new <strong><em>load_balancer</em></strong>. Clients must provide the <strong><em>load_balancer</em></strong> <strong>name</strong>,
-         the <strong>realm_id</strong> to which the balancer is to apply, a <strong>listener_protocol</strong> which the balancer will
-        respond to (one of <strong>HTTP</strong> or <strong>TCP</strong>), the <strong>listener_balancer_port</strong> which specifies the port
-        that the <strong><em>load_balancer</em></strong> will be expecting network traffic on and finally the <strong>listener_instance_port</strong>
-        which specifies the port on which <strong><em>instances</em></strong> will be receiving network traffic forwarded by the
-        <strong><em>load_balancer</em></strong>.</p>
+        <p>This operation creates a new <strong><em>load_balancer</em></strong>. Clients must provide the
+        <strong><em>load_balancer</em></strong> <strong>name</strong>, the <strong>realm_id</strong> to which the balancer is to
+        apply, a <strong>listener_protocol</strong> which the balancer will respond to (one of
+        <strong>HTTP</strong> or <strong>TCP</strong>), the <strong>listener_balancer_port</strong> which specifies the port
+        that the <strong><em>load_balancer</em></strong> will be expecting network traffic on and finally
+        the <strong>listener_instance_port</strong> which specifies the port on which <strong><em>instances</em></strong>
+        will be receiving network traffic forwarded by the <strong><em>load_balancer</em></strong>. As with
+        other operations in the Deltacloud API, parameters may be specified by a requesting
+        client using multipart/form-data or as application/x-www-form-urlencoded data
+        as shown below:</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/load_balancers?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 603&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------395a7b3a9c77&#x000A;&#x000A;------------------------------395a7b3a9c77&#x000A;Content-Disposition: form-data; name="name"&#x000A;&#x000A;webtraffic-balancer&#x000A;------------------------------395a7b3a9c77&#x000A;Content-Disposition: form-data; name="realm_id"&#x000A;&#x000A;us-east-1c&#x000A;------------------------------395a7b3a9c77&#x000A;Content-Disposition: form-data; name="listener_protocol"&#x000A;&#x000A;HTTP&#x000A;------------------------------395a7b3a9c77&#x000A;Content-Disposition: form-data; name="listener_balancer_port"&#x000A;&#x000A;80&#x000A;------------------------------395a7b3a9c77&#x000A;Content-Disposition: form-data; name="listener_instance_port"&#x000A;&#x000A;3001&#x000A;------------------------------395a7b3a9c77--&#x000A;</code></pre>
+        <pre><code>POST /api/load_balancers?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 121&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;name=webtraffic-balancer&amp;realm_id=us-east-1c&amp;listener_protocol=HTTP&amp;&#x000A;listener_balancer_port=80&amp;listener_instance_port=3001&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1534,13 +1587,16 @@
         
         <h4 id="h3_9_5"><code>POST /api/load_balancers/:id/register</code></h4>
         
-        <p>This operation registers a running <strong><em>instance</em></strong> with a specified <strong><em>load_balancer</em></strong>. Clients
-        must provide the <strong>instance_id</strong> as a parameter to the request. The Deltacloud server will respond
-        with a <strong>HTTP 204 No Content</strong> after a succesful operation:</p>
+        <p>This operation registers a running <strong><em>instance</em></strong> with a specified
+        <strong><em>load_balancer</em></strong>. Clients must provide the <strong>instance_id</strong> as a parameter
+        to the request. The Deltacloud server will respond with a <strong>HTTP 204 No Content</strong>
+        after a succesful operation. The Deltacloud server will accept client request
+        parameters encoded as multipart/form-data or as
+        application/x-www-form-urlencoded data.</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/load_balancers/secure-site-balancer/register?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 156&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------6af752b909b2&#x000A;&#x000A;------------------------------6af752b909b2&#x000A;Content-Disposition: form-data; name="instance_id"&#x000A;&#x000A;i-4f06b52e&#x000A;------------------------------6af752b909b2--&#x000A;</code></pre>
+        <pre><code>POST /api/load_balancers/secure-site-balancer/register?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 22&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;instance_id=i-4f06b52e&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1548,12 +1604,14 @@
         
         <h4 id="h3_9_6"><code>POST /api/load_balancers/:id/unregister</code></h4>
         
-        <p>This operation will unregister a specified <strong><em>instance</em></strong> from the given <strong><em>load_balancer</em></strong>. The
-        client must supply the <strong>instance_id</strong> parameter to identify the <strong><em>instance</em></strong>:</p>
+        <p>This operation will unregister a specified <strong><em>instance</em></strong> from the given
+        <strong><em>load_balancer</em></strong>. The client must supply the <strong>instance_id</strong> parameter to
+        identify the <strong><em>instance</em></strong>, either as multipart/form-data or as
+        application/x-www-form-urlencoded data (as shown below).</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/load_balancers/secure-site-balancer/unregister?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 156&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------987218f60703&#x000A;&#x000A;------------------------------987218f60703&#x000A;Content-Disposition: form-data; name="instance_id"&#x000A;&#x000A;i-4f06b52e&#x000A;------------------------------987218f60703--&#x000A;</code></pre>
+        <pre><code>POST /api/load_balancers/secure-site-balancer/unregister?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 22&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;instance_id=i-4f06b52e&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1574,17 +1632,19 @@
         <p>Storage resources are divided into two groups: <strong><em>storage volumes</em></strong> can be attached
         to a running instance (accessible by the instance OS), and <em>blob storage</em>
         which represents a generic 'key &lt;−−> value' based data store, as implemented
-        by Rackspace CloudFiles or Amazon S3. <strong><em>Storage snapshots</em></strong> represent a <strong><em>storage volume</em></strong>,
-        a backup of which is created at a particular point in time (a snapshot).</p>
+        by Rackspace CloudFiles or Amazon S3. <strong><em>Storage snapshots</em></strong> represent a
+        <strong><em>storage volume</em></strong>, a backup of which is created at a particular point in time
+        (a snapshot).</p>
         
         <h3 id="h4_1">4.1 Storage Volumes</h3>
         
-        <p>A <strong><em>storage_volume</em></strong> has a <strong>capacity</strong> expressed in Gigabytes, a <strong>created</strong> timestamp, a <strong>realm_id</strong>
-        specifying the <strong><em>realm</em></strong> in which the volume exists, a <strong>state</strong> (for Amazon EC2 this is one of
-        creating | available | in-use | deleting | deleted | error) and a set of <strong>actions</strong>. When attached to
-        an <strong><em>instance</em></strong>, a <strong><em>storage_volume</em></strong> will also expose a <strong>mount</strong> element which contains the
-        attributes <strong>instance</strong> and <strong>device</strong>, specifying the <strong><em>instance</em></strong> to which the volume is attached
-        and the mount point (e.g. /dev/sdh), respectively.</p>
+        <p>A <strong><em>storage_volume</em></strong> has a <strong>capacity</strong> expressed in Gigabytes, a <strong>created</strong>
+        timestamp, a <strong>realm_id</strong> specifying the <strong><em>realm</em></strong> in which the volume exists,
+        a <strong>state</strong> (for Amazon EC2 this is one of creating | available | in-use | deleting
+        | deleted | error) and a set of <strong>actions</strong>. When attached to an <strong><em>instance</em></strong>,
+        a <strong><em>storage_volume</em></strong> will also expose a <strong>mount</strong> element which contains the
+        attributes <strong>instance</strong> and <strong>device</strong>, specifying the <strong><em>instance</em></strong> to which
+        the volume is attached and the mount point (e.g. /dev/sdh), respectively.</p>
         
         <h4 id="h4_1_1"><code>GET /api/storage_volumes</code></h4>
         
@@ -1612,17 +1672,23 @@
         
         <h4 id="h4_1_3"><code>POST /api/storage_volumes</code></h4>
         
-        <p>This operation will create a new <strong><em>storage_volume</em></strong>. A client may specify a <strong>snapshot_id</strong> from which
-        to instantiate the <strong><em>storage_volume</em></strong> though this is optional. The <strong>capacity</strong> parameter, expressed in
-        Gigabytes, is also optional and will default to 1 Gigabyte. Finally clients may also specify the
-        <strong>realm_id</strong> as a <strong><em>storage_volume</em></strong> can typically only be attached to <strong><em>instances</em></strong> running within
-        the specified <strong><em>realm</em></strong>. If the <strong><em>realm</em></strong> is not specified it will default to the first realm returned
-         by the cloud provider. A succesful operation will return <strong>HTTP 201 Created</strong> with the details of the newly
-        created <strong><em>storage_volume</em></strong>:</p>
+        <p>This operation will create a new <strong><em>storage_volume</em></strong>. A client may specify a
+        <strong>snapshot_id</strong> from which to instantiate the <strong><em>storage_volume</em></strong> though this
+        is optional. The <strong>capacity</strong> parameter, expressed in Gigabytes, is also optional
+        and will default to 1 Gigabyte. Finally clients may also specify the <strong>realm_id</strong>
+        as a <strong><em>storage_volume</em></strong> can typically only be attached to <strong><em>instances</em></strong>
+         running within the specified <strong><em>realm</em></strong>. If the <strong><em>realm</em></strong> is not specified
+        it will default to the first realm returned by the cloud provider.
+        A succesful operation will return <strong>HTTP 201 Created</strong> with the details of
+        the newly created <strong><em>storage_volume</em></strong>.</p>
+        
+        <p>As with the other <strong>POST</strong> operations in the Deltacloud API, clients
+        may choose to specify operation parameters as multipart/form-data or
+        as application/x-www-form-urlencoded data.</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/storage_volumes?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 252&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------90dea979a9f4&#x000A;&#x000A;------------------------------90dea979a9f4&#x000A;Content-Disposition: form-data; name="capacity"&#x000A;&#x000A;10&#x000A;------------------------------90dea979a9f4&#x000A;Content-Disposition: form-data; name="realm_id"&#x000A;&#x000A;us-east-1c&#x000A;------------------------------90dea979a9f4--&#x000A;</code></pre>
+        <pre><code>POST /api/storage_volumes?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 31&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;capacity=10&amp;realm_id=us-east-1c&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1630,9 +1696,9 @@
         
         <h4 id="h4_1_4"><code>DELETE /api/storage_volumes/:id</code></h4>
         
-        <p>Deletes the specified <strong><em>storage_volume</em></strong>. The operation will return a <strong>HTTP 204 No Content</strong> after
-        a succesful operation. Note that the operation will fail if the given <strong><em>storage_volume</em></strong> is currently
-        attached to an <strong><em>instance</em></strong>.</p>
+        <p>Deletes the specified <strong><em>storage_volume</em></strong>. The operation will return a
+        <strong>HTTP 204 No Content</strong> after a succesful operation. Note that the operation will
+        fail if the given <strong><em>storage_volume</em></strong> is currently attached to an <strong><em>instance</em></strong>.</p>
         
         <p><code>Example request:</code></p>
         
@@ -1652,17 +1718,21 @@
         
         <h4 id="h4_1_5"><code>POST /api/storage_volumes/:id/attach</code></h4>
         
-        <p>This operation will attach the specified <strong><em>storage_volume</em></strong> to a running <strong><em>instance</em></strong>. Clients must
-        specify the <strong>instance_id</strong> and the <strong>device</strong> as parameters. The <strong>device</strong> parameter is used as the
-        'mount point', that is, the location at which the <strong><em>storage_volume</em></strong> will be exposed to the given
-        <strong><em>instance</em></strong> (e.g., /dev/sdh). The Deltacloud server will respond with a <strong>HTTP 202 Accepted</strong> after
-        a succesful attach operation together with details of the <strong><em>storage_volume</em></strong>. Note in the example
-         below that the <strong>state</strong> is reported as 'unknown' although the <strong>mount</strong> element is present, as the
-        processing has not yet been completed (hence the <strong>202</strong> status code).</p>
+        <p>This operation will attach the specified <strong><em>storage_volume</em></strong> to a running
+        <strong><em>instance</em></strong>. Clients must specify the <strong>instance_id</strong> and the <strong>device</strong>
+        as parameters. The <strong>device</strong> parameter is used as the 'mount point', that is,
+         the location at which the <strong><em>storage_volume</em></strong> will be exposed to the given
+        <strong><em>instance</em></strong> (e.g., /dev/sdh). The Deltacloud server will respond with a
+        <strong>HTTP 202 Accepted</strong> after a succesful attach operation together with details
+        of the <strong><em>storage_volume</em></strong>. Note in the example below that the <strong>state</strong> is
+        reported as 'unknown' although the <strong>mount</strong> element is present, as the
+        processing has not yet been completed (hence the <strong>202</strong> status code).
+        Clients may specify the required parameters as multipart/form-data
+        or as application/x-www-form-urlencoded data.</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/storage_volumes/vol-0bc0de60/attach?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 259&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------5a074e9c5fcc&#x000A;&#x000A;------------------------------5a074e9c5fcc&#x000A;Content-Disposition: form-data; name="instance_id"&#x000A;&#x000A;i-b100b3d0&#x000A;------------------------------5a074e9c5fcc&#x000A;Content-Disposition: form-data; name="device"&#x000A;&#x000A;/dev/sdi&#x000A;------------------------------5a074e9c5fcc--&#x000A;</code></pre>
+        <pre><code>POST /api/storage_volumes/vol-0bc0de60/attach?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 38&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;instance_id=i-b100b3d0&amp;device=/dev/sdi&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1670,11 +1740,12 @@
         
         <h4 id="h4_1_6"><code>POST /api/storage_volumes/:id/detach</code></h4>
         
-        <p>This operation detaches the given <strong><em>storage_volume</em></strong> from the <strong><em>instance</em></strong> to which it is currently
-        attached. A succesful operation will return <strong>HTTP 201 Accepted</strong> together with details of the
-        <strong><em>storage_volume</em></strong>. Note in the example that like the <strong><em>attach</em></strong> operation above, <strong>state</strong> is
-         reported as 'unknown' and the <strong>mount</strong> element is still present as the processing has not yet been
-        completed (hence the <strong>202</strong> status code).</p>
+        <p>This operation detaches the given <strong><em>storage_volume</em></strong> from the <strong><em>instance</em></strong>
+        to which it is currently attached. A succesful operation will return
+        <strong>HTTP 201 Accepted</strong> together with details of the <strong><em>storage_volume</em></strong>. Note
+        in the example that like the <strong><em>attach</em></strong> operation above, <strong>state</strong> is
+         reported as 'unknown' and the <strong>mount</strong> element is still present as the
+        processing has not yet been completed (hence the <strong>202</strong> status code).</p>
         
         <p><code>Example request:</code></p>
         
@@ -1696,15 +1767,16 @@
         
         <h3 id="h4_2">4.2 Storage Snapshots</h3>
         
-        <p>A <strong><em>storage_snapshot</em></strong> captures the point-in-time state of a <strong><em>storage_volume</em></strong>. Each snapshot has
-        a <strong>created</strong> timestamp, and a <strong><em>storage_volume</em></strong> attribute referring to the volume from which the
-        snapshot was made.</p>
+        <p>A <strong><em>storage_snapshot</em></strong> captures the point-in-time state of a <strong><em>storage_volume</em></strong>.
+        Each snapshot has a <strong>created</strong> timestamp, and a <strong><em>storage_volume</em></strong> attribute
+        referring to the volume from which the snapshot was made.</p>
         
         <h4 id="h4_2_1"><code>GET /api/storage_snapshots</code></h4>
         
-        <p>List all available <strong><em>storage snapshots</em></strong>. For Amazon EC2 this list includes <em>any</em> snapshots that
-        are available to the requesting client account, including those that may not have been created by that
-        account. As this list is very long the example below shows only part of the response:</p>
+        <p>List all available <strong><em>storage snapshots</em></strong>. For Amazon EC2 this list includes
+        <em>any</em> snapshots that are available to the requesting client account, including
+        those that may not have been created by that account. As this list is very long
+        the example below shows only part of the response:</p>
         
         <p><code>Example request:</code></p>
         
@@ -1728,14 +1800,16 @@
         
         <h4 id="h4_2_3"><code>POST /api/storage_snapshots</code></h4>
         
-        <p>This operation will create a new <strong><em>storage_snapshot</em></strong>. Clients must specify the <strong><em>storage_volume</em></strong>
-        from which the snapshot is to be created, by supplying the <strong>volume_id</strong> parameter. The Deltacloud
-        server responds with <strong>HTTP 201 Created</strong> after a succesful operation and provides details of the
-        newly created <strong><em>storage_snapshot</em></strong>:</p>
+        <p>This operation will create a new <strong><em>storage_snapshot</em></strong>. Clients must specify
+        the <strong><em>storage_volume</em></strong> from which the snapshot is to be created, by supplying
+        the <strong>volume_id</strong> parameter. The Deltacloud server responds with
+        <strong>HTTP 201 Created</strong> after a succesful operation and provides details of the
+        newly created <strong><em>storage_snapshot</em></strong>. Clients may specify operation parameters as
+        multipart/form-data, or as application/x-www-form-urlencoded data:</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/storage_snapshots?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 156&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------91f7fa88be76&#x000A;&#x000A;------------------------------91f7fa88be76&#x000A;Content-Disposition: form-data; name="volume_id"&#x000A;&#x000A;vol-99fbe5f2&#x000A;------------------------------91f7fa88be76--&#x000A;</code></pre>
+        <pre><code>POST /api/storage_snapshots?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 22&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;volume_id=vol-99fbe5f2&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
@@ -1743,8 +1817,8 @@
         
         <h4 id="h4_2_4"><code>DELETE /api/storage_snapshots/:id</code></h4>
         
-        <p>Deletes the specified <strong><em>storage_snapshot</em></strong>. The operation returns a <strong>HTTP 204 No Content</strong> after a
-        succesful operation:</p>
+        <p>Deletes the specified <strong><em>storage_snapshot</em></strong>. The operation returns a
+        <strong>HTTP 204 No Content</strong> after a succesful operation:</p>
         
         <p><code>Example request:</code></p>
         
@@ -1809,27 +1883,31 @@
         
         <h4 id="h4_3_3"><code>POST /api/buckets</code></h4>
         
-        <p>Creates a new <strong><em>bucket</em></strong> and requires that you specify the <strong><em>name</em></strong> as a parameter,
-        in the form of multipart/form-data (i.e., HTTP form field). Optionally for Amazon S3
-        buckets, you can specify a bucket location with the <strong><em>location</em></strong> parameter, as per
+        <p>Creates a new <strong><em>bucket</em></strong> and requires that you specify the <strong><em>name</em></strong> as a
+        parameter. Optionally for Amazon S3 buckets, you can specify a bucket location
+        with the <strong><em>location</em></strong> parameter, as per
          <a href="http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html" title="AWS Regions and Endpoints">Regions and Endpoints for Amazon Simple Storage Service</a>;
         valid values for S3 bucket <em>location</em> parameter are: "us-west-1", "EU",
         "ap-southeast-1", "ap-northeast-1" (while not specifying a location defaults to
-        the "US Standard" region).</p>
+        the "US Standard" region). Note that clients may specify parameters as
+        multipart/form-data or using a content-type of application/x-www-form-urlencoded.</p>
         
-        <p>On succesful creation this call will return a <strong><em>201</em></strong> HTTP status, specifying the URI
-        of the newly created bucket in the <strong>Location</strong> header and the newly created
-        <strong><em>bucket</em></strong> object in the response message body. The example request below creates a
-        new <strong><em>bucket</em></strong> in the <em>EU (Ireland)</em> region. If the given backend cloud does not
-        support locations then the <em>location</em> parameter is silently ignored.</p>
+        <p>On succesful creation this call will return a <strong><em>201</em></strong> HTTP status, specifying
+        the URI of the newly created bucket in the <strong>Location</strong> header and the newly
+        created <strong><em>bucket</em></strong> object in the response message body. The example request
+        below creates a new <strong><em>bucket</em></strong> in the <em>EU (Ireland)</em> region. If the given
+        backend cloud does not support locations then the <em>location</em> parameter is
+        silently ignored.</p>
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/buckets?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 252&#x000A;Content-Type: multipart/form-data; boundary=----------------------------4e90611c39f2&#x000A;&#x000A;------------------------------4e90611c39f2&#x000A;Content-Disposition: form-data; name="name"&#x000A;&#x000A;mybucketeurope&#x000A;------------------------------4e90611c39f2&#x000A;Content-Disposition: form-data; name="location"&#x000A;&#x000A;EU&#x000A;------------------------------4e90611c39f2--&#x000A;</code></pre>
+        <pre><code>POST /api/buckets?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1&#x000A;Host: localhost:3001&#x000A;Accept: */*&#x000A;Content-Length: 31&#x000A;Content-Type: application/x-www-form-urlencoded&#x000A;&#x000A;name=mybucketeurope&amp;location=EU&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
         <pre><code>HTTP/1.1 201 Created&#x000A;Location: http://localhost:3001/api/buckets/mybucketeurope&#x000A;Content-Type: application/xml&#x000A;Content-Length: 182&#x000A;&#x000A;&lt;?xml version='1.0' encoding='utf-8' ?&gt;&#x000A;&lt;bucket href='http://localhost:3001/api/buckets/mybucketeurope' id='mybucketeurope'&gt;&#x000A;  &lt;name&gt;mybucketeurope&lt;/name&gt;&#x000A;  &lt;size&gt;0&lt;/size&gt;&#x000A;&lt;/bucket&gt;&#x000A;</code></pre>
+        
+        <p><a name="delete_bucket">.</a></p>
         
         <h4 id="h4_3_4"><code>DELETE /api/buckets/:id</code></h4>
         
@@ -1875,6 +1953,8 @@
         
         <pre><code>HTTP/1.1 200 OK&#x000A;Content-Disposition: attachment; filename=Im_a_blob_beholdme&#x000A;Content-Type: text/plain&#x000A;Content-Length: 50&#x000A;&#x000A;&lt;BLOB DATA HERE&gt;&#x000A;</code></pre>
         
+        <p><a name="create_blob">.</a></p>
+        
         <h4 id="h4_3_7"><code>PUT /api/buckets/:bucket_id/:blob_id</code></h4>
         
         <p>Creates a <strong><em>blob</em></strong> object and sets its content. If the <strong><em>blob</em></strong> already exists then
@@ -1905,8 +1985,8 @@
         updating a <strong><em>blob</em></strong> object. As with the <code>PUT</code> method for creating/updating a
         <strong><em>blob</em></strong>, the client must specify the <strong><em>bucket</em></strong> in which the <strong><em>blob</em></strong> is to
         be created through the call URI (i.e. you <code>POST</code> to the specified <strong><em>bucket</em></strong>).
-        The rest of the required fields, that is, the <strong><em>blob_id</em></strong> (name of the blob),
-        the  <strong><em>blob_data</em></strong> and the <strong><em>content-length</em></strong> are specified by the client as
+        The rest of the required fields, that is, the name of the <strong><em>blob</em></strong>, the
+         <strong><em>blob_data</em></strong> and the <strong><em>content-length</em></strong> are specified by the client as
         <strong><em>multipart/form-data</em></strong> (i.e. in <code>HTTP POST</code> form fields).</p>
         
         <p>In order to specify the optional user metadata for a given <strong><em>blob</em></strong> the client
@@ -1927,7 +2007,7 @@
         
         <p><code>Example request:</code></p>
         
-        <pre><code>POST /api/buckets/mybucket?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N&#x000A;Accept: */*&#x000A;Content-Length: 113584&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob_id"&#x000A;&#x000A;12Jul2011blob&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob_data"; filename="small.txt"&#x000A;Content-Type: text/plain&#x000A;&#x000A;&lt;THE_BLOB_DATA_HERE&gt;&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_params"&#x000A;&#x000A;2&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name1"&#x000A;&#x000A;author&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value1"&#x000A;jjs&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name2"&#x000A;&#x000A;version&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value2"&#x000A;&#x000A;2.2&#x000A;------------------------------517f5f2df858--&#x000A;</code></pre>
+        <pre><code>POST /api/buckets/mybucket?format=xml HTTP/1.1&#x000A;Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==&#x000A;User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N&#x000A;Accept: */*&#x000A;Content-Length: 113582&#x000A;Expect: 100-continue&#x000A;Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob"&#x000A;&#x000A;12Jul2011blob&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="blob_data"; filename="small.txt"&#x000A;Content-Type: text/plain&#x000A;&#x000A;&lt;THE_BLOB_DATA_HERE&gt;&#x000A;&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_params"&#x000A;&#x000A;2&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name1"&#x000A;&#x000A;author&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value1"&#x000A;jjs&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_name2"&#x000A;&#x000A;version&#x000A;------------------------------517f5f2df858&#x000A;Content-Disposition: form-data; name="meta_value2"&#x000A;&#x000A;2.2&#x000A;------------------------------517f5f2df858--&#x000A;</code></pre>
         
         <p><code>Server response:</code></p>
         
