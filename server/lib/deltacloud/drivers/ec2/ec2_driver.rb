@@ -51,7 +51,7 @@ module Deltacloud
           cpu                1
           memory             0.63 * 1024
           storage            160
-          architecture       'i386'
+          architecture       ['i386','x86_64']
         end
 
         define_hardware_profile('m1.small') do
@@ -778,7 +778,11 @@ module Deltacloud
 
         def convert_instance(instance)
           can_create_image = 'ebs'.eql?(instance[:root_device_type]) and 'RUNNING'.eql?(convert_state(instance[:aws_state]))
-          Instance.new(
+          inst_profile_opts={}
+          if instance[:aws_instance_type] == "t1.micro"
+            inst_profile_opts[:hwp_architecture]=instance[:architecture]
+          end
+         Instance.new(
             :id => instance[:aws_instance_id],
             :name => instance[:aws_image_id],
             :state => convert_state(instance[:aws_state]),
@@ -787,7 +791,7 @@ module Deltacloud
             :actions => instance_actions_for(convert_state(instance[:aws_state])),
             :keyname => instance[:ssh_key_name],
             :launch_time => instance[:aws_launch_time],
-            :instance_profile => InstanceProfile.new(instance[:aws_instance_type]),
+            :instance_profile => InstanceProfile.new(instance[:aws_instance_type], inst_profile_opts),
             :realm_id => instance[:aws_availability_zone],
             :private_addresses => instance[:private_dns_name],
             :public_addresses => instance[:dns_name],
