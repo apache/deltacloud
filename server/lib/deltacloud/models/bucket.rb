@@ -26,7 +26,7 @@ class Bucket < BaseModel
     h = self.to_hash_original
     unless blob_list.nil?
       h[:blob_list] = self.blob_list.collect { |blob| { :id => blob,
-        :href => "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/buckets/#{self.id}/#{blob}"}}
+        :href => "#{settings.root_url}/buckets/#{self.id}/#{blob}"}}
     end
     return h
   end

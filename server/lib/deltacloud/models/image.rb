@@ -30,7 +30,7 @@ class Image < BaseModel
     h.merge({
       :actions => [ :create_instance => {
         :method => 'post',
-        :href => "#{Sinatra::UrlForHelper::DEFAULT_URI_PREFIX}/instances;image_id=#{self.id}"
+        :href => "#{settings.root_url}/instances;image_id=#{self.id}"
       }]
     })
   end

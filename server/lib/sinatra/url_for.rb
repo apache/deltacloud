@@ -29,8 +29,6 @@ require 'uri'
 module Sinatra
   module UrlForHelper
 
-    DEFAULT_URI_PREFIX = "/api"
-
     def api_url_for(url_fragment, mode=:path_only)
       matrix_params = ''
       if request.params['api']
@@ -38,7 +36,7 @@ module Sinatra
         matrix_params += ";driver=%s" % request.params['api']['driver'] if request.params['api']['driver']
       end
       url_fragment = "/#{url_fragment}" unless url_fragment =~ /^\// # There is no need to prefix URI with '/'
-      url_for "#{DEFAULT_URI_PREFIX}#{matrix_params}#{url_fragment}", mode
+      url_for "#{settings.root_url}#{matrix_params}#{url_fragment}", mode
     end
 
     # Construct a link to +url_fragment+, which should be given relative to
@@ -86,10 +84,6 @@ module Sinatra
       else
         "#{base}#{url_escape}"
       end
-    end
-
-    def root_url
-      DEFAULT_URI_PREFIX
     end
   end
 
