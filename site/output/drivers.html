@@ -31,10 +31,13 @@
             <a class='inactive' href='./download.html' title='Get the latest releases'>Download</a>
           </li>
           <li>
-            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+            <a class='inactive' href='./developers.html' title='Information for developers'>Developers</a>
           </li>
           <li>
             <a class='active' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contact.html' title='Contact us!'>Contact</a>
           </li>
         </ul>
       </div>
@@ -44,7 +47,7 @@
         <ul class='l1'>
           <li>
             <a class='inactive' href='documentation.html'>
-              Overview
+              Installation
             </a>
           </li>
           <li>
@@ -55,11 +58,6 @@
           <li>
             <a class='active' href='drivers.html'>
               Drivers
-            </a>
-          </li>
-          <li>
-            <a class='inactive' href='framework.html'>
-              Framework
             </a>
           </li>
           <li>
@@ -83,79 +81,67 @@
         <!-- = title + '</h1>' -->
         <ul class="toc">
         <li>
-        <a href="#h1">Setting up the code</a>
+        <a href="#h1">Dynamic driver switching</a>
         </li>
         <li>
-        <a href="#h2">Launch the server</a>
+        <a href="#h2">Driver functionality and Credentials</a>
         </li>
         <li>
-        <a href="#h3">Dynamic driver switching</a>
-        </li>
-        <li>
-        <a href="#h4">Notes on specific drivers</a>
+        <a href="#h3">Notes on specific drivers</a>
         <ul>
         <li>
-        <a href="#h4_1">EC2 Driver</a>
+        <a href="#h3_1">EC2 Driver</a>
         </li>
         <li>
-        <a href="#h4_2">Eucalyptus Driver</a>
+        <a href="#h3_2">Eucalyptus Driver</a>
         </li>
         <li>
-        <a href="#h4_3">RHEV-M Driver</a>
+        <a href="#h3_3">RHEV-M Driver</a>
         </li>
         <li>
-        <a href="#h4_4">Rackspace Driver</a>
+        <a href="#h3_4">Rackspace Driver</a>
         </li>
         <li>
-        <a href="#h4_5">RimuHosting</a>
+        <a href="#h3_5">RimuHosting</a>
         </li>
         <li>
-        <a href="#h4_6">OpenNebula</a>
+        <a href="#h3_6">OpenNebula</a>
         </li>
         <li>
-        <a href="#h4_7">IBM Smartcloud Driver</a>
+        <a href="#h3_7">IBM Smartcloud Driver</a>
         </li>
         </ul></li></ul>
         <!-- = rest -->
         
         
-        <p>Deltacloud provides drivers for a growing number of popular clouds. All drivers
-        can handle a set of standard operations, some of them also support a number of
-        optional operations to expose the features of specific clouds more closely. The
-        drivers and their capabilities are:</p>
+        <p>Deltacloud provides drivers for a <a href="drivers.html#providers">growing number</a> of popular
+        IaaS cloud providers. This page contains notes pertinent to specific cloud provider drivers, such
+        as the <a href="drivers.html#credentials">credentials</a> that should be used for a given cloud provider.
+        Furthermore the information here outlines the mechanism through which any API call sent by a
+        given client to a Deltacloud server instance may be routed to a specific driver, regardless
+        of the 'default' driver that the Deltacloud server was invoked for.</p>
         
-        <h2 id="h1">Setting up the code</h2>
+        <hr />
         
-        <p>To set up a Deltacloud core and the drivers, install the
-        <a href="http://rubygems.org/gems/deltacloud-core">deltacloud-core</a> Ruby gem:</p>
+        <h2 id="h1">Dynamic driver switching</h2>
         
-        <pre><code># gem install deltacloud-core&#x000A;</code></pre>
+        <p>When the Deltacloud server is started it is passed a parameter
+        that specifies the <strong>default</strong> driver to be used for API operations:</p>
         
-        <p>RPM package will be available soon.</p>
+        <pre><code>$ deltacloudd -i ec2&#x000A;</code></pre>
         
-        <h2 id="h2">Launch the server</h2>
-        
-        <p>The server is launched with the <code>deltacloudd</code> command and pass it the name
-        of the driver you want to use:</p>
-        
-        <pre><code>$ deltacloudd -i mock&#x000A;</code></pre>
-        
-        <p>This will start a webserver running the mock driver on
-        <code>http://localhost:3001/api</code>; you can simply browse to that URL to get a
-        pretty view of the objects the driver deals with.</p>
-        
-        <h2 id="h3">Dynamic driver switching</h2>
-        
-        <p>The driver specified with the <code>-i</code> switch when <code>deltacloudd</code> is launched is
-        the default driver. Clients can switch drivers for any request. The list of
-        drivers supported by the server can be obtained from the <code>drivers</code>
-        collection.</p>
+        <p>The above for example starts the Detlacloud server with the Amazon EC2 driver. Whilst
+        it is possible to start a number of Deltacloud server instances for each cloud provider
+        that you wish to connect to (e.g., on different ports), a mechanism is provided with which
+        to instruct the server to use a specific driver, regardless of the current default. The
+        Deltacloud API <strong>drivers</strong> colletion (e.g. GET /api/drivers) provides a list of all currently
+        supported cloud provider drivers.</p>
         
         <p>Some drivers also support the notion of a <em>provider</em>. Changing the provider
         makes it possible to use the same driver against different instances of a
         cloud, for example different regions in EC2 or different installations of
         RHEV-M. The possible range of values for the provider is driver-specific,
-        and listed below for each driver.</p>
+        and listed in the notes for each driver below.</p>
         
         <p>The driver and provider can be selected in one of two ways:</p>
         
@@ -168,12 +154,14 @@
         <li>Through the matrix request parameters <code>driver</code> and <code>provider</code> in the
         <code>api</code> component of the server's URL. For example, requesting
         <code>http://localhost:3001/api;driver=ec2;provider=eu-west-1</code> has the same
-        effect as using the two request headers mentioned above.</li>
+        effect as using the two request headers in the example above.</li>
         </ol>
         
         
-        <h2 id="h4">Notes on specific drivers</h2>
-        <h3>Compute Drivers</h3>
+        <hr />
+        
+        <h2 id="h2">Driver functionality and Credentials</h2>
+        <h3>Compute Driver Functionality</h3>
         <table id='providers'>
           <tr>
             <th class='emptycell'>&nbsp;</th>
@@ -356,17 +344,17 @@
             <td class="supported">yes</td>
           </tr>
         </table>
-        <h3>Storage Drivers</h3>
+        <h3>Storage Driver Functionality</h3>
         <table id='providers'>
           <tr>
             <th class='emptycell'>&nbsp;</th>
             <th>
               <strong>Create</strong>
-              new containers
+              new buckets
             </th>
             <th>
               <strong>Update/delete</strong>
-              containers
+              buckets
             </th>
             <th>
               <strong>Create</strong>
@@ -442,30 +430,271 @@
             <td class="not-supported">TBD</td>
           </tr>
         </table>
+        <p>
+          Deltacloud uses basic HTTP
+          <a href='api.html#h1_3'>
+            authentication
+          </a>
+          to receive credentials from the
+          client and passes them through to the backend cloud it is talking to. The
+          credentials always consist of a username and password, and are never
+          stored on the server.  The exact credentials for logging into the server,
+          and where you find them, depends on the backend cloud that the server is
+          talking to.
+        </p>
+        <a name='credentials'></a>
+        <p>
+          The following table gives details about the credentials that must be
+          provided for each of the supported clouds. The entry from
+          the Driver column needs to be passed as the
+          <tt>
+            -i
+          </tt>
+          option to the
+          <tt>
+            deltacloudd
+          </tt>
+          server daemon. Note that some of the drivers require additional information, e.g.,
+          API endpoint URL's, be passed through environment variables, as addressed in the
+          <a href='drivers.html#specific_driver_notes'>
+            Notes
+          </a>
+          for Specific Drivers section below.
+        </p>
+        <h3>Cloud provider credentials</h3>
+        <table id='providers'>
+          <tr>
+            <th>
+              <strong>Cloud</strong>
+            </th>
+            <th>
+              <strong>Driver</strong>
+            </th>
+            <th>
+              <strong>Username</strong>
+            </th>
+            <th>
+              <strong>Password</strong>
+            </th>
+            <th>
+              <strong>Notes</strong>
+            </th>
+          </tr>
+          <tr>
+            <td>
+              <strong>mock</strong>
+            </td>
+            <td>
+              <tt>mock</tt>
+            </td>
+            <td>
+              <tt>
+                mockuser
+              </tt>
+            </td>
+            <td>
+              <tt>
+                mockpassword
+              </tt>
+            </td>
+            <td>
+              The mock driver doesn't talk to any cloud; it just pretends to be a cloud
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Amazon EC2/S3</strong>
+            </td>
+            <td>
+              <tt>ec2</tt>
+            </td>
+            <td>
+              Access Key ID
+            </td>
+            <td>
+              Secret Access Key
+            </td>
+            <td>
+              This information can be found on the
+              <a href='http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key'>Security Credentials</a>
+              page in your AWS account
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Eucalyptus</strong>
+            </td>
+            <td>
+              <tt>eucalyptus</tt>
+            </td>
+            <td>
+              Access Key ID
+            </td>
+            <td>
+              Secret Access Key
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>GoGrid</strong>
+            </td>
+            <td>
+              <tt>gogrid</tt>
+            </td>
+            <td>
+              API Key
+            </td>
+            <td>
+              Shared Secret
+            </td>
+            <td>
+              Go to
+              <tt>My Account &gt; API Keys</tt>
+              for
+              <a href='https://my.gogrid.com/gogrid/com.servepath.gogrid.GoGrid/index.html'>your account</a>
+              and click on the key you want to use to find the shared secret.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>IBM SBC</strong>
+            </td>
+            <td>
+              <tt>sbc</tt>
+            </td>
+            <td>
+              Username
+            </td>
+            <td>
+              Password
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Microsoft Azure (Storage Account only)</strong>
+            </td>
+            <td>
+              <tt>azure</tt>
+            </td>
+            <td>
+              Public Storage Account Name
+            </td>
+            <td>
+              Primary Access Key
+            </td>
+            <td>
+              The Storage Account Name is chosen when you create the service (e.g. name in http://name.blob.core.windows.net/). This and the access key are available from the service control panel.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>OpenNebula</strong>
+            </td>
+            <td>
+              <tt>opennebula</tt>
+            </td>
+            <td>
+              OpenNebula user
+            </td>
+            <td>
+              OpenNebula password
+            </td>
+            <td>
+              Set the environment variable
+              <tt>OCCI_URL</tt>
+              to the address on which OpenNebula's OCCI server is listening.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Rackspace Cloud Servers/Cloud Files</strong>
+            </td>
+            <td>
+              <tt>rackspace</tt>
+            </td>
+            <td>
+              Rackspace user name
+            </td>
+            <td>
+              API Key
+            </td>
+            <td>
+              Obtain the key from the
+              <a href='https://manage.rackspacecloud.com/APIAccess.do'>API Access</a>
+              page in your control panel
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>RHEV-M</strong>
+            </td>
+            <td>
+              <tt>rhevm</tt>
+            </td>
+            <td>
+              <a href='http://markmc.fedorapeople.org/rhevm-api/en-US/html/chap-REST_API_Guide-Authentication.html'>RHEV-M user name plus Windows domain</a>
+              , e.g.,
+              <tt>admin@rhevm.example.com</tt>
+            </td>
+            <td>
+              RHEV-M password
+            </td>
+            <td>
+              Set environment variable
+              <tt>API_PROVIDER</tt>
+              to the URL of the RHEV-M REST API endpoint.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Rimuhosting</strong>
+            </td>
+            <td>
+              <tt>rimuhosting</tt>
+            </td>
+            <td>not used (?)</td>
+            <td>API Key</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Terremark</strong>
+            </td>
+            <td>
+              <tt>terremark</tt>
+            </td>
+            <td>
+              Username
+            </td>
+            <td>
+              Password
+            </td>
+            <td></td>
+          </tr>
+        </table>
         
         
         
-        <h3 id="h4_1">EC2 Driver</h3>
+        <p><a name="providers">.</a></p>
         
-        <p>For the Amazon EC2 you need to install the
-        <a href="https://github.com/appoxy/aws">aws</a> Ruby gem:</p>
+        <hr />
         
-        <pre><code># gem install aws&#x000A;</code></pre>
+        <p><a name="specific_driver_notes"> .</a></p>
         
-        <p>When using the driver for Amazon EC2, the credentials passed in
-        response to the HTTP 401 authentication challenge should be your
-        <em>access_key</em> and <em>secret_access_key</em></p>
+        <h2 id="h3">Notes on specific drivers</h2>
         
-        <p>These credentials may be found on the <a href="http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key">Access Identifiers</a>
-        page at Amazon AWS.</p>
+        <h3 id="h3_1">EC2 Driver</h3>
         
         <p>The providers for the EC2 driver correspond to AWS's regions, and currently
         are <code>us-east-1</code>, <code>us-east-1</code>, <code>eu-west-1</code>, <code>ap-southeast-1</code>.</p>
         
-        <h3 id="h4_2">Eucalyptus Driver</h3>
+        <hr />
         
-        <p>The Eucalyptus driver is based on the EC2 driver, and therefore also
-        requires the <code>aws</code> gem.</p>
+        <h3 id="h3_2">Eucalyptus Driver</h3>
+        
+        <p>The Eucalyptus driver is based on the EC2 driver.</p>
         
         <p>The driver allows selecting the Eucalyptus installation by setting a
         provider in the format</p>
@@ -478,7 +707,9 @@
         
         <pre><code>X-Deltacloud-Driver: eucalyptus&#x000A;X-Deltacloud-Provider: ec2=192.168.1.1:8773;s3=192.168.1.2:8773&#x000A;</code></pre>
         
-        <h3 id="h4_3">RHEV-M Driver</h3>
+        <hr />
+        
+        <h3 id="h3_3">RHEV-M Driver</h3>
         
         <p>The RHEV-M driver needs to be installed on a Windows machine which has the
         RHEV-M Powershell API installed and configured. Assuming the directory
@@ -491,18 +722,24 @@
         the RHEVM.dll.config file which is referenced from the profile.ps1
         file located in My Documents/WindowsPowershell directory</p>
         
-        <h3 id="h4_4">Rackspace Driver</h3>
+        <hr />
+        
+        <h3 id="h3_4">Rackspace Driver</h3>
         
         <p>When using the Rackspace-cloud driver (Rackspace cloud used to be called
         "Mosso") - the password in a HTTP 401 challenge should be your API key, NOT
-        your rackspace account password.  (you can get the API-key, or generate a
-        new one, from the rackspace console).</p>
+        your rackspace account password.  You can get the API-key, or generate a
+        new one, from the rackspace console.</p>
         
-        <h3 id="h4_5">RimuHosting</h3>
+        <hr />
+        
+        <h3 id="h3_5">RimuHosting</h3>
         
         <p>Further details coming soon.</p>
         
-        <h3 id="h4_6">OpenNebula</h3>
+        <hr />
+        
+        <h3 id="h3_6">OpenNebula</h3>
         
         <p>When using the <a href="http://www.opennebula.org/">OpenNebula</a> driver, the
         credentials passed in response to the HTTP 401 authentication challenge
@@ -511,7 +748,9 @@
         <p>The address, on which the OCCI server is listening, needs to be defined in
         an environment variable called OCCI_URL.</p>
         
-        <h3 id="h4_7">IBM Smartcloud Driver</h3>
+        <hr />
+        
+        <h3 id="h3_7">IBM Smartcloud Driver</h3>
         
         <p>When using the IBM SmartCloud driver, the credentials passed in response to
         the HTTP 401 authentication challenge should be your IBM SmartCloud

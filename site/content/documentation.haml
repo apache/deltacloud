@@ -16,189 +16,544 @@ filter:
         %a{ :href => doc[:href] }
           = doc[:description]
 
-%h1 Usage
-%p
-  The server listens by default on
-  %tt
-    http://localhost:3001/.
-  For testing and exploring, the server can be used from a web browser and
-  will return HTML to it. If you want to see XML output from the server in
-  the browser, append
-  %tt
-    &#x3f;format=xml
-  to each URL.
+%br
+%br
+%hr
+%br
 
-%p
-  On Webkit based browsers like Safari, you might need to instruct the
-  server explicitly to
-  %a{ :href => "http://www.gethifi.com/blog/webkit-team-admits-accept-header-error" }
-    return HTML
-  &#x2e; Do this by appending
-  %tt
-    &#x3f;format=html
-  to each URL.
+%a(name="install_deltacloud")
+%h1 Install Deltacloud
 
-%h2 Logging into the server
-%p
-  Deltacloud uses basic HTTP authentication to receive credentials from the
-  client and passes them through to the backend cloud it is talking to. The
-  credentials always consist of a username and password, and are never
-  stored on the server.  The exact credentials for logging into the server,
-  and where you find them, depends on the backend cloud that the server is
-  talking to.
+This page lists the libraries and packages that you will need in order to install
+the Deltacloud server, a "Hello Deltacloud" quick-start guide as well as some
+information on interacting with the Deltacloud server after a succesful installation.
 
-%p
-  The following table gives details about how to set up the server and what
-  credentials to provide for each of the supported clouds. The entry from
-  the Driver column needs to be passed as the
-  %tt
-    \--driver
-  option to
-  %tt
-    deltacloudd.
-  Note that some of the drivers require additional information, e.g.,
-  API endpoint URL's, be passed through environment variables
+%h2 Installation of Deltacloud itself
 
-%table#providers
-  %tr
-    %th
-      %strong Cloud
-    %th
-      %strong Driver
-    %th
-      %strong Username
-    %th
-      %strong Password
-    %th
-      %strong Notes
-  %tr
-    %td
-      %strong mock
-    %td
-      %tt mock
-    %td
-      %tt
-        mockuser
-    %td
-      %tt
-        mockpassword
-    %td
-      The mock driver doesn't talk to any cloud; it just pretends to be a cloud
-  %tr
-    %td
-      %strong Amazon EC2/S3
-    %td
-      %tt ec2
-    %td
-      Access Key ID
-    %td
-      Secret Access Key
-    %td
-      This information can be found on the
-      %a{ :href => "http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key"} Security Credentials
-      page in your AWS account
-  %tr
-    %td
-      %strong Eucalyptus
-    %td
-      %tt eucalyptus
-    %td
-      Access Key ID
-    %td
-      Secret Access Key
-    %td
-  %tr
-    %td
-      %strong GoGrid
-    %td
-      %tt gogrid
-    %td
-      API Key
-    %td
-      Shared Secret
-    %td
-      Go to
-      %tt My Account &gt; API Keys
-      for
-      %a{ :href => "https://my.gogrid.com/gogrid/com.servepath.gogrid.GoGrid/index.html" } your account
-      and click on the key you want to use to find the shared secret.
-  %tr
-    %td
-      %strong IBM SBC
-    %td
-      %tt sbc
-    %td
-      Username
-    %td
-      Password
-    %td
-  %tr
-    %td
-      %strong Microsoft Azure (Storage Account only)
-    %td
-      %tt azure
-    %td
-      Public Storage Account Name
-    %td
-      Primary Access Key
-    %td
-      The Storage Account Name is chosen when you create the service (e.g. name in http://name.blob.core.windows.net/). This and the access key are available from the service control panel.
-  %tr
-    %td
-      %strong OpenNebula
-    %td
-      %tt opennebula
-    %td
-      OpenNebula user
-    %td
-      OpenNebula password
-    %td
-      Set the environment variable
-      %tt OCCI_URL
-      to the address on which OpenNebula's OCCI server is listening.
-  %tr
-    %td
-      %strong Rackspace Cloud Servers/Cloud Files
-    %td
-      %tt rackspace
-    %td
-      Rackspace user name
-    %td
-      API Key
-    %td
-      Obtain the key from the
-      %a{ :href => "https://manage.rackspacecloud.com/APIAccess.do"} API Access
-      page in your control panel
-  %tr
-    %td
-      %strong RHEV-M
-    %td
-      %tt rhevm
-    %td
-      %a{ :href => "http://markmc.fedorapeople.org/rhevm-api/en-US/html/chap-REST_API_Guide-Authentication.html" } RHEV-M user name plus Windows domain
-      , e.g.,
-      %tt admin@rhevm.example.com
-    %td
-      RHEV-M password
-    %td
-      Set environment variable
-      %tt API_PROVIDER
-      to the URL of the RHEV-M REST API endpoint.
-  %tr
-    %td
-      %strong Rimuhosting
-    %td
-      %tt rimuhosting
-    %td not used (?)
-    %td API Key
-    %td
-  %tr
-    %td
-      %strong Terremark
-    %td
-      %tt terremark
-    %td
-      Username
-    %td
-      Password
-    %td
+Once you've setup all the dependencies listed below, installing Deltacloud is as easy as
+typing:
+%br
+%br
+%pre
+  %code
+    $ sudo gem install deltacloud-core
+And
+%strong thats it!
+The
+%strong gem install
+command will automatically fetch and install all other gems that the Deltacloud server
+needs if you don't already have these. As an alternative you can get the latest
+releases of Deltacloud from the
+%a{:href=>"http://www.apache.org/dist/incubator/deltacloud/"}
+  Apache website.
+
+%br
+%br
+%hr
+%br
+
+%a(name="dependencies")
+
+%h2 Installation dependencies
+
+The Deltacloud server relies on a number of external rubygems and other libraries.
+You must have the following packages installed before trying to install and
+run the Deltacloud server. Please note that the names of the packages below
+may differ for your distribution (e.g. 'ruby-devel' vs 'ruby-dev'). In short, you need:
+%br
+%br
+%ul
+  %li ruby and ruby-devel,
+  %li gem (RubyGems),
+  %li gcc-c++,
+  %li libxml2 and libxml2-devel,
+  %li libxslt and libxslt-devel,
+  %li rake
+
+More info on getting these follows:
+
+%h3 ruby and ruby-devel
+
+You need to
+%a{ :href=> "http://www.ruby-lang.org/en/downloads/"}
+  install ruby.
+You can check to see if you already have a ruby installation by typing:
+%br
+%br
+%pre
+  %code
+    $ ruby -v
+
+If you see something that looks like the following:
+%br
+%br
+%pre
+  %code
+    ruby 1.8.7 (2010-08-16 patchlevel 302) [i686-linux]
+
+then you can skip the ruby installation. Deltacloud requires ruby to be
+at least version 1.8.7. You also need the development headers (ruby-devel) as
+Deltacloud relies on some rubygems with C extensions. If you use a package manager
+such as yum or apt-get:
+
+%br
+%br
+%pre
+  %code
+    sudo yum install ruby
+    sudo yum install ruby-devel
+OR
+%br
+%br
+%pre
+  %code
+    sudo apt-get install ruby
+    sudo apt-get install ruby-devel
+
+%h3 gem (RubyGems)
+
+Deltacloud relies on a number of ruby gems so you also need to
+%a{:href=> "http://docs.rubygems.org/read/chapter/3"}
+  install RubyGems.
+As with ruby, you can check if you already have the
+%strong gem
+executable installed by typing
+%strong gem -v
+\. Again, your package manager can help with the installation:
+%br
+%br
+%pre
+  %code
+    $ sudo yum install rubygems
+
+
+%h3 gcc-c++, libxml2, libxml2-devel, libxslt, libxslt-devel
+
+These are required to build RubyGems that have C extensions. Again, typically
+the easiest way to get these is with you package manager:
+
+%br
+%br
+%pre
+  %code
+    $ sudo yum install gcc-c++
+    $ sudo yum install libxml libxml2-devel
+    $ sudo yum install libxslt libxslt-devel
+
+%h3 rake
+%a{:href=>"http://rake.rubyforge.org/"}
+  Rake
+is Ruby's Make and is itself a ruby gem. Once you have RubyGems installed you can
+get rake with:
+%br
+%br
+%pre
+  %code
+    $ sudo gem install rake
+
+%br
+%br
+%hr
+%br
+
+%a(name="quick_start")
+%h1 "Hello Deltacloud!", quick-start guide
+
+This guide assumes a linux environment. Some of the Deltacloud developers
+are running recent versions of
+%a{:href=> "http://fedoraproject.org"}
+  Fedora.
+However, as Deltacloud is written in Ruby you should be able to install it on
+any OS that supports Ruby. If you have succesfully installed Deltacloud or are
+having any problems doing so, please
+%a{:href=>"contact.html"}
+  let us know,
+we'd love to hear from you!
+
+%h2 Running the Deltacloud server
+
+After you succesfully install Deltacloud, you can start the server by typing
+%strong
+  deltacloudd -i
+  %em
+    provider_id.
+The
+%strong
+  %em
+    provider_id
+is the name of the cloud provider that you have an account with, for example 'ec2'.
+If you don't yet have an account with a cloud provider, you can still try the Deltacloud
+mock driver:
+
+%br
+%br
+%pre
+  %code
+    deltacloudd -i mock
+
+
+This will start the Deltacloud server on your local machine with the mock driver, accepting
+connections on port 3001 (the default). From version 0.4.0 of Deltacloud, you can use the
+'-l' flag to see
+%a{:href=> "drivers.html#providers"}
+  all available
+%strong
+  %em
+    provider_ids
+that can be used with the
+%strong deltacloudd
+executable.
+
+%br
+%br
+%pre
+  %code
+    $ deltacloudd -l
+    %br
+    Available drivers:
+    * condor
+    * vsphere
+    * opennebula
+    * eucalyptus
+    * rhevm
+    * sbc
+    * azure
+    * gogrid
+    * mock
+    * rackspace
+    * rimuhosting
+    * terremark
+    * ec2
+
+After you start the server, the Deltacloud HTML interface is available at
+%strong
+  http://localhost:3001/api
+\- open this address in your web browser. If you want to see XML output from the
+server in the browser, append
+%strong
+  %em
+    format=xml
+to each URL. On Webkit based browsers like Safari, you might need to instruct the
+server explicitly to
+%a{ :href => "http://www.gethifi.com/blog/webkit-team-admits-accept-header-error" }
+  return HTML
+Do this by appending
+%strong
+  %em
+    format=html
+to each URL. Your browser will prompt you for
+%a{:href=> "drivers.html#credentials"}
+  credentials
+when you invoke an operation that requires
+%a{:href=> "api.html#authentication"}
+  authentication.
+
+
+%br
+%br
+
+The '-h' flag will list all available options for
+%strong deltacloudd.
+For example, to start the Deltacloud server with the Rackspace driver on port 10000
+you can use:
+
+%br
+%br
+%pre
+  %code
+    $ deltacloudd -i rackspace -P 10000
+
+You may want to install the server on another machine and make Deltacloud available on
+your local network. To do this you need to bind the Deltacloud server to an address other
+than 'localhost' (default). For instance, if you install and start Deltacloud on a machine
+with the IP address 192.168.10.200 you should start the server with:
+
+%br
+%br
+%pre
+  %code
+    $ deltacloudd -i ec2 -P 5000 -r 192.168.10.200
+
+This will make the Deltacloud server available at the address
+%strong
+  http://192.168.10.200:5000/api.
+%br
+%br
+
+
+%br
+%br
+%hr
+%br
+
+%h2 The Deltacloud ruby client
+
+The Deltacloud project also maintains a ruby client, which you need to install
+seperately to the Deltacloud API server. The Deltacloud client consists of a
+ruby library (packaged as a ruby gem) which you can use to programmatically
+interact with the Deltacloud server and control your cloud infrastructure
+across cloud providers. For example, assuming the Deltacloud server is
+running at
+
+%strong
+  192.168.10.244:5000
+
+%br
+%br
+%pre
+  %code
+    require 'deltacloud'
+    %br
+    api_url      = 'http://192.168.10.244:5000/api'
+    api_name     = 'TK2PJCAN9R1HKG2FK24Z'
+    api_password = 'aLe27rZlRhlBcVoQbL4JsVtaNga12vEL9d9kS5CA'
+    %br
+    client = DeltaCloud.new( api_name, api_password, api_url )
+    %br
+    \# get a list of currently running instances (virtual machines)
+    client.instances.each do |instance|
+    \ puts instance.name
+    end
+    %br
+    #do other work with client here
+
+More comprehensive information on using the Deltacloud ruby client in this way
+can be found in the
+%a{:href=>"client-ruby.html"}
+  client documentation.
+
+Assuming you already have Ruby and RubyGems setup, you can install the Deltacloud
+client by simply typing:
+
+%br
+%br
+%pre
+  %code
+    $ sudo gem install deltacloud-client
+
+Installing the Deltacloud client also gives you the
+%strong
+  deltacloudc
+command line tool. This executable makes use of the Deltacloud client library to speak to the
+Deltacloud server using the
+%a{:href=>"api.html"}
+  REST API.
+This allows you to to control your IAAS cloud infrastructure form the command line;
+even better if you are familiar with linux scripting, you can knock up a bash script in no time
+to automate your cloud infrastructure tasks.
+
+The general usage pattern for deltacloudc is:
+
+%br
+%br
+%pre
+  %code
+    $ deltacloudc collection operation [options]
+
+%ul
+  %li
+    %strong
+      %em
+        collection
+    refers to the Deltacloud object collections, such as Instances,
+    Images, Buckets, Realms etc, as described in greater detail in the
+    %a{:href=> "api.html#h1"}
+      REST API
+  %li
+    %strong
+      %em
+        operation
+    is collection dependant. All collections respond to 'index'
+    and 'show' operations (retrieve details on all objects in a given collection
+    or on a specific object, respectively); some collections respond to 'create' and 'destroy'
+    operations. The instances collection (realised virtual servers) responds to operations
+    for managing the instance lifecycle, such as 'stop', 'reboot' etc.
+  %li
+    %strong
+      %em
+        options
+    are listed by invoking
+    %strong deltacloudc -h
+    One important option is
+    %strong -u,
+    with which you specify the API_URL where the Deltacloud server is running. The API_URL
+    takes the form
+    %strong
+      http://[user]:[password]@[api_url]:[port]/[api]
+    (examples follow). Alternatively, rather than having to supply the API_URL for every
+    invocation of
+    %strong
+      deltacloudc
+    you have the choice of setting the API_URL environment variable
+    (e.g., export API_URL=http://mockuser:mockpassword@localhost:3001/api). A
+    listing of the credentials you need to provide for each back-end cloud provider
+    is available
+    %a{:href=>"drivers.html#credentials"}
+      here.
+
+The following examples assume that the Deltacloud server is running on your local machine
+port 3001 (the
+%strong deltacloudd
+server daemon defaults to 'localhost:3001') and was started with the 'mock' provider
+(i.e.
+%strong deltacloudd -i mock
+).
+
+To list all collections available in the current driver:
+%br
+%br
+%pre
+  %code
+    $ deltacloudc -l -u http://mockuser:mockpassword@localhost:3001/api
+
+To get a list of all
+%strong images:
+%br
+%br
+%pre
+  %code
+    $ deltacloudc images index -u http://mockuser:mockpassword@localhost:3001/api
+
+To list all operations for the
+%strong buckets
+collection:
+%br
+%br
+%pre
+  %code
+
+    $ deltacloudc buckets -l -u http://mockuser:mockpassword@localhost:3001/api
+
+To create a new blob in the bucket called 'bucket1':
+%br
+%br
+%pre
+  %code
+
+    $ deltacloudc blob create -i 'my_new_blob' -b 'bucket1' -f /home/marios/file.txt
+
+
+%br
+%br
+%hr
+%br
+
+
+%h2 Other HTTP clients - cURL
+
+As interaction with the Deltacloud server is via HTTP calls, you can use any
+HTTP client to talk to it using the Deltacloud
+%a{:href=>"api.html"}
+  REST API.
+One popular command line tool available on most modern linux distributions is
+%a{:href=> "http://curl.haxx.se/"}
+  cURL.
+We give some examples here of how you can use cURL to interact with Deltacloud,
+demonstrating the flexibility and power of the Deltacloud REST API.
+
+The following examples assume the Deltacloud server is running on locahost:3001,
+and was started with the 'ec2' driver (i.e.,
+%strong deltacloudd -i ec2
+).
+
+To get a
+%a{:href=>"api.html#list_images"}
+  listing of all images
+available in the back-end cloud:
+
+%br
+%br
+%pre
+  %code
+    curl  --user "pGbAJ1TsVg5PKs3BK27O:dPs47ralgBlldqYNbLg3scthsg4g8v0L9d6Mb5DK"
+    "http://localhost:3001/api/images?format=xml"
+
+The cURL
+%strong --user
+option is used to specify the
+%strong username:password
+%a{:href=>"drivers.html#credentials"}
+  credentials
+for access to the back-end cloud provider (Amazon EC2 in this case).
+
+To
+%a{:href=>"api.html#create_instance"}
+  create a new instance
+from the
+%a{:href=>"api.html#h3_3"}
+  image
+with id 'ami-f51aff9c', in
+%a{:href=>"api.html#h3_1"}
+  realm
+'us-east-1c', with the
+%a{:href=>"api.html#h3_2"}
+  hardware profile
+'c1.medium', in
+%a{:href=>"api.html#h3_7"}
+  firewall
+'default':
+
+%br
+%br
+%pre
+  %code
+    curl -X POST -F "keyname=eftah" -F "image_id=ami-f51aff9c"
+    \-F "realm_id=us-east-1c" -F "hwp_id=c1.medium" -F "firewalls1=default"
+    \--user "pGbAJ1TsVg5PKs3BK27O:dPs47ralgBlldqYNbLg3scthsg4g8v0L9d6Mb5DK"
+    "http://localhost:3001/api/instances?format=xml"
+
+To
+%a{:href=>"api.html#delete_firewall"}
+  delete a firewall
+called 'develgroup':
+%br
+%br
+%pre
+  %code
+    curl -X DELETE
+    \--user "pGbAJ1TsVg5PKs3BK27O:dPs47ralgBlldqYNbLg3scthsg4g8v0L9d6Mb5DK"
+    http://localhost:3001/api/firewalls/develgroup?format=xml
+
+To
+%a{:href=>"api.html#create_blob"}
+  create a blob
+called 'my_new_blob' within the
+%a{:href=>"api.html#h4_3"}
+  bucket
+'mybucket' from a local file with
+%strong
+  %em
+    HTTP PUT
+specifying its content type and setting some some metadata
+%strong
+  %em
+    key:value
+pairs:
+
+%br
+%br
+%pre
+  %code
+    curl -H 'content-type: text/html' -H 'X-Deltacloud-Blobmeta-Name:mariosblob'
+    \-H 'X-Deltacloud-Blobmeta-Version:2.1' --upload-file
+    "/home/marios/Desktop/somefile.html"
+    \--user "pGbAJ1TsVg5PKs3BK27O:dPs47ralgBlldqYNbLg3scthsg4g8v0L9d6Mb5DK"
+    http://localhost:3001/api/buckets/mybucket/my_new_blob?format=xml
+
+To
+%a{:href=>"api.html#h4_3_10"}
+  retrieve blob metadata
+for the blob called 'my_new_blob':
+
+%br
+%br
+%pre
+  %code
+    curl -iv -X HEAD
+    \--user "pGbAJ1TsVg5PKs3BK27O:dPs47ralgBlldqYNbLg3scthsg4g8v0L9d6Mb5DK"
+    http://localhost:3001/api/buckets/mybucket/my_new_blob?format=xml
+
+Note the use of the '-iv' flags here which will ensure that cURL displays the
+request and response headers (blob metadata is reported in the response headers,
+with an empty response body).
+

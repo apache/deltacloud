@@ -23,14 +23,11 @@ and a longer list of items we will address after the next release, roughly
 in order of priority.
 
 If you have anything you'd like to see added to the roadmap, or think that
-some items should receive more attention, please let us know on the
-[mailing list][1]. Of course, the quickest way to get anything into
-Deltacloud is to [send us patches][2] &mdash; we will of course take patches
+some items should receive more attention, please [let us know](contact.html).
+Of course, the quickest way to get anything into
+Deltacloud is to send us patches; we will of course take patches
 for anything, regardless of whether they adress items on the roadmap or
 anything else.
-
-[1]: /contribute.html
-[2]: /contribute.html
 
 
 <toc numbering="off" toc_style="ul" toc_range='h2-h3' />
