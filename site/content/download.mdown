@@ -1,30 +1,86 @@
 ---
 title: Deltacloud - Download
 extension: html
-filter: markdown
+filter:
+  - markdown
 ---
 
-Download
-========
+<img src="styles/deltacloud_concept.gif" alt="Deltacloud conceptual overview" width=850 />
 
-Official releases can be downloaded from one of the
-[Apache mirrors](http://www.apache.org/dyn/closer.cgi?path=incubator/deltacloud/)
+Deltacloud provides the API server and drivers necessary for connecting
+to the [cloud providers](./drivers.html#providers "Deltacloud drivers").
+Install Deltacloud and start the ***deltacloudd*** daemon server. You can use your
+favourite HTTP client to talk to the server using the
+[Deltacloud REST API](api.html "Deltacloud REST API"). Deltacloud even comes with a
+HTML interface so you can simply use your web browser to control your cloud
+infrastructure straight out of the box. As of Deltacloud 0.4.0, the HTML interface
+is written with the [jQuery mobile](http://jquerymobile.com "jquery mobile")
+framework so it plays especially well with your mobile or tablet devices.
+<br>
+This page lists the location of the main 'bits' of Deltacloud - for more detailed
+information on getting and installing Deltacloud checkout out our
+[installation and quick start guide](documentation.html#install_deltacloud).
+<br>
+--------------------------------------
+<br>
 
-### Deltacloud Core ###
+# Get Deltacloud #
 
-Deltacloud Core provides the API server and drivers necessary for connecting
-to the cloud providers.
-
-We also make Ruby gems of each release available. You can install it by
-typing the following command:
+Deltacloud is available as a ruby gem. First make sure you have installed all the
+[required dependencies](documentation.html#dependencies),
+Then installing Deltacloud is as easy as typing:
 
     $ sudo gem install deltacloud-core
 
-Additional Tools
-----------------
-These are complementary to the essential Core components.
+**And thats it!** Yes, really. The **gem install** command will automatically fetch and install
+all other gems that the Deltacloud server needs if you don't already have these.
 
-### libdeltacloud ###
+As an alternative you can get the latest releases of Deltacloud from the
+[Apache website](http://www.apache.org/dist/incubator/deltacloud/).
+
+## Getting the sources ##
+
+More information for developers is available [here](developers.html).
+
+The Apache Deltacloud subversion repo is at:
+**https://svn.apache.org/repos/asf/incubator/deltacloud**.
+
+    svn co https://svn.apache.org/repos/asf/incubator/deltacloud deltacloud
+
+The Git repo is at: **git://git.apache.org/deltacloud.git**
+
+    git clone git://git.apache.org/deltacloud.git
+
+<br>
+<br>
+--------------------------------------
+<br>
+
+# The Deltacloud Ruby Client #
+
+The Deltacloud project also maintains a ruby client, which you need to install
+separately to the Deltacloud API server. The Deltacloud client consists of a
+ ruby library (packaged as a ruby gem) which you can use to programmatically
+interact with the Deltacloud server and control your cloud infrastructure
+across cloud providers.
+
+Assuming you already setup the [required dependencies](documentation.html#dependencies),
+you can install the Deltacloud by simply typing:
+
+    $ sudo gem install deltacloud-client
+
+Installing the Deltacloud client also gives you the **deltacloudc** command line
+tool. This executable makes use of the Deltacloud client library to speak to the
+Deltacloud server using the [REST API](api.html). More information on getting started
+with the Deltacloud Ruby client is available in the
+[quick start guide](documentation.html#quick_start).
+
+<br>
+<br>
+--------------------------------------
+<br>
+
+# libdeltacloud #
 
 A library for accessing the Deltacloud API from C/C++ programs.
 
@@ -38,19 +94,8 @@ Or you can download the RPMs for Fedora 12 and 13:
 
 Contributed by Chris Lalancette.
 
+# Your name here #
 
-### Deltacloud Client ###
+Do you have a tool to make Deltacloud more useful? [Let us know](contact.html)
+and we'll add your contributions to this page!
 
-Deltacloud Client is a command line tool that communicates with the
-Deltacloud&nbsp;API.
-
-Type the following command to install it:
-
-    $ gem install deltacloud-client
-
-### Your name here ###
-
-Do you have a tool to make Deltacloud more useful? Let us know on our
-[deltacloud-devel mailing list][deltacloud-devel] and we'll post it here!
-
-[deltacloud-devel]: mailto:deltacloud-dev-subscribe@incubator.apache.org

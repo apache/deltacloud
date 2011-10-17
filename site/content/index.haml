@@ -12,14 +12,17 @@ filter: haml
   .colleft
     %p
       %em
-        Deltacloud Core
+        Deltacloud
       gives you:
     %ul
       %li
-        REST API (simple, any-platform access)
+        A
+        %a{ :href => "api.html" }
+          RESTful API
+        for simple, any-platform access
       %li
-        %a.providers{ :href => "#providers", :title => "Supported providers" }
-          Support for all major cloud service providers
+        Support for all
+        %a.providers{ :href => "#providers", :title => "Supported providers" }          major cloud service providers
       %li
         Backward compatibility across versions, providing long-term stability for scripts, tools and applications
       %li
@@ -30,18 +33,18 @@ filter: haml
   .right
     %img{ :src => "styles/diagram-soa.png", :height => "265", :alt => "diagram-soa", :width => "620", :style => "margin-bottom:1em;" }
   %p.foot
-    The
-    %a{ :href => "documentation.html" }
-      Deltacloud Core
-    makes it easy for cloud
-    providers to add their cloud to the Deltacloud common API.
+    %em Deltacloud
+    makes it easy for cloud providers to
+    %a{ :href => "developers.html" }
+      add their cloud
+    to the Deltacloud API.
 #news
   .recent
     %h2
       News
       .tweet
-  %br
-  %br
+%br
+%br
 #popups{ :style => "display:none;" }
   #providers
     = render(:partial => "providers")

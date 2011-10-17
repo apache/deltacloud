@@ -31,10 +31,13 @@
             <a class='active' href='./download.html' title='Get the latest releases'>Download</a>
           </li>
           <li>
-            <a class='inactive' href='./contribute.html' title='Information about design/development process'>Contribute</a>
+            <a class='inactive' href='./developers.html' title='Information for developers'>Developers</a>
           </li>
           <li>
             <a class='inactive' href='./documentation.html' title='Project documentation'>Documentation</a>
+          </li>
+          <li>
+            <a class='inactive' href='./contact.html' title='Contact us!'>Contact</a>
           </li>
         </ul>
       </div>
@@ -42,26 +45,102 @@
     <div id='frontpageHeader'></div>
     <div id='main'>
       <div class='container' id='content-deltacloud'>
-        <h1>Download</h1>
+        <p><img src="styles/deltacloud_concept.gif" alt="Deltacloud conceptual overview" width=850 /></p>
         
-        <p>Official releases can be downloaded from one of the
-        <a href="http://www.apache.org/dyn/closer.cgi?path=incubator/deltacloud/">Apache mirrors</a></p>
+        <p>Deltacloud provides the API server and drivers necessary for connecting
+        to the <a href="./drivers.html#providers" title="Deltacloud drivers">cloud providers</a>.
+        Install Deltacloud and start the <strong><em>deltacloudd</em></strong> daemon server. You can use your
+        favourite HTTP client to talk to the server using the
+        <a href="api.html" title="Deltacloud REST API">Deltacloud REST API</a>. Deltacloud even comes with a
+        HTML interface so you can simply use your web browser to control your cloud
+        infrastructure straight out of the box. As of Deltacloud 0.4.0, the HTML interface
+        is written with the <a href="http://jquerymobile.com" title="jquery mobile">jQuery mobile</a>
+        framework so it plays especially well with your mobile or tablet devices.</p>
         
-        <h3>Deltacloud Core</h3>
+        <br>
         
-        <p>Deltacloud Core provides the API server and drivers necessary for connecting
-        to the cloud providers.</p>
         
-        <p>We also make Ruby gems of each release available. You can install it by
-        typing the following command:</p>
+        <p>This page lists the location of the main 'bits' of Deltacloud - for more detailed
+        information on getting and installing Deltacloud checkout out our
+        <a href="documentation.html#install_deltacloud">installation and quick start guide</a>.</p>
+        
+        <br>
+        
+        
+        <hr />
+        
+        <br>
+        
+        
+        <h1>Get Deltacloud</h1>
+        
+        <p>Deltacloud is available as a ruby gem. First make sure you have installed all the
+        <a href="documentation.html#dependencies">required dependencies</a>,
+        Then installing Deltacloud is as easy as typing:</p>
         
         <pre><code>$ sudo gem install deltacloud-core&#x000A;</code></pre>
         
-        <h2>Additional Tools</h2>
+        <p><strong>And thats it!</strong> Yes, really. The <strong>gem install</strong> command will automatically fetch and install
+        all other gems that the Deltacloud server needs if you don't already have these.</p>
         
-        <p>These are complementary to the essential Core components.</p>
+        <p>As an alternative you can get the latest releases of Deltacloud from the
+        <a href="http://www.apache.org/dist/incubator/deltacloud/">Apache website</a>.</p>
         
-        <h3>libdeltacloud</h3>
+        <h2>Getting the sources</h2>
+        
+        <p>More information for developers is available <a href="developers.html">here</a>.</p>
+        
+        <p>The Apache Deltacloud subversion repo is at:
+        <strong>https://svn.apache.org/repos/asf/incubator/deltacloud</strong>.</p>
+        
+        <pre><code>svn co https://svn.apache.org/repos/asf/incubator/deltacloud deltacloud&#x000A;</code></pre>
+        
+        <p>The Git repo is at: <strong>git://git.apache.org/deltacloud.git</strong></p>
+        
+        <pre><code>git clone git://git.apache.org/deltacloud.git&#x000A;</code></pre>
+        
+        <br>
+        
+        
+        <br>
+        
+        
+        <hr />
+        
+        <br>
+        
+        
+        <h1>The Deltacloud Ruby Client</h1>
+        
+        <p>The Deltacloud project also maintains a ruby client, which you need to install
+        separately to the Deltacloud API server. The Deltacloud client consists of a
+         ruby library (packaged as a ruby gem) which you can use to programmatically
+        interact with the Deltacloud server and control your cloud infrastructure
+        across cloud providers.</p>
+        
+        <p>Assuming you already setup the <a href="documentation.html#dependencies">required dependencies</a>,
+        you can install the Deltacloud by simply typing:</p>
+        
+        <pre><code>$ sudo gem install deltacloud-client&#x000A;</code></pre>
+        
+        <p>Installing the Deltacloud client also gives you the <strong>deltacloudc</strong> command line
+        tool. This executable makes use of the Deltacloud client library to speak to the
+        Deltacloud server using the <a href="api.html">REST API</a>. More information on getting started
+        with the Deltacloud Ruby client is available in the
+        <a href="documentation.html#quick_start">quick start guide</a>.</p>
+        
+        <br>
+        
+        
+        <br>
+        
+        
+        <hr />
+        
+        <br>
+        
+        
+        <h1>libdeltacloud</h1>
         
         <p>A library for accessing the Deltacloud API from C/C++ programs.</p>
         
@@ -75,19 +154,10 @@
         
         <p>Contributed by Chris Lalancette.</p>
         
-        <h3>Deltacloud Client</h3>
+        <h1>Your name here</h1>
         
-        <p>Deltacloud Client is a command line tool that communicates with the
-        Deltacloud&nbsp;API.</p>
-        
-        <p>Type the following command to install it:</p>
-        
-        <pre><code>$ gem install deltacloud-client&#x000A;</code></pre>
-        
-        <h3>Your name here</h3>
-        
-        <p>Do you have a tool to make Deltacloud more useful? Let us know on our
-        <a href="mailto:deltacloud-dev-subscribe@incubator.apache.org">deltacloud-devel mailing list</a> and we'll post it here!</p>
+        <p>Do you have a tool to make Deltacloud more useful? <a href="contact.html">Let us know</a>
+        and we'll add your contributions to this page!</p>
       </div>
     </div>
     <div id='footer-deltacloud'>
