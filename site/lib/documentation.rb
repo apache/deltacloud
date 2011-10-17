@@ -1,12 +1,11 @@
 module DocumentationHelper
   def documentation_pages
     [
-      { :href => 'documentation.html', :menu => 'Overview' },
+      { :href => 'documentation.html', :menu => 'Installation', :description => 'Installation, dependencies and quick-start (this page)' },
       { :href => "api.html" , :menu => 'REST API', :description => 'REST API definition' },
-      { :href => "drivers.html" , :menu => 'Drivers', :description => 'Currently-supported drivers' },
-      { :href => "framework.html" , :menu => 'Framework', :description => 'Framework for writing additional drivers' },
-      { :href => "client-ruby.html" , :menu => 'Ruby Client', :description => 'Ruby client' },
-      { :href => "libdeltacloud.html", :menu => "Libdeltacloud", :description => "C library" },
+      { :href => "drivers.html" , :menu => 'Drivers', :description => 'Information about currently supported drivers' },
+      { :href => "client-ruby.html" , :menu => 'Ruby Client', :description => 'The Deltacloud Ruby client' },
+      { :href => "libdeltacloud.html", :menu => "Libdeltacloud", :description => "The libdeltacloud C library" },
     ]
   end
 

@@ -2,7 +2,7 @@
 filter:
   - haml
 ---
-%h3 Compute Drivers
+%h3 Compute Driver Functionality
 %table#providers
   %tr
     %th.emptycell &nbsp;
@@ -49,16 +49,16 @@ filter:
       = support_indicator(provider[:list][:images])
       = support_indicator(provider[:list][:instances])
 
-%h3 Storage Drivers
+%h3 Storage Driver Functionality
 %table#providers
   %tr
     %th.emptycell &nbsp;
     %th
       %strong Create
-      new containers
+      new buckets
     %th
       %strong Update/delete
-      containers
+      buckets
     %th
       %strong Create
       new blobs

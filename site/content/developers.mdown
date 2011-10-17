@@ -1,0 +1,562 @@
+---
+title: Deltacloud - Information for Developers
+extension: html
+filter:
+  - markdown
+  - outline
+---
+# Contribute to the Deltacloud Project
+
+[Apache](http://www.apache.org/ "The Apache Software Foundation") Deltacloud is
+free, open source software licensed under the
+[apache license](http://www.apache.org/licenses/LICENSE-2.0 "The Apache License").
+Please feel free to [contact us](contact.html) if you have any questions about the
+project or with any suggestions on how to improve Deltacloud. The Deltacloud
+developer community is open to anyone that wants to contribute!
+
+This page contains information for developers:
+
+<a name=contents>
+
+<toc class="toc" numbering="off" toc_style="ul" toc_range="h2-h3" />
+
+<br>
+--------------------------------------
+<br>
+
+## Setting up the developer environment
+
+The information here is about setting up a dev environment for Deltacloud. If you
+are interested in first trying out Deltacloud, you should instead follow the
+instructions in the [Download](download.html) page and read the
+[installation and quick start guide](documentation.html#install_deltacloud).
+
+Before setting up the development environment, make sure you have all the
+[installation dependencies](documentation.html#dependencies).
+
+### Getting the sources
+
+Deltacloud provides the API server and drivers to various cloud providers.
+It also includes a ruby client library and a commandline interface.
+
+**First, make sure you have installed all [dependencies](documentation.html#dependencies).**
+
+The Deltacloud repository is hosted at the Apache Software Foundation.
+Apache uses ***subversion*** and you can find the Deltacloud subversion repository
+at <https://svn.apache.org/repos/asf/incubator/deltacloud>.
+
+However many of the Deltacloud developers use the
+[git version control system](http://git-scm.com/download) and the Deltacloud
+code is available through a git mirror. The instructions on this page are
+thus specific to using ***git*** for getting the code and also
+for making and sending patches.
+
+If you don't already have ***git*** there are
+[git binaries](http://git-scm.com/download) available for specific systems.
+Alternatively, if you use the ***yum*** or ***apt*** package managers:
+
+    $ sudo yum install git
+            <OR>
+    $ sudo apt-get install git
+
+With ***git*** in place, to get the latest HEAD of the Deltacloud git repo:
+
+    $ mkdir DeltacloudProject
+    $ cd DeltacloudProject
+    $ git clone git://git.apache.org/deltacloud.git
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Development dependencies
+
+Apart from the [installation dependencies](documentation.html#dependencies),
+in order to develop for Deltacloud you will need some additional libraries,
+such as [cucumber](http://cukes.info/),
+[ruby-debug](http://bashdb.sourceforge.net/ruby-debug/home-page.html) and
+[rpsec](http://rspec.info/). The Deltacloud source includes a Gemfile which
+lists these development dependencies: **/path/to/deltacloud/server/Gemfile**.
+
+Thus, the recommended way to get all development dependencies is with
+[Bundler](http://gembundler.com/). If you don't already have bundler, install
+it:
+
+    $ sudo gem install bundler
+
+Then, you can get all the required developer dependencies by:
+
+    $ cd /path/to/deltacloud/server
+    $ bundle install --system
+
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Building from source and installing the Deltacloud gem
+
+To build and install the Deltacloud server gem:
+
+    $ cd path/to/DeltacloudProject/deltacloud/server
+    $ rake package
+    $ sudo gem install pkg/deltacloud-core-<version>.gem
+
+Then install the Deltacloud client gem:
+
+    $ cd path/to/DeltacloudProject/deltacloud/client
+    $ rake package
+    $ sudo gem install pkg/deltacloud-client-<version>.gem
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+## Contribute to Deltacloud
+
+The information here is aimed at helping developers more quickly understand the Deltacloud
+project code, the process used by the development community for contributing and some
+guidelines on how to go about adding a cloud provider driver to the Deltacloud project.
+
+### Overview of the Deltacloud directory structure
+
+**Note:** the following is not an exhaustive list of all files and directories in the
+Deltacloud project. Rather it is intended as an aid to ease familirisation
+with the project files for developers - for example to quickly identify where
+the Deltacloud cloud provider drivers are stored:
+
+<a name=deltacloud_directories> .
+
+    deltacloud
+    |-----------------------------------------------------------------------------------
+    |-d-->tests                           Contains Cucumber tests
+    |-----------------------------------------------------------------------------------
+    |-d-->site                            Files for this website
+    |-----------------------------------------------------------------------------------
+    |-d-->client                          Contains the Deltacloud ruby client
+    |-----------------------------------------------------------------------------------
+    |-d-->clients                         Contains other Deltacloud clients (e.g. java)
+    |-----------------------------------------------------------------------------------
+    |-d--> server
+           |----------------------------------------------------------------------------
+           |-f-->server.rb                Contains the sinatra routes
+           |----------------------------------------------------------------------------
+           |-d-->bin                      Contains the Deltacloud executable deltacloudd
+           |----------------------------------------------------------------------------
+           |-d-->views                    Contains haml views for each collection
+           |----------------------------------------------------------------------------
+           |-d-->tests                    Contains unit tests for drivers
+           |----------------------------------------------------------------------------
+           |-d-->lib
+                 |----------------------------------------------------------------------
+                 |-d-->sinatra            Contains rabbit DSL and various helpers
+                 |----------------------------------------------------------------------
+                 |-d-->deltacloud
+                       |----------------------------------------------------------------
+                       |-d-->models       Definition of each collection model
+                       |----------------------------------------------------------------
+                       |-d-->drivers      Contains the drivers for each cloud provider
+                       |----------------------------------------------------------------
+                       |-d-->helpers      Various helper methods used by the drivers
+                       |----------------------------------------------------------------
+                       |-d-->base_driver  Contains the Deltacloud base driver
+                       |----------------------------------------------------------------
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Forming and sending patches
+
+There are many ways to work with git and there are many
+[good resources](http://book.git-scm.com/) on using git. The Deltacloud community uses
+a ***local_branch*** ---> ***patch*** ---> ***review*** ---> ***accept*** ---> ***commit***
+process for contributing to the project. The following shows the typical workflow used
+by the core developers.
+
+First you need to set some settings inside the git configuration file. In the root
+of the git project (Deltacloud in this case) there is a .git hidden directory containing
+the config file. Open this with your preferred editor:
+
+    $ vim deltacloud/.git/config
+
+Add the following to any existing configuration replacing the relevant values with your own:
+
+    [sendemail]
+    signedoffbycc = no
+    chainreplyto = no
+    smtpserver = your_smpt.server.address
+    thread = yes
+    from = your_email_address
+    suppresscc = all
+
+    [core]
+    whitespace = trailing-space,space-before-tab
+
+    [apply]
+    whitespace = error-all
+
+After getting the latest HEAD of the Deltacloud git repo, you will have one local
+ branch called ***trunk***.
+
+    $ git branch
+    * trunk
+
+Fetch the latest changes from the git repo:
+
+    $ git pull
+
+Make a new local branch for your edits and give it a name:
+
+    $ git checkout -b my_new_branch
+
+Make your edits/changes/voodoo. Once done, review which files you changed:
+
+    $ git status
+
+Once you are happy with the changes and everything is working, commit those changes
+to your local branch:
+
+    $ git commit -a
+
+This will open an editor (e.g., vi) for you to enter a commit message. Please keep this
+short and succint in general and keep individual lines at no longer than 80 characters.
+The command **git log** will show you recent commits together with their commit messages
+as examples.
+
+At this point, your local branch will contain the changes that you worked on and will
+be different from your ***local*** **trunk** branch. In the meantime, other developers
+may have already committed changes to the ***remote*** **trunk** branch in the Apache git repo.
+Thus, you need to fetch any new changes and merge into your ***local*** **trunk** and then
+rebase your local **trunk** onto the new branch which contains your changes.
+
+Change to trunk and fetch upstream changes if any:
+
+    $ git checkout trunk
+    $ git pull
+
+Your ***local*** trunk is now up-to-date with the ***remote*** trunk in the git repo.
+Next, rebase the ***local*** trunk onto the branch containing your changes:
+
+    $ git rebase trunk my_new_branch
+
+Now you are ready to make patches against trunk and send them to the Deltacloud mailing
+list for review by other developers in the community:
+
+    $ git format-patch -o /path/to/where/you/keep/patches/ trunk
+
+    $ git send-email --compose --subject 'some subject'
+      --thread /path/to/where/you/keep/patches/* --to deltacloud-dev@incubator.apache.org
+
+Your patches will be reviewed by other members of the community. The general rule used
+is that a patch will be committed to the repo if it receives at least one **ACK** and no
+**NACK**. Once a patch is **ACK**ed it will be committed by one of the Deltacloud community
+developers that have commit rights to the Apache repo. If your patches are on the mailing
+list for a few days and no-one is responding to them feel free to send a reminder email
+as patches may be missed/forgotten.
+
+You can also contribute to the project by reviewing patches sent by other contributors:
+
+Make a new branch where you will apply the patches and test:
+
+    $ git checkout -b jsmith_patches
+
+You can use either git am ("apply mail") to apply patches in mail format, or git apply for
+plain-text patches. Using git am will also commit the patches to the local branch
+preserving the author's commit messages whilst git apply will only apply the files but not
+commit them. For simple patch review the difference between these is insignificant and
+boils down to whether you like to save the patches as plain-text or in .mbox email format.
+
+Save the patches to some known location, make sure you're on the branch you wish to apply
+them onto, and then apply:
+
+    $ git checkout jsmith_patches
+
+    $ cat /path/to/patches/0001-name-of-patch.txt | git apply
+                             _OR_
+    $ git am /path/to/patches/0001-name-of-patch.eml
+
+If you think the patches are sane, do what the author intended and most importantly don't
+break anything else, then you can send an **ACK** in response to the patches on the
+Deltacloud [mailing list](contact.html). Similarly, if you think there is some problem
+with the patches you should send a **NACK** with an explanation of the problem you have
+found so that the author can address this.
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Use the Deltacloud github mirror
+
+The Deltacloud project maintains a
+[github page](https://github.com/apache/deltacloud) which mirrors the Apache
+repository. You can contribute through github if that is preferrable.
+[Fork](http://help.github.com/fork-a-repo/) the Deltacloud repo, make your changes and
+commit them back to your fork. Then issue a
+[pull request](http://help.github.com/send-pull-requests/). It may also be wise to
+send an email to the Deltacloud [mailing list](contact.html) to let the community know
+about your pull request as in general the mailing list is checked much more often than
+the github page.
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Writing a new cloud provider driver
+
+The deltacloud drivers live in
+[deltacloud/server/lib/deltacloud/drivers](#deltacloud_directories). The information here
+is intended as a primer for anybody that wants to contribute a new cloud provider driver to
+the Deltacloud project.
+
+To add a driver for a hypothetical **Foo** cloud, you should start by adding a a directory
+under /drivers/ and then a file for the driver itself, i.e.:
+
+    deltacloud/server/lib/deltacloud/drivers/foo/foo_driver.rb
+
+That file needs to define a class **Deltacloud::Drivers::Foo::FooDriver** and must be
+a subclass of the Deltacloud::BaseDriver (example follows).
+
+You need to decide which [collections](api.html#h1) the provider for which you're
+writing the driver supports - e.g. images, instances, keys, buckets/blobs (storage), etc.
+and declare these with:
+
+    def supported_collections
+      DEFAULT_COLLECTIONS + [ :buckets ] - [ :storage_snapshots, :storage_volumes ]
+    end
+
+The above declares that the driver supports the **DEFAULT_COLLECTIONS** (defined in
+**deltacloud/server/lib/drivers.rb**) except [storage_snapshots](api.html#h4_2) and
+[storage_volumes](api.html#h4_1) and additionally also supports the
+[buckets](api.html#h4_3) collection. For example, a storage only cloud provider driver
+would support only the **buckets** colletion.
+
+You can then start to define the methods for each of the collections that your driver
+will support. The methods for each collection, as well as the routes that map to them
+are defined in **/deltacloud/server/server.rb**. In general you can look at the existing
+drivers for pointers on how to implement any specific method.
+
+One important consideration is how your cloud provider driver will be communicating
+with the cloud provider. Many of the existing drivers use external ruby gems for this
+purpose: for example, the **ec2** driver uses the [aws](https://github.com/appoxy/aws/)
+gem, the **rackspace** driver uses the
+[cloudfiles](https://github.com/rackspace/ruby-cloudfiles) and
+[cloudservers](https://github.com/rackspace/ruby-cloudservers) gems. However, other drivers
+implement their own clients with which to communicate with the cloud provider, such as
+the IBM SBC driver and the Gogrid driver. This also explains why, under the /drivers
+directory, some drivers contain only the provider\_***driver***.rb file, whilst others also
+define a provider\_***client***.rb file. Whether you write your own client or use an existing
+one is entirey at your discretion.
+
+Thus, your driver for the cloud provider foo may start out looking something like:
+
+    require 'deltacloud/base_driver'
+    require 'foo_lib' # a library for talking to the foo cloud
+
+    module Deltacloud
+      module Drivers
+        module Foo
+
+    class FooDriver < Deltacloud::BaseDriver
+
+        def supported_collections
+          DEFAULT_COLLECTIONS + [ :buckets ]
+        end
+
+        def images(credentials, opts={})
+          client = new_foo_client(credentials)
+          # use client to get a list of images from the back-end cloud and then create
+          # a Deltacloud Image object for each of these. Filter the result
+          # (eg specific image requested) and return to user
+        end
+
+        def realms(credentials, opts={})
+          (...)
+        end
+
+        def instances(credentials, opts={})
+          (...)
+        end
+
+        ... ETC
+
+        private
+
+        def new_foo_client(credentials)
+          client = FooLib::Service.new({:user => credentials.user,
+                                        :pass => credentials.password })
+        end
+
+    end
+            end
+          end
+        end
+
+One important method for drivers that implement the [instances](api.html#h3_5)
+collection is **instance_states**. This method represents the finite-state-machine
+for instances which varies across cloud providers. For example, in some clouds
+an instance may be in the 'running' state after creation, whereas in other clouds
+an instance may need to be started explicitly. An example of what this method may
+look like is:
+
+
+    define_instance_states do
+      start.to( :pending )          .on( :create )
+      pending.to( :running )        .automatically
+      running.to( :running )        .on( :reboot )
+      running.to( :shutting_down )  .on( :stop )
+      shutting_down.to( :stopped )  .automatically
+      stopped.to( :finish )         .automatically
+    end
+
+The voodoo used here (i.e. definition of .to and .on etc) is defined in
+/deltacloud/server/lib/deltacloud/state\_machine.rb.
+
+Valid states are
+
+- **`:begin`**
+- **`:pending`**
+- **`:running`**
+- **`:shutting_down`**
+- **`:stopped`**
+- **`:end`**
+
+The `:begin` state is the state an instance is in immediate before
+being created. The `:end` state is the state an instance is in
+immediately after being destroyed.
+
+Valid transition actions are
+
+- **`:stop`**
+- **`:start`**
+- **`:reboot`**
+
+Additionally, to indicate a transition that may occur _without_ an
+action being triggered, the action **`:automatically`** may be used,
+as shown in the example above.
+
+Depending on the collections you'll be supporting, some other methods that
+your driver may implement are:
+
+- `hardware_profiles(credentials, opts=nil)`
+- `images(credentials, opts=nil )`
+- `realms(credentials, opts=nil)`
+- `instances(credentials, opts=nil)`
+- `create_instance(credentials, image_id, opts)`
+- `reboot_instance(credentials, id)`
+- `stop_instance(credentials, id)`
+- `destroy_instance(credentials, id)`
+
+
+As a further example, the `hardware_profiles(...)` method should
+return an array of `HardwareProfile` objects. The `opts` hash, if
+present, must be inspected for `:id` and `:architecture` keys. If these keys
+are present, the results should be filtered by the value associated with
+each key. The `filter_on(...)` helper method is used for this filtering
+and as you can see from existing driver method definitions, is invoked
+in many of the driver collection methods:
+
+    def hardware_profiles(credentials, opts=nil)
+      hardware_profiles = # get all hardware profiles from provider
+      hardware_profiles = filter_on( hardware_profiles, :id, opts )
+      hardware_profiles = filter_on( hardware_profiles, :architecture, opts )
+      return hardware_profiles
+    end
+
+
+Once you've implemented some of the methods for your driver you can start to
+'run' it and test that things are working as expected. To do this, you need to
+create a yaml file for your driver so that the Deltacloud server 'knows' about
+it. Assuming you've written the driver for cloud Foo and you've called it
+foo\_driver.rb (which contains the class Deltacloud::Drivers::Foo::FooDriver)
+, you need to drop a file into **/deltacloud/server/config/drivers** called
+**foo.yaml**, containing the following:
+
+    ---
+    :foo:
+      :name Foo
+
+You can then start the Deltacloud server with:
+
+    deltacloudd -i foo
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Writing and running tests
+
+If you add a new feature or write a new driver, you might like to add some tests to
+make sure everything is running as expected. At present the Deltacloud project uses
+Unit tests which live in **/deltacloud/server/tests** as well as Cucumber tests which live
+in **/deltacloud/tests**.
+
+You can invoke the Unit tests:
+
+    $ cd /path/to/deltacloud/server
+    $ rake test
+
+As you can see by inspecting the Rakefile in /deltacloud/server, this will invoke all
+Unit tests defined in /deltacloud/server/tests. You can invoke specific driver tests by:
+
+    $ cd /path/to/deltacloud/server
+    $ rake test:rackspace
+          _OR_
+    $ rake test:mock
+          _etc_
+
+You can invoke the Cucumber tests:
+
+    $ cd /path/to/deltacloud/server
+    $ rake cucumber
+
+Alternatively, you can bypass the Rakefile and invoke the cucumber tests directly:
+
+    $ cd /path/to/deltacloud/server
+    $ cucumber ../tests/mock
+          _OR_
+    $ cucumber ../tests/ec2
+          _etc_
+
+<br>
+[contents](#contents)
+
+--------------------------------------
+
+<br>
+
+### Licensing - the Apache Individual Contributor License Agreement
+
+Deltacloud is an [Apache Software Foundation](http://www.apache.org/) project. As such
+and in keeping with all Apache projects, contributors are required to sign an individual
+contributor license agreement. This, together with instructions on signing and sending
+the agreement can be [found here](http://www.apache.org/licenses/icla.txt). Please do
+not hesitate to [contact us](contact.html) if you have any queries or require any
+clarification about contributing to the Deltacloud project.
+
+<br>
+[contents](#contents)
+<br>
+
+

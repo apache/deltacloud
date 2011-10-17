@@ -1,44 +1,33 @@
 # Deltacloud Drivers
 
-Deltacloud provides drivers for a growing number of popular clouds. All drivers
-can handle a set of standard operations, some of them also support a number of
-optional operations to expose the features of specific clouds more closely. The
-drivers and their capabilities are:
+Deltacloud provides drivers for a [growing number](drivers.html#providers) of popular
+IaaS cloud providers. This page contains notes pertinent to specific cloud provider drivers, such
+as the [credentials](drivers.html#credentials) that should be used for a given cloud provider.
+Furthermore the information here outlines the mechanism through which any API call sent by a
+given client to a Deltacloud server instance may be routed to a specific driver, regardless
+of the 'default' driver that the Deltacloud server was invoked for.
 
-## Setting up the code
-
-To set up a Deltacloud core and the drivers, install the
-[deltacloud-core][coregem] Ruby gem:
-
-[coregem]: http://rubygems.org/gems/deltacloud-core
-
-    # gem install deltacloud-core
-
-RPM package will be available soon.
-
-## Launch the server
-
-The server is launched with the `deltacloudd` command and pass it the name
-of the driver you want to use:
-
-    $ deltacloudd -i mock
-
-This will start a webserver running the mock driver on
-`http://localhost:3001/api`; you can simply browse to that URL to get a
-pretty view of the objects the driver deals with.
+------------------------------------------------
 
 ## Dynamic driver switching
 
-The driver specified with the `-i` switch when `deltacloudd` is launched is
-the default driver. Clients can switch drivers for any request. The list of
-drivers supported by the server can be obtained from the `drivers`
-collection.
+When the Deltacloud server is started it is passed a parameter
+that specifies the **default** driver to be used for API operations:
+
+    $ deltacloudd -i ec2
+
+The above for example starts the Detlacloud server with the Amazon EC2 driver. Whilst
+it is possible to start a number of Deltacloud server instances for each cloud provider
+that you wish to connect to (e.g., on different ports), a mechanism is provided with which
+to instruct the server to use a specific driver, regardless of the current default. The
+Deltacloud API **drivers** colletion (e.g. GET /api/drivers) provides a list of all currently
+supported cloud provider drivers.
 
 Some drivers also support the notion of a *provider*. Changing the provider
 makes it possible to use the same driver against different instances of a
 cloud, for example different regions in EC2 or different installations of
 RHEV-M. The possible range of values for the provider is driver-specific,
-and listed below for each driver.
+and listed in the notes for each driver below.
 
 The driver and provider can be selected in one of two ways:
 
@@ -50,33 +39,32 @@ The driver and provider can be selected in one of two ways:
 2. Through the matrix request parameters `driver` and `provider` in the
    `api` component of the server's URL. For example, requesting
    `http://localhost:3001/api;driver=ec2;provider=eu-west-1` has the same
-   effect as using the two request headers mentioned above.
+   effect as using the two request headers in the example above.
+
+------------------------------------------------
+
+## Driver functionality and Credentials
+<table providers></table>
+<a name=providers>.
+
+
+
+------------------------------------------------
+
+<a name=specific_driver_notes> .
 
 ## Notes on specific drivers
 
-<table providers></table>
-
 ### EC2 Driver
-
-For the Amazon EC2 you need to install the
-[aws](https://github.com/appoxy/aws) Ruby gem:
-
-    # gem install aws
-
-When using the driver for Amazon EC2, the credentials passed in
-response to the HTTP 401 authentication challenge should be your
-*access_key* and *secret_access_key*
-
-These credentials may be found on the [Access Identifiers](http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key)
-page at Amazon AWS.
 
 The providers for the EC2 driver correspond to AWS's regions, and currently
 are `us-east-1`, `us-east-1`, `eu-west-1`, `ap-southeast-1`.
 
+------------------------------------------------
+
 ### Eucalyptus Driver
 
-The Eucalyptus driver is based on the EC2 driver, and therefore also
-requires the `aws` gem.
+The Eucalyptus driver is based on the EC2 driver.
 
 The driver allows selecting the Eucalyptus installation by setting a
 provider in the format
@@ -89,6 +77,8 @@ that installation by passing the request headers
 
     X-Deltacloud-Driver: eucalyptus
     X-Deltacloud-Provider: ec2=192.168.1.1:8773;s3=192.168.1.2:8773
+
+------------------------------------------------
 
 ### RHEV-M Driver
 
@@ -103,16 +93,22 @@ The actual RHEVM instance you are connecting to is controlled by
 the RHEVM.dll.config file which is referenced from the profile.ps1
 file located in My Documents/WindowsPowershell directory
 
+------------------------------------------------
+
 ### Rackspace Driver
 
 When using the Rackspace-cloud driver (Rackspace cloud used to be called
 "Mosso") - the password in a HTTP 401 challenge should be your API key, NOT
-your rackspace account password.  (you can get the API-key, or generate a
-new one, from the rackspace console).
+your rackspace account password.  You can get the API-key, or generate a
+new one, from the rackspace console.
+
+------------------------------------------------
 
 ### RimuHosting
 
 Further details coming soon.
+
+------------------------------------------------
 
 ### OpenNebula
 
@@ -122,6 +118,8 @@ should be your OpenNebula user and password.
 
 The address, on which the OCCI server is listening, needs to be defined in
 an environment variable called OCCI_URL.
+
+------------------------------------------------
 
 ### IBM Smartcloud Driver
 
