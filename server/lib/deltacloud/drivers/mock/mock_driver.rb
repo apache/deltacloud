@@ -56,7 +56,7 @@ module Deltacloud::Drivers::Mock
 
     define_hardware_profile('m1-large') do
       cpu                (1..6)
-      memory           (7.5*1024 .. 15*1024), :default => 10 * 1024
+      memory           ( 7680.. 15*1024), :default => 10 * 1024
       storage          [ 850, 1024 ]
       architecture     'x86_64'
     end
