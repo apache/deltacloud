@@ -88,7 +88,7 @@ after do
 end
 
 # Redirect to /api
-get '/' do redirect root_url, 301; end
+get '/' do redirect settings.root_url, 301; end
 
 
 # Generate a root route for API docs
