@@ -149,10 +149,11 @@ ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 unless options[:daemon]
   msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
   msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
+  api_uri = ENV['API_FRONTEND'] == 'cimi' ? 'cimi/cloudEntryPoint' : 'api'
   if options[:ssl]
-    msg << ":: https://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+    msg << ":: https://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/#{api_uri}"
   else
-    msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/api"
+    msg << ":: http://#{ENV["API_HOST"]}:#{ENV["API_PORT"]}/#{api_uri}"
   end
   puts msg
   puts
