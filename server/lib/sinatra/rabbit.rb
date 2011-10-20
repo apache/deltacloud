@@ -202,11 +202,11 @@ module Sinatra
     class Collection
       attr_reader :name, :operations, :subcollections
 
-      def initialize(name, &block)
+      def initialize(name, options={}, &block)
         @name = name
         @description = ""
         @operations, @subcollections = {}, {}
-        @global = false
+        @global = options[:global] || false
         instance_eval(&block) if block_given?
         generate_documentation
         generate_head
@@ -390,6 +390,14 @@ module Sinatra
     def collection(name, &block)
       raise DuplicateCollectionException if collections[name]
       collections[name] = Collection.new(name, &block)
+      collections[name].generate
+    end
+
+    # Make sure this collection can be accessed, regardless of whether the
+    # driver supports it or not
+    def global_collection(name, &block)
+      raise DuplicateCollectionException if collections[name]
+      collections[name] = Collection.new(name, :global => true, &block)
       collections[name].generate
     end
   end
