@@ -171,8 +171,6 @@ module Deltacloud::Drivers::VSphere
                                                   :hwp_cpu => properties[:cpus],
                                                   :hwp_memory => properties[:memory],
                                                   :hwp_storage => properties[:storage])
-          # Check if all values are set in required format
-          validate_instance_profile!(instance_profile)
           # We're getting IP address from 'vmware guest tools'.
           # If guest tools are not installed, we return list of MAC addresses
           # assigned to this instance.
