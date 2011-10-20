@@ -50,8 +50,13 @@ class String
           downcase
   end
 
-
-  def camelize
-    gsub(/_[a-z]/) { |match| match[1].chr.upcase }
+  def camelize(lowercase_first_letter=nil)
+    s = split('_').map { |w| w.capitalize }.join
+    lowercase_first_letter ? s.uncapitalize : s
   end
+
+  def uncapitalize
+    self[0, 1].downcase + self[1..-1]
+  end
+
 end
