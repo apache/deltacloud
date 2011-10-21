@@ -366,10 +366,11 @@ private
   end
 
   def convert_container(cf_container)
+    blob_list=cf_container.objects
     Bucket.new({ :id => cf_container.name,
                     :name => cf_container.name,
-                    :size => cf_container.count,
-                    :blob_list => cf_container.objects
+                    :size => blob_list.size,
+                    :blob_list => blob_list
                  })
   end
 
