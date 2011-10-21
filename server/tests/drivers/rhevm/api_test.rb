@@ -21,7 +21,7 @@ module RHEVMTest
       features = (last_xml_response/'/api/link[@rel="instances"]/feature').collect { |f| f[:name] }
       features.include?('user_name').should == true
       features.include?('hardware_profiles').should == true
-      features.length.should == 2
+      features.length.should == 3
     end
 
     def test_03_it_has_rhevm_collections
