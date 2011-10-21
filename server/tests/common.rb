@@ -125,8 +125,14 @@ module DeltacloudTestCommon
   def post_url(uri, params={}, opts={})
     header 'Accept', accept(opts[:format] || :xml)
     if DeltacloudTestCommon::recording?
-      VCR.use_cassette("post-" + Digest::SHA1.hexdigest("#{uri}-#{params}")) do
-        post(uri, params || {}, authenticate(opts))
+      if opts['vcr_cassette']
+        VCR.use_cassette(opts['vcr_cassette']) do
+          post(uri, params || {}, authenticate(opts))
+        end
+      else
+        VCR.use_cassette("post-" + Digest::SHA1.hexdigest("#{uri}-#{params}")) do
+          post(uri, params || {}, authenticate(opts))
+        end
       end
     else
       post(uri, params || {}, authenticate(opts))
@@ -153,6 +159,22 @@ module DeltacloudTestCommon
         puts last_response.body
         puts "============= [ RESPONSE ] ================"
         puts last_response.errors
+      end
+    end
+  end
+
+  def head_url(uri, params={}, opts={})
+    header 'Accept', accept(opts[:format] || :xml)
+    if DeltacloudTestCommon::recording?
+      VCR.use_cassette("head-"+Digest::SHA1.hexdigest("#{uri}-#{params}")) do
+        head(uri, params || {}, authenticate(opts))
+      end
+    else
+       head(uri, params || {}, authenticate(opts))
+      if last_response.status.to_s =~ /5(\d{2})/
+        puts "============= [ ERROR ] ================"
+        puts last_response.inspect
+        puts "========================================"
       end
     end
   end
