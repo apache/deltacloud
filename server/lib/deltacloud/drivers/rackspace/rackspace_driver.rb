@@ -356,8 +356,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
     return http, request
   end
 
-private
-
+  private
 
   def new_client(credentials)
     safely do
