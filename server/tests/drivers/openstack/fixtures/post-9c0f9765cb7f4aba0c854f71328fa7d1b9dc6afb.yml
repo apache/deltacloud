@@ -1,0 +1,88 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://mfojtik-2.brq.redhat.com:8774/v1.0
+    body:
+    headers:
+      x-auth-user:
+      - mfojtik
+      x-auth-key:
+      - test
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 204
+      message: No Content
+    headers:
+      x-auth-token:
+      - mfojtik:admin
+      content-type:
+      - text/plain; charset=UTF-8
+      date:
+      - Mon, 24 Oct 2011 15:32:48 GMT
+      x-server-management-url:
+      - http://mfojtik-2.brq.redhat.com:8774/v1.0
+      x-cdn-management-url:
+      - ""
+      content-length:
+      - "0"
+      x-storage-url:
+      - ""
+    body:
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :post
+    uri: http://mfojtik-2.brq.redhat.com:8774/v1.0/servers
+    body: "{\"server\":{\"imageId\":4,\"personality\":null,\"flavorId\":2,\"name\":\"Mon Oct 24 17:42:41 +0200 2011\"}}"
+    headers:
+      accept:
+      - application/json
+      x-auth-token:
+      - mfojtik:admin
+      user-agent:
+      - CloudServers Ruby API 0.4.1
+      content-type:
+      - application/json
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 202
+      message: Accepted
+    headers:
+      connection:
+      - keep-alive
+      content-type:
+      - application/json
+      date:
+      - Mon, 24 Oct 2011 15:33:19 GMT
+      content-length:
+      - "311"
+    body: "{\"server\": {\"status\": \"BUILD\", \"hostId\": \"\", \"user_id\": \"mfojtik\", \"name\": \"Mon Oct 24 17:42:41 +0200 2011\", \"addresses\": {\"public\": [], \"private\": []}, \"tenant_id\": \"admin\", \"adminPass\": \"K7wKc6YSfJJdtMzB\", \"uuid\": \"ca4fa9ac-785f-4cc5-9116-6bb0a0cd635e\", \"imageId\": 4, \"flavorId\": 2, \"id\": 19, \"metadata\": {}}}"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://mfojtik-2.brq.redhat.com:8774/v1.0/servers/19
+    body:
+    headers:
+      accept:
+      - application/json
+      x-auth-token:
+      - mfojtik:admin
+      user-agent:
+      - CloudServers Ruby API 0.4.1
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      connection:
+      - keep-alive
+      content-type:
+      - application/json
+      date:
+      - Mon, 24 Oct 2011 15:33:20 GMT
+      content-length:
+      - "278"
+    body: "{\"server\": {\"status\": \"BUILD\", \"hostId\": \"\", \"user_id\": \"mfojtik\", \"name\": \"Mon Oct 24 17:42:41 +0200 2011\", \"addresses\": {\"public\": [], \"private\": []}, \"tenant_id\": \"admin\", \"uuid\": \"ca4fa9ac-785f-4cc5-9116-6bb0a0cd635e\", \"imageId\": 4, \"flavorId\": 2, \"id\": 19, \"metadata\": {}}}"
+    http_version: "1.1"
