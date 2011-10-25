@@ -5,5 +5,5 @@
   %description cloud entry point
   %created= Time.new.getutc.to_s
   - @collections.each do |api|
-    - res_name = api[0].to_s.camelize
+    - res_name = api[0].to_s.camelize(:lower_case_first_letter)
     = "<#{res_name} href=\"#{api[1]}\"/>"
