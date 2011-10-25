@@ -20,7 +20,7 @@ use Rack::Accept
 module Rack
 
   module RespondTo
-    
+
     # This method is triggered after this helper is registred
     # within Sinatra.
     # We need to overide the default render method to supply correct path to the
@@ -66,7 +66,7 @@ module Rack
         end
 
         def static_file?(path)
-          public_dir = File.expand_path(options.public)
+          public_dir = File.expand_path(settings.public)
           path = File.expand_path(File.join(public_dir, unescape(path)))
           path[0, public_dir.length] == public_dir && File.file?(path)
         end
@@ -100,7 +100,7 @@ module Rack
 
     # Define supported media types here
     # The :return key stands for content-type which will be returned
-    # The :match key stands for the matching Accept header 
+    # The :match key stands for the matching Accept header
     ACCEPTED_MEDIA_TYPES = {
       :xml => { :return => 'application/xml', :match => ['application/xml', 'text/xml'] },
       :json => { :return => 'application/json', :match => ['application/json'] },
@@ -115,7 +115,7 @@ module Rack
       # Skip everything when 'format' parameter is set in URL
       if env['rack.request.query_hash']["format"]
          media_type = case env['rack.request.query_hash']["format"]
-            when 'html' then :html 
+            when 'html' then :html
             when 'xml' then :xml
             when 'json' then :json
             when 'gv' then :gv
@@ -139,7 +139,7 @@ module Rack
 
       #puts sorted_media_types.inspect
       #puts index.inspect
-      
+
       # If after all we don't have any matching format assume that client has
       # requested unknown/wrong media type and throw an 406 error with no body
       if index.keys.empty?
