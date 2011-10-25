@@ -133,7 +133,8 @@ EOS
               "href" => machine_configuration_url(@profile.name) }
         #mixin actual values get from profile
         @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "machine_configurations/show", "MachineConfiguration"
+        show_resource "machine_configurations/show", "MachineConfiguration",
+          {"property" => "properties", "disk" => "disks", "operation" => "operations"}
       else
         report_error(404)
       end
@@ -179,7 +180,8 @@ EOS
           "uri" => @image.id,"href" => machine_image_url(@image.id) }
         #mixin actual values get from the specific image
         @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "machine_images/show", "MachineImage"
+        show_resource "machine_images/show", "MachineImage",
+          {"property" => "properties", "operation" => "operations"}
       else
         report_error(404)
       end
@@ -226,7 +228,8 @@ EOS
           "href" => machine_url(@machine.id) }
         #mixin actual values get from the specific image
         @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "machines/show", "Machine"
+        show_resource "machines/show", "Machine",
+          {"property" => "properties", "disk" => "disks", "operation" => "operations"}
       else
         report_error(404)
       end
@@ -274,7 +277,8 @@ EOS
           "capacity" => { "quantity" => @volume.capacity, "units" => "gigabyte"} }
         #mixin actual values get from the specific image
         @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "volumes/show", "Volume"
+        show_resource "volumes/show", "Volume",
+          {"property" => "properties", "operation" => "operations"}
       else
         report_error(404)
       end

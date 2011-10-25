@@ -10,6 +10,10 @@
     <capacity quantity="200" units="gigabyte"/>
     <guestInterface>SATA</guestInterface>
   </disk>
+  <disk>
+    <capacity quantity="100" units="gigabyte"/>
+    <guestInterface>SATA</guestInterface>
+  </disk>
   <supportsSnapshots>false</supportsSnapshots>
   <guestInterface>http://www.ibm.com</guestInterface>
   <operation rel="edit" href="/machine_configuration"/>

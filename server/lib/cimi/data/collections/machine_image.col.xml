@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <MachineImageCollection xmlns="http://www.dmtf.org/cimi">
  <uri>machineImage</uri>
- <name>Machine Config collection </name>
- <description>The machine config collection</description>
+ <name>Machine Image collection </name>
+ <description>The machine image collection</description>
  <created>2011-09-12 11:37:28 UTC</created>
  <operation rel="add" href="/machine_images" />
 </MachineImageCollection>
