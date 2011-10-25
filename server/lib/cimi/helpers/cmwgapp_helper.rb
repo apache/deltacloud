@@ -121,7 +121,7 @@ module ApplicationHelper
     end
   end
 
-  def show_resource(resource_path, content_type)
+  def show_resource(resource_path, content_type, replace_keys = nil)
     respond_to do |format|
       format.xml do
         content_type "application/CIMI-#{content_type}+xml", :charset => 'utf-8'
@@ -139,7 +139,27 @@ module ApplicationHelper
         if hash_response.has_key?("xmlns")
           hash_response.delete "xmlns"
         end
+        if replace_keys
+          replace_key!(hash_response, replace_keys)
+        end
         hash_response.to_json
+      end
+    end
+  end
+
+  def replace_key!(an_object, key_maps = nil)
+    if an_object.kind_of?(Hash)
+      key_maps.each do |key, value|
+        if an_object.key?(key)
+          an_object[value] = an_object.delete(key)
+        end
+      end
+      an_object.each do |key, value|
+        replace_key!(value, key_maps)
+      end
+    elsif an_object.kind_of?(Array)
+      an_object.each do |value|
+        replace_key!(value, key_maps)
       end
     end
   end

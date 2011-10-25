@@ -1,0 +1,17 @@
+- unless defined?(partial)
+  !!! XML
+%Volume{ :xmlns => CMWG_NAMESPACE }
+  %uri=volumes_url + "/" + @dmtfitem["uri"]
+  %name=@dmtfitem["name"]
+  %description=@dmtfitem["description"]
+  %created=@dmtfitem["created"]
+  - if @dmtfitem["property"]
+    - if @dmtfitem["property"]["name"] && @dmtfitem["property"]["content"]
+      - property_object = {"#{@dmtfitem['property']['name']}" => {"content" => @dmtfitem["property"]["content"]}}
+    - else
+      - property_object = @dmtfitem["property"]
+    - property_object.each_pair do |key, value|
+      %property{ :name => key}=value["content"]
+  %capacity{ :quantity => @dmtfitem["capacity"]["quantity"], :units => @dmtfitem["capacity"]["units"]}
+  %operation{ :rel => "edit", :href => volumes_url + "/" + @dmtfitem["uri"] }
+  %operation{ :rel => "delete", :href => volumes_url + "/" + @dmtfitem["uri"] }
