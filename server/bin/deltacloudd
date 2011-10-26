@@ -16,6 +16,8 @@
 # under the License.
 #
 
+$:.unshift File.join(File.dirname(__FILE__), '..')
+
 require 'rubygems'
 require 'optparse'
 require 'yaml'
@@ -115,7 +117,10 @@ unless options[:drivers] or ENV["API_DRIVER"]
 end
 
 if options[:drivers]
-  require 'server.rb'
+  $top_srcdir = File.join(File.dirname(__FILE__), '..')
+  $:.unshift File.join($top_srcdir, 'lib')
+  server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
+  load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
   puts "Available drivers:\n\n"
   puts "* " + driver_config.keys.map{ |d| d.to_s }.join("\n* ")
   puts
