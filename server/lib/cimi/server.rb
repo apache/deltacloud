@@ -77,9 +77,7 @@ get "#{settings.root_url}\/?" do
 end
 
 global_collection  :cloudEntryPoint do
-  description <<EOS
-  cloud entry point
-EOS
+  description 'Cloud entry point'
 
   operation :index do
     description "list all resources of the cloud"
@@ -91,11 +89,7 @@ EOS
 end
 
 global_collection :machine_configurations do
-
-
-  description <<EOS
-List all machine configurations
-EOS
+  description 'List all machine configurations'
 
   operation :index do
     description "List all machine configurations"
@@ -137,11 +131,7 @@ EOS
 end
 
 global_collection :machine_images do
-
-
-  description <<EOS
-List all machine images
-EOS
+  description 'List all machine images'
 
   operation :index do
     description "List all machine configurations"
@@ -185,11 +175,7 @@ EOS
 end
 
 global_collection :machines do
-
-
-  description <<EOS
-List all machine
-EOS
+  description 'List all machine'
 
   operation :index do
     description "List all machines"
@@ -233,10 +219,7 @@ EOS
 end
 
 global_collection :volumes do
-
-  description <<EOS
-List all volumes
-EOS
+  description 'List all volumes'
 
   operation :index do
     description "List all volumes"
