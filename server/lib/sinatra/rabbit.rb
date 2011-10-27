@@ -393,6 +393,12 @@ module Sinatra
       collections[name].generate
     end
 
+    def global_collection(name, &block)
+      raise DuplicateCollectionException if collections[name]
+      collections[name] = Collection.new(name, { :global => true }, &block)
+      collections[name].generate
+    end
+
     # Make sure this collection can be accessed, regardless of whether the
     # driver supports it or not
     def global_collection(name, &block)

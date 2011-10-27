@@ -23,9 +23,6 @@ include Deltacloud::Drivers
 set :drivers, Proc.new { driver_config }
 
 STOREROOT = File.join($top_srcdir, 'lib', 'cimi', 'data')
-#We would like to know the storage root.
-puts "store root is " + STOREROOT
-
 Sinatra::Application.register Rack::RespondTo
 
 use Rack::ETag
@@ -70,19 +67,16 @@ error do
   report_error
 end
 
-get "#{settings.root_url}\/?" do
-  if params[:force_auth]
-    return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
-  end
+get "/" do
+  redirect settings.root_url
+end
 
+get "#{settings.root_url}\/?" do
+  halt 401 if params[:force_auth] and not driver.valid_credentials?(credentials)
   redirect "#{settings.root_url}/cloudEntryPoint", 301
 end
 
-collection  :cloudEntryPoint do
-  # Make sure this collection can be accessed, regardless of whether the
-  # driver supports it or not
-  global!
-
+global_collection  :cloudEntryPoint do
   description <<EOS
   cloud entry point
 EOS
@@ -96,8 +90,8 @@ EOS
   end
 end
 
-collection :machine_configurations do
-  global!
+global_collection :machine_configurations do
+
 
   description <<EOS
 List all machine configurations
@@ -142,8 +136,8 @@ EOS
   end
 end
 
-collection :machine_images do
-  global!
+global_collection :machine_images do
+
 
   description <<EOS
 List all machine images
@@ -190,8 +184,8 @@ EOS
 
 end
 
-collection :machines do
-  global!
+global_collection :machines do
+
 
   description <<EOS
 List all machine
@@ -238,8 +232,7 @@ EOS
 
 end
 
-collection :volumes do
-  global!
+global_collection :volumes do
 
   description <<EOS
 List all volumes
