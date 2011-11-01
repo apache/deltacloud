@@ -27,10 +27,7 @@ require 'json'
 require 'digest/sha1'
 require 'base64'
 require 'rack/test'
-
-server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
-load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
-
+require "%s/server" % (ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud')
 
 driver
 
