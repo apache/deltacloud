@@ -13,6 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
+ENV.delete 'API_VERBOSE'
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 $top_srcdir = File::dirname(File::dirname(__FILE__))
@@ -26,7 +27,10 @@ require 'json'
 require 'digest/sha1'
 require 'base64'
 require 'rack/test'
-require 'deltacloud/server'
+
+server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
+load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
+
 
 driver
 

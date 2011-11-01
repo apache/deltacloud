@@ -37,7 +37,7 @@ configure do
   set :views, File::join($top_srcdir, 'views', 'cimi')
   # NOTE: Change :public to :public_folder once we update sinatra to 1.3
   # set :public_folder, File::join($top_srcdir, 'public')
-  set :public, File::join($top_srcdir, 'public')
+  set :public_folder, File::join($top_srcdir, 'public')
   # Try to load the driver on startup to fail early if there are issues
   driver
   set :store, STOREROOT
