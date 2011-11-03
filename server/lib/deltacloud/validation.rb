@@ -84,14 +84,15 @@ module Deltacloud::Validation
     params.each_value { |p| yield p }
   end
 
-  def validate(all_params, values, credentials)
+  def validate(current_driver, all_params, values, credentials)
     all_params.each do |key, p|
       if p.required? and not values[p.name]
         raise Failure.new(p, "Required parameter #{p.name} not found")
       end
       next unless values[p.name]
       if p.hwp_property?
-        profile = driver.hardware_profile(credentials, values['hwp_id'])
+        profile = current_driver.hardware_profile(credentials, values['hwp_id'])
+        raise Failure.new(p, "Unknown hardware profile selected #{values['hwp_id']}") unless profile
         unless p.valid_hwp_value?(profile, values[p.name])
           raise Failure.new(p, "Hardware profile property #{p.name} has invalid value #{values[p.name]}")
         end
