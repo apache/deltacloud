@@ -118,7 +118,7 @@ module RHEVM
         vm {
           name opts[:name] || "i-#{Time.now.to_i}"
           template_(:id => template_id)
-          cluster(:id => opts[:realm_id] || clusters.first.id)
+          cluster(:id => opts[:realm_id].empty? ? clusters.first.id : opts[:realm_id])
           type_ opts[:hwp_id] || 'desktop'
           memory opts[:hwp_memory] ? (opts[:hwp_memory].to_i*1024*1024).to_s : (512*1024*1024).to_s
           cpu {
