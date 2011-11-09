@@ -134,7 +134,7 @@ module Deltacloud
           opts ||= {}
           if opts[:id]
             safely do
-              img_arr = ec2.describe_images(opts[:id]).collect do |image|
+              img_arr = ec2.describe_images([opts[:id]]).collect do |image|
                 convert_image(image)
               end
             end
@@ -142,7 +142,7 @@ module Deltacloud
           end
           owner_id = opts[:owner_id] || default_image_owner
           safely do
-            img_arr = ec2.describe_images_by_owner(owner_id, default_image_type).collect do |image|
+            img_arr = ec2.describe_images_by_owner([owner_id], default_image_type).collect do |image|
               convert_image(image)
             end
           end
@@ -794,8 +794,8 @@ module Deltacloud
             :launch_time => instance[:aws_launch_time],
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type], inst_profile_opts),
             :realm_id => instance[:aws_availability_zone],
-            :private_addresses => instance[:private_dns_name],
-            :public_addresses => instance[:dns_name],
+            :public_addresses => [InstanceAddress.new(instance[:dns_name], :type => :hostname)],
+            :private_addresses => [InstanceAddress.new(instance[:private_dns_name], :type => :hostname)],
             :firewalls => instance[:aws_groups],
             :create_image => can_create_image
           )

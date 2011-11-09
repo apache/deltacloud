@@ -471,7 +471,7 @@ class GogridDriver < Deltacloud::BaseDriver
       :realm_id => instance['ip']['datacenter']['id'],
       :state => state,
       :actions => instance_actions_for(state),
-      :public_addresses => [ instance['ip']['ip'] ],
+      :public_addresses => [ InstanceAddress.new(instance['ip']['ip']) ],
       :private_addresses => [],
       :username => instance['username'],
       :password => instance['password'],

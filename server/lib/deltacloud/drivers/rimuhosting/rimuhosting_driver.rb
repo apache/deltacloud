@@ -131,7 +131,7 @@ class RimuHostingDriver < Deltacloud::BaseDriver
             :owner_id => "root",
             :instance_profile => InstanceProfile.new("none"),
             :actions => instance_actions_for("RUNNING"),
-            :public_addresses => inst["allocated_ips"]["primary_ip"],
+            :public_addresses => [ InstanceAddress.new(inst["allocated_ips"]["primary_ip"] ),
             :launch_time => inst["billing_info"]["order_date"]["iso_format"]
     })
   end

@@ -174,7 +174,12 @@ module Deltacloud::Drivers::VSphere
           # We're getting IP address from 'vmware guest tools'.
           # If guest tools are not installed, we return list of MAC addresses
           # assigned to this instance.
-          instance_address = vm.guest[:net].empty? ? vm.macs.values.first : vm.guest[:net].first[:ipAddress].first
+          public_addresses = []
+          if vm.guest[:net].empty?
+            public_addresses = vm.macs.values.collect { |mac_address| InstanceAddress.new(mac_address, :type => :mac) }
+          else
+            public_addresses = InstanceAddress.new(vm.guest[:net].first[:ipAddress].first)
+          end
           Instance.new(
             :id => properties[:name],
             :name => properties[:name],
@@ -183,7 +188,7 @@ module Deltacloud::Drivers::VSphere
             :description => properties[:full_name],
             :realm_id => realm_id,
             :state => instance_state,
-            :public_addresses => instance_address,
+            :public_addresses => public_addresses,
             :private_addresses => [],
             :instance_profile => instance_profile,
             :actions => instance_actions_for( instance_state ),

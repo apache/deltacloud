@@ -262,8 +262,8 @@ end
                     :realm_id => "US-Miami",
                     :state => current_state,
                     :actions => instance_actions_for(current_state),
-                    :public_addresses => vapp_public_ip,
-                    :private_addresses => vapp_private_ip,
+                    :public_addresses => [ InstanceAddress.new(vapp_public_ip) ],
+                    :private_addresses => [ InstanceAddress.new(vapp_private_ip) ],
                     :instance_profile => profile
                     } )
   end

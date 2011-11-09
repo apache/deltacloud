@@ -206,7 +206,7 @@ class SBCDriver < Deltacloud::BaseDriver
       :realm_id => instance["location"],
       :state => state,
       :actions => instance_actions_for(state),
-      :public_addresses => [instance["primaryIP"]["ip"]],
+      :public_addresses => [ InstanceAddress.new(instance["primaryIP"]["ip"]) ],
       :private_addresses => [],
       :instance_profile => InstanceProfile.new(instance["instanceType"].gsub('/', '-')),
       :launch_time => instance["launchTime"],

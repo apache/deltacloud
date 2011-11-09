@@ -4,9 +4,13 @@
 :realm_id: us
 :owner_id: mockuser
 :public_addresses:
-- img3.inst1.public.com
+- !ruby/object:InstanceAddress
+  address: img1.inst1.public.com
+  address_type: :hostname
 :private_addresses:
-- img3.inst1.private.com
+- !ruby/object:InstanceAddress
+  address: img1.inst1.private.com
+  address_type: :hostname
 :create_image: true
 :image_id: img3
 :name: MockUserInstance

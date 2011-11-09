@@ -190,7 +190,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 
 	networks = []
 	(computehash['NETWORK'].each do |n|
-		networks << n.attributes['ip']
+		networks << InstanceAddress.new(n.attributes['ip'])
 	end) unless computehash['NETWORK'].nil?
 
 	Instance.new( {

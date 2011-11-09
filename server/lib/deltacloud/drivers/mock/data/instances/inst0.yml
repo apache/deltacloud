@@ -8,9 +8,13 @@
 - :stop
 :owner_id: mockuser
 :public_addresses:
-- img1.inst0.public.com
+- !ruby/object:InstanceAddress
+  address: img1.inst0.public.com
+  address_type: :hostname
 :private_addresses:
-- img1.inst0.private.com
+- !ruby/object:InstanceAddress
+  address: img1.inst0.private.com
+  address_type: :hostname
 :create_image: true
 :image_id: img1
 :name: Mock Instance With Profile Change
