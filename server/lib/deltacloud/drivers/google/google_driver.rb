@@ -83,12 +83,14 @@ class GoogleDriver < Deltacloud::BaseDriver
     google_client = new_client(credentials)
     safely do
       google_blob = google_client.head_object(opts['bucket'], opts[:id]).headers
+      meta_hash = google_blob.inject({}){|result, (k,v)| result[k]=v if k=~/^x-goog-meta-/i ; result}
+      meta_hash.gsub_keys("x-goog-meta-", "")
       blobs << Blob.new({   :id => opts[:id],
                  :bucket => opts['bucket'],
                  :content_length => google_blob['Content-Length'],
                  :content_type => google_blob['Content-Type'],
                  :last_modified => google_blob['Last-Modified'],
-                 :user_metadata => google_blob.select{|k,v| k.match(/^x-goog-meta-/i)}
+                 :user_metadata => meta_hash
               })
 
     end
@@ -193,6 +195,14 @@ class GoogleDriver < Deltacloud::BaseDriver
     end
   end
 
+  def valid_credentials?(credentials)
+    begin
+      new_client(credentials)
+    rescue
+      return false
+    end
+    return true
+  end
 
   private
 
