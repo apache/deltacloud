@@ -28,10 +28,10 @@
         default
     %li{ :'data-role' => 'list-divider'} Public addresses
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.public_addresses.map.join(',')
+      %p{ :'data-role' => 'fieldcontain'}=@instance.public_addresses.join(',')
     %li{ :'data-role' => 'list-divider'} Private addresses
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.private_addresses.map.join(',')
+      %p{ :'data-role' => 'fieldcontain'}=@instance.private_addresses.join(',')
     - if @instance.password or @instance.keyname
       %li{ :'data-role' => 'list-divider'} Authentication
     - if @instance.password

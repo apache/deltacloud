@@ -31,15 +31,12 @@
       =@instance.launch_time
   - if @instance.public_addresses
     %public_addresses<
-      - @instance.public_addresses.each do |address|
-        - if address.class.eql?(Hash) and address[:address]!=""
-          =format_address(address[:address], :port => address[:port], :type => address[:type], :mac => address[:mac])
-        - elsif address.class.eql?(String)
-          =format_address(address)
+      - @instance.public_addresses.each do |a|
+        %address{ :type => a.address_type, :port => a.port }=a.address
   - if @instance.private_addresses
     %private_addresses<
-      - @instance.private_addresses.each do |address|
-        =format_address(address)
+      - @instance.private_addresses.each do |a|
+        %address{ :type => a.address_type, :port => a.port }=a.address
   - if @instance.firewalls
     %firewalls<
       - @instance.firewalls.each do |firewall|
