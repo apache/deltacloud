@@ -74,14 +74,12 @@ class RHEVMDriver < Deltacloud::BaseDriver
   # Realms
   #
 
-  def realms(credentials, opts=nil)
+  def realms(credentials, opts={})
     client = new_client(credentials)
     realm_arr = []
     safely do
-      clusters = client.clusters
-      clusters.each do |r|
-        d = client.datacenters(:id => r.datacenter.id).first
-        realm_arr << convert_realm(r, d)
+      realm_arr = client.clusters.collect do |r|
+        convert_realm(r, client.datacenter(r.datacenter.id))
       end
     end
     realm_arr = filter_on( realm_arr, :id, opts )
@@ -92,12 +90,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
     client = new_client(credentials)
     img_arr = []
     safely do
-      templates = client.templates
       if (!opts.nil? && opts[:id])
-        templates = templates.select{|t| opts[:id] == t.id}
-      end
-      templates.each do |t|
-        img_arr << convert_image(client, t)
+        img_arr << convert_image(client, client.template(opts[:id]))
+      else
+        img_arr = client.templates.collect { |t| convert_image(client, t) }
       end
     end
     img_arr = filter_on( img_arr, :architecture, opts )
@@ -233,15 +229,21 @@ class RHEVMDriver < Deltacloud::BaseDriver
                                    :hwp_storage => "#{storage_size}"
     )
     public_addresses = []
-    # First check if RHEV-M guest tools are installed and IP address is offered by them
-    public_addresses << inst.ip if inst.ip
-    # Second check if ConfServer broker is running, then ask for an IP there
-    public_addresses << confserver_ip(inst.id) if ENV['CONFIG_SERVER_ADDRESS'] and public_addresses.empty?
-    public_addresses.compact!
-    # If everything fails fallback to report MAC address
-    public_addresses = inst.macs if public_addresses.empty?
-    public_addresses.flatten!
-    public_addresses << inst.vnc if inst.vnc
+    # First try to get IP address from RHEV-M. This require rhev-agent package
+    # installed on guest
+    public_addresses << InstanceAddress.new(inst.ip, :type => :ipv6) if inst.ip
+    # ConfServer will overide the IP address returned by RHEV-M guest agent
+    if ENV['CONFIG_SERVER_ADDRESS']
+      ip = confserver_ip(inst.id)
+      public_addresses = [ InstanceAddress.new(ip, :type => :ipv6) ]
+    end
+    # If IP retrieval failed, fallback to VNC and MAC address
+    if public_addresses.empty?
+      public_addresses = inst.macs.collect { |mac_address| InstanceAddress.new(mac_address, :type => :mac) }
+    end
+    if inst.vnc
+      public_addresses << InstanceAddress.new(inst.vnc[:address], :port => inst.vnc[:port], :type => :vnc)
+    end
     Instance.new(
       :id => inst.id,
       :name => inst.name,

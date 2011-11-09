@@ -196,14 +196,19 @@ module RHEVM
         :accept => "application/xml"
       }
       headers.merge!(auth_header)
-      if opts[:id]
-        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/templates/%s" % opts[:id]].get(headers)).root
-        [ RHEVM::Template::new(self, vm)]
-      else
-        Client::parse_response(RHEVM::client(@api_entrypoint)["/templates"].get(headers)).xpath('/templates/template').collect do |vm|
-          RHEVM::Template::new(self, vm)
-        end
+      rhevm_templates = RHEVM::client(@api_entrypoint)["/templates"].get(headers)
+      Client::parse_response(rhevm_templates).xpath('/templates/template').collect do |t|
+        RHEVM::Template::new(self, t)
       end
+    end
+
+    def template(template_id)
+      headers = {
+        :accept => "application/xml"
+      }
+      headers.merge!(auth_header)
+      rhevm_template = RHEVM::client(@api_entrypoint)["/templates/%s" % template_id].get(headers)
+      RHEVM::Template::new(self, Client::parse_response(rhevm_template).root)
     end
 
     def clusters(opts={})
@@ -226,14 +231,19 @@ module RHEVM
         :accept => "application/xml"
       }
       headers.merge!(auth_header)
-      if opts[:id]
-        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/datacenters/%s" % opts[:id]].get(headers)).root
-        [ RHEVM::DataCenter::new(self, vm)]
-      else
-        Client::parse_response(RHEVM::client(@api_entrypoint)["/datacenters"].get(headers)).xpath('/data_centers/data_center').collect do |vm|
-          RHEVM::DataCenter::new(self, vm)
-        end
+      rhevm_datacenters = RHEVM::client(@api_entrypoint)["/datacenters"].get(headers)
+      Client::parse_response(rhevm_datacenters).xpath('/data_centers/data_center').collect do |dc|
+        RHEVM::DataCenter::new(self, dc)
       end
+    end
+
+    def datacenter(datacenter_id)
+      headers = {
+        :accept => "application/xml"
+      }
+      headers.merge!(auth_header)
+      rhevm_datacenter = RHEVM::client(@api_entrypoint)["/datacenters/%s" % datacenter_id].get(headers)
+      RHEVM::DataCenter::new(self, Client::parse_response(rhevm_datacenter).root)
     end
 
     def hosts(opts={})
@@ -347,10 +357,10 @@ module RHEVM
       @macs = (xml/'nics/nic/mac').collect { |mac| mac[:address] }
       @creation_time = (xml/'creation_time').text
       @ip = ((xml/'guest_info/ip').first[:address] rescue nil)
-      unless @ip
-        @vnc = ((xml/'display/address').first.text rescue "127.0.0.1")
-        @vnc += ":#{((xml/'display/port').first.text rescue "5890")}"
-      end
+      @vnc = {
+        :address => ((xml/'display/address').first.text rescue "127.0.0.1"),
+        :port => ((xml/'display/port').first.text rescue "5890")
+      } unless @ip
     end
 
   end
