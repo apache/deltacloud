@@ -75,7 +75,7 @@ class Instance < BaseModel
   def to_hash
     h = self.to_hash_original
     h[:public_addresses] = h[:public_addresses].collect do |address|
-      { :address => { :type => address_type(address), :value => address } }
+      { :address => { :type => address.address_type, :value => address } }
     end
     h[:actions] = self.actions.collect do |action|
       { :"#{action}" => {
