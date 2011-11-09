@@ -229,6 +229,50 @@ module DeltacloudTestCommon
     $created_instances << id
   end
 
+ #common variables used by the bucket/blob unit tests across clouds
+  @@created_bucket_name="testbucki2rpux3wdelme"
+  @@created_blob_name="testblobk1ds91kVdelme"
+  @@created_blob_local_file="#{File.dirname(__FILE__)}/drivers/common_fixtures/deltacloud_blob_test.png"
+
+  def check_bucket_basics(bucket, cloud)
+    (bucket/'bucket/name').first.text.should == "#{@@created_bucket_name}#{cloud}"
+    (bucket/'bucket').attribute("id").text.should == "#{@@created_bucket_name}#{cloud}"
+    (bucket/'bucket').length.should > 0
+    (bucket/'bucket/name').first.text.should_not == nil
+    (bucket/'bucket').attribute("href").text.should_not == nil
+  end
+
+  def check_blob_basics(blob, cloud)
+    (blob/'blob').length.should == 1
+    (blob/'blob').attribute("id").text.should_not == nil
+    (blob/'blob').attribute("href").text.should_not==nil
+    (blob/'blob/bucket').text.should_not == nil
+    (blob/'blob/content_length').text.should_not == nil
+    (blob/'blob/content_type').text.should_not == nil
+    (blob/'blob').attribute("id").text.should == "#{@@created_blob_name}#{cloud}"
+    (blob/'blob/bucket').text.should == "#{@@created_bucket_name}#{cloud}"
+    (blob/'blob/content_length').text.to_i.should == File.size(@@created_blob_local_file)
+  end
+
+  def check_blob_metadata(blob, metadata_hash)
+    meta_from_blob = {}
+    #extract metadata from nokogiri blob xml
+    (0.. (((blob/'blob/user_metadata').first).elements.size - 1) ).each do |i|
+      meta_from_blob[(((blob/'blob/user_metadata').first).elements[i].attribute("key").value)] =
+                                  (((blob/'blob/user_metadata').first).elements[i].children[1].text)
+    end
+    #remove any 'x-goog-meta-' prefixes (problem for google blobs and vcr...)
+    meta_from_blob.gsub_keys(/x-.*-meta-/i, "")
+    meta_from_blob.eql?(metadata_hash).should == true
+  end
+
+  #hash ordering is unpredictable - sort the params hash
+  #so we get same vcr cassette name each time
+  def stable_vcr_cassette_name(method, uri, params)
+    digest = Digest::SHA1.hexdigest("#{uri}-#{params.sort_by {|k,v| k.to_s}}")
+    return "#{method}-#{digest}"
+  end
+
 end
 
 include DeltacloudTestCommon

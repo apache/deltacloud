@@ -1,0 +1,40 @@
+--- 
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: HEAD
+    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com:443/testblobk1ds91kVdelmegoogel
+    body: 
+    headers: 
+      date: 
+      - Tue, 08 Nov 2011 14:45:22 +0000
+      authorization: 
+      - GOOG1 GOOGK7JXLS6UEYS6AYVO:a6itGMEz19GukbOEwaXcDLIdhoE=
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: 
+    headers: 
+      x-goog-meta-foo: 
+      - bar
+      etag: 
+      - "\"6051b502c4281855ff32dc3e924fe3b0\""
+      expires: 
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      last-modified: 
+      - Tue, 08 Nov 2011 14:45:19 GMT
+      content-type: 
+      - text/html
+      server: 
+      - HTTP Upload Server Built on Nov 3 2011 13:52:28 (1320353548)
+      date: 
+      - "1320763523366"
+      x-goog-meta-author: 
+      - deltacloud
+      content-length: 
+      - "24436"
+      cache-control: 
+      - no-cache,no-store,max-age=0,must-revalidate
+      pragma: 
+      - no-cache
+    body: 
+    http_version: 
