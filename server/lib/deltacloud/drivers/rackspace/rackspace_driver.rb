@@ -416,7 +416,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
       :image_id => server[:imageId].to_s,
       :instance_profile => InstanceProfile::new(server[:flavorId].to_s),
       :public_addresses => server[:addresses][:public].collect { |ip| InstanceAddress.new(ip) },
-      :private_addresses => server[:addresses][:private].collect { |ip| InstanceAddress.new(ip) },
+      :private_addresses => server[:addresses][:private].collect { |ip| InstanceAddress.new(ip) }
     )
     inst.create_image = 'RUNNING'.eql?(inst.state)
     inst.actions = instance_actions_for(inst.state)
