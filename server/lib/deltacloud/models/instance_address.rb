@@ -24,7 +24,7 @@ class InstanceAddress
   def initialize(address, opts={})
     self.address = address
     self.port = opts[:port] if opts[:port]
-    self.address_type = opts[:type] || :ipv6
+    self.address_type = opts[:type] || :ipv4
     self
   end
 
@@ -41,8 +41,8 @@ class InstanceAddress
     address_type == :mac
   end
 
-  def is_ipv6?
-    address_type == :ipv6
+  def is_ipv4?
+    address_type == :ipv4
   end
 
   def is_hostname?
