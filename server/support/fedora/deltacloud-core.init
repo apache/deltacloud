@@ -7,13 +7,13 @@
 
 ### BEGIN INIT INFO
 # Provides: deltacloud-core
-# Required-Start: 
-# Required-Stop: 
-# Default-Start: 3 5 
-# Default-Stop: 0 1 2 6 
+# Required-Start:
+# Required-Stop:
+# Default-Start: 3 5
+# Default-Stop: 0 1 2 6
 # Short-Description: Deltacloud Core API deamon
 # Description: Deltacloud Core API provides access to different cloud providers \
-#   using single REST API 
+#   using single REST API
 ### END INIT INFO
 
 . /etc/rc.d/init.d/functions
@@ -33,6 +33,7 @@ HOST="${HOST:-localhost}"
 DELTACLOUD_USER="${DELTACLOUD_USER:-nobody}"
 LOGFILE="${LOGFILE:-/var/log/$prog/$DRIVER.log}"
 LOCKFILE="${LOCKFILE:-/var/lock/subsys/$prog}"
+PIDFILE="${PIDFILE:-/var/run/deltacloud-core-$DRIVER.pid}"
 
 [ -r $LOGFILE ] && chown nobody $LOGFILE
 [ -r $LOCKFILE ] && chown nobody $LOCKFILE
@@ -40,14 +41,8 @@ LOCKFILE="${LOCKFILE:-/var/lock/subsys/$prog}"
 start() {
     [ -x $exec ] || exit 5
 
-    echo -n $"Starting $prog: "
-    # By default, thin starts in PWD.  If your PWD is /root, it will fail to
-    # start since we change to nobody user first, and the nobody user doesn't
-    # have access to /root.  Make sure we change to / before trying to start
-    # the process.  Note that for systemd, this has no real effect;
-    # systemd always starts initscripts with a clean environment and PWD of /
-    cd /
-    daemon --user "$DELTACLOUD_USER" "$exec -i $DRIVER -e $API_ENV --port $PORT -r $HOST >> $LOGFILE 2>&1 &"
+    echo -n $"Starting $prog-$DRIVER: "
+    daemon "$exec -i $DRIVER -e $API_ENV --user $DELTACLOUD_USER --daemon --pid $PIDFILE --port $PORT --host $HOST"
     retval=$?
 
     if [ $retval -eq 0 ] && touch $LOCKFILE ; then
@@ -62,16 +57,22 @@ start() {
 
 stop() {
     echo -n $"Shutting down $prog: "
-    killproc deltacloudd
-    retval=$?
-    if [ $retval -eq 0 ] && rm -f $LOCKFILE ; then
-      echo_success
-      echo
+    if [ -f $PIDFILE ]; then
+      kill -3 `cat $PIDFILE`
+      retval=$?
+      if [ $retval -eq 0 ] && rm -f $LOCKFILE $PIDFILE; then
+        echo_success
+        echo
+      else
+        echo_failure
+        echo
+      fi
+      return $retval
     else
       echo_failure
       echo
+      return 1
     fi
-    return $retval
 }
 
 case "$1" in
