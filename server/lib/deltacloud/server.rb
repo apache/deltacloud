@@ -240,7 +240,7 @@ END
 	:description => params[:description]
       })
       status 201  # Created
-      response['Location'] = image_url(@instance.id)
+      response['Location'] = image_url(@image.id)
       respond_to do |format|
         format.xml  { haml :"images/show" }
         format.json { convert_to_json(:image, @image) }
