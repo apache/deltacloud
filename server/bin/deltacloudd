@@ -218,7 +218,7 @@ else
     argv_opts << [ "--daemonize", "--user", options[:user] || 'nobody', "--tag", "deltacloud-#{ENV['API_DRIVER']}"]
     argv_opts << [ "--pid", options[:pid]] if options[:pid]
     argv_opts << [ "--group", options[:group] || 'nobody' ]
-    argv_opts << [ "--log", File.join("/var/log/deltacloud-core", "#{ENV['API_PROVIDER']}.log")]
+    argv_opts << [ "--log", File.join("/var/log/deltacloud-core", "#{ENV['API_DRIVER']}.log")]
   end
   argv_opts.flatten!
 
