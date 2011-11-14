@@ -1,0 +1,30 @@
+{
+  "uri": "http://cimi.example.org/machine_templates/1",
+  "name": "My First Template",
+  "description": "A template for testing",
+  "created": "2011-11-01",
+  "machineConfig": { "href": "http://cimi.example.org/machine_configs/1" },
+  "machineImage": { "href": "http://cimi.example.org/machine_images/1" },
+  "volumes": [{
+    "href": "http://cimi.example.org/volumes/1",
+    "attachmentPoint": "/dev/sda",
+    "protocol": "nfs"
+  }],
+  "networkInterfaces": [{
+    "vsp": { "href": "http://cimi.example.org/vsps/1" },
+    "hostname": "host.cimi.example.org",
+    "macAddress": "00:11:22:33:44:55",
+    "state": "UP",
+    "protocol": "TCP",
+    "allocation": "static",
+    "address": "192.168.0.17",
+    "defaultGateway": "192.168.0.1",
+    "dns": "192.168.0.1",
+    "maxTransmissionUnit": "1500"
+  }],
+  "operations": [
+    { "rel": "edit",
+      "href": "http://cimi.example.org/machine_templates/1/edit" },
+    { "rel": "delete",
+      "href": "http://cimi.example.org/machine_templates/1/delete" }]
+}
