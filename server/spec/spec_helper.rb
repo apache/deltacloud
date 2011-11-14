@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -13,8 +12,16 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
+#
 
-require 'deltacloud/core_ext/string'
-require 'deltacloud/core_ext/integer'
-require 'deltacloud/core_ext/hash'
-require 'deltacloud/core_ext/array'
+require 'rubygems'
+require 'pp'
+
+require 'deltacloud/core_ext'
+require 'xmlsimple'
+
+def parse_xml(xml, opts = {})
+  opts[:force_content] = true
+  opts[:keep_root] = true unless opts.has_key?(:keep_root)
+  XmlSimple.xml_in(xml, opts)
+end

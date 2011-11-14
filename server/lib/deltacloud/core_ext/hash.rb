@@ -26,4 +26,11 @@ class Hash
     #remove the original keys
     self.delete_if{|k,v| remove.include?(k)}
   end
+
+  # Method copied from https://github.com/rails/rails/blob/77efc20a54708ba37ba679ffe90021bf8a8d3a8a/activesupport/lib/active_support/core_ext/hash/keys.rb#L23
+  def symbolize_keys
+    keys.each { |key| self[(key.to_sym rescue key) || key] = delete(key) }
+    self
+  end
+
 end

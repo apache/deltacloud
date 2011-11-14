@@ -20,6 +20,7 @@
 require 'rake'
 require 'rake/testtask'
 require 'rubygems/package_task'
+require 'spec/rake/spectask'
 
 begin
   require 'ci/reporter/rake/test_unit'
@@ -87,6 +88,10 @@ task :cucumber do
    Rake::Task["cucumber:#{driver}:test"].reenable
    Rake::Task["cucumber:#{driver}:test"].invoke
   end
+end
+
+Spec::Rake::SpecTask.new('spec') do |t|
+  t.spec_files = FileList['spec/**/*_spec.rb']
 end
 
 begin

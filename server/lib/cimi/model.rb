@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -13,8 +12,12 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
+#
 
-require 'deltacloud/core_ext/string'
-require 'deltacloud/core_ext/integer'
-require 'deltacloud/core_ext/hash'
-require 'deltacloud/core_ext/array'
+module CIMI
+  module Model; end
+end
+
+require 'cimi/model/schema'
+require 'cimi/model/base'
+require 'cimi/model/machine_template'
