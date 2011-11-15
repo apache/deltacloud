@@ -15,10 +15,11 @@
 # under the License.
 
 
-require 'deltacloud/base_driver'
 require 'yaml'
-require 'deltacloud/drivers/mock/mock_client'
 require 'base64'
+require 'etc'
+require 'deltacloud/base_driver'
+require 'deltacloud/drivers/mock/mock_client'
 
 module Deltacloud::Drivers::Mock
 
@@ -90,7 +91,7 @@ module Deltacloud::Drivers::Mock
     def initialize
       if ENV["DELTACLOUD_MOCK_STORAGE"]
         storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
-      elsif ENV["USER"]
+      elsif Etc.getlogin
         storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
       else
         raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
