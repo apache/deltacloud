@@ -4,7 +4,7 @@
   "description": "A image for testing",
   "created": "2011-11-14",
   "imageLocation": { "href": "nfs://cimi.example.com/images/1.img" },
-  "properties": [ { "name": "status", "value": "build"}, { "name": "locked", "value": "true" } ],
+  "properties": [ { "status": "build"}, { "locked": "true" } ],
   "operations": [
   { "rel": "edit",
     "href": "http://cimi.example.org/machine_images/1/edit" },
