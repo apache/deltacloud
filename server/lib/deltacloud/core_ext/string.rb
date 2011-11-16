@@ -59,7 +59,7 @@ class String
     self[0, 1].downcase + self[1..-1]
   end
 
-  def capitalize
+  def upcase_first
     self[0, 1].upcase + self[1..-1]
   end
 end
