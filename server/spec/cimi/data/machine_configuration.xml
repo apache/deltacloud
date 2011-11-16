@@ -1,0 +1,14 @@
+<MachineConfiguration xmlns="http://www.dmtf.org/cimi">
+  <uri>http://cimi.example.org/machine_configurations/1</uri>
+  <name>MachineConfiguration1</name>
+  <description>Example MachineConfiguration One</description>
+  <created>2011-11-14</created>
+  <property name="architecture">i386</property>
+  <cpu>2</cpu>
+  <memory quantity="1" units="gigabyte"/>
+  <disk>
+    <capacity quantity="1" units="terabyte" format="ext4" attachmentPoint="/"/>
+  </disk>
+  <operation rel="edit" href="http://cimi.example.org/machine_configurations/1/edit"/>
+  <operation rel="delete" href="http://cimi.example.org/machine_configurations/1/delete"/>
+</MachineConfiguration>
