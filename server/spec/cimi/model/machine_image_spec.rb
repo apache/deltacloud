@@ -38,8 +38,8 @@ describe "MachineImage model" do
 
     it "should have image location property" do
       img = CIMI::Model::MachineImage.from_xml(@xml)
-      img.image_location.size == 1
-      img.image_location[0]['href'].should == 'nfs://cimi.example.com/images/1.img'
+      img.image_location.should be_an_instance_of Hash
+      img.image_location['href'].should == 'nfs://cimi.example.com/images/1.img'
     end
 
     it "should have edit and delete operations" do
@@ -80,8 +80,8 @@ describe "MachineImage model" do
 
     it "should have image location property" do
       img = CIMI::Model::MachineImage.from_json(@json)
-      img.image_location.size == 1
-      img.image_location[0]['href'].should == 'nfs://cimi.example.com/images/1.img'
+      img.image_location.should be_an_instance_of Hash
+      img.image_location['href'].should == 'nfs://cimi.example.com/images/1.img'
     end
 
     it "should have edit and delete operations" do
