@@ -23,3 +23,5 @@ end
 require 'cimi/model/schema'
 require 'cimi/model/base'
 require 'cimi/model/machine_template'
+require 'cimi/model/machine_image'
+require 'cimi/model/machine_configuration'
