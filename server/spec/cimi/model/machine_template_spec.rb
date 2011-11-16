@@ -20,25 +20,152 @@ describe "MachineTemplate model" do
     @json = IO::read(File::join(DATA_DIR, "machine_template.json"))
   end
 
-  it "can be constructed from XML" do
-    templ = CIMI::Model::MachineTemplate.from_xml(@xml)
-    templ.should_not be_nil
-    templ.created.should == "2011-11-01"
-    templ.volumes.size.should == 1
-    templ.should serialize_to @xml, :fmt => :xml
+  describe 'XML' do
+    it "can be constructed" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.should_not be_nil
+      templ.should serialize_to @xml, :fmt => :xml
+    end
+
+    it "should have default properties" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.created.should == "2011-11-01"
+      templ.name.should == "My First Template"
+      templ.description.should == "A template for testing"
+      templ.uri.should == "http://cimi.example.org/machine_templates/1"
+    end
+
+    it "should convert strings in keys to symbols when contructed from XML" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.should_not be_nil
+      templ.attribute_values.keys.each { |key| key.should be_a_kind_of(Symbol) }
+    end
+
+    it "should reference machine_config" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.machine_config.should be_an_instance_of Struct::CIMI_MachineConfig
+      templ.machine_config.href.should == "http://cimi.example.org/machine_configs/1"
+    end
+
+    it "should reference machine_image" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.machine_image.should be_an_instance_of Struct::CIMI_MachineImage
+      templ.machine_image.href.should == "http://cimi.example.org/machine_images/1"
+    end
+
+    it "should have list of attached volumes" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.volumes.should be_a_kind_of Array
+      templ.volumes.each do |volume|
+        volume.href.should =~ /^http:\/\/.*\/volumes\/(\w+)$/
+        volume.protocol.should == 'nfs'
+        volume.attachment_point == '/dev/sda'
+        volume.should be_an_instance_of Struct::CIMI_Volume
+      end
+    end
+
+    it "should have list of network interfaces" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.network_interfaces.should be_an_instance_of Array
+      templ.network_interfaces.each do |interface|
+        interface.hostname == 'host.cimi.example.org'
+        interface.mac_address == '00:11:22:33:44:55'
+        interface.state == 'UP'
+        interface.protocol == 'TCP'
+        interface.allocation == 'static'
+        interface.address == '192.168.0.17'
+        interface.default_gateway == '192.168.0.1'
+        interface.dns == '192.168.0.1'
+        interface.max_transmission_unit == '1500'
+        interface.vsp.should_not be_nil
+        interface.vsp.should be_an_instance_of Struct::CIMI_Vsp
+        interface.vsp.href.should =~ /^http:\/\/.*\/vsps\/(\w+)$/
+        interface.should be_an_instance_of Struct::CIMI_NetworkInterface
+      end
+    end
+
+    it "should have edit and delete operations" do
+      templ = CIMI::Model::MachineTemplate.from_xml(@xml)
+      templ.operations.size.should == 2
+      templ.operations.any? { |operation| operation.rel == 'edit' }.should be_true
+      templ.operations.any? { |operation| operation.rel == 'delete' }.should be_true
+      templ.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
+    end
+
   end
 
-  it "should convert strings in keys to symbols when contructed from XML" do
-    templ = CIMI::Model::MachineTemplate.from_xml(@xml)
-    templ.should_not be_nil
-    templ.attribute_values.keys.each { |key| key.should be_a(Symbol) }
+  describe 'JSON' do
+    it "can be constructed" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.should_not be_nil
+      templ.should serialize_to @xml, :fmt => :xml
+    end
+
+    it "should have default properties" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.created.should == "2011-11-01"
+      templ.name.should == "My First Template"
+      templ.description.should == "A template for testing"
+      templ.uri.should == "http://cimi.example.org/machine_templates/1"
+    end
+
+    it "should convert strings in keys to symbols when contructed from XML" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.should_not be_nil
+      templ.attribute_values.keys.each { |key| key.should be_a_kind_of(Symbol) }
+    end
+
+    it "should reference machine_config" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.machine_config.should be_an_instance_of Struct::CIMI_MachineConfig
+      templ.machine_config.href.should == "http://cimi.example.org/machine_configs/1"
+    end
+
+    it "should reference machine_image" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.machine_image.should be_an_instance_of Struct::CIMI_MachineImage
+      templ.machine_image.href.should == "http://cimi.example.org/machine_images/1"
+    end
+
+    it "should have list of attached volumes" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.volumes.should be_a_kind_of Array
+      templ.volumes.each do |volume|
+        volume.href.should =~ /^http:\/\/.*\/volumes\/(\w+)$/
+        volume.protocol.should == 'nfs'
+        volume.attachment_point == '/dev/sda'
+        volume.should be_an_instance_of Struct::CIMI_Volume
+      end
+    end
+
+    it "should have list of network interfaces" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.network_interfaces.should be_an_instance_of Array
+      templ.network_interfaces.each do |interface|
+        interface.hostname == 'host.cimi.example.org'
+        interface.mac_address == '00:11:22:33:44:55'
+        interface.state == 'UP'
+        interface.protocol == 'TCP'
+        interface.allocation == 'static'
+        interface.address == '192.168.0.17'
+        interface.default_gateway == '192.168.0.1'
+        interface.dns == '192.168.0.1'
+        interface.max_transmission_unit == '1500'
+        interface.vsp.should_not be_nil
+        interface.vsp.should be_an_instance_of Struct::CIMI_Vsp
+        interface.vsp.href.should =~ /^http:\/\/.*\/vsps\/(\w+)$/
+        interface.should be_an_instance_of Struct::CIMI_NetworkInterface
+      end
+    end
+
+    it "should have edit and delete operations" do
+      templ = CIMI::Model::MachineTemplate.from_json(@json)
+      templ.operations.size.should == 2
+      templ.operations.any? { |operation| operation.rel == 'edit' }.should be_true
+      templ.operations.any? { |operation| operation.rel == 'delete' }.should be_true
+      templ.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
+    end
+
   end
 
-  it "can be constructed from JSON" do
-    templ = CIMI::Model::MachineTemplate.from_json(@json)
-    templ.should_not be_nil
-
-    templ.created.should == "2011-11-01"
-    templ.should serialize_to @json, :fmt => :json
-  end
 end

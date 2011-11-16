@@ -20,59 +20,97 @@ describe "MachineConfiguration model" do
     @json = IO::read(File::join(DATA_DIR, "machine_configuration.json"))
   end
 
-  it "can be constructed from XML" do
-    conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
-    conf.should_not be_nil
-    conf.name.should == 'MachineConfiguration1'
-    conf.uri == 'http://cimi.example.org/machine_configurations/1'
-    conf.description == 'Example MachineConfiguration One'
-    conf.created.should == "2011-11-14"
-    conf.cpu.should == "2"
-    conf.memory.size.should == 1
-    conf.memory[0]['quantity'].should == '1'
-    conf.memory[0]['units'].should == 'gigabyte'
-    conf.disk.size.should == 1
-    conf.disk[0].respond_to?(:capacity).should be_true
-    conf.disk[0].capacity.size.should == 1
-    conf.disk[0].capacity[0]['format'] == 'ext4'
-    conf.disk[0].capacity[0]['quantity'] == '1'
-    conf.disk[0].capacity[0]['attachmentPoint'] == '/'
-    conf.disk[0].capacity[0]['units'] == 'terabyte'
-    conf.operations.size.should == 2
-    conf.operations.any? { |operation| operation.rel == 'edit' }.should be_true
-    conf.operations.any? { |operation| operation.rel == 'delete' }.should be_true
-    conf.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
-    conf.should serialize_to @xml, :fmt => :xml
+  describe 'XML' do
+    it "can be constructed" do
+      conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
+      conf.should_not be_nil
+      conf.should serialize_to @xml, :fmt => :xml
+    end
+
+    it "should convert strings in keys to symbols when contructed from XML" do
+      conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
+      conf.should_not be_nil
+      conf.attribute_values.keys.each { |key| key.should be_a(Symbol) }
+    end
+
+    it "should have default properties" do
+      conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
+      conf.name.should == 'MachineConfiguration1'
+      conf.uri == 'http://cimi.example.org/machine_configurations/1'
+      conf.description == 'Example MachineConfiguration One'
+      conf.created.should == "2011-11-14"
+    end
+
+    it "should have cpu and memory properties" do
+      conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
+      conf.cpu.should == "2"
+      conf.memory.should be_an_instance_of Hash
+      conf.memory['quantity'].should == '1'
+      conf.memory['units'].should == 'gigabyte'
+    end
+
+    it "should have disk array property with capacity" do
+      conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
+      conf.disk.size.should == 1
+      conf.disk[0].respond_to?(:capacity).should be_true
+      conf.disk[0].capacity.size.should == 1
+      conf.disk[0].capacity[0]['format'] == 'ext4'
+      conf.disk[0].capacity[0]['quantity'] == '1'
+      conf.disk[0].capacity[0]['attachmentPoint'] == '/'
+      conf.disk[0].capacity[0]['units'] == 'terabyte'
+    end
+
+    it "should have edit and delete operations" do
+      conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
+      conf.operations.size.should == 2
+      conf.operations.any? { |operation| operation.rel == 'edit' }.should be_true
+      conf.operations.any? { |operation| operation.rel == 'delete' }.should be_true
+      conf.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
+    end
   end
 
-  it "should convert strings in keys to symbols when contructed from XML" do
-    conf = CIMI::Model::MachineConfiguration.from_xml(@xml)
-    conf.should_not be_nil
-    conf.attribute_values.keys.each { |key| key.should be_a(Symbol) }
-  end
+  describe "JSON" do
+    it "can be constructed" do
+      conf = CIMI::Model::MachineConfiguration.from_json(@json)
+      conf.should_not be_nil
+      conf.should serialize_to @json, :fmt => :json
+    end
 
-  it "can be constructed from JSON" do
-    conf = CIMI::Model::MachineConfiguration.from_json(@json)
-    conf.should_not be_nil
-    conf.name.should == 'MachineConfiguration1'
-    conf.uri == 'http://cimi.example.org/machine_configurations/1'
-    conf.description == 'Example MachineConfiguration One'
-    conf.created.should == "2011-11-14"
-    conf.cpu.should == "2"
-    conf.memory.size.should == 1
-    conf.memory[0]['quantity'].should == '1'
-    conf.memory[0]['units'].should == 'gigabyte'
-    conf.disk.size.should == 1
-    conf.disk[0].respond_to?(:capacity).should be_true
-    conf.disk[0].capacity.size.should == 1
-    conf.disk[0].capacity[0]['format'] == 'ext4'
-    conf.disk[0].capacity[0]['quantity'] == '1'
-    conf.disk[0].capacity[0]['attachmentPoint'] == '/'
-    conf.disk[0].capacity[0]['units'] == 'terabyte'
-    conf.operations.size.should == 2
-    conf.operations.any? { |operation| operation.rel == 'edit' }.should be_true
-    conf.operations.any? { |operation| operation.rel == 'delete' }.should be_true
-    conf.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
-    conf.should serialize_to @json, :fmt => :json
+    it "should have default properties" do
+      conf = CIMI::Model::MachineConfiguration.from_json(@json)
+      conf.name.should == 'MachineConfiguration1'
+      conf.uri == 'http://cimi.example.org/machine_configurations/1'
+      conf.description == 'Example MachineConfiguration One'
+      conf.created.should == "2011-11-14"
+    end
+
+    it "should have cpu and memory properties" do
+      conf = CIMI::Model::MachineConfiguration.from_json(@json)
+      conf.cpu.should == "2"
+      conf.memory.should be_an_instance_of Hash
+      conf.memory['quantity'].should == '1'
+      conf.memory['units'].should == 'gigabyte'
+    end
+
+    it "should have disk array property with capacity" do
+      conf = CIMI::Model::MachineConfiguration.from_json(@json)
+      conf.disk.should be_an_instance_of Array
+      conf.disk.size.should > 0
+      conf.disk[0].should respond_to :capacity
+      conf.disk[0].capacity.size.should == 1
+      conf.disk[0].capacity[0]['format'] == 'ext4'
+      conf.disk[0].capacity[0]['quantity'] == '1'
+      conf.disk[0].capacity[0]['attachmentPoint'] == '/'
+      conf.disk[0].capacity[0]['units'] == 'terabyte'
+    end
+
+    it "should have edit and delete operations" do
+      conf = CIMI::Model::MachineConfiguration.from_json(@json)
+      conf.operations.size.should == 2
+      conf.operations.any? { |operation| operation.rel == 'edit' }.should be_true
+      conf.operations.any? { |operation| operation.rel == 'delete' }.should be_true
+      conf.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
+    end
+
   end
 end
