@@ -14,6 +14,8 @@
 # under the License.
 #
 
+# Declare namespace for CIMI model
+#
 module CIMI
   module Model; end
 end

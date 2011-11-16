@@ -60,23 +60,19 @@ class CIMI::Model::Schema
     def nested_text?; @text == :nested; end
 
     def from_xml(xml, model)
-      if @text == :nested
-        model[@name] = xml[@xml_name].first["content"] if xml[@xml_name]
-      elsif @text == :direct
-        model[@name] = xml["content"]
-      else
-        model[@name] = xml[@xml_name]
+      case @text
+        when :nested : model[@name] = xml[@xml_name].first["content"] if xml[@xml_name]
+        when :direct : model[@name] = xml["content"]
+        else model[@name] = xml[@xml_name]
       end
     end
 
     def to_xml(model, xml)
       return unless model[@name]
-      if @text == :nested
-        xml[@xml_name] = [{ "content" => model[@name] }]
-      elsif @text == :direct
-        xml["content"] = model[@name]
-      else
-        xml[@xml_name] = model[@name]
+      case @text
+        when :nested : xml[@xml_name] = [{ "content" => model[@name] }]
+        when :direct : xml["content"] = model[@name]
+        else xml[@xml_name] = model[@name]
       end
     end
   end
@@ -84,7 +80,7 @@ class CIMI::Model::Schema
   class Struct < Attribute
     def initialize(name, opts, &block)
       content = opts[:content]
-      super(name)
+      super(name, opts)
       @schema = CIMI::Model::Schema.new
       @schema.instance_eval(&block) if block_given?
       @schema.scalar(content, :text => :direct) if content
@@ -156,15 +152,11 @@ class CIMI::Model::Schema
     end
 
     def from_xml(xml, model)
-      model[name] = (xml[xml_name] || []).map do |elt|
-        @struct.convert_from_xml(elt)
-      end
+      model[name] = (xml[xml_name] || []).map { |elt| @struct.convert_from_xml(elt) }
     end
 
     def from_json(json, model)
-      model[name] = (json[json_name] || []).map do |elt|
-        @struct.convert_from_json(elt)
-      end
+      model[name] = (json[json_name] || []).map { |elt| @struct.convert_from_json(elt) }
     end
 
     def to_xml(model, xml)
@@ -220,9 +212,7 @@ class CIMI::Model::Schema
   # +add_attributes!+ method
   module DSL
     def href(*args)
-      args.each do |arg|
-        struct(arg) { scalar :href }
-      end
+      args.each { |arg| struct(arg) { scalar :href } }
     end
 
     def text(*args)
@@ -246,12 +236,8 @@ class CIMI::Model::Schema
   include DSL
 
   def add_attributes!(args, attr_klass, &block)
-    if @attributes.frozen?
-      raise "The schema has already been used to convert objects"
-    end
+    raise "The schema has already been used to convert objects" if @attributes.frozen?
     opts = args.extract_opts!
-    args.each do |arg|
-      @attributes << attr_klass.new(arg, opts, &block)
-    end
+    args.each { |arg| @attributes << attr_klass.new(arg, opts, &block) }
   end
 end

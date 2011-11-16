@@ -163,7 +163,7 @@ class CIMI::Model::Base
   text :uri, :name, :description, :created
 
   # FIXME: this doesn't match with JSON
-  array :properties, :content => :value do
-    scalar :key
+  array :property, :content => :value do
+    scalar :name
   end
 end
