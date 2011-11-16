@@ -14,10 +14,6 @@
 # under the License.
 #
 
-require 'spec_helper'
-
-require 'cimi/model'
-
 describe "Schema" do
   before(:each) do
     @schema = CIMI::Model::Schema.new

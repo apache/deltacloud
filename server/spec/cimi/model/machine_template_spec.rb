@@ -13,14 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-
-require 'spec_helper'
-
-require 'cimi/model'
-
 describe "MachineTemplate model" do
-
-  DATA_DIR = File::join(File::dirname(__FILE__), '..', 'data')
 
   before(:all) do
     @xml = IO::read(File::join(DATA_DIR, "machine_template.xml"))

@@ -16,9 +16,12 @@
 
 require 'rubygems'
 require 'pp'
-
+require 'rspec'
 require 'deltacloud/core_ext'
+require 'cimi/model'
 require 'xmlsimple'
+
+DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'cimi', 'data')
 
 def parse_xml(xml, opts = {})
   opts[:force_content] = true
