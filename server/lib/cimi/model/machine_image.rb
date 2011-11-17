@@ -15,7 +15,7 @@
 
 class CIMI::Model::MachineImage < CIMI::Model::Base
 
-  scalar :image_location
+  href :image_location
   text :image_data
 
   array :operations do

@@ -15,11 +15,20 @@
 
 class CIMI::Model::MachineConfiguration < CIMI::Model::Base
 
-  scalar :memory
+  struct :memory do
+    scalar :quantity
+    scalar :units
+  end
+
   text :cpu
 
-  array :disk do
-    scalar :capacity
+  array :disks do
+    struct :capacity do
+      scalar :format
+      scalar :quantity
+      scalar :attachment_point
+      scalar :units
+    end
   end
 
   array :operations do
