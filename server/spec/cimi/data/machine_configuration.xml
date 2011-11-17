@@ -7,7 +7,7 @@
   <cpu>2</cpu>
   <memory quantity="1" units="gigabyte"/>
   <disk>
-    <capacity quantity="1" units="terabyte" format="ext4" attachmentPoint="/"/>
+    <capacity quantity="1" units="terabyte"/>
   </disk>
   <operation rel="edit" href="http://cimi.example.org/machine_configurations/1/edit"/>
   <operation rel="delete" href="http://cimi.example.org/machine_configurations/1/delete"/>

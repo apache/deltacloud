@@ -24,11 +24,11 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
 
   array :disks do
     struct :capacity do
-      scalar :format
       scalar :quantity
-      scalar :attachment_point
       scalar :units
     end
+    scalar :format
+    scalar :attachment_point
   end
 
   array :operations do

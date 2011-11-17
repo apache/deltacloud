@@ -6,7 +6,7 @@
   "cpu": "2",
   "memory" : { "quantity": "1", "units": "gigabyte" },
   "disks" : [
-    { "capacity": { "quantity": "1", "units": "terabyte", "format": "ext4", "attachmentPoint": "/" } }
+    { "capacity": { "quantity": "1", "units": "terabyte" } }
   ],
   "properties": [ { "architectore": "i386" } ],
   "operations": [
