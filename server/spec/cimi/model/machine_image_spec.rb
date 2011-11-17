@@ -21,82 +21,16 @@ describe "MachineImage model" do
     @json = IO::read(File::join(DATA_DIR, "machine_image.json"))
   end
 
-  describe "XML" do
-    it "can be constructed" do
-      img = CIMI::Model::MachineImage.from_xml(@xml)
-      img.should_not be_nil
-      img.should serialize_to @xml, :fmt => :xml
-    end
-
-    it "should have default properties" do
-      img = CIMI::Model::MachineImage.from_xml(@xml)
-      img.uri.should == "http://cimi.example.org/machine_image/1"
-      img.name.should == "img1"
-      img.description.should == "Machine Image One"
-      img.created.should == "2011-11-14"
-    end
-
-    it "should have image location property" do
-      img = CIMI::Model::MachineImage.from_xml(@xml)
-      img.image_location.should be_an_instance_of Hash
-      img.image_location['href'].should == 'nfs://cimi.example.com/images/1.img'
-    end
-
-    it "should have edit and delete operations" do
-      img = CIMI::Model::MachineImage.from_xml(@xml)
-      img.operations.any? { |operation| operation.rel == 'edit' }.should be_true
-      img.operations.any? { |operation| operation.rel == 'delete' }.should be_true
-      img.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
-    end
-
-    it "should parse properties correctly in XML" do
-      img = CIMI::Model::MachineImage.from_xml(@xml)
-      img.property.any? { |p| p.name == 'status' }.should be_true
-      img.property.any? { |p| p.name == 'locked' }.should be_true
-      img.property.size.should == 2
-    end
-
-    it "should convert strings in keys to symbols when contructed from XML" do
-      imgl = CIMI::Model::MachineImage.from_xml(@xml)
-      imgl.should_not be_nil
-      imgl.attribute_values.keys.each { |key| key.should be_a_kind_of(Symbol) }
-    end
+  it "can be constructed from XML" do
+    conf = CIMI::Model::MachineImage.from_xml(@xml)
+    conf.should_not be_nil
+    should_serialize_from_xml! conf, @xml, @json
   end
 
-  describe 'JSON' do
-    it "can be constructed" do
-      img = CIMI::Model::MachineImage.from_json(@json)
-      img.should_not be_nil
-      img.should serialize_to @json, :fmt => :json
-    end
-
-    it "should have default properties" do
-      img = CIMI::Model::MachineImage.from_json(@json)
-      img.uri.should == "http://cimi.example.org/machine_images/1"
-      img.name.should == "img1"
-      img.description.should == "Machine Image One"
-      img.created.should == "2011-11-14"
-    end
-
-    it "should have image location property" do
-      img = CIMI::Model::MachineImage.from_json(@json)
-      img.image_location.should be_an_instance_of Hash
-      img.image_location['href'].should == 'nfs://cimi.example.com/images/1.img'
-    end
-
-    it "should have edit and delete operations" do
-      img = CIMI::Model::MachineImage.from_json(@json)
-      img.operations.any? { |operation| operation.rel == 'edit' }.should be_true
-      img.operations.any? { |operation| operation.rel == 'delete' }.should be_true
-      img.operations.each { |operation| operation.href.should =~ /^http:\/\/.*\/(#{operation.rel})$/ }
-    end
-
-    it "should parse properties correctly in XML" do
-      img = CIMI::Model::MachineImage.from_json(@json)
-      img.property.any? { |p| p.name == 'status' }.should be_true
-      img.property.any? { |p| p.name == 'locked' }.should be_true
-      img.property.size.should == 2
-    end
+  it "can be constructed from JSON" do
+    conf = CIMI::Model::MachineImage.from_json(@json)
+    conf.should_not be_nil
+    should_serialize_from_json! conf, @xml, @json
   end
 
 end
