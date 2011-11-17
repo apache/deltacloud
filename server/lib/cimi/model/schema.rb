@@ -61,8 +61,8 @@ class CIMI::Model::Schema
 
     def from_xml(xml, model)
       case @text
-        when :nested : model[@name] = xml[@xml_name].first["content"] if xml[@xml_name]
-        when :direct : model[@name] = xml["content"]
+        when :nested then model[@name] = xml[@xml_name].first["content"] if xml[@xml_name]
+        when :direct then model[@name] = xml["content"]
         else model[@name] = xml[@xml_name]
       end
     end
@@ -70,8 +70,8 @@ class CIMI::Model::Schema
     def to_xml(model, xml)
       return unless model[@name]
       case @text
-        when :nested : xml[@xml_name] = [{ "content" => model[@name] }]
-        when :direct : xml["content"] = model[@name]
+        when :nested then xml[@xml_name] = [{ "content" => model[@name] }]
+        when :direct then xml["content"] = model[@name]
         else xml[@xml_name] = model[@name]
       end
     end
