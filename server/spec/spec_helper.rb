@@ -90,6 +90,16 @@ class HashCmp
   end
 end
 
+def should_serialize_from_xml!(model, xml, json)
+  model.to_xml.should serialize_to xml, :fmt => :xml
+  model.to_json.should serialize_to json, :fmt => :json
+end
+
+def should_serialize_from_json!(model, xml, json)
+  model.to_xml.should serialize_to xml, :fmt => :xml
+  model.to_json.should serialize_to json, :fmt => :json
+end
+
 RSpec::Matchers.define :serialize_to do |exp, opts|
   match do |act|
     matcher(exp, act, opts[:fmt]).match?
