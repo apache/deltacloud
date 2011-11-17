@@ -51,7 +51,8 @@ class SBCDriver < Deltacloud::BaseDriver
   def realms(credentials, opts={})
     sbc_client = new_client(credentials)
     doc = sbc_client.list_locations
-    doc.xpath('ns2:DescribeLocationsResponse/Location').map { |loc| convert_location(loc) }
+    realms = doc.xpath('ns2:DescribeLocationsResponse/Location').map { |loc| convert_location(loc) }
+    realms = filter_on(realms, :id, opts)
   end
 
   #
