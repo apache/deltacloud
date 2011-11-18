@@ -389,12 +389,16 @@ module Deltacloud::Drivers::VSphere
     end
 
     def convert_realm(datastore)
-      Realm::new(
-        :id => datastore.name,
-        :name => datastore.name,
-        :limit => datastore.summary.freeSpace,
-        :state => datastore.summary.accessible ? 'AVAILABLE' : 'UNAVAILABLE'
-      )
+      if datastore.class.to_s == 'Folder'
+        datastore.childEntity.collect { |datastorenew| convert_realm(datastorenew) }
+      else
+        Realm::new(
+          :id => datastore.name,
+          :name => datastore.name,
+          :limit => datastore.summary.freeSpace,
+          :state => datastore.summary.accessible ? 'AVAILABLE' : 'UNAVAILABLE'
+        )
+      end
     end
 
     def convert_state(object, state)

@@ -32,7 +32,8 @@ module Deltacloud::Drivers::VSphere
         rootFolder = vsphere.serviceInstance.content.rootFolder
         vm = {}
         rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-          dc.datastoreFolder.childEntity.collect do |datastore|
+          dslist = list_datastores(dc.datastoreFolder)
+          dslist.each do |datastore|
             vm[:instance] = datastore.vm.find { |x| x.name == name }
             if vm[:instance]
               vm[:datastore] = datastore.name
@@ -63,6 +64,7 @@ module Deltacloud::Drivers::VSphere
         dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).select do |dc|
           dc.datastoreFolder.childEntity.find { |d| d.name == name }.nil? == false
         end.flatten.compact.first
+        dc = rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).first
         dc.hostFolder.childEntity.collect.first.resourcePool
       end
     end
@@ -77,8 +79,12 @@ module Deltacloud::Drivers::VSphere
       safely do
         rootFolder = vsphere.serviceInstance.content.rootFolder
         rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect do |dc|
-          dc.datastoreFolder.childEntity.find { |d| d.name == name }
-        end.flatten.compact.first
+          list_datastores(dc.datastoreFolder).each do |d|
+            if d.name == name
+              return d
+            end
+          end
+        end
       end
     end
 
@@ -90,7 +96,7 @@ module Deltacloud::Drivers::VSphere
       vms = []
       rootFolder = vsphere.serviceInstance.content.rootFolder
       rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-        dc.datastoreFolder.childEntity.each do |datastore|
+        list_datastores(dc.datastoreFolder).each do  |datastore|
           vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } unless vm.nil? }
           stored_tasks(datastore, vsphere) do |task|
             if task.info.entity.class == RbVmomi::VIM::VirtualMachine
@@ -100,6 +106,21 @@ module Deltacloud::Drivers::VSphere
         end
       end
       vms.flatten.compact
+    end
+
+    # This helper will traverse across all datacenters and folders and gather
+    # all datastores available on vSphere
+    #
+    def list_datastores(df)
+      datastores = []
+      df.childEntity.each do |object|
+        if object.class.to_s == 'Folder'
+          datastores += list_datastores(object)
+        else
+          datastores << object
+        end
+      end
+      datastores
     end
 
     # Map given instance to task. Task name is used as a filename.
