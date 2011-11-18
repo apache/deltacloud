@@ -1,0 +1,12 @@
+<Volume xmlns="http://www.dmtf.org/cimi">
+  <uri>http://cimi.example.org/volumes/1</uri>
+  <name>volume1</name>
+  <description>Volume One</description>
+  <created>2011-11-17</created>
+  <capacity quantity="10" units="gigabyte"/>
+  <bootable>false</bootable>
+  <supportsSnapshots>false</supportsSnapshots>
+  <guestInterface>NFS</guestInterface>
+  <operation rel="edit" href="http://cimi.example.org/volumes/1/edit"/>
+  <operation rel="delete" href="http://cimi.example.org/volumes/1/delete"/>
+</Volume>

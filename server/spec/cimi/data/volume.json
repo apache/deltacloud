@@ -1,0 +1,16 @@
+{
+  "uri": "http://cimi.example.org/volumes/1",
+  "name": "volume1",
+  "description": "Volume One",
+  "created": "2011-11-17",
+  "capacity": { "quantity": "10", "units": "gigabyte" },
+  "bootable": "false",
+  "supportsSnapshots": "false",
+  "guestInterface": "NFS",
+  "operations": [
+    { "rel": "edit",
+      "href": "http://cimi.example.org/volumes/1/edit" },
+    { "rel": "delete",
+      "href": "http://cimi.example.org/volumes/1/delete" }
+  ]
+}
