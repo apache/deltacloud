@@ -22,15 +22,15 @@ describe "MachineImage model" do
   end
 
   it "can be constructed from XML" do
-    conf = CIMI::Model::MachineImage.from_xml(@xml)
-    conf.should_not be_nil
-    should_serialize_from_xml! conf, @xml, @json
+    img = CIMI::Model::MachineImage.from_xml(@xml)
+    img.should_not be_nil
+    should_serialize_from_xml! img, @xml, @json
   end
 
   it "can be constructed from JSON" do
-    conf = CIMI::Model::MachineImage.from_json(@json)
-    conf.should_not be_nil
-    should_serialize_from_json! conf, @xml, @json
+    img = CIMI::Model::MachineImage.from_json(@json)
+    img.should_not be_nil
+    should_serialize_from_json! img, @xml, @json
   end
 
 end
