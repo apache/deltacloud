@@ -4,7 +4,7 @@
   "description": "Machine Image One",
   "created": "2011-11-14",
   "imageLocation": { "href": "nfs://cimi.example.com/images/1.img" },
-  "properties": [ { "status": "build"}, { "locked": "true" } ],
+  "properties": { "status": "BUILD", "locked": "true" },
   "operations": [
   { "rel": "edit",
     "href": "http://cimi.example.org/machine_images/1/edit" },

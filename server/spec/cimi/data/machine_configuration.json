@@ -8,7 +8,7 @@
   "disks" : [
     { "capacity": { "quantity": "1", "units": "terabyte" } }
   ],
-  "properties": [ { "architectore": "i386" } ],
+  "properties": { "architecture": "i386" },
   "operations": [
     { "rel": "edit",
       "href": "http://cimi.example.org/machine_configurations/1/edit" },
