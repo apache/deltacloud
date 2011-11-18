@@ -34,6 +34,7 @@ class String
 
   def pluralize
     return self + 'es' if self =~ /ess$/
+    return self[0, self.length-1] + "ies" if self =~ /ty$/
     self + "s"
   end
 
