@@ -95,6 +95,15 @@ RSpec::Core::RakeTask.new do |t|
   t.rspec_opts = [ "--format", "nested", "--color", "-r ./spec/spec_helper.rb"]
 end
 
+Dir['spec/**/*_spec.rb'].each do |file|
+  RSpec::Core::RakeTask.new("spec:#{File.basename(file).gsub(/_spec\.rb$/, '')}") do |t|
+    t.pattern = FileList[file]
+    t.rspec_opts = [ "--format", "nested", "--color", "-r ./spec/spec_helper.rb"]
+  end
+end
+
+
+
 begin
   require 'yard'
   YARD::Rake::YardocTask.new do |t|
