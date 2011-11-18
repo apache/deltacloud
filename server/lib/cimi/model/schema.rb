@@ -170,6 +170,35 @@ class CIMI::Model::Schema
     end
   end
 
+  class Hash < Attribute
+
+    def initialize(name, opts = {}, &block)
+      opts[:json_name] = name.to_s.pluralize unless opts[:json_name]
+      super(name, opts)
+      @struct = Struct.new(name, opts, &block)
+    end
+
+    def from_xml(xml, model)
+      model[name] = (xml[xml_name] || []).map { |elt| @struct.convert_from_xml(elt) }
+    end
+
+    def from_json(json, model)
+      model[name] = (json[json_name] || {}).inject([]) do |result,item|
+        result << @struct.convert_from_json({ 'name' => item[0], 'value' => item[1] })
+      end
+    end
+
+    def to_xml(model, xml)
+      ary = model[name].map { |elt| @struct.convert_to_xml(elt) }
+      xml[xml_name] = ary unless ary.empty?
+    end
+
+    def to_json(model, json)
+      ary = model[name].map { |elt| @struct.convert_to_json(elt) }
+      json[json_name] = ary.inject({}) { |result, item| result[item['name']] = item['value']; result } unless ary.empty?
+    end
+  end
+
   #
   # The actual Schema class
   #
@@ -230,6 +259,10 @@ class CIMI::Model::Schema
 
     def struct(name, opts={}, &block)
       add_attributes!([name, opts], Struct, &block)
+    end
+
+    def hash(name, opts={}, &block)
+      add_attributes!([name, opts], Hash, &block)
     end
   end
 
