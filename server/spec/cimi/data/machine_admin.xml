@@ -1,0 +1,10 @@
+<MachineAdmin xmlns="http://www.dmtf.org/cimi">
+  <uri>http://cimi.example.org/machine_admins/1</uri>
+  <name>credentials1</name>
+  <description>Machine Admin One</description>
+  <created>2011-11-16</created>
+  <username>mockuser</username>
+  <password>mockpassword</password>
+  <operation rel="edit" href="http://cimi.example.org/machine_admins/1/edit"/>
+  <operation rel="delete" href="http://cimi.example.org/machine_admins/1/delete"/>
+</MachineAdmin>

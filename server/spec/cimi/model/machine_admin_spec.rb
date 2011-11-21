@@ -14,16 +14,25 @@
 # under the License.
 #
 
-# Declare namespace for CIMI model
-#
-module CIMI
-  module Model; end
-end
+describe "MachineAdmin model" do
 
-require 'cimi/model/schema'
-require 'cimi/model/base'
-require 'cimi/model/machine_template'
-require 'cimi/model/machine_image'
-require 'cimi/model/machine_configuration'
-require 'cimi/model/volume'
-require 'cimi/model/machine_admin'
+  before(:all) do
+    @xml = IO::read(File::join(DATA_DIR, "machine_admin.xml"))
+    @json = IO::read(File::join(DATA_DIR, "machine_admin.json"))
+  end
+
+  it "can be constructed from XML" do
+    conf = CIMI::Model::MachineAdmin.from_xml(@xml)
+    conf.should_not be_nil
+    should_serialize_from_xml! conf, @xml, @json
+  end
+
+  it "can be constructed from JSON" do
+    conf = CIMI::Model::MachineAdmin.from_json(@json)
+    conf.should_not be_nil
+    should_serialize_from_json! conf, @xml, @json
+  end
+
+
+
+end

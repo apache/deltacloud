@@ -1,0 +1,14 @@
+{
+  "uri": "http://cimi.example.org/machine_admins/1",
+  "name": "credentials1",
+  "description": "Machine Admin One",
+  "created": "2011-11-16",
+  "username": "mockuser",
+  "password": "mockpassword",
+  "operations": [
+  { "rel": "edit",
+    "href": "http://cimi.example.org/machine_admins/1/edit" },
+  { "rel": "delete",
+    "href": "http://cimi.example.org/machine_admins/1/delete" }
+  ]
+}
