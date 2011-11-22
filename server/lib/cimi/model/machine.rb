@@ -12,19 +12,46 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
-#
 
-# Declare namespace for CIMI model
-#
-module CIMI
-  module Model; end
+class CIMI::Model::Machine < CIMI::Model::Base
+
+  text :state
+  text :cpu
+
+  struct :memory do
+    scalar :quantity
+    scalar :units
+  end
+
+  href :event_log
+
+  array :disks do
+    struct :capacity do
+      scalar :quantity
+      scalar :units
+    end
+    scalar :format
+    scalar :attachment_point
+  end
+
+  array :volumes do
+    scalar :href
+    scalar :protocol
+    scalar :attachment_point
+  end
+
+  array :network_interfaces do
+    href :vsp
+    text :hostname, :mac_address, :state, :protocol, :allocation
+    text :address, :default_gateway, :dns, :max_transmission_unit
+  end
+
+  array :meters do
+    scalar :href
+  end
+
+  array :operations do
+    scalar :rel, :href
+  end
+
 end
-
-require 'cimi/model/schema'
-require 'cimi/model/base'
-require 'cimi/model/machine_template'
-require 'cimi/model/machine_image'
-require 'cimi/model/machine_configuration'
-require 'cimi/model/machine'
-require 'cimi/model/volume'
-require 'cimi/model/machine_admin'

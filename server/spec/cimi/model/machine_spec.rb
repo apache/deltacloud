@@ -13,18 +13,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
+describe "Machine model" do
 
-# Declare namespace for CIMI model
-#
-module CIMI
-  module Model; end
+  before(:all) do
+    @xml = IO::read(File::join(DATA_DIR, "machine.xml"))
+    @json = IO::read(File::join(DATA_DIR, "machine.json"))
+  end
+
+  it "can be constructed from XML" do
+    machine = CIMI::Model::Machine.from_xml(@xml)
+    machine.should_not be_nil
+    should_serialize_from_xml! machine, @xml, @json
+  end
+
+  it "can be constructed from JSON" do
+    machine = CIMI::Model::Machine.from_json(@json)
+    machine.should_not be_nil
+    should_serialize_from_json! machine, @xml, @json
+  end
+
 end
-
-require 'cimi/model/schema'
-require 'cimi/model/base'
-require 'cimi/model/machine_template'
-require 'cimi/model/machine_image'
-require 'cimi/model/machine_configuration'
-require 'cimi/model/machine'
-require 'cimi/model/volume'
-require 'cimi/model/machine_admin'

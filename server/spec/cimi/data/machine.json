@@ -1,0 +1,43 @@
+{ "uri": "http://cimi.example.org/machines/1",
+  "name": "machine1",
+  "description": "Machine one description",
+  "created": "2011-11-21",
+  "properties": { "owner_id": "mockuser" },
+  "state": "STARTED",
+  "cpu": "4",
+  "memory": { "quantity": "1", "units": "gibibyte" },
+  "disks" : [
+    { "capacity": { "quantity": "1", "units": "terabyte" } }
+  ],
+  "volumes": [{
+    "href": "http://cimi.example.org/volumes/1",
+    "attachmentPoint": "/dev/sda",
+    "protocol": "nfs"
+  }],
+  "networkInterfaces": [{
+    "vsp": { "href": "http://cimi.example.org/vsps/2" },
+    "hostname": "machine1.cimi.example.org",
+    "macAddress": "00:11:22:33:44:56",
+    "state": "UP",
+    "protocol": "TCP",
+    "allocation": "static",
+    "address": "192.168.0.18",
+    "defaultGateway": "192.168.0.1",
+    "dns": "192.168.0.1",
+    "maxTransmissionUnit": "1500"
+  }],
+  "meters": [
+    { "href": "http://cimi.example.org/meters/1" }
+  ],
+  "eventLog": { "href": "http://cimi.example.org/event_logs/1" },
+  "operations": [
+    { "rel": "edit",
+      "href": "http://cimi.example.org/machines/1/edit" },
+    { "rel": "delete",
+      "href": "http://cimi.example.org/machines/1/delete" },
+    { "rel": "http://www.dmtf.org/cimi/action/stop",
+      "href": "http://cimi.example.org/machines/1/stop" },
+    { "rel": "http://www.dmtf.org/cimi/action/restart",
+      "href": "http://cimi.example.org/machines/1/restart" }
+  ]
+}
