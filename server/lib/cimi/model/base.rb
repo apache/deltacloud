@@ -140,7 +140,7 @@ class CIMI::Model::Base
   end
 
   def self.to_json(model)
-    @schema.to_json(model)
+    JSON::unparse(@schema.to_json(model))
   end
 
   def self.to_xml(model)
