@@ -17,19 +17,23 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
   href :machine_config
   href :machine_image
   href :machine_admin
+
   array :volumes do
     scalar :href
     scalar :protocol
     scalar :attachment_point
   end
+
   array :volume_templates do
     scalar :href, :attachment_point, :protocol
   end
+
   array :network_interfaces do
     href :vsp
     text :hostname, :mac_address, :state, :protocol, :allocation
     text :address, :default_gateway, :dns, :max_transmission_unit
   end
+
   array :operations do
     scalar :rel, :href
   end
