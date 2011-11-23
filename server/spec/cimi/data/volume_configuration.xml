@@ -1,0 +1,12 @@
+<VolumeConfiguration xmlns="http://www.dmtf.org/cimi">
+  <uri>http://cimi.example.org/volume_configurations/1</uri>
+  <name>volume_config_1</name>
+  <description>Volume Configuration One</description>
+  <created>2011-11-21</created>
+  <capacity quantity="10" units="gigabyte"/>
+  <supportsSnapshots>false</supportsSnapshots>
+  <guestInterface>NFS</guestInterface>
+  <format>ext3</format>
+  <operation rel="edit" href="http://cimi.example.org/volume_configurations/1/edit"/>
+  <operation rel="delete" href="http://cimi.example.org/volume_configurations/1/delete"/>
+</VolumeConfiguration>

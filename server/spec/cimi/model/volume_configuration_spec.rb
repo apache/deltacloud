@@ -1,3 +1,4 @@
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,18 +15,23 @@
 # under the License.
 #
 
-# Declare namespace for CIMI model
-#
-module CIMI
-  module Model; end
-end
+describe "Volume Configuration model" do
 
-require 'cimi/model/schema'
-require 'cimi/model/base'
-require 'cimi/model/machine_template'
-require 'cimi/model/machine_image'
-require 'cimi/model/machine_configuration'
-require 'cimi/model/machine'
-require 'cimi/model/volume'
-require 'cimi/model/machine_admin'
-require 'cimi/model/volume_configuration'
+  before(:all) do
+    @xml = IO::read(File::join(DATA_DIR, "volume_configuration.xml"))
+    @json = IO::read(File::join(DATA_DIR, "volume_configuration.json"))
+  end
+
+  it "can be constructed from XML" do
+    conf = CIMI::Model::VolumeConfiguration.from_xml(@xml)
+    conf.should_not be_nil
+    should_serialize_from_xml! conf, @xml, @json
+  end
+
+  it "can be constructed from JSON" do
+    conf = CIMI::Model::VolumeConfiguration.from_json(@json)
+    conf.should_not be_nil
+    should_serialize_from_json! conf, @xml, @json
+  end
+
+end

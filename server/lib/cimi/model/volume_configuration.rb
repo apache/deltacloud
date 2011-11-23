@@ -12,20 +12,13 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
-#
 
-# Declare namespace for CIMI model
-#
-module CIMI
-  module Model; end
+class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
+  text :format
+  struct :capacity do
+    scalar :quantity
+    scalar :units
+  end
+  text :supports_snapshots
+  text :guest_interface
 end
-
-require 'cimi/model/schema'
-require 'cimi/model/base'
-require 'cimi/model/machine_template'
-require 'cimi/model/machine_image'
-require 'cimi/model/machine_configuration'
-require 'cimi/model/machine'
-require 'cimi/model/volume'
-require 'cimi/model/machine_admin'
-require 'cimi/model/volume_configuration'
