@@ -77,20 +77,35 @@ class CIMI::Model::Base
   # attribute, we also define a getter and a setter to access/change the
   # value for that attribute
   class << self
-    def schema
+    def base_schema
       @schema ||= CIMI::Model::Schema.new
     end
 
-    def schema=(s)
-      @schema = s
+    def clone_base_schema
+      @schema_duped = true
+      @schema = Marshal::load(Marshal.dump(superclass.base_schema))
     end
 
+    def base_schema_cloned?
+      @schema_duped
+    end
+
+    private :'clone_base_schema', :'base_schema_cloned?'
+
     def inherited(child)
-      child.schema = self.schema.dup
+      child.instance_eval do
+        def schema
+          base_schema_cloned? ? @schema : clone_base_schema
+        end
+      end
     end
 
     def add_attributes!(names, attr_klass, &block)
-      schema.add_attributes!(names, attr_klass, &block)
+      if self.respond_to? :schema
+        schema.add_attributes!(names, attr_klass, &block)
+      else
+        base_schema.add_attributes!(names, attr_klass, &block)
+      end
       names.each do |name|
         define_method(name) { @attribute_values[name] }
         define_method(:"#{name}=") { |newval| @attribute_values[name] = newval }
