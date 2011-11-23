@@ -1,0 +1,14 @@
+{
+  "uri": "http://cimi.example.org/volume_images/1",
+  "name": "volume_image_1",
+  "description": "Volume Image One",
+  "created": "2011-11-21",
+  "bootable": "false",
+  "imageLocation":{ "href": "nfs://cimi.example.com/volume_images/vol_image_1.img" },
+  "operations": [
+    { "rel": "edit",
+      "href": "http://cimi.example.org/volume_images/1/edit" },
+    { "rel": "delete",
+      "href": "http://cimi.example.org/volume_images/1/delete" }
+  ]
+}
