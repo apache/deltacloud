@@ -1,0 +1,10 @@
+<VolumeTemplate xmlns="http://www.dmtf.org/cimi">
+  <uri>http://cimi.example.org/volume_templates/1</uri>
+  <name>volume_template_1</name>
+  <description>Volume Template One</description>
+  <created>2011-11-21</created>
+  <volumeImage href="http://cimi.example.com/volume_images/1"/>
+  <volumeConfig href="http://cimi.example.com/volume_configurations/1"/>
+  <operation rel="edit" href="http://cimi.example.org/volume_templates/1/edit"/>
+  <operation rel="delete" href="http://cimi.example.org/volume_templates/1/delete"/>
+</VolumeTemplate>

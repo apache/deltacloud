@@ -1,0 +1,14 @@
+{
+  "uri": "http://cimi.example.org/volume_templates/1",
+  "name": "volume_template_1",
+  "description": "Volume Template One",
+  "created": "2011-11-21",
+  "volumeConfig":{ "href": "http://cimi.example.com/volume_configurations/1" },
+  "volumeImage":{ "href": "http://cimi.example.com/volume_images/1" },
+  "operations": [
+    { "rel": "edit",
+      "href": "http://cimi.example.org/volume_templates/1/edit" },
+    { "rel": "delete",
+      "href": "http://cimi.example.org/volume_templates/1/delete" }
+  ]
+}
