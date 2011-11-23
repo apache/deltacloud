@@ -28,4 +28,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
     scalar :ref
   end
   scalar :eventlog
+  array :operations do
+    scalar :rel, :href
+  end
 end
