@@ -20,6 +20,11 @@ describe "Machine model" do
     @json = IO::read(File::join(DATA_DIR, "machine.json"))
   end
 
+  it "should hold just machine schema" do
+    CIMI::Model::Machine.schema.attribute_names.should_not include(:image_location)
+    CIMI::Model::Machine.schema.attribute_names.should include(:meters)
+  end
+
   it "can be constructed from XML" do
     machine = CIMI::Model::Machine.from_xml(@xml)
     machine.should_not be_nil
