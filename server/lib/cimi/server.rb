@@ -114,26 +114,10 @@ global_collection :machine_configurations do
     param :id, :string, :required
 
     control do
-<<<<<<< HEAD
-      @profile =  driver.hardware_profile(credentials, params[:id])
-      if @profile
-        #setup the default values for a machine configuration
-        resource_default = get_resource_default "machine_configuration"
-        #get the actual values from profile
-        resource_value = { "name" => @profile.name,"uri" => @profile.name,
-              "href" => machine_configuration_url(@profile.name) }
-        #mixin actual values get from profile
-        @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "machine_configurations/show", "MachineConfiguration",
-          {"property" => "properties", "disk" => "disks", "operation" => "operations"}
-      else
-        report_error(404)
-=======
       machine_conf = MachineConfiguration.find(params[:id], self)
       respond_to do |format|
         format.xml { machine_conf.to_xml }
         format.json { machine_conf.to_json }
->>>>>>> 814f2ce... CIMI: Moved drivers methods into CIMI model itself
       end
     end
 
