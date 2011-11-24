@@ -19,7 +19,7 @@ require 'cimi/helpers/cmwgapp_helper'
 
 set :version, '0.1.0'
 
-include Deltacloud::Drivers
+include CIMI::Drivers
 set :drivers, Proc.new { driver_config }
 
 STOREROOT = File.join($top_srcdir, 'lib', 'cimi', 'data')
@@ -108,9 +108,12 @@ global_collection :machine_configurations do
   end
 
   operation :show do
-    description "Show specific machine configuration."
-    with_capability :hardware_profile
-    param :id,          :string,    :required
+
+    description "The Machine Configuration entity represents the set of configuration values "+
+      "that define the (virtual) hardware resources of a to-be-realized Machine Instance.."
+
+    param :id, :string, :required
+
     control do
       @profile =  driver.hardware_profile(credentials, params[:id])
       if @profile
@@ -127,6 +130,7 @@ global_collection :machine_configurations do
         report_error(404)
       end
     end
+
   end
 end
 
