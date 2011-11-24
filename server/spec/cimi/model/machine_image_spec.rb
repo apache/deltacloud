@@ -21,16 +21,9 @@ describe "MachineImage model" do
     @json = IO::read(File::join(DATA_DIR, "machine_image.json"))
   end
 
-  it "can be constructed from XML" do
-    img = CIMI::Model::MachineImage.from_xml(@xml)
-    img.should_not be_nil
-    should_serialize_from_xml! img, @xml, @json
+  it "can be constructed from XML and JSON" do
+    should_properly_serialize_model CIMI::Model::MachineImage, @xml, @json
   end
 
-  it "can be constructed from JSON" do
-    img = CIMI::Model::MachineImage.from_json(@json)
-    img.should_not be_nil
-    should_serialize_from_json! img, @xml, @json
-  end
 
 end

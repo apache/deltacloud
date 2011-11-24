@@ -21,18 +21,8 @@ describe "MachineAdmin model" do
     @json = IO::read(File::join(DATA_DIR, "machine_admin.json"))
   end
 
-  it "can be constructed from XML" do
-    conf = CIMI::Model::MachineAdmin.from_xml(@xml)
-    conf.should_not be_nil
-    should_serialize_from_xml! conf, @xml, @json
+  it "can be constructed from XML and JSON" do
+    should_properly_serialize_model CIMI::Model::MachineAdmin, @xml, @json
   end
-
-  it "can be constructed from JSON" do
-    conf = CIMI::Model::MachineAdmin.from_json(@json)
-    conf.should_not be_nil
-    should_serialize_from_json! conf, @xml, @json
-  end
-
-
 
 end

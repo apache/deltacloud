@@ -90,14 +90,13 @@ class HashCmp
   end
 end
 
-def should_serialize_from_xml!(model, xml, json)
-  model.to_xml.should serialize_to xml, :fmt => :xml
-  model.to_json.should serialize_to json, :fmt => :json
-end
-
-def should_serialize_from_json!(model, xml, json)
-  model.to_xml.should serialize_to xml, :fmt => :xml
-  model.to_json.should serialize_to json, :fmt => :json
+def should_properly_serialize_model(model_class, xml, json)
+  # Roundtrip in same format
+  model_class.from_xml(xml).should serialize_to xml, :fmt => :xml
+  model_class.from_json(json).should serialize_to json, :fmt => :json
+  # Roundtrip crossing format
+  model_class.from_xml(xml).should serialize_to json, :fmt => :json
+  model_class.from_json(json).should serialize_to xml, :fmt => :xml
 end
 
 RSpec::Matchers.define :serialize_to do |exp, opts|
