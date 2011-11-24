@@ -21,4 +21,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
   end
   text :supports_snapshots
   text :guest_interface
+  array :operations do
+    scalar :rel, :href
+  end
 end

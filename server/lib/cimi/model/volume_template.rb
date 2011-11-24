@@ -16,4 +16,7 @@
 class CIMI::Model::VolumeTemplate < CIMI::Model::Base
   href :volume_config
   href :volume_image
+  array :operations do
+    scalar :rel, :href
+  end
 end

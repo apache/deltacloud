@@ -17,4 +17,7 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   href :image_location
   text :image_data
   text :bootable
+  array :operations do
+    scalar :rel, :href
+  end
 end
