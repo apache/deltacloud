@@ -68,6 +68,7 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
+      return unless model
       return unless model[@name]
       case @text
         when :nested then xml[@xml_name] = [{ "content" => model[@name] }]
@@ -160,12 +161,12 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
-      ary = model[name].map { |elt| @struct.convert_to_xml(elt) }
+      ary = (model[name] || []).map { |elt| @struct.convert_to_xml(elt) }
       xml[xml_name] = ary unless ary.empty?
     end
 
     def to_json(model, json)
-      ary = model[name].map { |elt| @struct.convert_to_json(elt) }
+      ary = (model[name] || []).map { |elt| @struct.convert_to_json(elt) }
       json[json_name] = ary unless ary.empty?
     end
   end
@@ -189,12 +190,12 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
-      ary = model[name].map { |elt| @struct.convert_to_xml(elt) }
+      ary = (model[name] || []).map { |elt| @struct.convert_to_xml(elt) }
       xml[xml_name] = ary unless ary.empty?
     end
 
     def to_json(model, json)
-      ary = model[name].map { |elt| @struct.convert_to_json(elt) }
+      ary = (model[name] || []).map { |elt| @struct.convert_to_json(elt) }
       json[json_name] = ary.inject({}) { |result, item| result[item['name']] = item['value']; result } unless ary.empty?
     end
   end
