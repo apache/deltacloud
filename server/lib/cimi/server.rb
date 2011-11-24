@@ -16,10 +16,14 @@
 
 require 'cimi/helpers/dmtfdep'
 require 'cimi/helpers/cmwgapp_helper'
+require 'cimi/helpers/cimi_helper'
+require 'deltacloud/core_ext'
+require 'cimi/model'
 
 set :version, '0.1.0'
 
-include CIMI::Drivers
+include Deltacloud::Drivers
+include CIMI::Model
 set :drivers, Proc.new { driver_config }
 
 STOREROOT = File.join($top_srcdir, 'lib', 'cimi', 'data')
@@ -94,16 +98,11 @@ global_collection :machine_configurations do
   operation :index do
     description "List all machine configurations"
     control do
-      profiles = driver.hardware_profiles(credentials, nil)
-      @dmtf_col_items = []
-      if profiles
-        profiles.map do |profile|
-          new_item = { "name" => profile.name,
-            "href" => machine_configuration_url(profile.name) }
-          @dmtf_col_items.insert 0,  new_item
-        end
+      machine_configs = MachineConfiguration.all(self)
+      respond_to do |format|
+        format.xml { machine_configs.to_xml_cimi_collection(self) }
+        format.json { machine_configs.to_json_cimi_collection(self) }
       end
-      respond_to_collection "machine_configuration.col.xml"
     end
   end
 
@@ -115,6 +114,7 @@ global_collection :machine_configurations do
     param :id, :string, :required
 
     control do
+<<<<<<< HEAD
       @profile =  driver.hardware_profile(credentials, params[:id])
       if @profile
         #setup the default values for a machine configuration
@@ -128,6 +128,12 @@ global_collection :machine_configurations do
           {"property" => "properties", "disk" => "disks", "operation" => "operations"}
       else
         report_error(404)
+=======
+      machine_conf = MachineConfiguration.find(params[:id], self)
+      respond_to do |format|
+        format.xml { machine_conf.to_xml }
+        format.json { machine_conf.to_json }
+>>>>>>> 814f2ce... CIMI: Moved drivers methods into CIMI model itself
       end
     end
 
