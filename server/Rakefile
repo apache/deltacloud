@@ -50,6 +50,12 @@ begin
       end
     end
   end
+  namespace :cimi do
+    Cucumber::Rake::Task.new(:machines) do |t|
+      t.cucumber_opts = "tests/cimi/features/machines.feature --format pretty"
+      t.rcov = false
+    end
+  end
 rescue LoadError
 end
 
