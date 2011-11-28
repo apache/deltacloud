@@ -68,13 +68,11 @@ module RHEVM
 
     def vm_action(id, action, headers={})
       headers.merge!(auth_header)
-      headers.merge!({
-        :content_type => 'application/xml',
-        :accept => 'application/xml',
-      })
+      headers.merge!({:accept => 'application/xml'})
       if action==:delete
         RHEVM::client(@api_entrypoint)["/vms/%s" % id].delete(headers)
       else
+        headers.merge!({ :content_type => 'application/xml' })
         begin
           client_response = RHEVM::client(@api_entrypoint)["/vms/%s/%s" % [id, action]].post('<action/>', headers)
         rescue
