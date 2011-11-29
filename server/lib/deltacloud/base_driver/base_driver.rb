@@ -22,6 +22,10 @@ module Deltacloud
 
     include ExceptionHandler
 
+    def name
+      self.class.name.split('::').last.gsub('Driver', '').downcase
+    end
+
     def self.exceptions(&block)
       ExceptionHandler::exceptions(&block)
     end
