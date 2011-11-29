@@ -198,44 +198,27 @@ global_collection :machines do
 end
 
 global_collection :volumes do
-  description 'List all volumes'
+  description "Volume represents storage at either the block or file-system level. Volumes can be attached to Machines. Once attached, Volumes can be accessed by processes on that Machine"
 
   operation :index do
     description "List all volumes"
     control do
-      instances = driver.send(:storage_volumes, credentials, {})
-      @dmtf_col_items = []
-      if instances
-        instances.map do |instance|
-          new_item = { "name" => instance.id,
-            "href" => volume_url(instance.id) }
-          @dmtf_col_items.insert 0,  new_item
-        end
+      volumes = Volume.all(self)
+      respond_to do |format|
+        format.xml { volumes.to_xml_cimi_collection(self) }
+        format.json { volumes.to_json_cimi_collection(self) }
       end
-      respond_to_collection "volume.col.xml"
     end
   end
 
   operation :show do
-    description "Show specific machine."
-    with_capability :storage_volume
-    param :id,          :string,    :required
+    description "Show specific Volume."
+    param :id, :string, :required
     control do
-      @volume = driver.send(:storage_volume, credentials, { :id => params[:id]} )
-      if @volume
-        #setup the default values for a machine imageion
-        resource_default = get_resource_default "volume"
-        #get the actual values from image
-        resource_value = { "name" => @volume.id,
-          "status" => @volume.state, "uri" => @volume.id,
-          "href" => volume_url(@volume.id),
-          "capacity" => { "quantity" => @volume.capacity, "units" => "gigabyte"} }
-        #mixin actual values get from the specific image
-        @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "volumes/show", "Volume",
-          {"property" => "properties", "operation" => "operations"}
-      else
-        report_error(404)
+      volume = Volume.find(params[:id], self)
+      respond_to do |format|
+        format.xml  { volume.to_xml  }
+        format.json { volume.to_json }
       end
     end
   end
