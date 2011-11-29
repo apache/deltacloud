@@ -63,8 +63,25 @@ class CIMI::Model::Machine < CIMI::Model::Base
       instances.map { |instance| from_instance(instance, _self) }.compact
     else
       instance = _self.driver.instance(_self.credentials, :id => id)
+      raise CIMI::Model::NotFound unless instance
       from_instance(instance, _self)
     end
+  end
+
+  def self.create_from_json(body, _self)
+    json = JSON.parse(body)
+    hardware_profile_id = xml['MachineTemplate']['MachineConfig']["href"].split('/').last
+    image_id = xml['MachineTemplate']['MachineImage']["href"].split('/').last
+    instance = _self.create_instance(_self.credentials, image_id, { :hwp_id => hardware_profile_id })
+    from_instance(instance, _self)
+  end
+
+  def self.create_from_xml(body, _self)
+    xml = XmlSimple.xml_in(body)
+    hardware_profile_id = xml['MachineTemplate'][0]['MachineConfig'][0]["href"].split('/').last
+    image_id = xml['MachineTemplate'][0]['MachineImage'][0]["href"].split('/').last
+    instance = _self.driver.create_instance(_self.credentials, image_id, { :hwp_id => hardware_profile_id })
+    from_instance(instance, _self)
   end
 
   def perform(action, _self, &block)
@@ -77,6 +94,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
     rescue => e
       block.callback :failure, e.message
     end
+  end
+
+  def self.delete!(id, _self)
+    _self.driver.destroy_instance(_self.credentials, id)
   end
 
   private

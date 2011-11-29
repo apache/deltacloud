@@ -180,23 +180,28 @@ global_collection :machines do
     end
   end
 
-  operation :delete, :method => :post, :member => true do
+  operation :create do
+    description "Create a new Machine entity."
+    control do
+      if request.content_type.end_with?("+json")
+        new_machine = Machine.create_from_json(request.body.read, self)
+      else
+        new_machine = Machine.create_from_xml(request.body.read, self)
+      end
+      status 201 # Created
+      respond_to do |format|
+        format.json { new_machine.to_json }
+        format.xml { new_machine.to_xml }
+      end
+    end
+  end
+
+  operation :delete, :method => :delete, :member => true do
     description "Reboot specific machine."
     param :id,          :string,    :required
     control do
-      machine = Machine.find(params[:id], self)
-      machine.perform :destroy do |operation|
-        operation.body = request.body.read
-        operation.content_type = params[:content_type]
-        operation.on :success do
-          # We *should* return 202 - Accepted because the 'reboot' operation will not be processed
-          # immediately
-          no_content_with_status 202
-        end
-        operation.on :failure do
-          # error...
-        end
-      end
+      Machine.delete!(params[:id], self)
+      no_content_with_status(200)
     end
   end
 
