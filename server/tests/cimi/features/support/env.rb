@@ -16,6 +16,14 @@ def last_xml_response
   Nokogiri::XML(last_response.body)
 end
 
+def new_machine
+  @@new_machine
+end
+
+def set_new_machine(machine)
+  @@new_machine = machine
+end
+
 class String
 
   def to_class_name
