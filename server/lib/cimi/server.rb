@@ -224,3 +224,31 @@ global_collection :volumes do
   end
 
 end
+
+global_collection :volume_configurations do
+  description "The Volume Configuration entity represents the set of configuration values needed to create a Volume with certain characteristics. Volume Configurations are created by Providers and MAY, at the Providers discretion, be created by Consumers"
+
+  operation :index do
+    description "Get list all VolumeConfigurations"
+    control do
+      volume_configs = VolumeConfiguration.all(self)
+      respond_to do |format|
+        format.xml { volume_configs.to_xml_cimi_collection(self) }
+        format.json { volume_configs.to_json_cimi_collection(self) }
+      end
+    end
+  end
+
+  operation :show do
+    description "Get a specific VolumeConfiguration"
+    param :id, :required, :string
+    control do
+      volume_config = VolumeConfiguration.find(params[:id], self)
+      respond_to do |format|
+        format.xml { volume_config.to_xml }
+        format.json { volume_config.json }
+      end
+    end
+  end
+
+end
