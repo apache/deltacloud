@@ -20,4 +20,29 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   array :operations do
     scalar :rel, :href
   end
+
+  def self.find(id, context)
+    storage_snapshots = []
+    opts = ( id==:all  ) ? {}  : { :id=>id }
+    storage_snapshots = self.driver.storage_snapshots(context.credentials, opts)
+    storage_snapshots.collect!{ |snapshot| from_storage_snapshot(snapshot, context) }
+    return storage_snapshots.first unless storage_snapshots.length > 1
+    return storage_snapshots
+  end
+
+  def self.all(context); find(:all, context); end
+
+  private
+
+  def self.from_storage_snapshot(snapshot, context)
+    self.new( {
+               :name => snapshot.id,
+               :description => snapshot.id,
+               :created => snapshot.created,
+               :uri => context.volume_image_url(snapshot.id),
+               :image_location => {:href=>context.volume_url(snapshot.storage_volume_id)},
+               :bootable => "false"  #FIXME
+            } )
+  end
+
 end
