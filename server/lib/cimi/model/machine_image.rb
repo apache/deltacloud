@@ -28,7 +28,7 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
       images = _self.driver.images(_self.credentials)
       images.map { |image| from_image(image, _self) }
     else
-      image = _self.driver.image(_self.credentials, id)
+      image = _self.driver.image(_self.credentials, :id => id)
       from_image(image, _self)
     end
   end
