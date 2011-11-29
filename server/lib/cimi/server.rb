@@ -251,4 +251,32 @@ global_collection :volume_configurations do
     end
   end
 
+global_collection :volume_images do
+  description 'This entity represents an image that could be place on a pre-loaded volume.'
+
+  operation :index do
+    description "List all volumes images"
+    control do
+      volume_images = VolumeImage.all(self)
+      respond_to do |format|
+        format.xml { volume_images.to_xml_cimi_collection(self) }
+        format.json { volume_images.to_json_cimi_collection(self) }
+      end
+    end
+  end
+
+  operation :show do
+    description "Show a specific volume image"
+    param :id, :string, :required
+    control do
+      volume_image = VolumeImage.find(params[:id], self)
+      respond_to do |format|
+        format.xml { volume_image.to_xml }
+        format.json { volume_image.to_json }
+      end
+    end
+  end
+
+end
+
 end
