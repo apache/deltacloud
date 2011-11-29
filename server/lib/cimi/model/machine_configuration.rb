@@ -35,20 +35,20 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, _self)
+  def self.find(id, context)
     profiles = []
     if id == :all
-      profiles = _self.driver.hardware_profiles(_self.credentials)
-      profiles.map { |profile| from_hardware_profile(profile, _self) }.compact
+      profiles = context.driver.hardware_profiles(context.credentials)
+      profiles.map { |profile| from_hardware_profile(profile, context) }.compact
     else
-      profile = _self.driver.hardware_profile(_self.credentials, id)
-      from_hardware_profile(profile, _self)
+      profile = context.driver.hardware_profile(context.credentials, id)
+      from_hardware_profile(profile, context)
     end
   end
 
   private
 
-  def self.from_hardware_profile(profile, _self)
+  def self.from_hardware_profile(profile, context)
     # We accept just profiles with all properties set
     return unless profile.memory or profile.cpu or profile.storage
     machine_hash = {
@@ -59,7 +59,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
       :created => Time.now.to_s,  # FIXME: DC hardware_profile has no mention about created_at
       :memory => { :quantity => profile.memory.value, :units => profile.memory.unit },
       :disks => [ { :capacity => { :quantity => profile.storage.value, :units => profile.storage.unit } } ],
-      :uri => _self.machine_configuration_url(profile.name)
+      :uri => context.machine_configuration_url(profile.name)
     }
     self.new(machine_hash)
   end

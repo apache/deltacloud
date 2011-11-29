@@ -22,23 +22,23 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, _self)
+  def self.find(id, context)
     images = []
     if id == :all
-      images = _self.driver.images(_self.credentials)
-      images.map { |image| from_image(image, _self) }
+      images = context.driver.images(context.credentials)
+      images.map { |image| from_image(image, context) }
     else
-      image = _self.driver.image(_self.credentials, :id => id)
-      from_image(image, _self)
+      image = context.driver.image(context.credentials, :id => id)
+      from_image(image, context)
     end
   end
 
-  def self.from_image(image, _self)
+  def self.from_image(image, context)
     self.new(
       :name => image.id,
-      :uri => _self.machine_image_url(image.id),
+      :uri => context.machine_image_url(image.id),
       :description => image.description,
-      :image_location => { :href => "#{_self.driver.name}://#{image.id}" } # FIXME
+      :image_location => { :href => "#{context.driver.name}://#{image.id}" } # FIXME
     )
   end
 

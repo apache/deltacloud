@@ -56,37 +56,37 @@ class CIMI::Model::Machine < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, _self)
+  def self.find(id, context)
     instances = []
     if id == :all
-      instances = _self.driver.instances(_self.credentials)
-      instances.map { |instance| from_instance(instance, _self) }.compact
+      instances = context.driver.instances(context.credentials)
+      instances.map { |instance| from_instance(instance, context) }.compact
     else
-      instance = _self.driver.instance(_self.credentials, :id => id)
+      instance = context.driver.instance(context.credentials, :id => id)
       raise CIMI::Model::NotFound unless instance
-      from_instance(instance, _self)
+      from_instance(instance, context)
     end
   end
 
-  def self.create_from_json(body, _self)
+  def self.create_from_json(body, context)
     json = JSON.parse(body)
     hardware_profile_id = xml['MachineTemplate']['MachineConfig']["href"].split('/').last
     image_id = xml['MachineTemplate']['MachineImage']["href"].split('/').last
-    instance = _self.create_instance(_self.credentials, image_id, { :hwp_id => hardware_profile_id })
-    from_instance(instance, _self)
+    instance = context.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
+    from_instance(instance, context)
   end
 
-  def self.create_from_xml(body, _self)
+  def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
     hardware_profile_id = xml['MachineTemplate'][0]['MachineConfig'][0]["href"].split('/').last
     image_id = xml['MachineTemplate'][0]['MachineImage'][0]["href"].split('/').last
-    instance = _self.driver.create_instance(_self.credentials, image_id, { :hwp_id => hardware_profile_id })
-    from_instance(instance, _self)
+    instance = context.driver.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
+    from_instance(instance, context)
   end
 
-  def perform(action, _self, &block)
+  def perform(action, context, &block)
     begin
-      if _self.driver.send(:"#{action.name}_instance", _self.credentials, self.name)
+      if context.driver.send(:"#{action.name}_instance", context.credentials, self.name)
         block.callback :success
       else
         raise "Operation failed to execute on given Machine"
@@ -96,23 +96,23 @@ class CIMI::Model::Machine < CIMI::Model::Base
     end
   end
 
-  def self.delete!(id, _self)
-    _self.driver.destroy_instance(_self.credentials, id)
+  def self.delete!(id, context)
+    context.driver.destroy_instance(context.credentials, id)
   end
 
   private
 
-  def self.from_instance(instance, _self)
+  def self.from_instance(instance, context)
     self.new(
       :name => instance.id,
       :description => instance.name,
-      :uri => _self.machine_url(instance.id),
+      :uri => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
-      :cpu => convert_instance_cpu(instance.instance_profile, _self),
-      :memory => convert_instance_memory(instance.instance_profile, _self),
-      :disks => convert_instance_storage(instance.instance_profile, _self),
+      :cpu => convert_instance_cpu(instance.instance_profile, context),
+      :memory => convert_instance_memory(instance.instance_profile, context),
+      :disks => convert_instance_storage(instance.instance_profile, context),
       :network_interfaces => convert_instance_addresses(instance),
-      :operations => convert_instance_actions(instance, _self)
+      :operations => convert_instance_actions(instance, context)
     )
   end
 
@@ -123,17 +123,17 @@ class CIMI::Model::Machine < CIMI::Model::Base
     ('RUNNING' == state) ? 'STARTED' : state
   end
 
-  def self.convert_instance_cpu(profile, _self)
+  def self.convert_instance_cpu(profile, context)
     cpu_override = profile.overrides.find { |p, v| p == :cpu }
     if cpu_override.nil?
-      MachineConfiguration.find(profile.id, _self).cpu
+      MachineConfiguration.find(profile.id, context).cpu
     else
       cpu_override[1]
     end
   end
 
-  def self.convert_instance_memory(profile, _self)
-    machine_conf = MachineConfiguration.find(profile.name, _self)
+  def self.convert_instance_memory(profile, context)
+    machine_conf = MachineConfiguration.find(profile.name, context)
     memory_override = profile.overrides.find { |p, v| p == :memory }
     {
       :quantity => memory_override.nil? ? machine_conf.memory[:quantity] : memory_override[1],
@@ -141,8 +141,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
     }
   end
 
-  def self.convert_instance_storage(profile, _self)
-    machine_conf = MachineConfiguration.find(profile.name, _self)
+  def self.convert_instance_storage(profile, context)
+    machine_conf = MachineConfiguration.find(profile.name, context)
     storage_override = profile.overrides.find { |p, v| p == :storage }
     [
       { :capacity => { 
@@ -166,11 +166,11 @@ class CIMI::Model::Machine < CIMI::Model::Base
     end
   end
 
-  def self.convert_instance_actions(instance, _self)
+  def self.convert_instance_actions(instance, context)
     instance.actions.collect do |action|
       action = :delete if action == :destroy  # In CIMI destroy operation become delete
       action = :restart if action == :reboot  # In CIMI reboot operation become restart
-      { :href => _self.send(:"#{action}_machine_url", instance.id), :rel => "http://www.dmtf.org/cimi/action/#{action}" }
+      { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://www.dmtf.org/cimi/action/#{action}" }
     end
   end
 
