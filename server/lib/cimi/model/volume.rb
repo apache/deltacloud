@@ -43,6 +43,13 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   def self.all(context); find(:all, context); end
 
+  def self.create(params, context)
+    volume_config = VolumeConfiguration.find(params[:volume_config_id], context)
+    opts = {:capacity=>volume_config.capacity[:quantity], :snapshot_id=>params[:volume_image_id] }
+    storage_volume = self.driver.create_storage_volume(context.credentials, opts)
+    from_storage_volume(storage_volume, context)
+  end
+
   private
 
   def self.from_storage_volume(volume, context)
@@ -55,7 +62,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :supports_snapshots => "true", #fixme, will vary (true for ec2)
                 :snapshots => [], #fixme...
                 :guest_interface => "",
-                :eventlog => {:href=> "http://eventlogs"},
+                :eventlog => {:href=> "http://eventlogs"},#FIXME
                 :meters => []
             } )
   end
