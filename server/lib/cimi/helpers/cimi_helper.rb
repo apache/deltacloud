@@ -14,7 +14,15 @@
 # under the License.
 
 module CIMIHelper
+
+  def no_content_with_status(code=200)
+    body ''
+    status code
+  end
+
 end
+
+helpers CIMIHelper
 
 class Array
   def to_xml_cimi_collection(_self)
