@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,8 +13,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/core_ext/string'
-require 'deltacloud/core_ext/integer'
-require 'deltacloud/core_ext/hash'
-require 'deltacloud/core_ext/array'
-require 'deltacloud/core_ext/proc'
+# Original code copied from: http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks
+# Copyright 2011 Matt Sears.
+class Proc
+  def callback(callable, *args)
+    self === Class.new do
+      method_name = callable.to_sym
+      define_method(method_name) { |&block| block.nil? ? true : block.call(*args) }
+      define_method("#{method_name}?") { true }
+      def method_missing(method_name, *args, &block) false; end
+    end.new
+  end
+end
