@@ -24,4 +24,36 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
   array :operations do
     scalar :rel, :href
   end
+
+  def self.find(id, context)
+    volume_configs = []
+    if id == :all
+      #ec2 ebs volumes can 1gb..1tb
+      (1..1000).each do |size|
+        volume_configs << create(size, context)
+      end
+    else
+      volume_configs << create(id, context)
+      return volume_configs.first
+    end
+    return volume_configs
+  end
+
+
+  def self.all(context); find(:all, context); end
+
+  private
+
+  def self.create(size, context)
+    self.new( {
+                :uri => context.machine_configuration_url(size),
+                :name => size,
+                :description => "volume configuration with #{size} GiB",
+                :created => Time.now.to_s,
+                :capacity => {:quantity=>size, :units=>"gibibytes"},
+                :supports_snapshots => "true"
+                # FIXME :guest_interface => "NFS"
+            } )
+  end
+
 end
