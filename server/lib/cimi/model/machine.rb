@@ -54,4 +54,16 @@ class CIMI::Model::Machine < CIMI::Model::Base
     scalar :rel, :href
   end
 
+  def self.find(id, _self)
+    instances = []
+    if id == :all
+      instances = _self.driver.instances(_self.credentials)
+      instances.map { |instance| from_instance(instance, _self) }.compact
+    else
+      instance = _self.driver.instance(_self.credentials, id)
+      from_instance(instance, _self)
+    end
+  end
+
+
 end

@@ -159,16 +159,11 @@ global_collection :machines do
   operation :index do
     description "List all machines"
     control do
-      instances = driver.send(:instances, credentials, {})
-      @dmtf_col_items = []
-      if instances
-        instances.map do |instance|
-          new_item = { "name" => instance.name,
-            "href" => machine_url(instance.id) }
-          @dmtf_col_items.insert 0,  new_item
-        end
+      machines = Machine.all(self)
+      respond_to do |format|
+        format.xml { machines.to_xml_cimi_collection(self) }
+        format.json { machines.to_json_cimi_collection(self) }
       end
-      respond_to_collection "machine.col.xml"
     end
   end
 
@@ -177,20 +172,10 @@ global_collection :machines do
     with_capability :instance
     param :id,          :string,    :required
     control do
-      @machine = driver.send(:instance, credentials, { :id => params[:id]} )
-      if @machine
-        #setup the default values for a machine imageion
-        resource_default = get_resource_default "machine"
-        #get the actual values from image
-        resource_value = { "name" => @machine.name,
-          "status" => @machine.state, "uri" => @machine.id,
-          "href" => machine_url(@machine.id) }
-        #mixin actual values get from the specific image
-        @dmtfitem = resource_default["dmtfitem"].merge resource_value
-        show_resource "machines/show", "Machine",
-          {"property" => "properties", "disk" => "disks", "operation" => "operations"}
-      else
-        report_error(404)
+      machine = Machine.find(params[:id], self)
+      respond_to do |format|
+        format.xml { machine.to_xml }
+        format.json { machine.to_json }
       end
     end
   end
