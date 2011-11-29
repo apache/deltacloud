@@ -50,6 +50,10 @@ begin
       end
     end
   end
+  Cucumber::Rake::Task.new(:cimi) do |t|
+    t.cucumber_opts = "tests/cimi/features/*.feature --format pretty"
+    t.rcov = false
+  end
   namespace :cimi do
     Cucumber::Rake::Task.new(:machines) do |t|
       t.cucumber_opts = "tests/cimi/features/machines.feature --format pretty"
