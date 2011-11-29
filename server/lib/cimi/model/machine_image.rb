@@ -21,4 +21,25 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
   array :operations do
     scalar :rel, :href
   end
+
+  def self.find(id, _self)
+    images = []
+    if id == :all
+      images = _self.driver.images(_self.credentials)
+      images.map { |image| from_image(image, _self) }
+    else
+      image = _self.driver.image(_self.credentials, id)
+      from_image(image, _self)
+    end
+  end
+
+  def self.from_image(image, _self)
+    self.new(
+      :name => image.id,
+      :uri => _self.machine_image_url(image.id),
+      :description => image.description,
+      :image_location => { :href => "#{_self.driver.name}://#{image.id}" } # FIXME
+    )
+  end
+
 end
