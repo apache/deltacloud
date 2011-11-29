@@ -1,17 +1,3 @@
-World(Rack::Test::Methods)
-
-Given /^Cloud Entry Point URL is provided$/ do
-  get '/cimi'
-  last_response.status.should == 301
-  last_response.location.should == "http://example.org/cimi/cloudEntryPoint"
-end
-
-Given /^client retrieve the Cloud Entry Point$/ do
-  get "/cimi/cloudEntryPoint"
-  header 'Accept', 'application/xml'
-  last_response.status.should == 200
-end
-
 When /^client specifies a Machine Image$/ do |machine_image|
   header 'Accept', 'application/xml'
   authorize 'mockuser', 'mockpassword'
@@ -48,23 +34,13 @@ When /^client specifies a new Machine using$/ do |machine|
 end
 
 Then /^client should be able to create this Machine$/ do
-  pending "NOTE: There is an inconsistency between Primer and CIMI spec\n"
+  pending "\nNOTE: There is an inconsistency between Primer and CIMI spec\n" +
+    "The Primer says that client should send just pointners MachineConf and MachineImg\n"+
+    "The CIMI says that full XML need to be provided in order to create a Machine\n\n"
   @machine = CIMI::Model::Machine.from_xml(@builder.to_xml)
   authorize 'mockuser', 'mockpassword'
   post '/cimi/machines', @machine
   last_response.status.should == 201
-end
-
-When /^client query for '(\w+)' Machine$/ do |machine_id|
-  header 'Accept', 'application/xml'
-  authorize 'mockuser', 'mockpassword'
-  get "/cimi/machines/%s" % machine_id
-end
-
-Then /^client should verify that this machine exists$/ do
-  last_xml_response.root.name == 'Machine'
-  last_response.status == 200
-  @new_machine = last_xml_response
 end
 
 Then /^client should be able to query this Machine$/ do

@@ -16,6 +16,26 @@ def last_xml_response
   Nokogiri::XML(last_response.body)
 end
 
+class String
+
+  def to_class_name
+    to_entity_name.singularize
+  end
+
+  def to_entity_name
+    self.tr(' ', '')
+  end
+
+  def to_collection_uri
+    self.tr(' ', '_').downcase
+  end
+
+  def to_entity_uri
+    to_collection_uri.pluralize
+  end
+
+end
+
 def app
   Sinatra::Application
 end
