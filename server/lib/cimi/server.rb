@@ -180,6 +180,77 @@ global_collection :machines do
     end
   end
 
+  operation :delete, :method => :post, :member => true do
+    description "Reboot specific machine."
+    param :id,          :string,    :required
+    control do
+      machine = Machine.find(params[:id], self)
+      machine.perform :destroy do |operation|
+        operation.body = request.body.read
+        operation.content_type = params[:content_type]
+        operation.on :success do
+          # We *should* return 202 - Accepted because the 'reboot' operation will not be processed
+          # immediately
+          no_content_with_status 202
+        end
+        operation.on :failure do
+          # error...
+        end
+      end
+    end
+  end
+
+  operation :stop, :method => :post, :member => true do
+    description "Stop specific machine."
+    param :id,          :string,    :required
+    control do
+      machine = Machine.find(params[:id], self)
+      if request.content_type.end_with?("+json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      machine.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
+  operation :restart, :method => :post, :member => true do
+    description "Start specific machine."
+    param :id,          :string,    :required
+    control do
+      machine = Machine.find(params[:id], self)
+      if request.content_type.end_with?("+json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      machine.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
+  operation :start, :method => :post, :member => true do
+    description "Start specific machine."
+    param :id,          :string,    :required
+    control do
+      machine = Machine.find(params[:id], self)
+      if request.content_type.end_with?("+json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      machine.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
 end
 
 global_collection :volumes do

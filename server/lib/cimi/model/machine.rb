@@ -13,6 +13,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'deltacloud/models/instance_address'
+
 class CIMI::Model::Machine < CIMI::Model::Base
 
   text :state
@@ -60,10 +62,95 @@ class CIMI::Model::Machine < CIMI::Model::Base
       instances = _self.driver.instances(_self.credentials)
       instances.map { |instance| from_instance(instance, _self) }.compact
     else
-      instance = _self.driver.instance(_self.credentials, id)
+      instance = _self.driver.instance(_self.credentials, :id => id)
       from_instance(instance, _self)
     end
   end
 
+  def perform(action, _self, &block)
+    begin
+      if _self.driver.send(:"#{action.name}_instance", _self.credentials, self.name)
+        block.callback :success
+      else
+        raise "Operation failed to execute on given Machine"
+      end
+    rescue => e
+      block.callback :failure, e.message
+    end
+  end
+
+  private
+
+  def self.from_instance(instance, _self)
+    self.new(
+      :name => instance.id,
+      :description => instance.name,
+      :uri => _self.machine_url(instance.id),
+      :state => convert_instance_state(instance.state),
+      :cpu => convert_instance_cpu(instance.instance_profile, _self),
+      :memory => convert_instance_memory(instance.instance_profile, _self),
+      :disks => convert_instance_storage(instance.instance_profile, _self),
+      :network_interfaces => convert_instance_addresses(instance),
+      :operations => convert_instance_actions(instance, _self)
+    )
+  end
+
+  # FIXME: This will convert 'RUNNING' state to 'STARTED'
+  # which is defined in CIMI (p65)
+  #
+  def self.convert_instance_state(state)
+    ('RUNNING' == state) ? 'STARTED' : state
+  end
+
+  def self.convert_instance_cpu(profile, _self)
+    cpu_override = profile.overrides.find { |p, v| p == :cpu }
+    if cpu_override.nil?
+      MachineConfiguration.find(profile.id, _self).cpu
+    else
+      cpu_override[1]
+    end
+  end
+
+  def self.convert_instance_memory(profile, _self)
+    machine_conf = MachineConfiguration.find(profile.name, _self)
+    memory_override = profile.overrides.find { |p, v| p == :memory }
+    {
+      :quantity => memory_override.nil? ? machine_conf.memory[:quantity] : memory_override[1],
+      :units => machine_conf.memory[:units]
+    }
+  end
+
+  def self.convert_instance_storage(profile, _self)
+    machine_conf = MachineConfiguration.find(profile.name, _self)
+    storage_override = profile.overrides.find { |p, v| p == :storage }
+    [
+      { :capacity => { 
+          :quantity => storage_override.nil? ? machine_conf.disks.first[:capacity][:quantity] : storage_override[1],
+          :units => machine_conf.disks.first[:capacity][:units]
+        } 
+      } 
+    ]
+  end
+
+  def self.convert_instance_addresses(instance)
+    (instance.public_addresses + instance.private_addresses).collect do |address|
+      {
+        :hostname => address.is_hostname? ? address : nil,
+        :mac_address => address.is_mac? ? address : nil,
+        :state => 'Active',
+        :protocol => 'IPv4',
+        :address => address.is_ipv4? ? address : nil,
+        :allocation => 'Static'
+      }
+    end
+  end
+
+  def self.convert_instance_actions(instance, _self)
+    instance.actions.collect do |action|
+      action = :delete if action == :destroy  # In CIMI destroy operation become delete
+      action = :restart if action == :reboot  # In CIMI reboot operation become restart
+      { :href => _self.send(:"#{action}_machine_url", instance.id), :rel => "http://www.dmtf.org/cimi/action/#{action}" }
+    end
+  end
 
 end
