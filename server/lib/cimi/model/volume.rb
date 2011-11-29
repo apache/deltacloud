@@ -27,8 +27,37 @@ class CIMI::Model::Volume < CIMI::Model::Base
   array :meters do
     scalar :ref
   end
-  scalar :eventlog
+  href :eventlog
   array :operations do
     scalar :rel, :href
   end
+
+  def self.find(id, context)
+    volumes = []
+    opts = ( id == :all ) ? {} : { :id => id }
+    volumes = self.driver.storage_volumes(context.credentials, opts)
+    volumes.collect!{ |volume| from_storage_volume(volume, context) }
+    return volumes.first unless volumes.length > 1
+    return volumes
+  end
+
+  def self.all(context); find(:all, context); end
+
+  private
+
+  def self.from_storage_volume(volume, context)
+    self.new( { :name => volume.id,
+                :description => volume.id,
+                :created => volume.created,
+                :uri => context.volume_url(volume.id),
+                :capacity => { :quantity=>volume.capacity, :units=>"gibibyte"  }, #FIXME... units will vary
+                :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
+                :supports_snapshots => "true", #fixme, will vary (true for ec2)
+                :snapshots => [], #fixme...
+                :guest_interface => "",
+                :eventlog => {:href=> "http://eventlogs"},
+                :meters => []
+            } )
+  end
+
 end
