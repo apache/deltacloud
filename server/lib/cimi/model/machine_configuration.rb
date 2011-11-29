@@ -46,8 +46,6 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
     end
   end
 
-  def self.all(_self); find(:all, _self); end
-
   private
 
   def self.from_hardware_profile(profile, _self)

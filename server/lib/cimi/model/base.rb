@@ -181,4 +181,6 @@ class CIMI::Model::Base
   hash :property, :content => :value do
     scalar :name
   end
+
+  def self.all(_self); find(:all, _self); end
 end
