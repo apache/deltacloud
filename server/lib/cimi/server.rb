@@ -13,20 +13,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-
-require 'cimi/helpers/dmtfdep'
-require 'cimi/helpers/cmwgapp_helper'
+require 'cimi/dependencies'
 require 'cimi/helpers/cimi_helper'
-require 'deltacloud/core_ext'
 require 'cimi/model'
 
 set :version, '0.1.0'
 
 include Deltacloud::Drivers
 include CIMI::Model
+
 set :drivers, Proc.new { driver_config }
 
-STOREROOT = File.join($top_srcdir, 'lib', 'cimi', 'data')
 Sinatra::Application.register Rack::RespondTo
 
 use Rack::ETag
@@ -39,12 +36,8 @@ use Rack::Date
 configure do
   set :root_url, "/cimi"
   set :views, File::join($top_srcdir, 'views', 'cimi')
-  # NOTE: Change :public to :public_folder once we update sinatra to 1.3
-  # set :public_folder, File::join($top_srcdir, 'public')
   set :public_folder, File::join($top_srcdir, 'public')
-  # Try to load the driver on startup to fail early if there are issues
   driver
-  set :store, STOREROOT
 end
 
 configure :production do
@@ -77,7 +70,7 @@ end
 
 get "#{settings.root_url}\/?" do
   halt 401 if params[:force_auth] and not driver.valid_credentials?(credentials)
-  redirect "#{settings.root_url}/cloudEntryPoint", 301
+  redirect cloudEntryPoint_url, 301
 end
 
 global_collection  :cloudEntryPoint do

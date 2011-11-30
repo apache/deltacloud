@@ -19,9 +19,7 @@
 
 require 'sinatra'
 require 'deltacloud/drivers'
-require 'deltacloud/core_ext/integer'
-require 'deltacloud/core_ext/hash'
-require 'deltacloud/core_ext/string'
+require 'deltacloud/core_ext'
 require 'deltacloud/base_driver'
 require 'deltacloud/hardware_profile'
 require 'deltacloud/state_machine'
