@@ -15,6 +15,8 @@
 
 class CIMI::Model::MachineAdmin < CIMI::Model::Base
 
+  act_as_root_entity
+
   text :username
   text :password
   text :key

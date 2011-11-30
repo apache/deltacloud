@@ -79,8 +79,11 @@ global_collection  :cloudEntryPoint do
   operation :index do
     description "list all resources of the cloud"
     control do
-      @collections = entry_points.reject { |p| p[0] == :cloudEntryPoint }
-      show_resource "cloudEntryPoint/index", "CloudEntryPoint"
+      entry_point = CloudEntryPoint.create(self)
+      respond_to do |format|
+        format.xml { entry_point.to_xml }
+        format.json { entry_point.to_json }
+      end
     end
   end
 end

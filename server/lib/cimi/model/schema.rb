@@ -42,7 +42,7 @@ class CIMI::Model::Schema
     end
 
     def to_json(model, json)
-      json[@json_name] = model[@name] if model[@name]
+      json[@json_name] = model[@name] if model and model[@name]
     end
   end
 

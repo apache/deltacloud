@@ -14,6 +14,9 @@
 # under the License.
 
 class CIMI::Model::VolumeImage < CIMI::Model::Base
+
+  act_as_root_entity
+
   href :image_location
   text :image_data
   text :bootable

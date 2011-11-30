@@ -13,35 +13,29 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::MachineImage < CIMI::Model::Base
+class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
-  act_as_root_entity
-
-  href :image_location
-  text :image_data
-
-  array :operations do
-    scalar :rel, :href
-  end
-
-  def self.find(id, context)
-    images = []
-    if id == :all
-      images = context.driver.images(context.credentials)
-      images.map { |image| from_image(image, context) }
-    else
-      image = context.driver.image(context.credentials, :id => id)
-      from_image(image, context)
+  def self.create(context)
+    root_entities = CIMI::Model.root_entities.inject({}) do |result, entity|
+      send(:href, entity.underscore) if not href_defined?(entity)
+      if context.respond_to? :"#{entity.underscore}_url"
+        result[entity.underscore] = { :href => context.send(:"#{entity.underscore}_url") }
+      end
+      result
     end
+    root_entities.merge!({
+      :name => context.driver.name,
+      :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
+      :uri => context.cloudEntryPoint_url,
+      :created => Time.now
+    })
+    self.new(root_entities)
   end
 
-  def self.from_image(image, context)
-    self.new(
-      :name => image.id,
-      :uri => context.machine_image_url(image.id),
-      :description => image.description,
-      :image_location => { :href => "#{context.driver.name}://#{image.id}" } # FIXME
-    )
+  private
+
+  def self.href_defined?(entity)
+    true if schema.attribute_names.include? entity.underscore
   end
 
 end

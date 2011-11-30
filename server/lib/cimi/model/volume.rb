@@ -14,6 +14,9 @@
 # under the License.
 
 class CIMI::Model::Volume < CIMI::Model::Base
+
+  act_as_root_entity
+
   struct :capacity do
     scalar :quantity
     scalar :units

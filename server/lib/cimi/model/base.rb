@@ -75,6 +75,19 @@ class CIMI::Model::NotFound < StandardError
   end
 end
 
+module CIMI::Model
+
+  def self.register_as_root_entity!(name)
+    @root_entities ||= []
+    @root_entities << name
+  end
+
+  def self.root_entities
+    @root_entities || []
+  end
+
+end
+
 class CIMI::Model::Base
 
   #
@@ -189,6 +202,10 @@ class CIMI::Model::Base
   # FIXME: this doesn't match with JSON
   hash :property, :content => :value do
     scalar :name
+  end
+
+  def self.act_as_root_entity
+    CIMI::Model.register_as_root_entity! xml_tag_name.pluralize.uncapitalize
   end
 
   def self.all(_self); find(:all, _self); end

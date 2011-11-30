@@ -14,6 +14,9 @@
 # under the License.
 
 class CIMI::Model::MachineTemplate < CIMI::Model::Base
+
+  act_as_root_entity
+
   href :machine_config
   href :machine_image
   href :machine_admin
