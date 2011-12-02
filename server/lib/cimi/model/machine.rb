@@ -17,8 +17,6 @@ require 'deltacloud/models/instance_address'
 
 class CIMI::Model::Machine < CIMI::Model::Base
 
-  act_as_root_entity
-
   text :state
   text :cpu
 

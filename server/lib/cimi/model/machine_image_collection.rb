@@ -13,29 +13,22 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::MachineTemplate < CIMI::Model::Base
+class CIMI::Model::MachineImageCollection < CIMI::Model::Base
 
-  href :machine_config
-  href :machine_image
-  href :machine_admin
+  act_as_root_entity :machine_image
 
-  array :volumes do
+  array :machine_images do
     scalar :href
-    scalar :protocol
-    scalar :attachment_point
   end
 
-  array :volume_templates do
-    scalar :href, :attachment_point, :protocol
+  def self.default(context)
+    self.new(
+      :uri => context.machine_images_url,
+      :name => 'default',
+      :created => Time.now,
+      :description => "#{context.driver.name.capitalize} MachineImageCollection",
+      :machine_images => MachineImage.all(context).map { |c| { :href => c.uri } }
+    )
   end
 
-  array :network_interfaces do
-    href :vsp
-    text :hostname, :mac_address, :state, :protocol, :allocation
-    text :address, :default_gateway, :dns, :max_transmission_unit
-  end
-
-  array :operations do
-    scalar :rel, :href
-  end
 end

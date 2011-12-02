@@ -15,8 +15,6 @@
 
 class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
-  act_as_root_entity
-
   text :format
   struct :capacity do
     scalar :quantity
@@ -49,7 +47,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
   def self.create(size, context)
     self.new( {
-                :uri => context.machine_configuration_url(size),
+                :uri => context.volume_configuration_url(size),
                 :name => size,
                 :description => "volume configuration with #{size} GiB",
                 :created => Time.now.to_s,

@@ -15,14 +15,16 @@
 
 class CIMI::Model::MachineAdmin < CIMI::Model::Base
 
-  act_as_root_entity
-
   text :username
   text :password
   text :key
 
   array :operations do
     scalar :rel, :href
+  end
+
+  def self.find(id, context)
+    [] # TODO: Implement this
   end
 
 end

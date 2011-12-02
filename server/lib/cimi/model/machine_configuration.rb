@@ -15,8 +15,6 @@
 
 class CIMI::Model::MachineConfiguration < CIMI::Model::Base
 
-  act_as_root_entity
-
   struct :memory do
     scalar :quantity
     scalar :units

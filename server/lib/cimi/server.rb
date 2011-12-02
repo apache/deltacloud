@@ -94,10 +94,10 @@ global_collection :machine_configurations do
   operation :index do
     description "List all machine configurations"
     control do
-      machine_configs = MachineConfiguration.all(self)
+      machine_configs = MachineConfigurationCollection.default(self)
       respond_to do |format|
-        format.xml { machine_configs.to_xml_cimi_collection(self) }
-        format.json { machine_configs.to_json_cimi_collection(self) }
+        format.xml { machine_configs.to_xml }
+        format.json { machine_configs.to_json }
       end
     end
   end
@@ -126,10 +126,10 @@ global_collection :machine_images do
   operation :index do
     description "List all machine configurations"
     control do
-      machine_images = MachineImage.all(self)
+      machine_images = MachineImageCollection.default(self)
       respond_to do |format|
-        format.xml { machine_images.to_xml_cimi_collection(self) }
-        format.json { machine_images.to_json_cimi_collection(self) }
+        format.xml { machine_images.to_xml }
+        format.json { machine_images.to_json }
       end
     end
   end
@@ -155,10 +155,10 @@ global_collection :machines do
   operation :index do
     description "List all machines"
     control do
-      machines = Machine.all(self)
+      machines = MachineCollection.default(self)
       respond_to do |format|
-        format.xml { machines.to_xml_cimi_collection(self) }
-        format.json { machines.to_json_cimi_collection(self) }
+        format.xml { machines.to_xml }
+        format.json { machines.to_json }
       end
     end
   end
@@ -260,10 +260,10 @@ global_collection :volumes do
   operation :index do
     description "List all volumes"
     control do
-      volumes = Volume.all(self)
+      volumes = VolumeCollection.default(self)
       respond_to do |format|
-        format.xml { volumes.to_xml_cimi_collection(self) }
-        format.json { volumes.to_json_cimi_collection(self) }
+        format.xml { volumes.to_xml }
+        format.json { volumes.to_json }
       end
     end
   end
@@ -318,10 +318,10 @@ global_collection :volume_configurations do
   operation :index do
     description "Get list all VolumeConfigurations"
     control do
-      volume_configs = VolumeConfiguration.all(self)
+      volume_configuration = VolumeConfigurationCollection.default(self)
       respond_to do |format|
-        format.xml { volume_configs.to_xml_cimi_collection(self) }
-        format.json { volume_configs.to_json_cimi_collection(self) }
+        format.xml { volume_configuration.to_xml }
+        format.json { volume_configuration.to_json }
       end
     end
   end
@@ -344,10 +344,10 @@ global_collection :volume_images do
   operation :index do
     description "List all volumes images"
     control do
-      volume_images = VolumeImage.all(self)
+      volume_images = VolumeImageCollection.default(self)
       respond_to do |format|
-        format.xml { volume_images.to_xml_cimi_collection(self) }
-        format.json { volume_images.to_json_cimi_collection(self) }
+        format.xml { volume_images.to_xml }
+        format.json { volume_images.to_json }
       end
     end
   end

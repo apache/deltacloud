@@ -204,8 +204,13 @@ class CIMI::Model::Base
     scalar :name
   end
 
-  def self.act_as_root_entity
-    CIMI::Model.register_as_root_entity! xml_tag_name.pluralize.uncapitalize
+  def self.act_as_root_entity(name=nil)
+    if name
+      name = name.to_s.camelize.pluralize
+    else
+      name = xml_tag_name.pluralize.uncapitalize
+    end
+    CIMI::Model.register_as_root_entity! name
   end
 
   def self.all(_self); find(:all, _self); end

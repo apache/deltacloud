@@ -15,8 +15,6 @@
 
 class CIMI::Model::VolumeTemplate < CIMI::Model::Base
 
-  act_as_root_entity
-
   href :volume_config
   href :volume_image
   array :operations do
