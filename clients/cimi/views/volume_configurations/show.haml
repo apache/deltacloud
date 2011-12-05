@@ -1,0 +1,30 @@
+- @title="#{@volume_configuration.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/volume_configurations"} VolumeConfigurationCollection
+      %span.divider="/"
+    %li.active
+      = @volume_configuration.name
+
+%blockquote
+  %p
+    The Volume Configuration entity represents the set of configuration values
+    that define the (virtual) hardware resources of a to-be-realized Volume
+    Instance. Volume Configurations are created by Providers and MAY, at the
+    Providers discretion, be created by Consumers.
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @volume_configuration.uri }=@volume_configuration.uri
+  %dt Description
+  %dd=@volume_configuration.description
+  %dt Created
+  %dd #{@volume_configuration.created}&nbsp;
+  %dt Details
+  %dd=@volume_configuration.inspect

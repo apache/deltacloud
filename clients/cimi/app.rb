@@ -21,6 +21,7 @@ module CIMI::Frontend
     use CIMI::Frontend::MachineImage
     use CIMI::Frontend::Machine
     use CIMI::Frontend::MachineTemplate
+    use CIMI::Frontend::VolumeConfiguration
 
     configure do
       enable :logging

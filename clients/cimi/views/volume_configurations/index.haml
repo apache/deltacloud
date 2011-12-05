@@ -1,0 +1,21 @@
+- @title=@volume_configurations.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      VolumeConfigurationCollection
+
+
+%blockquote
+  %p
+    A Volume Configuration Collection entity represents the collection of
+    Volume Configuration entities within a Provider. This entity can be used to
+    locate and create Volume Configurations.
+
+%ul
+  - @volume_configurations.volume_configurations.each do |conf|
+    %li
+      %a{ :href => "/cimi/volume_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last

@@ -13,15 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::VolumeConfiguration < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
+  get '/cimi/volume_configurations/:id' do
+    volume_confs_xml = CIMI::Frontend.get_entity('volume_configurations', params[:id], credentials)
+    @volume_configuration = CIMI::Model::VolumeConfiguration.from_xml(volume_confs_xml)
+    haml :'volume_configurations/show'
+  end
+
+  get '/cimi/volume_configurations' do
+    volume_conf_xml = CIMI::Frontend.get_entity_collection('volume_configurations', credentials)
+    @volume_configurations = CIMI::Model::VolumeConfigurationCollection.from_xml(volume_conf_xml)
+    haml :'volume_configurations/index'
+  end
+
+end
