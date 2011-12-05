@@ -17,7 +17,6 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
   def self.create(context)
     root_entities = CIMI::Model.root_entities.inject({}) do |result, entity|
-      send(:href, entity.underscore) if not href_defined?(entity)
       if context.respond_to? :"#{entity.underscore}_url"
         result[entity.underscore] = { :href => context.send(:"#{entity.underscore}_url") }
       end

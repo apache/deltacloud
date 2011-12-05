@@ -80,6 +80,9 @@ module CIMI::Model
   def self.register_as_root_entity!(name)
     @root_entities ||= []
     @root_entities << name
+    unless CIMI::Model::CloudEntryPoint.href_defined?(name)
+      CIMI::Model::CloudEntryPoint.send(:href, name.underscore)
+    end
   end
 
   def self.root_entities
