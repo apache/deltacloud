@@ -1,0 +1,21 @@
+- @title=@machines.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      MachineCollection
+
+
+%blockquote
+  %p
+    A Machine Collection entity represents the collection of Machine
+    entities within a Provider. This entity can be used to locate and create
+    Machines.
+
+%ul
+  - @machines.machines.each do |machine|
+    %li
+      %a{ :href => "/cimi/machines/#{machine.href.split('/').last}"}=machine.href.split('/').last

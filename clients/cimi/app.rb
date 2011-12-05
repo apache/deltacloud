@@ -19,6 +19,7 @@ module CIMI::Frontend
     use CIMI::Frontend::CloudEntryPoint
     use CIMI::Frontend::MachineConfiguration
     use CIMI::Frontend::MachineImage
+    use CIMI::Frontend::Machine
 
     configure do
       enable :logging

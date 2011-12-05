@@ -1,0 +1,32 @@
+- @title="#{@machine.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/machines"} MachineCollection
+      %span.divider="/"
+    %li.active
+      = @machine.name
+
+%blockquote
+  %p
+    This entity represents a
+    Machine Instance
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @machine.uri }=@machine.uri
+  %dt Description
+  %dd=@machine.description
+  %dt Created
+  %dd #{@machine.created}&nbsp;
+  %dt State
+  %dd=@machine.state
+  %dt Network Interfaces
+  %dd=@machine.network_interfaces
+  %dt Details
+  %dd=@machine.inspect
