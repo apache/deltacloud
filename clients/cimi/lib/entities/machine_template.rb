@@ -13,14 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::MachineTemplate < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
+  get '/cimi/machine_templates/:id' do
+    machine_templates_xml = CIMI::Frontend.get_entity('machine_templates', params[:id], credentials)
+    @machine_template = CIMI::Model::MachineTemplate.from_xml(machine_templates_xml)
+    haml :'machine_templates/show'
+  end
+
+  get '/cimi/machine_templates' do
+    machine_template_xml = CIMI::Frontend.get_entity_collection('machine_templates', credentials)
+    @machine_templates = CIMI::Model::MachineTemplateCollection.from_xml(machine_template_xml)
+    haml :'machine_templates/index'
+  end
+
+end

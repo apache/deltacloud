@@ -1,0 +1,21 @@
+- @title=@machine_templates.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      MachineTemplateCollection
+
+
+%blockquote
+  %p
+    A Machine Template Collection entity represents the collection of
+    Machine Template entities within a Provider. This entity can be used to
+    locate and create Machine Templates.
+
+%ul
+  - @machine_templates.machine_templates.each do |temp|
+    %li
+      %a{ :href => "/cimi/machine_templates/#{temp.href.split('/').last}"}=temp.href.split('/').last

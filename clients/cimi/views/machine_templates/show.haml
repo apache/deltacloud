@@ -1,0 +1,28 @@
+- @title="#{@machine_template.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/machine_templates"} MachineConfigurationCollection
+      %span.divider="/"
+    %li.active
+      = @machine_template.name
+
+%blockquote
+  %p
+    The Machine Configuration entity represents the set of configuration values
+    that define the (virtual) hardware resources of a to-be-realized Machine
+    Instance. Machine Configurations are created by Providers and MAY, at the
+    Providers discretion, be created by Consumers.
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @machine_template.uri }=@machine_template.uri
+  %dt Description
+  %dd=@machine_template.description
+  %dt Created
+  %dd #{@machine_template.created}&nbsp;
