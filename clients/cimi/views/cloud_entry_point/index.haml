@@ -1,0 +1,20 @@
+- @title=@entry_point.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li.active
+      CloudEntryPoint
+
+%blockquote
+  %p
+    The Cloud Entry Point represents the entry point into the cloud defined by
+    the CIMI Model. The Cloud Entry Point implements a catalog of entities such
+    as Systems, System Templates, Machines, Machine Templates, etc. that can be
+    queried and browsed by the Consumer
+
+%ul
+  - @entities.each do |entity|
+    %li
+      - if @entry_point.respond_to? entity
+        %a{ :href => "/cimi/#{entity}"}=@entry_point.send(entity.intern).class.name.split('_').last
+

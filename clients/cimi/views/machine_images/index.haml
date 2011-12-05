@@ -1,0 +1,21 @@
+- @title=@machine_images.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      MachineImageCollection
+
+
+%blockquote
+  %p 
+    A Machine Image Collection entity represents the collection of Machine Image
+    entities within a Provider. This entity can be used to locate and create
+    Machine Images.
+
+%ul
+  - @machine_images.machine_images.each do |image|
+    %li
+      %a{ :href => "/cimi/machine_images/#{image.href.split('/').last}"}=image.href.split('/').last

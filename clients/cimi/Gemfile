@@ -1,0 +1,9 @@
+source "http://rubygems.org"
+
+gem 'sinatra'
+gem 'sinatra-content-for'
+gem 'rack-accept'
+gem 'haml'
+gem 'rest-client'
+gem 'json'
+gem 'xmlsimple'

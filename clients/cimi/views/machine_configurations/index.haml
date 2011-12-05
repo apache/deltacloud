@@ -1,0 +1,21 @@
+- @title=@machine_configurations.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      MachineConfigurationCollection
+
+
+%blockquote
+  %p 
+    A Machine Configuration Collection entity represents the collection of
+    Machine Configuration entities within a Provider. This entity can be used to
+    locate and create Machine Configurations.
+
+%ul
+  - @machine_configurations.machine_configurations.each do |conf|
+    %li
+      %a{ :href => "/cimi/machine_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
