@@ -38,6 +38,7 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
       :name => image.id,
       :uri => context.machine_image_url(image.id),
       :description => image.description,
+      :created => Time.now.to_s,
       :image_location => { :href => "#{context.driver.name}://#{image.id}" } # FIXME
     )
   end
