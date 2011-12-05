@@ -1,0 +1,28 @@
+- @title="#{@volume.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/volumes"} VolumeCollection
+      %span.divider="/"
+    %li.active
+      = @volume.name
+
+%blockquote
+  %p
+    This entity represents a
+    volume Instance
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @volume.uri }=@volume.uri
+  %dt Description
+  %dd=@volume.description
+  %dt Created
+  %dd #{@volume.created}&nbsp;
+  %dt Details
+  %dd=@volume.inspect
