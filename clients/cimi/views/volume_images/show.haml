@@ -1,0 +1,28 @@
+- @title="#{@volume_image.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/volume_images"} VolumeImageCollection
+      %span.divider="/"
+    %li.active
+      = @volume_image.name
+
+%blockquote
+  %p
+    This entity represents the information necessary for hardware virtualized
+    resources to create a Volume Instance
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @volume_image.uri }=@volume_image.uri
+  %dt Description
+  %dd=@volume_image.description
+  %dt Created
+  %dd=@volume_image.created
+  %dt Details
+  %dd=@volume_image.inspect
