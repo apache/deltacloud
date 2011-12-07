@@ -1,4 +1,4 @@
-- @title=@volume_images.description
+- @title=@volume_images.name
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -23,3 +23,13 @@
   - @volume_images.volume_images.each do |image|
     %li
       %a{ :href => "/cimi/volume_images/#{image.href.split('/').last}"}=image.href.split('/').last
+
+%h3 Collection details
+
+%dl
+  %dt URI
+  %dd=@volume_images.uri
+  %dt Description
+  %dd=@volume_images.description
+  %dt Created
+  %dd=@volume_images.created

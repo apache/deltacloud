@@ -1,4 +1,4 @@
-- @title=@machines.description
+- @title=@machines.name
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -26,3 +26,20 @@
   - @machines.machines.each do |machine|
     %li
       %a{ :href => "/cimi/machines/#{machine.href.split('/').last}"}=machine.href.split('/').last
+
+- if @machines.machines.empty?
+  .alert-message.block-message.warning
+    %p
+      There are no Machine entities defined for this collection.
+    .alert_actions
+      %a{ :href => '/cimi/machine/new', :class => 'btn'} Create new
+
+%h3 Collection details
+
+%dl
+  %dt URI
+  %dd=@machines.uri
+  %dt Description
+  %dd=@machines.description
+  %dt Created
+  %dd=@machines.created

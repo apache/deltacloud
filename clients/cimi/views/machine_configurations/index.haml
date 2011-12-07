@@ -1,4 +1,4 @@
-- @title=@machine_configurations.description
+- @title=@machine_configurations.name
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -23,3 +23,13 @@
   - @machine_configurations.machine_configurations.each do |conf|
     %li
       %a{ :href => "/cimi/machine_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
+
+%h3 Collection details
+
+%dl
+  %dt URI
+  %dd=@machine_configurations.uri
+  %dt Description
+  %dd=@machine_configurations.description
+  %dt Created
+  %dd=@machine_configurations.created
