@@ -14,10 +14,19 @@
 # under the License.
 
 class CIMI::Frontend::Entity < Sinatra::Base
+  enable :sessions
+  enable :method_override
 
+  helpers CIMI::Frontend::Client
+  helpers CIMI::Frontend::Helper
   helpers Sinatra::LazyAuth
   helpers Sinatra::ContentFor
 
   set :views, Proc.new { File.join(File::dirname(__FILE__), "..", "..", "views") }
+
+  use Rack::Session::Cookie
+  before do
+    @_flash, session[:_flash] = session[:_flash], nil if session[:_flash]
+  end
 
 end

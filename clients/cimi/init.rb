@@ -19,9 +19,12 @@ require 'sinatra/content_for'
 require 'rack/accept'
 require 'haml'
 require 'rest-client'
+require 'nokogiri'
 
 $:.unshift File.join('lib')
 require 'lazy_auth'
+require 'client'
+require 'cimi_frontend_helper'
 require 'entities'
 
 $:.unshift File.join('..', '..','server', 'lib')

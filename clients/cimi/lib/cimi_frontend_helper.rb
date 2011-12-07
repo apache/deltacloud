@@ -13,37 +13,39 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI::Frontend
+module CIMI
+  module Frontend
+    module Helper
 
-  CMWG_NAMESPACE = "http://www.dmtf.org/cimi"
+      def href_to_id(href) 
+        href.split('/').last
+      end
 
-  class Application < Sinatra::Base
+      def flash_block_for(message_type)
+        return unless flash[message_type]
+        capture_haml do
+          haml_tag :div, :class => [ 'alert-message', message_type ] do
+            haml_tag :a, :class => :close, :href => '#' do
+              haml_concat 'x'
+            end
+            haml_tag :p do
+              haml_concat flash[message_type]
+            end
+          end
+        end
+      end
 
-    use CIMI::Frontend::CloudEntryPoint
-    use CIMI::Frontend::MachineConfiguration
-    use CIMI::Frontend::MachineImage
-    use CIMI::Frontend::Machine
-    use CIMI::Frontend::MachineTemplate
-    use CIMI::Frontend::VolumeConfiguration
-    use CIMI::Frontend::VolumeImage
-    use CIMI::Frontend::Volume
+      def flash
+        @_flash ||= {}
+      end
 
-    configure do
-      enable :logging
-      enable :layout
-      enable :show_exceptions
-      enable :dump_errors
-      enable :raise_exceptions
-      enable :sessions
-    end
+      def redirect(uri, *args)
+        session[:_flash] = flash unless flash.empty?
+        status 302
+        response['Location'] = uri
+        halt(*args)
+      end
 
-    get '/' do
-      redirect '/cimi/cloudEntryPoint'
-    end
-
-    get '/cimi' do
-      redirect '/cimi/cloudEntryPoint'
     end
   end
-
 end

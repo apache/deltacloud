@@ -16,13 +16,13 @@
 class CIMI::Frontend::MachineConfiguration < CIMI::Frontend::Entity
 
   get '/cimi/machine_configurations/:id' do
-    machine_confs_xml = CIMI::Frontend.get_entity('machine_configurations', params[:id], credentials)
+    machine_confs_xml = get_entity('machine_configurations', params[:id], credentials)
     @machine_configuration = CIMI::Model::MachineConfiguration.from_xml(machine_confs_xml)
     haml :'machine_configurations/show'
   end
 
   get '/cimi/machine_configurations' do
-    machine_conf_xml = CIMI::Frontend.get_entity_collection('machine_configurations', credentials)
+    machine_conf_xml = get_entity_collection('machine_configurations', credentials)
     @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
     haml :'machine_configurations/index'
   end

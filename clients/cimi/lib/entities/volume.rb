@@ -16,13 +16,13 @@
 class CIMI::Frontend::Volume < CIMI::Frontend::Entity
 
   get '/cimi/volumes/:id' do
-    volume_xml = CIMI::Frontend.get_entity('volumes', params[:id], credentials)
+    volume_xml = get_entity('volumes', params[:id], credentials)
     @volume = CIMI::Model::Volume.from_xml(volume_xml)
     haml :'volumes/show'
   end
 
   get '/cimi/volumes' do
-    volumes_xml = CIMI::Frontend.get_entity_collection('volumes', credentials)
+    volumes_xml = get_entity_collection('volumes', credentials)
     @volumes = CIMI::Model::VolumeCollection.from_xml(volumes_xml)
     haml :'volumes/index'
   end

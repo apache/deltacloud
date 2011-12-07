@@ -16,13 +16,13 @@
 class CIMI::Frontend::VolumeImage < CIMI::Frontend::Entity
 
   get '/cimi/volume_images/:id' do
-    volume_image_xml = CIMI::Frontend.get_entity('volume_images', params[:id], credentials)
+    volume_image_xml = get_entity('volume_images', params[:id], credentials)
     @volume_image= CIMI::Model::VolumeImage.from_xml(volume_image_xml)
     haml :'volume_images/show'
   end
 
   get '/cimi/volume_images' do
-    volume_images_xml = CIMI::Frontend.get_entity_collection('volume_images', credentials)
+    volume_images_xml = get_entity_collection('volume_images', credentials)
     @volume_images = CIMI::Model::VolumeImageCollection.from_xml(volume_images_xml)
     haml :'volume_images/index'
   end

@@ -11,6 +11,21 @@
     %li.active
       = @machine.name
 
+- content_for :actions do
+  %p
+    - if @machine.state == 'STARTED'
+      %form{ :action => "/cimi/machines/#{@machine.name}/stop", :method => :post, :style => 'display:inline'}
+        %button{ :class => 'btn'} Stop
+    - if @machine.state == 'STOPPED'
+      %form{ :action => "/cimi/machines/#{@machine.name}/start", :method => :post, :style => 'display:inline'}
+        %button{ :class => 'btn success'} Start
+    %form{ :action => "/cimi/machines/#{@machine.name}/restart", :method => :post, :style => 'display:inline'}
+      %button{ :class => 'btn info'} Restart
+    %form{ :action => "/cimi/machines/#{@machine.name}/delete", :method => :post, :style => 'display:inline'}
+      %input{ :type => :hidden, :name => '_method', :value => 'delete'}
+      %button{ :class => 'btn danger'} Destroy
+
+
 %blockquote
   %p
     This entity represents a
@@ -26,7 +41,35 @@
   %dd #{@machine.created}&nbsp;
   %dt State
   %dd=@machine.state
-  %dt Network Interfaces
-  %dd=@machine.network_interfaces
-  %dt Details
-  %dd=@machine.inspect
+
+%h3 Network Interfaces
+
+%table.bordered-table
+  %thead
+    %tr
+      %th Address
+      %th State
+      %th Protocol
+  %tbody
+    - @machine.network_interfaces.each do |interface|
+      %tr
+        %td=interface.address || interface.hostname
+        %td
+          %span.label.success=interface.state
+        %td=interface.protocol
+
+%h3 Volumes
+
+%table.bordered-table
+  %thead
+    %tr
+      %th ID
+      %th Attachment Point
+      %th Protocol
+  %tbody
+    - @machine.volumes.each do |volume|
+      %tr
+        %td
+          %a{:href => "/cimi/volumes/#{href_to_id(volume.href)}" }=href_to_id(volume.href)
+        %td=volume.attachment_point
+        %td=volume.protocol

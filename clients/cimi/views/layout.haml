@@ -5,8 +5,11 @@
     %title CIMI Client
     /[if lt IE 9]
       %script{ :src => '/html5.js' }
+    %script{ :src => '/jquery-1.4.2.min.js' }
+    %script{ :src => '/bootstrap/js/bootstrap-alerts.js' }
     %link{ :href => '/bootstrap/bootstrap.min.css', :rel => :stylesheet }
     %link{ :href => '/app.css', :rel => :stylesheet }
+    %script{ :src => '/app.js' }
     %body
       .topbar
         .fill
@@ -19,12 +22,12 @@
             = yield_content :breadcrumb
           .row
             .span10
+              - [ :info, :error, :success ].map do |message|
+                = flash_block_for message
               =yield
             .span4
-              %h3 Actions
+              %h3 Operations
               =yield_content :actions
-              %span.label.warning
-                TODO: Implement me!
         %footer
           %p
             &copy; 2009-2011 The Apache Software Foundation and individual contributors.

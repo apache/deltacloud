@@ -55,3 +55,6 @@ body {
   border: 0;
 }
 
+.content .row .span10 div.alert-message {
+  margin-right : 30px;
+}

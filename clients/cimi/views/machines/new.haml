@@ -1,0 +1,44 @@
+- @title="New Machine"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/machines"} MachineCollection
+      %span.divider="/"
+    %li.active New Machine
+
+
+%form{ :action => "/cimi/machines", :method => :post }
+  %fieldset
+    %legend Create new Machine
+    %div.clearfix
+      %label{ :for => 'machine[name]' }
+        Name
+      %div.input
+        %input{ :type => :text, :name => 'machine[name]' }
+    %div.clearfix
+      %label{ :for => 'machine[description]' }
+        Description
+      %div.input
+        %input{ :type => :text, :name => 'machine[description]' }
+    %div.clearfix
+      %label{ :for => 'machine[machine_image]' }
+        Machine Image
+      %div.input
+        %select{ :name => 'machine[machine_image]' }
+          - @machine_images.machine_images.each do |image|
+            %option{ :value => image.href }=href_to_id(image.href)
+    %div.clearfix
+      %label{ :for => 'machine[machine_configuration]' }
+        Machine Configuration
+      %div.input
+        %select{ :name => 'machine[machine_configuration]' }
+          - @machine_configurations.machine_configurations.each do |configuration|
+            %option{ :value => configuration.href }=href_to_id(configuration.href)
+    %div.actions
+      %input{ :type => :submit, :class => 'btn primary', :value => "Create machine" }
+      %button{ :type => :reset, :class => 'btn' } Reset
+

@@ -16,13 +16,13 @@
 class CIMI::Frontend::VolumeConfiguration < CIMI::Frontend::Entity
 
   get '/cimi/volume_configurations/:id' do
-    volume_confs_xml = CIMI::Frontend.get_entity('volume_configurations', params[:id], credentials)
+    volume_confs_xml = get_entity('volume_configurations', params[:id], credentials)
     @volume_configuration = CIMI::Model::VolumeConfiguration.from_xml(volume_confs_xml)
     haml :'volume_configurations/show'
   end
 
   get '/cimi/volume_configurations' do
-    volume_conf_xml = CIMI::Frontend.get_entity_collection('volume_configurations', credentials)
+    volume_conf_xml = get_entity_collection('volume_configurations', credentials)
     @volume_configurations = CIMI::Model::VolumeConfigurationCollection.from_xml(volume_conf_xml)
     haml :'volume_configurations/index'
   end
