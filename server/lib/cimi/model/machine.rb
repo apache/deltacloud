@@ -106,6 +106,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     self.new(
       :name => instance.id,
       :description => instance.name,
+      :created => Time.now,
       :uri => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
       :cpu => convert_instance_cpu(instance.instance_profile, context),

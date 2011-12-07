@@ -15,9 +15,9 @@
 
 class CIMI::Model::MachineAdminCollection < CIMI::Model::Base
 
-  act_as_root_entity :machine_admins
+  act_as_root_entity :machine_admin
 
-  array :machine_admin do
+  array :machine_admins do
     scalar :href
   end
 
