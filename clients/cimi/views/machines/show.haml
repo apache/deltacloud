@@ -51,7 +51,7 @@
     - if @machine.memory.quantity.nil?
       %span.label Not specified
     - else
-      =[@memory.quantity, @memory.units].join("&nbsp;")
+      =[@machine.memory.quantity, @machine.memory.units].join("&nbsp;")
   %dt Meters
   %dd
     - if @machine.meters.empty?
@@ -59,6 +59,19 @@
     - else
       - @machine.meters.each do |meters|
         %dd=meters.ref
+
+%h3 Properties
+
+%table.bordered-table
+  %thead
+    %tr
+      %th Name
+      %th Value
+  %tbody
+    - @machine.property.each do |property|
+      %tr
+        %td=property.name
+        %td=convert_urls property.value
 
 %h3 Network Interfaces
 
@@ -75,6 +88,11 @@
         %td
           %span.label.success=interface.state
         %td=interface.protocol
+    - if @machine.network_interfaces.empty?
+      %tr
+        %td{ :colspan => 3 }
+          %strong
+            There are no network interfaces defined for this Machine.
 
 %h3 Volumes
 
@@ -91,6 +109,12 @@
           %a{:href => "/cimi/volumes/#{href_to_id(volume.href)}" }=href_to_id(volume.href)
         %td=volume.attachment_point
         %td=volume.protocol
+    - if @machine.volumes.empty?
+      %tr
+        %td{ :colspan => 3 }
+          %strong
+            There are no Volume entities defined for this Machine.
+
 
 %h3 Disks
 
@@ -106,3 +130,8 @@
         %td=[boolean_span_for(disk.capacity.quantity), disk.capacity.units].join("&nbsp;")
         %td=boolean_span_for disk.format
         %td=boolean_span_for disk.attachment_point
+    - if @machine.disks.empty?
+      %tr
+        %td{ :colspan => 3 }
+          %strong
+            There are no disks defined for this Machine.

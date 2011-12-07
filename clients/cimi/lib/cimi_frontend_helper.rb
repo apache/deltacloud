@@ -17,6 +17,8 @@ module CIMI
   module Frontend
     module Helper
 
+      require 'uri'
+
       def href_to_id(href) 
         href.split('/').last
       end
@@ -61,6 +63,27 @@ module CIMI
             haml_concat state
           end
         end
+      end
+
+      def relativize_url(absolute_url)
+        URI.parse(absolute_url).path
+      end
+
+      def convert_urls(value)
+        value.gsub( %r{http(s?)://[^\s<]+} ) { |url| "<a href='#{relativize_url(url)}'>#{href_to_id(url)}</a>" }
+      end
+
+      def not_implemented(collection_name)
+        return unless ['machine_templates', 'volume_templates'].include?(collection_name)
+        capture_haml do
+          haml_tag :span, :class => [ :label, :warning ] do
+            haml_concat 'pending'
+          end
+        end
+      end
+
+      def struct_to_name(struct_name)
+        struct_name.class.name.split('_').last
       end
 
     end

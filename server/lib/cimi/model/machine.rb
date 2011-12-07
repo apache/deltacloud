@@ -78,9 +78,16 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
-    hardware_profile_id = xml['MachineTemplate'][0]['MachineConfig'][0]["href"].split('/').last
-    image_id = xml['MachineTemplate'][0]['MachineImage'][0]["href"].split('/').last
-    instance = context.driver.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
+    machine_template = xml['MachineTemplate'][0]
+    hardware_profile_id = machine_template['MachineConfig'][0]["href"].split('/').last
+    image_id = machine_template['MachineImage'][0]["href"].split('/').last
+    additional_params = {}
+    if machine_template.has_key? 'MachineAdmin'
+      additional_params[:keyname] = machine_template['MachineAdmin'][0]["href"].split('/').last
+    end
+    instance = context.driver.create_instance(context.credentials, image_id, { 
+      :hwp_id => hardware_profile_id
+    }.merge(additional_params))
     from_instance(instance, context)
   end
 
@@ -106,14 +113,15 @@ class CIMI::Model::Machine < CIMI::Model::Base
     self.new(
       :name => instance.id,
       :description => instance.name,
-      :created => Time.now,
+      :created => instance.launch_time,
       :uri => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
       :cpu => convert_instance_cpu(instance.instance_profile, context),
       :memory => convert_instance_memory(instance.instance_profile, context),
       :disks => convert_instance_storage(instance.instance_profile, context),
       :network_interfaces => convert_instance_addresses(instance),
-      :operations => convert_instance_actions(instance, context)
+      :operations => convert_instance_actions(instance, context),
+      :property => convert_instance_properties(instance, context)
     )
   end
 
@@ -122,6 +130,15 @@ class CIMI::Model::Machine < CIMI::Model::Base
   #
   def self.convert_instance_state(state)
     ('RUNNING' == state) ? 'STARTED' : state
+  end
+
+  def self.convert_instance_properties(instance, context)
+    properties = []
+    properties << { :name => :machine_image, :value => context.machine_image_url(instance.image_id) }
+    if instance.respond_to? :keyname
+      properties << { :name => :machine_admin, :value => context.machine_admin_url(instance.keyname) }
+    end
+    properties
   end
 
   def self.convert_instance_cpu(profile, context)
