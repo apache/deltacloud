@@ -136,13 +136,59 @@ global_collection :machine_images do
 
   operation :show do
     description "Show specific machine image."
-    with_capability :image
     param :id,          :string,    :required
     control do
       machine_image = MachineImage.find(params[:id], self)
       respond_to do |format|
         format.xml { machine_image.to_xml }
         format.json { machine_image.to_json }
+      end
+    end
+  end
+
+end
+
+global_collection :machine_admins do
+  description 'Machine Admin entity'
+
+  operation :index do
+    description "List all machine admins"
+    with_capability :keys
+    control do
+      machine_admins = MachineAdmin.all(self)
+      respond_to do |format|
+        format.xml { machine_admins.to_xml_cimi_collection(self) }
+        format.json { machine_admins.to_json_cimi_collection(self) }
+      end
+    end
+  end
+
+  operation :show do
+    description "Show specific machine admin"
+    param :id,          :string,    :required
+    with_capability :key
+    control do
+      machine_admin = MachineAdmin.find(params[:id], self)
+      respond_to do |format|
+        format.xml { machine_admin.to_xml }
+        format.json { machine_admin.to_json }
+      end
+    end
+  end
+
+  operation :create do
+    description "Show specific machine admin"
+    with_capability :create_key
+    control do
+      if request.content_type.end_with?("+json")
+        new_admin = MachineAdmin.create_from_json(request.body.read, self)
+      else
+        new_admin = MachineAdmin.create_from_xml(request.body.read, self)
+      end
+      status 201 # Created
+      respond_to do |format|
+        format.json { new_admin.to_json }
+        format.xml { new_admin.to_xml }
       end
     end
   end
@@ -165,7 +211,6 @@ global_collection :machines do
 
   operation :show do
     description "Show specific machine."
-    with_capability :instance
     param :id,          :string,    :required
     control do
       machine = Machine.find(params[:id], self)

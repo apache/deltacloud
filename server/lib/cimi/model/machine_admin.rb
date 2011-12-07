@@ -24,7 +24,32 @@ class CIMI::Model::MachineAdmin < CIMI::Model::Base
   end
 
   def self.find(id, context)
-    [] # TODO: Implement this
+    if id == :all
+      keys = context.driver.keys(context.credentials)
+      keys.map { |key| from_key(key, context) }
+    else
+      key = context.driver.key(context.credentials, :id => id)
+      from_key(key, context)
+    end
+  end
+
+  def self.create_from_xml(body, context)
+    machine_admin = MachineAdmin.from_xml(body)
+    key = context.driver.create_key(context.credentials, :key_name => machine_admin.name)
+    from_key(key, context)
+  end
+
+  private
+
+  def self.from_key(key, context)
+    self.new(
+      :name => key.id,
+      :username => key.username,
+      :password => key.is_password? ? key.password : key.fingerprint,
+      :key => key.is_key? ? key.pem_rsa_key : nil,
+      :uri => context.machine_admin_url(key.id),
+      :created => Time.now
+    )
   end
 
 end

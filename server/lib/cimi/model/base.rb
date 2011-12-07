@@ -67,14 +67,6 @@ require 'json'
 #     An array of structured subobjects; the block defines the schema of
 #     the subobjects.
 
-class CIMI::Model::NotFound < StandardError
-  attr_accessor :code
-  def initialize
-    super("Requested Entity Not Found")
-    self.code = 404
-  end
-end
-
 module CIMI::Model
 
   def self.register_as_root_entity!(name)
