@@ -11,6 +11,11 @@
     %li.active
       = @machine_configuration.name
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@machine_configuration.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_configuration.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     The Machine Configuration entity represents the set of configuration values

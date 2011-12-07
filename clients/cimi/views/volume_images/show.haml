@@ -11,6 +11,11 @@
     %li.active
       = @volume_image.name
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@volume_image.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume_image.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     This entity represents the information necessary for hardware virtualized

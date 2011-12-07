@@ -11,6 +11,11 @@
     %li.active
       = @volume_configuration.name
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@volume_configuration.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume_configuration.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     The Volume Configuration entity represents the set of configuration values

@@ -21,13 +21,11 @@
             %h1=@title || 'no-title-fix-me'
             = yield_content :breadcrumb
           .row
-            .span10
+            .span10#main
               - [ :info, :error, :success ].map do |message|
                 = flash_block_for message
               =yield
-            .span4
-              %h3 Operations
-              =yield_content :actions
+            .span4#toolbar=yield_content :actions
         %footer
           %p
             &copy; 2009-2011 The Apache Software Foundation and individual contributors.

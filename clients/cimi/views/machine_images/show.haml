@@ -11,6 +11,11 @@
     %li.active
       = @machine_image.name
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@machine_image.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_image.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     This entity represents the information (e.g. an Open Virtualization Format

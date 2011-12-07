@@ -8,6 +8,10 @@
     %li.active
       VolumeCollection
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@volumes.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volumes.uri}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p

@@ -13,6 +13,9 @@
 
 - content_for :actions do
   %p
+    %a{ :href => "#{@machine.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine.uri}?format=json", :class => 'label warning' } JSON
+  %p
     - if @machine.state == 'STARTED'
       %form{ :action => "/cimi/machines/#{@machine.name}/stop", :method => :post, :style => 'display:inline'}
         %button{ :class => 'btn'} Stop

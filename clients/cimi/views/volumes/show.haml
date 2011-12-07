@@ -11,6 +11,11 @@
     %li.active
       = @volume.name
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@volume.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     This entity represents a

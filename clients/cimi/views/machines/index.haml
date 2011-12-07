@@ -10,7 +10,11 @@
 
 - content_for :actions do
   %p
+    %a{ :href => "#{@machines.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machines.uri}?format=json", :class => 'label warning' } JSON
+  %p
     %a{ :href => '/cimi/machines/new', :class => 'btn info'} New machine 
+
 
 %blockquote
   %p

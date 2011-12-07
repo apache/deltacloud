@@ -8,6 +8,11 @@
     %li.active
       VolumeImageCollection
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@volume_images.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume_images.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     A Volume Image Collection entity represents the collection of Volume Image

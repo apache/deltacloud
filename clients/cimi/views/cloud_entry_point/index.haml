@@ -5,6 +5,11 @@
     %li.active
       CloudEntryPoint
 
+- content_for :actions do
+  %p
+    %a{ :href => "#{@entry_point.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@entry_point.uri}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     The Cloud Entry Point represents the entry point into the cloud defined by

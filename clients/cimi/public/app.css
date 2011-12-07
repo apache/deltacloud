@@ -58,3 +58,7 @@ body {
 .content .row .span10 div.alert-message {
   margin-right : 30px;
 }
+
+#toolbar p:first-child {
+  text-align : right;
+}
