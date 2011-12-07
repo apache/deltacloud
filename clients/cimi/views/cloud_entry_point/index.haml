@@ -1,4 +1,4 @@
-- @title=@entry_point.description
+- @title=@entry_point.name
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -21,5 +21,15 @@
   - @entities.each do |entity|
     %li
       - if @entry_point.respond_to? entity
-        %a{ :href => "/cimi/#{entity}"}=@entry_point.send(entity.intern).class.name.split('_').last
+        %a{ :href => "/cimi/#{entity}"}=struct_to_name @entry_point.send(entity.intern)
+        =not_implemented(entity)
 
+%h3 Collection details
+
+%dl
+  %dt URI
+  %dd=@entry_point.uri
+  %dt Description
+  %dd=@entry_point.description
+  %dt Created
+  %dd=@entry_point.created
