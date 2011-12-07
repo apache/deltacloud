@@ -39,6 +39,10 @@ class CIMI::Model::MachineAdmin < CIMI::Model::Base
     from_key(key, context)
   end
 
+  def self.delete!(id, context)
+    context.driver.destroy_key(context.credentials, :id => id)
+  end
+
   private
 
   def self.from_key(key, context)

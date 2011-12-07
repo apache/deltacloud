@@ -155,10 +155,10 @@ global_collection :machine_admins do
     description "List all machine admins"
     with_capability :keys
     control do
-      machine_admins = MachineAdmin.all(self)
+      machine_admins = MachineAdminCollection.default(self)
       respond_to do |format|
-        format.xml { machine_admins.to_xml_cimi_collection(self) }
-        format.json { machine_admins.to_json_cimi_collection(self) }
+        format.xml { machine_admins.to_xml }
+        format.json { machine_admins.to_json }
       end
     end
   end
@@ -190,6 +190,15 @@ global_collection :machine_admins do
         format.json { new_admin.to_json }
         format.xml { new_admin.to_xml }
       end
+    end
+  end
+
+  operation :delete, :method => :delete, :member => true do
+    description "Delete specified MachineAdmin entity"
+    param :id,          :string,    :required
+    control do
+      MachineAdmin.delete!(params[:id], self)
+      no_content_with_status(200)
     end
   end
 
