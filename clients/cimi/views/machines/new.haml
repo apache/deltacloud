@@ -38,6 +38,14 @@
         %select{ :name => 'machine[machine_configuration]' }
           - @machine_configurations.machine_configurations.each do |configuration|
             %option{ :value => configuration.href }=href_to_id(configuration.href)
+    %div.clearfix
+      %label{ :for => 'machine[machine_admin]' }
+        Machine Admin
+      %div.input
+        %select{ :name => 'machine[machine_admin]' }
+          %option{ :value => '', :selected => :selected }
+          - @machine_admins.machine_admins.each do |admin|
+            %option{ :value => admin.href }=href_to_id(admin.href)
     %div.actions
       %input{ :type => :submit, :class => 'btn primary', :value => "Create machine" }
       %button{ :type => :reset, :class => 'btn' } Reset

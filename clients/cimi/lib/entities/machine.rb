@@ -20,11 +20,14 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
     @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
     @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
+    machine_admins_xml = get_entity_collection('machine_admins', credentials)
+    @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admins_xml)
     haml :'machines/new'
   end
 
   get '/cimi/machines/:id' do
     machine_xml = get_entity('machines', params[:id], credentials)
+    puts machine_xml
     @machine= CIMI::Model::Machine.from_xml(machine_xml)
     haml :'machines/show'
   end
@@ -84,11 +87,13 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         xml.name params[:machine][:name]
         xml.description params[:machine][:description]
         xml.MachineTemplate {
-          xml.MachineConfig( :href => params[:machine_configuration] )
-          xml.MachineImage( :href => params[:machine_image] )
+          xml.MachineConfig( :href => params[:machine][:machine_configuration] )
+          xml.MachineImage( :href => params[:machine][:machine_image] )
+          xml.MachineAdmin( :href => params[:machine][:machine_admin] ) unless params[:machine][:machine_admin].empty?
         }
       }
     end.to_xml
+    puts machine_xml
     begin
       result = create_entity('machines', machine_xml, credentials)
       machine = CIMI::Model::MachineCollection.from_xml(result)
