@@ -46,6 +46,23 @@ module CIMI
         halt(*args)
       end
 
+      def boolean_span_for(bool)
+        return bool if !bool.nil? and bool!='true' and bool!='false'
+        capture_haml do
+          haml_tag :span, :class => [ 'label', bool.nil? ? '' : (bool===false) ? 'important' : 'success' ] do
+            haml_concat bool.nil? ? 'not specified' : (bool===false) ? 'no' : 'yes'
+          end
+        end
+      end
+
+      def state_span_for(state)
+        capture_haml do
+          haml_tag :span, :class => [ 'label', state=='STARTED' ? 'success' : 'important' ] do
+            haml_concat state
+          end
+        end
+      end
+
     end
   end
 end

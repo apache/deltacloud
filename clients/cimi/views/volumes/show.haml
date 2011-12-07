@@ -28,6 +28,24 @@
   %dt Description
   %dd=@volume.description
   %dt Created
-  %dd #{@volume.created}&nbsp;
-  %dt Details
-  %dd=@volume.inspect
+  %dd=@volume.created
+  %dt Bootable
+  %dd=boolean_span_for @volume.bootable
+  %dt Support Snapshots
+  %dd=boolean_span_for @volume.supports_snapshots
+  %dt Guest Interface
+  %dd=boolean_span_for @volume.guest_interface
+  %dt Snapshots
+  %dd
+    - if @volume.snapshots.empty?
+      %span.label No snapshots
+    - else
+      - @volume.snapshots.each do |snapshot|
+        %dd=snapshot.ref
+  %dt Meters
+  %dd
+    - if @volume.meters.empty?
+      %span.label No meters
+    - else
+      - @volume.meters.each do |meters|
+        %dd=meters.ref

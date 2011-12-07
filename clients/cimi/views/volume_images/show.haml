@@ -29,5 +29,10 @@
   %dd=@volume_image.description
   %dt Created
   %dd=@volume_image.created
-  %dt Details
-  %dd=@volume_image.inspect
+  %dt Bootable
+  %dd=boolean_span_for @volume_image.bootable
+  %dt Image Location
+  %dd
+    %a{:href => "/cimi/volumes/#{href_to_id(@volume_image.image_location.href)}"}=href_to_id @volume_image.image_location.href
+  %dt Image Data
+  %dd=boolean_span_for @volume_image.image_data

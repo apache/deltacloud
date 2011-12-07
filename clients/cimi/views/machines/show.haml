@@ -43,7 +43,22 @@
   %dt Created
   %dd #{@machine.created}&nbsp;
   %dt State
-  %dd=@machine.state
+  %dd=state_span_for @machine.state
+  %dt CPU
+  %dd=boolean_span_for @machine.cpu
+  %dt Memory
+  %dd
+    - if @machine.memory.quantity.nil?
+      %span.label Not specified
+    - else
+      =[@memory.quantity, @memory.units].join("&nbsp;")
+  %dt Meters
+  %dd
+    - if @machine.meters.empty?
+      %span.label No meters
+    - else
+      - @machine.meters.each do |meters|
+        %dd=meters.ref
 
 %h3 Network Interfaces
 
@@ -76,3 +91,18 @@
           %a{:href => "/cimi/volumes/#{href_to_id(volume.href)}" }=href_to_id(volume.href)
         %td=volume.attachment_point
         %td=volume.protocol
+
+%h3 Disks
+
+%table.bordered-table
+  %thead
+    %tr
+      %th Capacity
+      %th Format
+      %th Attachment point
+  %tbody
+    - @machine.disks.each do |disk|
+      %tr
+        %td=[boolean_span_for(disk.capacity.quantity), disk.capacity.units].join("&nbsp;")
+        %td=boolean_span_for disk.format
+        %td=boolean_span_for disk.attachment_point

@@ -30,6 +30,13 @@
   %dt Description
   %dd=@volume_configuration.description
   %dt Created
-  %dd #{@volume_configuration.created}&nbsp;
-  %dt Details
-  %dd=@volume_configuration.inspect
+  %dd=@volume_configuration.created
+  %dt Format
+  %dd=boolean_span_for @volume_configuration.format
+  %dt Supports snapshots
+  %dd=boolean_span_for @volume_configuration.supports_snapshots
+  %dt Guest interface
+  %dd=boolean_span_for @volume_configuration.guest_interface
+  %dt Capacity
+  %dd
+    =[@volume_configuration.capacity.quantity, @volume_configuration.capacity.units].join('&nbsp;')
