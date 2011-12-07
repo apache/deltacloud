@@ -1,0 +1,44 @@
+- @title=@machine_admins.name
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      MachineAdminCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@machine_admins.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_admins.uri}?format=json", :class => 'label warning' } JSON
+  %p
+    %a{ :href => '/cimi/machine_admins/new', :class => 'btn info'} New Machine Admin
+
+%blockquote
+  %p 
+    A Machine Admin Collection entity represents the collection of Machine Admin
+    entities within a Provider. This entity can be used to locate and create
+    MachineAdmins.
+
+%ul
+  - @machine_admins.machine_admins.each do |conf|
+    %li
+      %a{ :href => "/cimi/machine_admins/#{conf.href.split('/').last}"}=conf.href.split('/').last
+
+- if @machine_admins.machine_admins.empty?
+  .alert-message.block-message.warning
+    %p
+      There are no MachineAdmin entities defined for this collection.
+    .alert_actions
+      %a{ :href => '/cimi/machine_admins/new', :class => 'btn'} Create new
+
+%h3 Collection details
+
+%dl
+  %dt URI
+  %dd=@machine_admins.uri
+  %dt Description
+  %dd=@machine_admins.description
+  %dt Created
+  %dd=@machine_admins.created

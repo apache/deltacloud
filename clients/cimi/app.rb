@@ -23,6 +23,7 @@ module CIMI::Frontend
     use CIMI::Frontend::MachineConfiguration
     use CIMI::Frontend::MachineImage
     use CIMI::Frontend::Machine
+    use CIMI::Frontend::MachineAdmin
     use CIMI::Frontend::MachineTemplate
     use CIMI::Frontend::VolumeConfiguration
     use CIMI::Frontend::VolumeImage
