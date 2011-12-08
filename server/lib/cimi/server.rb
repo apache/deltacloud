@@ -75,7 +75,6 @@ end
 
 global_collection  :cloudEntryPoint do
   description 'Cloud entry point'
-
   operation :index do
     description "list all resources of the cloud"
     control do
@@ -417,6 +416,35 @@ global_collection :volume_images do
       respond_to do |format|
         format.xml { volume_image.to_xml }
         format.json { volume_image.to_json }
+      end
+    end
+  end
+
+end
+
+
+global_collection :entity_metadata do
+  description 'This allows for the discovery of Provider defined constraints on the CIMI defined attributes as well as discovery of any new extension attributes that the Provider may have defined.'
+
+  operation :index do
+    description "List all entity metadata defined for this provider"
+    control do
+      entity_metadata = EntityMetadata.all(self)
+      respond_to do |format|
+        format.xml{entity_metadata.to_xml_cimi_collection(self)}
+        format.json{entity_metadata.to_json_cimi_collection(self)}
+      end
+    end
+  end
+
+  operation :show do
+    description "Get the entity metadata for a specific collection"
+    param :id, :required, :string
+    control do
+      entity_metadata = EntityMetadata.find(params[:id], self)
+      respond_to do |format|
+        format.xml{entity_metadata.to_xml}
+        format.json{entity_metadata.to_json}
       end
     end
   end
