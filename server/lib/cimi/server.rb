@@ -429,10 +429,10 @@ global_collection :entity_metadata do
   operation :index do
     description "List all entity metadata defined for this provider"
     control do
-      entity_metadata = EntityMetadata.all(self)
+      entity_metadata = EntityMetadataCollection.default(self)
       respond_to do |format|
-        format.xml{entity_metadata.to_xml_cimi_collection(self)}
-        format.json{entity_metadata.to_json_cimi_collection(self)}
+        format.xml{entity_metadata.to_xml}
+        format.json{entity_metadata.to_json}
       end
     end
   end

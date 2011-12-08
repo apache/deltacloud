@@ -39,31 +39,25 @@ text :type_uri
     entity_metadata = []
     if id == :all
       CIMI::Model.root_entities.each do |entity|
-        entity_class = Object::const_get("CIMI").const_get("Model").const_get("#{entity.singularize}")
+        entity_class = CIMI::Model.const_get("#{entity.singularize}")
         entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?("create_entity_metadata")
       end
       return entity_metadata
     else
-      entity_class = Object::const_get("CIMI").const_get("Model").const_get("#{id.camelize}")
+      entity_class = CIMI::Model.const_get("#{id.camelize}")
       entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?("create_entity_metadata")
       return entity_metadata.first
     end
   end
 
   def self.metadata_from_deltacloud_features(cimi_entity, dcloud_entity, context)
-      metadata_attributes = []
       deltacloud_features = context.driver.features(dcloud_entity)
-      deltacloud_features.each do |feature|
-        metadata_attributes << attributes_from_feature(feature)
-      end
+      metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
       from_feature(cimi_entity, context, metadata_attributes)
   end
 
   def includes_attribute?(attribute)
-    self.attributes.each do |attr|
-      return true if attr[:name] == attribute
-    end
-    return false
+    self.attributes.any?{|attr| attr[:name] == attribute}
   end
 
   private
