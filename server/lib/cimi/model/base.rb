@@ -209,4 +209,36 @@ class CIMI::Model::Base
   end
 
   def self.all(_self); find(:all, _self); end
+
+  def filter_by(filter_opts)
+    return self if filter_opts.nil?
+    return filter_attributes(filter_opts.split(',').map{ |a| a.intern }) if filter_opts.include? ','
+    case filter_opts
+      when /^([\w\_]+)$/ then filter_attributes([$1.intern])
+      when /^([\w\_]+)\[(\d+\-\d+)\]$/ then filter_by_arr_range($1.intern, $2)
+      when /^([\w\_]+)\[(\d+)\]$/ then filter_by_arr_index($1.intern, $2)
+      else self
+    end
+  end
+
+  private
+
+  def filter_attributes(attr_list)
+    attrs = attr_list.inject({}) do |result, attr|
+      result[attr] = self.send(attr) if self.respond_to?(attr)
+      result
+    end
+    self.class.new(attrs)
+  end
+
+  def filter_by_arr_index(attr, filter)
+    return self unless self.respond_to?(attr)
+    self.class.new(attr => [self.send(attr)[filter.to_i]])
+  end
+
+  def filter_by_arr_range(attr, filter)
+    return self unless self.respond_to?(attr)
+    filter = filter.split('-').inject { |s,e| s.to_i..e.to_i }
+    self.class.new(attr => self.send(attr)[filter])
+  end
 end

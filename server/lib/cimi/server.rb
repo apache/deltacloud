@@ -92,9 +92,10 @@ global_collection :machine_configurations do
   description 'List all machine configurations'
 
   operation :index do
+    param :CIMISelect,  :string,  :optional
     description "List all machine configurations"
     control do
-      machine_configs = MachineConfigurationCollection.default(self)
+      machine_configs = MachineConfigurationCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { machine_configs.to_xml }
         format.json { machine_configs.to_json }
@@ -125,8 +126,9 @@ global_collection :machine_images do
 
   operation :index do
     description "List all machine configurations"
+    param :CIMISelect,  :string,  :optional
     control do
-      machine_images = MachineImageCollection.default(self)
+      machine_images = MachineImageCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { machine_images.to_xml }
         format.json { machine_images.to_json }
@@ -153,9 +155,10 @@ global_collection :machine_admins do
 
   operation :index do
     description "List all machine admins"
+    param :CIMISelect,  :string,  :optional
     with_capability :keys
     control do
-      machine_admins = MachineAdminCollection.default(self)
+      machine_admins = MachineAdminCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { machine_admins.to_xml }
         format.json { machine_admins.to_json }
@@ -208,9 +211,10 @@ global_collection :machines do
   description 'List all machine'
 
   operation :index do
+    param :CIMISelect,  :string,  :optional
     description "List all machines"
     control do
-      machines = MachineCollection.default(self)
+      machines = MachineCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { machines.to_xml }
         format.json { machines.to_json }
@@ -313,8 +317,9 @@ global_collection :volumes do
 
   operation :index do
     description "List all volumes"
+    param :CIMISelect,  :string,  :optional
     control do
-      volumes = VolumeCollection.default(self)
+      volumes = VolumeCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { volumes.to_xml }
         format.json { volumes.to_json }
@@ -333,7 +338,6 @@ global_collection :volumes do
       end
     end
   end
-
 
   operation :create do
     description "Create a new Volume."
@@ -361,9 +365,6 @@ global_collection :volumes do
     end
   end
 
-
-
-
 end
 
 global_collection :volume_configurations do
@@ -371,8 +372,9 @@ global_collection :volume_configurations do
 
   operation :index do
     description "Get list all VolumeConfigurations"
+    param :CIMISelect,  :string,  :optional
     control do
-      volume_configuration = VolumeConfigurationCollection.default(self)
+      volume_configuration = VolumeConfigurationCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { volume_configuration.to_xml }
         format.json { volume_configuration.to_json }
@@ -397,8 +399,9 @@ global_collection :volume_images do
 
   operation :index do
     description "List all volumes images"
+    param :CIMISelect,  :string,  :optional
     control do
-      volume_images = VolumeImageCollection.default(self)
+      volume_images = VolumeImageCollection.default(self).filter_by(params[:CIMISelect])
       respond_to do |format|
         format.xml { volume_images.to_xml }
         format.json { volume_images.to_json }
