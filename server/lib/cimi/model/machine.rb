@@ -70,20 +70,20 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_json(body, context)
     json = JSON.parse(body)
-    hardware_profile_id = xml['MachineTemplate']['MachineConfig']["href"].split('/').last
-    image_id = xml['MachineTemplate']['MachineImage']["href"].split('/').last
+    hardware_profile_id = xml['machineTemplate']['machineConfig']["href"].split('/').last
+    image_id = xml['machineTemplate']['machineImage']["href"].split('/').last
     instance = context.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
     from_instance(instance, context)
   end
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
-    machine_template = xml['MachineTemplate'][0]
-    hardware_profile_id = machine_template['MachineConfig'][0]["href"].split('/').last
-    image_id = machine_template['MachineImage'][0]["href"].split('/').last
+    machine_template = xml['machineTemplate'][0]
+    hardware_profile_id = machine_template['machineConfig'][0]["href"].split('/').last
+    image_id = machine_template['machineImage'][0]["href"].split('/').last
     additional_params = {}
     if machine_template.has_key? 'MachineAdmin'
-      additional_params[:keyname] = machine_template['MachineAdmin'][0]["href"].split('/').last
+      additional_params[:keyname] = machine_template['machineAdmin'][0]["href"].split('/').last
     end
     instance = context.driver.create_instance(context.credentials, image_id, { 
       :hwp_id => hardware_profile_id
@@ -105,6 +105,16 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.delete!(id, context)
     context.driver.destroy_instance(context.credentials, id)
+  end
+
+  def self.create_entity_metadata(context)
+    cimi_entity = self.name.split("::").last
+    metadata = EntityMetadata.metadata_from_deltacloud_features(cimi_entity, :instances, context)
+    unless metadata.includes_attribute?(:name)
+      metadata.attributes << {:name=>"name", :required=>"false",
+                   :constraints=>"Determined by the cloud provider", :type=>"xs:string"}
+    end
+    metadata
   end
 
   private
@@ -163,11 +173,11 @@ class CIMI::Model::Machine < CIMI::Model::Base
     machine_conf = MachineConfiguration.find(profile.name, context)
     storage_override = profile.overrides.find { |p, v| p == :storage }
     [
-      { :capacity => { 
+      { :capacity => {
           :quantity => storage_override.nil? ? machine_conf.disks.first[:capacity][:quantity] : storage_override[1],
           :units => machine_conf.disks.first[:capacity][:units]
-        } 
-      } 
+        }
+      }
     ]
   end
 
