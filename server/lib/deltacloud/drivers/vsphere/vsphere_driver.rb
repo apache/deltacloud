@@ -178,7 +178,7 @@ module Deltacloud::Drivers::VSphere
           if vm.guest[:net].empty?
             public_addresses = vm.macs.values.collect { |mac_address| InstanceAddress.new(mac_address, :type => :mac) }
           else
-            public_addresses = InstanceAddress.new(vm.guest[:net].first[:ipAddress].first)
+            public_addresses = [InstanceAddress.new(vm.guest[:net].first[:ipAddress].first)]
           end
           Instance.new(
             :id => properties[:name],
