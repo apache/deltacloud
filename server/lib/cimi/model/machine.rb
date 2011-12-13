@@ -85,7 +85,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     if machine_template.has_key? 'MachineAdmin'
       additional_params[:keyname] = machine_template['machineAdmin'][0]["href"].split('/').last
     end
-    instance = context.driver.create_instance(context.credentials, image_id, { 
+    instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
     from_instance(instance, context)

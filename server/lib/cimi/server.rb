@@ -249,8 +249,8 @@ global_collection :machines do
     end
   end
 
-  operation :delete, :method => :delete, :member => true do
-    description "Reboot specific machine."
+  operation :destroy do
+    description "Delete a specified machine."
     param :id,          :string,    :required
     control do
       Machine.delete!(params[:id], self)
@@ -353,6 +353,15 @@ global_collection :volumes do
         format.json { new_volume.to_json }
         format.xml { new_volume.to_xml }
       end
+    end
+  end
+
+  operation :destroy do
+    description "Delete a specified Volume"
+    param :id, :string, :required
+    control do
+      Volume.delete!(params[:id], self)
+      no_content_with_status(200)
     end
   end
 

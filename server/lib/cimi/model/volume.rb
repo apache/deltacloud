@@ -60,6 +60,10 @@ class CIMI::Model::Volume < CIMI::Model::Base
     create_volume({:volume_config_id=>volume_config_id, :volume_image_id=>volume_image_id}, context)
   end
 
+  def self.delete!(id, context)
+    context.driver.destroy_storage_volume(context.credentials, {:id=>id} )
+  end
+
   private
 
   def self.create_volume(params, context)
