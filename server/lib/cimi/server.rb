@@ -345,18 +345,10 @@ global_collection :volumes do
           #((request.content_type.end_with?("+xml")) ? :xml : report_error(415) ) FIXME
       case content_type
         when :json
-          json = JSON.parse(request.body.read)
-          volume_config_id = json["volumeTemplate"]["volumeConfig"]["href"].split("/").last
-          volume_image_id = (json["volumeTemplate"].has_key?("volumeImage") ?
-                      json["volumeTemplate"]["volumeImage"]["href"].split("/").last  : nil)
+          new_volume = Volume.create_from_json(request.body.read, self)
         when :xml
-          xml = XmlSimple.xml_in(request.body.read)
-          volume_config_id = xml["volumeTemplate"][0]["volumeConfig"][0]["href"].split("/").last
-          volume_image_id = (xml["volumeTemplate"][0].has_key?("volumeImage") ?
-                      xml["volumeTemplate"][0]["volumeImage"][0]["href"].split("/").last  : nil)
+          new_volume = Volume.create_from_xml(request.body.read, self)
       end
-      params.merge!( {:volume_config_id => volume_config_id, :volume_image_id => volume_image_id} )
-      new_volume = Volume.create(params, self)
       respond_to do |format|
         format.json { new_volume.to_json }
         format.xml { new_volume.to_xml }
