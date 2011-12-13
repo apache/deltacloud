@@ -148,6 +148,7 @@ EOS
     param :id,      :string
     control do
       @name = params[:id].to_sym
+      @providers = driver.providers(credentials) if driver.respond_to? :providers
       @driver = settings.drivers[@name]
       return [404, "Driver #{@name} not found"] unless @driver
       respond_to do |format|

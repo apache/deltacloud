@@ -159,6 +159,7 @@ module Deltacloud
     # def delete_firewall(credentials, opts)
     # def create_firewall_rule(credentials, opts)
     # def delete_firewall_rule(credentials, opts)
+    # def providers(credentials)
     def realm(credentials, opts)
       realms = realms(credentials, opts).first if has_capability?(:realms)
     end

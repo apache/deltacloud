@@ -58,8 +58,8 @@ module RHEVM
       }
       headers.merge!(auth_header)
       if opts[:id]
-        return [] unless current_datacenter.cluster_ids.include?((vm/'cluster').first[:id])
         vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/vms/%s" % opts[:id]].get(headers)).root
+        return [] unless current_datacenter.cluster_ids.include?((vm/'cluster').first[:id])
         [ RHEVM::VM::new(self, vm)]
       else
         Client::parse_response(RHEVM::client(@api_entrypoint)["/vms"].get(headers)).xpath('/vms/vm').collect do |vm|
@@ -73,7 +73,7 @@ module RHEVM
       headers.merge!(auth_header)
       headers.merge!({:accept => 'application/xml'})
       vm = vms(:id => id)
-      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") if vm.empty
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") if vm.empty?
       if action==:delete
         RHEVM::client(@api_entrypoint)["/vms/%s" % id].delete(headers)
       else

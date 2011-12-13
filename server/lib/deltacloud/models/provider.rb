@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,19 +13,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/models/base_model'
-require 'deltacloud/models/realm'
-require 'deltacloud/models/image'
-require 'deltacloud/models/instance'
-require 'deltacloud/models/key'
-require 'deltacloud/models/address'
-require 'deltacloud/models/instance_address'
-require 'deltacloud/models/instance_profile'
-require 'deltacloud/models/storage_snapshot'
-require 'deltacloud/models/storage_volume'
-require 'deltacloud/models/bucket'
-require 'deltacloud/models/blob'
-require 'deltacloud/models/load_balancer'
-require 'deltacloud/models/firewall'
-require 'deltacloud/models/firewall_rule'
-require 'deltacloud/models/provider'
+# Model to store the hardware profile applied to an instance together with
+# any instance-specific overrides
+
+class Provider < BaseModel
+  attr_accessor :url
+  attr_accessor :name
+
+  def initialize(opts={})
+    super(opts)
+  end
+
+end
