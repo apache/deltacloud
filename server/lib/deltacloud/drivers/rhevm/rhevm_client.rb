@@ -44,10 +44,11 @@ module RHEVM
 
   class Client
 
-    attr_reader :credentials, :api_entrypoint
+    attr_reader :credentials, :api_entrypoint, :datacenter_id
 
-    def initialize(username, password, api_entrypoint)
+    def initialize(username, password, api_entrypoint, datacenter_id=nil)
       @credentials = { :username => username, :password => password }
+      @datacenter_id = datacenter_id
       @api_entrypoint = api_entrypoint
     end
 
@@ -57,18 +58,22 @@ module RHEVM
       }
       headers.merge!(auth_header)
       if opts[:id]
+        return [] unless current_datacenter.cluster_ids.include?((vm/'cluster').first[:id])
         vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/vms/%s" % opts[:id]].get(headers)).root
         [ RHEVM::VM::new(self, vm)]
       else
         Client::parse_response(RHEVM::client(@api_entrypoint)["/vms"].get(headers)).xpath('/vms/vm').collect do |vm|
+          next unless current_datacenter.cluster_ids.include?((vm/'cluster').first[:id])
           RHEVM::VM::new(self, vm)
-        end
+        end.compact
       end
     end
 
     def vm_action(id, action, headers={})
       headers.merge!(auth_header)
       headers.merge!({:accept => 'application/xml'})
+      vm = vms(:id => id)
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") if vm.empty
       if action==:delete
         RHEVM::client(@api_entrypoint)["/vms/%s" % id].delete(headers)
       else
@@ -112,11 +117,12 @@ module RHEVM
 
     def create_vm(template_id, opts={})
       opts ||= {}
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") unless template(template_id)
       builder = Nokogiri::XML::Builder.new do
         vm {
           name opts[:name] || "i-#{Time.now.to_i}"
           template_(:id => template_id)
-          cluster(:id => opts[:realm_id].empty? ? clusters.first.id : opts[:realm_id])
+          cluster_(:id => opts[:realm_id].empty? ? clusters.first.id : opts[:realm_id])
           type_ opts[:hwp_id] || 'desktop'
           memory opts[:hwp_memory] ? (opts[:hwp_memory].to_i*1024*1024).to_s : (512*1024*1024).to_s
           cpu {
@@ -125,11 +131,6 @@ module RHEVM
           if opts[:user_data] and not opts[:user_data].empty?
             if api_version?('3') and cluster_version?((opts[:realm_id] || clusters.first.id), '3')
               custom_properties {
-                #
-                # FIXME: 'regexp' parameter is just a temporary workaround. This
-                # is a reported and verified bug and should be fixed in next
-                # RHEV-M release.
-                #
                 custom_property({
                   :name => "floppyinject",
                   :value => "#{RHEVM::FILEINJECT_PATH}:#{opts[:user_data]}",
@@ -146,6 +147,8 @@ module RHEVM
         :content_type => 'application/xml',
         :accept => 'application/xml',
       })
+      vm = vms(:id => id)
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") if vm.empty?
       headers.merge!(auth_header)
       begin
         vm = RHEVM::client(@api_entrypoint)["/vms"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
@@ -184,6 +187,8 @@ module RHEVM
         :content_type => 'application/xml',
         :accept => 'application/xml',
       })
+      tmpl = template(id)
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") unless tmpl
       headers.merge!(auth_header)
       RHEVM::client(@api_entrypoint)["/templates/%s" % id].delete(headers)
       return true
@@ -196,8 +201,9 @@ module RHEVM
       headers.merge!(auth_header)
       rhevm_templates = RHEVM::client(@api_entrypoint)["/templates"].get(headers)
       Client::parse_response(rhevm_templates).xpath('/templates/template').collect do |t|
+        next unless current_datacenter.cluster_ids.include?((t/'cluster').first[:id])
         RHEVM::Template::new(self, t)
-      end
+      end.compact
     end
 
     def template(template_id)
@@ -209,21 +215,6 @@ module RHEVM
       RHEVM::Template::new(self, Client::parse_response(rhevm_template).root)
     end
 
-    def clusters(opts={})
-      headers = {
-        :accept => "application/xml; detail=datacenters"
-      }
-      headers.merge!(auth_header)
-      if opts[:id]
-        vm = Client::parse_response(RHEVM::client(@api_entrypoint)["/clusters/%s" % opts[:id]].get(headers)).root
-        [ RHEVM::Cluster::new(self, vm)]
-      else
-        Client::parse_response(RHEVM::client(@api_entrypoint)["/clusters"].get(headers)).xpath('/clusters/cluster').collect do |vm|
-          RHEVM::Cluster::new(self, vm) if has_datacenter?(vm)
-        end.compact
-      end
-    end
-
     def datacenters(opts={})
       headers = {
         :accept => "application/xml"
@@ -233,6 +224,18 @@ module RHEVM
       Client::parse_response(rhevm_datacenters).xpath('/data_centers/data_center').collect do |dc|
         RHEVM::DataCenter::new(self, dc)
       end
+    end
+
+    def clusters
+      current_datacenter.clusters
+    end
+
+    def cluster(cluster_id)
+      current_datacenter.cluster(cluster_id)
+    end
+
+    def current_datacenter
+      @current_datacenter ||= self.datacenter_id ? datacenter(self.datacenter_id) : datacenters.first
     end
 
     def datacenter(datacenter_id)
@@ -382,7 +385,7 @@ module RHEVM
   end
 
   class Cluster < BaseObject
-    attr_reader :description, :datacenter
+    attr_reader :description, :datacenter, :version
 
     def initialize(client, xml)
       super(client, xml[:id], xml[:href], (xml/'name').first.text)
@@ -394,7 +397,10 @@ module RHEVM
 
     def parse_xml_attributes!(xml)
       @description = ((xml/'description').first.text rescue nil)
-      @datacenter = Link::new(@client, (xml/'data_center').first[:id], (xml/'data_center').first[:href])
+      @version =((xml/'version').first[:major].strip rescue nil)
+      unless (xml/'data_center').empty?
+        @datacenter = Link::new(@client, (xml/'data_center').first[:id], (xml/'data_center').first[:href])
+      end
     end
 
   end
@@ -406,6 +412,39 @@ module RHEVM
       super(client, xml[:id], xml[:href], (xml/'name').first.text)
       parse_xml_attributes!(xml)
       self
+    end
+
+    def clusters
+      headers = {
+        :accept => "application/xml; detail=datacenters"
+      }
+      headers.merge!(client.auth_header)
+      clusters_list = RHEVM::client(client.api_entrypoint)["/clusters"].get(headers)
+      cluster_arr = Client::parse_response(clusters_list).xpath('/clusters/cluster')
+      clusters_arr = []
+      cluster_arr.each do |cluster|
+        cluster = RHEVM::Cluster.new(self.client, cluster)
+        clusters_arr << cluster if cluster.datacenter && cluster.datacenter.id == client.datacenter_id
+      end
+      clusters_arr
+    end
+
+    def cluster(cluster_id)
+      headers = {
+        :accept => "application/xml; detail=datacenters"
+      }
+      headers.merge!(client.auth_header)
+      cluster_xml = RHEVM::client(client.api_entrypoint)["/clusters/%s" % cluster_id].get(headers)
+      cluster = RHEVM::Cluster.new(self.client, cluster_xml)
+      if cluster.datacenter && cluster.datacenter.id == client.datacenter_id
+        cluster
+      else
+        nil
+      end
+    end
+
+    def cluster_ids
+      @cluster_ids ||= clusters.collect { |c| c.id }
     end
 
     private

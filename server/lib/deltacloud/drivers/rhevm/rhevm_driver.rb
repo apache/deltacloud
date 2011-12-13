@@ -70,6 +70,13 @@ class RHEVMDriver < Deltacloud::BaseDriver
     stopped.to( :finish )         .on( :destroy )
   end
 
+  def providers(credentials)
+    client = new_client(credentials)
+    safely do
+      client.datacenters.collect { |dc| convert_provider(dc) }
+    end
+  end
+
   #
   # Realms
   #
@@ -209,10 +216,18 @@ class RHEVMDriver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    url = api_provider
+    url, datacenter = api_provider.split(';')
     safely do
-      ::RHEVM::Client.new(credentials.user, credentials.password, url)
+      ::RHEVM::Client.new(credentials.user, credentials.password, url, datacenter)
     end
+  end
+
+  def convert_provider(dc)
+    Provider.new(
+      :id => dc.id,
+      :name => dc.name,
+      :url => [api_provider.split(';').first, dc.id].join(';')
+    )
   end
 
   def confserver_ip(uuid)
