@@ -9,7 +9,7 @@ Contact us!
 
 We'd love to hear about your experiences with Deltacloud:
 
-* [deltacloud-dev@incubator.apache.org](http://mail-archives.apache.org/mod_mbox/incubator-deltacloud-dev/)
+* [dev@deltacloud.apache.org](http://mail-archives.apache.org/mod_mbox/deltacloud-dev/)
   is our mailing list where you can ask questions or see all the latest patches and development activity
   at the bleeding edge of the project,
 * The [#deltacloud](http://webchat.freenode.net/) irc channel on Freenode is where

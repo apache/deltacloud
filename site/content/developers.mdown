@@ -43,7 +43,7 @@ It also includes a ruby client library and a commandline interface.
 
 The Deltacloud repository is hosted at the Apache Software Foundation.
 Apache uses ***subversion*** and you can find the Deltacloud subversion repository
-at <https://svn.apache.org/repos/asf/incubator/deltacloud>.
+at <https://svn.apache.org/repos/asf/deltacloud>.
 
 However many of the Deltacloud developers use the
 [git version control system](http://git-scm.com/download) and the Deltacloud
@@ -258,7 +258,7 @@ list for review by other developers in the community:
     $ git format-patch -o /path/to/where/you/keep/patches/ trunk
 
     $ git send-email --compose --subject 'some subject'
-      --thread /path/to/where/you/keep/patches/* --to deltacloud-dev@incubator.apache.org
+      --thread /path/to/where/you/keep/patches/* --to dev@deltacloud.apache.org
 
 Your patches will be reviewed by other members of the community. The general rule used
 is that a patch will be committed to the repo if it receives at least one **ACK** and no

@@ -51,13 +51,13 @@ After you are finished with your changes, check them into subversion
 
 Then, log on to people.apache.org and
 
-  cd /www/incubator.apache.org/deltacloud/
+  cd /www/deltacloud.apache.org
   svn update
 
 It will take some time for the mirroring process to pick up your changes,
 but they should eventually show up at
 
-  http://incubator.apache.org/deltacloud/index.html
+  http://deltacloud.apache.org/
 
 Note that the API docs for the Ruby client in output/ruby-client/doc are
 not automatically generated. If they need to be updated, they need to be
