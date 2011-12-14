@@ -63,6 +63,10 @@ begin
       t.cucumber_opts = "tests/cimi/features/machine_images.feature --format pretty"
       t.rcov = false
     end
+    Cucumber::Rake::Task.new(:volumes) do |t|
+      t.cucumber_opts = "tests/cimi/features/volumes.feature --format pretty"
+      t.rcov = false
+   end
   end
 rescue LoadError
 end
