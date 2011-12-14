@@ -245,6 +245,25 @@ module Deltacloud::Drivers::Mock
       volumes
     end
 
+    def create_storage_volume(credentials, opts=nil)
+      check_credentials(credentials)
+      opts ||= {}
+      opts[:capacity] ||= "1"
+      volume = {
+            :id => "Volume#{Time.now.to_i}",
+            :created => Time.now.to_s,
+            :state => "AVAILABLE",
+            :capacity => opts[:capacity],
+      }
+      @client.store(:storage_volumes, volume)
+      StorageVolume.new(volume)
+    end
+
+    def destroy_storage_volume(credentials, opts=nil)
+      check_credentials(credentials)
+      @client.destroy(:storage_volumes, opts[:id])
+    end
+
     #
     # Storage Snapshots
     #
