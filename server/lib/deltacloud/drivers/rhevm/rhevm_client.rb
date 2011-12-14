@@ -147,8 +147,8 @@ module RHEVM
         :content_type => 'application/xml',
         :accept => 'application/xml',
       })
-      vm = vms(:id => id)
-      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") if vm.empty?
+      templates = templates(:id => template_id)
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") if templates.empty?
       headers.merge!(auth_header)
       begin
         vm = RHEVM::client(@api_entrypoint)["/vms"].post(Nokogiri::XML(builder.to_xml).root.to_s, headers)
