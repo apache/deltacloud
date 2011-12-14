@@ -331,9 +331,13 @@ global_collection :volumes do
     param :id, :string, :required
     control do
       volume = Volume.find(params[:id], self)
-      respond_to do |format|
-        format.xml  { volume.to_xml  }
-        format.json { volume.to_json }
+      if volume
+        respond_to do |format|
+          format.xml  { volume.to_xml  }
+          format.json { volume.to_json }
+        end
+      else
+        report_error(404)
       end
     end
   end
