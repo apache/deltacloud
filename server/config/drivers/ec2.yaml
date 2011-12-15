@@ -8,6 +8,7 @@
       ap-northeast-1: s3-ap-northeast-1.amazonaws.com
       eu-west-1: s3-eu-west-1.amazonaws.com
       us-east-1: s3.amazonaws.com
+      sa-east-1: s3-sa-east-1.amazonaws.com
     elb:
       us-west-1: elasticloadbalancing.us-west-1.amazonaws.com
       us-west-2: elasticloadbalancing.us-west-2.amazonaws.com
@@ -15,6 +16,7 @@
       ap-northeast-1: elasticloadbalancing.ap-northeast-1.amazonaws.com
       eu-west-1: elasticloadbalancing.eu-west-1.amazonaws.com
       us-east-1: elasticloadbalancing.us-east-1.amazonaws.com
+      sa-east-1: elasticloadbalancing.sa-east-1.amazonaws.com
     ec2:
       us-west-1: ec2.us-west-1.amazonaws.com
       us-west-2: ec2.us-west-2.amazonaws.com
@@ -22,4 +24,5 @@
       ap-northeast-1: ec2.ap-northeast-1.amazonaws.com
       eu-west-1: ec2.eu-west-1.amazonaws.com
       us-east-1: ec2.us-east-1.amazonaws.com
+      sa-east-1: ec2.sa-east-1.amazonaws.com
   :name: EC2
