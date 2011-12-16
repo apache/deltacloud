@@ -20,8 +20,9 @@ $top_srcdir = File::dirname(File::dirname(__FILE__))
 
 require 'rubygems'
 require 'yaml'
+require 'rspec/core'
+require 'rspec/matchers'
 require 'test/unit'
-require 'spec'
 require 'nokogiri'
 require 'json'
 require 'digest/sha1'
@@ -43,8 +44,9 @@ configure :test do
   set :show_exceptions, false
 end
 
-Spec::Runner.configure do |conf|
+RSpec.configure do |conf|
   conf.include Rack::Test::Methods
+  conf.expect_with :rspec
 end
 
 module DeltacloudTestCommon
