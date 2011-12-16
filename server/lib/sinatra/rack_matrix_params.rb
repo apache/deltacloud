@@ -79,8 +79,12 @@ module Rack
         env['REQUEST_URI'] = env['REQUEST_PATH']
         env['REQUEST_PATH'] = env['PATH_INFO']
       end
-      env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
-      env['PATH_INFO'] = env['REQUEST_PATH']
+
+      # This is needed for OpenShift deployment / Passenger
+      if env['REQUEST_PATH']
+        env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+        env['PATH_INFO'] = env['REQUEST_PATH']
+      end
 
       # (2) Append the matrix params to the 'normal' request params
       # FIXME: Make this work for multipart/form-data
