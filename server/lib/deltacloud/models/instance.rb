@@ -34,6 +34,7 @@ class Instance < BaseModel
   attr_accessor :password
   attr_accessor :create_image
   attr_accessor :firewalls
+  attr_accessor :storage_volumes
 
   def can_create_image?
     self.create_image

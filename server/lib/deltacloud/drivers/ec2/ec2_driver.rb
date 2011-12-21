@@ -803,6 +803,7 @@ module Deltacloud
             :public_addresses => [InstanceAddress.new(instance[:dns_name], :type => :hostname)],
             :private_addresses => [InstanceAddress.new(instance[:private_dns_name], :type => :hostname)],
             :firewalls => instance[:aws_groups],
+            :storage_volumes => instance[:block_device_mappings],
             :create_image => can_create_image
           )
         end
