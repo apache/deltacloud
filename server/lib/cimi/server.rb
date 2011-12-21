@@ -309,6 +309,42 @@ global_collection :machines do
     end
   end
 
+#NOTE: The routes for attach/detach used here are NOT as specified by CIMI
+#will likely move later. CIMI specifies PUT of the whole Machine description
+#with inclusion/ommission of the volumes you want [att|det]ached
+  operation :attach_volume, :method => :put, :member => true do
+    description "Attach CIMI Volume(s) to a machine."
+    param :id, :string, :required
+    control do
+      if request.content_type.end_with?("+json")
+        volumes_to_attach = Volume.find_to_attach_from_json(request.body.read, self)
+      else
+        volumes_to_attach = Volume.find_to_attach_from_xml(request.body.read, self)
+      end
+      machine = Machine.attach_volumes(volumes_to_attach, self)
+      respond_to do |format|
+        format.json{ machine.to_json}
+        format.xml{machine.to_xml}
+      end
+    end
+  end
+
+  operation :detach_volume, :method => :put, :member => true do
+    description "Detach CIMI Volume(s) from a machine."
+    param :id, :string, :required
+    control do
+      if request.content_type.end_with?("+json")
+        volumes_to_detach = Volume.find_to_attach_from_json(request.body.read, self)
+      else
+        volumes_to_detach = Volume.find_to_attach_from_xml(request.body.read, self)
+      end
+      machine = Machine.detach_volumes(volumes_to_detach, self)
+      respond_to do |format|
+        format.json{ machine.to_json}
+        format.xml{machine.to_xml}
+      end
+    end
+  end
 end
 
 global_collection :volumes do

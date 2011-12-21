@@ -64,6 +64,18 @@ class CIMI::Model::Volume < CIMI::Model::Base
     context.driver.destroy_storage_volume(context.credentials, {:id=>id} )
   end
 
+  def self.find_to_attach_from_json(json_in, context)
+    json = JSON.parse(json_in)
+    volumes = json["volumes"].map{|v| {:volume=>self.find(v["volume"]["href"].split("/volumes/").last, context),
+                                       :attachment_point=>v["attachmentPoint"]  }}
+  end
+
+  def self.find_to_attach_from_xml(xml_in, context)
+    xml = XmlSimple.xml_in(xml_in)
+    volumes = xml["volume"].map{|v| {:volume => self.find(v["href"].split("/volumes/").last, context),
+                                      :attachment_point=>v["attachmentPoint"] }}
+  end
+
   private
 
   def self.create_volume(params, context)

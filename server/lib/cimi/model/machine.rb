@@ -117,6 +117,21 @@ class CIMI::Model::Machine < CIMI::Model::Base
     metadata
   end
 
+  def self.attach_volumes(volumes, context)
+    volumes.each do |vol|
+      context.driver.attach_storage_volume(context.credentials,
+      {:id=>vol[:volume].name, :instance_id=>context.params[:id], :device=>vol[:attachment_point]})
+    end
+    self.find(context.params[:id], context)
+  end
+
+  def self.detach_volumes(volumes, context)
+    volumes.each do |vol|
+      context.driver.detach_storage_volume(context.credentials, {:id=>vol[:volume].name, :instance_id => context.params[:id]})
+    end
+    self.find(context.params[:id], context)
+  end
+
   private
 
   def self.from_instance(instance, context)
@@ -131,6 +146,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :disks => convert_instance_storage(instance.instance_profile, context),
       :network_interfaces => convert_instance_addresses(instance),
       :operations => convert_instance_actions(instance, context),
+      :volumes=>convert_storage_volumes(instance, context),
       :property => convert_instance_properties(instance, context)
     )
   end
@@ -200,6 +216,11 @@ class CIMI::Model::Machine < CIMI::Model::Base
       action = :restart if action == :reboot  # In CIMI reboot operation become restart
       { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://www.dmtf.org/cimi/action/#{action}" }
     end
+  end
+
+  def self.convert_storage_volumes(instance, context)
+    instance.storage_volumes.map{|vol| {:href=>context.volume_url(vol.values.first),
+                                       :attachment_point=>vol.keys.first} }
   end
 
 end
