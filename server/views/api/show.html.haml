@@ -5,3 +5,15 @@
   %ul{ :'data-role' => :listview, :'data-inset' => 'true'}
     - @collections.sort_by { |k| k.to_s }.each do |key|
       %li= link_to key.to_s.gsub('_', ' ').titlecase, api_url_for(key), :'data-icon' => "arrow-r", :'data-ajax' => false
+
+- if @providers
+  %div{ :'data-role' => :footer, :'data-theme' => 'a'}
+    %form{ :action => settings.root_url, :method => :post, :'data-ajax' => 'false'}
+      %div{ :'data-role' => :footer, :'data-theme' => 'a' , :class => 'middle-dialog'}
+        %label{ :for => :provider, :class => 'ui-input-text'}
+        %select{:name => 'provider', :'data-native-menu' => "true" }
+          %option{ :value => 'default'} default
+          - @providers.each do |provider|
+            %option{ :value => provider } #{provider}
+        %button{ :type => :submit} Change Provider
+
