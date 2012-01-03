@@ -264,6 +264,17 @@ module Deltacloud::Drivers::Mock
       @client.destroy(:storage_volumes, opts[:id])
     end
 
+    #opts: {:id=,:instance_id,:device}
+    def attach_storage_volume(credentials, opts)
+      check_credentials(credentials)
+      attach_volume_instance(opts[:id], opts[:device], opts[:instance_id])
+    end
+
+    def detach_storage_volume(credentials, opts)
+      check_credentials(credentials)
+      detach_volume_instance(opts[:id], opts[:instance_id])
+    end
+
     #
     # Storage Snapshots
     #
@@ -438,6 +449,32 @@ module Deltacloud::Drivers::Mock
           raise 'AuthFailure'
         end
       end
+    end
+
+    def attach_volume_instance(volume_id, device, instance_id)
+      volume = @client.load(:storage_volumes, volume_id)
+      instance = @client.load(:instances, instance_id)
+      volume[:instance_id] = instance_id
+      volume[:device] = device
+      volume[:state] = "IN-USE"
+      instance[:storage_volumes] ||= []
+      instance[:storage_volumes] << {volume_id=>device}
+      @client.store(:storage_volumes, volume)
+      @client.store(:instances, instance)
+      StorageVolume.new(volume)
+    end
+
+    def detach_volume_instance(volume_id, instance_id)
+      volume = @client.load(:storage_volumes, volume_id)
+      instance = @client.load(:instances, instance_id)
+      volume[:instance_id] = nil
+      device = volume[:device]
+      volume[:device] = nil
+      volume[:state] = "AVAILABLE"
+      instance[:storage_volumes].delete({volume_id => device}) unless instance[:storage_volumes].nil?
+      @client.store(:storage_volumes, volume)
+      @client.store(:instances, instance)
+      StorageVolume.new(volume)
     end
 
     exceptions do
