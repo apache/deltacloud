@@ -25,6 +25,20 @@ Scenario: Query the newly created Volume
   Then client should verify that this Volume was created correctly
     | capacity | 2 |
 
+Scenario: Attach the newly created Volume to a Machine
+  Given Cloud Entry Point URL is provided
+  And client retrieve the Cloud Entry Point
+  When client specifies a running Machine using
+    | name | inst0 |
+  And client specifies the new Volume with attachment point using
+    | attachment_point | /dev/sdc |
+  Then client should be able to attach the new volume to the Machine
+
+Scenario: Detach the newly created Volume from the Machine
+  Given Cloud Entry Point URL is provided
+  And client retrieve the Cloud Entry Point
+  Then client should be able to detach the volume
+
 Scenario: Delete the newly created Volume
   Given Cloud Entry Point URL is provided
   And client retrieve the Cloud Entry Point
