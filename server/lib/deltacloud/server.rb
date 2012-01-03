@@ -675,6 +675,16 @@ collection :storage_volumes do
     end
   end
 
+  operation :attach_instance, :method=>:get, :member=>true  do
+    description "A form to attach a storage volume to an instance"
+    control do
+      @instances = driver.instances(credentials)
+      respond_to do |format|
+        format.html{ haml :"storage_volumes/attach"}
+      end
+    end
+  end
+
   operation :attach, :method => :post, :member => true do
     description "Attach storage volume to instance"
     with_capability :attach_storage_volume
