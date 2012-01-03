@@ -53,7 +53,7 @@ text :type_uri
   def self.metadata_from_deltacloud_features(cimi_entity, dcloud_entity, context)
       deltacloud_features = context.driver.features(dcloud_entity)
       metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
-      from_feature(cimi_entity, context, metadata_attributes)
+      from_feature(cimi_entity, context, metadata_attributes.flatten!)
   end
 
   def includes_attribute?(attribute)
@@ -63,11 +63,16 @@ text :type_uri
   private
 
   def self.attributes_from_feature(feature)
-    { :name=>(feature.name == :user_name ? :name : feature.name),
-      :type=> "xs:string",
-      :required=>(feature.operations.first.params[feature.name].type == :optional ? "false" : "true"),
-      :constraints=> (feature.constraints.empty? ? (feature.description.nil? ? "" : feature.description): feature.constraints)
-    }
+    attributes = []
+    feature.operations.first.params.each_key do |param|
+      attributes << {
+        :name=>(feature.name == :user_name ? :name : param),
+        :type=> "xs:string",
+        :required=>(feature.operations.first.params[param].type == :optional ? "false" : "true"),
+        :constraints=> (feature.constraints.empty? ? (feature.description.nil? ? "" : feature.description): feature.constraints)
+                    }
+    end
+    attributes
   end
 
   def self.from_feature(cimi_entity, context, metadata_attributes)
