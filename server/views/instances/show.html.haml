@@ -46,6 +46,11 @@
     - if @instance.firewalls
       %li{ :'data-role' => 'list-divider'} Firewalls
       %li=@instance.firewalls.join(", ")
+    - if @instance.storage_volumes
+      %li{ :'data-role' => 'list-divider'} Attached Storage Volumes
+      -@instance.storage_volumes.each do |vol|
+        %li
+          %p{ :'data-role' => 'fieldcontain'}="#{vol.keys.first} <---> #{vol.values.first}"
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }

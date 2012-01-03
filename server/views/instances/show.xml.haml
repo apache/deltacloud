@@ -41,6 +41,10 @@
     %firewalls<
       - @instance.firewalls.each do |firewall|
         %firewall{:href => firewall_url(firewall), :id => firewall }
+  - if @instance.storage_volumes
+    %storage_volumes<
+      - @instance.storage_volumes.each do |volume|
+        %storage_volume{:href=> storage_volume_url(volume.keys.first), :id => volume.keys.first, :device => volume.values.first}
   - if driver_has_auth_features?
     %authentication{ :type => driver_auth_feature_name }
       - if @instance.authn_feature_failed?
