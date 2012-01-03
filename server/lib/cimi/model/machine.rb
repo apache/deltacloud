@@ -219,8 +219,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   def self.convert_storage_volumes(instance, context)
-    instance.storage_volumes.map{|vol| {:href=>context.volume_url(vol.values.first),
-                                       :attachment_point=>vol.keys.first} }
+    instance.storage_volumes ||= [] #deal with nilpointers
+    instance.storage_volumes.map{|vol| {:href=>context.volume_url(vol.keys.first),
+                                       :attachment_point=>vol.values.first} }
   end
 
 end
