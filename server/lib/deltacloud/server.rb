@@ -50,7 +50,11 @@ configure do
   set :views, File::join($top_srcdir, 'views')
   # NOTE: Change :public to :public_folder once we update sinatra to 1.3
   # set :public_folder, File::join($top_srcdir, 'public')
-  set :public, File::join($top_srcdir, 'public')
+  if settings.respond_to? :public_folder
+    set :public_folder, File::join($top_srcdir, 'public')
+  else
+    set :public, File::join($top_srcdir, 'public')
+  end
   # Try to load the driver on startup to fail early if there are issues
   driver
 end
