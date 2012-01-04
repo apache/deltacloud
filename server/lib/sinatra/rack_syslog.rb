@@ -13,11 +13,11 @@ class SyslogFile < File
   end
 
   def info(msg)
-    @log.info(msg)
+    @log.info("%s", msg)
   end
 
   def err(msg)
-    @log.err(msg)
+    @log.err("%s", msg)
   end
 
   alias :warning :err
