@@ -102,7 +102,11 @@ module RHEVM
       }
       headers.merge!(auth_header)
       result_xml = Nokogiri::XML(RHEVM::client(@api_entrypoint)["/"].get(headers))
-      (result_xml/'/api/system_version').first[:major].strip == major
+      if (result_xml/'api/system_version').empty?
+        (result_xml/'/api/product_info/version').first[:major].strip == major
+      else
+        (result_xml/'/api/system_version').first[:major].strip == major
+      end
     end
 
     def cluster_version?(cluster_id, major)
