@@ -701,6 +701,10 @@ module Deltacloud
            :url=>"#{ENV['API_HOST']}:#{ENV['API_PORT']}#{settings.root_url}\;provider=#{r}" }) }
         end
 
+        def configured_providers
+          Deltacloud::Drivers::driver_config[:ec2][:entrypoints]["ec2"].keys
+        end
+
         def valid_credentials?(credentials)
           retval = true
           begin

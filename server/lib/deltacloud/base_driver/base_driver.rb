@@ -235,6 +235,11 @@ module Deltacloud
       Thread.current[:provider] || ENV['API_PROVIDER']
     end
 
+    # Return an array of the providers statically configured
+    # in the driver's YAML file
+    def configured_providers
+      []
+    end
   end
 
 end

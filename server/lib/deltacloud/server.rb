@@ -110,8 +110,7 @@ get "#{settings.root_url}\/?" do
     return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
   end
   @collections = [:drivers] + driver.supported_collections
-  #could use driver.providers - but that will require credentials for /api ...
-  @providers = Deltacloud::Drivers::driver_config["#{driver.name}".to_sym][:entrypoints]["#{driver.name}"].keys unless driver_provider(Deltacloud::Drivers::driver_config["#{driver.name}".to_sym]).empty?
+  @providers = driver.configured_providers
   respond_to do |format|
     format.xml { haml :"api/show" }
     format.json do
