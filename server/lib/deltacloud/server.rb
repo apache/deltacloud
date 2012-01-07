@@ -110,6 +110,7 @@ get "#{settings.root_url}\/?" do
     return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
   end
   @collections = [:drivers] + driver.supported_collections
+  @driver_name = driver.name unless driver.name.to_sym == DRIVER
   @providers = driver.configured_providers
   respond_to do |format|
     format.xml { haml :"api/show" }
@@ -128,12 +129,12 @@ get "#{settings.root_url}\/?" do
 end
 
 post "#{settings.root_url}\/?"  do
-  provider = params["provider"]
-  if provider && provider != "default"
-    redirect "#{settings.root_url}\;provider=#{params['provider']}", 301
-  else
-    redirect settings.root_url, 301
-  end
+  p = {}
+  ["provider", "driver"].each { |k| p[k] = params[k] if params[k] }
+  p.delete("provider") if p["provider"] == "default"
+  q = p.map { |k,v| "#{k}=#{v}" }.join(";")
+  q = ";" + q unless q.empty?
+  redirect "#{settings.root_url}#{q}", 301
 end
 
 # Rabbit DSL
