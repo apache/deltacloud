@@ -1,3 +1,45 @@
+0.5.0 - 2012-01-05
+  * add display of storage volumes to instance view
+  * add way to change provider in HTML UI when applicable (JIRA 105)
+  * fix attach volume form in HTML UI
+  * fix incorrect handling of REQUEST_PATH (affects platforms like passenger)
+  * support dynamically generated provider lists for /api/drivers/:id
+  * create image: report correct URL in Location header
+  * fix parameter validation error when switching drivers (BZ 750920)
+  * create instance: validate hardware properties
+  * incredibly experimental support for DMTF CIMI
+    (http://dmtf.org/standards/cloud) If you run the server with --cimi and
+    it breaks, you get to keep both pieces
+  * Drivers
+    + EC2
+      - fetch available regions via DescribeRegions
+      - add ap-northeast-1, sa-east-1 and us-west-2 regions
+      - fix bucket creation when client specifies 'us-east-1' region
+        (BZ 725646)
+      - t1.micro HWP is available for 32 and 64 bit (JIRA 95)
+    + Google storage
+      - fix blob metadata listing
+      - properly validate credentials
+    + Mock
+      - support storgae_volume create/delete
+      - fix m1-large HWP to use integral memory size
+    + OpenStack
+      - new driver
+    + Rackspace
+      - correctly report bucket size
+    + RHEV-M
+      - data centers are now treated as completely separate regions. For a
+        given provider URL, only the clusters for one datacenter are
+        considered
+      - fix deleting VMs (JIRA 110)
+      - preserve details about backend errors
+    + SBC
+       - correctly return the realm for /api/realms/:id (JIRA 106)
+    + vSphere
+       - fix internal error in reporting of instance addresses
+       - find objects (VMs etc.) even for datastores that are in nested
+         folders (Alfredo Moralejo)
+
 0.4.1 - 2011-10-04
   * change how dependencies are managed: canonical deps are now in the
     gemspecs
