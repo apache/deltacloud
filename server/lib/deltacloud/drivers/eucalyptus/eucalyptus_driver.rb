@@ -75,7 +75,7 @@ module Deltacloud
         end
 
         def default_image_owner
-          nil  # list all images
+          "self" 
         end
 
         def default_image_type
