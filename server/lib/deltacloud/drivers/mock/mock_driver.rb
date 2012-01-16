@@ -441,6 +441,17 @@ module Deltacloud::Drivers::Mock
       return false
     end
 
+    def networks(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        networks = @client.load_all_cimi(:network).map{|net| CIMI::Model::Network.from_json(net)}
+        networks.map{|net|convert_cimi_network(net,opts[:env])}.flatten
+      else
+        network = CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:id]))
+        convert_cimi_network(network, opts[:env])
+      end
+    end
+
     private
 
     def check_credentials(credentials)
@@ -475,6 +486,13 @@ module Deltacloud::Drivers::Mock
       @client.store(:storage_volumes, volume)
       @client.store(:instances, instance)
       StorageVolume.new(volume)
+    end
+
+    def convert_cimi_network(network, context)
+      uri=context.network_url(network.name)
+      network.uri=uri
+      network.operations.each{|op| op.href=uri}
+      network
     end
 
     exceptions do

@@ -44,9 +44,9 @@ class CIMI::Model::Network < CIMI::Model::Base
   def self.find(id, context)
     networks=[]
     if id==:all
-#FIXME
+      networks = context.driver.networks(context.credentials, {:env=>context})
     else
-#FIXME
+      networks = context.driver.networks(context.credentials, {:id=>id, :env=>context})
     end
     networks
   end
