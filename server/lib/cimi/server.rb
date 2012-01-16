@@ -492,4 +492,84 @@ global_collection :entity_metadata do
 
 end
 
+global_collection :networks do
+  description 'A Network represents an abstraction of a layer 2 broadcast domain'
+
+  operation :index do
+    description "List all Networks"
+    param :CIMISelect,  :string,  :optional
+    control do
+      networks = NetworkCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml { networks.to_xml }
+        format.json { networks.to_json }
+      end
+    end
+  end
+
+  operation :show do
+    description "Show a specific Network"
+    param :id, :string, :required
+    control do
+      network = Network.find(params[:id], self)
+      respond_to do |format|
+        format.xml { network.to_xml }
+        format.json { network.to_json }
+      end
+    end
+  end
+
+  operation :create do
+    description "Create a new Network"
+    control do
+      if request.content_type.end_with("+json")
+        network = Network.create_from_json(request.body.read, self)
+      else
+        network = Network.create_from_xml(request.body.read, self)
+      end
+      respond_to do |format|
+        format.xml { network.to_xml}
+        format.json { network.to_json }
+      end
+    end
+  end
+
+  operation :destroy do
+    description "Delete a specified Network"
+    param :id, :string, :required
+    control do
+      Network.delete!(params[:id], self)
+      no_content_with_status(200)
+    end
+  end
+
+end
+
+global_collection :network_configurations do
+  description 'Network Configurations contain the set of configuration values representing the information needed to create a Network with certain characteristics'
+
+  operation :index do
+    description 'List all NetworkConfigurations'
+    param :CIMISelect, :string, :optional
+    control do
+      network_configurations = NetworkConfigurationCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml { network_configurations.to_xml  }
+        format.json { network_configurations.to_json }
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific NetworkConfiguration'
+    param :id, :string, :required
+    control do
+      network_config = NetworkConfiguration.find(params[:id], self)
+      respond_to do
+        format.xml { network_config.to_xml }
+        format.json { network_config.to_json }
+      end
+    end
+  end
+end
 end
