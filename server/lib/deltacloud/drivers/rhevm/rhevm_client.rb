@@ -121,12 +121,13 @@ module RHEVM
 
     def create_vm(template_id, opts={})
       opts ||= {}
-      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") unless template(template_id)
+      templ = template(template_id)
+      raise RHEVMBackendException::new("Requested VM not found in datacenter #{self.current_datacenter.id}") unless templ
       builder = Nokogiri::XML::Builder.new do
         vm {
           name opts[:name] || "i-#{Time.now.to_i}"
           template_(:id => template_id)
-          cluster_(:id => opts[:realm_id].empty? ? clusters.first.id : opts[:realm_id])
+          cluster_(:id => opts[:realm_id].nil? ? templ.cluster.id : opts[:realm_id])
           type_ opts[:hwp_id] || 'desktop'
           memory opts[:hwp_memory] ? (opts[:hwp_memory].to_i*1024*1024).to_s : (512*1024*1024).to_s
           cpu {
