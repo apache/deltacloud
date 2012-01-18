@@ -13,15 +13,19 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-# Original code copied from: http://www.mattsears.com/articles/2011/11/27/ruby-blocks-as-dynamic-callbacks
-# Copyright 2011 Matt Sears.
+# Original code copied from https://gist.github.com/1417762
+# Copyright 2011 Emmanuel Oga.
+
 class Proc
-  def callback(callable, *args)
-    self === Class.new do
-      method_name = callable.to_sym
-      define_method(method_name) { |&block| block.nil? ? true : block.call(*args) }
-      define_method("#{method_name}?") { true }
-      def method_missing(method_name, *args, &block) false; end
-    end.new
+
+  Callback = Struct.new(:called, :args) do
+    def method_missing(name, *)
+      name == :"#{called}?" || (name == called && block_given? && yield(*args))
+    end
   end
+
+  def callback(callable, *args)
+    call Callback.new(callable, *args)
+  end
+
 end
