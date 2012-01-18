@@ -476,14 +476,32 @@ END
     param :hwp_id,       :string, :optional
     control do
       @instance = driver.create_instance(credentials, params[:image_id], params)
+      if @instance.kind_of? Array
+        @instances = @instance
+        action_handler = "index"
+      else
+        response['Location'] = instance_url(@instance.id)
+        action_handler = "show"
+      end
       status 201  # Created
-      response['Location'] = instance_url(@instance.id)
       respond_to do |format|
-        format.xml  { haml :"instances/show" }
-        format.json { convert_to_json(:instance, @instance) }
+        format.xml  { haml :"instances/#{action_handler}" }
+        format.json do
+          if @instances
+            convert_to_json(:instances, @instances)
+          else
+            convert_to_json(:instance, @instance)
+          end
+        end
         format.html do
-          redirect instance_url(@instance.id) if @instance and @instance.id
-          redirect instances_url
+          if @instances
+            haml :"instances/index"
+          elsif @instance and @instance.id
+            response['Location'] = instance_url(@instance.id)
+            redirect instance_url(@instance.id)
+          else
+            redirect instances_url
+          end
         end
       end
     end

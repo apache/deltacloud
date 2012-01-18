@@ -231,8 +231,14 @@ module Deltacloud
             }]
           end
           safely do
-            new_instance = convert_instance(ec2.launch_instances(image_id, instance_options).first)
-            new_instance
+            new_instances = ec2.launch_instances(image_id, instance_options).collect do |i|
+              convert_instance(i)
+            end
+            if new_instances.size == 1
+              new_instances.first
+            else
+              new_instances
+            end
           end
         end
 
