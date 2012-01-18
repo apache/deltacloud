@@ -1,0 +1,23 @@
+=header Metric
+=subheader @metric.id
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %div{ :'data-role' => :'collapsible-set'}
+    - @metric.properties.each do |p|
+      %div{ :'data-role' => :'collapsible', :'data-collapse' => 'true'}
+        %h3=p.name
+        %table{ :summary => "#{p.name} values"}
+          %caption Statistics for last 60 minutes
+          %tr
+            %th Time
+            %th Minumum
+            %th Maximum
+            %th Average
+            %th Units
+          - p.values.each do |v|
+            %tr
+              %td=v[:timestamp]
+              %td=v[:minimum]
+              %td=v[:maximum]
+              %td=v[:average]
+              %td=v[:unit]

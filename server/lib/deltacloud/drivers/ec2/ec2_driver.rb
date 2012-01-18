@@ -1023,7 +1023,7 @@ module Deltacloud
         def convert_metric(metric)
           Metric.new(
             :id => metric[:value],
-            :entity => metric[:name] || :unknown,
+            :entity => metric[:name] || :unknown
           ).add_property(metric[:measure_name])
         end
 

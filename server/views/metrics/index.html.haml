@@ -1,0 +1,13 @@
+=header "Metrics"
+=subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    %li{ :'data-role' => 'list-divider'}=driver_symbol
+    - @metrics.each do |metric|
+      %li
+        %a{ :href => metric_url(metric.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/metric.png'}
+          %h3= metric.id
+          %p
+            = metric.properties.map { |p| p.name }.join(', ')
