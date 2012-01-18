@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,20 +13,28 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/models/base_model'
-require 'deltacloud/models/realm'
-require 'deltacloud/models/image'
-require 'deltacloud/models/instance'
-require 'deltacloud/models/key'
-require 'deltacloud/models/address'
-require 'deltacloud/models/instance_address'
-require 'deltacloud/models/instance_profile'
-require 'deltacloud/models/storage_snapshot'
-require 'deltacloud/models/storage_volume'
-require 'deltacloud/models/bucket'
-require 'deltacloud/models/blob'
-require 'deltacloud/models/load_balancer'
-require 'deltacloud/models/firewall'
-require 'deltacloud/models/firewall_rule'
-require 'deltacloud/models/provider'
-require 'deltacloud/models/metric'
+class Metric < BaseModel
+
+  attr_accessor :entity
+  attr_accessor :properties
+
+  def unknown?
+    true if self.entity == :unknown
+  end
+
+  def add_property(name, values=nil)
+    self.properties ||= []
+    return self if self.properties.any? { |p| p.name == name }
+    self.properties << Property.new(name, values)
+    self
+  end
+
+  class Property
+    attr_accessor :name, :values
+
+    def initialize(name, values=nil)
+      @name, @values = name, values
+    end
+  end
+
+end

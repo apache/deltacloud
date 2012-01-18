@@ -34,7 +34,7 @@ module Deltacloud
 
         def supported_collections
 
-          DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers, :addresses, :firewalls ]
+          DEFAULT_COLLECTIONS + [ :keys, :buckets, :load_balancers, :addresses, :firewalls, :metrics ]
         end
 
         feature :instances, :user_data
@@ -287,6 +287,36 @@ module Deltacloud
         end
 
         alias :stop_instance :destroy_instance
+
+        def metrics(credentials, opts={})
+          cw = new_client(credentials, :mon)
+          metrics_arr = []
+          cw.list_metrics( :namespace => 'AWS/EC2' ).each do |metric|
+            if metrics_arr.any? { |m| m.id == metric[:value] }
+              i = metrics_arr.index { |m| m.id == metric[:value] }
+              metrics_arr[i] = metrics_arr[i].add_property(metric[:measure_name])
+            else
+              metrics_arr << convert_metric(metric)
+            end
+          end
+          metrics_arr.reject! { |m| m.unknown? }
+          filter_on(metrics_arr, :id, opts)
+        end
+
+        def metric(credentials, opts={})
+          cw = new_client(credentials, :mon)
+          m = metrics(credentials, :id => opts[:id])
+          return [] if m.empty?
+          m = m.first
+          # Get statistics from last 1 hour
+          start_time = (Time.now - 3600).utc.iso8601.to_s
+          end_time = Time.now.utc.iso8601.to_s
+          m.properties.each do |p|
+            p.values = cw.get_metric_statistics(p.name,  ['Minimum', 'Maximum', 'Average'],
+                        start_time, end_time, metric_unit_for(p.name), { m.entity => opts[:id]})
+          end
+          m
+        end
 
         def keys(credentials, opts={})
           ec2 = new_client(credentials)
@@ -744,6 +774,7 @@ module Deltacloud
                     when :elb then Aws::Elb
                     when :ec2 then Aws::Ec2
                     when :s3 then Aws::S3
+                    when :mon then Aws::Mon
                   end
           klass.new(credentials.user, credentials.password, {:server => endpoint_for_service(type), :connection_mode => :per_thread})
         end
@@ -976,6 +1007,24 @@ module Deltacloud
                             :owner_id => security_group[:aws_owner],
                             :rules => rules
                       }  )
+        end
+
+        def metric_unit_for(name)
+          case name
+            when /Bytes/ then 'Bytes'
+            when /Ops/ then 'Count'
+            when /Count/ then 'Count'
+            when /Utilization/ then 'Percent'
+            when /Network/ then 'Bytes'
+            else 'None'
+          end
+        end
+
+        def convert_metric(metric)
+          Metric.new(
+            :id => metric[:value],
+            :entity => metric[:name] || :unknown,
+          ).add_property(metric[:measure_name])
         end
 
         def convert_state(ec2_state)

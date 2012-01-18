@@ -560,6 +560,21 @@ END
   end
 end
 
+collection :metrics do
+
+  operation :index do
+    with_capability :metrics
+    control { filter_all(:metrics) }
+  end
+
+  operation :show do
+    with_capability :metrics
+    param :id,  :string,  :required
+    control { show :metric }
+  end
+
+end
+
 collection :hardware_profiles do
   description <<END
  A hardware profile represents a configuration of resources upon which a
