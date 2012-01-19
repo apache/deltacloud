@@ -477,7 +477,7 @@ END
     control do
       @instance = driver.create_instance(credentials, params[:image_id], params)
       if @instance.kind_of? Array
-        @instances = @instance
+        @elements = @instance
         action_handler = "index"
       else
         response['Location'] = instance_url(@instance.id)
@@ -487,14 +487,14 @@ END
       respond_to do |format|
         format.xml  { haml :"instances/#{action_handler}" }
         format.json do
-          if @instances
-            convert_to_json(:instances, @instances)
+          if @elements
+            convert_to_json(:instances, @elements)
           else
-            convert_to_json(:instance, @instance)
+            convert_to_json(:instance, @elements)
           end
         end
         format.html do
-          if @instances
+          if @elements
             haml :"instances/index"
           elsif @instance and @instance.id
             response['Location'] = instance_url(@instance.id)
