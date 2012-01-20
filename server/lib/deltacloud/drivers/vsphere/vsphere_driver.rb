@@ -42,13 +42,17 @@ module Deltacloud::Drivers::VSphere
       safely do
         service = vsphere.serviceInstance.content
         max_memory, max_cpu_cores = [], []
+        #
+        # Note: Memory is being hardcoded now to range 512MB to 2GB
+        #       JIRA: DTACLOUD-123
+        #
         service.rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
-          max_memory << dc.hostFolder.childEntity.first.summary.effectiveMemory
+          # max_memory << dc.hostFolder.childEntity.first.summary.effectiveMemory
           max_cpu_cores << dc.hostFolder.childEntity.first.summary.numCpuCores
         end
         [Deltacloud::HardwareProfile::new('default') do
           cpu (1..max_cpu_cores.min)
-          memory (128..max_memory.min)
+          memory (512..2048)
           architecture ['x86_64', 'i386']
         end]
       end
