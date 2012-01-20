@@ -119,6 +119,16 @@ module RHEVM
       (result_xml/'/cluster/version').first[:major].strip == major
     end
 
+    def capability?(name)
+      headers = {
+        :content_type => 'application/xml',
+        :accept => 'application/xml'
+      }
+      headers.merge!(auth_header)
+      result_xml = Nokogiri::XML(RHEVM::client(@api_entrypoint)["/capabilities"].get(headers))
+      !(result_xml/"/capabilities/version/custom_properties/custom_property[@name='#{name}']").empty?
+    end
+
     def create_vm(template_id, opts={})
       opts ||= {}
       templ = template(template_id)
@@ -135,6 +145,7 @@ module RHEVM
           }
           if opts[:user_data] and not opts[:user_data].empty?
             if api_version?('3') and cluster_version?((opts[:realm_id] || clusters.first.id), '3')
+              raise "Required VDSM hook 'floppyinject' not supported by RHEV-M" unless capability?(:floppyinject)
               custom_properties {
                 custom_property({
                   :name => "floppyinject",
