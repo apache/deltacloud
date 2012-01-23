@@ -82,7 +82,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     hardware_profile_id = machine_template['machineConfig'][0]["href"].split('/').last
     image_id = machine_template['machineImage'][0]["href"].split('/').last
     additional_params = {}
-    if machine_template.has_key? 'MachineAdmin'
+    if machine_template.has_key? 'machineAdmin'
       additional_params[:keyname] = machine_template['machineAdmin'][0]["href"].split('/').last
     end
     instance = context.driver.create_instance(context.credentials, image_id, {
@@ -212,7 +212,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.convert_instance_actions(instance, context)
     instance.actions.collect do |action|
-      action = :delete if action == :destroy  # In CIMI destroy operation become delete
+      action = :destroy if action == :delete # In CIMI destroy operation become delete
       action = :restart if action == :reboot  # In CIMI reboot operation become restart
       { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://www.dmtf.org/cimi/action/#{action}" }
     end
