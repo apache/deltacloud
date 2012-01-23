@@ -24,7 +24,7 @@ class CIMI::Model::EntityMetadataCollection < CIMI::Model::Base
       :uri => context.entity_metadata_url,
       :name => 'default',
       :created => Time.now,
-      :entity_metadata => EntityMetadata.all(context).map{|em| {:href => em.uri}}
+      :entity_metadata => EntityMetadata.all_uri(context)
    )
   end
 

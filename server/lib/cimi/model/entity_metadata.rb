@@ -40,20 +40,21 @@ text :type_uri
     if id == :all
       CIMI::Model.root_entities.each do |entity|
         entity_class = CIMI::Model.const_get("#{entity.singularize}")
-        entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?("create_entity_metadata")
+        entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?(:create_entity_metadata)
       end
       return entity_metadata
     else
       entity_class = CIMI::Model.const_get("#{id.camelize}")
-      entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?("create_entity_metadata")
-      return entity_metadata.first
+      if entity_class.respond_to?(:create_entity_metadata)
+        entity_class.create_entity_metadata(context)
+      end
     end
   end
 
   def self.metadata_from_deltacloud_features(cimi_entity, dcloud_entity, context)
-      deltacloud_features = context.driver.features(dcloud_entity)
-      metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
-      from_feature(cimi_entity, context, metadata_attributes.flatten!)
+    deltacloud_features = context.driver.features(dcloud_entity)
+    metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
+    from_feature(cimi_entity, context, metadata_attributes.flatten!)
   end
 
   def includes_attribute?(attribute)
@@ -64,21 +65,19 @@ text :type_uri
 
   def self.attributes_from_feature(feature)
     feature.operations.first.params.inject([]) do |result, param|
-      p = feature.operations.first.params[param]
       result << {
-        :name=>(feature.name == :user_name ? :name : param),
+        :name=>(feature.name == :user_name ? :name : param[0]),
         :type=> "xs:string",
-        :required=> (p and p.optional?) ? "false" : "true",
+        :required=> (param[1] and param[1].optional?) ? "false" : "true",
         :constraints=> (feature.constraints.empty? ? (feature.description.nil? ? "" : feature.description): feature.constraints)
       }
     end
-    attributes
   end
 
   def self.from_feature(cimi_entity, context, metadata_attributes)
     self.new(:name => cimi_entity, :uri=>"#{context.entity_metadata_url}/#{cimi_entity.underscore}",
-            :type_uri=> context.send("#{cimi_entity.pluralize.underscore}_url"),
-            :attributes => metadata_attributes   )
+             :type_uri=> context.send("#{cimi_entity.pluralize.underscore}_url"),
+             :attributes => metadata_attributes)
   end
 
 end
