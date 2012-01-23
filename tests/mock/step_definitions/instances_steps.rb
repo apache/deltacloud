@@ -36,10 +36,11 @@ When /^client follow link in actions$/ do
   l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
 
   if @action.eql?('destroy')
-    delete l[:href], { :id => @instance.xpath('@id').first.text }
+    delete l[:href]
   else
-    post l[:href], { :id => @instance.xpath('@id').first.text }
+    post l[:href]
   end
+  puts last_response.body if last_response.status == 500
   last_response.status.should_not == 500
 end
 

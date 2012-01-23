@@ -1,5 +1,7 @@
+World(Rack::Test::Methods)
+
 Given /^URI ([\w\/\-_]+) exists$/ do |uri|
-  get uri, {}
+  get uri
   last_response.status.should_not == 404
   last_response.status.should_not == 500
   @uri = uri

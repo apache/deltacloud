@@ -17,6 +17,7 @@ Feature: Managing instances
     | authentication |
     | public_addresses |
     | private_addresses |
+    | storage_volumes |
     And each instance should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 
@@ -48,6 +49,7 @@ Feature: Managing instances
     | authentication |
     | public_addresses |
     | private_addresses |
+    | storage_volumes |
 
   Scenario: Following image href in instance
     Given URI /api/instances exists
