@@ -19,3 +19,4 @@
 :actions:
 - :reboot
 - :stop
+:storage_volumes: []

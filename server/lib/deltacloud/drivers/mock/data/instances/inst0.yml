@@ -20,3 +20,4 @@
 :name: Mock Instance With Profile Change
 :id: inst0
 :state: RUNNING
+:storage_volumes: []

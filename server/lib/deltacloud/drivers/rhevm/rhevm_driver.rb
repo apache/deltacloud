@@ -33,6 +33,10 @@ module Deltacloud
 
 class RHEVMDriver < Deltacloud::BaseDriver
 
+  def supported_collections
+    DEFAULT_COLLECTIONS - [:storage_snapshots]
+  end
+
   feature :instances, :user_name do
     constraint :max_length, 50
   end

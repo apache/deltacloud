@@ -237,7 +237,6 @@ module Deltacloud::Drivers::Mock
     #
     # Storage Volumes
     #
-
     def storage_volumes(credentials, opts=nil)
       check_credentials( credentials )
       volumes = @client.build_all(StorageVolume)
