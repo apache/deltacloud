@@ -27,7 +27,7 @@ class CIMI::Model::MachineCollection < CIMI::Model::Base
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineCollection",
-      :machines => Machine.all(context).map { |c| { :href => c.uri } }
+      :machines => Machine.all_uri(context)
     )
   end
 

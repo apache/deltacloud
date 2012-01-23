@@ -39,14 +39,6 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     end
   end
 
-  # Return an Hash of links to the EntityMetadata objects
-  def root_entity_metadata(context)
-    entity_metadata = EntityMetadata.all(context)
-    entity_metadata.map do |m|
-      { :href => m.uri }
-    end
-  end
-
   private
 
   def self.href_defined?(entity)

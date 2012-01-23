@@ -128,6 +128,11 @@ class CIMI::Model::Base
         define_method(:"#{name}=") { |newval| @attribute_values[name] = newval }
       end
     end
+
+    # Return Array of links to current CIMI object
+    def all_uri(context)
+      self.all(context).map { |e| { :href => e.uri } }
+    end
   end
 
   extend CIMI::Model::Schema::DSL

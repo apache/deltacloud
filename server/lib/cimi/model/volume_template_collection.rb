@@ -27,7 +27,7 @@ class CIMI::Model::VolumeTemplateCollection < CIMI::Model::Base
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} VolumeTemplateCollection",
-      :volume_templates => VolumeTemplate.all(context).map { |c| { :href => c.uri } }
+      :volume_templates => VolumeTemplate.all_uri(context)
     )
   end
 

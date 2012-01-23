@@ -27,7 +27,7 @@ class CIMI::Model::MachineTemplateCollection < CIMI::Model::Base
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineTemplateCollection",
-      :machine_templates => MachineTemplate.all(context).map { |c| { :href => c.uri } }
+      :machine_templates => MachineTemplate.all_uri(context)
     )
   end
 

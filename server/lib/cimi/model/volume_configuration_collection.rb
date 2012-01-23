@@ -27,7 +27,7 @@ class CIMI::Model::VolumeConfigurationCollection < CIMI::Model::Base
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} VolumeConfigurationCollection",
-      :volume_configurations => VolumeConfiguration.all(context).map { |c| { :href => c.uri } }
+      :volume_configurations => VolumeConfiguration.all_uri(context)
     )
   end
 

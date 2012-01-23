@@ -27,7 +27,7 @@ class CIMI::Model::MachineImageCollection < CIMI::Model::Base
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineImageCollection",
-      :machine_images => MachineImage.all(context).map { |c| { :href => c.uri } }
+      :machine_images => MachineImage.all_uri(context)
     )
   end
 
