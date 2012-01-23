@@ -62,6 +62,7 @@ Feature: Managing instances
     | actions |
     | public_addresses |
     | private_addresses |
+    | storage_volumes |
     And each instance should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
 
@@ -94,6 +95,7 @@ Feature: Managing instances
     | actions |
     | public_addresses |
     | private_addresses |
+    | storage_volumes |
     | authentication |
     | launch_time |
 
