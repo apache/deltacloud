@@ -63,14 +63,14 @@ text :type_uri
   private
 
   def self.attributes_from_feature(feature)
-    attributes = []
-    feature.operations.first.params.each_key do |param|
-      attributes << {
+    feature.operations.first.params.inject([]) do |result, param|
+      p = feature.operations.first.params[param]
+      result << {
         :name=>(feature.name == :user_name ? :name : param),
         :type=> "xs:string",
-        :required=>(feature.operations.first.params[param].type == :optional ? "false" : "true"),
+        :required=> (p and p.optional?) ? "false" : "true",
         :constraints=> (feature.constraints.empty? ? (feature.description.nil? ? "" : feature.description): feature.constraints)
-                    }
+      }
     end
     attributes
   end

@@ -15,29 +15,36 @@
 
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
-array :entity_metadata do
-  scalar :href
-end
+  array :entity_metadata do
+    scalar :href
+  end
 
   def self.create(context)
-    root_entities = CIMI::Model.root_entities.inject({}) do |result, entity|
+    self.new(entities(context).merge({
+      :name => context.driver.name,
+      :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
+      :uri => context.cloudEntryPoint_url,
+      :created => Time.now,
+      :entity_metadata => EntityMetadata.all_uri(context)
+    }))
+  end
+
+  # Return an Hash of the CIMI root entities used in CloudEntryPoint
+  def self.entities(context)
+    CIMI::Model.root_entities.inject({}) do |result, entity|
       if context.respond_to? :"#{entity.underscore}_url"
         result[entity.underscore] = { :href => context.send(:"#{entity.underscore}_url") }
       end
       result
     end
+  end
+
+  # Return an Hash of links to the EntityMetadata objects
+  def root_entity_metadata(context)
     entity_metadata = EntityMetadata.all(context)
-    root_entity_meta = [] ; entity_metadata.each do |m|
-      root_entity_meta << {:href=>m.uri}
+    entity_metadata.map do |m|
+      { :href => m.uri }
     end
-    root_entities.merge!({
-      :name => context.driver.name,
-      :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
-      :uri => context.cloudEntryPoint_url,
-      :created => Time.now,
-      :entity_metadata => root_entity_meta
-    })
-    self.new(root_entities)
   end
 
   private
