@@ -20,14 +20,14 @@ module RHEVMTest
       (last_xml_response/'realms/realm').each do |profile|
         (profile/'name').text.should_not == nil
         (profile/'name').text.should_not == ''
-        (profile/'name').text.should == 'Default'
+        (profile/'name').text.should_not == 'Default'
       end
     end
 
     def test_03_it_returns_single_realm
-      get_auth_url '/api;driver=rhevm/realms/us'
-      (last_xml_response/'realm').first[:id].should == '0'
-      (last_xml_response/'realm/name').first.text.should == 'Default'
+      get_auth_url '/api;driver=rhevm/realms/3c8af388-cff6-11e0-9267-52540013f702'
+      (last_xml_response/'realm').first[:id].should == '3c8af388-cff6-11e0-9267-52540013f702'
+      (last_xml_response/'realm/name').first.text.should == 'engops-nfs'
       (last_xml_response/'realm/state').first.text.should == 'AVAILABLE'
     end
 

@@ -14,28 +14,28 @@
       code: 204
       message: No Content
     headers: 
-      x-auth-token: 
-      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
-      content-type: 
-      - text/xml
-      server: 
-      - Apache/2.2.13 (Red Hat)
       date: 
       - Thu, 20 Oct 2011 11:27:29 GMT
-      x-cdn-management-url: 
-      - https://cdn1.clouddrive.com/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34
-      content-length: 
-      - "0"
-      x-server-management-url: 
-      - https://servers.api.rackspacecloud.com/v1.0/513170
+      server: 
+      - Apache/2.2.13 (Red Hat)
       x-storage-url: 
       - https://storage101.dfw1.clouddrive.com/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34
+      x-server-management-url: 
+      - https://servers.api.rackspacecloud.com/v1.0/513170
+      content-type: 
+      - text/xml
       cache-control: 
       - s-maxage=7362
       x-storage-token: 
       - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
+      x-cdn-management-url: 
+      - https://cdn1.clouddrive.com/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34
       vary: 
       - X-Auth-Token,X-Auth-Key,X-Storage-User,X-Storage-Pass
+      content-length: 
+      - "0"
+      x-auth-token: 
+      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
     body: 
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
@@ -44,31 +44,31 @@
     uri: https://storage101.dfw1.clouddrive.com:443/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34/testbucki2rpux3wdelme/
     body: 
     headers: 
-      x-auth-token: 
-      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
       user-agent: 
       - CloudFiles Ruby API 1.4.17
       content-length: 
       - "0"
+      x-auth-token: 
+      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
       code: 204
       message: No Content
     headers: 
+      date: 
+      - Thu, 20 Oct 2011 11:27:30 GMT
+      x-container-bytes-used: 
+      - "24436"
+      x-trans-id: 
+      - tx77d7b540fe8f4226b2db8e812c001e67
+      accept-ranges: 
+      - bytes
       connection: 
       - keep-alive
       x-container-object-count: 
       - "1"
-      date: 
-      - Thu, 20 Oct 2011 11:27:30 GMT
       content-length: 
       - "0"
-      x-container-bytes-used: 
-      - "24436"
-      accept-ranges: 
-      - bytes
-      x-trans-id: 
-      - tx77d7b540fe8f4226b2db8e812c001e67
     body: 
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
@@ -77,33 +77,33 @@
     uri: https://storage101.dfw1.clouddrive.com:443/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34/testbucki2rpux3wdelme?
     body: 
     headers: 
-      x-auth-token: 
-      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
       user-agent: 
       - CloudFiles Ruby API 1.4.17
       content-length: 
       - "0"
+      x-auth-token: 
+      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
       code: 200
       message: OK
     headers: 
-      connection: 
-      - keep-alive
-      content-type: 
-      - text/plain; charset=utf-8
-      x-container-object-count: 
-      - "1"
       date: 
       - Thu, 20 Oct 2011 11:27:30 GMT
-      content-length: 
-      - "22"
       x-container-bytes-used: 
       - "24436"
-      accept-ranges: 
-      - bytes
+      content-type: 
+      - text/plain; charset=utf-8
       x-trans-id: 
       - tx797ac526a88e4bc1b2e3bc2611ecf4b0
+      accept-ranges: 
+      - bytes
+      connection: 
+      - keep-alive
+      x-container-object-count: 
+      - "1"
+      content-length: 
+      - "22"
     body: |
       testblobk1ds91kVdelme
 
@@ -114,37 +114,37 @@
     uri: https://storage101.dfw1.clouddrive.com:443/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34/testbucki2rpux3wdelme/testblobk1ds91kVdelme
     body: 
     headers: 
-      x-auth-token: 
-      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
       user-agent: 
       - CloudFiles Ruby API 1.4.17
       content-length: 
       - "0"
+      x-auth-token: 
+      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
       code: 200
       message: OK
     headers: 
-      etag: 
-      - 6051b502c4281855ff32dc3e924fe3b0
-      last-modified: 
-      - Thu, 20 Oct 2011 11:27:24 GMT
-      connection: 
-      - keep-alive
-      content-type: 
-      - text/html
-      x-object-meta-author: 
-      - deltacloud
       date: 
       - Thu, 20 Oct 2011 11:27:30 GMT
       x-object-meta-foo: 
       - bar
-      content-length: 
-      - "24436"
-      accept-ranges: 
-      - bytes
+      x-object-meta-author: 
+      - deltacloud
+      content-type: 
+      - text/html
       x-trans-id: 
       - txb482e8fe3f964841b17126d0a607cd56
+      accept-ranges: 
+      - bytes
+      etag: 
+      - 6051b502c4281855ff32dc3e924fe3b0
+      connection: 
+      - keep-alive
+      last-modified: 
+      - Thu, 20 Oct 2011 11:27:24 GMT
+      content-length: 
+      - "24436"
     body: 
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
@@ -153,36 +153,59 @@
     uri: https://storage101.dfw1.clouddrive.com:443/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34/testbucki2rpux3wdelme/testblobk1ds91kVdelme
     body: 
     headers: 
-      x-auth-token: 
-      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
       user-agent: 
       - CloudFiles Ruby API 1.4.17
       content-length: 
       - "0"
+      x-auth-token: 
+      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
       code: 200
       message: OK
     headers: 
-      etag: 
-      - 6051b502c4281855ff32dc3e924fe3b0
-      last-modified: 
-      - Thu, 20 Oct 2011 11:27:24 GMT
-      connection: 
-      - keep-alive
-      content-type: 
-      - text/html
-      x-object-meta-author: 
-      - deltacloud
       date: 
       - Thu, 20 Oct 2011 11:27:31 GMT
       x-object-meta-foo: 
       - bar
-      content-length: 
-      - "24436"
-      accept-ranges: 
-      - bytes
+      x-object-meta-author: 
+      - deltacloud
+      content-type: 
+      - text/html
       x-trans-id: 
       - tx644ce421c2a84c178e7713568e3235e7
+      accept-ranges: 
+      - bytes
+      etag: 
+      - 6051b502c4281855ff32dc3e924fe3b0
+      connection: 
+      - keep-alive
+      last-modified: 
+      - Thu, 20 Oct 2011 11:27:24 GMT
+      content-length: 
+      - "24436"
+    body: 
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :head
+    uri: https://storage101.dfw1.clouddrive.com:443/v1/MossoCloudFS_1bb4881a-62d7-4c9b-8dc0-03ecafc5cc34/testbucki2rpux3wdelme
+    body: 
+    headers: 
+      x-auth-token: 
+      - 8fcd09ac-0bb5-4e96-8bbe-fc6cb838dd6d
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 401
+      message: Unauthorized
+    headers: 
+      date: 
+      - Mon, 23 Jan 2012 12:22:00 GMT
+      content-type: 
+      - text/html; charset=UTF-8
+      x-trans-id: 
+      - tx90931a6aa53d4e3eb88923c3c5c6aa93
+      content-length: 
+      - "0"
     body: 
     http_version: "1.1"

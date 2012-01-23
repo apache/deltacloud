@@ -12,8 +12,8 @@ module RHEVMTest
 
     def test_01_01_it_can_create_instance_without_hardware_profile
       params = {
-        :image_id => 'bb2e79bd-fd73-46a1-b391-a390b1998f03',
-        :name => 'mock-test1',
+        :image_id => '3e82e2d5-913f-4095-ae72-ebcfa9d0571d',
+        :name => 'dc-webmock-1',
         :'api[driver]' => 'rhevm',
       }
       post_url '/api/instances', params
@@ -21,7 +21,7 @@ module RHEVMTest
       @@instance = last_xml_response
       (@@instance/'instance').length.should > 0
       (@@instance/'instance/name').first.text.should_not == nil
-      (@@instance/'instance/name').first.text.should == 'mock-test1'
+      (@@instance/'instance/name').first.text.should == 'dc-webmock-1'
       (@@instance/'instance/owner_id').first.text.should_not == ''
       (@@instance/'instance/owner_id').first.text.should == ENV['API_USER']
       (@@instance/'instance/state').first.text.should == 'PENDING'
@@ -29,8 +29,8 @@ module RHEVMTest
 
     def test_01_02_it_can_create_instance_with_hardware_profile
       params = {
-        :image_id => 'bb2e79bd-fd73-46a1-b391-a390b1998f03',
-        :name => 'mock-test2',
+        :image_id => '3e82e2d5-913f-4095-ae72-ebcfa9d0571d',
+        :name => 'dc-webmock-2',
         :hwp_id => 'SERVER',
         :'api[driver]' => 'rhevm',
       }
@@ -39,7 +39,7 @@ module RHEVMTest
       @@instance2 = last_xml_response
       (@@instance2/'instance').length.should > 0
       (@@instance2/'instance/name').first.text.should_not == nil
-      (@@instance2/'instance/name').first.text.should == 'mock-test2'
+      (@@instance2/'instance/name').first.text.should == 'dc-webmock-2'
       (@@instance2/'instance/owner_id').first.text.should_not == ''
       (@@instance2/'instance/owner_id').first.text.should == ENV['API_USER']
       (@@instance2/'instance/state').first.text.should == 'PENDING'
@@ -154,11 +154,10 @@ module RHEVMTest
       last_response.status.should == 204
       20.times do |tick|
         get_auth_url "/api;driver=rhevm/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
-        #last_response.status.should_not == 500
-        break if last_response.status == 500
+        break if last_response.status == 404
         sleep(5)
       end
-      last_response.status.should == 500
+      last_response.status.should == 404
     end
 
     def test_06_02_created_instance_can_be_destroyed
@@ -169,11 +168,10 @@ module RHEVMTest
       last_response.status.should == 204
       20.times do |tick|
         get_auth_url "/api;driver=rhevm/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
-        #last_response.status.should_not == 500
-        break if last_response.status == 500
+        break if last_response.status == 404
         sleep(5)
       end
-      last_response.status.should == 500
+      last_response.status.should == 404
     end
   end
 end

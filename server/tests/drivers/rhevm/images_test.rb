@@ -32,9 +32,9 @@ module RHEVMTest
     end
 
     def test_03_it_returns_single_image
-      get_auth_url '/api;driver=rhevm/images/bb2e79bd-fd73-46a1-b391-a390b1998f03'
+      get_auth_url '/api;driver=rhevm/images/3e82e2d5-913f-4095-ae72-ebcfa9d0571d'
       (last_xml_response/'image').length.should == 1
-      (last_xml_response/'image/name').text.should == 'F14-Minimal-Srv'
+      (last_xml_response/'image/name').text.should == 'f15-minimal-2'
       (last_xml_response/'image/state').text.should == 'OK'
     end
 

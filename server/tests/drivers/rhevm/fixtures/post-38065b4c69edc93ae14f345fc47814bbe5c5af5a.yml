@@ -2,6 +2,82 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d
+    body: 
+    headers: 
+      accept: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 200
+      message: OK
+    headers: 
+      content-type: 
+      - application/xml
+      x-powered-by: 
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      date: 
+      - Mon, 23 Jan 2012 12:51:06 GMT
+      cache-control: 
+      - no-cache
+      pragma: 
+      - No-cache
+      expires: 
+      - Thu, 01 Jan 1970 01:00:00 CET
+      content-length: 
+      - "1871"
+      server: 
+      - Apache-Coyote/1.1
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <template id="3e82e2d5-913f-4095-ae72-ebcfa9d0571d" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d">
+          <name>f15-minimal-2</name>
+          <description>Fedora 15 minimal</description>
+          <actions>
+              <link rel="export" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/export"/>
+          </actions>
+          <link rel="disks" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/disks"/>
+          <link rel="nics" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/nics"/>
+          <link rel="cdroms" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/cdroms"/>
+          <link rel="snapshots" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/snapshots"/>
+          <link rel="tags" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/tags"/>
+          <link rel="permissions" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/permissions"/>
+          <link rel="statistics" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d/statistics"/>
+          <type>server</type>
+          <status>OK</status>
+          <memory>1073741824</memory>
+          <cpu>
+              <topology cores="1" sockets="1"/>
+          </cpu>
+          <os type="RHEL_6X64">
+              <boot dev="hd"/>
+              <kernel></kernel>
+              <initrd></initrd>
+              <cmdline></cmdline>
+          </os>
+          <cluster id="3c8af388-cff6-11e0-9267-52540013f702" href="/rhevm-api/clusters/3c8af388-cff6-11e0-9267-52540013f702"/>
+          <creation_time>2011-10-18T17:27:27.808+02:00</creation_time>
+          <origin>rhevm</origin>
+          <high_availability>
+              <enabled>false</enabled>
+              <priority>1</priority>
+          </high_availability>
+          <display>
+              <type>vnc</type>
+              <monitors>1</monitors>
+          </display>
+          <stateless>false</stateless>
+          <usb>
+              <enabled>false</enabled>
+          </usb>
+      </template>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :get
     uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/rhevm-api/templates
     body: 
     headers: 
@@ -21,7 +97,7 @@
       x-powered-by: 
       - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
       date: 
-      - Mon, 23 Jan 2012 12:51:05 GMT
+      - Mon, 23 Jan 2012 12:51:06 GMT
       cache-control: 
       - no-cache
       pragma: 
@@ -422,7 +498,7 @@
       x-powered-by: 
       - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
       date: 
-      - Mon, 23 Jan 2012 12:51:05 GMT
+      - Mon, 23 Jan 2012 12:51:07 GMT
       cache-control: 
       - no-cache
       pragma: 
@@ -470,7 +546,7 @@
       x-powered-by: 
       - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
       date: 
-      - Mon, 23 Jan 2012 12:51:06 GMT
+      - Mon, 23 Jan 2012 12:51:07 GMT
       cache-control: 
       - no-cache
       pragma: 
@@ -521,5 +597,106 @@
               </error_handling>
           </cluster>
       </clusters>
+
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/rhevm-api/vms
+    body: |-
+      <vm>
+        <name>dc-webmock-1</name>
+        <template id="3e82e2d5-913f-4095-ae72-ebcfa9d0571d"/>
+        <cluster id="3c8af388-cff6-11e0-9267-52540013f702"/>
+        <type>desktop</type>
+        <memory>536870912</memory>
+        <cpu>
+          <topology sockets="1" cores="1"/>
+        </cpu>
+      </vm>
+    headers: 
+      content-type: 
+      - application/xml
+      accept: 
+      - application/xml
+      accept-encoding: 
+      - gzip, deflate
+      content-length: 
+      - "256"
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 202
+      message: Accepted
+    headers: 
+      content-type: 
+      - application/xml
+      x-powered-by: 
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      date: 
+      - Mon, 23 Jan 2012 12:51:07 GMT
+      content-length: 
+      - "3066"
+      server: 
+      - Apache-Coyote/1.1
+    body: |
+      <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+      <vm id="0ee9cbe7-8868-4250-9528-5534bd554ab1" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1">
+          <name>dc-webmock-1</name>
+          <actions>
+              <link rel="shutdown" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/shutdown"/>
+              <link rel="start" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/start"/>
+              <link rel="stop" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/stop"/>
+              <link rel="suspend" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/suspend"/>
+              <link rel="detach" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/detach"/>
+              <link rel="export" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/export"/>
+              <link rel="move" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/move"/>
+              <link rel="ticket" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/ticket"/>
+              <link rel="migrate" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/migrate"/>
+          </actions>
+          <creation_status>PENDING</creation_status>
+          <link rel="disks" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/disks"/>
+          <link rel="nics" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/nics"/>
+          <link rel="cdroms" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/cdroms"/>
+          <link rel="snapshots" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/snapshots"/>
+          <link rel="tags" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/tags"/>
+          <link rel="permissions" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/permissions"/>
+          <link rel="statistics" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/statistics"/>
+          <link rel="creation_status" href="/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1/creation_status/f294cc4a-afa1-40c9-a1f2-c566309022e9"/>
+          <type>desktop</type>
+          <status>IMAGE_LOCKED</status>
+          <memory>536870912</memory>
+          <cpu>
+              <topology cores="1" sockets="1"/>
+          </cpu>
+          <os type="RHEL_6X64">
+              <boot dev="hd"/>
+              <kernel></kernel>
+              <initrd></initrd>
+              <cmdline></cmdline>
+          </os>
+          <high_availability>
+              <enabled>false</enabled>
+              <priority>1</priority>
+          </high_availability>
+          <display>
+              <type>spice</type>
+              <monitors>1</monitors>
+          </display>
+          <cluster id="3c8af388-cff6-11e0-9267-52540013f702" href="/rhevm-api/clusters/3c8af388-cff6-11e0-9267-52540013f702"/>
+          <template id="3e82e2d5-913f-4095-ae72-ebcfa9d0571d" href="/rhevm-api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d"/>
+          <start_time>2012-01-23T12:51:08.436Z</start_time>
+          <creation_time>2012-01-23T13:51:08.221+01:00</creation_time>
+          <origin>rhevm</origin>
+          <stateless>false</stateless>
+          <placement_policy>
+              <affinity>MIGRATABLE</affinity>
+          </placement_policy>
+          <memory_policy>
+              <guaranteed>536870912</guaranteed>
+          </memory_policy>
+          <usb>
+              <enabled>false</enabled>
+          </usb>
+      </vm>
 
     http_version: "1.1"

@@ -18,18 +18,18 @@
       - application/xml
       x-powered-by: 
       - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
-      date: 
-      - Mon, 23 Jan 2012 12:57:13 GMT
-      cache-control: 
-      - no-cache
       pragma: 
       - No-cache
-      expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
       content-length: 
       - "704"
       server: 
       - Apache-Coyote/1.1
+      date: 
+      - Mon, 23 Jan 2012 13:05:01 GMT
+      expires: 
+      - Thu, 01 Jan 1970 01:00:00 CET
+      cache-control: 
+      - no-cache
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <data_center id="645e425e-66fe-4ac9-8874-537bd10ef08d" href="/rhevm-api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d">
@@ -66,18 +66,18 @@
       - application/xml
       x-powered-by: 
       - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
-      date: 
-      - Mon, 23 Jan 2012 12:57:13 GMT
-      cache-control: 
-      - no-cache
       pragma: 
       - No-cache
-      expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
       content-length: 
       - "1839"
       server: 
       - Apache-Coyote/1.1
+      date: 
+      - Mon, 23 Jan 2012 13:05:01 GMT
+      expires: 
+      - Thu, 01 Jan 1970 01:00:00 CET
+      cache-control: 
+      - no-cache
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <clusters>
@@ -139,18 +139,18 @@
       - application/xml
       x-powered-by: 
       - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
-      date: 
-      - Mon, 23 Jan 2012 12:57:14 GMT
-      cache-control: 
-      - no-cache
       pragma: 
       - No-cache
-      expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
       content-length: 
       - "704"
       server: 
       - Apache-Coyote/1.1
+      date: 
+      - Mon, 23 Jan 2012 13:05:01 GMT
+      expires: 
+      - Thu, 01 Jan 1970 01:00:00 CET
+      cache-control: 
+      - no-cache
     body: |
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <data_center id="645e425e-66fe-4ac9-8874-537bd10ef08d" href="/rhevm-api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d">

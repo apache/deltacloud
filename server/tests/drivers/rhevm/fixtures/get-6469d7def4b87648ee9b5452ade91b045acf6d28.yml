@@ -2,11 +2,11 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/rhevm-api/templates/bb2e79bd-fd73-46a1-b391-a390b1998f03
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/rhevm-api/vms/0ee9cbe7-8868-4250-9528-5534bd554ab1
     body: 
     headers: 
       accept: 
-      - application/xml
+      - application/xml; detail=disks; detail=nics; detail=hosts
       accept-encoding: 
       - gzip, deflate
   response: !ruby/struct:VCR::Response 
@@ -17,7 +17,7 @@
       content-type: 
       - text/html;charset=utf-8
       date: 
-      - Mon, 23 Jan 2012 12:51:06 GMT
+      - Mon, 23 Jan 2012 12:55:02 GMT
       content-length: 
       - "950"
       server: 
