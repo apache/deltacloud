@@ -16,7 +16,7 @@
 
 require 'rubygems'
 require 'pp'
-require 'rspec'
+require 'rspec/core'
 require 'deltacloud/core_ext'
 require 'cimi/model'
 require 'xmlsimple'

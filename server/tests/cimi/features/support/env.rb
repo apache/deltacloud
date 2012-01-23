@@ -27,11 +27,15 @@ end
 class String
 
   def to_class_name
-    to_entity_name.singularize
+    to_collection_name
   end
 
   def to_entity_name
-    self.tr(' ', '')
+    to_collection_name.uncapitalize
+  end
+
+  def to_collection_name
+    self.tr(' ', '').singularize
   end
 
   def to_collection_uri
