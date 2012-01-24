@@ -317,7 +317,7 @@ module Deltacloud::Drivers::VSphere
 
     # Reboot an instance, given its id.
     def reboot_instance(credentials, id)
-      find_vm(credentials, id)[:instance].ResetVM_Task
+      find_vm(credentials, id)[:instance].RebootGuest
     end
 
     # Start an instance, given its id.
