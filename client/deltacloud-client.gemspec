@@ -33,5 +33,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency('rest-client', '>= 1.6.1')
   s.add_dependency('nokogiri', '>= 1.4.3')
-  s.add_development_dependency('rspec', '>= 1.3.0')
+  s.add_development_dependency('rspec', '>= 2.0.0')
 end
