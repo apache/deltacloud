@@ -221,6 +221,15 @@ module DeltaCloud
         end
       end
 
+      alias :original_method_missing :method_missing
+
+      def method_missing(name, *args)
+        if name.to_s =~ /^has_(\w+)\?$/
+          return actions.any? { |a| a[0] == $1 }
+        end
+        original_method_missing(name, args)
+      end
+
       private
 
       def do_action(m, args)
