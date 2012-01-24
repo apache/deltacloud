@@ -36,6 +36,15 @@ class String
     end
   end
 
+  unless method_defined?(:pluralize)
+    def pluralize
+      return self + 'es' if self =~ /ess$/
+      return self[0, self.length-1] + "ies" if self =~ /ty$/
+      return self if self =~ /data$/
+      self + "s"
+    end
+  end
+
   # Convert string to float if string value seems like Float
   def convert
     return self.to_f if self.strip =~ /^([\d\.]+$)/

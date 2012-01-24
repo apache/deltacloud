@@ -280,7 +280,10 @@ module DeltaCloud
     # Generate create_* methods dynamically
     #
     def method_missing(name, *args)
-      if name.to_s =~ /create_(\w+)/
+      if name.to_s =~ /^([\w_]+)_ids$/
+        return self.send(:"#{$1.pluralize}").map { |o| o.id }
+      end
+      if name.to_s =~ /^create_(\w+)/
         params = args[0] if args[0] and args[0].class.eql?(Hash)
         params ||= args[1] if args[1] and args[1].class.eql?(Hash)
         params ||= {}
