@@ -78,8 +78,8 @@ describe "instances" do
       instance.hardware_profile.should_not be_nil
       instance.hardware_profile.should_not be_nil
       instance.hardware_profile.uri.should eql( API_URL + "/hardware_profiles/m1-large" )
-      instance.hardware_profile.memory.value.should eql(10240.0)
-      instance.hardware_profile.storage.value.should eql(850.0)
+      instance.hardware_profile.memory.value.should eql('10240')
+      instance.hardware_profile.storage.value.should eql('850')
       instance.state.should eql( "RUNNING" )
       instance.actions.should_not be_nil
     end
@@ -132,7 +132,7 @@ describe "instances" do
       instance.id.should match( /inst[0-9]+/ )
       instance.image.id.should eql( 'img1' )
       instance.hardware_profile.id.should eql( 'm1-xlarge' )
-      instance.hardware_profile.memory.value.should eql(12288.0)
+      instance.hardware_profile.memory.value.should eql('12288')
       instance.realm.id.should eql( 'us' )
     end
   end

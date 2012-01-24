@@ -31,7 +31,7 @@ describe "storage snapshot" do
         storage_snapshots.should_not be_nil
         storage_snapshots.should_not be_empty
         ids = storage_snapshots.collect{|e| e.id}
-        ids.size.should eql( 2 )
+        ids.size.should eql( 3 )
         ids.should include( 'snap2' )
         ids.should include( 'snap3' )
       end

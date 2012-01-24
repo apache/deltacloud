@@ -31,7 +31,7 @@ describe "storage volumes" do
         storage_volumes.should_not be_nil
         storage_volumes.should_not be_empty
         ids = storage_volumes.collect{|e| e.id}
-        ids.size.should eql( 2 )
+        ids.size.should eql( 3 )
         ids.should include( 'vol2' )
         ids.should include( 'vol3' )
       end

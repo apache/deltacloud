@@ -119,28 +119,6 @@ describe "return HTML in different browsers" do
     end
   end
 
-  it "Chrome" do
-    header_hash = { 
-      'Accept' => "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5",
-      'User-agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_7) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.790.0 Safari/535.1"
-    }
-    client.get(header_hash) do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^text\/html/
-    end
-  end
-
-  it "Safari" do
-    header_hash = { 
-      'Accept' => "application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5",
-      'User-agent' => "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; da-dk) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1"
-    }
-    client.get(header_hash) do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^text\/html/
-    end
-  end
-
   it "Opera" do
     header_hash = { 
       'Accept' => "text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1",
