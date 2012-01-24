@@ -47,7 +47,7 @@ When /^client follow link in actions$/ do
     l = @instance.xpath('actions/link[@rel="'+@action+'"]').first
   end
 
-  post l[:href], { :id => @instance.xpath('@id').first.text }
+  post l[:href]
 
   last_response.status.should_not == 500
 end
