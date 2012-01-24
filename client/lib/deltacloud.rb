@@ -359,7 +359,7 @@ module DeltaCloud
       if conf[:method].eql?(:post)
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(:post, conf[:form_data], default_headers.merge(extended_headers)) do |response, request, block|
-          handle_backend_error(response) if [500, 502].include? response.code
+          handle_backend_error(response) if [500, 502, 501].include? response.code
           if response.respond_to?('body')
             yield response.body if block_given?
           else
@@ -369,7 +369,7 @@ module DeltaCloud
       else
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(conf[:method], default_headers.merge(extended_headers)) do |response, request, block|
-          handle_backend_error(response) if [500, 502].include? response.code
+          handle_backend_error(response) if [500, 502, 501].include? response.code
           if conf[:method].eql?(:get) and [301, 302, 307].include? response.code
             response.follow_redirection(request) do |response, request, block|
               if response.respond_to?('body')
@@ -392,16 +392,20 @@ module DeltaCloud
     # Re-raise backend errors as on exception in client with message from
     # backend
     class BackendError < StandardError
+
       def initialize(opts={})
-        @message = "[#{opts[:code]}] #{opts[:message]}"
+        super("#{opts[:code]} : #{opts[:message]}")
+        set_backtrace(opts[:backtrace].split("\n").map { |l| l.strip }[0..10]) if opts[:backtrace]
       end
-      def message
-        @message
-      end
+
     end
 
     def handle_backend_error(response)
-      raise BackendError.new(:message => (Nokogiri::XML(response)/'error/message').text, :code => response.code)
+      response_xml = Nokogiri::XML(response)
+      backtrace = (response_xml/'error/backtrace').empty? ? nil : (response_xml/'error/backtrace').text
+      raise BackendError.new(:message => (response_xml/'error/message').text,
+                             :code => response.code,
+                             :backtrace => backtrace)
     end
 
     # Check if specified collection have wanted feature
