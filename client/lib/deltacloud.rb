@@ -239,6 +239,11 @@ module DeltaCloud
           obj.add_authentication!(attribute[:type], (attribute/'*')) && next
         end
 
+        #deal with providers
+        if(attribute.name == 'provider')
+          obj.add_provider!(attribute.attributes['id'].value, (attribute/'entrypoint')) && next
+        end
+
         # Deal with collections like public-addresses, private-addresses
         if (attribute/'./*').length > 0
           obj.add_collection!(attribute.name, (attribute/'*').collect { |value| value.text }) && next
@@ -362,7 +367,7 @@ module DeltaCloud
       if conf[:method].eql?(:post)
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(:post, conf[:form_data], default_headers.merge(extended_headers)) do |response, request, block|
-          handle_backend_error(response) if [500, 502, 501].include? response.code
+          handle_backend_error(response) if [500, 502, 501, 401].include? response.code
           if response.respond_to?('body')
             yield response.body if block_given?
           else
@@ -372,7 +377,7 @@ module DeltaCloud
       else
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(conf[:method], default_headers.merge(extended_headers)) do |response, request, block|
-          handle_backend_error(response) if [500, 502, 501].include? response.code
+          handle_backend_error(response) if [500, 502, 501, 401].include? response.code
           if conf[:method].eql?(:get) and [301, 302, 307].include? response.code
             response.follow_redirection(request) do |response, request, block|
               if response.respond_to?('body')
@@ -397,6 +402,7 @@ module DeltaCloud
     class BackendError < StandardError
 
       def initialize(opts={})
+        opts[:message] = "Not authorized / Invalid credentials" if opts[:code] == 401
         super("#{opts[:code]} : #{opts[:message]}")
         set_backtrace(opts[:backtrace].split("\n").map { |l| l.strip }[0..10]) if opts[:backtrace]
       end

@@ -90,6 +90,18 @@ module DeltaCloud
           :values => value
         }
       end
+
+      def add_provider!(provider_id, entrypoints)
+        @providers ||= []
+        @providers << {
+          provider_id.intern => entrypoints.map { |e| { :kind => e[:kind], :url => e.text } }
+        }
+        @objects << {
+          :type => :collection,
+          :method_name => 'providers',
+          :values => @providers
+        }
+      end
       
 
       # This method define collection of text elements inside REST model
@@ -135,6 +147,12 @@ module DeltaCloud
         # First of all search throught array for method name
         m = search_for_method(method_name)
         if m.nil?
+          if method_name == :"valid_provider?"
+            return providers.any? { |p| p.keys.include? args.first.to_sym }
+          end
+          if method_name == :"valid_provider_url?"
+            return providers.map { |p| !p.find { |k, v| v.find { |u| u[:url] == args.first } }.nil? }
+          end
           super
         else
           # Call appropriate handler for method
