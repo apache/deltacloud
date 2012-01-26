@@ -82,16 +82,53 @@ that installation by passing the request headers
 
 ### RHEV-M Driver
 
-The RHEV-M driver needs to be installed on a Windows machine which has the
-RHEV-M Powershell API installed and configured. Assuming the directory
-structure above is followed, you should copy the file
-deltacloud/deltacloud-driver-rhevm/config/rhevm_config.yaml.EXAMPLE to be
-rhevm_config.yaml and edit the file woith the domain you are logging into.
-The username and pasword is provided via the API.
+The RHEV-M driver supports latest release of <a href="http://www.redhat.com/virtualization/rhev/server/"
+target="_blank">Red Hat Enterprise Virtualization Manager</a> (3.0 currently).
+In order to make the driver work with this provider, you need to set an/the
+API_PROVIDER environment variable or use the 'X-Deltacloud-Provider' request
+header to the URL of the RHEV-M REST API entry point. The usual URL looks like:
 
-The actual RHEVM instance you are connecting to is controlled by
-the RHEVM.dll.config file which is referenced from the profile.ps1
-file located in My Documents/WindowsPowershell directory
+    API_PROVIDER="https://rhevm.hostname.com:8443/rhevm-api;645e425e-66fe-4ac9-8874-537bd10ef08d" 
+
+Note: To make sure that you have right credentials, you can try to access 
+<a href="">https://rhevm.hostname.com:8443/rhevm-api</a> in your browser.
+If you're able to authenticate within the browser, then the crendentials you used
+are valid Deltacloud credentials.
+
+Note: In order to make RHEV-M driver work properly, you need to set the RHEV-M
+<a href="http://markmc.fedorapeople.org/rhevm-api/en-US/html-single/index.html#chap-REST_API_Guide-Data_Centers"
+target="_blank">Data Center</a> UUID you want to speak with in API_PROVIDER url (see the example
+above). To obtain a list of all Data Centers you can choose from, start Deltacloud API without
+specifying a datacenter in the API_PROVIDER URL and do this request:
+
+    GET /api/drivers/rhevm?format=xml
+
+The list of possible datacenters will appear in the 'providers' section.
+
+------------------------------------------------
+
+### VMware vSphere Driver
+
+For details on how to make the VMware vSphere driver work with Deltacloud API,
+please refer to <a href="https://www.aeolusproject.org/redmine/projects/aeolus/wiki/VSphere_Setup"
+target="_blank">vSphere Setup</a> in Aeolus project wiki.
+
+In order to connect to vSphere, you need to set the API_PROVIDER environment
+variable or use the 'X-Deltacloud-Provider' HTTP header in the request to the vSphere
+host you want to use. Example:
+
+    API_PROVIDER="vsphere.hostname.com"
+
+The username and password in 401 challenge should be (your???) the same as in vSphere Control
+Center in the vSphere box(clen nechat, ak sa boxom mysli nejaky checkbox, a nepatri to k nazvu).
+
+------------------------------------------------
+
+### OpenStack Driver
+
+To connect to OpenStack API, you will need to set the API_provider environment
+variable or the 'X-Deltacloud-Provider' HTTP header to a valid OpenStack API
+entrypoint. 
 
 ------------------------------------------------
 

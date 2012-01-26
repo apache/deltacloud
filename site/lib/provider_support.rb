@@ -19,8 +19,10 @@ module ProviderSupportHelper
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
       {:name => "Terremark", :driver => true, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
-      {:name => "vSphere", :driver => false, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
+      {:name => "vSphere", :driver => true, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
         :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} },
+      {:name => "OpenStack", :driver => true, :instance => { :create => true, :start => true, :stop => true, :reboot => true, :destroy => true },
+        :list => { :hardware_profiles => true, :realms => true, :images => true, :instances => true} }
     ]
   end
 
@@ -42,8 +44,9 @@ module ProviderSupportHelper
        :container => { :create => true, :update => true },
        :blob => { :create => true, :update => true, :rw => true,
          :rw_attr => true } },
-     { :name => "Google Storage", :driver => false,
-       :container => { }, :blob => { } },
+     { :name => "Google Storage", :driver => true,
+      :blob => { :create => true, :update => true, :rw => true,
+                :rw_attr => true } },
     ]
   end
 

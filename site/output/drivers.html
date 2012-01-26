@@ -99,16 +99,22 @@
         <a href="#h3_3">RHEV-M Driver</a>
         </li>
         <li>
-        <a href="#h3_4">Rackspace Driver</a>
+        <a href="#h3_4">VMware vSphere Driver</a>
         </li>
         <li>
-        <a href="#h3_5">RimuHosting</a>
+        <a href="#h3_5">OpenStack Driver</a>
         </li>
         <li>
-        <a href="#h3_6">OpenNebula</a>
+        <a href="#h3_6">Rackspace Driver</a>
         </li>
         <li>
-        <a href="#h3_7">IBM Smartcloud Driver</a>
+        <a href="#h3_7">RimuHosting</a>
+        </li>
+        <li>
+        <a href="#h3_8">OpenNebula</a>
+        </li>
+        <li>
+        <a href="#h3_9">IBM Smartcloud Driver</a>
         </li>
         </ul></li></ul>
         <!-- = rest -->
@@ -331,7 +337,20 @@
           <tr>
             <td class='provider'>
               vSphere
-              <span>coming soon</span>
+            </td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+            <td class="supported">yes</td>
+          </tr>
+          <tr>
+            <td class='provider'>
+              OpenStack
             </td>
             <td class="supported">yes</td>
             <td class="supported">yes</td>
@@ -673,6 +692,28 @@
             </td>
             <td></td>
           </tr>
+          <tr>
+            <td>
+              <strong>VMware vSphere</strong>
+            </td>
+            <td>
+              <tt>vsphere</tt>
+            </td>
+            <td>vSphere user</td>
+            <td>vSphere user password</td>
+            <td>Set environment variable API_PROVIDER to the hostname of the vSphere server</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>OpenStack</strong>
+            </td>
+            <td>
+              <tt>openstack</tt>
+            </td>
+            <td>OpenStack user</td>
+            <td>OpenStack user password</td>
+            <td>Set environment variable API_PROVIDER to the URL of OpenStack API entrypoint</td>
+          </tr>
         </table>
         
         
@@ -711,20 +752,54 @@
         
         <h3 id="h3_3">RHEV-M Driver</h3>
         
-        <p>The RHEV-M driver needs to be installed on a Windows machine which has the
-        RHEV-M Powershell API installed and configured. Assuming the directory
-        structure above is followed, you should copy the file
-        deltacloud/deltacloud-driver-rhevm/config/rhevm_config.yaml.EXAMPLE to be
-        rhevm_config.yaml and edit the file woith the domain you are logging into.
-        The username and pasword is provided via the API.</p>
+        <p>The RHEV-M driver supports latest release of <a href="http://www.redhat.com/virtualization/rhev/server/" target="_blank">Red Hat Enterprise Virtualization Manager</a> (3.0 currently).
+        In order to make the driver work with this provider, you need to set an/the
+        API_PROVIDER environment variable or use the 'X-Deltacloud-Provider' request
+        header to the URL of the RHEV-M REST API entry point. The usual URL looks like:</p>
         
-        <p>The actual RHEVM instance you are connecting to is controlled by
-        the RHEVM.dll.config file which is referenced from the profile.ps1
-        file located in My Documents/WindowsPowershell directory</p>
+        <pre><code>API_PROVIDER="https://rhevm.hostname.com:8443/rhevm-api;645e425e-66fe-4ac9-8874-537bd10ef08d" &#x000A;</code></pre>
+        
+        <p>Note: To make sure that you have right credentials, you can try to access
+        <a href="">https://rhevm.hostname.com:8443/rhevm-api</a> in your browser.
+        If you're able to authenticate within the browser, then the crendentials you used
+        are valid Deltacloud credentials.</p>
+        
+        <p>Note: In order to make RHEV-M driver work properly, you need to set the RHEV-M
+        <a href="http://markmc.fedorapeople.org/rhevm-api/en-US/html-single/index.html#chap-REST_API_Guide-Data_Centers" target="_blank">Data Center</a> UUID you want to speak with in API_PROVIDER url (see the example
+        above). To obtain a list of all Data Centers you can choose from, start Deltacloud API without
+        specifying a datacenter in the API_PROVIDER URL and do this request:</p>
+        
+        <pre><code>GET /api/drivers/rhevm?format=xml&#x000A;</code></pre>
+        
+        <p>The list of possible datacenters will appear in the 'providers' section.</p>
         
         <hr />
         
-        <h3 id="h3_4">Rackspace Driver</h3>
+        <h3 id="h3_4">VMware vSphere Driver</h3>
+        
+        <p>For details on how to make the VMware vSphere driver work with Deltacloud API,
+        please refer to <a href="https://www.aeolusproject.org/redmine/projects/aeolus/wiki/VSphere_Setup" target="_blank">vSphere Setup</a> in Aeolus project wiki.</p>
+        
+        <p>In order to connect to vSphere, you need to set the API_PROVIDER environment
+        variable or use the 'X-Deltacloud-Provider' HTTP header in the request to the vSphere
+        host you want to use. Example:</p>
+        
+        <pre><code>API_PROVIDER="vsphere.hostname.com"&#x000A;</code></pre>
+        
+        <p>The username and password in 401 challenge should be (your???) the same as in vSphere Control
+        Center in the vSphere box(clen nechat, ak sa boxom mysli nejaky checkbox, a nepatri to k nazvu).</p>
+        
+        <hr />
+        
+        <h3 id="h3_5">OpenStack Driver</h3>
+        
+        <p>To connect to OpenStack API, you will need to set the API_provider environment
+        variable or the 'X-Deltacloud-Provider' HTTP header to a valid OpenStack API
+        entrypoint.</p>
+        
+        <hr />
+        
+        <h3 id="h3_6">Rackspace Driver</h3>
         
         <p>When using the Rackspace-cloud driver (Rackspace cloud used to be called
         "Mosso") - the password in a HTTP 401 challenge should be your API key, NOT
@@ -733,13 +808,13 @@
         
         <hr />
         
-        <h3 id="h3_5">RimuHosting</h3>
+        <h3 id="h3_7">RimuHosting</h3>
         
         <p>Further details coming soon.</p>
         
         <hr />
         
-        <h3 id="h3_6">OpenNebula</h3>
+        <h3 id="h3_8">OpenNebula</h3>
         
         <p>When using the <a href="http://www.opennebula.org/">OpenNebula</a> driver, the
         credentials passed in response to the HTTP 401 authentication challenge
@@ -750,7 +825,7 @@
         
         <hr />
         
-        <h3 id="h3_7">IBM Smartcloud Driver</h3>
+        <h3 id="h3_9">IBM Smartcloud Driver</h3>
         
         <p>When using the IBM SmartCloud driver, the credentials passed in response to
         the HTTP 401 authentication challenge should be your IBM SmartCloud
