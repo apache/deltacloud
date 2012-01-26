@@ -373,7 +373,7 @@ module RHEVM
       @storage = ((xml/'disks/disk/size').first.text rescue nil)
       @macs = (xml/'nics/nic/mac').collect { |mac| mac[:address] }
       @creation_time = (xml/'creation_time').text
-      @ip = ((xml/'guest_info/ip').first[:address] rescue nil)
+      @ip = ((xml/'guest_info/ips/ip').first[:address] rescue nil)
       @vnc = {
         :address => ((xml/'display/address').first.text rescue "127.0.0.1"),
         :port => ((xml/'display/port').first.text rescue "5890")
