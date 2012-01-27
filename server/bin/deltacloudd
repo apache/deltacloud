@@ -82,6 +82,9 @@ BANNER
   opts.on( '-V', '--verbose', 'Set verbose logging on') do |verbose|
     ENV["API_VERBOSE"] ||= 'true'
   end
+  opts.on(  nil, '--webrick', 'Force the use of WEBRick as a server') do |opt|
+    options[:webrick] = true
+  end
   opts.on( '-h', '--help', '') { options[:help] = true }
 
   opts.separator <<EOS
@@ -173,7 +176,7 @@ end
 
 dirname="#{File.dirname(__FILE__)}/.."
 
-have_thin = library_present?('thin')
+have_thin = options[:webrick].nil? && library_present?('thin')
 have_rerun = library_present?('rerun')
 
 unless have_thin
