@@ -16,7 +16,7 @@
 
 require 'rubygems'
 
-$top_srcdir = File.dirname(__FILE__)
+$top_srcdir ||= File::expand_path(File.dirname(__FILE__))
 
 $:.unshift File.join($top_srcdir, 'lib')
 

@@ -16,7 +16,7 @@
 # under the License.
 #
 
-$:.unshift File.join(File.dirname(__FILE__), '..')
+$top_srcdir = File::expand_path(File.join(File.dirname(__FILE__), '..'))
 
 require 'rubygems'
 require 'optparse'
@@ -35,6 +35,7 @@ def library_present?(name)
 end
 
 DEFAULT_CONFIG = "~/.deltacloud/config"
+
 options = {
   :env => 'development'
 }
@@ -121,7 +122,6 @@ unless options[:drivers] or ENV["API_DRIVER"]
 end
 
 if options[:drivers]
-  $top_srcdir = File.join(File.dirname(__FILE__), '..')
   $:.unshift File.join($top_srcdir, 'lib')
   server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
   load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
@@ -174,8 +174,6 @@ if ENV['API_USER'] && ENV['API_PASSWORD']
   puts
 end
 
-dirname="#{File.dirname(__FILE__)}/.."
-
 have_thin = options[:webrick].nil? && library_present?('thin')
 have_rerun = library_present?('rerun')
 
@@ -183,14 +181,14 @@ unless have_thin
   require 'rack'
 
   # Read in config.ru and convert it to an instance of Rack::Builder
-  cfgfile = File.read(File.join(dirname, 'config.ru'))
+  cfgfile = File.read(File.join($top_srcdir, 'config.ru'))
   inner_app = eval("Rack::Builder.new {(" + cfgfile + "\n )}.to_app",
                    nil, 'config.ru')
 
   app = Rack::Builder.new {
     use Rack::CommonLogger # apache-like logging
     use Rack::Reloader if options[:env] == "development"
-    set :root, dirname # Set Sinatra root since we can't chdir to ../
+    set :root, $top_srcdir # Set Sinatra root since we can't chdir to ../
     run inner_app
   }.to_app
 
@@ -208,7 +206,7 @@ else
   argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
   argv_opts << ['--address', ENV["API_HOST"] ]
   argv_opts << ['--port', ENV["API_PORT"] ]
-  argv_opts << ['--rackup', File.join(dirname, 'config.ru') ]
+  argv_opts << ['--rackup', File.join($top_srcdir, 'config.ru') ]
   argv_opts << ['-e', options[:env] ]
   argv_opts << ['--timeout', ENV["API_TIMEOUT"] || '60']
   argv_opts << ['--threaded', '-D' ]
@@ -228,12 +226,11 @@ else
   if have_rerun && options[:env] == "development"
     argv_opts.unshift "thin"
     command = argv_opts.join(" ")
-    topdir = File::expand_path(File::join(File::dirname(__FILE__), ".."))
-    rerun = Rerun::Runner.new(command, :dir => topdir)
+    Dir::chdir($top_srcdir)
+    rerun = Rerun::Runner.new(command, :dir => $top_srcdir)
     rerun.start
     rerun.join
   else
-    $:.unshift File.join(dirname)
     thin = Thin::Runner.new(argv_opts)
     thin.run!
   end
