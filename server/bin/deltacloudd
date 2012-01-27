@@ -199,10 +199,10 @@ unless have_thin
   port = ENV["API_PORT"].to_i
 
   puts "=> Ctrl-C to shutdown server"
-  Rack::Handler::WEBrick.run(app,
-                             :Host => ENV["API_HOST"],
-                             :Port => port,
-                             :AccessLog => [])
+  Rack::Server::start(:app => app,
+                      :Host => ENV["API_HOST"],
+                      :Port => port,
+                      :AccessLog => [])
 else
   argv_opts = ARGV.clone
   argv_opts << ['start'] unless Thin::Runner.commands.include?(options[0])
