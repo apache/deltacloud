@@ -10,6 +10,8 @@
   * incredibly experimental support for DMTF CIMI
     (http://dmtf.org/standards/cloud) If you run the server with --cimi and
     it breaks, you get to keep both pieces
+  * various client fixes
+  * deltacloudd: add --webrick to force use of WEBRick
   * Drivers
     + EC2
       - fetch available regions via DescribeRegions
@@ -17,6 +19,7 @@
       - fix bucket creation when client specifies 'us-east-1' region
         (BZ 725646)
       - t1.micro HWP is available for 32 and 64 bit (JIRA 95)
+      - improvements for launching multiple instances (JIRA 79)
     + Google storage
       - fix blob metadata listing
       - properly validate credentials
@@ -33,12 +36,16 @@
         considered
       - fix deleting VMs (JIRA 110)
       - preserve details about backend errors
+      - create instance: choose image realm when none is specified (JIRA 126)
+      - better error msg when floppyinject is not installed (BZ 765855)
     + SBC
        - correctly return the realm for /api/realms/:id (JIRA 106)
     + vSphere
        - fix internal error in reporting of instance addresses
        - find objects (VMs etc.) even for datastores that are in nested
          folders (Alfredo Moralejo)
+       - HWP: replace effectiveMemory with hardcoded values (JIRA 123)
+       - Reboot of a VM now does a RebootGuest rather than ResetVM_Task
 
 0.4.1 - 2011-10-04
   * change how dependencies are managed: canonical deps are now in the
