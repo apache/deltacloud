@@ -712,13 +712,15 @@ module Deltacloud
         end
 
         def valid_credentials?(credentials)
-          retval = true
           begin
-            realms(credentials)
-          rescue
+            realms(credentials) && true
+          rescue Aws::AwsError::AuthFailure
             retval = false
+          rescue => e
+            safely do
+              raise e
+            end
           end
-          retval
         end
 
         private
