@@ -2,19 +2,17 @@
 %html
   %head
     %title Deltacloud API #{settings.version}
-    = stylesheet_link_tag '/stylesheets/jquery.mobile-1.0rc1.min.css'
+    = stylesheet_link_tag '/stylesheets/jquery.mobile-1.0.1.min.css'
     = stylesheet_link_tag '/stylesheets/new.css'
     %script{:type => "text/javascript", :src => "/javascripts/jquery.min.js" }
     %script{:type => "text/javascript", :src => "/javascripts/application.js" }
-    %script{:type => "text/javascript", :src => "/javascripts/jquery.mobile-1.0rc1.min.js" }
+    %script{:type => "text/javascript", :src => "/javascripts/jquery.mobile-1.0.1.min.js" }
     :javascript
-      $(document).ready(function() {
-        $(document).bind("mobileinit", function(){
+      $(document).bind("mobileinit", function(){
           $.mobile.ajaxEnabled = false;
           $.mobile.hashListeningEnabled = false;
-        });
+          $.mobile.selectmenu.prototype.options.nativeMenu = false;
       })
-
   %body
     %div{ 'data-role' => :page }
       = yield
