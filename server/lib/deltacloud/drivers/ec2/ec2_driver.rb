@@ -280,7 +280,7 @@ module Deltacloud
           ec2 = new_client(credentials)
           opts ||= {}
           safely do
-            ec2.describe_key_pairs(opts[:id] || nil).collect do |key|
+            ec2.describe_key_pairs(opts[:id] ? [opts[:id]] : nil).collect do |key|
               convert_key(key)
             end
           end
@@ -971,6 +971,14 @@ module Deltacloud
         exceptions do
           on /(AuthFailure|InvalidAccessKeyId)/ do
             status 401
+          end
+
+          on /(NotFound|InvalidInstanceID|InvalidAMIID)/ do
+            status 404
+          end
+
+          on /Invalid availability zone/ do
+            status 404
           end
 
           on /Error/ do
