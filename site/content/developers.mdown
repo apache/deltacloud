@@ -41,15 +41,12 @@ It also includes a ruby client library and a commandline interface.
 
 **First, make sure you have installed all [dependencies](documentation.html#dependencies).**
 
-The Deltacloud repository is hosted at the Apache Software Foundation.
-Apache uses ***subversion*** and you can find the Deltacloud subversion repository
-at <https://svn.apache.org/repos/asf/deltacloud>.
-
-However many of the Deltacloud developers use the
-[git version control system](http://git-scm.com/download) and the Deltacloud
-code is available through a git mirror. The instructions on this page are
-thus specific to using ***git*** for getting the code and also
-for making and sending patches.
+The Deltacloud repository is hosted at the Apache Software Foundation,
+using the [git](http://git-scm.com/) version control system. The canonical
+Deltacloud repository is at
+<https://git-wip-us.apache.org/repos/asf/deltacloud.git> with readonly
+mirrors at `git://git.apache.org/deltacloud.git` and
+`git://github.com/apache/deltacloud`.
 
 If you don't already have ***git*** there are
 [git binaries](http://git-scm.com/download) available for specific systems.
@@ -558,5 +555,3 @@ clarification about contributing to the Deltacloud project.
 <br>
 [contents](#contents)
 <br>
-
-

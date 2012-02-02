@@ -42,14 +42,16 @@ As an alternative you can get the latest releases of Deltacloud from the
 
 More information for developers is available [here](developers.html).
 
-The Apache Deltacloud subversion repo is at:
-**https://svn.apache.org/repos/asf/incubator/deltacloud**.
+The Apache Deltacloud git repo is at:
+**https://git-wip-us.apache.org/repos/asf/deltacloud.git**.
 
-    svn co https://svn.apache.org/repos/asf/incubator/deltacloud deltacloud
+    git clone https://git-wip-us.apache.org/repos/asf/deltacloud.git
 
-The Git repo is at: **git://git.apache.org/deltacloud.git**
+You can also use the readonly git mirrors at Apache and
+[Github](https://github.com/apache/deltacloud):
 
     git clone git://git.apache.org/deltacloud.git
+    git clone git://github.com/apache/deltacloud
 
 <br>
 <br>
@@ -98,4 +100,3 @@ Contributed by Chris Lalancette.
 
 Do you have a tool to make Deltacloud more useful? [Let us know](contact.html)
 and we'll add your contributions to this page!
-
