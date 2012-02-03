@@ -36,7 +36,7 @@ Then installing Deltacloud is as easy as typing:
 all other gems that the Deltacloud server needs if you don't already have these.
 
 As an alternative you can get the latest releases of Deltacloud from the
-[Apache website](http://www.apache.org/dist/incubator/deltacloud/).
+[Apache website](http://www.apache.org/dist/deltacloud/).
 
 ## Getting the sources ##
 
