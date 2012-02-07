@@ -208,13 +208,15 @@ class RHEVMDriver < Deltacloud::BaseDriver
   end
 
   def valid_credentials?(credentials)
-    retval = true
     begin
-      realms(credentials)
-    rescue
+      realms(credentials) && true
+    rescue RestClient::Unauthorized
       retval = false
+    rescue => e
+      safely do
+        raise e
+      end
     end
-    retval
   end
 
   private
