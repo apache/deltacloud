@@ -714,11 +714,11 @@ module Deltacloud
         def valid_credentials?(credentials)
           begin
             realms(credentials) && true
-          rescue Aws::AwsError::AuthFailure
-            retval = false
           rescue => e
-            safely do
-              raise e
+            if e.class.name =~ /AuthFailure/
+              retval = false
+            else
+              safely { raise e }
             end
           end
         end
