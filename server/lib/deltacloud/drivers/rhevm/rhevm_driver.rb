@@ -14,18 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-# Minihowto: Setting up this driver
-#
-# 1. Setup RHEV-M server
-# 2. Setup RHEV-M API (git://git.fedorahosted.org/rhevm-api.git - follow README)
-# 3. Set URL to API using shell variable (or HTTP header, see comment on provider_url)
-#    export API_PROVIDER="https://x.x.x.x/rhevm-api-powershell"
-# 4. Start Deltacloud using: deltacloudd -i rhevm
-# 5. Use RHEV-M credentials + append Windows Domain
-#    like: admin@rhevm.example.com
-
 require 'deltacloud/base_driver'
-require 'deltacloud/drivers/rhevm/rhevm_client'
+require 'rbovirt'
 
 module Deltacloud
   module Drivers
@@ -187,23 +177,18 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts={})
     client = new_client(credentials)
     params = {}
-    name = opts[:name]
-    if not name
-      name = Time.now.to_i.to_s
-    end
-    if name.length > USER_NAME_MAX
-      raise "Parameter name must be #{USER_NAME_MAX} characters or less"
+    if opts[:name]
+      raise "Parameter name must be #{USER_NAME_MAX} characters or less" if opts[:name].length > USER_NAME_MAX
     end
     safely do
-      params[:name] = name
-      params[:realm_id] = opts[:realm_id] if opts[:realm_id]
+      params[:name] = opts[:name]
+      params[:template] = opts[:image_id]
+      params[:cluster] = opts[:realm_id] if opts[:realm_id]
       params[:hwp_id] = opts[:hwp_id] if opts[:hwp_id]
-      params[:hwp_memory] = opts[:hwp_memory] if opts[:hwp_memory]
-      params[:hwp_cpu] = opts[:hwp_cpu] if opts[:hwp_cpu]
-      if opts[:user_data]
-        params[:user_data] = opts[:user_data].gsub(/\n/,'')
-      end
-      convert_instance(client, client.create_vm(image_id, params))
+      params[:memory] = (opts[:hwp_memory].to_i * 1024 * 1024) if opts[:hwp_memory]
+      params[:cores] = opts[:hwp_cpu] if opts[:hwp_cpu]
+      params[:user_data] = opts[:user_data].gsub(/\n/,'') if opts[:user_data]
+      convert_instance(client, client.create_vm(params))
     end
   end
 
@@ -224,7 +209,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def new_client(credentials)
     url, datacenter = api_provider.split(';')
     safely do
-      ::RHEVM::Client.new(credentials.user, credentials.password, url, datacenter)
+      OVIRT::Client.new(credentials.user, credentials.password, url, datacenter)
     end
   end
 
@@ -260,7 +245,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     end
     # If IP retrieval failed, fallback to VNC and MAC address
     if public_addresses.empty?
-      public_addresses = inst.macs.collect { |mac_address| InstanceAddress.new(mac_address, :type => :mac) }
+      public_addresses = inst.interfaces.map { |interface| InstanceAddress.new(interface.mac, :type => :mac) }
     end
     if inst.vnc
       public_addresses << InstanceAddress.new(inst.vnc[:address], :port => inst.vnc[:port], :type => :vnc)
@@ -271,7 +256,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :state => state,
       :image_id => inst.template.id,
       :realm_id => inst.cluster.id,
-      :owner_id => inst.username,
+      :owner_id => client.credentials[:username],
       :launch_time => inst.creation_time,
       :instance_profile => profile,
       :hardware_profile_id => profile.id,
