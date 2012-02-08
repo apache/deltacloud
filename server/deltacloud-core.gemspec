@@ -76,6 +76,9 @@ Gem::Specification.new do |s|
   s.add_dependency('nokogiri', '>= 1.4.3')
 
 # dependencies for various cloud providers:
+# RHEV-M
+  s.add_dependency('rbovirt')
+
 # Amazon EC2 S3
   s.add_dependency('aws', '>=2.5.4')
 # Microsoft Azure
