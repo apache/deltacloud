@@ -37,7 +37,8 @@ end
 DEFAULT_CONFIG = "~/.deltacloud/config"
 
 options = {
-  :env => 'development'
+  :env => 'development',
+  :logdir => "/var/log/deltacloud-core"
 }
 optparse = OptionParser.new do |opts|
 
@@ -85,6 +86,9 @@ BANNER
   end
   opts.on(  nil, '--webrick', 'Force the use of WEBRick as a server') do |opt|
     options[:webrick] = true
+  end
+  opts.on('--logdir LOGDIR', "Directory for log files, defaults to #{options[:logdir]}") do |opt|
+    options[:logdir] = opt
   end
   opts.on( '-h', '--help', '') { options[:help] = true }
 
@@ -219,7 +223,7 @@ else
     argv_opts << [ "--daemonize", "--user", options[:user] || 'nobody', "--tag", "deltacloud-#{ENV['API_DRIVER']}"]
     argv_opts << [ "--pid", options[:pid]] if options[:pid]
     argv_opts << [ "--group", options[:group] || 'nobody' ]
-    argv_opts << [ "--log", File.join("/var/log/deltacloud-core", "#{ENV['API_DRIVER']}.log")]
+    argv_opts << [ "--log", File.join(options[:logdir], "#{ENV['API_DRIVER']}.log")]
   end
   argv_opts.flatten!
 
