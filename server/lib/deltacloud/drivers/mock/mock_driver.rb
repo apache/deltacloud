@@ -100,8 +100,18 @@ module Deltacloud::Drivers::Mock
     end
 
     def realms(credentials, opts=nil)
-      return REALMS if ( opts.nil? )
-      results = REALMS
+      check_credentials( credentials )
+      results = []
+      safely do
+        # This hack is used to test if client capture exceptions correctly
+        # To raise an exception do GET /api/realms/50[0-2]
+        raise "DeltacloudErrorTest" if opts and opts[:id] == "500"
+        raise "NotImplementedTest" if opts and opts[:id] == "501"
+        raise "ProviderErrorTest" if opts and opts[:id] == "502"
+        raise "ProviderTimeoutTest" if opts and opts[:id] == "504"
+        return REALMS if ( opts.nil? )
+        results = REALMS
+      end
       results = filter_on( results, :id, opts )
       results
     end
@@ -521,8 +531,24 @@ module Deltacloud::Drivers::Mock
         message "Could not delete a non existent blob"
       end
 
-      on /Err/ do
+      on /DeltacloudErrorTest/ do
         status 500
+        message "DeltacloudErrorMessage"
+      end
+
+      on /NotImplementedTest/ do
+        status 501
+        message "NotImplementedMessage"
+      end
+
+      on /ProviderErrorTest/ do
+        status 502
+        message "ProviderErrorMessage"
+      end
+
+      on /ProviderTimeoutTest/ do
+        status 504
+        message "ProviderTimeoutMessage"
       end
 
     end

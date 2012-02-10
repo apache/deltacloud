@@ -63,7 +63,7 @@ module Sinatra
     def authorize!
       r = "#{driver_symbol}-deltacloud@#{HOSTNAME}"
       response['WWW-Authenticate'] = %(Basic realm="#{r}")
-      throw(:halt, [401, "Not authorized\n"])
+      report_error(401)
     end
 
     # Request the current user's credentials. Actual credentials are only

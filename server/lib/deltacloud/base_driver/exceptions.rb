@@ -72,6 +72,20 @@ module Deltacloud
       end
     end
 
+    class ProviderTimeout < DeltacloudException
+      def initialize(e, message)
+        message ||= e.message
+        super(504, e.class.name, message, e.backtrace)
+      end
+    end
+
+    class NotImplemented < DeltacloudException
+      def initialize(e, message)
+        message ||= e.message
+        super(501, e.class.name, message, e.backtrace)
+      end
+    end
+
     class ObjectNotFound < DeltacloudException
       def initialize(e, message)
         message ||= e.message
@@ -127,7 +141,9 @@ module Deltacloud
           when 405 then Deltacloud::ExceptionHandler::MethodNotAllowed.new(e, @message)
           when 400 then Deltacloud::ExceptionHandler::ValidationFailure.new(e, @message)
           when 500 then Deltacloud::ExceptionHandler::BackendError.new(e, @message)
+          when 501 then Deltacloud::ExceptionHandler::NotImplemented.new(e, @message)
           when 502 then Deltacloud::ExceptionHandler::ProviderError.new(e, @message)
+          when 504 then Deltacloud::ExceptionHandler::ProviderTimeout.new(e, @message)
         end
       end
 

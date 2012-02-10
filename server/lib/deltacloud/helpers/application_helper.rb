@@ -109,7 +109,7 @@ module ApplicationHelper
         format.json { convert_to_json(model, @element) }
       end
     else
-        report_error(404)
+      report_error(404)
     end
   end
 
