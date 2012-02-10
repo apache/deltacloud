@@ -119,8 +119,8 @@ host you want to use. Example:
 
     API_PROVIDER="vsphere.hostname.com"
 
-The username and password in 401 challenge should be (your???) the same as in vSphere Control
-Center in the vSphere box(clen nechat, ak sa boxom mysli nejaky checkbox, a nepatri to k nazvu).
+The username and password in 401 challenge should be the same as those used in the vSphere Control
+Center.
 
 ------------------------------------------------
 
@@ -155,6 +155,11 @@ should be your OpenNebula user and password.
 
 The address, on which the OCCI server is listening, needs to be defined in
 an environment variable called OCCI_URL.
+
+The OpenNebula driver has been updated to support v3.x of the OpenNebula API.
+The driver is contributed by Daniel Molina who has also put together a 'how to'
+for using OpenNebula through Deltacloud which is available
+[here](http://wiki.opennebula.org/deltacloud).
 
 ------------------------------------------------
 

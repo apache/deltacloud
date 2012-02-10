@@ -45,8 +45,9 @@ module ProviderSupportHelper
        :blob => { :create => true, :update => true, :rw => true,
          :rw_attr => true } },
      { :name => "Google Storage", :driver => true,
-      :blob => { :create => true, :update => true, :rw => true,
-                :rw_attr => true } },
+       :container => { :create => true, :update => true },
+       :blob => { :create => true, :update => true, :rw => true,
+         :rw_attr => true } }
     ]
   end
 
