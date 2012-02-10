@@ -177,7 +177,9 @@ module Deltacloud
           if exdef.match?($!)
             $stderr.send(report_method, "#{[$!.class.to_s, $!.message].join(':')}\n#{$!.backtrace.join("\n")}")
             new_exception = exdef.handler($!)
-            raise exdef.handler($!) if new_exception
+            m = new_exception.message.nil? ? $!.message : new_exception.message
+            $stderr.send(report_method, "#{[$!.class.to_s, m].join(':')}\n#{$!.backtrace[0..10].join("\n")}")
+            raise exdef.handler($!) unless new_exception.nil?
           end
         end
         $stderr.send(report_method, "[NO HANDLED] #{[$!.class.to_s, $!.message].join(': ')}\n#{$!.backtrace.join("\n")}")

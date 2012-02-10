@@ -21,6 +21,7 @@ require 'hwp_properties'
 require 'instance_state'
 require 'documentation'
 require 'base_object'
+require 'errors'
 require 'client_bucket_methods'
 
 module DeltaCloud
@@ -314,9 +315,7 @@ module DeltaCloud
 
         request(:post, entry_points[:"#{$1}s"], {}, params) do |response|
           obj = base_object(:"#{$1}", response)
-          # All create calls must respond 201 HTTP code
-          # to indicate that resource was created.
-          handle_backend_error(response) if response.code!=201
+          response_error(response) unless response_successful?(response.code)
           yield obj if block_given?
         end
         return obj
@@ -349,6 +348,28 @@ module DeltaCloud
       headers
     end
 
+    def response_successful?(code)
+      return true if code.to_s =~ /^2(\d{2})$/
+      return true if code.to_s =~ /^3(\d{2})$/
+      return false
+    end
+
+    def response_error(response)
+      if response.code.to_s =~ /4(\d{2})/
+        DeltaCloud::HTTPError.client_error(response.code)
+      else
+        xml = Nokogiri::XML(response.to_s)
+        opts = {
+          :driver => (xml/'backend').first[:driver],
+          :provider => (xml/'backend').first[:provider],
+          :params => (xml/'request/param').inject({}) { |r,p| r[:"#{p[:name]}"] = p.text; r }
+        }
+        backtrace = (xml/'backtrace').empty? ? nil : (xml/'backtrace').first.text.split("\n")[1..10].map { |l| l.strip }
+        DeltaCloud::HTTPError.server_error(xml.root[:status] || response.code,
+                                           (xml/'message').first.text, opts, backtrace)
+      end
+    end
+
     # Basic request method
     #
     def request(*args, &block)
@@ -367,55 +388,18 @@ module DeltaCloud
       if conf[:method].eql?(:post)
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(:post, conf[:form_data], default_headers.merge(extended_headers)) do |response, request, block|
-          handle_backend_error(response) if [500, 502, 501, 401, 504].include? response.code
-          if response.respond_to?('body')
-            yield response.body if block_given?
-          else
-            yield response.to_s if block_given?
-          end
+          response_error(response) unless response_successful? response.code
+          yield response.to_s
         end
       else
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(conf[:method], default_headers.merge(extended_headers)) do |response, request, block|
-          handle_backend_error(response) if [500, 502, 501, 504, 401].include? response.code
-          if conf[:method].eql?(:get) and [301, 302, 307].include? response.code
-            response.follow_redirection(request) do |response, request, block|
-              if response.respond_to?('body')
-                yield response.body if block_given?
-              else
-                yield response.to_s if block_given?
-              end
-            end
-          else
-            if response.respond_to?('body')
-              yield response.body if block_given?
-            else
-              yield response.to_s if block_given?
-            end
-          end
+          response_error(response) unless response_successful? response.code
+          yield response.to_s
         end
       end
     end
 
-    # Re-raise backend errors as on exception in client with message from
-    # backend
-    class BackendError < StandardError
-
-      def initialize(opts={})
-        opts[:message] = "Not authorized / Invalid credentials" if opts[:code] == 401
-        super("#{opts[:code]} : #{opts[:message]}")
-        set_backtrace(opts[:backtrace].split("\n").map { |l| l.strip }[0..10]) if opts[:backtrace]
-      end
-
-    end
-
-    def handle_backend_error(response)
-      response_xml = Nokogiri::XML(response)
-      backtrace = (response_xml/'error/backtrace').empty? ? nil : (response_xml/'error/backtrace').text
-      raise BackendError.new(:message => (response_xml/'error/message').text,
-                             :code => response.code,
-                             :backtrace => backtrace)
-    end
 
     # Check if specified collection have wanted feature
     def feature?(collection, name)

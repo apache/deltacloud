@@ -1,3 +1,5 @@
+- unless defined?(partial)
+  !!! XML
 %error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
   %kind backend_error
   %backend{ :driver => driver_symbol, :provider => "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}" }
