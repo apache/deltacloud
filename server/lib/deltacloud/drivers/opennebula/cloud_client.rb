@@ -18,11 +18,30 @@
 require 'rubygems'
 require 'uri'
 
+require 'digest/sha1'
 require 'net/https'
 
+require "rexml/document"
+
 begin
-    require 'net/http/post/multipart'
+  require 'rexml/formatters/pretty'
+  REXML_FORMATTERS=true
 rescue LoadError
+  REXML_FORMATTERS=false
+end
+
+begin
+  require 'curb'
+  CURL_LOADED=true
+rescue LoadError
+  CURL_LOADED=false
+end
+
+begin
+  require 'net/http/post/multipart'
+  MULTIPART_LOADED=true
+rescue LoadError
+  MULTIPART_LOADED=false
 end
 
 ###############################################################################
@@ -30,85 +49,100 @@ end
 # Cloud Client
 ###############################################################################
 module CloudClient
-    # #########################################################################
-    # Default location for the authentication file
-    # #########################################################################
-    DEFAULT_AUTH_FILE = ENV["HOME"]+"/.one/one_auth"
+  # #########################################################################
+  # Default location for the authentication file
+  # #########################################################################
+  DEFAULT_AUTH_FILE = ENV["HOME"]+"/.one/one_auth"
 
-    # #########################################################################
-    # Gets authorization credentials from ONE_AUTH or default
-    # auth file.
-    #
-    # Raises an error if authorization is not found
-    # #########################################################################
-    def self.get_one_auth
-        if ENV["ONE_AUTH"] and !ENV["ONE_AUTH"].empty? and
-           File.file?(ENV["ONE_AUTH"])
-            one_auth=File.read(ENV["ONE_AUTH"]).strip.split(':')
-        elsif File.file?(DEFAULT_AUTH_FILE)
-            one_auth=File.read(DEFAULT_AUTH_FILE).strip.split(':')
-        else
-            raise "No authorization data present"
-        end
-
-        raise "Authorization data malformed" if one_auth.length < 2
-
-        one_auth
+  # #########################################################################
+  # Gets authorization credentials from ONE_AUTH or default
+  # auth file.
+  #
+  # Raises an error if authorization is not found
+  # #########################################################################
+  def self.get_one_auth
+    if ENV["ONE_AUTH"] and !ENV["ONE_AUTH"].empty? and
+       File.file?(ENV["ONE_AUTH"])
+      one_auth=File.read(ENV["ONE_AUTH"]).strip.split(':')
+    elsif File.file?(DEFAULT_AUTH_FILE)
+      one_auth=File.read(DEFAULT_AUTH_FILE).strip.split(':')
+    else
+      raise "No authorization data present"
     end
 
-    # #########################################################################
-    # Starts an http connection and calls the block provided. SSL flag
-    # is set if needed.
-    # #########################################################################
-    def self.http_start(url, &block)
-        http = Net::HTTP.new(url.host, url.port)
-        if url.scheme=='https'
-            http.use_ssl = true
-            http.verify_mode=OpenSSL::SSL::VERIFY_NONE
-        end
+    raise "Authorization data malformed" if one_auth.length < 2
 
-        begin
-            http.start do |connection|
-                block.call(connection)
-            end
-        rescue Errno::ECONNREFUSED => e
-            str =  "Error connecting to server (#{e.to_s})."
-            str << "Server: #{url.host}:#{url.port}"
+    one_auth
+  end
 
-            return CloudClient::Error.new(str)
-        end
+  # #########################################################################
+  # Starts an http connection and calls the block provided. SSL flag
+  # is set if needed.
+  # #########################################################################
+  def self.http_start(url, timeout, &block)
+    http = Net::HTTP.new(url.host, url.port)
+
+    if timeout
+      http.read_timeout = timeout.to_i
     end
 
-    # #########################################################################
-    # The Error Class represents a generic error in the Cloud Client
-    # library. It contains a readable representation of the error.
-    # #########################################################################
-    class Error
-        attr_reader :message
-
-        # +message+ a description of the error
-        def initialize(message=nil)
-            @message=message
-        end
-
-        def to_s()
-            @message
-        end
+    if url.scheme=='https'
+      http.use_ssl = true
+      http.verify_mode=OpenSSL::SSL::VERIFY_NONE
     end
 
-    # #########################################################################
-    # Returns true if the object returned by a method of the OpenNebula
-    # library is an Error
-    # #########################################################################
-    def self.is_error?(value)
-        value.class==CloudClient::Error
-    end
-end
+    begin
+      res = http.start do |connection|
+        block.call(connection)
+      end
+    rescue Errno::ECONNREFUSED => e
+      str =  "Error connecting to server (#{e.to_s}).\n"
+      str << "Server: #{url.host}:#{url.port}"
 
-# Command line help functions
-module CloudCLI
-    # Returns the command name
-    def cmd_name
-        File.basename($0)
+      return CloudClient::Error.new(str,"503")
+    rescue Errno::ETIMEDOUT => e
+      str =  "Error timeout connecting to server (#{e.to_s}).\n"
+      str << "Server: #{url.host}:#{url.port}"
+
+      return CloudClient::Error.new(str,"504")
+    rescue Timeout::Error => e
+      str =  "Error timeout while connected to server (#{e.to_s}).\n"
+      str << "Server: #{url.host}:#{url.port}"
+
+      return CloudClient::Error.new(str,"504")
     end
+
+    if res.is_a?(Net::HTTPSuccess)
+      res
+    else
+      CloudClient::Error.new(res.body, res.code)
+    end
+  end
+
+  # #########################################################################
+  # The Error Class represents a generic error in the Cloud Client
+  # library. It contains a readable representation of the error.
+  # #########################################################################
+  class Error
+    attr_reader :message
+    attr_reader :code
+
+    # +message+ a description of the error
+    def initialize(message=nil, code="500")
+      @message=message
+      @code=code
+    end
+
+    def to_s()
+      @message
+    end
+  end
+
+  # #########################################################################
+  # Returns true if the object returned by a method of the OpenNebula
+  # library is an Error
+  # #########################################################################
+  def self.is_error?(value)
+    value.class==CloudClient::Error
+  end
 end

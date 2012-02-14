@@ -16,14 +16,11 @@
 #
 
 require 'deltacloud/base_driver'
+require 'deltacloud/drivers/opennebula/occi_client'
 
 require 'erb'
+# TBD Nokogiri support
 require 'rexml/document'
-
-path = File.dirname(__FILE__)
-$: << path
-
-require 'occi_client'
 
 module Deltacloud
   module Drivers
@@ -31,214 +28,282 @@ module Deltacloud
 
 class OpennebulaDriver < Deltacloud::BaseDriver
 
-  feature :instances, :user_name
+  def supported_collections
+    DEFAULT_COLLECTIONS - [:storage_volumes, :storage_snapshots]
+  end
 
   ######################################################################
   # Hardware profiles
-  ######################################################################
+  #####################################################################
+  def hardware_profiles(credentials, opts=nil)
+    occi_client = new_client(credentials)
+    xml = occi_client.get_instance_types
+    if CloudClient.is_error?(xml)
+      # OpenNebula 3.0 support
+      @hardware_profiles = ['small','medium','large'].map {|name|
+        ::Deltacloud::HardwareProfile.new(name)
+      }
+    else
+      # OpenNebula 3.2 support
+      @hardware_profiles = REXML::Document.new(xml).root.elements.map {|d|
+        elem = d.elements
+        ::Deltacloud::HardwareProfile.new(elem['NAME'].text) {
+          cpu          elem['CPU']
+          memory       elem['MEMORY']
+          storage      elem['STORAGE']
+          architecture elem['ARCHITECTURE']
+        }
+      }
+    end
 
-  define_hardware_profile 'small'
-
-  define_hardware_profile 'medium'
-
-  define_hardware_profile 'large'
+    filter_hardware_profiles(@hardware_profiles, opts)
+  end
 
   ######################################################################
   # Realms
   ######################################################################
 
   (REALMS = [
-	Realm.new( {
-		:id=>'Any id',
-		:name=>'Any name',
-		:limit=>:unlimited,
-		:state=>'Any state',
-	} ),
+  Realm.new( {
+    :id=>'ONE',
+    :name=>'Opennebula',
+    :limit=>:unlimited,
+    :state=>'AVAILABLE',
+  } ),
   ] ) unless defined?( REALMS )
 
 
   def realms(credentials, opts=nil)
-	return REALMS if ( opts.nil? )
-	results = REALMS
-	results = filter_on( results, :id, opts )
-	results
+    return REALMS if ( opts.nil? )
+    results = REALMS
+    results = filter_on( results, :id, opts )
+    results
   end
 
 
   ######################################################################
   # Images
   ######################################################################
-
   def images(credentials, opts=nil)
-	occi_client = new_client(credentials)
+    occi_client = new_client(credentials)
 
-	images = []
-	imagesxml = occi_client.get_images
+    xml = treat_response(occi_client.get_images)
 
-	storage = REXML::Document.new(imagesxml)
-	storage.root.elements.each do |d|
-		id = d.attributes['href'].split("/").last
-
-		diskxml = occi_client.get_image(id)
-
-		images << convert_image(diskxml.to_s(), credentials)
-	end
-	images
+    # TBD Add extended info in the pool
+    images = REXML::Document.new(xml).root.elements.map do |d|
+      im_id = d.attributes['href'].split("/").last
+      storage = treat_response(occi_client.get_image(im_id))
+      convert_image(storage, credentials)
+    end
   end
 
+  def image(credentials, opts=nil)
+    occi_client = new_client(credentials)
+    xml = treat_response(occi_client.get_image(opts[:id]))
+    convert_image(xml, credentials)
+  end
+
+  def destroy_image(credentials, id)
+    occi_client = new_client(credentials)
+    treat_response(occi_client.delete_image(opts[:id]))
+  end
 
   ######################################################################
   # Instances
   ######################################################################
 
+  feature :instances, :user_name
+  # TBD Add Context to the VMs
+
+  OCCI_VM = %q{
+    <COMPUTE>
+      <% if opts[:name] %>
+      <NAME><%=opts[:name]%></NAME>
+      <% end %>
+      <INSTANCE_TYPE><%= opts[:hwp_id] || 'small' %></INSTANCE_TYPE>
+      <DISK>
+        <STORAGE href="<%= storage_href %>" />
+      </DISK>
+    </COMPUTE>
+  }
+
+  OCCI_ACTION = %q{
+    <COMPUTE>
+      <ID><%= id %></ID>
+      <STATE><%= strstate %></STATE>
+    </COMPUTE>
+  }
+
+  VM_STATES = {
+    "INIT"      => "START",
+    "PENDING"   => "PENDING",
+    "HOLD"      => "STOPPED",
+    "ACTIVE"    => "RUNNING",
+    "STOPPED"   => "STOPPED",
+    "SUSPENDED" => "STOPPED",
+    "DONE"      => "FINISHED",
+    "FAILED"    => "FINISHED"
+  }
+
   define_instance_states do
-	start.to( :pending )			.on( :create )
-
-	pending.to( :running )			.automatically
-
-	running.to( :stopped )			.on( :stop )
-
-	stopped.to( :running )			.on( :start )
-	stopped.to( :finish )			.on( :destroy )
+    start.to(:pending)          .on( :create )
+    pending.to(:running)        .automatically
+    stopped.to(:running)        .on( :start )
+    running.to(:running)        .on( :reboot )
+    running.to(:stopping)       .on( :stop )
+    stopping.to(:stopped)       .automatically
+    running.to(:shutting_down)  .on( :destroy )
+    shutting_down.to(:finish)   .automatically
   end
-
 
   def instances(credentials, opts=nil)
-	occi_client = new_client(credentials)
+    occi_client = new_client(credentials)
 
-	instances = []
-	instancesxml = occi_client.get_vms
+    xml = treat_response(occi_client.get_vms)
 
-	computes = REXML::Document.new(instancesxml)
-	computes.root.elements.each do |d|
-		vm_id = d.attributes['href'].split("/").last
+    # TBD Add extended info in the pool
+    instances = REXML::Document.new(xml).root.elements.map do |d|
+      vm_id = d.attributes['href'].split("/").last
+      computexml = treat_response(occi_client.get_vm(vm_id))
+      convert_instance(computexml, credentials)
+    end
 
-		computexml = occi_client.get_vm(vm_id)
-
-		instances << convert_instance(computexml.to_s(), credentials)
-	end
-        instances = filter_on( instances, :id, opts )
-        instances = filter_on( instances, :state, opts )
-	instances
+    instances = filter_on( instances, :state, opts )
   end
 
+  def instance(credentials, opts=nil)
+    occi_client = new_client(credentials)
+    xml = treat_response(occi_client.get_vm(opts[:id]))
+    convert_instance(xml, credentials)
+  end
 
   def create_instance(credentials, image_id, opts=nil)
-	occi_client = new_client(credentials)
+    occi_client = new_client(credentials)
 
-	hwp_id = opts[:hwp_id] || 'small'
+    storage_href = "#{occi_client.endpoint}/storage/#{image_id}"
 
-	if not opts[:name]
-          opts[:name] = "#{Time.now.to_i.to_s}#{rand(9)}"
-        end
+    instancexml  = ERB.new(OCCI_VM).result(binding)
+    instancefile = "|echo '#{instancexml}'"
 
-	instancexml = ERB.new(OCCI_VM).result(binding)
-	instancefile = "|echo '#{instancexml}'"
+    # TBD Specify VNET in the template.
 
-	xmlvm = occi_client.post_vms(instancefile)
+    xmlvm = treat_response(occi_client.post_vms(instancefile))
 
-	convert_instance(xmlvm.to_s(), credentials)
+    convert_instance(xmlvm, credentials)
   end
 
-
   def start_instance(credentials, id)
-	occi_action(credentials, id, 'RESUME')
+    occi_action(credentials, id, 'RESUME')
   end
 
 
   def stop_instance(credentials, id)
-	occi_action(credentials, id, 'STOPPED')
+    occi_action(credentials, id, 'STOPPED')
   end
 
 
   def destroy_instance(credentials, id)
-	occi_action(credentials, id, 'DONE')
+    occi_action(credentials, id, 'DONE')
   end
 
-
+  def reboot_instance(credentials, id)
+    begin
+      occi_action(credentials, id, 'REBOOT')
+    rescue Exception => e
+      # TBD Check exception
+      # OpenNebula 3.0 support
+      raise "Reboot action not supported"
+    end
+  end
 
   private
 
   def new_client(credentials)
-	OCCIClient::Client.new(nil,	credentials.user, credentials.password, false)
+    OCCIClient::Client.new(nil, credentials.user, credentials.password, false)
   end
 
 
   def convert_image(diskxml, credentials)
-	disk = REXML::Document.new(diskxml)
-	diskhash = disk.root.elements
+    storage = REXML::Document.new(diskxml).root.elements
 
-	Image.new( {
-		:id=>diskhash['ID'].text,
-		:name=>diskhash['NAME'].text,
-		:description=>diskhash['NAME'].text,
-		:owner_id=>credentials.user,
-		:architecture=>'Any architecture',
-	} )
+    # TBD Add Image STATE, OWNER
+    Image.new( {
+      :id=>storage['ID'].text,
+      :name=>storage['NAME'].text,
+      :description=>storage['TYPE'].text,
+      :owner_id=>credentials.user,
+      :state=>"AVAILABLE",
+      :architecture=>storage['ARCH'],
+    } )
   end
 
 
   def convert_instance(computexml, credentials)
-	compute = REXML::Document.new(computexml)
-	computehash = compute.root.elements
+    compute = REXML::Document.new(computexml)
+    computehash = compute.root.elements
 
-	imageid = computehash['STORAGE/DISK[@type="disk"]'].attributes['href'].split("/").last
+    network = []
+    computehash.each('NIC/IP') {|ip| network<<InstanceAddress.new(ip)}
 
-	state = (computehash['STATE'].text == "ACTIVE") ? "RUNNING" : "STOPPED"
+    image_id = nil
+    if computehash['DISK/STORAGE']
+      image_id = computehash['DISK/STORAGE'].attributes['href'].split("/").last
+    end
 
-	hwp_name = computehash['INSTANCE_TYPE'] || 'small'
-
-	networks = []
-	(computehash['NETWORK'].each do |n|
-		networks << InstanceAddress.new(n.attributes['ip'])
-	end) unless computehash['NETWORK'].nil?
-
-	Instance.new( {
-		:id=>computehash['ID'].text,
-		:owner_id=>credentials.user,
-		:name=>computehash['NAME'].text,
-		:image_id=>imageid,
-		:instance_profile=>InstanceProfile.new(hwp_name),
-		:realm_id=>'Any realm',
-		:state=>state,
-		:public_addreses=>networks,
-		:private_addreses=>networks,
-		:actions=> instance_actions_for( state )
-	} )
+    Instance.new( {
+      :id=>computehash['ID'].text,
+      :owner_id=>credentials.user,
+      :name=>computehash['NAME'].text,
+      :image_id=>image_id,
+      :instance_profile=>InstanceProfile.new(computehash['INSTANCE_TYPE']||'small'),
+      :realm_id=>'ONE',
+      :state=>VM_STATES[computehash['STATE'].text],
+      :public_addreses=>network,
+      :private_addreses=>[],
+      :actions=> instance_actions_for( VM_STATES[computehash['STATE'].text] )
+    } )
   end
 
 
   def occi_action(credentials, id, strstate)
-	occi_client = new_client(credentials)
+    occi_client = new_client(credentials)
 
-	actionxml = ERB.new(OCCI_ACTION).result(binding)
-	actionfile = "|echo '#{actionxml}'"
+    actionxml = ERB.new(OCCI_ACTION).result(binding)
+    actionfile = "|echo '#{actionxml}'"
 
-	xmlvm = occi_client.put_vm(actionfile)
+    xmlvm = treat_response(occi_client.put_vm(actionfile))
 
-	convert_instance(xmlvm.to_s(), credentials)
+    convert_instance(xmlvm, credentials)
   end
 
 
-  (OCCI_VM = %q{
-	<COMPUTE>
-		<NAME><%=opts[:name]%></NAME>
-		<INSTANCE_TYPE><%= hwp_id %></INSTANCE_TYPE>
-		<STORAGE>
-			<DISK image="<%= image_id %>" dev="sda1" />
-		</STORAGE>
-	</COMPUTE>
-  }.gsub(/^        /, '') ) unless defined?( OCCI_VM )
+  def treat_response(res)
+    safely do
+      if CloudClient.is_error?(res)
+        raise case res.code
+              when "401" then "AuthenticationFailure"
+              when "404" then "ObjectNotFound"
+              else res.message
+              end
+      end
+    end
+    res
+  end
 
+  exceptions do
+    on /AuthenticationFailure/ do
+      status 401
+    end
 
-  (OCCI_ACTION = %q{
-	<COMPUTE>
-		<ID><%= id %></ID>
-		<STATE><%= strstate %></STATE>
-	</COMPUTE>
-  }.gsub(/^        /, '') ) unless defined?( OCCI_ACTION )
+    on /ObjectNotFound/ do
+      status 404
+    end
 
- end
+    on // do
+      status 502
+    end
+  end
+end
 
     end
   end
