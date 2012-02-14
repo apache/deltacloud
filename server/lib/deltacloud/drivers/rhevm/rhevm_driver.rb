@@ -310,6 +310,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       :description => img.description,
       :owner_id => client.credentials[:username],
       :architecture => 'x86_64', # All RHEV-M VMs are x86_64
+      :hardware_profiles => hardware_profiles(nil),
       :state => img.status
     )
   end

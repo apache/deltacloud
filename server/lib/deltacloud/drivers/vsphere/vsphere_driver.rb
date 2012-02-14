@@ -80,7 +80,7 @@ module Deltacloud::Drivers::VSphere
     def images(credentials, opts=nil)
       cloud = new_client(credentials)
       img_arr = []
-
+      profiles = hardware_profiles(credentials)
       # Skip traversing through all instances in all datacenters when ID
       # attribute is set
       safely do
@@ -109,7 +109,8 @@ module Deltacloud::Drivers::VSphere
             :architecture => image_architecture,
             :owner_id => credentials.user,
             :description => properties[:full_name],
-            :state => image_state
+            :state => image_state,
+            :hardware_profiles => profiles
           )
         end
       end

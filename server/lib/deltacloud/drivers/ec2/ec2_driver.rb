@@ -132,10 +132,11 @@ module Deltacloud
           ec2 = new_client(credentials)
           img_arr = []
           opts ||= {}
+          profiles = hardware_profiles(nil)
           if opts[:id]
             safely do
               img_arr = ec2.describe_images([opts[:id]]).collect do |image|
-                convert_image(image)
+                convert_image(image, profiles)
               end
             end
             return img_arr
@@ -143,7 +144,7 @@ module Deltacloud
           owner_id = opts[:owner_id] || default_image_owner
           safely do
             img_arr = ec2.describe_images_by_owner([owner_id], default_image_type).collect do |image|
-              convert_image(image)
+              convert_image(image, profiles)
             end
           end
           img_arr = filter_on( img_arr, :architecture, opts )
@@ -783,7 +784,7 @@ module Deltacloud
           )
         end
 
-        def convert_image(image)
+        def convert_image(image, profiles)
           # There is not support for 'name' for now
           Image.new(
             :id => image[:aws_id],
@@ -791,6 +792,7 @@ module Deltacloud
             :description => image[:aws_description] || image[:aws_location],
             :owner_id => image[:aws_owner],
             :architecture => image[:aws_architecture],
+            :hardware_profiles => image_profiles(image, profiles),
             :state => image[:aws_state]
           )
         end
@@ -852,6 +854,15 @@ module Deltacloud
             :storage_volume_id => snapshot[:aws_volume_id],
             :created => snapshot[:aws_started_at]
           )
+        end
+
+        def image_profiles(image, profiles)
+          profiles = filter_hardware_profiles(profiles, :architecture => image[:aws_architecture])
+          if image[:aws_root_device_type] != 'ebs'
+            profiles.reject { |p| p.name == 't1.micro' }
+          else
+            profiles
+          end
         end
 
         def convert_load_balancer(credentials, loadbalancer)

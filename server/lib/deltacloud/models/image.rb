@@ -22,6 +22,7 @@ class Image < BaseModel
   attr_accessor :description
   attr_accessor :architecture
   attr_accessor :state
+  attr_accessor :hardware_profiles
 
   alias :to_hash_original :to_hash
 

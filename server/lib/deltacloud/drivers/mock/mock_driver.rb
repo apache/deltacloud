@@ -120,7 +120,8 @@ module Deltacloud::Drivers::Mock
       else
         images = filter_on( images, :owner_id, opts )
       end
-      images.sort_by{|e| [e.owner_id,e.description]}
+      images = images.map { |i| (i.hardware_profiles = hardware_profiles(nil)) && i }
+      images.sort_by{|e| [e.owner_id, e.description]}
     end
 
     def create_image(credentials, opts={})
