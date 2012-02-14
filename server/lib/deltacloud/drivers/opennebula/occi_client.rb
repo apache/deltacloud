@@ -40,13 +40,8 @@ module OCCIClient
       @timeout = timeout
 
       # Server location
-      if endpoint_str
-        @endpoint =  endpoint_str
-      elsif ENV["OCCI_URL"]
-        @endpoint = ENV["OCCI_URL"]
-      else
-        @endpoint = "http://localhost:4567"
-      end
+      @endpoint = ENV["OCCI_URL"] || endpoint_str || Proc.new(raise "No OpenNebula Provider location configured! Client needs to set \'X-Deltacloud-Provider\' HTTP request header, OR, Deltacloud server administrator must set either the OCCI_URL or API_PROVIDER environment variables")
+#"http://localhost:4567"
 
       # Autentication
       if user && pass

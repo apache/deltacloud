@@ -219,7 +219,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    OCCIClient::Client.new(nil, credentials.user, credentials.password, false)
+    OCCIClient::Client.new(api_provider, credentials.user, credentials.password, false)
   end
 
 
