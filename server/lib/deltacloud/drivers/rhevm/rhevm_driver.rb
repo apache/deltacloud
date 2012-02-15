@@ -158,7 +158,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def destroy_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      raise "ERROR: Operation start failed" unless client.vm_action(id, :delete)
+      raise "ERROR: Operation start failed" unless client.destroy_vm(id)
     end
   end
 
@@ -237,7 +237,8 @@ class RHEVMDriver < Deltacloud::BaseDriver
     public_addresses = []
     # First try to get IP address from RHEV-M. This require rhev-agent package
     # installed on guest
-    public_addresses << InstanceAddress.new(inst.ip) if inst.ip
+    public_addresses = inst.ips.map { |ip| InstanceAddress.new(ip, :type => :ipv4) } unless inst.ips.empty?
+
     # ConfServer will overide the IP address returned by RHEV-M guest agent
     if ENV['CONFIG_SERVER_ADDRESS']
       ip = confserver_ip(inst.id)
