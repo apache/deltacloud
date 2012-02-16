@@ -184,6 +184,7 @@ module Deltacloud
           inst_arr = []
           safely do
             ec2_inst = ec2.describe_instances([opts[:id]]).first
+            raise "Instance #{opts[:id]} NotFound" if ec2_inst.nil?
             instance = convert_instance(ec2_inst)
             return nil unless instance
             if ec2_inst[:aws_platform] == 'windows'
