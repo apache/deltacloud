@@ -458,7 +458,7 @@
         meanings assigned to the standard HTTP verbs GET, POST, PUT, and DELETE.</p>
         
         <p>Beyond the generally accepted REST design principles, Apache Deltacloud
-        follows the guidelines discussed in the Fedora Project <a title="Fedora Cloud APIs REST Style Guide" href="http://fedoraproject.org/wiki/Cloud_APIs_REST_Style_Guide">Cloud APIs Rest Style Guide</a>.</p>
+        follows the guidelines discussed in the Fedora Project <a href="http://fedoraproject.org/wiki/Cloud_APIs_REST_Style_Guide" title="Fedora Cloud APIs REST Style Guide">Cloud APIs Rest Style Guide</a>.</p>
         
         <p>The URL space of the API is structured into collections of resources
         (entities, objects). The top level entities used in the Deltacloud API are:
@@ -1886,7 +1886,7 @@
         <p>Creates a new <strong><em>bucket</em></strong> and requires that you specify the <strong><em>name</em></strong> as a
         parameter. Optionally for Amazon S3 buckets, you can specify a bucket location
         with the <strong><em>location</em></strong> parameter, as per
-         <a title="AWS Regions and Endpoints" href="http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html">Regions and Endpoints for Amazon Simple Storage Service</a>;
+         <a href="http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html" title="AWS Regions and Endpoints">Regions and Endpoints for Amazon Simple Storage Service</a>;
         valid values for S3 bucket <em>location</em> parameter are: "us-west-1", "EU",
         "ap-southeast-1", "ap-northeast-1" (while not specifying a location defaults to
         the "US Standard" region). Note that clients may specify parameters as
@@ -2031,7 +2031,7 @@
         <h4 id="h4_3_10"><code>HEAD /api/buckets/:bucket_id/:blob_id</code></h4>
         
         <p>The <code>HTTP HEAD</code> operation on a specified <strong><em>blob</em></strong> URI will return all user defined
-        metadata fields. As per <a title="RFC 2616 HTTP/1.1" href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616</a>
+        metadata fields. As per <a href="http://www.ietf.org/rfc/rfc2616.txt" title="RFC 2616 HTTP/1.1">RFC 2616</a>
         this <code>HEAD</code> operation does not return a message body. Rather, the <strong><em>blob</em></strong> user
         metadata values are returned in the response <strong><em>X-Deltacloud-Blobmeta-</em></strong>
         headers (e.g., X-Deltacloud-Blobmeta-version:1.2).</p>
