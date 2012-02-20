@@ -31,7 +31,14 @@ than the rest of the site */
   float: left;
   padding: 15px;
   margin: 1em 0 10px 10px;
-  background: url(colbg.png) no-repeat;
+  background: rgb(249,252,252); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(249,252,252,1) 0%, rgba(237,245,245,1) 75%, rgba(239,247,245,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,252,252,1)), color-stop(75%,rgba(237,245,245,1)), color-stop(100%,rgba(239,247,245,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* IE10+ */
+background: linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9fcfc', endColorstr='#eff7f5',GradientType=0 ); /* IE6-9 */
   /* 	background-color: #ecf7f5; */
   font-size: 15px;
   line-height: 30px;
@@ -43,11 +50,17 @@ than the rest of the site */
   float: left;
   padding: 15px;
   margin: 1em 0 10px;
-  background: url(colbg.png) no-repeat;
+  background: rgb(249,252,252); /* Old browsers */
+background: -moz-linear-gradient(top, rgba(249,252,252,1) 0%, rgba(237,245,245,1) 75%, rgba(239,247,245,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,252,252,1)), color-stop(75%,rgba(237,245,245,1)), color-stop(100%,rgba(239,247,245,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* IE10+ */
+background: linear-gradient(top, rgba(249,252,252,1) 0%,rgba(237,245,245,1) 75%,rgba(239,247,245,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9fcfc', endColorstr='#eff7f5',GradientType=0 ); /* IE6-9 */
   /* 	background-color: #ecf7f5; */
   font-size: 15px;
   line-height: 30px;
-  height: 270px;
 }
 
 
