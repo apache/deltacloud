@@ -281,8 +281,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
     end
     case state.strip.upcase
     when 'WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
-      'RESTORING_STATE', 'POWERING_DOWN', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE' then
+      'RESTORING_STATE', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE' then
       'PENDING'
+    when 'POWERING_DOWN' then
+      'STOPPING'
     when 'UNASSIGNED', 'DOWN', 'PAUSED', 'NOT_RESPONDING', 'SUSPENDED', 'IMAGE_ILLEGAL', 'UNKNOWN' then
       'STOPPED'
     when 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
