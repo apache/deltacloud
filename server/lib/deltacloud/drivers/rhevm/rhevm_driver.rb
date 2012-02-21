@@ -234,10 +234,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
                                    :hwp_cpu => inst.cores,
                                    :hwp_storage => "#{storage_size}"
     )
-    public_addresses = []
+
     # First try to get IP address from RHEV-M. This require rhev-agent package
     # installed on guest
-    public_addresses = inst.ips.map { |ip| InstanceAddress.new(ip, :type => :ipv4) } unless inst.ips.empty?
+    public_addresses = inst.ips.map { |ip| InstanceAddress.new(ip, :type => :ipv4) }
 
     # ConfServer will overide the IP address returned by RHEV-M guest agent
     if ENV['CONFIG_SERVER_ADDRESS']
