@@ -57,8 +57,8 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
         "of memory and #{profile.cpu.value} CPU",
       :cpu => profile.cpu.value,
       :created => Time.now.to_s,  # FIXME: DC hardware_profile has no mention about created_at
-      :memory => { :quantity => profile.memory.value, :units => profile.memory.unit },
-      :disks => [ { :capacity => { :quantity => profile.storage.value, :units => profile.storage.unit } } ],
+      :memory => { :quantity => profile.memory.value || profile.memory.default, :units => profile.memory.unit },
+      :disks => [ { :capacity => { :quantity => profile.storage.value || profile.storage.default, :units => profile.storage.unit } } ],
       :uri => context.machine_configuration_url(profile.name)
     }
     self.new(machine_hash)
