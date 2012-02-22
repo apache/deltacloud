@@ -79,6 +79,12 @@ module Deltacloud
       end
     end
 
+    class NotSupported < DeltacloudException
+      def initialize(message)
+        super(501, self.class.name, message, self.backtrace)
+      end
+    end
+
     class ExceptionDef
       attr_accessor :status
       attr_accessor :message

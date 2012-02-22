@@ -16,15 +16,6 @@
 
 module Deltacloud::BackendCapability
 
-  class Failure < StandardError
-    attr_reader :capability
-
-    def initialize(capability, msg='')
-      super(msg)
-      @capability = capability
-    end
-  end
-
   attr_reader :capability
 
   def with_capability(capability)
@@ -37,7 +28,7 @@ module Deltacloud::BackendCapability
 
   def check_capability(backend)
     if !has_capability?(backend)
-      raise Failure.new(capability, "#{capability} capability not supported by backend #{backend.class.name}")
+      raise Deltacloud::ExceptionHandler::NotSupported.new("#{capability} capability not supported by backend #{backend.class.name}")
     end
   end
 
