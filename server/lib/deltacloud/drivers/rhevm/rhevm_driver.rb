@@ -195,8 +195,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def valid_credentials?(credentials)
     begin
       realms(credentials) && true
-    rescue RestClient::Unauthorized
-      retval = false
     rescue => e
       safely do
         raise e
@@ -333,15 +331,15 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 400
     end
 
-    on /RestClient::Unauthorized/ do
+    on /Unauthorized/ do
       status 401
     end
 
-    on /RestClient::ResourceNotFound/ do
+    on /ResourceNotFound/ do
       status 404
     end
 
-    on /RestClient::InternalServerError/ do
+    on /InternalServerError/ do
       status 502
     end
 
