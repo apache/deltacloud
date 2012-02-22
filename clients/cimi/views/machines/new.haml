@@ -43,9 +43,12 @@
         Machine Admin
       %div.input
         %select{ :name => 'machine[machine_admin]' }
-          %option{ :value => '', :selected => :selected }
-          - @machine_admins.machine_admins.each do |admin|
-            %option{ :value => admin.href }=href_to_id(admin.href)
+          - unless @machine_admins.empty?
+            %option{ :value => '', :selected => :selected }
+            - @machine_admins.machine_admins.each do |admin|
+              %option{ :value => admin.href }=href_to_id(admin.href)
+          - else
+            %option{ :disabled => 'disabled'}="Not supported"
     %div.actions
       %input{ :type => :submit, :class => 'btn primary', :value => "Create machine" }
       %button{ :type => :reset, :class => 'btn' } Reset

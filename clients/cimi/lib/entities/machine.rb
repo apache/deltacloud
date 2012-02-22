@@ -20,8 +20,13 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
     @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
     @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
-    machine_admins_xml = get_entity_collection('machine_admins', credentials)
-    @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admins_xml)
+    begin
+      machine_admins_xml = get_entity_collection('machine_admins', credentials)
+      @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admins_xml)
+      # In case backend does not support MachineAdmin collection
+    rescue RestClient::InternalServerError
+      @machine_admins = []
+    end
     haml :'machines/new'
   end
 
