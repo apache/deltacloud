@@ -82,6 +82,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     hardware_profile_id = machine_template['machineConfig'][0]["href"].split('/').last
     image_id = machine_template['machineImage'][0]["href"].split('/').last
     additional_params = {}
+    additional_params[:name] =xml['name'][0] if xml['name']
     if machine_template.has_key? 'machineAdmin'
       additional_params[:keyname] = machine_template['machineAdmin'][0]["href"].split('/').last
     end
