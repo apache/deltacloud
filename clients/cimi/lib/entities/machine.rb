@@ -91,10 +91,10 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
       xml.Machine(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:machine][:name]
         xml.description params[:machine][:description]
-        xml.MachineTemplate {
-          xml.MachineConfig( :href => params[:machine][:machine_configuration] )
-          xml.MachineImage( :href => params[:machine][:machine_image] )
-          xml.MachineAdmin( :href => params[:machine][:machine_admin] ) unless params[:machine][:machine_admin].empty?
+        xml.machineTemplate {
+          xml.machineConfig( :href => params[:machine][:machine_configuration] )
+          xml.machineImage( :href => params[:machine][:machine_image] )
+          xml.machineAdmin( :href => params[:machine][:machine_admin] ) unless params[:machine][:machine_admin].nil?
         }
       }
     end.to_xml
