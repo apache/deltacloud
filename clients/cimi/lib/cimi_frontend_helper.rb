@@ -26,13 +26,11 @@ module CIMI
       def flash_block_for(message_type)
         return unless flash[message_type]
         capture_haml do
-          haml_tag :div, :class => [ 'alert-message', message_type ] do
+          haml_tag :div, :class => [ 'alert', 'fade', 'in', message_type ] do
             haml_tag :a, :class => :close, :href => '#' do
               haml_concat 'x'
             end
-            haml_tag :p do
-              haml_concat flash[message_type]
-            end
+            haml_concat flash[message_type]
           end
         end
       end
@@ -51,15 +49,15 @@ module CIMI
       def boolean_span_for(bool)
         return bool if !bool.nil? and bool!='true' and bool!='false'
         capture_haml do
-          haml_tag :span, :class => [ 'label', bool.nil? ? '' : (bool===false) ? 'important' : 'success' ] do
-            haml_concat bool.nil? ? 'not specified' : (bool===false) ? 'no' : 'yes'
+          haml_tag :span, :class => [ 'label', bool.nil? ? '' : (bool===false) ? 'label-important' : 'label-success' ] do
+            haml_concat bool.nil? ? 'Not specified' : (bool===false) ? 'no' : 'yes'
           end
         end
       end
 
       def state_span_for(state)
         capture_haml do
-          haml_tag :span, :class => [ 'label', state=='STARTED' ? 'success' : 'important' ] do
+          haml_tag :span, :class => [ 'label', state=='STARTED' ? 'label-success' : 'label-important' ] do
             haml_concat state
           end
         end
