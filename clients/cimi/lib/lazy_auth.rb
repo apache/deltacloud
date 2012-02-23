@@ -36,8 +36,18 @@ module Sinatra
         @password
       end
 
+      def provider
+        credentials!
+        @provider
+      end
+
       def provided?
         @provided
+      end
+
+      def driver
+        credentials!
+        @driver
       end
 
       def credentials!
@@ -51,8 +61,10 @@ module Sinatra
           unless auth.provided? && auth.basic? && auth.credentials
             @app.authorize!
           end
-          @user = auth.credentials[0]
-          @password = auth.credentials[1]
+          @user = @app.session[:username] || auth.credentials[0]
+          @password = @app.session[:password] || auth.credentials[1]
+          @provider = @app.session[:provider]
+          @driver = @app.session[:driver]
           @provided = true
         end
       end
