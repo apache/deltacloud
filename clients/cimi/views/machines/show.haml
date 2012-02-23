@@ -28,41 +28,45 @@
       %input{ :type => :hidden, :name => '_method', :value => 'delete'}
       %button{ :class => 'btn danger'} Destroy
 
+%h3 Details
 
-%blockquote
-  %p
-    This entity represents a
-    Machine Instance
+%table{ :class => 'table table-bordered table-striped' }
+  %tbody
+    %tr
+      %th ID
+      %td
+        %a{ :href => @machine.uri }=@machine.uri
+    %tr
+      %th Description
+      %td=@machine.description
+    %tr
+      %th Created
+      %td #{@machine.created}&nbsp;
+    %tr
+      %th State
+      %td=state_span_for @machine.state
+    %tr
+      %th CPU
+      %td=boolean_span_for @machine.cpu
+    %tr
+      %th RAM
+      %td
+        - if @machine.memory.quantity.nil?
+          %span.label Not specified
+        - else
+          =[@machine.memory.quantity, @machine.memory.units].join("&nbsp;")
+    %tr
+      %th Meters
+      %td
+        - if @machine.meters.empty?
+          %span.label No meters
+        - else
+          - @machine.meters.each do |meters|
+            %dd=meters.ref
 
-%dl
-  %dt URI
-  %dd
-    %a{ :href => @machine.uri }=@machine.uri
-  %dt Description
-  %dd=@machine.description
-  %dt Created
-  %dd #{@machine.created}&nbsp;
-  %dt State
-  %dd=state_span_for @machine.state
-  %dt CPU
-  %dd=boolean_span_for @machine.cpu
-  %dt Memory
-  %dd
-    - if @machine.memory.quantity.nil?
-      %span.label Not specified
-    - else
-      =[@machine.memory.quantity, @machine.memory.units].join("&nbsp;")
-  %dt Meters
-  %dd
-    - if @machine.meters.empty?
-      %span.label No meters
-    - else
-      - @machine.meters.each do |meters|
-        %dd=meters.ref
 
 %h3 Properties
-
-%table.bordered-table
+%table{ :class => 'table table-bordered table-striped' }
   %thead
     %tr
       %th Name
@@ -75,7 +79,7 @@
 
 %h3 Network Interfaces
 
-%table.bordered-table
+%table{ :class => 'table table-bordered table-striped' }
   %thead
     %tr
       %th Address
@@ -96,7 +100,7 @@
 
 %h3 Volumes
 
-%table.bordered-table
+%table{ :class => 'table table-bordered table-striped' }
   %thead
     %tr
       %th ID
@@ -118,7 +122,7 @@
 
 %h3 Disks
 
-%table.bordered-table
+%table{ :class => 'table table-bordered table-striped' }
   %thead
     %tr
       %th Capacity

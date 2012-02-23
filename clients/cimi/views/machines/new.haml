@@ -43,7 +43,7 @@
         Machine Admin
       %div.input
         %select{ :name => 'machine[machine_admin]' }
-          - unless @machine_admins.empty?
+          - if @machine_admins.kind_of?(Array)
             %option{ :value => '', :selected => :selected }
             - @machine_admins.machine_admins.each do |admin|
               %option{ :value => admin.href }=href_to_id(admin.href)

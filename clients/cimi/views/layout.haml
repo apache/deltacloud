@@ -5,27 +5,71 @@
     %title CIMI Client
     /[if lt IE 9]
       %script{ :src => '/html5.js' }
-    %script{ :src => '/jquery-1.4.2.min.js' }
+    %script{ :src => '/jquery.js' }
     %script{ :src => '/bootstrap/js/bootstrap-alerts.js' }
+    %script{ :src => '/bootstrap/js/bootstrap-dropdown.js' }
+    %script{ :src => '/bootstrap/js/bootstrap-transition.js' }
+    %script{ :src => '/bootstrap/js/bootstrap-modal.js' }
     %link{ :href => '/bootstrap/bootstrap.min.css', :rel => :stylesheet }
     %link{ :href => '/app.css', :rel => :stylesheet }
     %script{ :src => '/app.js' }
     %body
-      .topbar
-        .fill
-          .container
-            %a.brand{ :href => '/' } CIMI frontend
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          .container-fluid
+            %a.brand{ :href => '/' } CIMI
+            .nav-collapse
+              %ul.nav
+                %li.dropdown
+                  %a{ :href => '#', :class => 'dropdown-toggle', :'data-toggle' => 'dropdown'}
+                    Driver
+                    %b.caret
+                  %ul.dropdown-menu
+                    %li
+                      %a{ :href => '/driver?driver=mock'} Mock
+                    %li
+                      %a{ :href => '#ec2', :onclick => "toggleConfig('ec2')"} Amazon EC2
+                    %li
+                      %a{ :href => '#providerModal', :onclick => "toggleConfig('rhevm')"} RHEV-M
+
       .container
+        %div{ :id => 'providerModal', :class => 'modal hide fade' }
+          .modal-header
+            %a{ :class => :close, :'data-dismiss' => :modal }='x'
+            %h3 
+              %span{ :id => 'driverName'}
+              Driver Configuration
+          .modal-body
+            %form{ :action => "/driver", :method => :get }
+              %input{ :type => :hidden, :name => :driver, :value => ''}
+              %fieldset
+                .control-group
+                  %label.control-label API Username
+                  .controls
+                    %input{ :type => :text, :class => :span3, :name => :username, :value => credentials.user}
+                    %span{ :class => 'help-inline'} 
+                  %label.control-label API Password
+                  .controls
+                    %input{ :type => :text, :class => :span3, :name => :password, :value => credentials.password}
+                    %span{ :class => 'help-inline'} 
+                  %label.control-label API Provider
+                  .controls
+                    %input{ :type => :text, :class => :span3, :placeholder => 'http://', :name => :provider, :value => credentials.provider}
+                    %br/
+                    %span{ :class => 'help-inline'} Enter driver specific provider URL
+          .modal-footer
+            %a{ :href => '#', :class => 'btn btn-primary', :id => 'saveProvider'} Continue
+            %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
         .content
           .page-header
             %h1=@title || 'no-title-fix-me'
             = yield_content :breadcrumb
           .row
-            .span10#main
+            .span8#main
               - [ :info, :error, :success ].map do |message|
                 = flash_block_for message
               =yield
-            .span4#toolbar=yield_content :actions
+            .span2#toolbar=yield_content :actions
         %footer
           %p
             &copy; 2009-2011 The Apache Software Foundation and individual contributors.
