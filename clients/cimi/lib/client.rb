@@ -41,9 +41,17 @@ module CIMI
         client["%s/%s/%s" % [entity_type, id, action.to_s]].post(body, auth_header(credentials))
       end
 
+      def provider_header(credentials)
+        return Hash.new unless credentials.driver
+        {
+          :'X-Deltacloud-Driver' => credentials.driver,
+          :'X-Deltacloud-Provider' => credentials.provider
+        }
+      end
+
       def auth_header(credentials)
         encoded_credentials = ["#{credentials.user}:#{credentials.password}"].pack("m0").gsub(/\n/,'')
-        { :authorization => "Basic " + encoded_credentials }
+        { :authorization => "Basic " + encoded_credentials }.merge(provider_header(credentials))
       end
 
     end
