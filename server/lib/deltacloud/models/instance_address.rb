@@ -45,6 +45,10 @@ class InstanceAddress
     address_type == :ipv4
   end
 
+  def is_ipv6?
+    address_type == :ipv6
+  end
+
   def is_hostname?
     address_type == :hostname
   end
