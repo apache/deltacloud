@@ -28,6 +28,13 @@ module CIMI::Frontend
     use CIMI::Frontend::VolumeConfiguration
     use CIMI::Frontend::VolumeImage
     use CIMI::Frontend::Volume
+    use Rack::Session::Cookie
+
+    helpers CIMI::Frontend::Helper
+
+    before do
+      @_flash, session[:_flash] = session[:_flash], nil if session[:_flash]
+    end
 
     configure do
       enable :logging
@@ -45,6 +52,28 @@ module CIMI::Frontend
     get '/cimi' do
       redirect '/cimi/cloudEntryPoint'
     end
+
+    get '/driver' do
+      unless params[:driver]
+        flash[:error] = "You need to choose driver"
+        redirect(back) && return
+      end
+      session[:provider] = param_if_not_nil(params, :provider)
+      session[:driver] = param_if_not_nil(params, :driver)
+      session[:username] = param_if_not_nil(params, :username)
+      session[:password] = param_if_not_nil(params, :password)
+      flash[:success] = "You're now using #{session[:driver].to_s.upcase}"
+      redirect back
+    end
+
+    private
+
+    def param_if_not_nil(params, param)
+      return false if params[param].nil?
+      return false if params[param].strip.empty?
+      return params[param].strip
+    end
+
   end
 
 end
