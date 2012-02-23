@@ -500,7 +500,7 @@ END
             haml :"instances/index"
           elsif @instance and @instance.id
             response['Location'] = instance_url(@instance.id)
-            redirect instance_url(@instance.id)
+            haml :"instances/show"
           else
             redirect instances_url
           end
