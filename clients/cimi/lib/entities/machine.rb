@@ -32,7 +32,6 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
 
   get '/cimi/machines/:id' do
     machine_xml = get_entity('machines', params[:id], credentials)
-    puts machine_xml
     @machine= CIMI::Model::Machine.from_xml(machine_xml)
     haml :'machines/show'
   end
@@ -98,7 +97,6 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         }
       }
     end.to_xml
-    puts machine_xml
     begin
       result = create_entity('machines', machine_xml, credentials)
       machine = CIMI::Model::MachineCollection.from_xml(result)
