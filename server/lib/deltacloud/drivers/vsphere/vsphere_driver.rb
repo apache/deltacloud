@@ -356,6 +356,10 @@ module Deltacloud::Drivers::VSphere
         status 401
       end
 
+      on /nodename nor servname provided/ do
+        status 502
+      end
+
       on /ERROR/ do
         status 500
       end
