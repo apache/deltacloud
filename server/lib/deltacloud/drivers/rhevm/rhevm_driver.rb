@@ -335,20 +335,16 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 401
     end
 
-    on /ResourceNotFound/ do
-      status 404
-    end
-
     on /(InternalServerError|nodename nor servname provided)/ do
       status 502
     end
 
-    on /(RestClient|RHEVM|Ovirt)/ do
-      status 500
+    on /(404|ResourceNotFound)/ do
+      status 404
     end
 
-    on /(.*) not found^/ do
-      status 400
+    on /(RestClient|RHEVM|OVIRT)/ do
+      status 500
     end
 
     on /Parameter name/ do
