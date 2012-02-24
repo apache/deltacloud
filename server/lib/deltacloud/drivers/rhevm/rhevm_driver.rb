@@ -339,11 +339,11 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 404
     end
 
-    on /InternalServerError/ do
+    on /(InternalServerError|nodename nor servname provided)/ do
       status 502
     end
 
-    on /(RestClient|RHEVM)/ do
+    on /(RestClient|RHEVM|Ovirt)/ do
       status 500
     end
 
