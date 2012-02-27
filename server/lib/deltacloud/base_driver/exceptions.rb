@@ -175,7 +175,6 @@ module Deltacloud
         report_method = $stderr.respond_to?(:err) ? :err : :puts
         Deltacloud::ExceptionHandler::exceptions.each do |exdef|
           if exdef.match?($!)
-            $stderr.send(report_method, "#{[$!.class.to_s, $!.message].join(':')}\n#{$!.backtrace.join("\n")}")
             new_exception = exdef.handler($!)
             m = new_exception.message.nil? ? $!.message : new_exception.message
             $stderr.send(report_method, "#{[$!.class.to_s, m].join(':')}\n#{$!.backtrace[0..10].join("\n")}")
