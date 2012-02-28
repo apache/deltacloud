@@ -64,7 +64,7 @@ Gem::Specification.new do |s|
   s.test_files= Dir.glob("tests/*_test.rb")
   s.extra_rdoc_files = Dir["LICENSE", "DISCLAIMER", "NOTICE"]
   s.required_ruby_version = '>= 1.8.1'
-
+  s.has_rdoc = 'false'
   s.add_dependency('rake', '>= 0.8.7')
   s.add_dependency('haml', '>= 2.2.17')
   s.add_dependency('sinatra', '>= 0.9.4')
@@ -97,5 +97,8 @@ Gem::Specification.new do |s|
 
 # Condor Cloud
   s.add_dependency('uuidtools', '>= 2.1.1')
+
+# Openstack Compute
+  s.add_dependency('openstack-compute')
 
 end
