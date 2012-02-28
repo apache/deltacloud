@@ -7,4 +7,5 @@
     =@realm.state
   - unless @realm.limit.eql?(:unlimited)
     %limit<
-      =@realm.limit
+      =cdata do
+        =@realm.limit
