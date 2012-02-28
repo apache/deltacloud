@@ -69,7 +69,7 @@ module OCCIClient
     # Retieves the available Instance types
     ######################################################################
     def get_instance_types
-      get('/instance_type')
+      get('/instance_type?verbose=yes')
     end
 
     ######################################################################
@@ -277,7 +277,9 @@ module OCCIClient
 
     def get(path)
       url = URI.parse(@endpoint+path)
-      req = Net::HTTP::Get.new(url.path)
+      path = url.path
+      path << "?#{url.query}" if url.query
+      req = Net::HTTP::Get.new(path)
 
       do_request(url, req)
     end

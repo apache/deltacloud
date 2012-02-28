@@ -234,6 +234,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
       :owner_id=>credentials.user,
       :state=>"AVAILABLE",
       :architecture=>storage['ARCH'],
+      :hardware_profiles=>hardware_profiles(credentials)
     } )
   end
 
@@ -243,7 +244,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
     computehash = compute.root.elements
 
     network = []
-    computehash.each('NIC/IP') {|ip| network<<InstanceAddress.new(ip)}
+    computehash.each('NIC/IP') {|ip| network<<InstanceAddress.new(ip.text, :type => :ipv4)}
 
     image_id = nil
     if computehash['DISK/STORAGE']
@@ -255,11 +256,11 @@ class OpennebulaDriver < Deltacloud::BaseDriver
       :owner_id=>credentials.user,
       :name=>computehash['NAME'].text,
       :image_id=>image_id,
-      :instance_profile=>InstanceProfile.new(computehash['INSTANCE_TYPE']||'small'),
+      :instance_profile=>InstanceProfile.new(computehash['INSTANCE_TYPE'].text||'small'),
       :realm_id=>'ONE',
       :state=>VM_STATES[computehash['STATE'].text],
-      :public_addreses=>network,
-      :private_addreses=>[],
+      :public_addresses=>network,
+      :private_addresses=>[],
       :actions=> instance_actions_for( VM_STATES[computehash['STATE'].text] )
     } )
   end
