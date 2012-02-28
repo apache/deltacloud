@@ -76,15 +76,23 @@ module ApplicationHelper
       filter.merge!(:state => params[:state]) if params[:state]
       filter = {} if filter.keys.size.eql?(0)
       singular = model.to_s.singularize.to_sym
-      @benchmark = Benchmark.measure do
-        @elements = driver.send(model.to_sym, credentials, filter)
+      begin
+       @benchmark = Benchmark.measure do
+          @elements = driver.send(model.to_sym, credentials, filter)
+        end
+      rescue
+        @exception = $!
       end
-      headers['X-Backend-Runtime'] = @benchmark.real.to_s
-      instance_variable_set(:"@#{model}", @elements)
-      respond_to do |format|
-        format.html { haml :"#{model}/index" }
-        format.xml { haml :"#{model}/index" }
-        format.json { convert_to_json(singular, @elements) }
+      if @elements
+        headers['X-Backend-Runtime'] = @benchmark.real.to_s
+        instance_variable_set(:"@#{model}", @elements)
+        respond_to do |format|
+          format.html { haml :"#{model}/index" }
+          format.xml { haml :"#{model}/index" }
+          format.json { convert_to_json(singular, @elements) }
+        end
+      else
+        report_error(@exception.code)
       end
   end
 
@@ -106,7 +114,7 @@ module ApplicationHelper
   end
 
   def report_error(code=nil)
-    @error, @code = request.env['sinatra.error'], code
+    @error, @code = (request.env['sinatra.error'] || @exception), code
     @code = 500 if not @code and not @error.class.method_defined? :code
     response.status = @code || @error.code
     respond_to do |format|
