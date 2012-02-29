@@ -10,6 +10,7 @@
     %script{ :src => '/bootstrap/js/bootstrap-dropdown.js' }
     %script{ :src => '/bootstrap/js/bootstrap-transition.js' }
     %script{ :src => '/bootstrap/js/bootstrap-modal.js' }
+    %script{ :src => '/bootstrap/js/bootstrap-buttons.js' }
     %link{ :href => '/bootstrap/bootstrap.min.css', :rel => :stylesheet }
     %link{ :href => '/app.css', :rel => :stylesheet }
     %script{ :src => '/app.js' }
@@ -31,6 +32,8 @@
                       %a{ :href => '#ec2', :onclick => "toggleConfig('ec2')"} Amazon EC2
                     %li
                       %a{ :href => '#providerModal', :onclick => "toggleConfig('rhevm')"} RHEV-M
+                    %li
+                      %a{ :href => '#providerModal', :onclick => "toggleConfig('openstack')"} OpenStack
 
       .container
         %div{ :id => 'providerModal', :class => 'modal hide fade' }
