@@ -15,7 +15,14 @@
 
 class CIMI::Frontend::Machine < CIMI::Frontend::Entity
 
-  get '/cimi/machines/new' do
+  get '/cimi/machines/:id' do
+    machine_xml = get_entity('machines', params[:id], credentials)
+    @machine= CIMI::Model::Machine.from_xml(machine_xml)
+    haml :'machines/show'
+  end
+
+  get '/cimi/machines' do
+    # We need to include this stuff for new Machine Form
     machine_image_xml = get_entity_collection('machine_images', credentials)
     @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
@@ -27,16 +34,6 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
     rescue RestClient::InternalServerError
       @machine_admins = []
     end
-    haml :'machines/new'
-  end
-
-  get '/cimi/machines/:id' do
-    machine_xml = get_entity('machines', params[:id], credentials)
-    @machine= CIMI::Model::Machine.from_xml(machine_xml)
-    haml :'machines/show'
-  end
-
-  get '/cimi/machines' do
     machine_xml = get_entity_collection('machines', credentials)
     @machines = CIMI::Model::MachineCollection.from_xml(machine_xml)
     haml :'machines/index'

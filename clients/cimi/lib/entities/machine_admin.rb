@@ -37,13 +37,11 @@ class CIMI::Frontend::MachineAdmin < CIMI::Frontend::Entity
 
   get '/cimi/machine_admins' do
     machine_admin_xml = get_entity_collection('machine_admins', credentials)
-    puts machine_admin_xml
     @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admin_xml)
-    puts @machine_admins.inspect
     haml :'machine_admins/index'
   end
 
- post '/cimi/machine_admin' do
+  post '/cimi/machine_admin' do
     machine_admin_xml = Nokogiri::XML::Builder.new do |xml|
       xml.MachineAdmin(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:machine_admin][:name]
@@ -60,7 +58,7 @@ class CIMI::Frontend::MachineAdmin < CIMI::Frontend::Entity
       redirect "/cimi/machine_admins/#{machine_admin.name}", 302
     rescue => e
       flash[:error] = "Machine Admin could not be created: #{e.message}"
-      redirect :back
+      redirect(back)
     end
   end
 

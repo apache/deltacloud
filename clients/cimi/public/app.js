@@ -15,3 +15,23 @@ function toggleConfig(driver) {
   $('#providerModal').modal('show');
   return false;
 }
+
+function postModalForm(btn, id) {
+  $('div#'+id+' form').submit(function(e) {
+    e.preventDefault();
+    var frm = $(this);
+    $(btn).button('loading');
+    $.ajax({
+      type : 'POST',
+      url : frm.attr('action'),
+      data : frm.serialize(),
+      success: function(data) {
+        $(btn).button('Complete!');
+        $('div#'+id).modal('hide');
+        location.reload();
+      }
+    })
+    
+  }).submit()
+  return false;
+}

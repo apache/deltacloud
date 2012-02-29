@@ -13,7 +13,27 @@
     %a{ :href => "#{@machine_admins.uri}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machine_admins.uri}?format=json", :class => 'label warning' } JSON
   %p
-    %a{ :href => '/cimi/machine_admins/new', :class => 'btn info'} New Machine Admin
+    %a{ :href => '#adminModal', :class => 'btn btn-primary', :'data-toggle' => :modal } New Machine Admin
+
+  %div{ :id => :adminModal, :class => 'modal hide fade' }
+    .modal-header
+      %h3 Create mew MachineAdmin entity
+    .modal-body
+      %form{ :action => "/cimi/machine_admin", :method => :post }
+        %fieldset
+          .control-group
+            %label.control-label{ :for => 'machine_admin[name]' } Key Name
+            .controls
+              %input{ :type => :text, :name => 'machine_admin[name]' }
+            %label.control-label{ :for => 'machine_admin[description]' } Key Description
+            .controls
+              %input{ :type => :text, :name => 'machine_admin[description]' }
+            %label.control-label{ :for => 'machine_admin[key]' } PEM data
+            .controls
+              %textarea{:name => 'machine_admin[key]', :class => 'input-xlarge', :rows => 3}
+    .modal-footer
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating MachineAdmin...', :onclick => "postModalForm(this, 'adminModal')"} Continue
+      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
 
 %blockquote
   %p 
@@ -21,24 +41,14 @@
     entities within a Provider. This entity can be used to locate and create
     MachineAdmins.
 
+%h3 MachineAdminCollection
+
 %ul
   - @machine_admins.machine_admins.each do |conf|
     %li
       %a{ :href => "/cimi/machine_admins/#{conf.href.split('/').last}"}=conf.href.split('/').last
 
-- if @machine_admins.machine_admins.empty?
-  .alert-message.block-message.warning
-    %p
-      There are no MachineAdmin entities defined for this collection.
-    .alert_actions
-      %a{ :href => '/cimi/machine_admins/new', :class => 'btn'} Create new
-
-%h3 Collection details
-
-%dl
-  %dt URI
-  %dd=@machine_admins.uri
-  %dt Description
-  %dd=@machine_admins.description
-  %dt Created
-  %dd=@machine_admins.created
+- details 'Collection details' do
+  - row 'URI', @machine_admins.uri
+  - row 'Description', @machine_admins.description
+  - row 'Created', @machine_admins.created

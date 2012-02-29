@@ -13,7 +13,38 @@
     %a{ :href => "#{@machines.uri}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machines.uri}?format=json", :class => 'label warning' } JSON
   %p
-    %a{ :href => '/cimi/machines/new', :class => 'btn info'} New machine 
+    %a{ :href => '#machineModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Machine 
+
+  %div{ :id => :machineModal, :class => 'modal hide fade' }
+    .modal-header
+      %h3 Create mew Machine entity
+    .modal-body
+      %form{ :action => "/cimi/machines", :method => :post }
+        %fieldset
+          .control-group
+            %label.control-label{ :for => 'machine[name]' } Machine Name
+            .controls
+              %input{ :type => :text, :name => 'machine[name]' }
+            %label.control-label{ :for => 'machine[machine_image]' } Machine Image
+            .controls
+              %select{ :name => 'machine[machine_image]' }
+                - @machine_images.machine_images.each do |image|
+                  %option{ :value => image.href }=href_to_id(image.href)
+            %label.control-label{ :for => 'machine[machine_configuration]' } Machine Configuration
+            .controls
+              %select{ :name => 'machine[machine_configuration]' }
+                - @machine_configurations.machine_configurations.each do |configuration|
+                  %option{ :value => configuration.href }=href_to_id(configuration.href)
+            - unless @machine_admins.kind_of?(Array)
+              %label.control-label{ :for => 'machine[machine_admin]' } Machine Admin
+              .controls
+                %select{ :name => 'machine[machine_admin]' }
+                  - @machine_admins.machine_admins.each do |admin|
+                    %option{ :value => admin.href }=href_to_id(admin.href)
+    .modal-footer
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating MachineAdmin...', :onclick => "postModalForm(this, 'machineModal')"} Continue
+      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+
 
 
 %blockquote
@@ -34,12 +65,8 @@
     .alert_actions
       %a{ :href => '/cimi/machine/new', :class => 'btn'} Create new
 
-%h3 Collection details
 
-%dl
-  %dt URI
-  %dd=@machines.uri
-  %dt Description
-  %dd=@machines.description
-  %dt Created
-  %dd=@machines.created
+- details('Collection details') do
+  - row 'URI', @machines.uri
+  - row 'Description', @machines.description
+  - row 'Created', @machines.created
