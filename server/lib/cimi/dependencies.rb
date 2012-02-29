@@ -41,6 +41,7 @@ require 'deltacloud/models/firewall_rule'
 
 require 'json'
 require 'sinatra/rack_accept'
+require 'sinatra/rack_cimi'
 require 'sinatra/static_assets'
 require 'sinatra/rabbit'
 require 'sinatra/lazy_auth'
