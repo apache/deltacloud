@@ -18,25 +18,18 @@
   %p
     %form{ :action => "/cimi/machine_admins/#{@machine_admin.name}/delete", :method => :post, :style => 'display:inline'}
       %input{ :type => :hidden, :name => '_method', :value => 'delete'}
-      %button{ :class => 'btn danger'} Destroy
+      %button{ :class => 'btn btn-danger'} Destroy
 
 %blockquote
   %p
     A Machine Admin entity contains the information required to create the
     initial administrative super- user of a newly created Machine
 
-%dl
-  %dt URI
-  %dd
-    %a{ :href => @machine_admin.uri }=@machine_admin.uri
-  %dt Description
-  %dd=@machine_admin.description
-  %dt Created
-  %dd=@machine_admin.created
-  %dt Username
-  %dd=boolean_span_for @machine_admin.username
-  %dt Password
-  %dd=boolean_span_for @machine_admin.password
-  %dt Key
-  %dd
-    %pre=boolean_span_for @machine_admin.key
+- details 'MachineAdmin Details' do
+  - row 'URI', @machine_admin.uri
+  - row 'Description', @machine_admin.description
+  - row 'Created', @machine_admin.created
+  - row 'Username', boolean_span_for(@machine_admin.username)
+  - row 'Password', boolean_span_for(@machine_admin.password)
+  - row 'Key', '<pre>'+boolean_span_for(@machine_admin.key)+'</pre>'
+

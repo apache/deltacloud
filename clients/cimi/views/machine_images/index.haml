@@ -19,17 +19,13 @@
     entities within a Provider. This entity can be used to locate and create
     Machine Images.
 
+%h3 MachineImageCollection
 %ul
   - @machine_images.machine_images.each do |image|
     %li
       %a{ :href => "/cimi/machine_images/#{image.href.split('/').last}"}=image.href.split('/').last
 
-%h3 Collection details
-
-%dl
-  %dt URI
-  %dd=@machine_images.uri
-  %dt Description
-  %dd=@machine_images.description
-  %dt Created
-  %dd=@machine_images.created
+- details('Collection details') do
+  - row 'URI', @machine_images.uri
+  - row 'Description', @machine_images.description
+  - row 'Created', @machine_images.created

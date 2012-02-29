@@ -19,17 +19,13 @@
     Machine Configuration entities within a Provider. This entity can be used to
     locate and create Machine Configurations.
 
+%h3 MachineConfigurationCollection
 %ul
   - @machine_configurations.machine_configurations.each do |conf|
     %li
       %a{ :href => "/cimi/machine_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
 
-%h3 Collection details
-
-%dl
-  %dt URI
-  %dd=@machine_configurations.uri
-  %dt Description
-  %dd=@machine_configurations.description
-  %dt Created
-  %dd=@machine_configurations.created
+- details('Collection details') do
+  - row 'URI', @machine_configurations.uri
+  - row 'Description', @machine_configurations.description
+  - row 'Created', @machine_configurations.created

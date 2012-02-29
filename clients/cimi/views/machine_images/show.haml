@@ -22,15 +22,9 @@
     (OVF) package) necessary for hardware virtualized resources to create a
     Machine Instance
 
-%dl
-  %dt URI
-  %dd
-    %a{ :href => @machine_image.uri }=@machine_image.uri
-  %dt Description
-  %dd=@machine_image.description
-  %dt Created
-  %dd=@machine_image.created
-  %dt Image Location
-  %dd=@machine_image.image_location.href
-  %dt Image Data
-  %dd=@machine_image.image_data
+- details 'MachineImage details' do
+  - row 'URI', @machine_image.uri
+  - row 'Description', @machine_image.description
+  - row 'Created', @machine_image.created
+  - row 'Image Location', @machine_image.image_location.href
+  - row 'Image Data', @machine_image.image_data

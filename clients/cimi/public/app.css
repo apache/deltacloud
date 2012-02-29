@@ -63,3 +63,7 @@ body {
 #toolbar p:first-child {
   text-align : right;
 }
+
+table caption h3 {
+  text-align : left;
+}

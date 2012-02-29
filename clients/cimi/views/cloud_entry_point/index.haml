@@ -24,12 +24,7 @@
         %a{ :href => "/cimi/#{entity}"}=struct_to_name @entry_point.send(entity.intern)
         =not_implemented(entity)
 
-%h3 Collection details
-
-%dl
-  %dt URI
-  %dd=@entry_point.uri
-  %dt Description
-  %dd=@entry_point.description
-  %dt Created
-  %dd=@entry_point.created
+- details('Collection details') do
+  - row 'URI', @entry_point.uri
+  - row 'Description', @entry_point.description
+  - row 'Created', @entry_point.created

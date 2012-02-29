@@ -18,34 +18,21 @@
 
 %blockquote
   %p
-    This entity represents a
-    volume Instance
+    This entity represents a volume Instance
 
-%dl
-  %dt URI
-  %dd
-    %a{ :href => @volume.uri }=@volume.uri
-  %dt Description
-  %dd=@volume.description
-  %dt Created
-  %dd=@volume.created
-  %dt Bootable
-  %dd=boolean_span_for @volume.bootable
-  %dt Support Snapshots
-  %dd=boolean_span_for @volume.supports_snapshots
-  %dt Guest Interface
-  %dd=boolean_span_for @volume.guest_interface
-  %dt Snapshots
-  %dd
-    - if @volume.snapshots.empty?
-      %span.label No snapshots
-    - else
-      - @volume.snapshots.each do |snapshot|
-        %dd=snapshot.ref
-  %dt Meters
-  %dd
-    - if @volume.meters.empty?
-      %span.label No meters
-    - else
-      - @volume.meters.each do |meters|
-        %dd=meters.ref
+- details 'Volume details' do
+  - row 'URI', @volume.uri
+  - row 'Description', @volume.description
+  - row 'Created', @volume.created
+  - row 'Bootable?', boolean_span_for(@volume.bootable)
+  - row 'Support snapshots?', boolean_span_for(@volume.supports_snapshots)
+  - row 'Guest Interface', boolean_span_for(@volume.guest_interface)
+
+- details 'Volume Snapshots' do
+  - @volume.snapshots.each_with_index do |s, i|
+    - row "##{i}", s.ref
+
+- details 'Volume Meters' do
+  - @volume.meters.each_with_index do |m, i|
+    - row "##{i}", m.ref
+

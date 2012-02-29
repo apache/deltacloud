@@ -19,17 +19,14 @@
     entities within a Provider. This entity can be used to locate and create
     volumes.
 
+%h3 VolumesCollection
 %ul
   - @volumes.volumes.each do |volume|
     %li
       %a{ :href => "/cimi/volumes/#{volume.href.split('/').last}"}=volume.href.split('/').last
 
-%h3 Collection details
+- details 'Collection details' do
+  - row 'URI', @volumes.uri
+  - row 'Description', @volumes.description
+  - row 'Created', @volumes.created
 
-%dl
-  %dt URI
-  %dd=@volumes.uri
-  %dt Description
-  %dd=@volumes.description
-  %dt Created
-  %dd=@volumes.created

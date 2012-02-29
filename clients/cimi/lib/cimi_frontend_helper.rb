@@ -84,6 +84,28 @@ module CIMI
         struct_name.class.name.split('_').last
       end
 
+      def row(label, value)
+        haml_tag :tr do
+          haml_tag :th do
+            haml_concat label
+          end
+          haml_tag :td do
+            haml_concat value.nil? ? '' : convert_urls(value)
+          end
+        end
+      end
+
+      def details(title='', &block)
+        haml_tag :table, { :class => 'table table-bordered table-striped' } do
+          haml_tag :caption do
+            haml_tag :h3 do
+              haml_concat title
+            end
+          end unless title.empty?
+          haml_tag :tbody, &block
+        end
+      end
+
     end
   end
 end
