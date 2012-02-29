@@ -23,7 +23,7 @@ class CIMI::Model::VolumeImageCollection < CIMI::Model::Base
 
   def self.default(context)
     self.new(
-      :uri => context.volume_images_url,
+      :id => context.volume_images_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} VolumeImageCollection",

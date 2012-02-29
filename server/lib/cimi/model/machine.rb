@@ -141,7 +141,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :name => instance.id,
       :description => instance.name,
       :created => instance.launch_time,
-      :uri => context.machine_url(instance.id),
+      :id => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
       :memory => memory || convert_instance_memory(instance.instance_profile, context),

@@ -40,7 +40,7 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
                :name => snapshot.id,
                :description => snapshot.id,
                :created => snapshot.created,
-               :uri => context.volume_image_url(snapshot.id),
+               :id => context.volume_image_url(snapshot.id),
                :image_location => {:href=>context.volume_url(snapshot.storage_volume_id)},
                :bootable => "false"  #FIXME
             } )

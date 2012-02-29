@@ -23,7 +23,7 @@ class CIMI::Model::MachineImageCollection < CIMI::Model::Base
 
   def self.default(context)
     self.new(
-      :uri => context.machine_images_url,
+      :id => context.machine_images_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineImageCollection",

@@ -23,7 +23,7 @@ class CIMI::Model::VolumeConfigurationCollection < CIMI::Model::Base
 
   def self.default(context)
     self.new(
-      :uri => context.volume_configurations_url,
+      :id => context.volume_configurations_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} VolumeConfigurationCollection",

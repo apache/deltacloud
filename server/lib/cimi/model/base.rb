@@ -131,7 +131,7 @@ class CIMI::Model::Base
 
     # Return Array of links to current CIMI object
     def all_uri(context)
-      self.all(context).map { |e| { :href => e.uri } }
+      self.all(context).map { |e| { :href => e.id } }
     end
   end
 
@@ -197,7 +197,7 @@ class CIMI::Model::Base
   #
   # Common attributes for all resources
   #
-  text :uri, :name, :description, :created
+  text :id, :name, :description, :created
 
   # FIXME: this doesn't match with JSON
   hash :property, :content => :value do

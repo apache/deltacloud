@@ -23,7 +23,7 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     self.new(entities(context).merge({
       :name => context.driver.name,
       :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
-      :uri => context.cloudEntryPoint_url,
+      :id => context.cloudEntryPoint_url,
       :created => Time.now,
       :entity_metadata => EntityMetadata.all_uri(context)
     }))

@@ -23,11 +23,11 @@ class CIMI::Model::NetworkCollection < CIMI::Model::Base
 
   def self.default(context)
     self.new(
-      :uri => context.networks_url,
+      :id => context.networks_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} NetworkCollection",
-      :networks => Network.all(context).map { |c| { :href => c.uri } }
+      :networks => Network.all(context).map { |c| { :href => c.id } }
     )
   end
 

@@ -23,7 +23,7 @@ class CIMI::Model::MachineCollection < CIMI::Model::Base
 
   def self.default(context)
     self.new(
-      :uri => context.machines_url,
+      :id => context.machines_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineCollection",

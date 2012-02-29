@@ -89,7 +89,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
     self.new( { :name => volume.id,
                 :description => volume.id,
                 :created => volume.created,
-                :uri => context.volume_url(volume.id),
+                :id => context.volume_url(volume.id),
                 :capacity => { :quantity=>volume.capacity, :units=>"gibibyte"  }, #FIXME... units will vary
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
                 :supports_snapshots => "true", #fixme, will vary (true for ec2)

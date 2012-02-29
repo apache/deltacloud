@@ -51,7 +51,7 @@ class CIMI::Model::MachineAdmin < CIMI::Model::Base
       :username => key.username,
       :password => key.is_password? ? key.password : key.fingerprint,
       :key => key.is_key? ? key.pem_rsa_key : nil,
-      :uri => context.machine_admin_url(key.id),
+      :id => context.machine_admin_url(key.id),
       :created => Time.now
     )
   end

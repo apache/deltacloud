@@ -21,7 +21,7 @@ class CIMI::Model::EntityMetadataCollection < CIMI::Model::Base
 
   def self.default(context)
     self.new(
-      :uri => context.entity_metadata_url,
+      :id => context.entity_metadata_url,
       :name => 'default',
       :created => Time.now,
       :entity_metadata => EntityMetadata.all_uri(context)

@@ -47,7 +47,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
   def self.create(size, context)
     self.new( {
-                :uri => context.volume_configuration_url(size),
+                :id => context.volume_configuration_url(size),
                 :name => size,
                 :description => "volume configuration with #{size} GiB",
                 :created => Time.now.to_s,
