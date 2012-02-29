@@ -9,7 +9,6 @@ group :development do
   gem "rack-test", ">= 0.5.3"
   gem "ci_reporter"
   gem "cucumber", ">= 0.6.3"
-  gem "rcov", ">= 0.9.8"
   gem "rspec", ">= 2.0.0"
 end
 
