@@ -106,8 +106,6 @@ else
 
   argv_opts.flatten!
 
-  puts argv_opts.inspect
-
   if have_rerun && options[:env] == "development"
     argv_opts.unshift "thin"
     command = argv_opts.join(" ")
