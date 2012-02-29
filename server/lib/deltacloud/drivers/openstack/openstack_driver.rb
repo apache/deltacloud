@@ -55,7 +55,7 @@ module Deltacloud
           end
         end
 
-        def images(credentials, opts=nil)
+        def images(credentials, opts={})
           os = new_client(credentials)
           results = []
           profiles = hardware_profiles(credentials)
@@ -95,7 +95,7 @@ module Deltacloud
           end
         end
 
-        def realms(credentials, opts=nil)
+        def realms(credentials, opts={})
           os = new_client(credentials)
           limits = ""
           safely do
