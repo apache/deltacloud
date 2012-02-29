@@ -1,5 +1,5 @@
 <Volume xmlns="http://www.dmtf.org/cimi">
-  <uri>http://cimi.example.org/volumes/1</uri>
+  <id>http://cimi.example.org/volumes/1</id>
   <name>volume1</name>
   <description>Volume One</description>
   <created>2011-11-17</created>

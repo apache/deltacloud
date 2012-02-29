@@ -1,5 +1,5 @@
 <VolumeImage xmlns="http://www.dmtf.org/cimi">
-  <uri>http://cimi.example.org/volume_images/1</uri>
+  <id>http://cimi.example.org/volume_images/1</id>
   <name>volume_image_1</name>
   <description>Volume Image One</description>
   <created>2011-11-21</created>

@@ -17,4 +17,4 @@ Scenario: Querying Machine Image
       | *image_location | mock://img1 |
       | description     | Fedora 10   |
       | name            | img1        |
-      | uri             | http://example.org/cimi/machine_images/img1 |
+      | id              | http://example.org/cimi/machine_images/img1 |

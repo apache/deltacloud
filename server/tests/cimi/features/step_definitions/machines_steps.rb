@@ -5,7 +5,7 @@ When /^client specifies a Machine Image$/ do |machine_image|
   last_response.status.should == 200
   @machine_image = CIMI::Model::MachineImage.from_xml(last_response.body)
   @machine_image.should_not be_nil
-  @machine_image.uri.should == machine_image.raw[0][1]
+  @machine_image.id.should == machine_image.raw[0][1]
 end
 
 When /^client specifies a Machine Configuration$/ do |machine_conf|
@@ -15,7 +15,7 @@ When /^client specifies a Machine Configuration$/ do |machine_conf|
   last_response.status.should == 200
   @machine_configuration = CIMI::Model::MachineImage.from_xml(last_response.body)
   @machine_configuration.should_not be_nil
-  @machine_configuration.uri.should == machine_conf.raw[0][1]
+  @machine_configuration.id.should == machine_conf.raw[0][1]
 end
 
 When /^client specifies a new Machine using$/ do |machine|
@@ -27,8 +27,8 @@ When /^client specifies a new Machine using$/ do |machine|
       xml.name @new_machine_name
       xml.description machine.raw[1][1]
       xml.machineTemplate {
-        xml.machineConfig( :href => @machine_configuration.uri )
-        xml.machineImage( :href => @machine_image.uri )
+        xml.machineConfig( :href => @machine_configuration.id )
+        xml.machineImage( :href => @machine_image.id )
       }
     }
   end

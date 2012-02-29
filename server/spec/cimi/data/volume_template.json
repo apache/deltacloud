@@ -1,5 +1,5 @@
 {
-  "uri": "http://cimi.example.org/volume_templates/1",
+  "id": "http://cimi.example.org/volume_templates/1",
   "name": "volume_template_1",
   "description": "Volume Template One",
   "created": "2011-11-21",

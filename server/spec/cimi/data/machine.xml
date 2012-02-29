@@ -1,5 +1,5 @@
 <Machine xmlns="http://www.dmtf.org/cimi">
-  <uri>http://cimi.example.org/machines/1</uri>
+  <id>http://cimi.example.org/machines/1</id>
   <name>machine1</name>
   <description>Machine one description</description>
   <created>2011-11-21</created>

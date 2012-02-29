@@ -1,5 +1,5 @@
 <MachineTemplate xmlns="http://www.dmtf.org/cimi">
-  <uri>http://cimi.example.org/machine_templates/1</uri>
+  <id>http://cimi.example.org/machine_templates/1</id>
   <name>My First Template</name>
   <description>A template for testing</description>
   <created>2011-11-01</created>

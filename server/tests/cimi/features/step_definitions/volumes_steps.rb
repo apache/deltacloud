@@ -6,7 +6,7 @@ When /^client specifies a Volume Configuration$/ do |volume_config|
   @volume_config = CIMI::Model::VolumeConfiguration.from_xml(last_response.body)
   @volume_config.class.should == CIMI::Model::VolumeConfiguration
   @volume_config.attribute_values[:capacity].quantity.should == "2"
-  @volume_config.uri.should == volume_config.raw[0][1]
+  @volume_config.id.should == volume_config.raw[0][1]
 end
 
 When /^client specifies a new Volume using$/ do |volume|
@@ -18,7 +18,7 @@ When /^client specifies a new Volume using$/ do |volume|
       xml.name volume_name
       xml.description volume_description
       xml.volumeTemplate {
-        xml.volumeConfig( :href => @volume_config.uri )
+        xml.volumeConfig( :href => @volume_config.id )
       }
     }
   end
@@ -41,7 +41,7 @@ When /^client GET the Volumes Collection$/ do
 end
 
 Then /^client should get a list of volumes$/ do
-  @@volume_collection.uri.end_with?("/cimi/volumes").should == true
+  @@volume_collection.id.end_with?("/cimi/volumes").should == true
   @@volume_collection.attribute_values.has_key?(:volumes).should == true
 end
 
@@ -59,7 +59,7 @@ end
 
 Then /^client should verify that this Volume was created correctly$/ do |capacity|
   @@retrieved_volume.name.should == @@created_volume.name
-  @@retrieved_volume.uri.should == @@created_volume.uri
+  @@retrieved_volume.id.should == @@created_volume.id
   @@retrieved_volume.capacity[:quantity].should == capacity.raw[0][1]
 end
 
@@ -77,7 +77,7 @@ end
 When /^client specifies the new Volume with attachment point using$/ do |attach|
   @builder = Nokogiri::XML::Builder.new do |xml|
     xml.VolumeAttach {
-      xml.volume( :href => @@created_volume.uri, :attachmentPoint=>attach.raw[0][1])
+      xml.volume( :href => @@created_volume.id, :attachmentPoint=>attach.raw[0][1])
     }
   end
 end
@@ -94,7 +94,7 @@ When /^client should be able to detach the volume$/ do
   header 'Content-Type', 'application/CIMI-Machine+xml'
   @builder = Nokogiri::XML::Builder.new do |xml|
     xml.VolumeDetach {
-      xml.volume(:href => @@created_volume.uri)
+      xml.volume(:href => @@created_volume.id)
     }
   end
   put "/cimi/machines/#{@@machine.name}/detach_volume", @builder.to_xml

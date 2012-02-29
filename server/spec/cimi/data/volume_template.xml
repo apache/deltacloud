@@ -1,5 +1,5 @@
 <VolumeTemplate xmlns="http://www.dmtf.org/cimi">
-  <uri>http://cimi.example.org/volume_templates/1</uri>
+  <id>http://cimi.example.org/volume_templates/1</id>
   <name>volume_template_1</name>
   <description>Volume Template One</description>
   <created>2011-11-21</created>

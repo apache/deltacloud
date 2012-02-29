@@ -1,5 +1,5 @@
 {
-  "uri": "http://cimi.example.org/machine_admins/1",
+  "id": "http://cimi.example.org/machine_admins/1",
   "name": "credentials1",
   "description": "Machine Admin One",
   "created": "2011-11-16",

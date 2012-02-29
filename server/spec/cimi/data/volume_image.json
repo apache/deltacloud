@@ -1,5 +1,5 @@
 {
-  "uri": "http://cimi.example.org/volume_images/1",
+  "id": "http://cimi.example.org/volume_images/1",
   "name": "volume_image_1",
   "description": "Volume Image One",
   "created": "2011-11-21",

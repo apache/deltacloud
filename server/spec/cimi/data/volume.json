@@ -1,5 +1,5 @@
 {
-  "uri": "http://cimi.example.org/volumes/1",
+  "id": "http://cimi.example.org/volumes/1",
   "name": "volume1",
   "description": "Volume One",
   "created": "2011-11-17",

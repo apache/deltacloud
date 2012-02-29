@@ -24,8 +24,8 @@ Then /^client should get list of all ([\w ]+)$/ do |col_name|
   last_xml_response.root.name.should == root_name
   (last_xml_response/"#{root_name}/name").size.should == 1
   (last_xml_response/"#{root_name}/name").first.text.should == 'default'
-  (last_xml_response/"#{root_name}/uri").size.should == 1
-  (last_xml_response/"#{root_name}/uri").first.text.should == last_request.url
+  (last_xml_response/"#{root_name}/id").size.should == 1
+  (last_xml_response/"#{root_name}/id").first.text.should == last_request.url
   (last_xml_response/"#{root_name}/#{col_name.to_entity_name}").size.should == 3
   (last_xml_response/"#{root_name}/#{col_name.to_entity_name}").each do |machine_img|
     machine_img[:href].should_not be_nil

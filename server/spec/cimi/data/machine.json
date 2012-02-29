@@ -1,4 +1,4 @@
-{ "uri": "http://cimi.example.org/machines/1",
+{ "id": "http://cimi.example.org/machines/1",
   "name": "machine1",
   "description": "Machine one description",
   "created": "2011-11-21",

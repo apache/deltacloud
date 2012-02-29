@@ -1,5 +1,5 @@
 {
-  "uri": "http://cimi.example.org/volume_configurations/1",
+  "id": "http://cimi.example.org/volume_configurations/1",
   "name": "volume_config_1",
   "description": "Volume Configuration One",
   "created": "2011-11-21",
