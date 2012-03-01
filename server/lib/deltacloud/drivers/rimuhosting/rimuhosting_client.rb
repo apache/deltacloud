@@ -41,16 +41,17 @@ class RimuHostingClient
       headers["Authorization"] = @auth
     end
     safely do
-    r = @service.send_request(method, @uri.path + resource, data, headers)
-         puts r.body
-    res = JSON.parse(r.body)
-    res = res[res.keys[0]]
+      r = @service.send_request(method, @uri.path + resource, data, headers)
+          puts r.body
+      res = JSON.parse(r.body)
+      res = res[res.keys[0]]
 
-    if(res['response_type'] == "ERROR" and ( (res['error_info']['error_class'] == "PermissionException") or
+      if(res['response_type'] == "ERROR" and ( (res['error_info']['error_class'] == "PermissionException") or
 					     (res['error_info']['error_class'] == "LoginRequired") ))
-      raise "AuthFailure"
+        raise "AuthFailure"
+      end
+      res
     end
-    res
   end
 
   def list_images
@@ -81,6 +82,6 @@ class RimuHostingClient
   end
 end
 
-    end
   end
+end
 end
