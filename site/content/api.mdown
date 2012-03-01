@@ -59,7 +59,7 @@ Each Image defines the root partition and initial storage for the Instance opera
 ##### Instance States
 
 These represent the Instance lifecycle; at any time an Instance will be in one of
- *start, pending, running, stopped, shutting_down, finished*.
+ *start, pending, running, stopped, stopping, finished*.
 
 ##### Keys
 
@@ -929,9 +929,9 @@ machine for ***instances*** from the given cloud.
       </state>
       <state name='running'>
         <transition action='reboot' to='running'></transition>
-        <transition action='stop' to='shutting_down'></transition>
+        <transition action='stop' to='stopping'></transition>
       </state>
-      <state name='shutting_down'>
+      <state name='stopping'>
         <transition auto='true' to='stopped'></transition>
       </state>
       <state name='stopped'>

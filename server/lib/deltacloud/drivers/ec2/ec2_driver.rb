@@ -127,7 +127,8 @@ module Deltacloud
           stopped.to( :running )        .on( :start )
           running.to( :running )        .on( :reboot )
           running.to( :stopping )       .on( :stop )
-          shutting_down.to( :stopped )  .automatically
+          stopping.to(:stopped)         .automatically
+          stopping.to(:finish)          .automatically
           stopped.to( :finish )         .automatically
         end
 

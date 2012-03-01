@@ -142,9 +142,9 @@ class RimuHostingDriver < Deltacloud::BaseDriver
     pending.to( :running )        .automatically
 
     running.to( :running )        .on(:reboot)
-    running.to( :shutting_down )  .on(:stop)
+    running.to( :stopping )       .on(:stop)
 
-    shutting_down.to( :stopped )  .automatically
+    stopping.to( :stopped )       .automatically
 
     stopped.to( :finish )         .automatically
   end

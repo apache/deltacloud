@@ -35,8 +35,8 @@ module Deltacloud
           start.to( :pending )          .on( :create )
           pending.to( :running )        .automatically
           running.to( :running )        .on( :reboot )
-          running.to( :shutting_down )  .on( :stop )
-          shutting_down.to( :stopped )  .automatically
+          running.to( :stopping )       .on( :stop )
+          stopping.to( :stopped )       .automatically
           stopped.to( :finish )         .automatically
         end
 

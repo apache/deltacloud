@@ -68,8 +68,8 @@ module Deltacloud::Drivers::VSphere
       pending.to(:stopped)        .automatically
       stopped.to(:running)        .on( :start )
       running.to(:running)        .on( :reboot )
-      running.to(:shutting_down)  .on( :stop )
-      shutting_down.to(:stopped)  .automatically
+      running.to(:stopping)       .on( :stop )
+      stopping.to(:stopped)       .automatically
       stopped.to(:finish)         .on( :destroy )
     end
 

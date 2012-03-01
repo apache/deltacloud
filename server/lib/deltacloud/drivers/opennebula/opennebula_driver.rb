@@ -152,8 +152,8 @@ class OpennebulaDriver < Deltacloud::BaseDriver
     running.to(:running)        .on( :reboot )
     running.to(:stopping)       .on( :stop )
     stopping.to(:stopped)       .automatically
-    running.to(:shutting_down)  .on( :destroy )
-    shutting_down.to(:finish)   .automatically
+    running.to(:stopping)       .on( :destroy )
+    stopping.to(:finish)        .automatically
   end
 
   def instances(credentials, opts=nil)

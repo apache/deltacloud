@@ -175,7 +175,7 @@ module Deltacloud
           pending.to( :running )        .automatically
           pending.to( :finish )         .on(:destroy)
           running.to( :running )        .on( :reboot )
-          running.to( :shutting_down )  .on( :destroy )
+          running.to( :stopping )       .on( :destroy )
           pending.to( :finish )         .automatically
         end
 
