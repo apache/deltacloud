@@ -335,6 +335,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 401
     end
 
+    on /(not supported|custom properties are not configured)/ do
+      status 501
+    end
+
     on /(InternalServerError|nodename nor servname provided)/ do
       status 502
     end
