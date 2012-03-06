@@ -2,7 +2,7 @@
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
     %li{ :'data-role' => 'list-divider'} Server message
     %li
-      %h3=[@error.class.name, @error.message].join(' - ')
+      %h3 Authentication Failure
     %li{ :'data-role' => 'list-divider'} Original request URI
     %li
       %a{ :href => request.env['REQUEST_URI'], :'data-ajax' => 'false'}
@@ -15,11 +15,12 @@
       - else
         %em No details
 
-  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-    %h3 Backtrace
-    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
-      %li
-        %pre=@error.backtrace.join("\n")
+  - if @error.class.method_defined? :backtrace
+    %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+      %h3 Backtrace
+      %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+        %li
+          %pre=@error.backtrace.join("\n")
 
   %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
     %h3 Parameters
@@ -38,4 +39,4 @@
       - request.env.each do |key, value|
         %li{ :'data-role' => 'list-divider'}=key
         %li
-          %span{:style => 'font-weight:normal;'}=value.inspect
+          %span{:style => 'font-weight:normal;'}=value.to_s

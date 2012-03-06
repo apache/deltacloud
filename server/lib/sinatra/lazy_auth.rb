@@ -49,9 +49,7 @@ module Sinatra
         end
         unless provided?
           auth = Rack::Auth::Basic::Request.new(@app.request.env)
-          unless auth.provided? && auth.basic? && auth.credentials
-            @app.authorize!
-          end
+          @app.authorize! unless auth.provided? && auth.basic? && auth.credentials
           @user = auth.credentials[0]
           @password = auth.credentials[1]
           @provided = true
@@ -63,7 +61,7 @@ module Sinatra
     def authorize!
       r = "#{driver_symbol}-deltacloud@#{HOSTNAME}"
       response['WWW-Authenticate'] = %(Basic realm="#{r}")
-      report_error(401)
+      throw(:halt, [401, report_error(401)])
     end
 
     # Request the current user's credentials. Actual credentials are only
