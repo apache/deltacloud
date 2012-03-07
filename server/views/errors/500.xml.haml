@@ -5,8 +5,8 @@
   %backend{ :driver => driver_symbol, :provider => "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}" }
     %code=response.status
   %message< #{cdata @error.message}
-  - if @error.respond_to? :backtrace
-    %backtrace=cdata @error.backtrace.join("\n")
+  - if @error.respond_to?(:backtrace) and !@error.backtrace.nil?
+    %backtrace=cdata(@error.backtrace.join("\n"))
   - if params
     %request
       - params.each do |k, v|
