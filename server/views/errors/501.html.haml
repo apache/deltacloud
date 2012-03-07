@@ -15,11 +15,12 @@
       - else
         %em No details
 
-  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-    %h3 Backtrace
-    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
-      %li
-        %pre=@error.backtrace.join("\n")
+  - if @error.class.method_defined? :backtrace
+    %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+      %h3 Backtrace
+      %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+        %li
+          %pre=@error.backtrace.join("\n") unless @error.backtrace.nil?
 
   %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
     %h3 Parameters
