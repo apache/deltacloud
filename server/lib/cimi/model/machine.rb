@@ -136,15 +136,16 @@ class CIMI::Model::Machine < CIMI::Model::Base
   private
 
   def self.from_instance(instance, context)
+    cpu =  memory = disks = (instance.instance_profile.id == "opaque")? "n/a" : nil
     self.new(
       :name => instance.id,
       :description => instance.name,
       :created => instance.launch_time,
       :uri => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
-      :cpu => convert_instance_cpu(instance.instance_profile, context),
-      :memory => convert_instance_memory(instance.instance_profile, context),
-      :disks => convert_instance_storage(instance.instance_profile, context),
+      :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
+      :memory => memory || convert_instance_memory(instance.instance_profile, context),
+      :disks => disks || convert_instance_storage(instance.instance_profile, context),
       :network_interfaces => convert_instance_addresses(instance),
       :operations => convert_instance_actions(instance, context),
       :volumes=>convert_storage_volumes(instance, context),
