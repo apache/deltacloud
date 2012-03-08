@@ -335,7 +335,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 501
     end
 
-    on /(InternalServerError|nodename nor servname provided)/ do
+    on /(InternalServerError|nodename nor servname provided|no available running Hosts)/ do
       status 502
     end
 
@@ -343,7 +343,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 404
     end
 
-    on /(RestClient|RHEVM|OVIRT)/ do
+    on /(RestClient|RHEVM|OVIRT|)/ do
       status 500
     end
 
