@@ -177,10 +177,10 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def create_instance(credentials, image_id, opts={})
     client = new_client(credentials)
     params = {}
-    if opts[:name]
-      raise "Parameter name must be #{USER_NAME_MAX} characters or less" if opts[:name].length > USER_NAME_MAX
-    end
     safely do
+      if opts[:name]
+        raise "Parameter name must be #{USER_NAME_MAX} characters or less" if opts[:name].length > USER_NAME_MAX
+      end
       params[:name] = opts[:name]
       params[:template] = opts[:image_id]
       params[:cluster] = opts[:realm_id] if opts[:realm_id]
@@ -327,10 +327,6 @@ class RHEVMDriver < Deltacloud::BaseDriver
 
   exceptions do
 
-    on /Bad Request/ do
-      status 400
-    end
-
     on /Unauthorized/ do
       status 401
     end
@@ -351,7 +347,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 500
     end
 
-    on /Parameter name/ do
+    on /(Bad Request|Parameter name)/ do
       status 400
     end
 
