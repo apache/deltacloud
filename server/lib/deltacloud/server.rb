@@ -44,6 +44,7 @@ use Rack::MatrixParams
 use Rack::DriverSelect
 use Rack::MediaType
 use Rack::Date
+use Rack::CommonLogger
 
 configure do
   set :root_url, "/api"
