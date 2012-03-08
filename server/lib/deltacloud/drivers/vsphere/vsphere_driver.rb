@@ -123,7 +123,7 @@ module Deltacloud::Drivers::VSphere
       safely do
         find_vm(credentials, opts[:id])[:instance].MarkAsTemplate
       end
-      images(credentials, :id => opts[:id])
+      image(credentials, :id => opts[:id])
     end
 
     # List all datacenters managed by the vSphere or vCenter entrypoint.
