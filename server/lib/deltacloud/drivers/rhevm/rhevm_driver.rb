@@ -343,7 +343,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 404
     end
 
-    on /(RestClient|RHEVM|OVIRT|)/ do
+    on /(RestClient|RHEVM|OVIRT)/ do
       status 500
     end
 
