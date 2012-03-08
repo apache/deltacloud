@@ -58,7 +58,14 @@ module Deltacloud
           cpu                1
           memory             1.7 * 1024
           storage            160
-          architecture       'i386'
+          architecture       ['i386', 'x86_64']
+        end
+
+        define_hardware_profile('m1.medium') do
+          cpu                 2
+          memory              3.75 * 1024
+          storage             410
+          architecture        ['i386', 'x86_64']
         end
 
         define_hardware_profile('m1.large') do
@@ -79,7 +86,7 @@ module Deltacloud
           cpu                5
           memory             1.7 * 1024
           storage            350
-          architecture       'i386'
+          architecture       ['i386', 'x86_64']
         end
 
         define_hardware_profile('c1.xlarge') do
