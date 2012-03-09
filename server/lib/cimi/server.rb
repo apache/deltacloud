@@ -565,7 +565,7 @@ global_collection :network_configurations do
     param :id, :string, :required
     control do
       network_config = NetworkConfiguration.find(params[:id], self)
-      respond_to do
+      respond_to do |format|
         format.xml { network_config.to_xml }
         format.json { network_config.to_json }
       end

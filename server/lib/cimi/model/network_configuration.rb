@@ -34,17 +34,16 @@ class CIMI::Model::NetworkConfiguration < CIMI::Model::Base
   def self.find(id, context)
     network_configs = []
     if id==:all
-
+      network_configs = context.driver.network_configurations(context.credentials, {:env=>context})
     else
-
+      network_configs = context.driver.network_configurations(context.credentials, {:env=>context, :id=>id})
     end
     network_configs
   end
-require 'cimi/model/network_configuration_collection'
+
   def self.create_from_xml(request_body, context)
   end
 
   def self.create_from_json(request_body, context)
   end
-
 end
