@@ -13,20 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::Network < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
+  get '/cimi/networks/:id' do
+    network_xml = get_entity('networks', params[:id], credentials)
+    @network = CIMI::Model::Network.from_xml(network_xml)
+    haml :'networks/show'
+  end
+
+  get '/cimi/networks' do
+    networks_xml = get_entity_collection('networks', credentials)
+    @networks = CIMI::Model::NetworkCollection.from_xml(networks_xml)
+    haml :'networks/index'
+  end
+
+end

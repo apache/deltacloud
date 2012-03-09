@@ -28,6 +28,8 @@ module CIMI::Frontend
     use CIMI::Frontend::VolumeConfiguration
     use CIMI::Frontend::VolumeImage
     use CIMI::Frontend::Volume
+    use CIMI::Frontend::Network
+    use CIMI::Frontend::NetworkConfiguration
     use Rack::Session::Cookie
 
     helpers CIMI::Frontend::Helper
