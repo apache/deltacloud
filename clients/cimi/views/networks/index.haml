@@ -1,0 +1,34 @@
+- @title=@networks.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      NetworkCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@networks.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@networks.uri}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    A Network Collection entity represents the collection of Networks
+    within a Provider. This entity can be used to locate and create Networks.
+
+%ul
+  - @networks.networks.each do |network|
+    %li
+      %a{ :href => "/cimi/networks/#{network.href.split('/').last}"}=network.href.split('/').last
+
+%h3 Collection details
+
+%dl
+  %dt URI
+  %dd=@networks.uri
+  %dt Description
+  %dd=@networks.description
+  %dt Created
+  %dd=@networks.created

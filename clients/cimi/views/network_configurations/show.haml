@@ -1,0 +1,43 @@
+- @title="#{@network_config.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/network_configurations"} NetworkConfigurationCollection
+      %span.divider="/"
+    %li.active
+      = @network_config.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@network_config.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network_config.uri}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    A Network Configuration entity is the set of configuration values representing
+    the information needed to create a Network with certain characteristics.
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @network_config.uri }=@network_config.uri
+  %dt Description
+  %dd=@network_config.description
+  %dt Created
+  %dd=@network_config.created
+  %dt Access
+  %dd=@network_config.access
+  %dt Bandwidth Limit
+  %dd=@network_config.bandwidth_limit
+  %dt Traffic Priority
+  %dd=@network_config.traffic_priority
+  %dt Maximum Traffic Delay
+  %dd=@network_config.max_traffic_delay
+  %dt Maximum Traffic Loss
+  %dd=@network_config.max_traffic_loss
+  %dt Maximum Traffic Jitter
+  %dd=@network_config.max_traffic_jitter

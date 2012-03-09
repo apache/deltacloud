@@ -1,0 +1,45 @@
+- @title="#{@network.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/networks"} NetworkCollection
+      %span.divider="/"
+    %li.active
+      = @network.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@network.uri}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network.uri}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    This entity represents a Network - a realized entity
+    that represents an abstraction of a layer 2 broadcast domain.
+
+%dl
+  %dt URI
+  %dd
+    %a{ :href => @network.uri }=@network.uri
+  %dt Description
+  %dd=@network.description
+  %dt Created
+  %dd=@network.created
+  %dt State
+  %dd=@network.state
+  %dt Access
+  %dd=@network.access
+  %dt Bandwidth Limit
+  %dd=@network.bandwidth_limit
+  %dt Traffic Priority
+  %dd=@network.traffic_priority
+  %dt Maximum Traffic Delay
+  %dd=@network.max_traffic_delay
+  %dt Maximum Traffic Loss
+  %dd=@network.max_traffic_loss
+  %dt Maximum Traffic Jitter
+  %dd=@network.max_traffic_jitter
