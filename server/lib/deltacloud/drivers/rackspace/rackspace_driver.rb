@@ -28,6 +28,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
   feature :instances, :user_name
   feature :instances, :authentication_password
   feature :instances, :user_files
+  feature :images, :user_name
 
   def supported_collections
     DEFAULT_COLLECTIONS + [ :buckets ] - [ :storage_snapshots, :storage_volumes ]
@@ -100,8 +101,8 @@ class RackspaceDriver < Deltacloud::BaseDriver
       image = server.create_image(opts[:name])
       Image.new(
         :id => image.id.to_s,
-        :name => image.name,
-        :description => image.name,
+        :name => opts[:name] || image.name,
+        :description => opts[:description] || image.description,
         :owner_id => credentials.user,
         :state => image.status,
         :architecture => 'x86_64'

@@ -32,6 +32,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
   end
 
   feature :instances, :user_data
+  feature :images, :user_name
 
   USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
 
@@ -110,7 +111,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
     end
     safely do
       new_image = client.create_template(opts[:id], :name => (opts[:name] || template_name),
-                                         :description => opts[:description])
+                                         :description => opts[:description] || template_name)
       convert_image(client, new_image)
     end
   end

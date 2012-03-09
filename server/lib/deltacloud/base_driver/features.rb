@@ -160,6 +160,20 @@ module Deltacloud
       end
     end
 
+    declare_feature :images,  :user_name do
+      description "Allow specifying user name for created image"
+      operation :create do
+        param :name,  :string,  :optional,  [],  "Image name"
+      end
+    end
+
+    declare_feature :images,  :user_description do
+      description "Allow specifying user description for created image"
+      operation :create do
+        param :description, :string,  :optional,  [],  "Image description"
+      end
+    end
+
     declare_feature :instances, :user_name do
       description "Accept a user-defined name on instance creation"
       operation :create do

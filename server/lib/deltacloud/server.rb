@@ -249,14 +249,12 @@ END
   operation :create do
     description 'Create image from instance'
     with_capability :create_image
-    param :instance_id,	 :string, :required
-    param :name,	 :string, :optional
-    param :description,	 :string, :optional
+    param :instance_id, :string, :required
     control do
       @image = driver.create_image(credentials, {
-	:id => params[:instance_id],
+        :id => params[:instance_id],
         :name => params[:name],
-	:description => params[:description]
+        :description => params[:description]
       })
       status 201  # Created
       response['Location'] = image_url(@image.id)

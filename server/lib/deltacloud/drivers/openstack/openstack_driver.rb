@@ -25,6 +25,7 @@ module Deltacloud
         feature :instances, :user_name
         feature :instances, :authentication_password
         feature :instances, :user_files
+        feature :images, :user_name
 
         def supported_collections
           DEFAULT_COLLECTIONS - [ :storage_snapshots, :storage_volumes  ] #+ [ :buckets ]

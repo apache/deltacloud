@@ -87,6 +87,8 @@ module Deltacloud::Drivers::Mock
     feature :instances, :user_name
     feature :instances, :user_data
     feature :instances, :authentication_key
+    feature :images, :user_name
+    feature :images, :user_description
 
     def initialize
       if ENV["DELTACLOUD_MOCK_STORAGE"]

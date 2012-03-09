@@ -34,7 +34,6 @@ module Deltacloud::Drivers::VSphere
     feature :instances, :user_data
     feature :instances, :user_name
 
-
     def supported_collections
       DEFAULT_COLLECTIONS - [:storage_volumes, :storage_snapshots]
     end
