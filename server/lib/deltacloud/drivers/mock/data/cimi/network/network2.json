@@ -4,6 +4,12 @@
   "created": "Fri Jan 13 17:30:34 EET 2012",
   "state": "STARTED",
   "access": "Public",
+  "bandwidthLimit": 3,
+  "trafficPriority": 2,
+  "maxTrafficDelay": 600000,
+  "maxTrafficLoss": 100,
+  "maxTrafficJitter": 200000,
+  "routingGroup": { "href": "http://cimi.example.org/routinggroups/group1" },
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/networks/network2" },
     { "rel": "delete", "href": "http://cimi.example.org/networks/network2" }
