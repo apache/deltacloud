@@ -513,7 +513,7 @@ module Deltacloud::Drivers::Mock
 
     def convert_cimi_mock_urls(model_name, cimi_object, context)
       uri=context.send(:"#{model_name}_url", cimi_object.name)
-      cimi_object.uri=uri
+      cimi_object.id=uri
       cimi_object.operations.each{|op| op.href=uri}
       cimi_object
     end
