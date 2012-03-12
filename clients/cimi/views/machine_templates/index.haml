@@ -15,17 +15,13 @@
     Machine Template entities within a Provider. This entity can be used to
     locate and create Machine Templates.
 
+%h3 MachineTemplateCollection
 %ul
   - @machine_templates.machine_templates.each do |temp|
     %li
       %a{ :href => "/cimi/machine_templates/#{temp.href.split('/').last}"}=temp.href.split('/').last
 
-%h3 Collection details
-
-%dl
-  %dt id
-  %dd=@machine_templates.id
-  %dt Description
-  %dd=@machine_templates.description
-  %dt Created
-  %dd=@machine_templates.created
+-details 'MachineTemplateCollection details' do
+  -row 'id',@machine_templates.id
+  -row 'Description',@machine_templates.description
+  -row 'Created',@machine_templates.created

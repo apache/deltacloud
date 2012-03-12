@@ -18,17 +18,13 @@
     A Network Collection entity represents the collection of Networks
     within a Provider. This entity can be used to locate and create Networks.
 
+%h3 NetworkCollection
 %ul
   - @networks.networks.each do |network|
     %li
       %a{ :href => "/cimi/networks/#{network.href.split('/').last}"}=network.href.split('/').last
 
-%h3 Collection details
-
-%dl
-  %dt id
-  %dd=@networks.id
-  %dt Description
-  %dd=@networks.description
-  %dt Created
-  %dd=@networks.created
+-details 'NetworkCollection details' do
+  -row 'ID', @networks.id
+  -row 'Description', @networks.description
+  -row 'Created', @networks.created

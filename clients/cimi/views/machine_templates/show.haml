@@ -18,11 +18,7 @@
     Instance. Machine Configurations are created by Providers and MAY, at the
     Providers discretion, be created by Consumers.
 
-%dl
-  %dt id
-  %dd
-    %a{ :href => @machine_template.id }=@machine_template.id
-  %dt Description
-  %dd=@machine_template.description
-  %dt Created
-  %dd #{@machine_template.created}&nbsp;
+-details 'MachineTemplate details' do
+  -row 'id',@machine_template.id
+  -row 'Description',@machine_template.description
+  -row 'Created',@machine_template.created

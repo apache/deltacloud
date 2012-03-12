@@ -18,17 +18,13 @@
     of Network Configurations within a Provider. This entity can be used
     to locate and create Network Configurations
 
+%h3 NetworkConfigurationCollection
 %ul
   - @network_configs.network_configurations.each do |conf|
     %li
       %a{ :href => "/cimi/network_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
 
-%h3 Collection details
-
-%dl
-  %dt id
-  %dd=@network_configs.id
-  %dt Description
-  %dd=@network_configs.description
-  %dt Created
-  %dd=@network_configs.created
+-details 'NetworkConfigurationCollection details' do
+  -row 'ID', @network_configs.id
+  -row 'Description', @network_configs.description
+  -row 'Created', @network_configs.created

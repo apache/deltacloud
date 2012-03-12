@@ -28,41 +28,19 @@
       %input{ :type => :hidden, :name => '_method', :value => 'delete'}
       %button{ :class => 'btn danger'} Destroy
 
-%h3 Details
+%blockquote
+  %p
+    This entity represents an instantiated compute resource
 
-%table{ :class => 'table table-bordered table-striped' }
-  %tbody
-    %tr
-      %th ID
-      %td
-        %a{ :href => @machine.id }=@machine.id
-    %tr
-      %th Description
-      %td=@machine.description
-    %tr
-      %th Created
-      %td #{@machine.created}&nbsp;
-    %tr
-      %th State
-      %td=state_span_for @machine.state
-    %tr
-      %th CPU
-      %td=boolean_span_for @machine.cpu
-    %tr
-      %th RAM
-      %td
-        - if @machine.memory.quantity.nil?
-          %span.label Not specified
-        - else
-          =[@machine.memory.quantity, @machine.memory.units].join("&nbsp;")
-    %tr
-      %th Meters
-      %td
-        - if @machine.meters.empty?
-          %span.label No meters
-        - else
-          - @machine.meters.each do |meters|
-            %dd=meters.ref
+
+-details 'Machine details' do
+  -row 'ID', @machine.id
+  -row 'Description',@machine.description
+  -row 'Created', @machine.created
+  -row 'State',state_span_for(@machine.state)
+  -row 'CPU', boolean_span_for(@machine.cpu)
+  -row 'RAM',(@machine.memory.quantity.nil? ? "Not specified" : ([@machine.memory.quantity, @machine.memory.units].join("&nbsp;")))
+  -row 'Meters', (@machine.meters.empty? ? "No meters" : ( @machine.meters.each{|meter| meters.id}))
 
 
 %h3 Properties

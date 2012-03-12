@@ -21,18 +21,11 @@
     This entity represents the information necessary for hardware virtualized
     resources to create a Volume Instance
 
-%dl
-  %dt id
-  %dd
-    %a{ :href => @volume_image.id }=@volume_image.id
-  %dt Description
-  %dd=@volume_image.description
-  %dt Created
-  %dd=@volume_image.created
-  %dt Bootable
-  %dd=boolean_span_for @volume_image.bootable
-  %dt Image Location
-  %dd
-    %a{:href => "/cimi/volumes/#{href_to_id(@volume_image.image_location.href)}"}=href_to_id @volume_image.image_location.href
-  %dt Image Data
-  %dd=boolean_span_for @volume_image.image_data
+- details 'VolumeImage details' do
+  -row 'ID', @volume_image.id
+  -row 'Description', @volume_image.description
+  -row 'Created', @volume_image.created
+  -row 'Bootable', boolean_span_for(@volume_image.bootable)
+  -row 'Image Location', "/cimi/volumes/#{href_to_id(@volume_image.image_location.href)}"
+  -row 'Image Data', boolean_span_for(@volume_image.image_data)
+

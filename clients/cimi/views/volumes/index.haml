@@ -25,7 +25,7 @@
     %li
       %a{ :href => "/cimi/volumes/#{volume.href.split('/').last}"}=volume.href.split('/').last
 
-- details 'Collection details' do
+- details 'VolumeCollection details' do
   - row 'ID', @volumes.id
   - row 'Description', @volumes.description
   - row 'Created', @volumes.created

@@ -23,20 +23,12 @@
     Instance. Volume Configurations are created by Providers and MAY, at the
     Providers discretion, be created by Consumers.
 
-%dl
-  %dt id
-  %dd
-    %a{ :href => @volume_configuration.id }=@volume_configuration.id
-  %dt Description
-  %dd=@volume_configuration.description
-  %dt Created
-  %dd=@volume_configuration.created
-  %dt Format
-  %dd=boolean_span_for @volume_configuration.format
-  %dt Supports snapshots
-  %dd=boolean_span_for @volume_configuration.supports_snapshots
-  %dt Guest interface
-  %dd=boolean_span_for @volume_configuration.guest_interface
-  %dt Capacity
-  %dd
-    =[@volume_configuration.capacity.quantity, @volume_configuration.capacity.units].join('&nbsp;')
+- details 'VolumeConfiguration details' do
+  -row 'ID', @volume_configuration.id
+  -row 'Description', @volume_configuration.description
+  -row 'Created', @volume_configuration.created
+  -row 'Format', boolean_span_for(@volume_configuration.format)
+  -row 'Supports snapshots', boolean_span_for(@volume_configuration.supports_snapshots)
+  -row 'Guest interface', boolean_span_for(@volume_configuration.guest_interface)
+  -row 'Capacity', ([@volume_configuration.capacity.quantity, @volume_configuration.capacity.units].join('&nbsp;'))
+

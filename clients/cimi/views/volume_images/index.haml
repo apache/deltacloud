@@ -24,12 +24,8 @@
     %li
       %a{ :href => "/cimi/volume_images/#{image.href.split('/').last}"}=image.href.split('/').last
 
-%h3 Collection details
+- details 'VolumeImageCollection details' do
+  - row 'ID', @volume_images.id
+  - row ' Description', @volume_images.description
+  - row 'Created', @volume_images.created
 
-%dl
-  %dt id
-  %dd=@volume_images.id
-  %dt Description
-  %dd=@volume_images.description
-  %dt Created
-  %dd=@volume_images.created

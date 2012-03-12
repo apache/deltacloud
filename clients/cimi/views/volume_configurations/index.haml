@@ -18,7 +18,13 @@
     Volume Configuration entities within a Provider. This entity can be used to
     locate and create Volume Configurations.
 
+%h3 VolumeConfigurationsCollection
 %ul
   - @volume_configurations.volume_configurations.each do |conf|
     %li
       %a{ :href => "/cimi/volume_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
+
+- details 'VolumeConfigurationCollection details' do
+  -row 'ID', @volume_configurations.id
+  -row 'Description', @volume_configurations.description
+  -row 'Created', @volume_configurations.created

@@ -21,23 +21,13 @@
     A Network Configuration entity is the set of configuration values representing
     the information needed to create a Network with certain characteristics.
 
-%dl
-  %dt id
-  %dd
-    %a{ :href => @network_config.id }=@network_config.id
-  %dt Description
-  %dd=@network_config.description
-  %dt Created
-  %dd=@network_config.created
-  %dt Access
-  %dd=@network_config.access
-  %dt Bandwidth Limit
-  %dd=@network_config.bandwidth_limit
-  %dt Traffic Priority
-  %dd=@network_config.traffic_priority
-  %dt Maximum Traffic Delay
-  %dd=@network_config.max_traffic_delay
-  %dt Maximum Traffic Loss
-  %dd=@network_config.max_traffic_loss
-  %dt Maximum Traffic Jitter
-  %dd=@network_config.max_traffic_jitter
+-details 'NetworkConfiguration details' do
+  -row 'id', @network_config.id
+  -row 'Description',@network_config.description
+  -row 'Created',@network_config.created
+  -row 'Access',@network_config.access
+  -row 'Bandwidth Limit',@network_config.bandwidth_limit
+  -row 'Traffic Priority',@network_config.traffic_priority
+  -row 'Maximum Traffic Delay',@network_config.max_traffic_delay
+  -row 'Maximum Traffic Loss',@network_config.max_traffic_loss
+  -row 'Maximum Traffic Jitter',@network_config.max_traffic_jitter
