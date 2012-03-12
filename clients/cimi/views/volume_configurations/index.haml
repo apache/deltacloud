@@ -9,8 +9,8 @@
       VolumeConfigurationCollection
 - content_for :actions do
   %p
-    %a{ :href => "#{@volume_configurations.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@volume_configurations.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@volume_configurations.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume_configurations.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p

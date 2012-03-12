@@ -7,8 +7,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@entry_point.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@entry_point.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@entry_point.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@entry_point.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -25,6 +25,6 @@
         =not_implemented(entity)
 
 - details('Collection details') do
-  - row 'URI', @entry_point.uri
+  - row 'ID', @entry_point.id
   - row 'Description', @entry_point.description
   - row 'Created', @entry_point.created

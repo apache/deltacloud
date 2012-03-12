@@ -10,11 +10,11 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machine_images.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machine_images.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machine_images.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_images.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
-  %p 
+  %p
     A Machine Image Collection entity represents the collection of Machine Image
     entities within a Provider. This entity can be used to locate and create
     Machine Images.
@@ -26,6 +26,6 @@
       %a{ :href => "/cimi/machine_images/#{image.href.split('/').last}"}=image.href.split('/').last
 
 - details('Collection details') do
-  - row 'URI', @machine_images.uri
+  - row 'ID', @machine_images.id
   - row 'Description', @machine_images.description
   - row 'Created', @machine_images.created

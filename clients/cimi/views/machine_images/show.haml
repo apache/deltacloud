@@ -13,8 +13,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machine_image.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machine_image.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machine_image.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_image.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -23,7 +23,7 @@
     Machine Instance
 
 - details 'MachineImage details' do
-  - row 'URI', @machine_image.uri
+  - row 'ID', @machine_image.id
   - row 'Description', @machine_image.description
   - row 'Created', @machine_image.created
   - row 'Image Location', @machine_image.image_location.href

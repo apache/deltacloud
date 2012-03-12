@@ -10,8 +10,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machine_admins.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machine_admins.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machine_admins.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_admins.id}?format=json", :class => 'label warning' } JSON
   %p
     %a{ :href => '#adminModal', :class => 'btn btn-primary', :'data-toggle' => :modal } New Machine Admin
 
@@ -36,7 +36,7 @@
       %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
 
 %blockquote
-  %p 
+  %p
     A Machine Admin Collection entity represents the collection of Machine Admin
     entities within a Provider. This entity can be used to locate and create
     MachineAdmins.
@@ -49,6 +49,6 @@
       %a{ :href => "/cimi/machine_admins/#{conf.href.split('/').last}"}=conf.href.split('/').last
 
 - details 'Collection details' do
-  - row 'URI', @machine_admins.uri
+  - row 'ID', @machine_admins.id
   - row 'Description', @machine_admins.description
   - row 'Created', @machine_admins.created

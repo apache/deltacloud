@@ -13,8 +13,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machine_admin.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machine_admin.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machine_admin.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_admin.id}?format=json", :class => 'label warning' } JSON
   %p
     %form{ :action => "/cimi/machine_admins/#{@machine_admin.name}/delete", :method => :post, :style => 'display:inline'}
       %input{ :type => :hidden, :name => '_method', :value => 'delete'}
@@ -26,7 +26,7 @@
     initial administrative super- user of a newly created Machine
 
 - details 'MachineAdmin Details' do
-  - row 'URI', @machine_admin.uri
+  - row 'ID', @machine_admin.id
   - row 'Description', @machine_admin.description
   - row 'Created', @machine_admin.created
   - row 'Username', boolean_span_for(@machine_admin.username)

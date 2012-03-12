@@ -13,8 +13,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@network_config.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@network_config.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@network_config.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network_config.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -22,9 +22,9 @@
     the information needed to create a Network with certain characteristics.
 
 %dl
-  %dt URI
+  %dt id
   %dd
-    %a{ :href => @network_config.uri }=@network_config.uri
+    %a{ :href => @network_config.id }=@network_config.id
   %dt Description
   %dd=@network_config.description
   %dt Created

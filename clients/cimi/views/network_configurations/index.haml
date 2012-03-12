@@ -9,8 +9,8 @@
       NetworkConfigurationCollection
 - content_for :actions do
   %p
-    %a{ :href => "#{@network_configs.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@network_configs.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@network_configs.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network_configs.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -26,8 +26,8 @@
 %h3 Collection details
 
 %dl
-  %dt URI
-  %dd=@network_configs.uri
+  %dt id
+  %dd=@network_configs.id
   %dt Description
   %dd=@network_configs.description
   %dt Created

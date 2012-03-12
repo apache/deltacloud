@@ -10,8 +10,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@volume_images.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@volume_images.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@volume_images.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume_images.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -27,8 +27,8 @@
 %h3 Collection details
 
 %dl
-  %dt URI
-  %dd=@volume_images.uri
+  %dt id
+  %dd=@volume_images.id
   %dt Description
   %dd=@volume_images.description
   %dt Created

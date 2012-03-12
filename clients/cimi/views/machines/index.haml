@@ -10,10 +10,10 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machines.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machines.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machines.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machines.id}?format=json", :class => 'label warning' } JSON
   %p
-    %a{ :href => '#machineModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Machine 
+    %a{ :href => '#machineModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Machine
 
   %div{ :id => :machineModal, :class => 'modal hide fade' }
     .modal-header
@@ -67,6 +67,6 @@
 
 
 - details('Collection details') do
-  - row 'URI', @machines.uri
+  - row 'ID', @machines.id
   - row 'Description', @machines.description
   - row 'Created', @machines.created

@@ -10,11 +10,11 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machine_configurations.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machine_configurations.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machine_configurations.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_configurations.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
-  %p 
+  %p
     A Machine Configuration Collection entity represents the collection of
     Machine Configuration entities within a Provider. This entity can be used to
     locate and create Machine Configurations.
@@ -26,6 +26,6 @@
       %a{ :href => "/cimi/machine_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
 
 - details('Collection details') do
-  - row 'URI', @machine_configurations.uri
+  - row 'ID', @machine_configurations.id
   - row 'Description', @machine_configurations.description
   - row 'Created', @machine_configurations.created

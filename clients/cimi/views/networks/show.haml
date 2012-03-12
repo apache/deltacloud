@@ -13,8 +13,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@network.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@network.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@network.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -22,9 +22,9 @@
     that represents an abstraction of a layer 2 broadcast domain.
 
 %dl
-  %dt URI
+  %dt id
   %dd
-    %a{ :href => @network.uri }=@network.uri
+    %a{ :href => @network.id }=@network.id
   %dt Description
   %dd=@network.description
   %dt Created

@@ -10,8 +10,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@volumes.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@volumes.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@volumes.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volumes.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -26,7 +26,7 @@
       %a{ :href => "/cimi/volumes/#{volume.href.split('/').last}"}=volume.href.split('/').last
 
 - details 'Collection details' do
-  - row 'URI', @volumes.uri
+  - row 'ID', @volumes.id
   - row 'Description', @volumes.description
   - row 'Created', @volumes.created
 

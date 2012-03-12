@@ -13,8 +13,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@machine_configuration.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machine_configuration.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@machine_configuration.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_configuration.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -24,7 +24,7 @@
     Providers discretion, be created by Consumers.
 
 - details('MachineConfiguration details') do
-  - row 'URI', @machine_configuration.uri
+  - row 'ID', @machine_configuration.id
   - row 'Description', @machine_configuration.description
   - row 'Created', @machine_configuration.created
   - row '# of CPU', @machine_configuration.cpu

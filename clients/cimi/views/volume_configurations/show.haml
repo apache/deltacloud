@@ -13,8 +13,8 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@volume_configuration.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@volume_configuration.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@volume_configuration.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume_configuration.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
@@ -24,9 +24,9 @@
     Providers discretion, be created by Consumers.
 
 %dl
-  %dt URI
+  %dt id
   %dd
-    %a{ :href => @volume_configuration.uri }=@volume_configuration.uri
+    %a{ :href => @volume_configuration.id }=@volume_configuration.id
   %dt Description
   %dd=@volume_configuration.description
   %dt Created

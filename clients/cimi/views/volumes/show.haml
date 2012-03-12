@@ -13,15 +13,15 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@volume.uri}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@volume.uri}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{@volume.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@volume.id}?format=json", :class => 'label warning' } JSON
 
 %blockquote
   %p
     This entity represents a volume Instance
 
 - details 'Volume details' do
-  - row 'URI', @volume.uri
+  - row 'ID', @volume.id
   - row 'Description', @volume.description
   - row 'Created', @volume.created
   - row 'Bootable?', boolean_span_for(@volume.bootable)
