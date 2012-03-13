@@ -16,17 +16,6 @@
 
 module Deltacloud::Validation
 
-  class Failure < Deltacloud::ExceptionHandler::DeltacloudException
-    attr_reader :param
-    def initialize(e, message=nil)
-      message ||= e.message
-      super(400, e.class.name, message, [])
-    end
-    def name
-      param.name if @param
-    end
-  end
-
   class Param
     attr_reader :name, :klass, :type, :options, :description
 
@@ -87,21 +76,25 @@ module Deltacloud::Validation
   def validate(current_driver, all_params, values, credentials)
     all_params.each do |key, p|
       if p.required? and not values[p.name]
-        raise Failure.new(p, "Required parameter #{p.name} not found")
+        raise validation_exception "Required parameter #{p.name} not found"
       end
       next unless values[p.name]
       if p.hwp_property?
         profile = current_driver.hardware_profile(credentials, values['hwp_id'])
-        raise Failure.new(p, "Unknown hardware profile selected #{values['hwp_id']}") unless profile
+        raise validation_exception("Unknown hardware profile selected #{values['hwp_id']}") unless profile
         unless p.valid_hwp_value?(profile, values[p.name])
-          raise Failure.new(p, "Hardware profile property #{p.name} has invalid value #{values[p.name]}")
+          raise validation_exception("Hardware profile property #{p.name} has invalid value #{values[p.name]}")
         end
       else
         if not p.options.empty? and p.valid_value?(values[p.name])
-          raise Failure.new(p, "Parameter #{p.name} has value #{values[p.name]} which is not in #{p.options.join(", ")}")
+          raise validation_exception("Parameter #{p.name} has value #{values[p.name]} which is not in #{p.options.join(", ")}")
         end
       end
     end
+  end
+
+  def validation_exception(message)
+    Deltacloud::ExceptionHandler::ValidationFailure.new(StandardError.new(message))
   end
 
 end

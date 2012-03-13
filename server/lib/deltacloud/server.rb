@@ -1245,7 +1245,9 @@ collection :firewalls do
       params['addresses'] = addresses
       params['groups'] = groups
       if addresses.empty? && groups.empty?
-        raise Deltacloud::Validation::Failure.new(nil, "No sources. Specify at least one source ip_address or group")
+        raise Deltacloud::ExceptionHandler::ValidationFailure.new(
+          StandardError.new("No sources. Specify at least one source ip_address or group")
+        )
       end
       driver.create_firewall_rule(credentials, params)
       @firewall = driver.firewall(credentials, {:id => params[:id]})
