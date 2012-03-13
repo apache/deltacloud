@@ -77,7 +77,10 @@ module Rack
             self[type] = handler
           end
           yield wants
-          @media_type = accepting_formats.to_a.sort { |a,b| a[1]<=>b[1] }.reverse.select do |format, priority|
+          if ENV['API_FRONTEND'] == "cimi"
+            @media_type = (accepting_formats.has_key?(:xml) ? [:xml, accepting_formats[:xml]] : nil)
+          end
+          @media_type ||= accepting_formats.to_a.sort { |a,b| a[1]<=>b[1] }.reverse.select do |format, priority|
             wants.keys.include?(format) == true
           end.first
           if @media_type and @media_type[0]
