@@ -355,10 +355,10 @@ module DeltaCloud
     end
 
     def response_error(response)
-      if response.code.to_s =~ /4(\d{2})/
+      xml = Nokogiri::XML(response.to_s)
+      if (xml/'message').empty? and response.code.to_s =~ /4(\d{2})/
         DeltaCloud::HTTPError.client_error(response.code)
       else
-        xml = Nokogiri::XML(response.to_s)
         opts = {
           :driver => (xml/'backend').first[:driver],
           :provider => (xml/'backend').first[:provider],
