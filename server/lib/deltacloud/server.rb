@@ -85,6 +85,10 @@ error do
   report_error
 end
 
+error Deltacloud::ExceptionHandler::ValidationFailure do
+  report_error
+end
+
 before do
   # Respond with 400, If we don't get a http Host header,
   halt 400, "Unable to find HTTP Host header" if @env['HTTP_HOST'] == nil
