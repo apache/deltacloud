@@ -206,8 +206,9 @@ class RHEVMDriver < Deltacloud::BaseDriver
   private
 
   def new_client(credentials)
-    url, datacenter = api_provider.split(';')
     safely do
+      raise 'No API provider set for this request.' unless api_provider
+      url, datacenter = api_provider.split(';')
       OVIRT::Client.new(credentials.user, credentials.password, url, datacenter)
     end
   end
@@ -348,7 +349,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       status 500
     end
 
-    on /(Bad Request|Parameter name)/ do
+    on /(Bad Request|Parameter name|No API provider)/ do
       status 400
     end
 
