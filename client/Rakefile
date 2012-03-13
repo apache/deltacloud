@@ -49,6 +49,13 @@ if available?('rspec')
   end
 end
 
+desc "Reinstall gem"
+task :reinstall do
+  puts %x{gem uninstall deltacloud-client --all -I -x}
+  puts %x{gem build deltacloud-client.gemspec}
+  puts %x{gem install deltacloud-client-*.gem --local}
+end
+
 desc "Setup Fixtures"
 task 'fixtures' do
   FileUtils.rm_rf( File.dirname( __FILE__ ) + '/specs/data' )
