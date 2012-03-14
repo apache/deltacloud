@@ -37,7 +37,6 @@ filter: haml
         }
         });
 
-
   %body
     #header
       .container
@@ -68,10 +67,10 @@ filter: haml
     document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
   :javascript
     try {
-      var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+      var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
       piwikTracker.trackPageView();
       piwikTracker.enableLinkTracking();
     } catch( err ) {}
   %noscript
     %p
-      %img{ :src => "http://stats.salasaga.org/aeolus/piwik/piwik.php?idsite=1", :style => "border:0", :alt => ""}
+      %img{ :src => "http://stats.salasaga.org/aeolus/piwik/piwik.php?idsite=2", :style => "border:0", :alt => ""}
