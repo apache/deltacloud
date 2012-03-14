@@ -751,7 +751,7 @@
         
         <h3 id="h3_3">RHEV-M Driver</h3>
         
-        <p>The RHEV-M driver supports latest release of <a href="http://www.redhat.com/virtualization/rhev/server/" target="_blank">Red Hat Enterprise Virtualization Manager</a> (3.0 currently).
+        <p>The RHEV-M driver supports latest release of <a target="_blank" href="http://www.redhat.com/virtualization/rhev/server/">Red Hat Enterprise Virtualization Manager</a> (3.0 currently).
         In order to make the driver work with this provider, you need to set an/the
         API_PROVIDER environment variable or use the 'X-Deltacloud-Provider' request
         header to the URL of the RHEV-M REST API entry point. The usual URL looks like:</p>
@@ -764,7 +764,7 @@
         are valid Deltacloud credentials.</p>
         
         <p>Note: In order to make RHEV-M driver work properly, you need to set the RHEV-M
-        <a href="http://markmc.fedorapeople.org/rhevm-api/en-US/html-single/index.html#chap-REST_API_Guide-Data_Centers" target="_blank">Data Center</a> UUID you want to speak with in API_PROVIDER url (see the example
+        <a target="_blank" href="http://markmc.fedorapeople.org/rhevm-api/en-US/html-single/index.html#chap-REST_API_Guide-Data_Centers">Data Center</a> UUID you want to speak with in API_PROVIDER url (see the example
         above). To obtain a list of all Data Centers you can choose from, start Deltacloud API without
         specifying a datacenter in the API_PROVIDER URL and do this request:</p>
         
@@ -777,7 +777,7 @@
         <h3 id="h3_4">VMware vSphere Driver</h3>
         
         <p>For details on how to make the VMware vSphere driver work with Deltacloud API,
-        please refer to <a href="https://www.aeolusproject.org/redmine/projects/aeolus/wiki/VSphere_Setup" target="_blank">vSphere Setup</a> in Aeolus project wiki.</p>
+        please refer to <a target="_blank" href="https://www.aeolusproject.org/redmine/projects/aeolus/wiki/VSphere_Setup">vSphere Setup</a> in Aeolus project wiki.</p>
         
         <p>In order to connect to vSphere, you need to set the API_PROVIDER environment
         variable or use the 'X-Deltacloud-Provider' HTTP header in the request to the vSphere
@@ -853,4 +853,22 @@
       </div>
     </div>
   </body>
+  <script type='text/javascript'>
+    var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.salasaga.org/aeolus/piwik/" : "http://stats.salasaga.org/aeolus/piwik/");
+    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type='text/javascript'>
+    //<![CDATA[
+      try {
+        var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+        piwikTracker.trackPageView();
+        piwikTracker.enableLinkTracking();
+      } catch( err ) {}
+    //]]>
+  </script>
+  <noscript>
+    <p>
+      <img alt='' src='http://stats.salasaga.org/aeolus/piwik/piwik.php?idsite=1' style='border:0' />
+    </p>
+  </noscript>
 </html>
