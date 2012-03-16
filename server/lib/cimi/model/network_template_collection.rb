@@ -13,24 +13,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::NetworkTemplate < CIMI::Model::Base
 
-  href :network_config
+class CIMI::Model::NetworkTemplateCollection < CIMI::Model::Base
 
-  href :routing_group
+  act_as_root_entity :network_template
 
-  array :operations do
-    scalar :rel, :href
+  array :network_templates do
+    scalar :href
   end
 
-  def self.find(id, context)
-    network_templates = []
-    if id==:all
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context})
-    else
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context, :id=>id})
-    end
-    network_templates
+  def self.default(context)
+    self.new(
+      :id => context.network_templates_url,
+      :name => 'default',
+      :created => Time.now,
+      :description => "#{context.driver.name.capitalize} NetworkTemplateCollection",
+      :network_templates => NetworkTemplate.all_uri(context)
+    )
   end
 
 end

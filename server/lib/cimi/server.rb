@@ -574,3 +574,64 @@ global_collection :network_configurations do
   end
 end
 end
+
+global_collection :network_templates do
+
+  description 'Network Template is a set of configuration values for realizing a Network. An instance of Network Template may be used to create multiple Networks'
+
+  operation :index do
+    description 'List all Network Templates in the NetworkTemplateCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      network_templates = NetworkTemplateCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {network_templates.to_xml}
+        format.json {network_templates.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific Network Template'
+    param :id, :string, :required
+    control do
+      network_template = NetworkTemplate.find(params[:id], self)
+      respond_to do |format|
+        format.xml {network_template.to_xml}
+        format.json {network_template.to_json}
+      end
+    end
+  end
+
+end
+
+
+global_collection :routing_groups do
+
+  description 'Routing Groups represent a collection of Networks that route to each other. Providers shall not allow two Networks to be routable to each other unless they are explicitly connected by being part of a common RoutingGroup.'
+
+  operation :index do
+    description 'List all RoutingGroups in the RoutingGroupsCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      routing_groups = RoutingGroupCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {routing_groups.to_xml}
+        format.json {routing_groups.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific RoutingGroup'
+    param :id, :string, :required
+    control do
+      routing_group = RoutingGroup.find(params[:id], self)
+      respond_to do |format|
+        format.xml {routing_group.to_xml}
+        format.json {routing_group.to_json}
+      end
+    end
+  end
+
+end
