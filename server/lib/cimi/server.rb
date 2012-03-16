@@ -635,3 +635,36 @@ global_collection :routing_groups do
   end
 
 end
+
+
+global_collection :routing_group_templates do
+
+  description 'Routing Groups Templates capture the configuration values for realizing a RoutingGroup. A Routing Group Template may be used to create multiple RoutingGroups'
+
+  operation :index do
+    description 'List all RoutingGroupTemplates in the RoutingGroupTemplateCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      routing_group_templates = RoutingGroupTemplateCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {routing_group_templates.to_xml}
+        format.json {routing_group_templates.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific RoutingGroupTemplate'
+    param :id, :string, :required
+    control do
+      routing_group_template = RoutingGroupTemplate.find(params[:id], self)
+      respond_to do |format|
+        format.xml {routing_group_template.to_xml}
+        format.json {routing_group_template.to_json}
+      end
+    end
+  end
+
+end
+
+
