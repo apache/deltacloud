@@ -13,22 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::NetworkTemplate < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_template'
-require 'entities/routing_group'
+  get '/cimi/network_templates/:id' do
+    network_template_xml = get_entity('network_templates', params[:id], credentials)
+    @network_template = CIMI::Model::NetworkTemplate.from_xml(network_template_xml)
+    haml :'network_templates/show'
+  end
+
+  get '/cimi/network_templates' do
+    network_templates_xml = get_entity_collection('network_templates', credentials)
+    @network_templates = CIMI::Model::NetworkTemplateCollection.from_xml(network_templates_xml)
+    haml :'network_templates/index'
+  end
+
+end

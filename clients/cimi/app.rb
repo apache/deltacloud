@@ -30,6 +30,8 @@ module CIMI::Frontend
     use CIMI::Frontend::Volume
     use CIMI::Frontend::Network
     use CIMI::Frontend::NetworkConfiguration
+    use CIMI::Frontend::NetworkTemplate
+    use CIMI::Frontend::RoutingGroup
     use Rack::Session::Cookie
 
     helpers CIMI::Frontend::Helper

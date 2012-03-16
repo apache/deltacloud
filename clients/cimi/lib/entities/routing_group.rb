@@ -13,22 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::RoutingGroup < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_template'
-require 'entities/routing_group'
+  get '/cimi/routing_groups/:id' do
+    routing_group_xml = get_entity('routing_groups', params[:id], credentials)
+    @routing_group = CIMI::Model::RoutingGroup.from_xml(routing_group_xml)
+    haml :'routing_groups/show'
+  end
+
+  get '/cimi/routing_groups' do
+    routing_groups_xml = get_entity_collection('routing_groups', credentials)
+    @routing_groups = CIMI::Model::RoutingGroupCollection.from_xml(routing_groups_xml)
+    haml :'routing_groups/index'
+  end
+
+end
