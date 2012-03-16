@@ -1,0 +1,14 @@
+{ "id": "http://cimi.example.org/vsp_configurations/vspconfig1",
+  "name": "vspconfig1",
+  "description": "a mock vsp configuration",
+  "created": "Fri Mar 16 18:39:41 EET 2012",
+  "bandwidthReservation": 0.5,
+  "trafficPriority": 1,
+  "maxTrafficDelay": 500000,
+  "maxTrafficLoss": 100,
+  "maxTrafficJitter": 100000,
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/vsp_configurations/vspconfig1" },
+    { "rel": "delete", "href": "http://cimi.example.org/vsp_configurations/vspconfig1" }
+  ]
+}
