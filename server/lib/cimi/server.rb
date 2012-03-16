@@ -668,3 +668,32 @@ global_collection :routing_group_templates do
 end
 
 
+global_collection :vsps do
+
+  description 'A VSP represents the connection parameters of a network port'
+
+  operation :index do
+    description 'List all VSPs in the VSPCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      vsps = VSPCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {vsps.to_xml}
+        format.json {vsps.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific VSP'
+    param :id, :string, :required
+    control do
+      vsp = VSP.find(params[:id], self)
+      respond_to do |format|
+        format.xml {vsp.to_xml}
+        format.json {vsp.to_json}
+      end
+    end
+  end
+
+end
