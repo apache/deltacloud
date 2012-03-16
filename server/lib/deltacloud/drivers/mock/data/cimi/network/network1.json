@@ -1,4 +1,4 @@
-{ "uri": "http://cimi.example.org/networks/network1",
+{ "id": "http://cimi.example.org/networks/network1",
   "name": "network1",
   "description": "the first network",
   "created": "Thu Jan 12 15:25:41 EET 2012",

@@ -20,6 +20,7 @@ require 'base64'
 require 'etc'
 require 'deltacloud/base_driver'
 require 'deltacloud/drivers/mock/mock_client'
+require 'deltacloud/drivers/mock/mock_driver_cimi_methods'
 
 module Deltacloud::Drivers::Mock
 
@@ -453,28 +454,6 @@ module Deltacloud::Drivers::Mock
       return false
     end
 
-    def networks(credentials, opts={})
-      check_credentials(credentials)
-      if opts[:id].nil?
-        networks = @client.load_all_cimi(:network).map{|net| CIMI::Model::Network.from_json(net)}
-        networks.map{|net|convert_cimi_mock_urls(:network, net ,opts[:env])}.flatten
-      else
-        network = CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:id]))
-        convert_cimi_mock_urls(:network, network, opts[:env])
-      end
-    end
-
-    def network_configurations(credentials, opts={})
-      check_credentials(credentials)
-      if opts[:id].nil?
-        network_configs = @client.load_all_cimi(:network_configuration).map{|net_config| CIMI::Model::NetworkConfiguration.from_json(net_config)}
-        network_configs.map{|net_config|convert_cimi_mock_urls(:network_configuration, net_config, opts[:env])}.flatten
-      else
-        network_config = CIMI::Model::NetworkConfiguration.from_json(@client.load_cimi(:network_configuration, opts[:id]))
-        convert_cimi_mock_urls(:network_configuration, network_config, opts[:env])
-      end
-    end
-
     private
 
     def check_credentials(credentials)
@@ -509,13 +488,6 @@ module Deltacloud::Drivers::Mock
       @client.store(:storage_volumes, volume)
       @client.store(:instances, instance)
       StorageVolume.new(volume)
-    end
-
-    def convert_cimi_mock_urls(model_name, cimi_object, context)
-      uri=context.send(:"#{model_name}_url", cimi_object.name)
-      cimi_object.id=uri
-      cimi_object.operations.each{|op| op.href=uri}
-      cimi_object
     end
 
     exceptions do

@@ -1,4 +1,4 @@
-{ "uri": "http://cimi.example.org/network_configurations/network_config2",
+{ "id": "http://cimi.example.org/network_configurations/network_config2",
   "name": "network_config2",
   "description": "a network configuration",
   "created": "Fri Mar 9 12:01:53 EET 2012",
