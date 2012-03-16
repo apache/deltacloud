@@ -65,6 +65,17 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    def routing_group_templates(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        routing_group_templates = @client.load_all_cimi(:routing_group_template).map{|rg_templ| CIMI::Model::RoutingGroupTemplate.from_json(rg_templ)}
+        routing_group_templates.map{|rg_templ|convert_cimi_mock_urls(:routing_group_template, rg_templ, opts[:env])}.flatten
+      else
+        routing_group_template = CIMI::Model::RoutingGroupTemplate.from_json(@client.load_cimi(:routing_group_template, opts[:id]))
+        convert_cimi_mock_urls(:routing_group_template, routing_group_template, opts[:env])
+      end
+    end
+
     private
 
     def convert_cimi_mock_urls(model_name, cimi_object, context)

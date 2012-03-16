@@ -1,0 +1,12 @@
+{ "id": "http://cimi.example.org/routing_group_templates/template1",
+  "name": "template1",
+  "description": "A mock routing group template",
+  "created": "Fri Mar 16 16:42:50 EET 2012",
+  "networks": [
+    { "href": "http://cimi.example.org/networks/network1"},
+    { "href": "http://cimi.example.org/networks/network2"}
+  ],
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/routing_group_templates/template1" },
+    { "rel": "delete", "href": "http://cimi.example.org/routing_group_templates/template1" }]
+}
