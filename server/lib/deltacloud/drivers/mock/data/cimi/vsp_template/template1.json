@@ -1,0 +1,10 @@
+{ "id": "http://cimi.example.org/vsp_templates/template1",
+  "name": "template1",
+  "description": "A mock VSP template",
+  "created": "Fri Mar 16 19:26:41 EET 2012",
+  "network": { "href": "http://cimi.example.org/networks/network1"},
+  "vspConfig": { "href": "http://cimi.example.org/vsp_configs/vspconfig1"},
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/vsp_templates/template1" },
+    { "rel": "delete", "href": "http://cimi.example.org/vsp_templates/template1" }]
+}
