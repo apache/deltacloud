@@ -727,3 +727,34 @@ global_collection :vsp_configurations do
   end
 
 end
+
+
+global_collection :vsp_templates do
+
+  description 'The VSP Template is a set of Configuration values for realizing a VSP. A VSP Template may be used to create multiple VSPs'
+
+  operation :index do
+    description 'List all VSPTemplates in the VSPTemplateCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      vsp_templates = VSPTemplateCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {vsp_templates.to_xml}
+        format.json {vsp_templates.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific VSPTemplate'
+    param :id, :string, :required
+    control do
+      vsp_template = VSPTemplate.find(params[:id], self)
+      respond_to do |format|
+        format.xml {vsp_template.to_xml}
+        format.json {vsp_template.to_json}
+      end
+    end
+  end
+
+end
