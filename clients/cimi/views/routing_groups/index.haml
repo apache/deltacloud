@@ -1,0 +1,29 @@
+- @title=@routing_groups.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      RoutingGroupCollection
+- content_for :actions do
+  %p
+    %a{ :href => "#{@routing_groups.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@routing_groups.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    A Routing Group Collection entity represents the collection of Routing Groups
+    within a Provider. This entity can be used to locate and create Routing Groups.
+
+%h3 RoutingGroupCollection
+%ul
+  - @routing_groups.routing_groups.each do |group|
+    %li
+      %a{ :href => "/cimi/routing_groups/#{group.href.split('/').last}"}=group.href.split('/').last
+
+-details 'RoutingGroupCollection details' do
+  -row 'ID', @routing_groups.id
+  -row 'Description', @routing_groups.description
+  -row 'Created', @routing_groups.created

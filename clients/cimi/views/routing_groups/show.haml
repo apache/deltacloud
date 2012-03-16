@@ -1,0 +1,29 @@
+- @title="#{@routing_group.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/routing_groups"} RoutingGroupCollection
+      %span.divider="/"
+    %li.active
+      = @routing_group.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@routing_group.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@routing_group.id}?format=json", :class => 'label warning' } JSON
+%blockquote
+  %p
+    A Routing Group represents a collection of Networks that route to each other.
+
+-details 'RoutingGroup details' do
+  -row 'ID', @routing_group.id
+  -row 'Description',@routing_group.description
+  -row 'Created',@routing_group.created
+
+-details 'RoutingGroup Networks' do
+  -@routing_group.networks.each do |net|
+    -row 'ID', net.href

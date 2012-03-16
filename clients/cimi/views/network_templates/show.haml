@@ -1,0 +1,28 @@
+- @title="#{@network_template.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/network_templates"} NetworkTemplateCollection
+      %span.divider="/"
+    %li.active
+      = @network_template.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@network_template.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network_template.id}?format=json", :class => 'label warning' } JSON
+%blockquote
+  %p
+    The Network Template is a set of configuration values for realizing a Network.
+    An instance of Network Template may be used to create multiple Networks
+
+-details 'NetworkConfiguration details' do
+  -row 'ID', @network_template.id
+  -row 'Description',@network_template.description
+  -row 'Created',@network_template.created
+  -row 'NetworkConfiguration', @network_template.network_config.href
+  -row 'RoutingGroup', @network_template.routing_group.href
