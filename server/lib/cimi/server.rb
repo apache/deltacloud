@@ -697,3 +697,33 @@ global_collection :vsps do
   end
 
 end
+
+global_collection :vsp_configurations do
+
+  description 'A VSP Configuration is the set of configuration values representing the information needed to create a VSP with certain characteristics'
+
+  operation :index do
+    description 'List all VSPConfigurations in the VSPConfigurationCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      vsp_configs = VSPConfigurationCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {vsp_configs.to_xml}
+        format.json {vsp_configs.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific VSPConfiguration'
+    param :id, :string, :required
+    control do
+      vsp_config = VSPConfiguration.find(params[:id], self)
+      respond_to do |format|
+        format.xml {vsp_config.to_xml}
+        format.json {vsp_config.to_json}
+      end
+    end
+  end
+
+end
