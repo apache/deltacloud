@@ -76,6 +76,17 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    def vsps(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        vsps = @client.load_all_cimi(:vsp).map{|vsp| CIMI::Model::VSP.from_json(vsp)}
+        vsps.map{|vsp|convert_cimi_mock_urls(:vsp, vsp, opts[:env])}.flatten
+      else
+        vsp = CIMI::Model::VSP.from_json(@client.load_cimi(:vsp, opts[:id]))
+        convert_cimi_mock_urls(:vsp, vsp, opts[:env])
+      end
+    end
+
     private
 
     def convert_cimi_mock_urls(model_name, cimi_object, context)
