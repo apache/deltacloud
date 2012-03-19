@@ -32,6 +32,7 @@ module CIMI::Frontend
     use CIMI::Frontend::NetworkConfiguration
     use CIMI::Frontend::NetworkTemplate
     use CIMI::Frontend::RoutingGroup
+    use CIMI::Frontend::RoutingGroupTemplate
     use Rack::Session::Cookie
 
     helpers CIMI::Frontend::Helper
