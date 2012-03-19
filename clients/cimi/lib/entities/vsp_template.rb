@@ -13,26 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::VSPTemplate < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_template'
-require 'entities/routing_group'
-require 'entities/routing_group_template'
-require 'entities/vsp'
-require 'entities/vsp_configuration'
-require 'entities/vsp_template'
+  get '/cimi/vsp_templates/:id' do
+    vsp_template_xml = get_entity('vsp_templates', params[:id], credentials)
+    @vsp_template = CIMI::Model::VSPTemplate.from_xml(vsp_template_xml)
+    haml :'vsp_templates/show'
+  end
+
+  get '/cimi/vsp_templates' do
+    vsp_templates_xml = get_entity_collection('vsp_templates', credentials)
+    @vsp_templates = CIMI::Model::VSPTemplateCollection.from_xml(vsp_templates_xml)
+    haml :'vsp_templates/index'
+  end
+
+end

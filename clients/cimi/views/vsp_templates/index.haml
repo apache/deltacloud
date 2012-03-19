@@ -1,0 +1,30 @@
+- @title=@vsp_templates.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      VSPTemplateCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@vsp_templates.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@vsp_templates.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    A VSP Template Collection entity represents the collection of VSP Templates within a Provider.
+    This entity can be used to locate and create VSP Templates.
+
+%h3 VSPTemplateCollection
+%ul
+  - @vsp_templates.vsp_templates.each do |vsp_templ|
+    %li
+      %a{ :href => "/cimi/vsp_templates/#{vsp_templ.href.split('/').last}"}=vsp_templ.href.split('/').last
+
+-details 'VSPTemplateCollection details' do
+  -row 'ID', @vsp_templates.id
+  -row 'Description', @vsp_templates.description
+  -row 'Created', @vsp_templates.created
