@@ -1,7 +1,7 @@
 =header "New firewall rule"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog', :id => "new_rule_form"}
-  %form{ :action => "#{firewall_url(@firewall_name)}/rules", :method => :post}
+  %form{ :action => "#{firewall_url(@firewall_name)}/rules", :method => :post,  :'data-ajax' => 'false'}
     %div{ 'data-role' => :fieldcontain }
       %label{ :for => :name} Protocol:
       %input{ :type => :text, :id => :protocol, :name => :protocol, :value => '', :size => 10 }
