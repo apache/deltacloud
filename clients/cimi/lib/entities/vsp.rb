@@ -1,3 +1,4 @@
+
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -13,24 +14,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::VSP < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_template'
-require 'entities/routing_group'
-require 'entities/routing_group_template'
-require 'entities/vsp'
+  get '/cimi/vsps/:id' do
+    vsp_xml = get_entity('vsps', params[:id], credentials)
+    @vsp = CIMI::Model::VSP.from_xml(vsp_xml)
+    haml :'vsps/show'
+  end
+
+  get '/cimi/vsps' do
+    vsps_xml = get_entity_collection('vsps', credentials)
+    @vsps = CIMI::Model::VSPCollection.from_xml(vsps_xml)
+    haml :'vsps/index'
+  end
+
+end
