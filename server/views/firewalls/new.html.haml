@@ -1,6 +1,6 @@
 %h1 New Firewall
 
-%form{:action => firewalls_url, :method => :post}
+%form{:action => firewalls_url, :method => :post, :'data-ajax' => 'false'}
   %label
     Firewall Name
     %input{:name => 'name', :size => 25}/
