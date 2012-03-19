@@ -1,0 +1,31 @@
+- @title="#{@vsp_config.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/vsp_configurations"} VSPConfigurationCollection
+      %span.divider="/"
+    %li.active
+      = @vsp_config.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@vsp_config.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@vsp_config.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    The set of configuration values representing the information needed to create a VSP with certain characteristics.
+
+-details 'VSPConfiguration details' do
+  -row 'ID', @vsp_config.id
+  -row 'Description', @vsp_config.description
+  -row 'Created', @vsp_config.created
+  -row 'Bandwidth Reservation', @vsp_config.bandwidth_reservation
+  -row 'Traffic Priority', @vsp_config.traffic_priority
+  -row 'Maximum Traffic Delay', @vsp_config.max_traffic_delay
+  -row 'Maximum Traffic Loss', @vsp_config.max_traffic_loss
+  -row 'Maximum Traffic Jitter', @vsp_config.max_traffic_jitter

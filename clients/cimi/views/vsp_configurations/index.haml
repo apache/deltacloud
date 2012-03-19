@@ -1,0 +1,31 @@
+- @title=@vsp_configs.description
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      VSPConfigurationCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@vsp_configs.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@vsp_configs.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    A VSP Configuration Collection entity represents the collection of VSP Configurations within a Provider.
+    This entity can be used to locate and create VSP Configurations
+
+
+%h3 VSPConfigurationCollection
+%ul
+  - @vsp_configs.vsp_configurations.each do |vsp_config|
+    %li
+      %a{ :href => "/cimi/vsp_configurations/#{vsp_config.href.split('/').last}"}=vsp_config.href.split('/').last
+
+-details 'VSPConfigurationCollection details' do
+  -row 'ID', @vsp_configs.id
+  -row 'Description', @vsp_configs.description
+  -row 'Created', @vsp_configs.created
