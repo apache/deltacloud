@@ -69,20 +69,22 @@ describe "storage volumes" do
     end
   end
 
-  it "should return nil for unknown storage volume by ID" do
+  it "should raise exception for unknown storage volume by ID" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_volume = client.storage_volume( 'bogus' )
-      storage_volume.should be_nil
-    end
+    lambda {
+      client.connect do |client|
+        client.storage_volume( 'bogus' )
+      end
+    }.should raise_error(DeltaCloud::HTTPError::NotFound)
   end
 
-  it "should return nil for unknown storage volume by URI" do
+  it "should raise exception for unknown storage volume by URI" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_volume = client.fetch_storage_volume( API_URL + '/storage_volumes/bogus' )
-      storage_volume.should be_nil
-    end
+    lambda {
+      client.connect do |client|
+        client.fetch_storage_volume( API_URL + '/storage_volumes/bogus' )
+      end
+    }.should raise_error(DeltaCloud::HTTPError::NotFound)
   end
 
 

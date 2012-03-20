@@ -62,18 +62,20 @@ describe "storage snapshot" do
 
   it "should return nil for unknown storage volume by ID" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_snapshot = client.storage_snapshot( "bogus" )
-      storage_snapshot.should be_nil
-    end
+    lambda {
+      client.connect do |client|
+        client.storage_snapshot( "bogus" )
+      end
+    }.should raise_error(DeltaCloud::HTTPError::NotFound)
   end
 
   it "should return nil for unknown storage volume by URI" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_snapshot = client.fetch_storage_snapshot( API_URL + '/storage_snapshots/bogus' )
-      storage_snapshot.should be_nil
-    end
+    lambda {
+      client.connect do |client|
+        client.fetch_storage_snapshot( API_URL + '/storage_snapshots/bogus' )
+      end
+    }.should raise_error(DeltaCloud::HTTPError::NotFound)
   end
 
 end
