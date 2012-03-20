@@ -393,13 +393,13 @@ module DeltaCloud
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(:post, conf[:form_data], default_headers.merge(extended_headers)) do |response, request, block|
           response_error(response) unless response_successful? response.code
-          yield response.to_s
+          yield response.to_s if block_given?
         end
       else
         resource = RestClient::Resource.new(conf[:path], :open_timeout => conf[:open_timeout], :timeout => conf[:timeout])
         resource.send(conf[:method], default_headers.merge(extended_headers)) do |response, request, block|
           response_error(response) unless response_successful? response.code
-          yield response.to_s
+          yield response.to_s if block_given?
         end
       end
     end
