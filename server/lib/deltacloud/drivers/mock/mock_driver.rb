@@ -365,7 +365,8 @@ module Deltacloud::Drivers::Mock
     def delete_bucket(credentials, name, opts={})
       check_credentials(credentials)
       bucket = bucket(credentials, {:id => name})
-      raise "BucketNotEmpty" unless (bucket.size == "0")
+      raise 'BucketNotExist' if bucket.nil?
+      raise "BucketNotEmpty" unless (bucket and bucket.size == "0")
       @client.destroy(:buckets, bucket.id)
     end
 
@@ -385,7 +386,7 @@ module Deltacloud::Drivers::Mock
     def blob_data(credentials, bucket_id, blob_id, opts = {})
       check_credentials(credentials)
       if blob = @client.load(:blobs, blob_id)
-        blob[:content].each {|part| yield part}
+        blob[:content].split('').each {|part| yield part}
       end
     end
 
@@ -505,6 +506,10 @@ module Deltacloud::Drivers::Mock
       on /KeyExist/ do
         status 403
         message "Key with same name already exists"
+      end
+
+      on /BucketNotExist/ do
+        status 404
       end
 
       on /CreateImageNotSupported/ do
