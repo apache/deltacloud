@@ -5,7 +5,8 @@
       - haml_tag(attribute, :<) do
         - haml_concat @blob.send(attribute)
   %user_metadata
-    - @blob.user_metadata.each do |k, v|
-      %entry{:key => k}
-        #{cdata v}
+    - if @blob.kind_of? Hash
+      - @blob.user_metadata.each do |k, v|
+        %entry{:key => k}
+          #{cdata v}
   %content{:href => bucket_url(@blob.bucket) + '/' + @blob.id + '/content'}
