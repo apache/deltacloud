@@ -1,12 +1,12 @@
 =header "New bucket"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => buckets_url, :method => :post }
+  %form{ :action => buckets_url, :method => :post, :'data-ajax' => 'false' }
     %label
       Bucket Name:
       %input{ :name => 'name', :size => 250}/
       %br
-    -if driver_has_bucket_location_feature?
+    -if driver_has_feature?(:bucket_location, :buckets)
       %p
         %label
           Location: (optional)

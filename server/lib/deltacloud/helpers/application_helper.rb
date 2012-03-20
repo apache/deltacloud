@@ -21,25 +21,6 @@ module ApplicationHelper
 
   include Deltacloud
 
-  def bread_crumb
-    s = "<ul class='breadcrumb'><li class='first'><a href='#{settings.root_url}'>&#948</a></li>"
-    url = request.path_info.split('?')  #remove extra query string parameters
-    levels = url[0].split('/') #break up url into different levels
-    levels.each_with_index do |level, index|
-      unless level.blank?
-        next if "/#{level}" == settings.root_url
-        if index == levels.size-1 || (level == levels[levels.size-2] && levels[levels.size-1].to_i > 0)
-          s += "<li class='subsequent'>#{level.gsub(/_/, ' ')}</li>\n" unless level.to_i > 0
-        else
-          link = levels.slice(2, index-1).join("/")
-          s += "<li class='subsequent'><a href=\"#{api_url_for(link)}\">#{level.gsub(/_/, ' ')}</a></li>\n"
-        end
-      end
-    end
-    s+="<li class='docs'>#{link_to_documentation}</li>"
-    s+="</ul>"
-  end
-
   def instance_action_method(action)
     action_method(action, :instances)
   end
@@ -49,7 +30,7 @@ module ApplicationHelper
   end
 
   def driver_has_feature?(feature_name, collection_name = :instances)
-    not driver.features(collection_name).select{ |f| f.name.eql?(feature_name) }.empty?
+    driver.features(collection_name).any? { |f| f.name == feature_name }
   end
 
   def driver_has_auth_features?
@@ -57,15 +38,8 @@ module ApplicationHelper
   end
 
   def driver_auth_feature_name
-    return 'key' if driver_has_feature?(:authentication_key)
-    return 'password' if driver_has_feature?(:authentication_password)
-  end
-
-  def driver_has_bucket_location_feature?
-    driver.features(:buckets).each do |feat|
-      return true if feat.name == :bucket_location
-    end
-    false
+    'key' if driver_has_feature?(:authentication_key)
+    'password' if driver_has_feature?(:authentication_password)
   end
 
   def filter_all(model)
@@ -133,7 +107,11 @@ module ApplicationHelper
       return report_error(405)
     end
 
-    @instance = driver.send(:"#{name}_instance", credentials, params[:id])
+    @benchmark = Benchmark.measure do
+      @instance = driver.send(:"#{name}_instance", credentials, params[:id])
+    end
+
+    headers['X-Backend-Runtime'] = @benchmark.real.to_s
 
     if name == :reboot
       status 202
@@ -180,47 +158,22 @@ module ApplicationHelper
   end
 
   def link_to_format(format)
-    return '' unless request.env['REQUEST_URI']
+    return unless request.env['REQUEST_URI']
     uri = request.env['REQUEST_URI']
     return if uri.include?('format=')
-    if uri.include?('?')
-      uri+="&format=#{format}"
-    else
-      uri+="?format=#{format}"
-    end
-    '<a data-ajax="false" data-icon="grid" href="%s">%s</a>' % [uri, "#{format}".upcase]
-  end
-
-  def link_to_documentation
-    return '' unless request.env['REQUEST_URI']
-    uri = request.env['REQUEST_URI'].dup
-    uri.gsub!(settings.root_url,
-              api_url_for(:docs)) unless uri.include?("docs") #i.e. if already serving under /api/docs, leave it be
-    '<a href="%s">[ Documentation ]</a>' % uri
-  end
-
-  def action_url
-    if [:index].include?(@operation.name)
-      api_url_for("#{@collection.name.to_s}")
-    elsif [:show, :stop, :start, :reboot, :attach, :detach].include?(@operation.name)
-      api_url_for("#{@collection.name.to_s}/:id/#{@operation.name}")
-    elsif [:destroy].include?(@operation.name)
-      api_url_for("#{@collection.name.to_s}/:id")
-    else
-      api_url_for("#{@collection.name}/#{@operation.name}")
+    uri += uri.include?('?') ? "&format=#{format}" : "?format=#{format}"
+    capture_haml do
+      haml_tag :a, :href => uri, :'data-ajax' => 'false', :'data-icon' => 'grid' do
+        haml_concat format.to_s.upcase
+      end
     end
   end
 
   def image_for_state(state)
     state_img = "stopped" if (state!='RUNNING' or state!='PENDING')
-    "<img src='/images/#{state.downcase}.png' title='#{state}'/>"
-  end
-
-  def truncate_words(text, length = 10)
-    return nil unless text
-    return text if text.length<=length
-    end_string = "...#{text[(text.length-(length/2))..text.length]}"
-    "#{text[0..(length/2)]}#{end_string}"
+    capture_haml do
+      haml_tag :img, :src => "/images/#{state}" % state.downcase, :title => state
+    end
   end
 
   # Reverse the entrypoints hash for a driver from drivers.yaml; note that

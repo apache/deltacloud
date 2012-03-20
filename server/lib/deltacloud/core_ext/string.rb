@@ -65,4 +65,11 @@ class String
   def upcase_first
     self[0, 1].upcase + self[1..-1]
   end
+
+  def truncate(length = 10)
+    return self if self.length <= length
+    end_string = "...#{self[(self.length-(length/2))..self.length]}"
+    "#{self[0..(length/2)]}#{end_string}"
+  end
+
 end

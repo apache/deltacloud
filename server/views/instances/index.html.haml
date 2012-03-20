@@ -8,7 +8,7 @@
       %li
         %a{ :href => instance_url(instance.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/machine.png'}
-          %h3=truncate_words(instance.id)
+          %h3=instance.id.to_s.truncate
           %p
             %strong=instance.name
           %p=[instance.owner_id, instance.image_id, instance.hardware_profile].join(', ')
