@@ -133,14 +133,23 @@ module ApplicationHelper
       return report_error(405)
     end
 
-    @instance = driver.send(:"#{name}_instance", credentials, params["id"])
+    @instance = driver.send(:"#{name}_instance", credentials, params[:id])
 
-    if name == :destroy or @instance.class!=Instance
+    if name == :reboot
+      status 202
+    end
+
+    if name == :destroy
       respond_to do |format|
         format.xml { return 204 }
         format.json { return 204 }
         format.html { return redirect(instances_url) }
       end
+    end
+
+    if @instance.class != Instance
+      response['Location'] = instance_url(params[:id])
+      halt
     end
 
     respond_to do |format|
