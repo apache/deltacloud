@@ -25,10 +25,6 @@ module DeltacloudUnitTest
       Sinatra::Application
     end
 
-    def test_it_not_require_authentication
-      require_authentication?('/api/realms').should_not == true
-    end
-
     def test_it_returns_realms
       get_auth_url '/api/realms', {}
       (last_xml_response/'realms/realm').length.should > 0

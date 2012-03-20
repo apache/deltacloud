@@ -167,7 +167,7 @@ module DeltacloudUnitTest
         reboot_url = (last_xml_response/'actions/link[@rel="reboot"]').first['href']
         reboot_url.should_not == nil
         post_url reboot_url
-        last_response.status.should == 200
+        last_response.status.should == 202
         instance = Nokogiri::XML(last_response.body)
         test_instance_attributes(instance)
         (instance/'state').text.should == 'RUNNING'
