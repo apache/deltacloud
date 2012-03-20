@@ -363,7 +363,7 @@ module Deltacloud::Drivers::VSphere
         status 500
       end
 
-      on /RbVmomi::Fault/ do
+      on /(RbVmomi::Fault|ToolsUnavailable)/ do
         status 502
       end
 
