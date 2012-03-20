@@ -265,9 +265,13 @@ module DeltaCloud
     def discover_entry_points
       return if discovered?
       request(:get, @api_uri.to_s) do |response|
+        if response.code == 301
+          @api_uri = response.headers[:location]
+          return discover_entry_points
+        end
         api_xml = Nokogiri::XML(response)
-        @driver_name = api_xml.xpath('/api').first['driver']
-        @api_version = api_xml.xpath('/api').first['version']
+        @driver_name = api_xml.xpath('/api').first[:driver]
+        @api_version = api_xml.xpath('/api').first[:version]
 
         api_xml.css("api > link").each do |entry_point|
           rel, href = entry_point['rel'].to_sym, entry_point['href']
