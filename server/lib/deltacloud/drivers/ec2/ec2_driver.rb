@@ -51,7 +51,7 @@ module Deltacloud
 
         define_hardware_profile('t1.micro') do
           cpu                1
-          memory             0.63 * 1024
+          memory             613
           storage            160
           architecture       ['i386','x86_64']
         end
