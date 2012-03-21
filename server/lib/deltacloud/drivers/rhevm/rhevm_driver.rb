@@ -189,6 +189,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       params[:memory] = (opts[:hwp_memory].to_i * 1024 * 1024) if opts[:hwp_memory]
       params[:cores] = opts[:hwp_cpu] if opts[:hwp_cpu]
       params[:user_data] = opts[:user_data].gsub(/\n/,'') if opts[:user_data]
+      params[:fileinject_path] = "deltacloud-user-data.txt"
       convert_instance(client, client.create_vm(params))
     end
   end
