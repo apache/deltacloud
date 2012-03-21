@@ -495,7 +495,7 @@ END
           if @elements
             convert_to_json(:instances, @elements)
           else
-            convert_to_json(:instance, @elements)
+            convert_to_json(:instance, @instance)
           end
         end
         format.html do
