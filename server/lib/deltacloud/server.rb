@@ -862,6 +862,8 @@ collection :buckets do
 
     operation :create do
       description "Create new blob"
+      param :blob_id,  :string,  :required
+      param :blob_data, :hash, :required
       control do
         bucket_id = params[:bucket]
         blob_id = params['blob_id']
@@ -881,6 +883,7 @@ collection :buckets do
         respond_to do |format|
           format.xml { haml :"blobs/show" }
           format.html { haml :"blobs/show"}
+          format.json {convert_to_json(:blob, @blob)}
         end
       end
     end
