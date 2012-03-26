@@ -929,7 +929,8 @@ collection :buckets do
           temp_file.delete
           respond_to do |format|
             format.xml { haml :"blobs/show" }
-            format.html { haml :"blobs/show"}
+            format.html { haml :"blobs/show" }
+            format.json { convert_to_json(:blob, @blob) }
           end
         end
       end
