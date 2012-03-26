@@ -412,7 +412,9 @@ module Deltacloud
           safely do
             s3_bucket = s3_client.bucket(opts['bucket'])
             if(opts[:id])
-              blobs << convert_object(s3_bucket.key(opts[:id], true))
+              s3_key = s3_bucket.key(opts[:id], true)
+              raise "Blob #{opts[:id]} in Bucket #{opts['bucket']} NotFound" unless s3_key.exists?
+              blobs << convert_object(s3_key)
             else
               s3_bucket.keys({}, true).each do |s3_object|
                 blobs << convert_object(s3_object)
@@ -468,6 +470,7 @@ module Deltacloud
           blob_meta = {}
           safely do
             the_blob = s3_client.bucket(opts['bucket']).key(opts[:id], true)
+            raise "Blob #{opts[:id]} in Bucket #{opts['bucket']} NotFound" unless the_blob.exists?
             blob_meta = the_blob.meta_headers
           end
         end
