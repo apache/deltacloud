@@ -110,7 +110,7 @@ class RHEVMDriver < Deltacloud::BaseDriver
       template_name = "#{instance.first.name}-template"
     end
     safely do
-      new_image = client.create_template(opts[:id], :name => (opts[:name] || template_name),
+      new_image = client.create_template(:vm => opts[:id], :name => (opts[:name] || template_name),
                                          :description => opts[:description] || template_name)
       convert_image(client, new_image)
     end
