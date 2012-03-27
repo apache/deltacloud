@@ -25,6 +25,14 @@ module CIMI::Model
 
   end
 
+  class BadRequest < StandardError
+    attr_accessor :code
+    def initialize(msg="")
+      super(msg)
+      self.code=400
+    end
+  end
+
   class NotImplemented < StandardError
     attr_accessor :code
 

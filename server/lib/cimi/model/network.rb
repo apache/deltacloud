@@ -51,19 +51,46 @@ class CIMI::Model::Network < CIMI::Model::Base
     networks
   end
 
-  def self.create_from_xml(request_body, context)
-#FIXME
-  end
-
-  def self.create_from_json(request_body,context)
-#FIXME
+  def self.create(request_body, context, type)
+    input = (type == :xml)? XmlSimple.xml_in(request_body, 'ForceArray'=>false) : JSON.parse(request_body)
+    if input["networkTemplate"]["href"] #template by reference
+      network_config, routing_group = get_by_reference(input, context)
+    else
+      if input["networkTemplate"]["networkConfig"]["href"] # configuration by reference
+        network_config = NetworkConfiguration.find(context.href_id(input["networkTemplate"]["networkConfig"]["href"],:network_configurations), context)
+      else #configuration by value
+        network_config = get_by_value(request_body, type)
+      end
+      routing_group = RoutingGroup.find(context.href_id(input["networkTemplate"]["routingGroup"]["href"], :routing_groups), context)
+    end
+    params = {:network_config => network_config, :routing_group => routing_group, :name=>input["name"], :description=>input["description"], :env=>context}
+    raise CIMI::Model::BadRequest.new("Bad request - missing required parameters. Client sent: #{request_body} which produced #{params.inspect}")  if params.has_value?(nil)
+    context.driver.create_network(context.credentials, params)
   end
 
   def self.delete!(id, context)
-  #FIXME
   end
 
 #FIXME
 #actions - needs method(s) to facilitate stop/start/suspend/delete
+
+  private
+
+  def self.get_by_reference(input, context)
+    network_template = NetworkTemplate.find(context.href_id(input["networkTemplate"]["href"], :network_templates), context)
+    network_config = NetworkConfiguration.find(context.href_id(network_template.network_config.href, :network_configurations), context)
+    routing_group = RoutingGroup.find(context.href_id(network_template.routing_group.href, :routing_groups), context)
+    return network_config, routing_group
+  end
+
+  def self.get_by_value(request_body, type)
+    if type == :xml
+      xml_arrays = XmlSimple.xml_in(request_body)
+      network_config = NetworkConfiguration.from_xml(XmlSimple.xml_out(xml_arrays["networkTemplate"][0]["networkConfig"][0]))
+    else
+     json = JSON.parse(request_body)
+      network_config = NetworkConfiguration.from_json(JSON.generate(json["networkTemplate"]["networkConfig"]))
+    end
+  end
 
 end

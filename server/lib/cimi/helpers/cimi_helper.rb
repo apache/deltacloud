@@ -20,6 +20,12 @@ module CIMIHelper
     status code
   end
 
+
+  def href_id(href, entity)
+    split_on = self.send(:"#{entity.to_s}_url")
+    href.split("#{split_on}/").last
+  end
+
 end
 
 helpers CIMIHelper

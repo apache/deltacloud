@@ -523,10 +523,10 @@ global_collection :networks do
   operation :create do
     description "Create a new Network"
     control do
-      if request.content_type.end_with("+json")
-        network = Network.create_from_json(request.body.read, self)
+      if request.content_type.end_with?("+json")
+        network = Network.create(request.body.read, self, :json)
       else
-        network = Network.create_from_xml(request.body.read, self)
+        network = Network.create(request.body.read, self, :xml)
       end
       respond_to do |format|
         format.xml { network.to_xml}
