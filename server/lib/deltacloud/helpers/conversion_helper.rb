@@ -31,6 +31,9 @@ module ConversionHelper
           data.merge!({ :href => self.send(:"bucket_url", "#{data[:bucket]}/#{data[:id]}" ) })
         else
           data.merge!({ :href => self.send(:"#{type}_url", data[:id]) })
+          if data.has_key?(:hardware_profiles)
+            data[:hardware_profiles] = data[:hardware_profiles].inject([]){|res, hwp| res << {hwp.name => {:href => self.send(:"hardware_profile_url", hwp.name)}}; res }
+          end
         end
       end
       return { :"#{type}" => data }.to_json
