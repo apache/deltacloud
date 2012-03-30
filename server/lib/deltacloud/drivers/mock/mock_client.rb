@@ -96,6 +96,11 @@ module Deltacloud::Drivers::Mock
       File::open(cimi_file(collection, obj["name"]), "w") { |f| f.write(JSON.generate(obj)) }
     end
 
+    def destroy_cimi(collection, id)
+      fname = cimi_file(collection, id)
+      FileUtils.rm(fname) if File::exists?(fname)
+    end
+
     def load_all_cimi(model_name)
         model_files = Dir[File::join(cimi_dir(model_name), "*.json")]
         model_files.map{|f| File.read(f)}

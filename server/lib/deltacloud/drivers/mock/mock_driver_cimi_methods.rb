@@ -53,6 +53,11 @@ module Deltacloud::Drivers::Mock
       CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:name]))
     end
 
+    def delete_network(credentials, id)
+      check_credentials(credentials)
+      @client.destroy_cimi(:network, id)
+    end
+
     def network_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?

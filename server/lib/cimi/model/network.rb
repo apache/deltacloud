@@ -69,6 +69,7 @@ class CIMI::Model::Network < CIMI::Model::Base
   end
 
   def self.delete!(id, context)
+    context.driver.delete_network(context.credentials, id)
   end
 
 #FIXME
