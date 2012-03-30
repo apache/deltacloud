@@ -152,14 +152,14 @@ class RHEVMDriver < Deltacloud::BaseDriver
   def stop_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      raise "ERROR: Operation start failed" unless client.vm_action(id, :shutdown)
+      raise "ERROR: Operation stop failed" unless client.vm_action(id, :shutdown)
     end
   end
 
   def destroy_instance(credentials, id)
     client = new_client(credentials)
     safely do
-      raise "ERROR: Operation start failed" unless client.destroy_vm(id)
+      raise "ERROR: Operation destroy failed" unless client.destroy_vm(id)
     end
   end
 
