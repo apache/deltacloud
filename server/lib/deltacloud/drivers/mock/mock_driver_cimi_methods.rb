@@ -32,6 +32,27 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    def create_network(credentials, opts={})
+      check_credentials(credentials)
+      id = "#{opts[:env].send("networks_url")}/#{opts[:name]}"
+      network = { "id"=> id,
+                  "name" => opts[:name],
+                  "description" => opts[:description],
+                  "created" => Time.now,
+                  "state" => "STARTED",
+                  "access" => opts[:network_config].access,
+                  "bandwithLimit" => opts[:network_config].bandwidth_limit,
+                  "trafficPriority" => opts[:network_config].traffic_priority,
+                  "maxTrafficDelay" => opts[:network_config].max_traffic_delay,
+                  "maxTrafficLoss" =>opts[:network_config].max_traffic_loss,
+                  "maxTrafficJitter" =>opts[:network_config].max_traffic_jitter,
+                  "routingGroup"=> { "href" => opts[:routing_group].id },
+                  "operations" => [{"rel"=>"edit", "href"=> id},
+                                   {"rel"=>"delete", "href"=> id}]    }
+      @client.store_cimi(:network, network)
+      CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:name]))
+    end
+
     def network_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
