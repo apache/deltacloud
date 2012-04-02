@@ -72,8 +72,17 @@ class CIMI::Model::Network < CIMI::Model::Base
     context.driver.delete_network(context.credentials, id)
   end
 
-#FIXME
-#actions - needs method(s) to facilitate stop/start/suspend/delete
+  def perform(action, context, &block)
+    begin
+      if context.driver.send(:"#{action.name}_network", context.credentials, self.name)
+        block.callback :success
+      else
+        raise "Operation #{action.name} failed to execute on the Network #{self.name} "
+      end
+    rescue => e
+      block.callback :failure, e.message
+    end
+  end
 
   private
 

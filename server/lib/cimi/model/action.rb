@@ -18,7 +18,7 @@ class CIMI::Model::Action < CIMI::Model::Base
   text :action
 
   def name
-    action.split('/').last.intern
+    action.split('/').last.strip.intern
   end
 
 end

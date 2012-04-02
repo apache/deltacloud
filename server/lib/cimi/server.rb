@@ -523,7 +523,7 @@ global_collection :networks do
   operation :create do
     description "Create a new Network"
     control do
-      if request.content_type.end_with?("+json")
+      if request.content_type.end_with?("json")
         network = Network.create(request.body.read, self, :json)
       else
         network = Network.create(request.body.read, self, :xml)
@@ -541,6 +541,60 @@ global_collection :networks do
     control do
       Network.delete!(params[:id], self)
       no_content_with_status(200)
+    end
+  end
+
+  operation :start, :method => :post, :member => true do
+    description "Start specific network."
+    param :id,          :string,    :required
+    control do
+      network = Network.find(params[:id], self)
+      report_error(404) unless network
+      if request.content_type.end_with?("json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      network.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
+  operation :stop, :method => :post, :member => true do
+    description "Stop specific network."
+    param :id,          :string,    :required
+    control do
+      network = Network.find(params[:id], self)
+      report_error(404) unless network
+      if request.content_type.end_with?("json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      network.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
+  operation :suspend, :method => :post, :member => true do
+    description "Suspend specific network."
+    param :id,          :string,    :required
+    control do
+      network = Network.find(params[:id], self)
+      report_error(404) unless network
+      if request.content_type.end_with?("json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      network.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
     end
   end
 
