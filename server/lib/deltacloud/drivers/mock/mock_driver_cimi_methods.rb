@@ -35,7 +35,7 @@ module Deltacloud::Drivers::Mock
     def create_network(credentials, opts={})
       check_credentials(credentials)
       id = "#{opts[:env].send("networks_url")}/#{opts[:name]}"
-      network = { "id"=> id,
+      net_hsh = { "id"=> id,
                   "name" => opts[:name],
                   "description" => opts[:description],
                   "created" => Time.now,
@@ -49,13 +49,30 @@ module Deltacloud::Drivers::Mock
                   "routingGroup"=> { "href" => opts[:routing_group].id },
                   "operations" => [{"rel"=>"edit", "href"=> id},
                                    {"rel"=>"delete", "href"=> id}]    }
+      network = CIMI::Model::Network.from_json(JSON.generate(net_hsh))
+
       @client.store_cimi(:network, network)
-      CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:name]))
+      network
     end
 
     def delete_network(credentials, id)
       check_credentials(credentials)
       @client.destroy_cimi(:network, id)
+    end
+
+    def start_network(credentials, id)
+      check_credentials(credentials)
+      update_network_state(id, "STARTED")
+    end
+
+    def stop_network(credentials, id)
+      check_credentials(credentials)
+      update_network_state(id, "STOPPED")
+    end
+
+    def suspend_network(credentials, id)
+      check_credentials(credentials)
+      update_network_state(id, "SUSPENDED")
     end
 
     def network_configurations(credentials, opts={})
@@ -164,6 +181,13 @@ module Deltacloud::Drivers::Mock
       else
         struct.href = context.send(:"#{cimi_name}_url", obj_name)
       end
+    end
+
+    def update_network_state(id, new_state)
+      network = CIMI::Model::Network.from_json(@client.load_cimi(:network, id))
+      network.state = new_state
+      @client.store_cimi(:network, network)
+      network
     end
 
   end

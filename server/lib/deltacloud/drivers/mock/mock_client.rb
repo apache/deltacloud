@@ -92,8 +92,8 @@ module Deltacloud::Drivers::Mock
     end
 
     def store_cimi(collection, obj)
-      raise "Why no obj[\"name\"] ?" unless obj["name"]
-      File::open(cimi_file(collection, obj["name"]), "w") { |f| f.write(JSON.generate(obj)) }
+      raise "Why no obj.name?" unless obj.name
+      File::open(cimi_file(collection, obj.name), "w") { |f| f.write(obj.to_json) }
     end
 
     def destroy_cimi(collection, id)
