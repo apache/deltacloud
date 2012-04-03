@@ -25,14 +25,15 @@ module OpenstackTest
         (image/'architecture').should_not == nil
         (image/'architecture').should_not == ''
         (image/'state').text.should == 'ACTIVE'
-        (image/'owner_id').text.should == ENV['API_USER']
+        ENV['API_USER'].include?((image/'owner_id').text).should == true
         (image/'actions/link').length.should == 1
         (image/'actions/link').first[:rel].should == 'create_instance'
       end
+      @@image_id = ((last_xml_response/'images/image').first)[:id]
     end
 
     def test_03_it_returns_single_image
-      get_auth_url '/api;driver=openstack/images/1'
+      get_auth_url "/api;driver=openstack/images/#{@@image_id}"
       (last_xml_response/'image').length.should == 1
     end
 

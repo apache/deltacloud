@@ -11,35 +11,43 @@ module OpenstackTest
     end
 
     def test_01_01_it_can_create_instance_without_hardware_profile
+      get_auth_url '/api;driver=openstack/images'
+      @@image_id = ((last_xml_response/'images/image').first)[:id]
       params = {
-        :image_id => '4',
+        :image_id => @@image_id,
         :'api[driver]' => 'openstack',
       }
-      post_url '/api/instances', params
+      uri = '/api/instances'
+      vcr_cassette = stable_vcr_cassette_name('post', uri, params)
+      post_url uri, params, {'vcr_cassette'=>vcr_cassette}
       last_response.status.should == 201 # Created
       @@instance = last_xml_response
       (@@instance/'instance').length.should > 0
       (@@instance/'instance/name').first.text.should_not == nil
       (@@instance/'instance/name').first.text.should_not == nil
       (@@instance/'instance/owner_id').first.text.should_not == ''
-      (@@instance/'instance/owner_id').first.text.should == ENV['API_USER']
+      ENV['API_USER'].include?((@@instance/'instance/owner_id').first.text).should == true
       (@@instance/'instance/state').first.text.should == 'PENDING'
     end
 
     def test_01_02_it_can_create_instance_with_hardware_profile
+      get_auth_url '/api;driver=openstack/hardware_profiles'
+      @@hwp_id = ((last_xml_response/'hardware_profiles/hardware_profile').first)[:id]
       params = {
-        :image_id => '4',
-        :hwp_id => '2',
+        :image_id => @@image_id,
+        :hwp_id => @@hwp_id,
         :'api[driver]' => 'openstack',
       }
-      post_url '/api/instances', params
+      uri = '/api/instances'
+      vcr_cassette = stable_vcr_cassette_name('post', uri, params)
+      post_url uri, params, {'vcr_cassette'=>vcr_cassette}
       last_response.status.should == 201 # Created
       @@instance2 = last_xml_response
       (@@instance2/'instance').length.should > 0
       (@@instance2/'instance/name').first.text.should_not == nil
       (@@instance2/'instance/name').first.text.should_not == nil
       (@@instance2/'instance/owner_id').first.text.should_not == ''
-      (@@instance2/'instance/owner_id').first.text.should == ENV['API_USER']
+      ENV['API_USER'].include?((@@instance2/'instance/owner_id').first.text).should == true
       (@@instance2/'instance/state').first.text.should == 'PENDING'
     end
 
@@ -58,6 +66,7 @@ module OpenstackTest
       (@@instance2/'instance/authentication/login/password').first.text.should_not == nil
       (@@instance2/'instance/authentication/login/password').first.text.should_not == ''
     end
+
 =begin
     TODO: Disabled since our testing setup doesn't return IP addresses yet ;-)
     def test_03_01_created_instance_has_correct_addresses
@@ -75,7 +84,7 @@ module OpenstackTest
 
     def test_03_02_created_instance_has_correct_hardware_profile
       (@@instance2/'instance/hardware_profile').length.should == 1
-      (@@instance2/'instance/hardware_profile').first[:id].should == "2"
+      (@@instance2/'instance/hardware_profile').first[:id].should == @@hwp_id
       (@@instance2/'instance/hardware_profile').first[:href].should_not == nil
     end
 
@@ -94,7 +103,6 @@ module OpenstackTest
       (last_xml_response/'instance/actions/link[@rel="reboot"]').first.should_not == nil
       (last_xml_response/'instance/actions/link[@rel="stop"]').first.should_not == nil
       (last_xml_response/'instance/actions/link[@rel="create_image"]').first.should_not == nil
-      (last_xml_response/'instance/actions/link[@rel="run"]').first.should_not == nil
     end
 
     def test_04_02_created_instance_goes_to_running_state
@@ -112,7 +120,6 @@ module OpenstackTest
       (last_xml_response/'instance/actions/link[@rel="reboot"]').first.should_not == nil
       (last_xml_response/'instance/actions/link[@rel="stop"]').first.should_not == nil
       (last_xml_response/'instance/actions/link[@rel="create_image"]').first.should_not == nil
-      (last_xml_response/'instance/actions/link[@rel="run"]').first.should_not == nil
     end
 
     def test_05_01_created_instance_can_be_rebooted
@@ -120,7 +127,7 @@ module OpenstackTest
         :'api[driver]' => 'openstack',
       }
       post_url "/api/instances/#{(@@instance/'instance').first[:id]}/reboot", params
-      last_response.status.should == 200
+      last_response.status.should == 202
       20.times do |tick|
         get_auth_url "/api;driver=openstack/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
@@ -130,7 +137,31 @@ module OpenstackTest
       end
     end
 
+    def test_05_02_created_instance_can_be_rebooted
+      params = {
+        :'api[driver]' => 'openstack',
+      }
+      post_url "/api/instances/#{(@@instance2/'instance').first[:id]}/reboot", params
+      last_response.status.should == 202
+      20.times do |tick|
+        get_auth_url "/api;driver=openstack/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
+        last_response.status.should_not == 500
+        state = (last_xml_response/'instance/state').first.text
+        break if state=='RUNNING'
+        sleep(5)
+      end
+    end
+
     def test_06_01_created_instance_can_be_destroyed
+      #first make sure we recovered from the reboot
+      20.times do |tick|
+        get_auth_url "/api;driver=openstack/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
+        last_response.status.should_not == 500
+        state = (last_xml_response/'instance/state').first.text
+        break if state=='RUNNING'
+        sleep(5)
+      end
+      #now destroy
       params = {
         :'api[driver]' => 'openstack',
       }
@@ -146,10 +177,19 @@ module OpenstackTest
     end
 
     def test_06_02_created_instance_can_be_destroyed
+      #first make sure we recovered from the reboot
+      20.times do |tick|
+        get_auth_url "/api;driver=openstack/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
+        last_response.status.should_not == 500
+        state = (last_xml_response/'instance/state').first.text
+        break if state=='RUNNING'
+        sleep(5)
+      end
+      #now destroy
       params = {
         :'api[driver]' => 'openstack',
       }
-      post_url "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params, authenticate
+      post_url "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params
       last_response.status.should == 200
       20.times do |tick|
         get_auth_url "/api;driver=openstack/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}

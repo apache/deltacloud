@@ -1,8 +1,8 @@
 ENV.delete 'API_VERBOSE'
 ENV['API_DRIVER']   = "openstack"
-ENV['API_USER']     = 'mfojtik'
-ENV['API_PASSWORD'] = 'test'
-ENV['API_PROVIDER'] = 'http://mfojtik-2.brq.redhat.com:8774/auth/1.1'
+ENV['API_USER']     = 'foo@bar.com+foo@bar.com-default-tenant'
+ENV['API_PASSWORD'] = 'Not_a_real_password!1'
+ENV['API_PROVIDER'] = 'https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/'
 
 require 'vcr'
 DeltacloudTestCommon::record!
