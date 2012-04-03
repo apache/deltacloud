@@ -21,7 +21,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Tue, 03 Apr 2012 11:46:25 GMT
+      - Tue, 03 Apr 2012 11:51:58 GMT
       content-length: 
       - "3683"
       content-type: 
@@ -29,7 +29,7 @@
     body: |-
       {"access": {
         "token": {
-          "expires": "2012-04-03T23:46:25.357Z",
+          "expires": "2012-04-03T23:51:59.005Z",
           "id": "HPAuth_4f7ab57ce4b0dfd6b763ca55",
           "tenant": {
             "id": "46871569847393",
@@ -150,7 +150,7 @@
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com:443/v1.1/46871569847393/flavors/detail
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com:443/v1.1/46871569847393/servers/71940
     body: 
     headers: 
       x-auth-token: 
@@ -159,16 +159,20 @@
       - OpenStack::Compute Ruby API 1.1.7
       accept: 
       - application/json
+      content-type: 
+      - application/json
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
-      code: 200
-      message: OK
+      code: 404
+      message: Not Found
     headers: 
       date: 
-      - Tue, 03 Apr 2012 11:46:34 GMT
+      - Tue, 03 Apr 2012 11:52:00 GMT
+      nncoection: 
+      - close
       content-length: 
-      - "2130"
+      - "78"
       content-type: 
       - application/json; charset=UTF-8
-    body: "{\"flavors\": [{\"rxtx_quota\": 0, \"name\": \"standard.xsmall\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/flavors/100\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/100\", \"rel\": \"bookmark\"}], \"ram\": 1024, \"vcpus\": 1, \"rxtx_cap\": 0, \"swap\": 0, \"disk\": 30, \"id\": 100}, {\"rxtx_quota\": 0, \"name\": \"standard.small\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/flavors/101\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/101\", \"rel\": \"bookmark\"}], \"ram\": 2048, \"vcpus\": 2, \"rxtx_cap\": 0, \"swap\": 0, \"disk\": 60, \"id\": 101}, {\"rxtx_quota\": 0, \"name\": \"standard.2xlarge\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/flavors/105\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/105\", \"rel\": \"bookmark\"}], \"ram\": 32768, \"vcpus\": 8, \"rxtx_cap\": 0, \"swap\": 0, \"disk\": 960, \"id\": 105}, {\"rxtx_quota\": 0, \"name\": \"standard.large\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/flavors/103\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/103\", \"rel\": \"bookmark\"}], \"ram\": 8192, \"vcpus\": 4, \"rxtx_cap\": 0, \"swap\": 0, \"disk\": 240, \"id\": 103}, {\"rxtx_quota\": 0, \"name\": \"standard.medium\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/flavors/102\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/102\", \"rel\": \"bookmark\"}], \"ram\": 4096, \"vcpus\": 2, \"rxtx_cap\": 0, \"swap\": 0, \"disk\": 120, \"id\": 102}, {\"rxtx_quota\": 0, \"name\": \"standard.xlarge\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/flavors/104\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/104\", \"rel\": \"bookmark\"}], \"ram\": 16384, \"vcpus\": 4, \"rxtx_cap\": 0, \"swap\": 0, \"disk\": 480, \"id\": 104}]}"
+    body: "{\"itemNotFound\": {\"message\": \"The resource could not be found.\", \"code\": 404}}"
     http_version: "1.1"

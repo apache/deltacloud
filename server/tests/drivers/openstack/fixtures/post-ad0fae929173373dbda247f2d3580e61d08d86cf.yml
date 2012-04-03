@@ -21,7 +21,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Tue, 03 Apr 2012 11:46:47 GMT
+      - Tue, 03 Apr 2012 11:47:27 GMT
       content-length: 
       - "3683"
       content-type: 
@@ -29,7 +29,7 @@
     body: |-
       {"access": {
         "token": {
-          "expires": "2012-04-03T23:46:47.206Z",
+          "expires": "2012-04-03T23:47:27.272Z",
           "id": "HPAuth_4f7ab57ce4b0dfd6b763ca55",
           "tenant": {
             "id": "46871569847393",
@@ -169,7 +169,7 @@
       server: 
       - Apache-Coyote/1.1
       date: 
-      - Tue, 03 Apr 2012 11:46:48 GMT
+      - Tue, 03 Apr 2012 11:47:28 GMT
       content-length: 
       - "3683"
       content-type: 
@@ -177,7 +177,7 @@
     body: |-
       {"access": {
         "token": {
-          "expires": "2012-04-03T23:46:48.819Z",
+          "expires": "2012-04-03T23:47:28.893Z",
           "id": "HPAuth_4f7ab57ce4b0dfd6b763ca55",
           "tenant": {
             "id": "46871569847393",
@@ -313,7 +313,7 @@
       message: OK
     headers: 
       date: 
-      - Tue, 03 Apr 2012 11:46:59 GMT
+      - Tue, 03 Apr 2012 11:47:38 GMT
       content-length: 
       - "2130"
       content-type: 
@@ -322,8 +322,35 @@
     http_version: "1.1"
 - !ruby/struct:VCR::HTTPInteraction 
   request: !ruby/struct:VCR::Request 
+    method: :post
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com:443/v1.1/46871569847393/servers
+    body: "{\"server\":{\"personality\":null,\"imageRef\":\"417\",\"flavorRef\":\"100\",\"name\":\"Tue Apr 03 14:47:27 +0300 2012\"}}"
+    headers: 
+      x-auth-token: 
+      - HPAuth_4f7ab57ce4b0dfd6b763ca55
+      user-agent: 
+      - OpenStack::Compute Ruby API 1.1.7
+      accept: 
+      - application/json
+      content-type: 
+      - application/json
+  response: !ruby/struct:VCR::Response 
+    status: !ruby/struct:VCR::ResponseStatus 
+      code: 202
+      message: Accepted
+    headers: 
+      date: 
+      - Tue, 03 Apr 2012 11:47:44 GMT
+      content-length: 
+      - "956"
+      content-type: 
+      - application/json; charset=UTF-8
+    body: "{\"server\": {\"status\": \"BUILD(scheduling)\", \"updated\": \"2012-04-03T11:47:44Z\", \"hostId\": \"\", \"user_id\": \"90338821550656\", \"name\": \"Tue Apr 03 14:47:27 +0300 2012\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/servers/71940\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/servers/71940\", \"rel\": \"bookmark\"}], \"addresses\": {}, \"tenant_id\": \"46871569847393\", \"image\": {\"id\": \"417\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/417\", \"rel\": \"bookmark\"}]}, \"created\": \"2012-04-03T11:47:43Z\", \"uuid\": \"2c84201d-1aaf-4f10-a9a7-e4a755de1068\", \"accessIPv4\": \"\", \"accessIPv6\": \"\", \"key_name\": null, \"adminPass\": \"UoZE5eDfaEE3fcke\", \"flavor\": {\"id\": \"100\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/100\", \"rel\": \"bookmark\"}]}, \"config_drive\": \"\", \"id\": 71940, \"metadata\": {}}}"
+    http_version: "1.1"
+- !ruby/struct:VCR::HTTPInteraction 
+  request: !ruby/struct:VCR::Request 
     method: :get
-    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com:443/v1.1/46871569847393/images/detail
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com:443/v1.1/46871569847393/servers/71940
     body: 
     headers: 
       x-auth-token: 
@@ -332,16 +359,18 @@
       - OpenStack::Compute Ruby API 1.1.7
       accept: 
       - application/json
+      content-type: 
+      - application/json
   response: !ruby/struct:VCR::Response 
     status: !ruby/struct:VCR::ResponseStatus 
       code: 200
       message: OK
     headers: 
       date: 
-      - Tue, 03 Apr 2012 11:47:01 GMT
+      - Tue, 03 Apr 2012 11:47:44 GMT
       content-length: 
-      - "10881"
+      - "979"
       content-type: 
       - application/json; charset=UTF-8
-    body: "{\"images\": [{\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:58:10Z\", \"name\": \"Debian Squeeze 6.0.3 Server 64-bit 20120123\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/417\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/417\", \"rel\": \"bookmark\"}], \"created\": \"2012-02-21T14:15:52Z\", \"progress\": 100, \"id\": \"417\", \"metadata\": {\"hp_image_type\": \"machine\", \"image_location\": \"local\", \"image_state\": \"available\", \"project_id\": \"None\", \"hp_md_version\": \"1\", \"kernel_id\": \"415\", \"min_ram\": 0, \"ramdisk_id\": \"416\", \"hp_image_id\": \"c89dee3bca7a62103f7d88d2a02f4dc8\", \"owner\": null, \"hp_image_builddate\": \"20120123\", \"architecture\": \"amd64\", \"min_disk\": 0, \"hp_image_version\": \"1hp1.1\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:58:04Z\", \"name\": \"Debian Squeeze 6.0.3 Server 64-bit 20120123 (Ramdisk)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/416\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/416\", \"rel\": \"bookmark\"}], \"created\": \"2012-02-21T14:15:50Z\", \"progress\": 100, \"id\": \"416\", \"metadata\": {\"hp_image_type\": \"ramdisk\", \"image_location\": \"local\", \"image_state\": \"available\", \"project_id\": \"None\", \"hp_md_version\": \"1\", \"min_ram\": 0, \"hp_image_id\": \"c89dee3bca7a62103f7d88d2a02f4dc8\", \"owner\": null, \"hp_image_builddate\": \"20120123\", \"architecture\": \"amd64\", \"min_disk\": 0, \"hp_image_version\": \"1hp1.1\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:57:58Z\", \"name\": \"Debian Squeeze 6.0.3 Server 64-bit 20120123 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/415\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/415\", \"rel\": \"bookmark\"}], \"created\": \"2012-02-21T14:15:48Z\", \"progress\": 100, \"id\": \"415\", \"metadata\": {\"hp_image_type\": \"kernel\", \"image_location\": \"local\", \"image_state\": \"available\", \"project_id\": \"None\", \"hp_md_version\": \"1\", \"min_ram\": 0, \"hp_image_id\": \"c89dee3bca7a62103f7d88d2a02f4dc8\", \"owner\": null, \"hp_image_builddate\": \"20120123\", \"architecture\": \"amd64\", \"min_disk\": 0, \"hp_image_version\": \"1hp1.1\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:57:48Z\", \"name\": \"CentOS 6.2 Server 64-bit 20120125\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/414\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/414\", \"rel\": \"bookmark\"}], \"created\": \"2012-02-21T14:08:42Z\", \"progress\": 100, \"id\": \"414\", \"metadata\": {\"hp_image_type\": \"machine\", \"image_location\": \"local\", \"image_state\": \"available\", \"project_id\": \"None\", \"hp_md_version\": \"1\", \"kernel_id\": \"412\", \"min_ram\": 0, \"ramdisk_id\": \"413\", \"hp_image_id\": \"f2fbb1bf37a13e7c5da897c7082684df\", \"owner\": null, \"hp_image_builddate\": \"20120125\", \"architecture\": \"x86_64\", \"min_disk\": 0, \"hp_image_version\": \"1hp1\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:57:41Z\", \"name\": \"CentOS 6.2 Server 64-bit 20120125 (Ramdisk)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/413\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/413\", \"rel\": \"bookmark\"}], \"created\": \"2012-02-21T14:08:39Z\", \"progress\": 100, \"id\": \"413\", \"metadata\": {\"hp_image_type\": \"ramdisk\", \"image_location\": \"local\", \"image_state\": \"available\", \"project_id\": \"None\", \"hp_md_version\": \"1\", \"min_ram\": 0, \"hp_image_id\": \"f2fbb1bf37a13e7c5da897c7082684df\", \"owner\": null, \"hp_image_builddate\": \"20120125\", \"architecture\": \"x86_64\", \"min_disk\": 0, \"hp_image_version\": \"1hp1\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:57:36Z\", \"name\": \"CentOS 6.2 Server 64-bit 20120125 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/412\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/412\", \"rel\": \"bookmark\"}], \"created\": \"2012-02-21T14:08:38Z\", \"progress\": 100, \"id\": \"412\", \"metadata\": {\"hp_image_type\": \"kernel\", \"image_location\": \"local\", \"image_state\": \"available\", \"project_id\": \"None\", \"hp_md_version\": \"1\", \"min_ram\": 0, \"hp_image_id\": \"f2fbb1bf37a13e7c5da897c7082684df\", \"owner\": null, \"hp_image_builddate\": \"20120125\", \"architecture\": \"x86_64\", \"min_disk\": 0, \"hp_image_version\": \"1hp1\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:57:20Z\", \"name\": \"Ubuntu Oneiric 11.10 Server 64-bit 20111212\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/229\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/229\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:59:10Z\", \"progress\": 100, \"id\": \"229\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"kernel_id\": \"228\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": \"None\", \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:57:13Z\", \"name\": \"Ubuntu Oneiric 11.10 Server 64-bit 20111212 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/228\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/228\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:59:09Z\", \"progress\": 100, \"id\": \"228\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:54Z\", \"name\": \"Ubuntu Natty 11.04 Server 64-bit 20111212\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/227\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/227\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:56:38Z\", \"progress\": 100, \"id\": \"227\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"kernel_id\": \"226\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:44Z\", \"name\": \"Ubuntu Natty 11.04 Server 64-bit 20111212 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/226\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/226\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:56:36Z\", \"progress\": 100, \"id\": \"226\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:37Z\", \"name\": \"Ubuntu Maverick 10.10 Server 64-bit 20111212\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/225\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/225\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:54:36Z\", \"progress\": 100, \"id\": \"225\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"kernel_id\": \"224\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:31Z\", \"name\": \"Ubuntu Maverick 10.10 Server 64-bit 20111212 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/224\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/224\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:54:28Z\", \"progress\": 100, \"id\": \"224\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:22Z\", \"name\": \"Ubuntu Lucid 10.04 LTS Server 64-bit 20111212\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/223\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/223\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:52:13Z\", \"progress\": 100, \"id\": \"223\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"kernel_id\": \"222\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:16Z\", \"name\": \"Ubuntu Lucid 10.04 LTS Server 64-bit 20111212 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/222\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/222\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:52:11Z\", \"progress\": 100, \"id\": \"222\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"amd64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:56:05Z\", \"name\": \"CentOS 5.6 Server 64-bit 20111207\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/221\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/221\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:50:22Z\", \"progress\": 100, \"id\": \"221\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"kernel_id\": \"219\", \"min_ram\": 0, \"ramdisk_id\": \"220\", \"min_disk\": 0, \"architecture\": \"x86_64\", \"owner\": null, \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:55:59Z\", \"name\": \"CentOS 5.6 Server 64-bit 20111207 (Ramdisk)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/220\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/220\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:50:20Z\", \"progress\": 100, \"id\": \"220\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"x86_64\", \"owner\": \"None\", \"project_id\": \"None\"}}, {\"status\": \"ACTIVE\", \"updated\": \"2012-03-12T07:55:52Z\", \"name\": \"CentOS 5.6 Server 64-bit 20111207 (Kernel)\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/images/219\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/219\", \"rel\": \"bookmark\"}], \"created\": \"2011-12-21T14:50:19Z\", \"progress\": 100, \"id\": \"219\", \"metadata\": {\"image_location\": \"local\", \"image_state\": \"available\", \"min_ram\": 0, \"min_disk\": 0, \"architecture\": \"x86_64\", \"owner\": null, \"project_id\": \"None\"}}]}"
+    body: "{\"server\": {\"status\": \"BUILD(scheduling)\", \"updated\": \"2012-04-03T11:47:44Z\", \"hostId\": \"89c1c18fee8b55b5e5c0c547e8181744c6fb144a8217ba2473804f5f\", \"user_id\": \"90338821550656\", \"name\": \"Tue Apr 03 14:47:27 +0300 2012\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/46871569847393/servers/71940\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/servers/71940\", \"rel\": \"bookmark\"}], \"addresses\": {}, \"tenant_id\": \"46871569847393\", \"image\": {\"id\": \"417\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/images/417\", \"rel\": \"bookmark\"}]}, \"created\": \"2012-04-03T11:47:43Z\", \"uuid\": \"2c84201d-1aaf-4f10-a9a7-e4a755de1068\", \"accessIPv4\": \"\", \"accessIPv6\": \"\", \"key_name\": null, \"flavor\": {\"id\": \"100\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/46871569847393/flavors/100\", \"rel\": \"bookmark\"}]}, \"config_drive\": \"\", \"id\": 71940, \"metadata\": {}}}"
     http_version: "1.1"
