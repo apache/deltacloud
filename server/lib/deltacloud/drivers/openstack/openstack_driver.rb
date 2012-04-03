@@ -140,7 +140,7 @@ module Deltacloud
           params[:name] = (opts[:name] && opts[:name].length>0)? opts[:name] : Time.now.to_s
           params[:imageRef] = image_id
           params[:flavorRef] =  (opts[:hwp_id] && opts[:hwp_id].length>0) ?
-                          opts[:hwp_id] : hardware_profiles(credentials).first
+                          opts[:hwp_id] : hardware_profiles(credentials).first.name
           if opts[:password] && opts[:password].length > 0
             params[:adminPass]=opts[:password]
           end
