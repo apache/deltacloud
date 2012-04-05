@@ -152,6 +152,28 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    def addresses(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        addresses = @client.load_all_cimi(:address).map{|addr| CIMI::Model::Address.from_json(addr)}
+        addresses.map{|addr|convert_cimi_mock_urls(:address, addr, opts[:env])}.flatten
+      else
+        address = CIMI::Model::Address.from_json(@client.load_cimi(:address, opts[:id]))
+        convert_cimi_mock_urls(:address, address, opts[:env])
+      end
+    end
+
+    def address_templates(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        address_templates = @client.load_all_cimi(:address_template).map{|addr_templ| CIMI::Model::AddressTemplate.from_json(addr_templ)}
+        address_templates.map{|addr_templ|convert_cimi_mock_urls(:address_template, addr_templ, opts[:env])}.flatten
+      else
+        address_template = CIMI::Model::AddressTemplate.from_json(@client.load_cimi(:address_template, opts[:id]))
+        convert_cimi_mock_urls(:address_template, address_template, opts[:env])
+      end
+    end
+
     private
 
     def convert_cimi_mock_urls(model_name, cimi_object, context)

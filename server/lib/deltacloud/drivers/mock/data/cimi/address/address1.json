@@ -1,0 +1,19 @@
+{ "id": "http://cimi.example.org/addresses/address1",
+  "name": "address1",
+  "description": "an IP address",
+  "created": "Wed Apr 04 11:59:15 EET 2012",
+  "ip": "192.168.10.1",
+  "hostname": "marios.local",
+  "allocation": "static",
+  "defaultGateway": "192.168.0.1",
+  "dns": "192.168.0.10",
+  "macAddress": "",
+  "protocol": "IPv4",
+  "mask": "255.255.0.0",
+  "network": {"href": "http://cimi.example.org/networks/network1"},
+  "resource": {},
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/addresses/address1" },
+    { "rel": "delete", "href": "http://cimi.example.org/addresses/address1" }
+  ]
+}
