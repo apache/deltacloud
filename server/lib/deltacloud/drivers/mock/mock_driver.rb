@@ -299,6 +299,11 @@ module Deltacloud::Drivers::Mock
       snapshots
     end
 
+    def destroy_storage_snapshot(credentials, opts={})
+      check_credentials(credentials)
+      @client.destroy(:storage_snapshots, opts[:id])
+    end
+
     def keys(credentials, opts={})
       check_credentials(credentials)
       result = @client.build_all(Key)
