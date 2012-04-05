@@ -48,9 +48,25 @@ class CIMI::Model::Address < CIMI::Model::Base
   end
 
   def self.create(request_body, context, type)
+    input = (type == :xml)? XmlSimple.xml_in(request_body, {"ForceArray"=>false, "NormaliseSpace"=>2}) : JSON.parse(request_body)
+    if input["addressTemplate"]["href"] #by reference
+      address_template = AddressTemplate.find(context.href_id(input["addressTemplate"]["href"], :address_templates), context)
+    else
+      case type
+        when :json
+          address_template = AddressTemplate.from_json(JSON.generate(input["addressTemplate"]))
+        when :xml
+          xml = XmlSimple.xml_in(request_body, {"NormaliseSpace"=>2})
+          address_template = AddressTemplate.from_xml(XmlSimple.xml_out(xml["addressTemplate"][0]))
+      end
+    end
+    params = {:name=>input["name"], :description=>input["description"], :address_template=>address_template, :env=>context }
+    raise CIMI::Model::BadRequest.new("Bad request - missing required parameters. Client sent: #{request_body} which produced #{params.inspect}")  if params.has_value?(nil)
+    context.driver.create_address(context.credentials, params)
   end
 
   def self.delete!(id, context)
+    context.driver.delete_address(context.credentials, id)
   end
 
 end

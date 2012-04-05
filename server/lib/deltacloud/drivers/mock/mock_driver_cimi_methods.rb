@@ -163,6 +163,33 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    def create_address(credentials, opts={})
+      check_credentials(credentials)
+      id = "#{opts[:env].send("addresses_url")}/#{opts[:name]}"
+      addr_hash = { "id"    => id,
+                    "name"  => opts[:name],
+                    "description" => opts[:description],
+                    "hostName" => opts[:address_template].hostname,
+                    "allocation" => opts[:address_template].allocation,
+                    "defaultGateway" => opts[:address_template].default_gateway,
+                    "dns" => opts[:address_template].dns,
+                    "macAddress" => opts[:address_template].mac_address,
+                    "protocol" => opts[:address_template].protocol,
+                    "mask" => opts[:address_template].mask,
+                    "network" => {"href" => opts[:address_template].network.href},
+                    "operations" => [{"rel"=>"edit", "href"=> id},
+                                     {"rel"=>"delete", "href"=> id}]
+                   }
+      address = CIMI::Model::Address.from_json(JSON.generate(addr_hash))
+      @client.store_cimi(:address, address)
+      address
+    end
+
+    def delete_address(credentials, id)
+      check_credentials(credentials)
+      @client.destroy_cimi(:address, id)
+    end
+
     def address_templates(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?

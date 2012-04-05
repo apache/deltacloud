@@ -841,6 +841,30 @@ global_collection :addresses do
     end
   end
 
+  operation :create do
+    description "Create a new Address"
+    control do
+      if request.content_type.end_with?("json")
+        address = CIMI::Model::Address.create(request.body.read, self, :json)
+      else
+        address = CIMI::Model::Address.create(request.body.read, self, :xml)
+      end
+      respond_to do |format|
+        format.xml { address.to_xml }
+        format.json { address.to_json }
+      end
+    end
+  end
+
+  operation :destroy do
+    description "Delete a specified Address"
+    param :id, :string, :required
+    control do
+      CIMI::Model::Address.delete!(params[:id], self)
+      no_content_with_status(200)
+    end
+  end
+
 end
 
 
