@@ -812,3 +812,64 @@ global_collection :vsp_templates do
   end
 
 end
+
+global_collection :addresses do
+
+  description 'An Address represents an IP address, and its associated metdata, for a particular Network.'
+
+  operation :index do
+    description 'List all Addresses in the AddressCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      addresses = AddressCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {addresses.to_xml}
+        format.json {addresses.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific Address'
+    param :id, :string, :required
+    control do
+      address = CIMI::Model::Address.find(params[:id], self)
+      respond_to do |format|
+        format.xml {address.to_xml}
+        format.json {address.to_json}
+      end
+    end
+  end
+
+end
+
+
+global_collection :address_templates do
+
+  description 'An AddressTemplate captures the configuration values for realizing an Address. An Address Template may be used to create multiple Addresses.'
+
+  operation :index do
+    description 'List all AddressTemplates in the AddressTemplateCollection'
+    param :CIMISelect, :string, :optional
+    control do
+      address_templates = AddressTemplateCollection.default(self).filter_by(params[:CIMISelect])
+      respond_to do |format|
+        format.xml {address_templates.to_xml}
+        format.json {address_templates.to_json}
+      end
+    end
+  end
+
+  operation :show do
+    description 'Show a specific AddressTemplate'
+    param :id, :string, :required
+    control do
+      address_template = CIMI::Model::AddressTemplate.find(params[:id], self)
+      respond_to do |format|
+        format.xml {address_template.to_xml}
+        format.json {address_template.to_json}
+      end
+    end
+  end
+
+end
