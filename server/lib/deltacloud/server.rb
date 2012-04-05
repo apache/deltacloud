@@ -62,11 +62,10 @@ end
 
 configure :production do
   use Rack::SyslogLogger
+  set :logger, SyslogFile.new
   disable :logging
   enable :show_errors
-  set :dump_errors, false
-  $stdout = SyslogFile.new
-  $stderr = $stdout
+  enable :dump_errors
 end
 
 configure :development do

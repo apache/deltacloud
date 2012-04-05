@@ -1,10 +1,16 @@
-require 'syslog'
+begin
+  require 'syslog'
+  USE_SYSLOG = true
+rescue LoadError => e
+  USE_SYSLOG = false
+end
+
 require 'sinatra/body_proxy'
 
 class SyslogFile < File
 
   def initialize
-    @log = Syslog.open($0, Syslog::LOG_PID | Syslog::LOG_LOCAL5)
+    @log = USE_SYSLOG ? Syslog.open($0, Syslog::LOG_PID | Syslog::LOG_LOCAL5) : Logger.new(STDOUT)
   end
 
   def write(string)
@@ -13,11 +19,11 @@ class SyslogFile < File
   end
 
   def info(msg)
-    @log.info("%s", msg)
+    @log.info("%s" % msg)
   end
 
   def err(msg)
-    @log.err("%s", msg)
+    @log.err("%s" % msg)
   end
 
   alias :warning :err
@@ -36,22 +42,23 @@ module Rack
     # Common Log Format: http://httpd.apache.org/docs/1.3/logs.html#common
     # lilith.local - - [07/Aug/2006 23:58:02] "GET / HTTP/1.1" 500 -
     #             %{%s - %s [%s] "%s %s%s %s" %d %s\n} %
-    FORMAT = %{%s - %s [%s] "%s %s%s %s" %d %s %0.4f\n}
+    FORMAT = %{%s - %s [%s] "%s %s%s %s" %d %s %0.4f}
 
     def initialize(app, logger=nil)
       @app = app
-      @logger = logger || $stdout
+      @logger = logger || @app.settings.logger || $stdout
     end
 
     def call(env)
       began_at = Time.now
       status, header, body = @app.call(env)
       header = Utils::HeaderHash.new(header)
-      body = Rack::BodyProxy.new(body) { log(env, status, header, began_at) }
+      body = Rack::BodyProxy.new(body) do
+        log(env, status, header, began_at)
+      end
+      body.close
       [status, header, body]
     end
-
-    private
 
     def log(env, status, header, began_at)
       now = Time.now
@@ -63,7 +70,7 @@ module Rack
         method = :info
       end
 
-      logger = @logger || env['rack.errors']
+      logger = @logger
       logger.send(method, FORMAT % [
         env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"] || "-",
         env["REMOTE_USER"] || "-",
