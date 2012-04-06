@@ -52,7 +52,7 @@ class CIMI::Model::Network < CIMI::Model::Base
   end
 
   def self.create(request_body, context, type)
-    input = (type == :xml)? XmlSimple.xml_in(request_body, 'ForceArray'=>false) : JSON.parse(request_body)
+    input = (type == :xml)? XmlSimple.xml_in(request_body, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(request_body)
     if input["networkTemplate"]["href"] #template by reference
       network_config, routing_group = get_by_reference(input, context)
     else
@@ -95,7 +95,7 @@ class CIMI::Model::Network < CIMI::Model::Base
 
   def self.get_by_value(request_body, type)
     if type == :xml
-      xml_arrays = XmlSimple.xml_in(request_body)
+      xml_arrays = XmlSimple.xml_in(request_body, {"NormaliseSpace"=>2})
       network_config = NetworkConfiguration.from_xml(XmlSimple.xml_out(xml_arrays["networkTemplate"][0]["networkConfig"][0]))
     else
      json = JSON.parse(request_body)
