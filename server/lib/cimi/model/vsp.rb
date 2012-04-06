@@ -68,6 +68,19 @@ class CIMI::Model::VSP < CIMI::Model::Base
     context.driver.delete_vsp(context.credentials, id)
   end
 
+  def perform(action, context, &block)
+    begin
+      if context.driver.send(:"#{action.name}_vsp", context.credentials, self.name)
+        block.callback :success
+      else
+        raise "Operation #{action.name} failed to execute on the VSP #{self.name} "
+      end
+    rescue => e
+      block.callback :failure, e.message
+    end
+  end
+
+
   private
 
   def self.get_by_reference(input, context)

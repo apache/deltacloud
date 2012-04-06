@@ -774,6 +774,42 @@ global_collection :vsps do
     end
   end
 
+  operation :start, :method => :post, :member => true do
+    description "Start specific VSP."
+    param :id,          :string,    :required
+    control do
+      vsp = VSP.find(params[:id], self)
+      report_error(404) unless vsp
+      if request.content_type.end_with?("json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      vsp.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
+  operation :stop, :method => :post, :member => true do
+    description "Stop specific VSP."
+    param :id,          :string,    :required
+    control do
+      vsp = VSP.find(params[:id], self)
+      report_error(404) unless vsp
+      if request.content_type.end_with?("json")
+        action = Action.from_json(request.body.read)
+      else
+        action = Action.from_xml(request.body.read)
+      end
+      vsp.perform(action, self) do |operation|
+        no_content_with_status(202) if operation.success?
+        # Handle errors using operation.failure?
+      end
+    end
+  end
+
 end
 
 global_collection :vsp_configurations do

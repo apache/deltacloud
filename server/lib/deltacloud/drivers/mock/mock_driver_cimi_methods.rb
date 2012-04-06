@@ -62,17 +62,17 @@ module Deltacloud::Drivers::Mock
 
     def start_network(credentials, id)
       check_credentials(credentials)
-      update_network_state(id, "STARTED")
+      update_object_state(id, "Network", "STARTED")
     end
 
     def stop_network(credentials, id)
       check_credentials(credentials)
-      update_network_state(id, "STOPPED")
+      update_object_state(id, "Network", "STOPPED")
     end
 
     def suspend_network(credentials, id)
       check_credentials(credentials)
-      update_network_state(id, "SUSPENDED")
+      update_object_state(id, "Network", "SUSPENDED")
     end
 
     def network_configurations(credentials, opts={})
@@ -150,6 +150,16 @@ module Deltacloud::Drivers::Mock
       vsp = CIMI::Model::VSP.from_json(JSON.generate(vsp_hash))
       @client.store_cimi(:vsp, vsp)
       vsp
+    end
+
+    def start_vsp(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "VSP", "STARTED")
+    end
+
+    def stop_vsp(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "VSP", "STOPPED")
     end
 
     def delete_vsp(credentials, id)
@@ -260,11 +270,13 @@ module Deltacloud::Drivers::Mock
       end
     end
 
-    def update_network_state(id, new_state)
-      network = CIMI::Model::Network.from_json(@client.load_cimi(:network, id))
-      network.state = new_state
-      @client.store_cimi(:network, network)
-      network
+    def update_object_state(id, object, new_state)
+      klass = CIMI::Model.const_get("#{object}")
+      symbol = object.to_s.downcase.singularize.intern
+      obj = klass.from_json(@client.load_cimi(symbol, id))
+      obj.state = new_state
+      @client.store_cimi(symbol, obj)
+      obj
     end
 
   end
