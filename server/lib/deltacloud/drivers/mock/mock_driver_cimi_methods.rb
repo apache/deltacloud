@@ -130,6 +130,33 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    def create_vsp(credentials, opts={})
+      check_credentials(credentials)
+      id = "#{opts[:env].send("vsps_url")}/#{opts[:name]}"
+      vsp_hash = { "id"    => id,
+                    "name"  => opts[:name],
+                    "description" => opts[:description],
+                    "state" => "STARTED",
+                    "created" => Time.now,
+                    "bandwidthReservation"=>opts[:vsp_config].bandwidth_reservation,
+                    "trafficPriority"=>opts[:vsp_config].traffic_priority,
+                    "maxTrafficDelay"=>opts[:vsp_config].max_traffic_delay,
+                    "maxTrafficLoss"=>opts[:vsp_config].max_traffic_loss,
+                    "maxTrafficJitter"=>opts[:vsp_config].max_traffic_jitter,
+                    "network" => {"href" => opts[:network].id},
+                    "operations" => [{"rel"=>"edit", "href"=> id},
+                                     {"rel"=>"delete", "href"=> id}]
+                   }
+      vsp = CIMI::Model::VSP.from_json(JSON.generate(vsp_hash))
+      @client.store_cimi(:vsp, vsp)
+      vsp
+    end
+
+    def delete_vsp(credentials, id)
+      check_credentials(credentials)
+      @client.destroy_cimi(:vsp, id)
+    end
+
     def vsp_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
@@ -169,6 +196,7 @@ module Deltacloud::Drivers::Mock
       addr_hash = { "id"    => id,
                     "name"  => opts[:name],
                     "description" => opts[:description],
+                    "created" => Time.now,
                     "hostName" => opts[:address_template].hostname,
                     "allocation" => opts[:address_template].allocation,
                     "defaultGateway" => opts[:address_template].default_gateway,

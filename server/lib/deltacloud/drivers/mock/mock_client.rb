@@ -98,7 +98,8 @@ module Deltacloud::Drivers::Mock
 
     def destroy_cimi(collection, id)
       fname = cimi_file(collection, id)
-      FileUtils.rm(fname) if File::exists?(fname)
+      raise "No such object: #{id} in #{collection} collection" unless File::exists?(fname)
+      FileUtils.rm(fname)
     end
 
     def load_all_cimi(model_name)

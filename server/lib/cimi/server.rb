@@ -750,6 +750,30 @@ global_collection :vsps do
     end
   end
 
+  operation :create do
+    description "Create a new VSP"
+    control do
+      if request.content_type.end_with?("json")
+        vsp = CIMI::Model::VSP.create(request.body.read, self, :json)
+      else
+        vsp = CIMI::Model::VSP.create(request.body.read, self, :xml)
+      end
+      respond_to do |format|
+        format.xml { vsp.to_xml }
+        format.json { vsp.to_json }
+      end
+    end
+  end
+
+  operation :destroy do
+    description "Delete a specified VSP"
+    param :id, :string, :required
+    control do
+      CIMI::Model::VSP.delete!(params[:id], self)
+      no_content_with_status(200)
+    end
+  end
+
 end
 
 global_collection :vsp_configurations do
