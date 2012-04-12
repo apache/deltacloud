@@ -65,6 +65,8 @@ BANNER
   opts.on( '-n', '--name NAME', 'Name (for instance eg.)') { |name| options[:name] = name }
   opts.on( '-s', '--state STATE', 'Instance state (RUNNING, STOPPED)') { |state| options[:state] = state }
   opts.on( '-u', '--url URL', 'API url ($API_URL variable)') { |url| options[:api_url] = url }
+  opts.on( '-U', '--user USER', 'API username ($API_USERNAME variable)') { |u| options[:api_user] = u }
+  opts.on( '-P', '--password PASSWORD', 'API password ($API_PASSWORD variable)') { |p| options[:api_password] = p }
   opts.on( '-l', '--list', 'List collections/operations') { |id| options[:list] = true }
   opts.on( '-h', '--help', 'Display this screen' ) { puts @optparse; Kernel.exit! }
   opts.on( '-v', '--version', 'Display API version' ) { options[:version]=true }
@@ -104,7 +106,7 @@ options[:collection] = ARGV[0]
 options[:operation] = ARGV[1]
 
 # Connect to Deltacloud API and fetch all entry points
-client = DeltaCloud.new(url.user || ENV['API_USER'], url.password || ENV['API_PASSWORD'], api_url)
+client = DeltaCloud.new(options[:api_user] || ENV['API_USER'], options[:api_password] || ENV['API_PASSWORD'], api_url)
 collections = client.entry_points.keys
 
 # Exclude collection which don't have methods in client library yet
