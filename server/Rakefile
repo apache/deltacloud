@@ -193,3 +193,54 @@ namespace :mock do
 
   end
 end
+
+namespace :openshift do
+
+  desc "Deploy Deltacloud API to OpenShift"
+  task :deploy do
+    print "RHN or OpenShift login with OpenShift Express access: "
+    STDOUT.flush
+    login = STDIN.gets.chomp
+    print "Password: "
+    system "stty -echo"
+    password = STDIN.gets.chomp
+    system "stty echo"
+    puts `rhc-create-app --rhlogin #{login} --app deltacloudtest --password '#{password}' --type ruby-1.8`
+  end
+end
+
+namespace :rabbit do
+  load File.join(File.dirname(__FILE__), 'config.ru')
+
+  desc "List the routes defined by Rabbit"
+  task :routes do
+    Deltacloud.collections.each do |c|
+      puts "\033[1;32;m#{c.name}\33[0m"
+      c.operations.each do |o|
+        puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
+          o.http_method.to_s.upcase,
+          o.operation_name,
+          o.full_path,
+          o.description[0..100]
+        ]
+      end
+      unless c.collections.empty?
+        puts
+        c.collections.each do |s|
+          puts "\033[1;32;m#{s.name}\33[0m"
+          s.operations.each do |o|
+            puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
+              o.http_method.to_s.upcase,
+              o.operation_name,
+              o.full_path,
+              o.description[0..100]
+            ]
+          end
+        end
+      end
+      puts
+    end
+  end
+
+end
+
