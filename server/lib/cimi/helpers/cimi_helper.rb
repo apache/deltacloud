@@ -28,8 +28,6 @@ module CIMIHelper
 
 end
 
-helpers CIMIHelper
-
 class Array
   def to_xml_cimi_collection(_self)
     model_name = first.class.xml_tag_name
