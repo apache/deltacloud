@@ -14,9 +14,6 @@
 # under the License.
 #
 
-require 'deltacloud/base_driver'
-
-
 class Instance
   def self.convert_condor_state(state_id)
     case state_id
@@ -43,10 +40,6 @@ module Deltacloud
 
         feature :instances, :user_data
         feature :instances, :authentication_password
-
-        def supported_collections
-          DEFAULT_COLLECTIONS - [ :storage_volumes, :storage_snapshots ]
-        end
 
         CONDOR_MAPPER_DIR = ENV['CONDOR_MAPPER_DIR'] || '/var/tmp'
 

@@ -14,27 +14,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-
 require 'yaml'
 require 'base64'
 require 'etc'
-require 'deltacloud/base_driver'
-require 'deltacloud/drivers/mock/mock_client'
-require 'deltacloud/drivers/mock/mock_driver_cimi_methods'
+require_relative 'mock_client'
+require_relative 'mock_driver_cimi_methods'
 
 module Deltacloud::Drivers::Mock
 
   class MockDriver < Deltacloud::BaseDriver
-
-    # If the provider is set to storage, pretend to be a storage-only
-    # driver
-    def supported_collections
-      if api_provider == 'storage'
-        [:buckets]
-      else
-        DEFAULT_COLLECTIONS + [:buckets, :keys]
-      end
-    end
 
     ( REALMS = [
       Realm.new({
@@ -310,11 +298,6 @@ module Deltacloud::Drivers::Mock
       snapshots = @client.build_all(StorageSnapshot)
       snapshots = filter_on(snapshots, :id, opts )
       snapshots
-    end
-
-    def destroy_storage_snapshot(credentials, opts={})
-      check_credentials(credentials)
-      @client.destroy(:storage_snapshots, opts[:id])
     end
 
     def keys(credentials, opts={})

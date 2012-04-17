@@ -27,10 +27,6 @@ module Deltacloud
 
 class OpennebulaDriver < Deltacloud::BaseDriver
 
-  def supported_collections
-    DEFAULT_COLLECTIONS - [:storage_volumes, :storage_snapshots]
-  end
-
   ######################################################################
   # Hardware profiles
   #####################################################################

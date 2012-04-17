@@ -14,18 +14,17 @@
 # under the License.
 #
 
-require 'deltacloud/base_driver'
 require 'rbvmomi'
 require 'deltacloud/drivers/vsphere/vsphere_client'
 
-module Deltacloud::Drivers::VSphere
+module Deltacloud::Drivers::Vsphere
 
   MAPPER_STORAGE_ROOT = File::join("/var/tmp", "deltacloud-vsphere-#{ENV["USER"]}")
 
-  class VSphereDriver < Deltacloud::BaseDriver
+  class VsphereDriver < Deltacloud::BaseDriver
 
     include Deltacloud::Drivers::VSphere::Helper
-    include Deltacloud::Drivers::VSphere::FileManager
+    include VSphere::FileManager
 
     # You can use 'user_iso' feature to set 'user_iso' parameter when creating
     # a new instance where this parameter can hold gzipped CDROM iso which will
@@ -33,10 +32,6 @@ module Deltacloud::Drivers::VSphere
     feature :instances, :user_iso
     feature :instances, :user_data
     feature :instances, :user_name
-
-    def supported_collections
-      DEFAULT_COLLECTIONS - [:storage_volumes, :storage_snapshots]
-    end
 
     # There is just one hardware profile where memory is measured using maximum
     # memory available on ESX for virtual machines and CPU using maximum free

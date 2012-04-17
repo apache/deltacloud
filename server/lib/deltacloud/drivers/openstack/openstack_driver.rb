@@ -14,9 +14,9 @@
 # under the License.
 #
 
-require 'deltacloud/base_driver'
 require 'openstack/compute'
 require 'tempfile'
+
 module Deltacloud
   module Drivers
     module Openstack
@@ -26,10 +26,6 @@ module Deltacloud
         feature :instances, :authentication_password
         feature :instances, :user_files
         feature :images, :user_name
-
-        def supported_collections
-          DEFAULT_COLLECTIONS - [ :storage_snapshots, :storage_volumes  ] #+ [ :buckets ]
-        end
 
         define_instance_states do
           start.to( :pending )          .on( :create )

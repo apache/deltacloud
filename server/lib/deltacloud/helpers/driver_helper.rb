@@ -47,8 +47,9 @@ module Deltacloud::Helpers
       begin
         require_relative driver_source_name
         driver_class
-      rescue LoadError
-        raise "[ERROR] The driver '#{driver_name}' is unknown or not installed (#{driver_source_name})"
+      rescue LoadError => e
+        raise "[ERROR] The driver '#{driver_name}' is unknown or not installed (#{driver_source_name})\n" +
+          "\n#{e.message}\n"
       end
     end
 

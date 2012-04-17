@@ -18,7 +18,10 @@ module Deltacloud
   class StateMachine
 
     attr_reader :states
-    def initialize(&block)
+
+    def initialize(opts={}, &block)
+      @all_states = opts[:all_states]
+      @all_actions = opts[:all_actions]
       @states  = []
       instance_eval &block if block
     end
@@ -32,12 +35,23 @@ module Deltacloud
     end
 
     def state(name)
+      unless valid_state_name?(name)
+        raise "State '#{name}' not in list of allowed states"
+      end
       state = @states.find{|e| e.name == name.to_sym}
       if ( state.nil? )
         state = State.new( self, name.to_sym )
         @states << state
       end
       state
+    end
+
+    def valid_state_name?(name)
+      @all_states.nil? || @all_states.include?(name.to_sym)
+    end
+
+    def valid_action_name?(name)
+      @all_actions.nil? || @all_actions.include?(name.to_sym)
     end
 
     def method_missing(sym,*args)
@@ -90,6 +104,9 @@ module Deltacloud
       end
 
       def on(action)
+        unless @machine.valid_action_name?(action)
+          raise "Action '#{action}' not in list of allowed actions"
+        end
         @action = action
       end
 

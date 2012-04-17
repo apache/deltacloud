@@ -14,7 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/base_driver'
 require 'cloudfiles'
 require 'cloudservers'
 require 'base64'
@@ -29,10 +28,6 @@ class RackspaceDriver < Deltacloud::BaseDriver
   feature :instances, :authentication_password
   feature :instances, :user_files
   feature :images, :user_name
-
-  def supported_collections
-    DEFAULT_COLLECTIONS + [ :buckets ] - [ :storage_snapshots, :storage_volumes ]
-  end
 
   def hardware_profiles(credentials, opts = {})
     rs = new_client( credentials )
@@ -194,8 +189,8 @@ class RackspaceDriver < Deltacloud::BaseDriver
     start.to( :pending )          .on( :create )
     pending.to( :running )        .automatically
     running.to( :running )        .on( :reboot )
-    running.to( :stopping )       .on( :stop )
-    stopping.to( :stopped )       .automatically
+    running.to( :shutting_down )  .on( :stop )
+    shutting_down.to( :stopped )  .automatically
     stopped.to( :finish )         .automatically
   end
 

@@ -20,6 +20,11 @@ module Deltacloud
 
     include ExceptionHandler
 
+    STATE_MACHINE_OPTS = {
+      :all_states => [:start, :pending, :running, :stopping, :stopped, :finish],
+      :all_actions => [:create, :reboot, :stop, :start, :destroy]
+    }
+
     def self.driver_name
       name.split('::').last.gsub('Driver', '').downcase
     end
@@ -114,7 +119,7 @@ module Deltacloud
     end
 
     def self.define_instance_states(&block)
-      machine = ::Deltacloud::StateMachine.new(&block)
+      machine = ::Deltacloud::StateMachine.new(STATE_MACHINE_OPTS, &block)
       @instance_state_machine = machine
     end
 

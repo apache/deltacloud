@@ -14,10 +14,21 @@
 # under the License.
 
 require_relative 'models/base_model'
-
-# Include all models
-
-Dir[File.join(File::dirname(__FILE__), "models", "*.rb")].each do |model|
-  next if model =~ /base_model\.rb$/
-  require model
-end
+require_relative 'models/address'
+require_relative 'models/blob'
+require_relative 'models/bucket'
+require_relative 'models/firewall'
+require_relative 'models/firewall_rule'
+require_relative 'models/hardware_profile'
+require_relative 'models/image'
+require_relative 'models/instance'
+require_relative 'models/instance_address'
+require_relative 'models/instance_profile'
+require_relative 'models/key'
+require_relative 'models/load_balancer'
+require_relative 'models/metric'
+require_relative 'models/provider'
+require_relative 'models/realm'
+require_relative 'models/state_machine'
+require_relative 'models/storage_snapshot'
+require_relative 'models/storage_volume'

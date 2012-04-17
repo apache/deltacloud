@@ -21,9 +21,6 @@ module Deltacloud
 
 class GoogleDriver < Deltacloud::BaseDriver
 
-  def supported_collections; [:buckets]
-  end
-
   feature :buckets, :bucket_location
 
 #--

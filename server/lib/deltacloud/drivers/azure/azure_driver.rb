@@ -15,7 +15,6 @@
 # under the License.
 
 #Windows Azure (WAZ) gem at http://github.com/johnnyhalife/waz-storage
-require 'deltacloud/base_driver'
 require 'waz-blobs'
 
 module Deltacloud
@@ -23,9 +22,6 @@ module Deltacloud
     module Azure
 
 class AzureDriver < Deltacloud::BaseDriver
-
-  def supported_collections; [:buckets]
-  end
 
 #--
 # Buckets

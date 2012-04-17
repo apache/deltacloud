@@ -16,7 +16,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require "deltacloud/base_driver"
 require "deltacloud/drivers/rimuhosting/rimuhosting_client"
 
 module Deltacloud
@@ -131,9 +130,9 @@ class RimuhostingDriver < Deltacloud::BaseDriver
             :owner_id => "root",
             :instance_profile => InstanceProfile.new("none"),
             :actions => instance_actions_for("RUNNING"),
-            :public_addresses => [ InstanceAddress.new(inst["allocated_ips"]["primary_ip"] ) ],
-            :launch_time => inst["billing_info"]["order_date"]["iso_format"]
-    })
+            :public_addresses => [ InstanceAddress.new(inst["allocated_ips"]["primary_ip"] )],
+            :launch_time => inst["billing_info"]["order_date"]["iso_format"]}
+                )
   end
 
   define_instance_states do

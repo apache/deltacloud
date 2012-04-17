@@ -14,7 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/base_driver'
 require 'deltacloud/drivers/gogrid/gogrid_client'
 
 class Instance
@@ -59,11 +58,6 @@ class GogridDriver < Deltacloud::BaseDriver
       end
     end
     @hardware_profiles
-  end
-
-  def supported_collections
-    DEFAULT_COLLECTIONS.reject! { |c| [ :storage_volumes, :storage_snapshots ].include?(c) }
-    DEFAULT_COLLECTIONS + [ :keys, :load_balancers ]
   end
 
   def images(credentials, opts=nil)

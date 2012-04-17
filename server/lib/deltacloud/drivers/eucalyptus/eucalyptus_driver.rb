@@ -21,10 +21,6 @@ module Deltacloud
     module Eucalyptus
       class EucalyptusDriver < Ec2::Ec2Driver
 
-        def supported_collections
-          DEFAULT_COLLECTIONS + [ :keys, :buckets, :addresses, :firewalls ]
-        end
-
         feature :instances, :user_data
         feature :instances, :authentication_key
         feature :instances, :firewalls

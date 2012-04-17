@@ -14,27 +14,24 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/base_driver'
 require 'rbovirt'
 
 module Deltacloud
   module Drivers
-    module RHEVM
+    module Rhevm
 
-class RHEVMDriver < Deltacloud::BaseDriver
+class RhevmDriver < Deltacloud::BaseDriver
 
-  def supported_collections
-    DEFAULT_COLLECTIONS - [:storage_snapshots]
-  end
-
-  feature :instances, :user_name do
-    constraint :max_length, 50
+  Sinatra::Rabbit::InstancesCollection.features do
+    feature :user_name, :for => :instances do
+      constrain :max_length, 50
+    end
   end
 
   feature :instances, :user_data
   feature :images, :user_name
 
-  USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
+  USER_NAME_MAX = Sinatra::Rabbit::InstancesCollection.feature(:user_name).constraints[:max_length]
 
   # FIXME: These values are just for ilustration
   # Also I choosed 'SERVER' and 'DESKTOP' names

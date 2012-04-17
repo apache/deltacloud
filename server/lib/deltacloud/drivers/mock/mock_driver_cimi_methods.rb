@@ -32,49 +32,6 @@ module Deltacloud::Drivers::Mock
       end
     end
 
-    def create_network(credentials, opts={})
-      check_credentials(credentials)
-      id = "#{opts[:env].send("networks_url")}/#{opts[:name]}"
-      net_hsh = { "id"=> id,
-                  "name" => opts[:name],
-                  "description" => opts[:description],
-                  "created" => Time.now,
-                  "state" => "STARTED",
-                  "access" => opts[:network_config].access,
-                  "bandwithLimit" => opts[:network_config].bandwidth_limit,
-                  "trafficPriority" => opts[:network_config].traffic_priority,
-                  "maxTrafficDelay" => opts[:network_config].max_traffic_delay,
-                  "maxTrafficLoss" =>opts[:network_config].max_traffic_loss,
-                  "maxTrafficJitter" =>opts[:network_config].max_traffic_jitter,
-                  "routingGroup"=> { "href" => opts[:routing_group].id },
-                  "operations" => [{"rel"=>"edit", "href"=> id},
-                                   {"rel"=>"delete", "href"=> id}]    }
-      network = CIMI::Model::Network.from_json(JSON.generate(net_hsh))
-
-      @client.store_cimi(:network, network)
-      network
-    end
-
-    def delete_network(credentials, id)
-      check_credentials(credentials)
-      @client.destroy_cimi(:network, id)
-    end
-
-    def start_network(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "Network", "STARTED")
-    end
-
-    def stop_network(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "Network", "STOPPED")
-    end
-
-    def suspend_network(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "Network", "SUSPENDED")
-    end
-
     def network_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
@@ -130,43 +87,6 @@ module Deltacloud::Drivers::Mock
       end
     end
 
-    def create_vsp(credentials, opts={})
-      check_credentials(credentials)
-      id = "#{opts[:env].send("vsps_url")}/#{opts[:name]}"
-      vsp_hash = { "id"    => id,
-                    "name"  => opts[:name],
-                    "description" => opts[:description],
-                    "state" => "STARTED",
-                    "created" => Time.now,
-                    "bandwidthReservation"=>opts[:vsp_config].bandwidth_reservation,
-                    "trafficPriority"=>opts[:vsp_config].traffic_priority,
-                    "maxTrafficDelay"=>opts[:vsp_config].max_traffic_delay,
-                    "maxTrafficLoss"=>opts[:vsp_config].max_traffic_loss,
-                    "maxTrafficJitter"=>opts[:vsp_config].max_traffic_jitter,
-                    "network" => {"href" => opts[:network].id},
-                    "operations" => [{"rel"=>"edit", "href"=> id},
-                                     {"rel"=>"delete", "href"=> id}]
-                   }
-      vsp = CIMI::Model::VSP.from_json(JSON.generate(vsp_hash))
-      @client.store_cimi(:vsp, vsp)
-      vsp
-    end
-
-    def start_vsp(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "VSP", "STARTED")
-    end
-
-    def stop_vsp(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "VSP", "STOPPED")
-    end
-
-    def delete_vsp(credentials, id)
-      check_credentials(credentials)
-      @client.destroy_cimi(:vsp, id)
-    end
-
     def vsp_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
@@ -186,56 +106,6 @@ module Deltacloud::Drivers::Mock
       else
         vsp_template = CIMI::Model::VSPTemplate.from_json(@client.load_cimi(:vsp_template, opts[:id]))
         convert_cimi_mock_urls(:vsp_template, vsp_template, opts[:env])
-      end
-    end
-
-    def addresses(credentials, opts={})
-      check_credentials(credentials)
-      if opts[:id].nil?
-        addresses = @client.load_all_cimi(:address).map{|addr| CIMI::Model::Address.from_json(addr)}
-        addresses.map{|addr|convert_cimi_mock_urls(:address, addr, opts[:env])}.flatten
-      else
-        address = CIMI::Model::Address.from_json(@client.load_cimi(:address, opts[:id]))
-        convert_cimi_mock_urls(:address, address, opts[:env])
-      end
-    end
-
-    def create_address(credentials, opts={})
-      check_credentials(credentials)
-      id = "#{opts[:env].send("addresses_url")}/#{opts[:name]}"
-      addr_hash = { "id"    => id,
-                    "name"  => opts[:name],
-                    "description" => opts[:description],
-                    "created" => Time.now,
-                    "hostName" => opts[:address_template].hostname,
-                    "allocation" => opts[:address_template].allocation,
-                    "defaultGateway" => opts[:address_template].default_gateway,
-                    "dns" => opts[:address_template].dns,
-                    "macAddress" => opts[:address_template].mac_address,
-                    "protocol" => opts[:address_template].protocol,
-                    "mask" => opts[:address_template].mask,
-                    "network" => {"href" => opts[:address_template].network.href},
-                    "operations" => [{"rel"=>"edit", "href"=> id},
-                                     {"rel"=>"delete", "href"=> id}]
-                   }
-      address = CIMI::Model::Address.from_json(JSON.generate(addr_hash))
-      @client.store_cimi(:address, address)
-      address
-    end
-
-    def delete_address(credentials, id)
-      check_credentials(credentials)
-      @client.destroy_cimi(:address, id)
-    end
-
-    def address_templates(credentials, opts={})
-      check_credentials(credentials)
-      if opts[:id].nil?
-        address_templates = @client.load_all_cimi(:address_template).map{|addr_templ| CIMI::Model::AddressTemplate.from_json(addr_templ)}
-        address_templates.map{|addr_templ|convert_cimi_mock_urls(:address_template, addr_templ, opts[:env])}.flatten
-      else
-        address_template = CIMI::Model::AddressTemplate.from_json(@client.load_cimi(:address_template, opts[:id]))
-        convert_cimi_mock_urls(:address_template, address_template, opts[:env])
       end
     end
 
@@ -268,15 +138,6 @@ module Deltacloud::Drivers::Mock
       else
         struct.href = context.send(:"#{cimi_name}_url", obj_name)
       end
-    end
-
-    def update_object_state(id, object, new_state)
-      klass = CIMI::Model.const_get("#{object}")
-      symbol = object.to_s.downcase.singularize.intern
-      obj = klass.from_json(@client.load_cimi(symbol, id))
-      obj.state = new_state
-      @client.store_cimi(symbol, obj)
-      obj
     end
 
   end

@@ -19,8 +19,7 @@
 # https://community.vcloudexpress.terremark.com/en-us/product_docs/w/wiki/d-complete-vcloud-express-api-document.aspx
 #
 # 02 May 2010
-#
-require 'deltacloud/base_driver'
+
 require 'fog'
 require 'excon'
 require 'nokogiri'
