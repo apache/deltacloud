@@ -1,7 +1,6 @@
-%api{ :version => settings.version, :driver => driver_symbol }
-  - for entry_point in entry_points
-    %link{ :rel=>entry_point[0], :href=>entry_point[1] }
-      - for feature in driver.features(entry_point[0])
-        %feature{ :name=>feature.name }
-          - for name,value in feature.constraints
-            %constraint{ :name=>name, :value=>value }
+%api{ :version => settings.version, :driver => driver_symbol, :provider => Thread.current[:provider] || ENV['API_PROVIDER'] }
+  - Deltacloud.collections.each do |c|
+    - next unless c.operation(:index).has_capability?
+    %link{ :rel => c.collection_name, :href => self.send(:"#{c.collection_name}_url")}
+      - c.features.select { |f| driver.class.has_feature?(c.collection_name, f.name) }.each do |f|
+        %feature{ :name => f.name }
