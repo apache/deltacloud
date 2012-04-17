@@ -9,9 +9,8 @@
   - if @storage_volume.kind
     %kind<
       = @storage_volume.kind
-  - if @storage_volume.name
-    %name<
-      = @storage_volume.name
+  %name<
+    = @storage_volume.name || @storage_volume.id
   - if @storage_volume.device
     %device<
       = @storage_volume.device

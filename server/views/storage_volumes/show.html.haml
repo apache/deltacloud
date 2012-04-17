@@ -4,6 +4,7 @@
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Name
+    %p{ :'data-role' => 'fieldcontain'}=@storage_volume.id
     %li
       %p{ :'data-role' => 'fieldcontain'}=(@storage_volume.name ? @storage_volume.name : @storage_volume.id)
     %li{ :'data-role' => 'list-divider'} Created
