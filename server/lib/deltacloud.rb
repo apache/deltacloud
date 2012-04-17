@@ -1,4 +1,3 @@
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -14,14 +13,74 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/drivers'
+require 'rubygems'
 
-require 'deltacloud/core_ext'
+load File.join(File.dirname(__FILE__), 'deltacloud/core_ext.rb')
 
-require 'deltacloud/base_driver'
-require 'deltacloud/hardware_profile'
-require 'deltacloud/state_machine'
-require 'deltacloud/helpers'
-require 'deltacloud/models'
-require 'deltacloud/validation'
-require 'deltacloud/runner'
+require 'ostruct'
+
+require_relative 'deltacloud/core_ext/string'
+require_relative 'deltacloud/core_ext/array'
+require_relative 'deltacloud/core_ext/hash'
+require_relative 'deltacloud/core_ext/integer'
+require_relative 'deltacloud/core_ext/proc'
+require_relative 'deltacloud/models'
+require_relative 'deltacloud/drivers'
+require_relative 'deltacloud/helpers/driver_helper'
+
+module Deltacloud
+
+  API_VERSION = '0.5.0'
+
+  def self.drivers
+    Drivers.driver_config
+  end
+
+  class Library
+    include Helpers::Drivers
+
+    attr_reader :backend, :credentials
+
+    def initialize(driver_name, opts={}, &block)
+      Thread.current[:driver] = driver_name.to_s
+      Thread.current[:provider] = opts[:provider]
+      @backend = driver
+      opts[:user] ||= 'mockuser'
+      opts[:password] ||= 'mockpassword'
+      @credentials = OpenStruct.new(:user => opts[:user], :password => opts[:password])
+      yield backend if block_given?
+    end
+
+    def version
+      Deltacloud::API_VERSION
+    end
+
+    def current_provider
+      Thread.current[:provider]
+    end
+
+    def current_driver
+      Thread.current[:driver]
+    end
+
+    def providers
+      Deltacloud.drivers[current_driver.to_sym]
+    end
+
+    def method_missing(name, *args)
+      return super unless backend.respond_to? name
+      begin
+        params = ([@credentials] + args).flatten
+        backend.send(name, *params)
+      rescue ArgumentError
+        backend.send(name, *args)
+      end
+    end
+
+  end
+
+  def self.new(driver_name, opts={}, &block)
+    Library.new(driver_name, opts, &block)
+  end
+
+end
