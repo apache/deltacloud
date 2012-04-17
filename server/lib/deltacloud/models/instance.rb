@@ -16,8 +16,6 @@
 
 class Instance < BaseModel
 
-  include ApplicationHelper
-
   attr_accessor :owner_id
   attr_accessor :image_id
   attr_accessor :name

@@ -17,7 +17,6 @@
 require_relative 'helpers/driver_helper'
 require_relative 'helpers/auth_helper'
 require_relative 'helpers/url_helper'
-require_relative 'helpers/assets_helper'
 require_relative 'helpers/deltacloud_helper'
 require_relative 'helpers/rabbit_helper'
 require_relative 'helpers/blob_stream_helper'
@@ -36,7 +35,6 @@ module Deltacloud::Collections
     helpers Deltacloud::Helpers::Drivers
     helpers Sinatra::AuthHelper
     helpers Sinatra::UrlForHelper
-    helpers Sinatra::StaticAssets::Helpers
     helpers Rack::RespondTo::Helpers
     helpers Deltacloud::Helpers::Application
 

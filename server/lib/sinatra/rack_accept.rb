@@ -12,10 +12,7 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
-require 'sinatra/base'
 require 'rack/accept'
-
-use Rack::Accept
 
 module Rack
 
@@ -26,7 +23,6 @@ module Rack
     # We need to overide the default render method to supply correct path to the
     # template, since Sinatra is by default looking in the current __FILE__ path
     def self.registered(app)
-      app.helpers Rack::RespondTo::Helpers
       app.class_eval do
         alias :render_without_format :render
         def render(*args, &block)

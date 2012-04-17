@@ -14,6 +14,7 @@
 # under the License.
 
 include Deltacloud
+
 begin
   require 'eventmachine'
   #--
@@ -187,7 +188,7 @@ class BlobStreamIO
   def self.is_put_blob(request = nil)
     path = request.env['PATH_INFO']
     method = request.env['REQUEST_METHOD']
-    if ( path =~ /^#{Regexp.escape(settings.root_url)}\/buckets/ && method == 'PUT' )
+    if ( path =~ /^#{Regexp.escape(Deltacloud::API.settings.root_url)}\/buckets/ && method == 'PUT' )
       return true
     else
       return false

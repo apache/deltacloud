@@ -3,8 +3,11 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview, :'data-inset' => 'true'}
-    - @collections.sort_by { |k| k.to_s }.each do |key|
-      %li= link_to key.to_s.gsub('_', ' ').titlecase, api_url_for(key), :'data-icon' => "arrow-r", :'data-ajax' => false
+
+    - Deltacloud.collections.each do |c|
+      - next unless c.operation(:index).has_capability?
+      %li
+        %a{ :href => api_url_for(c.collection_name),  :'data-icon' => "arrow-r"}=c.collection_name.to_s.gsub('_', ' ').titlecase
 
 - if @providers.size > 1
   %div{ :'data-role' => :footer, :'data-theme' => 'a'}

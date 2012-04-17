@@ -51,9 +51,7 @@ module Rack
         while param=sub_components.pop do
           if value
             matrix_params[sub_components.first] ||= {}
-            matrix_params[sub_components.first].merge!(
-                                                       param => value
-                                                       )
+            matrix_params[sub_components.first].merge!(param => value)
             value=nil
             next
           else

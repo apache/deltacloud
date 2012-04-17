@@ -14,12 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'sinatra/base'
-
 # Lazy Basic HTTP authentication. Authentication is only forced when the
 # credentials are actually needed.
+
 module Sinatra
-  module LazyAuth
+  module AuthHelper
     class LazyCredentials
       def initialize(app)
         @app = app
@@ -59,7 +58,7 @@ module Sinatra
     end
 
     def authorize!
-      r = "#{driver_symbol}-deltacloud@#{HOSTNAME}"
+      r = "#{Thread.current[:driver]}-deltacloud@#{ENV['HOSTNAME']}"
       response['WWW-Authenticate'] = %(Basic realm="#{r}")
       throw(:halt, [401, report_error(401)])
     end
@@ -71,5 +70,4 @@ module Sinatra
     end
   end
 
-  helpers LazyAuth
 end

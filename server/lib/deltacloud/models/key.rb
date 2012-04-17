@@ -23,6 +23,10 @@ class Key < BaseModel
   attr_accessor :pem_rsa_key
   attr_accessor :state
 
+  def name
+    @name || @id
+  end
+
   def is_password?
     true if @credential_type.eql?(:password)
   end

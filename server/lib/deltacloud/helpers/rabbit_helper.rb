@@ -13,21 +13,22 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module Rack
-  # Automatically sets the X-CIMI-Specification-Version header on all responses.
-  #
-  class CIMI
 
-    def initialize(app, no_cache_control = nil, cache_control = nil)
-      @app = app
+Sinatra::Rabbit::Collection.class_eval do
+
+  def self.standard_index_operation
+    collection_name = @collection_name
+    operation :index, :with_capability => collection_name do
+      control { filter_all collection_name }
     end
-
-    def call(env)
-      status, headers, body = @app.call(env)
-      headers['X-CIMI-Specification-Version'] = '0.0.66'
-      [status, headers, body]
-    end
-
   end
+
+  def self.standard_show_operation
+    collection_name = @collection_name
+    operation :show, :with_capability => collection_name do
+      control { show collection_name.to_s.singularize.intern }
+    end
+  end
+
 end
 

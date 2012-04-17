@@ -24,10 +24,27 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 # USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'uri'
-
 module Sinatra
   module UrlForHelper
+
+    require 'uri'
+
+    def method_missing(name, *args)
+      if name.to_s =~ /^([\w\_]+)_url$/
+        if args.size > 0
+          t = $1
+          if t =~ /^(stop|reboot|destroy|start|attach|detach)_/
+            api_url_for(t.pluralize.split('_').last + '/' + args.first + '/' + $1, :full)
+          else
+            api_url_for(t.pluralize, :full) + '/' + "#{args.first}"
+          end
+        else
+          api_url_for($1, :full)
+        end
+      else
+        super
+      end
+    end
 
     def api_url_for(url_fragment, mode=:path_only)
       matrix_params = ''
@@ -36,7 +53,11 @@ module Sinatra
         matrix_params += ";driver=%s" % request.params['api']['driver'] if request.params['api']['driver']
       end
       url_fragment = "/#{url_fragment}" unless url_fragment =~ /^\// # There is no need to prefix URI with '/'
-      url_for "#{settings.root_url}#{matrix_params}#{url_fragment}", mode
+      if mode == :path_only
+        url_for "#{settings.root_url}#{matrix_params}#{url_fragment}", mode
+      else
+        url_for "#{matrix_params}#{url_fragment}", :full
+      end
     end
 
     # Construct a link to +url_fragment+, which should be given relative to
@@ -76,7 +97,8 @@ module Sinatra
       else
         raise TypeError, "Unknown url_for mode #{mode}"
       end
-      url_escape = URI.escape(url_fragment)
+      uri_parser = URI.const_defined?(:Parser) ? URI::Parser.new : URI
+      url_escape = uri_parser.escape(url_fragment)
       # Don't add the base fragment if url_for gets called more than once
       # per url or the url_fragment passed in is an absolute url
       if url_escape.match(/^#{base}/) or url_escape.match(/^http/)
@@ -87,7 +109,4 @@ module Sinatra
     end
   end
 
-
-
-  helpers UrlForHelper
 end
