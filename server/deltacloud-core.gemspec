@@ -68,6 +68,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rake', '>= 0.8.7')
   s.add_dependency('haml', '>= 2.2.17')
   s.add_dependency('sinatra', '>= 0.9.4')
+  s.add_dependency('sinatra-rabbit', '>= 1.0.5')
   s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('rack-accept')
   s.add_dependency('json', '>= 1.1.9')
