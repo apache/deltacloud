@@ -79,9 +79,16 @@ module Rack
           @media_type ||= accepting_formats.to_a.sort { |a,b| a[1]<=>b[1] }.reverse.select do |format, priority|
             wants.keys.include?(format) == true
           end.first
+          if @media_type and @media_type.kind_of? Symbol
+            @media_type = [ @media_type ]
+          end
           if @media_type and @media_type[0]
             @media_type = @media_type[0]
-            headers 'Content-Type' => Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type][:return]
+            if  Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type]
+              headers 'Content-Type' => Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type][:return]
+            else
+              headers 'Content-Type' => 'application/xml'
+            end
             wants[@media_type.to_sym].call if wants[@media_type.to_sym]
           else
             headers 'Content-Type' => nil
