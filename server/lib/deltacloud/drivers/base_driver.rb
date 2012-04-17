@@ -14,18 +14,35 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/base_driver/exceptions'
-
 module Deltacloud
 
   class BaseDriver
 
     include ExceptionHandler
 
-    STATE_MACHINE_OPTS = {
-      :all_states => [:start, :pending, :running, :stopping, :stopped, :finish],
-      :all_actions => [:create, :reboot, :stop, :start, :destroy]
-    }
+    def self.driver_name
+      name.split('::').last.gsub('Driver', '').downcase
+    end
+
+    def self.features
+      @features ||= []
+    end
+
+    def self.features_for(entity)
+      features.inject([]) do |result, item|
+        result << item[entity] if item.has_key? entity
+        result
+      end
+    end
+
+    def self.feature(collection, feature_name)
+      return if has_feature?(collection, feature_name)
+      features << { collection => feature_name }
+    end
+
+    def self.has_feature?(collection, feature_name)
+      features.any? { |f| (f.values.first == feature_name) && (f.keys.first == collection) }
+    end
 
     def name
       self.class.name.split('::').last.gsub('Driver', '').downcase
@@ -42,11 +59,12 @@ module Deltacloud
       hw_profile = ::Deltacloud::HardwareProfile.new( name, &block )
       @hardware_profiles << hw_profile
       hw_params = hw_profile.params
-      unless hw_params.empty?
-        feature :instances, :hardware_profiles do
-          decl.operation(:create) { add_params(hw_params) }
-        end
-      end
+      # FIXME: Features
+      #unless hw_params.empty?
+      #  feature :instances, :hardware_profiles do
+      #    decl.operation(:create) { add_params(hw_params) }
+      #  end
+      #end
     end
 
     def self.hardware_profiles
@@ -60,6 +78,7 @@ module Deltacloud
     end
 
     def hardware_profile(credentials, name)
+      name = name[:id] if name.kind_of? Hash
       hardware_profiles(credentials, :id => name).first
     end
 
@@ -95,7 +114,7 @@ module Deltacloud
     end
 
     def self.define_instance_states(&block)
-      machine = ::Deltacloud::StateMachine.new(STATE_MACHINE_OPTS, &block)
+      machine = ::Deltacloud::StateMachine.new(&block)
       @instance_state_machine = machine
     end
 
@@ -117,6 +136,10 @@ module Deltacloud
         actions.reject!{|e| e.nil?}
       end
       actions
+    end
+
+    def has_capability?(method)
+      (self.class.instance_methods - self.class.superclass.methods).include? method
     end
 
     ## Capabilities
@@ -204,14 +227,6 @@ module Deltacloud
 
     MEMBER_SHOW_METHODS =
       [ :realm, :image, :instance, :storage_volume, :bucket, :blob, :key, :firewall ]
-
-    def has_capability?(capability)
-      if MEMBER_SHOW_METHODS.include?(capability.to_sym)
-        has_capability?(capability.to_s.pluralize)
-      else
-        respond_to?(capability)
-      end
-    end
 
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?

@@ -19,7 +19,7 @@ require 'deltacloud/drivers/ec2/ec2_driver.rb'
 module Deltacloud
   module Drivers
     module Eucalyptus
-      class EucalyptusDriver < EC2::EC2Driver
+      class EucalyptusDriver < Ec2::Ec2Driver
 
         def supported_collections
           DEFAULT_COLLECTIONS + [ :keys, :buckets, :addresses, :firewalls ]

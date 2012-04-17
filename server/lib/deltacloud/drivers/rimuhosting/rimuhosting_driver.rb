@@ -21,9 +21,9 @@ require "deltacloud/drivers/rimuhosting/rimuhosting_client"
 
 module Deltacloud
   module Drivers
-    module RimuHosting
+    module Rimuhosting
 
-class RimuHostingDriver < Deltacloud::BaseDriver
+class RimuhostingDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name
 

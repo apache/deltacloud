@@ -14,14 +14,43 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'rubygems'
+# The default URL prefix (where to mount Deltacloud API)
 
-$top_srcdir ||= File::expand_path(File.dirname(__FILE__))
+# The default driver is 'mock'
+ENV['API_DRIVER'] ||= 'mock'
 
-$:.unshift File.join($top_srcdir, 'lib')
+load './lib/deltacloud_rack.rb'
 
-server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
+Deltacloud::configure do |server|
+  server.root_url '/api'
+  server.version '0.5.0'
+  server.klass 'Deltacloud::API'
+end
 
-load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
+if ENV['API_FRONTEND'] == 'cimi'
+  Deltacloud::configure do |server|
+    server.root_url '/cimi'
+    server.version '1.0.0'
+    server.klass 'CIMI::API'
+  end
+end
 
-run Sinatra::Application
+Deltacloud.require_frontend!
+
+class IndexEntrypoint < Sinatra::Base
+  get "/" do
+    redirect Deltacloud[:root_url], 301
+  end
+end
+
+run Rack::Builder.new {
+  use Rack::MatrixParams
+  use Rack::DriverSelect
+
+  run Rack::URLMap.new(
+    "/" => IndexEntrypoint.new,
+    Deltacloud[:root_url] => Deltacloud[:klass],
+    "/stylesheets" =>  Rack::Directory.new( "public/stylesheets" ),
+    "/javascripts" =>  Rack::Directory.new( "public/javascripts" )
+  )
+} if respond_to? :run

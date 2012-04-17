@@ -15,7 +15,6 @@
 # under the License.
 #
 
-require 'deltacloud/base_driver'
 require 'deltacloud/drivers/opennebula/occi_client'
 
 require 'erb'

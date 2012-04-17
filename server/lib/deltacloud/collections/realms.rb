@@ -13,11 +13,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require_relative 'models/base_model'
+module Deltacloud::Collections
+  class Realms < Base
 
-# Include all models
+    collection :realms do
+      description "Within a cloud provider a realm represents a boundary containing resources"
 
-Dir[File.join(File::dirname(__FILE__), "models", "*.rb")].each do |model|
-  next if model =~ /base_model\.rb$/
-  require model
+      standard_index_operation
+      standard_show_operation
+
+    end
+  end
 end
