@@ -1,89 +1,129 @@
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.  The
-# ASF licenses this file to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance with the
-# License.  You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-# License for the specific language governing permissions and limitations
-# under the License.
-#
+describe 'Deltacloud API Realms' do
+  include Deltacloud::Test
 
-$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
-
-module DeltacloudUnitTest
-  class RealmsTest < Test::Unit::TestCase
-    include Rack::Test::Methods
-
-    def app
-      Sinatra::Application
-    end
-
-    def test_it_returns_realms
-      get_auth_url '/api/realms', {}
-      (last_xml_response/'realms/realm').length.should > 0
-    end
-
-    def test_it_has_correct_attributes_set
-      get_auth_url '/api/realms', {}
-      (last_xml_response/'realms/realm').each do |realm|
-        realm.attributes.keys.sort.should == [ 'href', 'id' ]
-      end
-    end
-
-    def test_us_has_correct_attributes
-      get_auth_url '/api/realms', {}
-      realm = (last_xml_response/'realms/realm[@id="us"]')
-      test_realm_attributes(realm)
-    end
-
-    def test_it_returns_valid_realm
-      get_auth_url '/api/realms/us', {}
-      realm = (last_xml_response/'realm')
-      test_realm_attributes(realm)
-    end
-
-    def test_it_has_unique_ids
-      get_auth_url '/api/realms', {}
-      ids = []
-      (last_xml_response/'realms/realm').each do |realm|
-        ids << realm['id'].to_s
-      end
-      ids.sort.should == ids.sort.uniq
-    end
-
-    def test_it_responses_to_json
-      get_auth_url '/api/realms', {}, { :format => :json }
-      JSON::parse(last_response.body).class.should == Hash
-      JSON::parse(last_response.body)['realms'].class.should == Array
-      get_auth_url '/api/realms/us', {}, { :format => :json }
-      last_response.status.should == 200
-      JSON::parse(last_response.body).class.should == Hash
-      JSON::parse(last_response.body)['realm'].class.should == Hash
-    end
-
-    def test_it_responses_to_html
-      get_auth_url '/api/realms', {}, { :format => :html }
-      last_response.status.should == 200
-      Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
-      get_auth_url '/api/realms/us', {}, { :format => :html }
-      last_response.status.should == 200
-      Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
-    end
-
-    private
-
-    def test_realm_attributes(realm)
-      (realm/'name').should_not == nil
-      (realm/'limit').should_not == nil
-      ['AVAILABLE'].include?((realm/'state').text).should == true
-    end
-
+  it 'must advertise have the realms collection in API entrypoint' do
+    get API_ROOT_URL
+    (xml_response/'api/link[@rel=realms]').wont_be_empty
   end
+
+  it 'must require authentication to access the "realm" collection' do
+    get collection_url(:realms)
+    last_response.status.must_equal 401
+  end
+
+  it 'should respond with HTTP_OK when accessing the :realms collection with authentication' do
+    auth_as_mock
+    get collection_url(:realms)
+    last_response.status.must_equal 200
+  end
+
+  it 'should support the JSON media type' do
+    auth_as_mock
+    header 'Accept', 'application/json'
+    get collection_url(:realms)
+    last_response.status.must_equal 200
+    last_response.headers['Content-Type'].must_equal 'application/json'
+  end
+
+  it 'must include the ETag in HTTP headers' do
+    auth_as_mock
+    get collection_url(:realms)
+    last_response.headers['ETag'].wont_be_nil
+  end
+
+  it 'must have the "realms" element on top level' do
+    auth_as_mock
+    get collection_url(:realms)
+    xml_response.root.name.must_equal 'realms'
+  end
+
+  it 'must have some "realm" elements inside "realms"' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').wont_be_empty
+  end
+
+  it 'must provide the :id attribute for each realm in collection' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      r[:id].wont_be_nil
+    end
+  end
+
+  it 'must include the :href attribute for each "realm" element in collection' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      r[:href].wont_be_nil
+    end
+  end
+
+  it 'must use the absolute URL in each :href attribute' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      r[:href].must_match /^http/
+    end
+  end
+
+  it 'must have the URL ending with the :id of the realm' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      r[:href].must_match /#{r[:id]}$/
+    end
+  end
+
+  it 'must return the list of valid parameters for the :index action' do
+    auth_as_mock
+    options collection_url(:realms) + '/index'
+    last_response.headers['Allow'].wont_be_nil
+  end
+
+  it 'must have the "name" element defined for each realm in collection' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      (r/'name').wont_be_empty
+    end
+  end
+
+  it 'must have the "state" element defined for each realm in collection' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      (r/'state').wont_be_empty
+    end
+  end
+
+  it 'must return the full "realm" when following the URL in realm element' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      get collection_url(:realms) + '/' + r[:id]
+      last_response.status.must_equal 200
+    end
+  end
+
+  it 'must have the "name" element for the realm and it should match with the one in collection' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      get collection_url(:realms) + '/' + r[:id]
+      (xml_response/'name').wont_be_empty
+      (xml_response/'name').first.text.must_equal((r/'name').first.text)
+    end
+  end
+
+  it 'must have the "state" element for the realm and it should match with the one in collection' do
+    auth_as_mock
+    get collection_url(:realms)
+    (xml_response/'realms/realm').each do |r|
+      get collection_url(:realms) + '/' + r[:id]
+      (xml_response/'state').wont_be_empty
+      (xml_response/'state').first.text.must_equal((r/'state').first.text)
+    end
+  end
+
 end

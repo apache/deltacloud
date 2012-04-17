@@ -71,26 +71,6 @@ begin
 rescue LoadError
 end
 
-namespace :test do
-  %w(mock rackspace rhevm openstack google fgcp).each do |driver|
-    desc "Run #{driver} unit tests"
-    Rake::TestTask.new(driver) { |t|
-      t.test_files = ['tests/common.rb', "tests/drivers/#{driver}/setup.rb"] + FileList.new("tests/drivers/#{driver}/*_test.rb") + FileList.new('tests/rabbit_test.rb')
-      t.options = "-v -v"
-      t.verbose = true
-      t.warning = false
-    }
-  end
-
-  desc "Run CIMI frontend tests"
-  Rake::TestTask.new "cimi" do |t|
-    t.test_files = ["tests/cimi/cimi.rb", "tests/cimi/common/*_test.rb"]
-    t.options = "-v -v"
-    t.verbose = true
-    t.warning = false
-  end
-
-end
 
 desc "Call our Test::Unit suite"
 task :test do
@@ -244,3 +224,25 @@ namespace :rabbit do
 
 end
 
+namespace :test do
+
+  %w(mock rackspace rhevm openstack google fgcp).each do |driver|
+    desc "Run #{driver} unit tests"
+    Rake::TestTask.new(driver) { |t|
+      Rake::Task["mock:fixtures:reset"].invoke
+      t.test_files = ['tests/drivers/'+driver+'/common.rb'] + FileList.new("tests/drivers/#{driver}/*_test.rb")
+      t.options = "-v -v"
+      t.verbose = true
+      t.warning = false
+    }
+  end
+
+  desc "Run CIMI frontend tests"
+  Rake::TestTask.new "cimi" do |t|
+    t.test_files = ["tests/cimi/cimi.rb", "tests/cimi/common/*_test.rb"]
+    t.options = "-v -v"
+    t.verbose = true
+    t.warning = false
+  end
+
+end

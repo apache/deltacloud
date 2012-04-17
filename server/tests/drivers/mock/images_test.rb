@@ -1,138 +1,194 @@
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.  The
-# ASF licenses this file to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance with the
-# License.  You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-# License for the specific language governing permissions and limitations
-# under the License.
-#
+describe 'Deltacloud API Images' do
+  include Deltacloud::Test
 
-$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
-
-module DeltacloudUnitTest
-  class HardwareProfilesTest < Test::Unit::TestCase
-    include Rack::Test::Methods
-
-    def app
-      Sinatra::Application
-    end
-
-    def test_it_require_authentication
-      require_authentication?('/api/images').should == true
-    end
-
-    def test_it_returns_images
-      get_auth_url '/api/images', {}
-      (last_xml_response/'images/image').length.should > 0
-    end
-
-    def test_it_has_correct_attributes_set
-      get_auth_url '/api/images', {}
-      (last_xml_response/'images/image').each do |image|
-        image.attributes.keys.sort.should == [ 'href', 'id' ]
-      end
-    end
-
-    def test_img1_has_correct_attributes
-      get_auth_url '/api/images', {}
-      image = (last_xml_response/'images/image[@id="img1"]')
-      test_image_attributes(image)
-    end
-
-    def test_it_returns_valid_image
-      get_auth_url '/api/images/img1', {}
-      image = (last_xml_response/'image')
-      test_image_attributes(image)
-    end
-
-    def test_it_has_unique_ids
-      get_auth_url '/api/images', {}
-      ids = []
-      (last_xml_response/'images/image').each do |image|
-        ids << image['id'].to_s
-      end
-      ids.sort.should == ids.sort.uniq
-    end
-
-    def test_it_has_valid_urls
-      get_auth_url '/api/images', {}
-      ids = []
-      images = (last_xml_response/'images/image')
-      images.each do |image|
-        get_auth_url image['href'].to_s, {}
-        (last_xml_response/'image').first['href'].should == image['href'].to_s
-      end
-    end
-
-    def test_it_can_filter_using_owner_id
-      get_auth_url '/api/images', { :owner_id => 'mockuser' }
-      (last_xml_response/'images/image').length.should == 1
-      (last_xml_response/'images/image/owner_id').first.text.should == 'mockuser'
-    end
-
-    def test_it_can_filter_using_unknown_owner_id
-      get_auth_url '/api/images', { :architecture => 'unknown_user' }
-      (last_xml_response/'images/image').length.should == 0
-    end
-
-    def test_it_can_filter_using_architecture
-      get_auth_url '/api/images', { :architecture => 'x86_64' }
-      (last_xml_response/'images/image').length.should == 1
-      (last_xml_response/'images/image/architecture').first.text.should == 'x86_64'
-    end
-
-    def test_it_can_filter_using_unknown_architecture
-      get_auth_url '/api/images', { :architecture => 'unknown_arch' }
-      (last_xml_response/'images/image').length.should == 0
-    end
-
-    def test_it_responses_to_json
-      get_auth_url '/api/images', {}, { :format => :json }
-      JSON::parse(last_response.body).class.should == Hash
-      JSON::parse(last_response.body)['images'].class.should == Array
-      get_auth_url '/api/images/img1', {}, { :format => :json }
-      last_response.status.should == 200
-      JSON::parse(last_response.body).class.should == Hash
-      JSON::parse(last_response.body)['image'].class.should == Hash
-    end
-
-    def test_it_responses_to_html
-      get_auth_url '/api/images', {}, { :format => :html }
-      last_response.status.should == 200
-      Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
-      get_auth_url '/api/images/img1', {}, { :format => :html }
-      last_response.status.should == 200
-      Nokogiri::HTML(last_response.body).search('html').first.name.should == 'html'
-    end
-
-    def test_it_creates_and_destroys_image_from_instance
-      post_url "/api/images", { :name => "img4", :description => "Test::Unit image", :instance_id => "inst1"}
-      last_response.status.should == 201
-      last_response.headers['Location'].should_not == nil
-      get_auth_url last_response.headers['Location'], {}
-      (last_xml_response/'instance/name').should_not == nil
-      delete_url "/api/images/img4", {}
-      last_response.status.should == 204
-      get_auth_url "/api/images/img4", {}
-      last_response.status.should == 404
-    end
-
-    private
-
-    def test_image_attributes(image)
-      (image/'name').text.should_not nil
-      (image/'owner_id').text.should_not nil
-      (image/'description').text.should_not nil
-      (image/'architecture').text.should_not nil
-    end
-
+  it 'must advertise have the images collection in API entrypoint' do
+    get API_ROOT_URL
+    (xml_response/'api/link[@rel=images]').wont_be_empty
   end
+
+  it 'must require authentication to access the "image" collection' do
+    get collection_url(:images)
+    last_response.status.must_equal 401
+  end
+
+  it 'should respond with HTTP_OK when accessing the :images collection with authentication' do
+    auth_as_mock
+    get collection_url(:images)
+    last_response.status.must_equal 200
+  end
+
+  it 'should support the JSON media type' do
+    auth_as_mock
+    header 'Accept', 'application/json'
+    get collection_url(:images)
+    last_response.status.must_equal 200
+    last_response.headers['Content-Type'].must_equal 'application/json'
+  end
+
+  it 'must include the ETag in HTTP headers' do
+    auth_as_mock
+    get collection_url(:images)
+    last_response.headers['ETag'].wont_be_nil
+  end
+
+  it 'must have the "images" element on top level' do
+    auth_as_mock
+    get collection_url(:images)
+    xml_response.root.name.must_equal 'images'
+  end
+
+  it 'must have some "image" elements inside "images"' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').wont_be_empty
+  end
+
+  it 'must provide the :id attribute for each image in collection' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      r[:id].wont_be_nil
+    end
+  end
+
+  it 'must include the :href attribute for each "image" element in collection' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      r[:href].wont_be_nil
+    end
+  end
+
+  it 'must use the absolute URL in each :href attribute' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      r[:href].must_match /^http/
+    end
+  end
+
+  it 'must have the URL ending with the :id of the image' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      r[:href].must_match /#{r[:id]}$/
+    end
+  end
+
+  it 'must return the list of valid parameters for the :index action' do
+    auth_as_mock
+    options collection_url(:images) + '/index'
+    last_response.headers['Allow'].wont_be_nil
+  end
+
+  it 'must have the "name" element defined for each image in collection' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      (r/'name').wont_be_empty
+    end
+  end
+
+  it 'must have the "state" element defined for each image in collection' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      (r/'state').wont_be_empty
+    end
+  end
+
+  it 'must return the full "image" when following the URL in image element' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      last_response.status.must_equal 200
+    end
+  end
+
+  it 'must have the "name" element for the image and it should match with the one in collection' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'name').wont_be_empty
+      (xml_response/'name').first.text.must_equal((r/'name').first.text)
+    end
+  end
+
+  it 'must have the "name" element for the image and it should match with the one in collection' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'state').wont_be_empty
+      (xml_response/'state').first.text.must_equal((r/'state').first.text)
+    end
+  end
+
+  it 'should have the "owner_id" element for each image' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'owner_id').wont_be_empty
+    end
+  end
+
+  it 'should have the "description" element for each image' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'description').wont_be_empty
+    end
+  end
+
+  it 'should have the "architecture" element for each image' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'architecture').wont_be_empty
+    end
+  end
+
+  it 'should include the list of compatible hardware_profiles for each image' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'hardware_profiles/hardware_profile').wont_be_empty
+      (xml_response/'hardware_profiles/hardware_profile').each do |hwp|
+        hwp[:href].wont_be_nil
+        hwp[:href].must_match /^http/
+        hwp[:id].wont_be_nil
+        hwp[:href].must_match /\/#{hwp[:id]}$/
+        hwp[:rel].must_equal 'hardware_profile'
+      end
+    end
+  end
+
+  it 'should advertise the list of actions that can be executed for each image' do
+    auth_as_mock
+    get collection_url(:images)
+    (xml_response/'images/image').each do |r|
+      get collection_url(:images) + '/' + r[:id]
+      (xml_response/'actions/link').wont_be_empty
+      (xml_response/'actions/link').each do |l|
+        l[:href].wont_be_nil
+        l[:href].must_match /^http/
+        l[:method].wont_be_nil
+        l[:rel].wont_be_nil
+      end
+    end
+  end
+
+  it 'should give client HTML form to create new image' do
+    auth_as_mock
+    header 'Accept', 'text/html'
+    get collection_url(:images) + '/new'
+    last_response.status.must_equal 200
+  end
+
 end
