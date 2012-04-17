@@ -1,9 +1,7 @@
 - unless defined?(partial)
   !!! XML
 %storage_snapshot{:href => storage_snapshot_url(@storage_snapshot.id), :id => @storage_snapshot.id }
+  %name=@storage_snapshot.id
   %created<
     =@storage_snapshot.created
   %storage_volume{:href => storage_volume_url(@storage_snapshot.storage_volume_id), :id => @storage_snapshot.storage_volume_id}
-  %actions
-    - if driver.respond_to? :destroy_storage_snapshot
-      %link{:rel => :destroy, :method => :delete, :href => destroy_storage_snapshot_url(@storage_snapshot.id)}
