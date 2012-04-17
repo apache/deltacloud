@@ -1,11 +1,14 @@
 !!! XML
 %blob{:href => bucket_url(@blob.bucket) + '/' + @blob.id, :id => @blob.id}
+  %bucket{ :id => @blob.bucket, :href => bucket_url(@blob.bucket)}
   - @blob.attributes.select{ |attr| (attr!=:id && attr!=:user_metadata) }.each do |attribute|
+    - next if attribute == :bucket
     - unless attribute == :content
       - haml_tag(attribute, :<) do
         - haml_concat @blob.send(attribute)
   %user_metadata
-    - @blob.user_metadata.each do |k, v|
-      %entry{:key => k}
-        #{cdata v}
-  %content{:href => bucket_url(@blob.bucket) + '/' + @blob.id + '/content'}
+    - if @blob.user_metadata.respond_to? :each
+      - @blob.user_metadata.each do |k, v|
+        %entry{:key => k}
+          #{cdata v}
+  %content{:href => bucket_url(@blob.bucket) + '/' + @blob.id + '/content', :rel => 'blob_content'}
