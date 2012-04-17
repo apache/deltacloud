@@ -1,12 +1,12 @@
 =header "Hardware profiles"
-=subheader @profile.name
+=subheader @hardware_profile.name
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Name
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@profile.name
-    - @profile.each_property do |p|
+      %p{ :'data-role' => 'fieldcontain'}=@hardware_profile.name
+    - @hardware_profile.each_property do |p|
       %li{ :'data-role' => 'list-divider'} #{p.name.to_s.titlecase}
       %li
         %p{ :'data-role' => 'fieldcontain'}

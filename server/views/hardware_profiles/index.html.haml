@@ -3,7 +3,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview, :'data-inset' => :true }
-    - for profile in @profiles
+    - for profile in @hardware_profiles
       %li{ :'data-theme' => 'c'}
         %a{ :href => hardware_profile_url(profile.name)}
           %img{ :class => 'ui-link-thumb', :src => '/images/profile.png'}
