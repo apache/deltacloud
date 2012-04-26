@@ -68,9 +68,9 @@ module DeltaCloud
       class Instance < Base
         def format
           sprintf("%-15s | %-15s | %-15s | %10s | %32s | %32s",
-            @obj.id ? @obj.id[0,15] : '-',
-            @obj.name ? @obj.name[0,15] : 'unknown',
-            @obj.image.name ? @obj.image.name[0,15] : 'unknown',
+            @obj.id ? @obj.id.to_s[0,15] : '-',
+            @obj.name ? @obj.name.to_s[0,15] : 'unknown',
+            @obj.image.name ? @obj.image.name.to_s[0,15] : 'unknown',
             @obj.state ? @obj.state.to_s[0,10] : 'unknown',
             @obj.public_addresses.collect { |a| a[:address] }.join(',')[0,32],
             @obj.private_addresses.collect { |a| a[:address] }.join(',')[0,32]
