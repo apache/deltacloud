@@ -23,6 +23,15 @@ module DeltaCloud
         end
       end
 
+      class Key < Base
+        def format
+          sprintf("%-10s | %-60s",
+              @obj.id[0,10],
+              @obj.fingerprint
+          )
+        end
+      end
+
       class Image < Base
         def format
           sprintf("%-10s | %-20s | %-6s | %-20s | %15s",
