@@ -19,7 +19,7 @@
     %li
       - prof = @instance.instance_profile
       %a{ :href => hardware_profile_url(prof.name), :'data-ajax' => 'false'}
-        =[prof.name, format_instance_profile(prof)].join(', ')
+        =[prof.name, format_instance_profile(prof)].compact.join(', ')
     %li{ :'data-role' => 'list-divider'} Realm
     %li
       - if @instance.realm_id

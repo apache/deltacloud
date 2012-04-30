@@ -34,7 +34,7 @@ module HardwareProfilesHelper
       "#{p} = #{v} #{u}"
     end
     if o.empty?
-      ""
+      nil
     else
       "with #{o.join(", ")}"
     end
