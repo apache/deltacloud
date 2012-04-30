@@ -39,4 +39,4 @@
       %li{ :'data-role' => 'list-divider'} Actions
       %li
         %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-          =link_to_action "Delete", "#{firewall_url(@firewall.name)}/#{rule.id}", :delete
+          =link_to_action "Delete", "#{firewall_url(@firewall.id)}/#{rule.id}", :delete
