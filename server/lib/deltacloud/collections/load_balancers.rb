@@ -48,7 +48,7 @@ module Deltacloud::Collections
           @load_balancer = driver.load_balancer(credential, params[:id])
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
-            format.json ( xml_to_json('load_balancers/show'))
+            format.json { xml_to_json('load_balancers/show') }
             format.html { haml :'load_balancers/show' }
           end
         end
@@ -61,7 +61,7 @@ module Deltacloud::Collections
           @load_balancer = driver.load_balancer(credential, params[:id])
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
-            format.json ( xml_to_json('load_balancers/show'))
+            format.json { xml_to_json('load_balancers/show')}
             format.html { haml :'load_balancers/show' }
           end
         end
