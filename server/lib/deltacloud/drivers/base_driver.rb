@@ -144,7 +144,8 @@ module Deltacloud
     end
 
     def has_capability?(method)
-      (self.class.instance_methods - self.class.superclass.methods).include? method
+      method = (RUBY_VERSION =~ /^1\.9/) ? method : method.to_s
+      (self.class.instance_methods - self.class.superclass.instance_methods).include? method
     end
 
     ## Capabilities

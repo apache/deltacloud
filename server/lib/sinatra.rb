@@ -13,6 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require_relative 'sinatra/body_proxy'
 require_relative 'sinatra/rack_date'
 require_relative 'sinatra/rack_etag'
 require_relative 'sinatra/rack_matrix_params'

@@ -10,11 +10,11 @@ end
 Given /^URI ([\w\/\-_]+) exists in (.+) format$/ do |uri, format|
   @no_header = true
   case format.downcase
-    when 'xml':
+    when 'xml' then
       header 'Accept', 'application/xml;q=9'
-    when 'json'
+    when 'json' then
       header 'Accept', 'application/json;q=9'
-    when 'html'
+    when 'html' then
       header 'Accept', 'application/xml+xhtml;q=9'
   end
   @uri = uri
@@ -55,11 +55,11 @@ Then /^this URI should be available in (.+) format$/ do |formats|
   @no_header = true
   formats.split(',').each do |format|
     case format.downcase
-      when 'xml':
+      when 'xml' then
         header 'Accept', 'application/xml;q=9'
-      when 'json'
+      when 'json' then
         header 'Accept', 'application/json;q=9'
-      when 'html'
+      when 'html' then
         header 'Accept', 'application/xml+xhtml;q=9'
     end
     get @uri, {}
@@ -70,15 +70,15 @@ end
 
 Then /^each (\w+) should have '(.+)' attribute with valid (.+)$/ do |el, attr, t|
   case el
-    when 'link':
+    when 'link' then
       path = '/api/link'
-    when 'image':
+    when 'image' then
       path = '/images/image'
-    when 'instance':
+    when 'instance' then
       path = '/instances/instance'
-    when 'key':
+    when 'key' then
       path = '/keys/key'
-    when 'realm':
+    when 'realm' then
       path = '/realms/realm'
   end
   output_xml.xpath(path).each do |entry_point|
@@ -92,11 +92,11 @@ end
 
 Then /^each ([\w\-]+) should have '(.+)' attribute set to '(.+)'$/ do |el, attr, v|
   case el
-    when 'image':
+    when 'image' then
       path = "/image/images"
-    when 'hardware_profile':
+    when 'hardware_profile' then
       path = "/hardware_profiles/hardware_profile"
-    when 'instance':
+    when 'instance' then
       path = "/instances/instance"
   end
   output_xml.xpath(path).each do |element|
@@ -106,11 +106,11 @@ end
 
 Then /^each ([\w\-]+) should have '(.+)' element set to '(.+)'$/ do |el, child, v|
   case el
-    when 'image':
+    when 'image' then
       path = "/images/image"
-    when 'hardware_profile':
+    when 'hardware_profile' then
       path = "/hardware_profiles/hardware_profile"
-    when 'instance':
+    when 'instance' then
       path = "/instances/instance"
   end
   output_xml.xpath(path).each do |element|
@@ -121,7 +121,7 @@ end
 
 Then /^each ([\w\-]+) should have '(.+)' property set to '(.+)'$/ do |el, property, v|
   case el
-    when 'hardware_profile':
+    when 'hardware_profile' then
       path = "/hardware_profiles/hardware_profile"
   end
   output_xml.xpath(path).each do |element|

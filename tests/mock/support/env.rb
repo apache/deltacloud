@@ -1,16 +1,13 @@
 require 'rubygems'
 require 'nokogiri'
-
-SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
-$top_srcdir = SERVER_DIR
-$:.unshift File::join($top_srcdir, 'lib')
-Dir.chdir(SERVER_DIR)
-
-ENV['API_DRIVER'] = 'mock'
-ENV.delete('API_VERBOSE')
-load File.join($top_srcdir, 'lib', 'deltacloud', 'server.rb')
-
 require 'rack/test'
+load File.join(File.dirname(__FILE__), '..', '..', '..', 'server', 'lib', 'deltacloud_rack.rb')
+
+Deltacloud::configure do |server|
+  server.root_url '/api'
+  server.version '0.5.0'
+  server.klass 'Deltacloud::API'
+end.require_frontend!
 
 CONFIG = {
   :username => 'mockuser',
@@ -22,5 +19,9 @@ def output_xml
 end
 
 def app
-  Sinatra::Application
+  Rack::URLMap.new(
+    "/" => Deltacloud::API.new,
+    "/stylesheets" =>  Rack::Directory.new( "public/stylesheets" ),
+    "/javascripts" =>  Rack::Directory.new( "public/javascripts" )
+  )
 end

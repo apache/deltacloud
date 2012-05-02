@@ -15,6 +15,7 @@
 
 module Deltacloud::Collections
   class Realms < Base
+    check_capability :for => lambda { |m| driver.respond_to? m }
 
     collection :realms do
       description "Within a cloud provider a realm represents a boundary containing resources"

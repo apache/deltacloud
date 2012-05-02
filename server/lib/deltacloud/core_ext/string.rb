@@ -72,4 +72,8 @@ class String
     "#{self[0..(length/2)]}#{end_string}"
   end
 
+  unless "".respond_to? :each
+    alias :each :each_line
+  end
+
 end
