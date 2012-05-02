@@ -33,8 +33,11 @@ module Sinatra
       if name.to_s =~ /^([\w\_]+)_url$/
         if args.size > 0
           t = $1
-          if t =~ /^(stop|reboot|destroy|start|attach|detach)_/
-            api_url_for(t.pluralize.split('_').last + '/' + args.first + '/' + $1, :full)
+          if t.match(/^(stop|reboot|start|attach|detach)_/)
+            action = $1
+            api_url_for(t.pluralize.split('_').last + '/' + args.first + '/' + action, :full)
+          elsif t.match(/^(destroy|update)_/)
+            api_url_for(t.pluralize.split('_').last + '/' + args.first, :full)
           else
             api_url_for(t.pluralize, :full) + '/' + "#{args.first}"
           end

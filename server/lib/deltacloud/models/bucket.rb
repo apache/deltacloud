@@ -22,6 +22,10 @@ class Bucket < BaseModel
 
   alias :to_hash_original :to_hash
 
+  def blob_list
+    @blob_list || []
+  end
+
   def to_hash
     h = self.to_hash_original
     unless blob_list.nil?

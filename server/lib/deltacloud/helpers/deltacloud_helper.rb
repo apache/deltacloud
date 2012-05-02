@@ -230,6 +230,8 @@ module Deltacloud::Helpers
       end
     end
 
+    NEW_BLOB_FORM_ID = 'new_blob_form_d15cfd90'
+
     def new_blob_form_url(bucket)
       bucket_url(@bucket.name) + "/" + NEW_BLOB_FORM_ID
     end

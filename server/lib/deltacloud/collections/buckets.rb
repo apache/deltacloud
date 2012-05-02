@@ -18,7 +18,52 @@ module Deltacloud::Collections
     check_capability :for => lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
+    get route_for('/buckets/new') do
+      respond_to do |format|
+        format.html { haml :"buckets/new" }
+      end
+    end
+
+    get route_for('/buckets/:bucket/%s' % NEW_BLOB_FORM_ID) do
+      @bucket_id = params[:bucket]
+      respond_to do |format|
+        format.html {haml :"blobs/new"}
+      end
+    end
+
     collection :buckets do
+
+      standard_show_operation
+      standard_index_operation
+
+      operation :create, :with_capability => :create_bucket do
+        param :name,      :string,    :required
+        control do
+          @bucket = driver.create_bucket(credentials, params[:name], params)
+          status 201
+          response['Location'] = bucket_url(@bucket.id)
+          respond_to do |format|
+            format.xml  { haml :"buckets/show" }
+            format.json { convert_to_json(:bucket, @bucket) }
+            format.html do
+              redirect bucket_url(@bucket.id) if @bucket and @bucket.id
+              redirect buckets_url
+            end
+          end
+        end
+      end
+
+      operation :destroy, :with_capability => :delete_bucket do
+        control do
+          driver.delete_bucket(credentials, params[:id], params)
+          status 204
+          respond_to do |format|
+            format.xml
+            format.json
+            format.html {  redirect(buckets_url) }
+          end
+        end
+      end
 
       collection :blobs, :with_id => :blob_id, :no_member => true do
 
@@ -115,7 +160,6 @@ module Deltacloud::Collections
             end
           end
         end
-
         action :metadata, :http_method => :head, :with_capability => :blob_metadata do
           control do
             @blob_id = params[:blob]
@@ -168,46 +212,8 @@ module Deltacloud::Collections
             end
           end
         end
-
       end
 
-      get route_for('/buckets/new') do
-        respond_to do |format|
-          format.html { haml :"buckets/new" }
-        end
-      end
-
-      standard_show_operation
-      standard_index_operation
-
-      operation :create, :with_capability => :create_bucket do
-        param :name,      :string,    :required
-        control do
-          @bucket = driver.create_bucket(credentials, params[:name], params)
-          status 201
-          response['Location'] = bucket_url(@bucket.id)
-          respond_to do |format|
-            format.xml  { haml :"buckets/show" }
-            format.json { convert_to_json(:bucket, @bucket) }
-            format.html do
-              redirect bucket_url(@bucket.id) if @bucket and @bucket.id
-              redirect buckets_url
-            end
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :delete_bucket do
-        control do
-          driver.delete_bucket(credentials, params[:id], params)
-          status 204
-          respond_to do |format|
-            format.xml
-            format.json
-            format.html {  redirect(buckets_url) }
-          end
-        end
-      end
 
     end
 

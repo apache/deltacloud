@@ -367,7 +367,7 @@ module Deltacloud::Drivers::Mock
       check_credentials(credentials)
       bucket = bucket(credentials, {:id => name})
       raise 'BucketNotExist' if bucket.nil?
-      raise "BucketNotEmpty" unless (bucket and bucket.size == "0")
+      raise "BucketNotEmpty" unless bucket.blob_list.empty?
       @client.destroy(:buckets, bucket.id)
     end
 
@@ -427,7 +427,7 @@ module Deltacloud::Drivers::Mock
     #--
     def blob_metadata(credentials, opts={})
       check_credentials(credentials)
-      if blob = @client.load(:blobs, params[:id])
+      if blob = @client.load(:blobs, opts[:id])
         blob[:user_metadata]
       else
         nil
@@ -440,7 +440,7 @@ module Deltacloud::Drivers::Mock
     def update_blob_metadata(credentials, opts={})
       check_credentials(credentials)
       safely do
-        blob = @client.load(:blobs, params[:id])
+        blob = @client.load(:blobs, opts[:id])
         return false unless blob
         blob[:user_metadata] = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
         @client.store(:blobs, blob)
