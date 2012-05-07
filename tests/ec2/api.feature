@@ -26,6 +26,7 @@ Feature: Accessing API entry points
     | storage_volumes    |
     | addresses |
     | firewalls |
+    | metrics |
     And this URI should be available in XML, JSON, HTML format
 
   Scenario: Following entry points
@@ -46,6 +47,7 @@ Feature: Accessing API entry points
     | storage_volumes    |
     | addresses |
     | firewalls |
+    | metrics |
     And each link should have 'rel' attribute with valid name
     And each link should have 'href' attribute with valid URL
     When client follow this attribute
@@ -61,4 +63,3 @@ Feature: Accessing API entry points
     | user_data |
     | instance_count |
     | firewalls |
-    | hardware_profiles |

@@ -23,4 +23,5 @@ Feature: Accessing storage snapshots
     Then client should get this storage_snapshot
     And this storage_snapshot should have:
     | created |
+    | name |
     | storage_volume |

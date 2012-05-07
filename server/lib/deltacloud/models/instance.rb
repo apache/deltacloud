@@ -34,6 +34,10 @@ class Instance < BaseModel
   attr_accessor :firewalls
   attr_accessor :storage_volumes
 
+  def storage_volumes
+    @storage_volumes || []
+  end
+
   def can_create_image?
     self.create_image
   end

@@ -27,17 +27,17 @@ end
 
 When /^client want to show first (.+)$/ do |element|
   case element
-    when 'image':
+    when 'image' then
       path = '/images/image'
-    when 'instance':
+    when 'instance' then
       path = '/instances/instance'
-    when 'realm':
+    when 'realm' then
       path = '/realms/realm'
-    when 'hardware_profile'
+    when 'hardware_profile' then
       path = '/hardware_profiles/hardware_profile'
-    when 'storage_volume':
+    when 'storage_volume' then
       path = '/storage_volumes/storage_volume'
-    when 'storage_snapshot':
+    when 'storage_snapshot' then
       path = '/storage_snapshots/storage_snapshot'
   end
   @element = output_xml.xpath(path).first
@@ -58,7 +58,7 @@ Then /^client follow (\w+) attribute in first (.+)$/ do |attr, el|
 end
 
 Then /^client should get this (.+)$/ do |el|
-  last_response.status.should == 200
+  last_response.status.to_s =~ /2(\d{2})/
 end
 
 

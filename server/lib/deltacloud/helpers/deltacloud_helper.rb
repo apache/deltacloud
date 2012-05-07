@@ -26,6 +26,11 @@ module Deltacloud::Helpers
       end
     end
 
+    def auth_feature_name
+      return 'key' if driver.class.has_feature?(:instances, :authentication_key)
+      return 'password' if driver.class.has_feature?(:instances, :authentication_password)
+    end
+
     def instance_action_method(action)
       action_method(action, Sinatra::Rabbit::InstancesCollection)
     end

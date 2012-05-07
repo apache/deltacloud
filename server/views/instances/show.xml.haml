@@ -45,8 +45,8 @@
     %storage_volumes<
       - @instance.storage_volumes.each do |volume|
         %storage_volume{:href=> storage_volume_url(volume.keys.first), :id => volume.keys.first, :device => volume.values.first}
-  - if driver.class.has_feature?(:authentication_key) or driver.class.has_feature?(:authentication_password)
-    %authentication{ :type => driver_auth_feature_name }
+  - if driver.class.has_feature?(:instances, :authentication_key) or driver.class.has_feature?(:instances, :authentication_password)
+    %authentication{ :type => auth_feature_name }
       - if @instance.authn_feature_failed?
         %error  #{@instance.authn_error}
       - else

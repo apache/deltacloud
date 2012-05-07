@@ -79,7 +79,7 @@ module Sinatra
     def url_for url_fragment, mode=:path_only
       case mode
       when :path_only
-        base = request.script_name
+        base = request.script_name.empty? ? API_ROOT_URL : request.script_name
       when :full
         scheme = request.scheme
         port = request.port
@@ -96,7 +96,7 @@ module Sinatra
         else
           port = ":#{port}"
         end
-        base = "#{scheme}://#{request_host}#{port}#{request.script_name}"
+        base = "#{scheme}://#{request_host}#{port}#{request.script_name.empty? ? API_ROOT_URL : request.script_name}"
       else
         raise TypeError, "Unknown url_for mode #{mode}"
       end

@@ -12,6 +12,7 @@ Feature: Listing and showing images
     | architecture |
     | owner_id |
     | state |
+    | hardware_profiles |
     | actions |
     And each image should have 'href' attribute with valid URL
     And this URI should be available in XML, JSON, HTML format
@@ -29,6 +30,7 @@ Feature: Listing and showing images
     | name |
     | description |
     | architecture |
+    | hardware_profiles |
     | owner_id |
     | state |
     | actions |

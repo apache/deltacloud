@@ -53,4 +53,3 @@ Feature: Accessing API entry points
     | user_name |
     | user_data |
     | authentication_key |
-    | hardware_profiles |
