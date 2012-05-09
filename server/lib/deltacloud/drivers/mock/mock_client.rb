@@ -26,7 +26,7 @@ module Deltacloud::Drivers::Mock
 
       if ! File::directory?(@storage_root)
         FileUtils::rm_rf(@storage_root)
-        FileUtils::mkdir_p(@storage_root)
+        FileUtils::mkdir_p(@storage_root, :mode => 0750)
         data = Dir[File::join(File::dirname(__FILE__), "data", "*")]
         FileUtils::cp_r(data, @storage_root)
       end
@@ -35,7 +35,7 @@ module Deltacloud::Drivers::Mock
     def dir(collection)
       result = File::join(@storage_root, collection.to_s)
       unless @collections.include?(collection)
-        FileUtils::mkdir_p(result) unless File::directory?(result)
+        FileUtils::mkdir_p(result, :mode => 0750) unless File::directory?(result)
         @collections << collection
       end
       result
