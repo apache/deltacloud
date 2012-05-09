@@ -164,6 +164,7 @@ module VSphere
     # return the url like https://<server_address>/folder/<path>/<file_name>?<query_infos>
 
     def buildUrl(datastore,file="")
+      raise "Requested datastore does not exists or misconfigured" unless datastore.respond_to?(:'_connection')
       uri=URI::HTTPS::build(:host=>datastore._connection.http.address)
       uri.path= ["/folder",DIRECTORY_PATH,file].join("/") if file
       query={:dcPath => datastore.send(:datacenter).name, :dsName => datastore.name }
