@@ -377,6 +377,7 @@ module Deltacloud
 
         def destroy_load_balancer(credentials, id)
           ec2 = new_client( credentials, :elb )
+          return 'InvalidLoadBalancer' if load_balancer(credentials, :id => id).nil?
           safely do
             ec2.delete_load_balancer(id)
           end
@@ -1047,7 +1048,11 @@ module Deltacloud
             status 401
           end
 
-          on /(NotFound|InvalidInstanceID|InvalidAMIID)/ do
+          on /(NotFound|InvalidInstanceID|InvalidAMIID|InvalidLoadBalancer|LoadBalancerNotFound)/ do
+            status 404
+          end
+
+          on /Bad Request.*elasticloadbalancing/ do
             status 404
           end
 
