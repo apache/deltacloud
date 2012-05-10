@@ -35,6 +35,14 @@ if ENV['API_FRONTEND'] == 'cimi'
   end
 end
 
+if ENV['API_FRONTEND'] == 'ec2'
+  Deltacloud::configure do |server|
+    server.root_url '/'
+    server.version '2012-04-01'
+    server.klass 'Deltacloud::EC2::API'
+  end
+end
+
 Deltacloud.require_frontend!
 
 class IndexEntrypoint < Sinatra::Base
