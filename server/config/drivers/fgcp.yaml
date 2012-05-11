@@ -1,0 +1,12 @@
+---
+:fgcp:
+  :name: FGCP
+  :username: Username
+  :password: Secret Key Password of User Certificate
+  :entrypoints:
+      jp: https://api.oviss.jp.fujitsu.com/ovissapi/endpoint
+      au: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint
+      sg: https://api.globalcloud.sg.fujitsu.com/ovissapi/endpoint
+      uk: https://api.globalcloud.uk.fujitsu.com/ovissapi/endpoint
+      us: https://api.globalcloud.us.fujitsu.com/ovissapi/endpoint
+      de: https://api.globalcloud.de.fujitsu.com/ovissapi/endpoint
