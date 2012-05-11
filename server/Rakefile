@@ -72,7 +72,7 @@ rescue LoadError
 end
 
 namespace :test do
-  %w(mock rackspace rhevm openstack google).each do |driver|
+  %w(mock rackspace rhevm openstack google fgcp).each do |driver|
     desc "Run #{driver} unit tests"
     Rake::TestTask.new(driver) { |t|
       t.test_files = ['tests/common.rb', "tests/drivers/#{driver}/setup.rb"] + FileList.new("tests/drivers/#{driver}/*_test.rb") + FileList.new('tests/rabbit_test.rb')
@@ -94,7 +94,7 @@ end
 
 desc "Call our Test::Unit suite"
 task :test do
-  %w(mock rackspace rhevm openstack google).each do |driver|
+  %w(mock rackspace rhevm openstack google fgcp).each do |driver|
    Rake::Task["test:#{driver}"].reenable
    Rake::Task["test:#{driver}"].invoke
   end
