@@ -21,7 +21,7 @@ import libxml2
 
 class SimpleRestClient:
     """A simple REST client library"""
-    
+
     def __init__(self, api_url, api_user, api_password):
       self.url, self.user, self.password = api_url, api_user, api_password
       self.client = Http()
@@ -30,37 +30,37 @@ class SimpleRestClient:
 
     def GET(self, uri):
       if uri.startswith('http://'):
-	current_url = ''
+        current_url = ''
       else:
-	current_url = self.url
+        current_url = self.url
       status, response = self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'GET', headers={'accept':'application/xml'})
       response = self.parse_xml(response)
       return status, response
 
     def POST(self, uri, params={}):
       if uri.startswith('http://'):
-	current_url = ''
+        current_url = ''
       else:
-	current_url = self.url
+        current_url = self.url
       if not params:
-	params = {}
+        params = {}
       status, response = self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'POST',
-	  urlencode(params), headers={'accept':'application/xml'})
+          urlencode(params), headers={'accept':'application/xml'})
       response = self.parse_xml(response)
       return status, response
 
     def DELETE(self, uri):
       if uri.startswith('http://'):
-	current_url = ''
+        current_url = ''
       else:
-	current_url = self.url
+        current_url = self.url
       return self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'DELETE')
 
     def PUT(self, uri):
       if uri.startswith('http://'):
-	current_url = ''
+        current_url = ''
       else:
-	current_url = self.url
+        current_url = self.url
       return self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'PUT')
 
     def parse_xml(self, response):
@@ -144,9 +144,9 @@ class Instance(Deltacloud):
       return False
     else:
       if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-	return True
+        return True
       else:
-	return False
+        return False
 
   def stop(self):
     action = self.instance.xpathEval("actions/link[@rel='stop']")
@@ -154,9 +154,9 @@ class Instance(Deltacloud):
       return False
     else:
       if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-	return True
+        return True
       else:
-	return False
+        return False
 
   def reboot(self):
     action = self.instance.xpathEval("actions/link[@rel='reboot']")
@@ -164,9 +164,9 @@ class Instance(Deltacloud):
       return False
     else:
       if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-	return True
+        return True
       else:
-	return False
+        return False
 
   def destroy(self):
     action = self.instance.xpathEval("actions/link[@rel='destroy']")
@@ -174,9 +174,9 @@ class Instance(Deltacloud):
       return False
     else:
       if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-	return True
+        return True
       else:
-	return False
+        return False
 
 
 class Image(Deltacloud):
