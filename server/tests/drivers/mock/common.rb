@@ -1,3 +1,6 @@
+ENV['API_USERNAME'] = 'mockuser'
+ENV['API_PASSWORD'] = 'mockpassword'
+
 load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud_rack.rb')
 
 Deltacloud::configure do |server|
