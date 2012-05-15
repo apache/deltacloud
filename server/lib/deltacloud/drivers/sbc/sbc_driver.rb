@@ -15,17 +15,17 @@
 # under the License.
 
 require 'nokogiri'
-require 'deltacloud/drivers/sbc/sbc_client'
+require_relative './sbc_client'
 
 module Deltacloud
   module Drivers
-    module SBC
+    module Sbc
 #
 # Driver for the IBM Smart Business Cloud (SBC).
 #
 # 31 January 2011
 #
-class SBCDriver < Deltacloud::BaseDriver
+class SbcDriver < Deltacloud::BaseDriver
   #
   # Retrieves images
   #

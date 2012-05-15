@@ -21,7 +21,7 @@ require 'digest/md5'
 
 module Deltacloud
   module Drivers
-    module SBC
+    module Sbc
 
 class FixtureNotFound < Exception; end
 
