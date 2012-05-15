@@ -1,3 +1,5 @@
+World(Rack::Test::Methods)
+
 Given /^I enter ([A-Za-z_]+) collection$/ do |collection|
   @current_collection = collection
   @current_collection_url = "/api/%s" % collection.strip
