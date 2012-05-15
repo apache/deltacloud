@@ -1,0 +1,10 @@
+%imagesSet
+  - object.each do |item|
+    %item
+      %imageId=item.id
+      %imageState=item.state.downcase
+      %imageOwnerId=item.owner_id
+      %architecture item.architecture
+      %imageType machine
+      %name=item.name
+      %description=item.description

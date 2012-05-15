@@ -14,8 +14,8 @@
 # under the License.
 
 require 'rubygems'
-require 'nokogiri'
 require 'sinatra/base'
+require 'haml'
 
 require_relative '../sinatra'
 require_relative './helpers'
@@ -53,7 +53,7 @@ module Deltacloud::EC2
       content_type :xml
       ec2_action = QueryParser.parse(params, request_id)
       ec2_action.perform!(credentials, driver)
-      ec2_action.to_xml
+      ec2_action.to_xml(self)
     end
 
   end

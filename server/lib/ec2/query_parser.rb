@@ -21,7 +21,14 @@ module Deltacloud::EC2
       :describe_availability_zones => { :method => :realms, :params => { 'ZoneName.1' => :id } },
       :describe_images => { :method => :images, :params => { 'ImageId.1' => :id }},
       :describe_instances => { :method => :instances, :params => {} },
-      :run_instances => { :method => :create_instance, :params => { 'ImageId' => :image_id, 'InstanceType' => :hwp_id, 'Placement.AvailabilityZone' => :realm_id }}
+      :describe_key_pairs => { :method => :keys, :params => {} },
+      :create_key_pair => { :method => :create_key, :params => { 'KeyName' => :key_name }},
+      :delete_key_pair => { :method => :destroy_key, :params => { 'KeyName' => :id }},
+      :run_instances => { :method => :create_instance, :params => { 'ImageId' => :image_id, 'InstanceType' => :hwp_id, 'Placement.AvailabilityZone' => :realm_id }},
+      :stop_instances => { :method => :stop_instance, :params => { 'InstanceId.1' => :id }},
+      :start_instances => { :method => :start_instance, :params => { 'InstanceId.1' => :id }},
+      :reboot_instances => { :method => :reboot_instance, :params => { 'InstanceId.1' => :id }},
+      :terminate_instances => { :method => :destroy_instance, :params => { 'InstanceId.1' => :id }},
     }
 
     attr_reader :action
@@ -44,35 +51,49 @@ module Deltacloud::EC2
     def perform!(credentials, driver)
       @result = case deltacloud_method
         when :create_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:image_id), deltacloud_method_params)
+        when :stop_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
+        when :start_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
+        when :destroy_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
+        when :reboot_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
         else driver.send(deltacloud_method, credentials, deltacloud_method_params)
       end
     end
 
-    def to_xml
-      ResultParser.parse(action, @result).to_xml
+    def to_xml(context)
+      ResultParser.parse(action, @result, context)
     end
 
   end
 
   class ResultParser
 
-    def self.parse(parser, result)
-      Nokogiri::XML::Builder.new do |xml|
-        xml.send(:"#{parser.action.to_s.camelize}Response", :xmlns => 'http://ec2.amazonaws.com/doc/2012-04-01/') {
-          xml.requestId parser.request_id
-          new(xml, parser, result).build_xml
-        }
-      end
+    include ResultHelper
+
+    attr_reader :query
+    attr_reader :object
+    attr_reader :context
+
+    def self.parse(query, result, context)
+      parser = new(query, result, context)
+      layout = "%#{query.action.to_s.camelize}Response{:xmlns => 'http://ec2.amazonaws.com/doc/2012-04-01/'}\n"+
+        "\t%requestId #{query.request_id}\n" +
+        "\t=render(:#{query.action}, object)\n"
+      Haml::Engine.new(layout, :filename => 'layout').render(parser)
     end
 
-    def initialize(xml, parser, result)
-      @builder = xml
-      @parser = parser
-      @result = result
+    def initialize(query, object, context)
+      @context = context
+      @query = query
+      @object = object
     end
 
     def build_xml
-      Converter.convert(@builder, @parser.action, @result)
+      Converter.convert(query.action, object)
+    end
+
+    def render(template, obj)
+      template_filename = File.join(File.dirname(__FILE__), 'views', '%s.haml' % template.to_s)
+      Haml::Engine.new(File.read(template_filename), :filename => template_filename).render(self, :object => obj)
     end
 
   end
