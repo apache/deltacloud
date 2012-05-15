@@ -54,8 +54,8 @@ module CIMI::Collections
     enable :show_errors
     disable :show_exceptions
 
-    set :root_url, API_ROOT_URL
-    set :version, API_VERSION
+    set :root_url, Deltacloud[:root_url]
+    set :version, Deltacloud[:version]
     set :root, File.join(File.dirname(__FILE__), '..', '..')
     set :views, root + '/views/cimi'
     set :public_folder, root + '/public'
@@ -74,7 +74,7 @@ module CIMI::Collections
     end
 
     after do
-      headers 'X-CIMI-Specification-Version' => API_VERSION
+      headers 'X-CIMI-Specification-Version' => Deltacloud[:version]
     end
 
     def self.new_route_for(route, &block)

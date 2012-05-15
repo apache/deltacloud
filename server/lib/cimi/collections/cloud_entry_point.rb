@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index do
         description "list all resources of the cloud"
         control do
-          redirect API_ROOT_URL
+          redirect Deltacloud[:root_url]
         end
       end
     end

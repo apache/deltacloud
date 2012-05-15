@@ -20,7 +20,7 @@ module Deltacloud::Helpers
 
     def self.included(klass)
       klass.class_eval do
-        set :root_url, API_ROOT_URL
+        set :root_url, Deltacloud[:root_url]
         include Sinatra::Rabbit
         Sinatra::Rabbit.set :root_path, root_url+'/'
       end

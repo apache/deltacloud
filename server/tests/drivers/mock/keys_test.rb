@@ -2,7 +2,7 @@ describe 'Deltacloud API Keys' do
   include Deltacloud::Test
 
   it 'must advertise have the keys collection in API entrypoint' do
-    get API_ROOT_URL
+    get Deltacloud[:root_url]
     (xml_response/'api/link[@rel=keys]').wont_be_empty
   end
 

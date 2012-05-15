@@ -2,7 +2,7 @@ describe 'Deltacloud API Images' do
   include Deltacloud::Test
 
   it 'must advertise have the images collection in API entrypoint' do
-    get API_ROOT_URL
+    get Deltacloud[:root_url]
     (xml_response/'api/link[@rel=images]').wont_be_empty
   end
 

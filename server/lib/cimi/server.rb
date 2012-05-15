@@ -45,7 +45,7 @@ module CIMI
     include CIMI::Collections
     include CIMI::Model
 
-    get API_ROOT_URL do
+    get Deltacloud[:root_url] do
       if params[:force_auth]
         return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
       end

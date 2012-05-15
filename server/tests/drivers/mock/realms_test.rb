@@ -2,7 +2,7 @@ describe 'Deltacloud API Realms' do
   include Deltacloud::Test
 
   it 'must advertise have the realms collection in API entrypoint' do
-    get API_ROOT_URL
+    get Deltacloud[:root_url]
     (xml_response/'api/link[@rel=realms]').wont_be_empty
   end
 
