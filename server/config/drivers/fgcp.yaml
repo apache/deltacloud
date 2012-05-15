@@ -4,6 +4,7 @@
   :username: Username
   :password: Secret Key Password of User Certificate
   :entrypoints:
+    default:
       jp: https://api.oviss.jp.fujitsu.com/ovissapi/endpoint
       au: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint
       sg: https://api.globalcloud.sg.fujitsu.com/ovissapi/endpoint
