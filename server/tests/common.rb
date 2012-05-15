@@ -28,21 +28,20 @@ require 'json'
 require 'digest/sha1'
 require 'base64'
 require 'rack/test'
-require "%s/server" % (ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud')
 
-driver
+load File.join(File.dirname(__FILE__), '..', 'lib', 'deltacloud_rack.rb')
+
+Deltacloud::configure do |server|
+  server.root_url '/api'
+  server.version '0.5.0'
+  server.klass 'Deltacloud::API'
+end.require_frontend!
 
 # Set proper environment variables for running test
 
 ENV['RACK_ENV']     = 'test'
 ENV['API_HOST']     = 'localhost'
 ENV['API_PORT']     = '4040'
-
-configure :test do
-  set :environment, :test
-  set :raise_errors, false
-  set :show_exceptions, false
-end
 
 RSpec.configure do |conf|
   conf.include Rack::Test::Methods

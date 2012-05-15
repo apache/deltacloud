@@ -7,7 +7,12 @@ module OpenstackTest
     include Rack::Test::Methods
 
     def app
-      Sinatra::Application
+      Rack::Builder.new {
+        map '/' do
+          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+          run Rack::Cascade.new([Deltacloud::API])
+        end
+      }
     end
 
     def test_01_01_it_can_create_instance_without_hardware_profile
