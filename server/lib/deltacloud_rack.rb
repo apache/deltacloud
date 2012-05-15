@@ -13,6 +13,20 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+unless Kernel.respond_to?(:require_relative)
+  module Kernel
+    def require_relative(path)
+      require File.join(File.dirname(caller[0]), path.to_str)
+    end
+  end
+end
+
+require_relative './deltacloud/core_ext/string'
+require_relative './deltacloud/core_ext/array'
+require_relative './deltacloud/core_ext/hash'
+require_relative './deltacloud/core_ext/integer'
+require_relative './deltacloud/core_ext/proc'
+
 module Deltacloud
 
   def self.config(conf=nil)

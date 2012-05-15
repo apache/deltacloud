@@ -14,10 +14,9 @@
 # under the License.
 
 require 'rubygems'
+require 'ostruct'
 
 load File.join(File.dirname(__FILE__), 'deltacloud/core_ext.rb')
-
-require 'ostruct'
 
 require_relative 'deltacloud/core_ext/string'
 require_relative 'deltacloud/core_ext/array'

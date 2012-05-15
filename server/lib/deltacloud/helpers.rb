@@ -19,11 +19,7 @@ require_relative 'helpers/url_helper'
 require_relative 'helpers/deltacloud_helper'
 require_relative 'helpers/rabbit_helper'
 require_relative 'helpers/blob_stream_helper'
-require_relative 'core_ext/string'
-require_relative 'core_ext/array'
-require_relative 'core_ext/hash'
-require_relative 'core_ext/integer'
-require_relative 'core_ext/proc'
+
 
 module Deltacloud::Collections
   class Base < Sinatra::Base
