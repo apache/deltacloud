@@ -1136,7 +1136,7 @@ eofwopxml
     cert, key = convert_credentials(credentials)
     cert.subject.to_s =~ /\b[Cc]=(\w\w)\b/
     country = $1.downcase
-    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints][country]
+    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints][:default][country]
     [
       Provider.new(
         :id => "fgcp-#{country}",
