@@ -82,6 +82,7 @@ When /^client executes (\w+) operation on created Machine$/ do |operation|
   header 'Content-Type', 'application/xml'
   if operation == 'delete'
     delete "/cimi/machines/%s" % new_machine.name
+    puts last_response.body
     last_response.status.should == 200
     last_response.body.should be_empty
     @delete_operation = true

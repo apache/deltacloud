@@ -81,7 +81,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
   def self.create_volume(params, context)
     volume_config = CIMI::Model::VolumeConfiguration.find(params[:volume_config_id], context)
     opts = {:capacity=>volume_config.capacity[:quantity], :snapshot_id=>params[:volume_image_id] }
-    storage_volume = self.driver.create_storage_volume(context.credentials, opts)
+    storage_volume = context.driver.create_storage_volume(context.credentials, opts)
     from_storage_volume(storage_volume, context)
   end
 

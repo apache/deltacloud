@@ -1,19 +1,45 @@
 require 'rubygems'
 require 'nokogiri'
-
-ENV['API_DRIVER'] = 'mock'
-ENV['API_FRONTEND'] = 'cimi'
-ENV.delete('API_VERBOSE')
-
-$top_srcdir = File.join(File.dirname(__FILE__), '..', '..', '..', '..')
-$:.unshift File.join($top_srcdir, 'lib')
-
-load File.join($top_srcdir, 'lib', 'cimi', 'server.rb')
-
 require 'rack/test'
+
+ENV['API_FRONTEND'] = 'cimi'
+
+load File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib', 'deltacloud_rack.rb')
+
+Deltacloud::configure do |server|
+  server.root_url '/cimi'
+  server.version '1.0.0'
+  server.klass 'CIMI::API'
+end.require_frontend!
 
 def last_xml_response
   Nokogiri::XML(last_response.body)
+end
+
+class IndexEntrypoint < Sinatra::Base
+  get "/" do
+    redirect Deltacloud[:root_url], 301
+  end
+end
+
+=begin
+def app
+  Rack::URLMap.new(
+    "/" => IndexEntrypoint.new,
+    Deltacloud[:root_url] => CIMI::API,
+    "/stylesheets" =>  Rack::Directory.new( "public/stylesheets" ),
+    "/javascripts" =>  Rack::Directory.new( "public/javascripts" )
+  )
+end
+=end
+
+def app
+  Rack::Builder.new {
+    map '/' do
+      use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+      run Rack::Cascade.new([CIMI::API])
+    end
+  }
 end
 
 def new_machine
@@ -46,8 +72,4 @@ class String
     to_collection_uri.pluralize
   end
 
-end
-
-def app
-  Sinatra::Application
 end

@@ -37,7 +37,7 @@ When /^client GET the Volumes Collection$/ do
   header 'Content-Type', 'application/xml'
   get "/cimi/volumes"
   last_response.status.should == 200
-  @@volume_collection = VolumeCollection.from_xml(last_response.body)
+  @@volume_collection = CIMI::Model::VolumeCollection.from_xml(last_response.body)
 end
 
 Then /^client should get a list of volumes$/ do
@@ -69,7 +69,7 @@ When /^client specifies a running Machine using$/ do |machine|
   header 'Content-Type', 'application/xml'
   get "/cimi/machines/#{@machine_id}?format=xml"
   last_response.status.should==200
-  @@machine = Machine.from_xml(last_response.body)
+  @@machine = CIMI::Model::Machine.from_xml(last_response.body)
   @@machine.name.should == @machine_id
   @@machine.state.should == "STARTED"
 end

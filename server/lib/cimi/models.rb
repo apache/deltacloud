@@ -13,18 +13,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-
-require_relative '../deltacloud/drivers/features'
-
-# Declare namespace for CIMI models
-#
-
 module CIMI
   module Model; end
+end
 
-  class FakeCollection
-    extend Sinatra::Rabbit::Features
-    include Deltacloud::InstanceFeatures
+unless Kernel.respond_to?(:require_relative)
+  module Kernel
+    def require_relative(path)
+      require File.join(File.dirname(caller[0]), path.to_str)
+    end
   end
 end
 

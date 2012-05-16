@@ -17,9 +17,11 @@
 require 'rubygems'
 require 'pp'
 require 'rspec/core'
-require 'deltacloud/core_ext'
-require 'cimi/model'
 require 'xmlsimple'
+
+load File.join(File.dirname(__FILE__), '..', 'lib', 'deltacloud', 'core_ext', 'array.rb')
+load File.join(File.dirname(__FILE__), '..', 'lib', 'deltacloud', 'core_ext', 'string.rb')
+load File.join(File.dirname(__FILE__), '..', 'lib', 'cimi', 'models.rb')
 
 DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'cimi', 'data')
 

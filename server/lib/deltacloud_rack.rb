@@ -34,7 +34,7 @@ module Deltacloud
   end
 
   def self.configure(&block)
-    config(Server.new(&block))
+    @config = Server.new(&block)
     self
   end
 
@@ -45,7 +45,7 @@ module Deltacloud
   def self.require_frontend!
     ENV['API_FRONTEND'] ||= 'deltacloud'
     require File.join(File.dirname(__FILE__), ENV['API_FRONTEND'], 'server.rb')
-    config.klass eval(self[:klass])
+    config.klass eval('::'+self[:klass])
   end
 
   class Server

@@ -85,7 +85,7 @@ module CIMI::Collections
         end
       end
 
-      operation :restart do
+      action :restart do
         description "Start specific machine."
         control do
           machine = Machine.find(params[:id], self)
@@ -101,7 +101,7 @@ module CIMI::Collections
         end
       end
 
-      operation :start do
+      action :start do
         description "Start specific machine."
         control do
           machine = Machine.find(params[:id], self)

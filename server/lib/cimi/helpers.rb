@@ -16,20 +16,28 @@
 module Deltacloud; end
 module CIMI; end
 
+require_relative '../deltacloud/drivers/features'
+
+# Declare namespace for CIMI models
+#
+
+module CIMI
+  module Model; end
+
+  class FakeCollection
+    extend Sinatra::Rabbit::Features
+    include Deltacloud::InstanceFeatures
+  end
+end
+
 require_relative '../deltacloud/drivers'
 require_relative '../deltacloud/models'
 require_relative '../deltacloud/helpers/driver_helper'
 require_relative '../deltacloud/helpers/auth_helper'
 require_relative '../deltacloud/helpers/url_helper'
-require_relative '../deltacloud/helpers/assets_helper'
 require_relative '../deltacloud/helpers/deltacloud_helper'
 require_relative '../deltacloud/helpers/rabbit_helper'
 require_relative '../deltacloud/helpers/rabbit_helper'
-require_relative '../deltacloud/core_ext/string'
-require_relative '../deltacloud/core_ext/array'
-require_relative '../deltacloud/core_ext/hash'
-require_relative '../deltacloud/core_ext/integer'
-require_relative '../deltacloud/core_ext/proc'
 require_relative './helpers/cimi_helper'
 require_relative './models'
 
@@ -43,9 +51,9 @@ module CIMI::Collections
     helpers Deltacloud::Helpers::Drivers
     helpers Sinatra::AuthHelper
     helpers Sinatra::UrlForHelper
-    helpers Sinatra::StaticAssets::Helpers
     helpers Rack::RespondTo::Helpers
     helpers Deltacloud::Helpers::Application
+    helpers CIMIHelper
 
     register Rack::RespondTo
 

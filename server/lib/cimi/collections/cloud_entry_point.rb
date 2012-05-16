@@ -23,7 +23,14 @@ module CIMI::Collections
       operation :index do
         description "list all resources of the cloud"
         control do
-          redirect Deltacloud[:root_url]
+          if params[:force_auth]
+            return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
+          end
+          entry_point = CIMI::Model::CloudEntryPoint.create(self)
+          respond_to do |format|
+            format.xml { entry_point.to_xml }
+            format.json { entry_point.to_json }
+          end
         end
       end
     end

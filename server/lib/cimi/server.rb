@@ -46,14 +46,7 @@ module CIMI
     include CIMI::Model
 
     get Deltacloud[:root_url] do
-      if params[:force_auth]
-        return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
-      end
-      entry_point = CIMI::Model::CloudEntryPoint.create(self)
-      respond_to do |format|
-        format.xml { entry_point.to_xml }
-        format.json { entry_point.to_json }
-      end
+      redirect Deltacloud[:root_url] + '/cloudEntryPoint', 301
     end
 
   end
