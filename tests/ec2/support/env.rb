@@ -1,25 +1,28 @@
 require 'rubygems'
 require 'nokogiri'
-
-SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
-$top_srcdir = SERVER_DIR
-$:.unshift File::join($top_srcdir, 'lib')
-Dir.chdir(SERVER_DIR)
-
-API_VERSION = "9.9.9"
-API_ROOT_URL = "/api"
+require 'rack/test'
 
 ENV['API_DRIVER'] = 'ec2'
-ENV.delete('API_VERBOSE')
 
-load File.join($top_srcdir, 'lib', 'deltacloud', 'server.rb')
-
-require 'rack/test'
+#CONFIG = {
+#  :username => 'AKIAI77KNAA7ZXRLL7GQ',
+#  :password => 'idJ9vktNaDWAK0LWVVE/526ONvJmTl2Crto/s8Ok'
+#}
 
 CONFIG = {
   :username => 'mockuser',
   :password => 'mockpassword'
 }
+
+load File.join(File.dirname(__FILE__), '..', '..', '..', 'server', 'lib', 'deltacloud_rack.rb')
+
+Deltacloud::configure do |server|
+  server.root_url '/api'
+  server.version '0.5.0'
+  server.klass 'Deltacloud::API'
+end.require_frontend!
+
+require_relative './ec2_mock_driver'
 
 World do
   include Rack::Test::Methods

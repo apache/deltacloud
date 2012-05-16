@@ -116,7 +116,7 @@ When /^client want to '(\w+)' created instance$/ do |action|
 end
 
 Then /^client should get created instance$/ do
-  last_response.status.should == 200
+  last_response.status.should == 202
   #get last_response.headers['Location']
 end
 

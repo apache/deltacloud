@@ -30,4 +30,4 @@
   - if @storage_volume.actions
     %actions
       - @storage_volume.actions.each do |action|
-        %link{:rel => action, :method => action_method(action, :storage_volumes), :href => self.send("#{action}_storage_volume_url", @storage_volume.id)}
+        %link{:rel => action, :method => :post, :href => self.send("#{action}_storage_volume_url", @storage_volume.id)}

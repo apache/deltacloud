@@ -72,6 +72,7 @@ end
 
 Then /^storage_volume should be attached to this instance$/ do
   get "/api/storage_volumes/vol-de30ccb4"
+  puts last_response.body
   (output_xml/"/storage_volume/mount/instance").first['id'].should == 'i-7f6a021e'
 end
 
