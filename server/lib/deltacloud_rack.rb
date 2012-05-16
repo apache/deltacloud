@@ -21,11 +21,7 @@ unless Kernel.respond_to?(:require_relative)
   end
 end
 
-require_relative './deltacloud/core_ext/string'
-require_relative './deltacloud/core_ext/array'
-require_relative './deltacloud/core_ext/hash'
-require_relative './deltacloud/core_ext/integer'
-require_relative './deltacloud/core_ext/proc'
+require_relative './deltacloud/core_ext'
 
 module Deltacloud
 

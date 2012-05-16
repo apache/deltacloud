@@ -18,11 +18,7 @@ require 'ostruct'
 
 load File.join(File.dirname(__FILE__), 'deltacloud/core_ext.rb')
 
-require_relative 'deltacloud/core_ext/string'
-require_relative 'deltacloud/core_ext/array'
-require_relative 'deltacloud/core_ext/hash'
-require_relative 'deltacloud/core_ext/integer'
-require_relative 'deltacloud/core_ext/proc'
+require_relative 'deltacloud/core_ext'
 require_relative 'deltacloud/models'
 require_relative 'deltacloud/drivers'
 require_relative 'deltacloud/helpers/driver_helper'
