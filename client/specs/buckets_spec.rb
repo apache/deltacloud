@@ -96,6 +96,7 @@ describe "Blobs" do
       blob_list.size.should eql(bucket.size.to_i)
       blob_list.each do |b_id|
         blob = client.blob({"bucket" => bucket.name, :id => b_id})
+        puts blob.inspect
         blob.bucket.should_not be_nil
         blob.bucket.should be_a(String)
         blob.bucket.should eql(bucket.name)

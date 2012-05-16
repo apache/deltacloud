@@ -1,6 +1,6 @@
 !!! XML
 %blob{:href => bucket_url(@blob.bucket) + '/' + @blob.id, :id => @blob.id}
-  %bucket{ :id => @blob.bucket, :href => bucket_url(@blob.bucket)}
+  %bucket{ :id => @blob.bucket, :href => bucket_url(@blob.bucket), :rel => :bucket}
   - @blob.attributes.select{ |attr| (attr!=:id && attr!=:user_metadata) }.each do |attribute|
     - next if attribute == :bucket
     - unless attribute == :content

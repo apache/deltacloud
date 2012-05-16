@@ -58,7 +58,7 @@ end
 describe "return HTML in different browsers" do
 
   it "wants XML using format parameter" do
-    client['?format=xml'].get('Accept' => 'application/xhtml+xml') do |response, request, &block|
+    client.get(:params => { 'format' => 'xml' }, 'Accept' => 'application/xhtml+xml') do |response, request, &block|
       response.code.should == 200
       response.headers[:content_type].should =~ /^application\/xml/
     end
@@ -71,7 +71,7 @@ describe "return HTML in different browsers" do
   end
 
   it "wants HTML using format parameter and accept set to XML" do
-    client['?format=html'].get('Accept' => 'application/xml') do |response, request, &block|
+    client.get(:params => { 'format' => 'html'}, 'Accept' => 'application/xml') do |response, request, &block|
       response.code.should == 200
       response.headers[:content_type].should =~ /^text\/html/
     end
