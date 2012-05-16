@@ -1,20 +1,16 @@
 require 'rubygems'
 require 'nokogiri'
-
-SERVER_DIR = File::expand_path(File::join(File::dirname(__FILE__), "../../../server"))
-$top_srcdir = SERVER_DIR
-$:.unshift File::join($top_srcdir, 'lib')
-Dir.chdir(SERVER_DIR)
-
-API_VERSION = "9.9.9"
-API_ROOT_URL = "/api"
+require 'rack/test'
 
 ENV['API_DRIVER'] = 'sbc'
-ENV.delete('API_VERBOSE')
 
-load File.join($top_srcdir, 'lib', 'deltacloud', 'server.rb')
+load File.join(File.dirname(__FILE__), '..', '..', '..', 'server', 'lib', 'deltacloud_rack.rb')
 
-require 'rack/test'
+Deltacloud::configure do |server|
+  server.root_url '/api'
+  server.version '0.5.0'
+  server.klass 'Deltacloud::API'
+end.require_frontend!
 
 module Rack
   module Test
