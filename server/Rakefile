@@ -236,13 +236,4 @@ namespace :test do
       t.warning = false
     }
   end
-
-  desc "Run CIMI frontend tests"
-  Rake::TestTask.new "cimi" do |t|
-    t.test_files = ["tests/cimi/cimi.rb", "tests/cimi/common/*_test.rb"]
-    t.options = "-v -v"
-    t.verbose = true
-    t.warning = false
-  end
-
 end
