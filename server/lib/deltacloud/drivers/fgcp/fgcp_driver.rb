@@ -1136,7 +1136,7 @@ eofwopxml
     cert, key = convert_credentials(credentials)
     cert.subject.to_s =~ /\b[Cc]=(\w\w)\b/
     country = $1.downcase
-    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints][:default][country]
+    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'][country]
     [
       Provider.new(
         :id => "fgcp-#{country}",
@@ -1148,7 +1148,7 @@ eofwopxml
 
 # following code enables region drop-down box on GUI. No need as retrieving region from cert (subject c)
 #  def configured_providers
-#    Deltacloud::Drivers::driver_config[:fgcp][:entrypoints].keys
+#    Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'].keys
 #  end
 
   exceptions do

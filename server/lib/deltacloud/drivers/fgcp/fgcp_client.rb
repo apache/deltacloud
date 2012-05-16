@@ -35,7 +35,7 @@ class FGCPClient
     @locale = locale
     cert.subject.to_s =~ /\b[Cc]=(\w\w)\b/
     country = $1.downcase
-    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints][:default][country] unless endpoint
+    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'][country] unless endpoint
     raise "API endpoint not found for region #{country}" if endpoint.nil?
 
     #proxy settings:
