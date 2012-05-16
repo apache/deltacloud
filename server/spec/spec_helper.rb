@@ -19,7 +19,16 @@ require 'pp'
 require 'rspec/core'
 require 'xmlsimple'
 
-load File.join(File.dirname(__FILE__), '..', 'lib', 'deltacloud', 'core_ext.rb')
+unless Kernel.respond_to?(:require_relative)
+  module Kernel
+    def require_relative(path)
+      require File.join(File.dirname(caller[0]), path.to_str)
+    end
+  end
+end
+
+require_relative '../lib/deltacloud/core_ext.rb'
+require_relative '../lib/cimi/models.rb'
 
 DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'cimi', 'data')
 
