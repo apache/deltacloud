@@ -4,11 +4,8 @@ ENV['API_PROVIDER'] = 'https://rhev30-dc.lab.eng.brq.redhat.com:8443/rhevm-api;6
 
 require 'vcr'
 
-DeltacloudTestCommon::record!
-
 VCR.config do |c|
-  c.cassette_library_dir = "#{File.dirname(__FILE__)}/../../../tests/drivers/rhevm/fixtures/"
+  c.cassette_library_dir = "#{File.dirname(__FILE__)}/fixtures/"
   c.stub_with :webmock
   c.default_cassette_options = { :record => :none }
 end
-

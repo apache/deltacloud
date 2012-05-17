@@ -7,11 +7,18 @@ module RHEVMTest
     include Rack::Test::Methods
 
     def app
-      Sinatra::Application
+      Rack::Builder.new {
+        use Rack::MatrixParams
+        use Rack::DriverSelect
+        map '/' do
+          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+          run Rack::Cascade.new([Deltacloud::API])
+        end
+      }
     end
 
     def test_01_it_returns_entry_points
-      get_auth_url '/api;driver=rhevm?force_auth=1'
+      get_auth_url '/api;driver=rhevm'
       (last_xml_response/'/api').first[:driver].should == 'rhevm'
       (last_xml_response/'/api/link').length.should > 0
     end
@@ -20,8 +27,8 @@ module RHEVMTest
       get_url '/api;driver=rhevm'
       features = (last_xml_response/'/api/link[@rel="instances"]/feature').collect { |f| f[:name] }
       features.include?('user_name').should == true
-      features.include?('hardware_profiles').should == true
-      features.length.should == 3
+      features.include?('user_data').should == true
+      features.length.should == 2
     end
 
     def test_03_it_has_rhevm_collections
@@ -32,7 +39,8 @@ module RHEVMTest
       collections.include?('images').should == true
       collections.include?('realms').should == true
       collections.include?('hardware_profiles').should == true
-      collections.length.should == 8
+      collections.include?('storage_volumes').should == true
+      collections.length.should == 7
     end
 
   end

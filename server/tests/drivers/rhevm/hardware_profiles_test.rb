@@ -1,13 +1,19 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
 require 'tests/common'
 
+DeltacloudTestCommon.record!
 module RHEVMTest
 
   class HardwareProfilesTest < Test::Unit::TestCase
     include Rack::Test::Methods
 
     def app
-      Sinatra::Application
+      Rack::Builder.new {
+        map '/' do
+          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+          run Rack::Cascade.new([Deltacloud::API])
+        end
+      }
     end
 
     def test_01_it_returns_hardware_profiles
