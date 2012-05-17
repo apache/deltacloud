@@ -2,7 +2,7 @@
 =subheader "#{driver_symbol}@#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'd', :class => 'middle-dialog'}
-  = image_tag api_url_for('instance_states?format=png')
+  %img{ :src => api_url_for('instance_states?format=png') }
 
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-theme' => 'a'}
     - @machine.states.each do |state|
