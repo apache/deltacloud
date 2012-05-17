@@ -14,8 +14,8 @@
 # under the License.
 #
 
-require 'deltacloud/core_ext/array'
-require 'deltacloud/core_ext/hash'
-require 'deltacloud/core_ext/integer'
-require 'deltacloud/core_ext/proc'
-require 'deltacloud/core_ext/string'
+require_relative './core_ext/array'
+require_relative './core_ext/hash'
+require_relative './core_ext/integer'
+require_relative './core_ext/proc'
+require_relative './core_ext/string'
