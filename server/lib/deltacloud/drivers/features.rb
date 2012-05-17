@@ -14,7 +14,8 @@
 # under the License.
 
 module Deltacloud
-  module InstanceFeatures
+
+  module Features
 
     def self.included(k)
       current_features = features
@@ -28,6 +29,34 @@ module Deltacloud
     end
 
     features do
+
+      feature :owner_id, :for => :images do
+        description "Filter images using owner id"
+        operation :index do
+          param :owner_id,  :string,  :optional,  [],  "Owner ID"
+        end
+      end
+
+      feature :image_name, :for => :images do
+        description "Allow specifying user name for created image"
+        operation :create do
+          param :name,  :string,  :optional,  [],  "Image name"
+        end
+      end
+
+      feature :image_description, :for => :images do
+        description "Allow specifying user description for created image"
+        operation :create do
+          param :description, :string,  :optional,  [],  "Image description"
+        end
+      end
+
+      feature :bucket_location, :for => :buckets do
+        description "Take extra location parameter for Bucket creation (e.g. S3, 'eu' or 'us-west-1')"
+        operation :create do
+          param :location, :string, :optional
+        end
+      end
 
       feature :user_name, :for => :instances do
         description "Allow to set user-defined name for the instance"

@@ -15,14 +15,13 @@
 
 module Deltacloud::Collections
   class Buckets < Base
+
+    include Deltacloud::Features
+
     check_capability :for => lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
-    get route_for('/buckets/new') do
-      respond_to do |format|
-        format.html { haml :"buckets/new" }
-      end
-    end
+    new_route_for :buckets
 
     get route_for('/buckets/:bucket/%s' % NEW_BLOB_FORM_ID) do
       @bucket_id = params[:bucket]

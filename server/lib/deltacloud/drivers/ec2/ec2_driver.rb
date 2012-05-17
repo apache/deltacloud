@@ -36,8 +36,8 @@ module Deltacloud
         feature :instances, :firewalls
         feature :instances, :instance_count
         feature :images, :owner_id
-        feature :images, :user_name
-        feature :images, :user_description
+        feature :images, :image_name
+        feature :images, :image_description
         feature :buckets, :bucket_location
         feature :instances, :attach_snapshot
 

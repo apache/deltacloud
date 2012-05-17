@@ -16,7 +16,7 @@
 module Deltacloud::Collections
   class Instances < Base
 
-    include Deltacloud::InstanceFeatures
+    include Deltacloud::Features
 
     check_capability :for => lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
