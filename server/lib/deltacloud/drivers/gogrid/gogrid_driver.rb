@@ -32,13 +32,16 @@ module Deltacloud
 
 class GogridDriver < Deltacloud::BaseDriver
 
-  feature :instances, :authentication_password
-  feature :instances, :sandboxing
   feature :instances, :user_name do
-    constraint :max_length, 20
+    { :max_length => 20 }
   end
 
-  USER_NAME_MAX = feature(:instances, :user_name).constraints[:max_length]
+  feature :instances, :authentication_password
+  feature :instances, :sandboxing
+
+  define_hardware_profile 'default'
+
+  USER_NAME_MAX = constraints(:collection => :instances, :feature => :user_name)[:max_length]
 
   def hardware_profiles(credentials, opts={})
     client = new_client(credentials)

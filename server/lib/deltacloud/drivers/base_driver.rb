@@ -42,7 +42,18 @@ module Deltacloud
 
     def self.feature(collection, feature_name)
       return if has_feature?(collection, feature_name)
+      constraints[collection] ||= {}
+      constraints[collection][feature_name] ||= {}
+      constraints[collection][feature_name].merge!(yield) if block_given?
       features << { collection => feature_name }
+    end
+
+    def self.constraints(opts={})
+      if opts[:collection] and opts[:feature]
+        return [] unless @constraints.has_key? opts[:collection]
+        return @constraints[opts[:collection]][opts[:feature]]
+      end
+      @constraints ||= {}
     end
 
     def self.has_feature?(collection, feature_name)

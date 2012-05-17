@@ -4,3 +4,5 @@
     %link{ :rel => c.collection_name, :href => self.send(:"#{c.collection_name}_url")}
       - c.features.select { |f| driver.class.has_feature?(c.collection_name, f.name) }.each do |f|
         %feature{ :name => f.name }
+          - driver.class.constraints(:collection => c.collection_name, :feature => f.name).each do |name, value|
+            %constraint{ :name => name }=value
