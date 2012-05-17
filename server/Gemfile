@@ -4,7 +4,7 @@ gemspec
 
 group :development do
   gem "compass", ">= 0.8.17"
-  gem "vcr"
+  gem "vcr", "<=1.11.3"
   gem "webmock"
   gem "rack-test", ">= 0.5.3"
   gem "ci_reporter"

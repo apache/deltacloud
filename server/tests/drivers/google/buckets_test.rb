@@ -1,13 +1,15 @@
-$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
-#require 'webmock/test_unit'
 module GoogleTest
 
   class BucketsTest < Test::Unit::TestCase
     include Rack::Test::Methods
 
     def app
-      Sinatra::Application
+      Rack::Builder.new {
+        map '/' do
+          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+          run Rack::Cascade.new([Deltacloud::API])
+        end
+      }
     end
 
     @@bucket_name_google="#{@@created_bucket_name}googel"
@@ -75,7 +77,8 @@ module GoogleTest
                 :'api[driver]' => 'google'
                }
       head_url "/api/buckets/#{@@bucket_name_google}/#{@@blob_name_google}", params
-      last_response.status.should == 204
+      last_response.status.should == 200
+      puts last_response.body
       blob_meta_hash = last_response.headers.inject({}){|result, (k,v)| result[k]=v if k=~/^X-Deltacloud-Blobmeta-/i ; result}
       blob_meta_hash.gsub_keys(/x-.*meta-/i, "")
       ({"author"=>"deltacloud", "foo"=>"bar"}.eql?(blob_meta_hash)).should == true
