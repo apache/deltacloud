@@ -16,10 +16,12 @@
 module Deltacloud::Collections
   class HardwareProfiles < Base
 
+    check_capability :for => lambda { |m| !driver.class.send(m).empty? }
+
     collection :hardware_profiles do
 
-      standard_index_operation
-      standard_show_operation
+      standard_index_operation :capability => :hardware_profiles
+      standard_show_operation :capability => :hardware_profiles
 
     end
 

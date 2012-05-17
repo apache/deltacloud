@@ -36,6 +36,8 @@ module Deltacloud
           stopped.to( :finish )         .automatically
         end
 
+        define_hardware_profile('default')
+
         def hardware_profiles(credentials, opts = {})
           os = new_client(credentials)
           results = []

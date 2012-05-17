@@ -33,6 +33,8 @@ module Deltacloud::Drivers::Vsphere
     feature :instances, :user_data
     feature :instances, :user_name
 
+    define_hardware_profile('default')
+
     # There is just one hardware profile where memory is measured using maximum
     # memory available on ESX for virtual machines and CPU using maximum free
     # CPU cores in ESX.

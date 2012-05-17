@@ -27,6 +27,8 @@ module Deltacloud
 
 class OpennebulaDriver < Deltacloud::BaseDriver
 
+  define_hardware_profile('default')
+
   ######################################################################
   # Hardware profiles
   #####################################################################

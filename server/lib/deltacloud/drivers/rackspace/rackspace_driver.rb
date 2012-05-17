@@ -29,6 +29,8 @@ class RackspaceDriver < Deltacloud::BaseDriver
   feature :instances, :user_files
   feature :images, :user_name
 
+  define_hardware_profile('default')
+
   def hardware_profiles(credentials, opts = {})
     rs = new_client( credentials )
     results = []
@@ -189,8 +191,8 @@ class RackspaceDriver < Deltacloud::BaseDriver
     start.to( :pending )          .on( :create )
     pending.to( :running )        .automatically
     running.to( :running )        .on( :reboot )
-    running.to( :shutting_down )  .on( :stop )
-    shutting_down.to( :stopped )  .automatically
+    running.to( :stopping )  .on( :stop )
+    stopping.to( :stopped )  .automatically
     stopped.to( :finish )         .automatically
   end
 
