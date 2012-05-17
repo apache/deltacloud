@@ -590,6 +590,7 @@ END
     param :architecture,  :string,  :optional,  [ 'i386', 'x86_64' ]
     control do
         @profiles = driver.hardware_profiles(credentials, params)
+        @profiles = order_hardware_profiles(@profiles)
         respond_to do |format|
           format.xml  { haml :'hardware_profiles/index' }
           format.html  { haml :'hardware_profiles/index' }
