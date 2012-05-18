@@ -421,15 +421,15 @@ class FGCPDriver < Deltacloud::BaseDriver
         end
 
         volumes << StorageVolume.new(
-          :id => opts[:id],
-          :name => vdisk['vdiskName'][0],
-          :capacity => vdisk['size'][0],
+          :id          => opts[:id],
+          :name        => vdisk['vdiskName'][0],
+          :capacity    => vdisk['size'][0],
           :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
-          :state => state,
-          :actions => actions,
-          :realm_id => client.extract_vsys_id(opts[:id])
-          #no documentation on what :kind could map to; Use 'additional' vs 'system' volume?
-          #:kind => '',
+          :state       => state,
+          :actions     => actions,
+          # alining with rhevm, which returns 'system' or 'data'
+          :kind        => determine_storage_type(opts[:id]),
+          :realm_id    => client.extract_vsys_id(opts[:id])
         )
       elsif xml = client.list_vsys['vsyss']
 
@@ -448,9 +448,9 @@ class FGCPDriver < Deltacloud::BaseDriver
                 :capacity    => vdisk['size'][0],
                 :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
                 :realm_id    => client.extract_vsys_id(vdisk['vdiskId'][0]),
+                # alining with rhevm, which returns 'system' or 'data'
+                :kind        => determine_storage_type(vdisk['vdiskId'][0]),
                 :state       => vdisk['attachedTo'].nil? ? nil : 'IN-USE'
-                #no documentation on what :kind could map to; Use 'additional' vs 'system' volume?
-                #:kind => '',
               )
             end
           end
@@ -482,16 +482,16 @@ class FGCPDriver < Deltacloud::BaseDriver
       vdisk_id = client.create_vdisk(opts[:realm_id], opts[:name], opts[:capacity])['vdiskId'][0]
 
       StorageVolume.new(
-        :id => vdisk_id,
-        :created => Time.now.to_s,
-        :name => opts[:name],
-        :capacity => opts[:capacity],
-        :realm_id => client.extract_vsys_id(opts[:realm_id]),
+        :id          => vdisk_id,
+        :created     => Time.now.to_s,
+        :name        => opts[:name],
+        :capacity    => opts[:capacity],
+        :realm_id    => client.extract_vsys_id(opts[:realm_id]),
         :instance_id => nil,
-        :state => 'DEPLOYING',
-        :actions => []
-        #no documentation on what kind could map to; Use 'additional' vs 'system' volume?
-        #:kind => '',
+        :state       => 'DEPLOYING',
+        # alining with rhevm, which returns 'system' or 'data'
+        :kind        => 'data',
+        :actions     => []
       )
     end
   end
@@ -1319,16 +1319,16 @@ eofwopxml
     # system volume
     if server == 'vserver'
       storage_volumes << StorageVolume.new(
-        :id => vserver['vserverId'][0],
-        :name => vserver['vserverName'][0],
+        :id          => vserver['vserverId'][0],
+        :name        => vserver['vserverName'][0],
         #:device => '', # no API to retrieve from
 #        :capacity => '10',# or '40', need to check with image (vserver['diskimageId'][0],)
-        :realm_id => realm_id,
+        :realm_id    => realm_id,
         :instance_id => vserver['vserverId'][0],
-        :state => 'IN-USE',
-        :actions => []
-        #no documentation on what kind could map to; Use 'additional' vs 'system' volume?
-        #:kind => '',
+        :state       => 'IN-USE',
+        # alining with rhevm, which returns 'system' or 'data'
+        :kind        => 'system',
+        :actions     => []
       )
     end
     # additional volumes
@@ -1337,16 +1337,16 @@ eofwopxml
 
         actions = state_data[:state] and state_data[:state] == 'STOPPED' ? [:detach] : []
         storage_volumes << StorageVolume.new(
-          :id => vdisk['vdiskId'][0],
-          :name => vdisk['vdiskName'][0],
-          #:device => '', # no API to retrieve from
-          :capacity => vdisk['size'][0],
-          :realm_id => client.extract_vsys_id(realm_id),
+          :id          => vdisk['vdiskId'][0],
+          :name        => vdisk['vdiskName'][0],
+          #:device      => '', # no API to retrieve from
+          :capacity    => vdisk['size'][0],
+          :realm_id    => client.extract_vsys_id(realm_id),
           :instance_id => vserver['vserverId'][0],
-          :state => 'IN-USE',
-          :actions => actions
-          #no documentation on what kind could map to; Use 'additional' vs 'system' volume?
-          #:kind => '',
+          :state       => 'IN-USE',
+          # alining with rhevm, which returns 'system' or 'data'
+          :kind        => 'data',
+          :actions     => actions
         )
       end
     end
@@ -1387,6 +1387,13 @@ eofwopxml
     return 'FW'  if vserver['vserverId'][0] =~ /^.*-S-0001/
     return 'SLB' if vserver['vnics'][0]['vnic'][0]['nicNo'][0] != '0'
     return 'vserver'
+  end
+
+  # determine storage volume type (system or additional storage)
+  def determine_storage_type(id)
+    return 'system' if id =~ /^.*-S-\d\d\d\d/
+    return 'data'   if id =~ /^.*-D-\d\d\d\d/
+    return 'unknown'
   end
 
   def get_fw_nat_rules_for_vserver(client, vserver)
