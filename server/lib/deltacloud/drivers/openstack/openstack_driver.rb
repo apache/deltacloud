@@ -86,11 +86,11 @@ module Deltacloud
 
         def destroy_image(credentials, image_id)
           os = new_client(credentials)
-          safely do
+          begin
             image = os.get_image(image_id)
-            unless image.delete!
-              raise "ERROR: Cannot delete image with ID:#{image_id}"
-            end
+            image.delete!
+          rescue => e
+            raise Deltacloud::ExceptionHandler::BackendError.new(e, "ERROR: Cannot delete image with ID:#{image_id}.")
           end
         end
 
@@ -335,6 +335,10 @@ private
 
           on /Exception::ItemNotFound/ do
             status 404
+          end
+
+          on /Exception::Other/ do
+            status 500
           end
 
         end
