@@ -26,7 +26,7 @@ module CIMI
 
   class FakeCollection
     extend Sinatra::Rabbit::Features
-    include Deltacloud::InstanceFeatures
+    include Deltacloud::Features
   end
 end
 
