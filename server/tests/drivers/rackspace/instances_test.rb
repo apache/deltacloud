@@ -1,5 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
+require 'tests/drivers/rackspace/common'
 
 module RackspaceTest
 
@@ -7,7 +7,12 @@ module RackspaceTest
     include Rack::Test::Methods
 
     def app
-      Sinatra::Application
+      Rack::Builder.new {
+        map '/' do
+          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+          run Rack::Cascade.new([Deltacloud::API])
+        end
+      }
     end
 
     def test_01_01_it_can_create_instance_without_hardware_profile
@@ -118,7 +123,7 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       post_url "/api/instances/#{(@@instance/'instance').first[:id]}/reboot", params
-      last_response.status.should == 200
+      last_response.status.should == 202
       20.times do |tick|
         get_auth_url "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
@@ -133,7 +138,7 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       post_url "/api/instances/#{(@@instance/'instance').first[:id]}/stop", params
-      last_response.status.should == 200
+      last_response.status.should == 202
       20.times do |tick|
         get_auth_url "/api;driver=rackspace/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
@@ -148,7 +153,7 @@ module RackspaceTest
         :'api[driver]' => 'rackspace',
       }
       post_url "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params, authenticate
-      last_response.status.should == 200
+      last_response.status.should == 202
       20.times do |tick|
         get_auth_url "/api;driver=rackspace/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500

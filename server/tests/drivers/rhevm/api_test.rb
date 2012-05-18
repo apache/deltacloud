@@ -1,5 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
+require 'tests/drivers/rhevm/common'
 
 module RHEVMTest
 
@@ -8,8 +8,6 @@ module RHEVMTest
 
     def app
       Rack::Builder.new {
-        use Rack::MatrixParams
-        use Rack::DriverSelect
         map '/' do
           use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
           run Rack::Cascade.new([Deltacloud::API])

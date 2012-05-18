@@ -1,3 +1,6 @@
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
+require 'tests/drivers/mock/common'
+
 describe 'Deltacloud API Realms' do
   include Deltacloud::Test
 

@@ -229,9 +229,7 @@ namespace :test do
   %w(mock rackspace rhevm openstack google fgcp).each do |driver|
     desc "Run #{driver} unit tests"
     Rake::TestTask.new(driver) { |t|
-      Rake::Task["mock:fixtures:reset"].invoke
-      t.test_files = ['tests/drivers/'+driver+'/common.rb'] + FileList.new("tests/drivers/#{driver}/*_test.rb")
-      t.options = "-v -v"
+      t.test_files = FileList.new("tests/drivers/#{driver}/*_test.rb")
       t.verbose = true
       t.warning = false
     }

@@ -3,6 +3,7 @@ ENV['API_USER']     = 'GOOGK7JXLS6UEYS6AYVO'
 ENV['API_PASSWORD'] = 'QjxUunLgszKhBGn/LISQajGR82CfwvraxA9lqnkg'
 
 load File.join(File.dirname(__FILE__), '..', '..', 'common.rb')
+
 require 'vcr'
 
 DeltacloudTestCommon::record!
@@ -34,41 +35,6 @@ module VCR
             String.new(body) unless body.is_a?(Tempfile)
         end
       end
-    end
-  end
-end
-
-module Deltacloud
-  module Test
-    include Rack::Test::Methods
-
-    def included?(sub)
-      sub.class_eval do
-        before do
-          header 'Accept', 'application/xml'
-        end
-      end
-    end
-
-    def xml_response
-      Nokogiri::XML(last_response.body)
-    end
-
-    def auth_as_mock
-      authorize ENV['API_USERNAME'], ENV['API_PASSWORD']
-    end
-
-    def collection_url(collection)
-      [Deltacloud[:root_url], collection.to_s].join('/')
-    end
-
-    def app
-      Rack::Builder.new {
-        map '/' do
-          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
-          run Rack::Cascade.new([Deltacloud::API])
-        end
-      }
     end
   end
 end

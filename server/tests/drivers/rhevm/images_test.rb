@@ -1,7 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
-
-DeltacloudTestCommon.record!
+require 'tests/drivers/rhevm/common'
 
 module RHEVMTest
 

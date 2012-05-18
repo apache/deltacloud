@@ -1,5 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
+require 'tests/drivers/openstack/common'
 
 module OpenstackTest
 
@@ -171,7 +171,7 @@ module OpenstackTest
         :'api[driver]' => 'openstack',
       }
       post_url "/api/instances/#{(@@instance/'instance').first[:id]}/stop", params
-      last_response.status.should == 200
+      last_response.status.should == 202
       20.times do |tick|
         get_auth_url "/api;driver=openstack/instances/#{(@@instance/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500
@@ -195,7 +195,7 @@ module OpenstackTest
         :'api[driver]' => 'openstack',
       }
       post_url "/api/instances/#{(@@instance2/'instance').first[:id]}/stop", params
-      last_response.status.should == 200
+      last_response.status.should == 202
       20.times do |tick|
         get_auth_url "/api;driver=openstack/instances/#{(@@instance2/'instance').first[:id]}", { :tick => tick}
         last_response.status.should_not == 500

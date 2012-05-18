@@ -1,3 +1,6 @@
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
+require 'tests/drivers/google/common'
+
 module GoogleTest
 
   class ApiTest < Test::Unit::TestCase

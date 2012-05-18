@@ -1,5 +1,5 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
-require 'tests/common'
+require 'tests/drivers/rackspace/common'
 
 module RackspaceTest
 
@@ -7,7 +7,12 @@ module RackspaceTest
     include Rack::Test::Methods
 
     def app
-      Sinatra::Application
+      Rack::Builder.new {
+        map '/' do
+          use Rack::Static, :urls => ["/stylesheets", "/javascripts"], :root => "public"
+          run Rack::Cascade.new([Deltacloud::API])
+        end
+      }
     end
 
     def test_01_it_returns_images

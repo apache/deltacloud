@@ -72,6 +72,13 @@ module Deltacloud
         end
       end
 
+      feature :user_files, :for => :instances do
+        description "Allow to pass user files into the instance"
+        operation :create do
+          param :user_files, :string, :optional
+        end
+      end
+
       feature :user_iso, :for => :instances do
         description  "Base64 encoded gzipped ISO file will be accessible as CD-ROM drive in instance"
         operation :create do
