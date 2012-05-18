@@ -248,6 +248,17 @@ module Deltacloud::Drivers::Mock
       @client.destroy(:instances, id)
     end
 
+    # mock object to mimick Net::SSH object
+    class Mock_ssh
+      attr_accessor :command
+    end
+
+    def run_on_instance(credentials, opts={})
+      ssh = Mock_ssh.new
+      ssh.command = opts[:cmd]
+      Deltacloud::Runner::Response.new(ssh, "This is where the output would appear if this were not a mock provider")
+    end
+
     #
     # Storage Volumes
     #
