@@ -15,7 +15,6 @@
 #
 # Author: Dies Koper <diesk@fast.au.fujitsu.com>
 
-require 'deltacloud/base_driver'
 require 'net/http'
 require 'net/https'
 require 'rubygems'

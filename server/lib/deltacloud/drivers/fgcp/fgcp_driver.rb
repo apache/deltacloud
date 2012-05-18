@@ -15,17 +15,16 @@
 #
 # Author: Dies Koper <diesk@fast.au.fujitsu.com>
 
-require 'deltacloud/base_driver'
-require 'deltacloud/drivers/fgcp/fgcp_client'
+require_relative 'fgcp_client'
 require 'openssl'
 require 'xmlsimple'
 
 module Deltacloud
   module Drivers
-    module FGCP
-class FGCPDriver < Deltacloud::BaseDriver
+    module Fgcp
+class FgcpDriver < Deltacloud::BaseDriver
 
-  CERT_DIR = ENV['FGCP_CERT_DIR'] || File::expand_path(File::join(DEFAULT_CONFIG, 'fgcp'))
+  CERT_DIR = ENV['FGCP_CERT_DIR']
 
   def supported_collections
     DEFAULT_COLLECTIONS + [ :addresses, :load_balancers, :firewalls ]
