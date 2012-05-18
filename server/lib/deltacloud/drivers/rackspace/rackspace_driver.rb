@@ -128,7 +128,7 @@ class RackspaceDriver < Deltacloud::BaseDriver
       :password => opts[:password]
     }
     param[:port] = opts[:port] || '22'
-    param[:ip] = target.public_addresses.first
+    param[:ip] = target.public_addresses.first.address
     safely do
       Deltacloud::Runner.execute(opts[:cmd], param)
     end

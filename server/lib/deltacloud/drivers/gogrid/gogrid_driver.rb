@@ -148,7 +148,7 @@ class GogridDriver < Deltacloud::BaseDriver
     }
     param[:credentials].merge!({ :password => opts[:password]}) if opts[:password].length>0
     param[:port] = opts[:port] || '22'
-    param[:ip] = target.public_addresses
+    param[:ip] = target.public_addresses.first.address
     Deltacloud::Runner.execute(opts[:cmd], param)
   end
 
