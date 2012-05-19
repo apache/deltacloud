@@ -1073,20 +1073,26 @@ eofwopxml
           })
           begin
             slb_rule = client.get_efm_configuration(opts[:id], 'SLB_RULE')
-            slb_rule['efm'][0]['loadbalancer'][0]['groups'][0]['group'][0]['targets'][0]['target'].each do |server|
+            if slb_rule['efm'][0]['loadbalancer'][0]['groups']
 
-              balancer.instances << Instance::new(
-                :id                => server['serverId'][0],
-                :name              => server['serverName'][0],
-                :realm_id          => realm,
-                :private_addresses => [InstanceAddress.new(server['ipAddress'][0])]
-              )
+              slb_rule['efm'][0]['loadbalancer'][0]['groups'][0]['group'].each do |group|
 
-              balancer.add_listener({
-                :protocol           => slb_rule['efm'][0]['loadbalancer'][0]['groups'][0]['group'][0]['protocol'][0],
-                :load_balancer_port => slb_rule['efm'][0]['loadbalancer'][0]['groups'][0]['group'][0]['port1'][0],
-                :instance_port      => server['port1'][0]
-              })
+                group['targets'][0]['target'].each do |server|
+
+                  balancer.instances << Instance::new(
+                    :id                => server['serverId'][0],
+                    :name              => server['serverName'][0],
+                    :realm_id          => realm,
+                    :private_addresses => [InstanceAddress.new(server['ipAddress'][0])]
+                  )
+
+                  balancer.add_listener({
+                    :protocol           => slb_rule['efm'][0]['loadbalancer'][0]['groups'][0]['group'][0]['protocol'][0],
+                    :load_balancer_port => slb_rule['efm'][0]['loadbalancer'][0]['groups'][0]['group'][0]['port1'][0],
+                    :instance_port      => server['port1'][0]
+                  })
+                end
+              end
             end
 
             slb_vip = slb_rule['efm'][0]['slbVip'][0]
