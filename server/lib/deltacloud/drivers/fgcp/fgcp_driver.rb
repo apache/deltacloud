@@ -880,7 +880,7 @@ eofwpxml
               :port_to        => policy['dstPort'] ? policy['dstPort'][0] : nil, # not set for e.g. ICMP
               :direction      => ingress,
               :sources        => sources
-              }) unless policy['id'][0] == '50000' # exclude special case
+              }) unless policy['action'][0] == 'Deny' or policy['id'][0] == '50000' # exclude special case
           end
         end
 
