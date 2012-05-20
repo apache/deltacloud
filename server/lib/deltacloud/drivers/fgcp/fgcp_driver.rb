@@ -884,10 +884,11 @@ eofwpxml
           end
         end
 
+        vsys = client.get_vsys_attributes(client.extract_vsys_id(opts[:id]))['vsys'][0]
         firewalls << Firewall.new({
           :id       => opts[:id],
           :name     => fw_name,
-  #        :description => '', # get_efm_configuration 'FW_POLICY' does not return description
+          :description => "#{vsys['vsysName'][0]} [#{vsys['baseDescriptor'][0]}]",
           :owner_id => fw_owner_id,
           :rules    => rules
         })
@@ -900,7 +901,7 @@ eofwpxml
           Firewall.new({
             :id => vsys['vsysId'][0] + '-S-0001',
             :name => fw_name,
-            :description => vsys['baseDescriptor'][0], # should I use vsys' 'description' instead and introduce something else for baseDescriptor?
+            :description => "#{vsys['vsysName'][0]} [#{vsys['baseDescriptor'][0]}]",
             :owner_id => vsys['creator'][0]
           })
         end
