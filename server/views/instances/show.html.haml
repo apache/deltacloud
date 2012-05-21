@@ -45,12 +45,14 @@
         %a{ :href => key_url(@instance.keyname), :'data-ajax' => 'false'}=@instance.keyname
     - if @instance.firewalls
       %li{ :'data-role' => 'list-divider'} Firewalls
-      %li=@instance.firewalls.join(", ")
+      - @instance.firewalls.each do |firewall|
+        %li
+          %a{ :href => firewall_url(firewall), :'data-ajax' => 'false'}=firewall
     - if @instance.storage_volumes
       %li{ :'data-role' => 'list-divider'} Attached Storage Volumes
       -@instance.storage_volumes.each do |vol|
         %li
-          %p{ :'data-role' => 'fieldcontain'}="#{vol.keys.first} <---> #{vol.values.first}"
+          %a{ :href => storage_volume_url("#{vol.keys.first}"), :'data-ajax' => 'false'}=["#{vol.keys.first}", "#{vol.values.first}"].compact.reject{ |e| e.empty? }.join(' <---> ')
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }

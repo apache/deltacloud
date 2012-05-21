@@ -3,6 +3,10 @@
 %form{ :action => storage_volumes_url, :method => :post }
   %p
     %label
+      Name:
+    %input{ :name => 'name', :size => 30 } (optional)
+  %p
+    %label
       Snapshot ID:
     %input{ :name => 'snapshot_id', :size => 30 } (optional)
   %p

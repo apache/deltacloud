@@ -5,7 +5,7 @@
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Name
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.id
+      %p{ :'data-role' => 'fieldcontain'}=(@storage_volume.name ? @storage_volume.name : @storage_volume.id)
     %li{ :'data-role' => 'list-divider'} Created
     %li
       %p{ :'data-role' => 'fieldcontain'}=@storage_volume.created
@@ -20,8 +20,13 @@
       %p{ :'data-role' => 'fieldcontain'}=@storage_volume.state
     %li{ :'data-role' => 'list-divider'} Attached to
     %li
-      %a{ :href => instance_url( @storage_volume.instance_id)}
-        = @storage_volume.instance_id || 'unknown'
+      - if @storage_volume.instance_id
+        %a{ :href => instance_url( @storage_volume.instance_id)}
+          = @storage_volume.instance_id
+      - elsif @storage_volume.state == "AVAILABLE"
+        %p{ :'data-role' => 'fieldcontain'}= 'none (detached)'
+      -else
+        %p{ :'data-role' => 'fieldcontain'}= 'unknown'
     %li{ :'data-role' => 'list-divider'} Device
     %li
       %p{ :'data-role' => 'fieldcontain'}= @storage_volume.device

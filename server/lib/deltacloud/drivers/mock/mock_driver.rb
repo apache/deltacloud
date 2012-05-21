@@ -273,8 +273,10 @@ module Deltacloud::Drivers::Mock
       check_credentials(credentials)
       opts ||= {}
       opts[:capacity] ||= "1"
+      id = "Volume#{Time.now.to_i}"
       volume = {
-            :id => "Volume#{Time.now.to_i}",
+            :id => id,
+            :name => opts[:name] ? opts[:name] : id,
             :created => Time.now.to_s,
             :state => "AVAILABLE",
             :capacity => opts[:capacity],

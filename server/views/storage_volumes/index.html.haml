@@ -8,6 +8,6 @@
       %li
         %a{ :href => storage_volume_url(volume.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/volume.png'}
-          %h3= volume.id
+          %h3= volume.name ? volume.name : volume.id
           %p=[volume.realm_id, volume.capacity].join(', ')
           %span{ :class => 'ui-li-count'}=volume.state
