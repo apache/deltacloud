@@ -91,6 +91,8 @@ module Deltacloud::Collections
         param :cmd,         :string,  :required, [], "Shell command to run on instance"
         param :private_key, :string,  :optional, [], "Private key in PEM format for authentication"
         param :password,    :string,  :optional, [], "Password used for authentication"
+        param :ip,          :string,  :optional, [], "IP address of target instance"
+        param :port,        :string,  :optional, ['22'], "Target port"
         control do
           @output = driver.run_on_instance(credentials, params)
           respond_to do |format|

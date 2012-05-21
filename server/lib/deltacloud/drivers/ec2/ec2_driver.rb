@@ -255,7 +255,7 @@ module Deltacloud
             :username => 'root', # Default for EC2 Linux instances
           }
           param[:port] = opts[:port] || '22'
-          param[:ip] = target.public_addresses.first.address
+          param[:ip] = opts[:ip] || target.public_addresses.first.address
           param[:private_key] = (opts[:private_key].length > 1) ? opts[:private_key] : nil
           safely do
             Deltacloud::Runner.execute(opts[:cmd], param)

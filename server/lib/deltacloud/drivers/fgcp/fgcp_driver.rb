@@ -381,11 +381,12 @@ class FgcpDriver < Deltacloud::BaseDriver
   end
 
   def run_on_instance(credentials, opts={})
+p opts
     target = instance(credentials, opts)
     safely do
       param = {}
       param[:port] = opts[:port] || '22'
-      param[:ip] = target.public_addresses.first.address
+      param[:ip] = opts[:ip] || target.public_addresses.first.address
       param[:credentials] = { :username => target.username }
 
       if opts[:private_key] and opts[:private_key].length > 1

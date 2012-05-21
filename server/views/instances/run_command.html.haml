@@ -1,11 +1,20 @@
 %h1
   Run command on 
-  = @instance.id
+  = @instance.name || @instance.id
 
 %form{ :action => run_instance_url(@instance.id), :method => :post }
   %p
     %label{ :for => :cmd } Desired command:
     %input{ :name => :cmd, :value => "", :type => :text}
+  %p
+    %fieldset{ :'data-role' => :fieldcontain}
+      %legend Target instance IP address:
+      - (@instance.public_addresses | @instance.private_addresses).each_with_index do |ip, idx|
+        %label{ :for => ip.address }= "#{ip.address}"
+        %input{ :name => :ip, :value => ip.address, :id => ip.address, :type => :radio, :'data-theme' => 'b', :checked => idx == 0 || nil}/
+  %p
+    %label{ :for => :port } Target port:
+    %input{ :name => "port", :size => 5, :value => "22", :type => :text}
   %p
     %label{ :for => :private_key } Private key:
   %p
