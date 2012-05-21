@@ -266,6 +266,17 @@ module Deltacloud::Helpers
       end
     end
 
+    def order_hardware_profiles(profiles)
+      #have to deal with opaque hardware profiles
+      uncomparables = profiles.select{|x| x.cpu.nil? or x.memory.nil? }
+      if uncomparables.empty?
+        profiles.sort_by{|a| [a.cpu.default, a.memory.default] }
+      else
+        (profiles - uncomparables).sort_by{|a| [a.cpu.default, a.memory.default] } + uncomparables
+      end
+    end
+
+
     private
     def hardware_property_unit(prop)
       u = ::Deltacloud::HardwareProfile::unit(prop)
