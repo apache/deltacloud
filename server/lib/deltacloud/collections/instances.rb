@@ -27,9 +27,8 @@ module Deltacloud::Collections
       @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
       @realms = [Realm.new(:id => params[:realm_id])] if params[:realm_id]
       @realms ||= driver.realms(credentials)
-      if driver.class.has_feature? :instances, :authentication_key
-        @keys = driver.keys(credentials)
-      end
+      @firewalls = driver.firewalls(credentials) if driver.class.has_feature? :instances, :firewalls
+      @keys = driver.keys(credentials) if driver.class.has_feature? :instances, :authentication_key
     end
 
     collection :instances do

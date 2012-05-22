@@ -231,6 +231,7 @@ module Deltacloud::Helpers
       when 406; { :message => "Not Acceptable" }
       when 500; { :message => "Internal Server Error" }
       when 502; { :message => "Backend Server Error" }
+      when 504; { :message => "Gateway Timeout" }
       when 501; { :message => "Not Supported" }
       end
     end

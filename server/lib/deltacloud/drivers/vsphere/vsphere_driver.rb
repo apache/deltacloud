@@ -368,6 +368,10 @@ module Deltacloud::Drivers::Vsphere
         status 502
       end
 
+      on /execution expired/ do
+        status 504
+      end
+
       on /Invalid/ do
         status 400
       end

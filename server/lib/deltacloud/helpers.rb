@@ -20,7 +20,6 @@ require_relative 'helpers/deltacloud_helper'
 require_relative 'helpers/rabbit_helper'
 require_relative 'helpers/blob_stream_helper'
 
-
 module Deltacloud::Collections
   class Base < Sinatra::Base
 
