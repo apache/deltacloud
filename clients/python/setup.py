@@ -8,6 +8,6 @@ setup(name='deltacloud-client',
       author='Michal Fojtik',
       author_email='mfojtik@redhat.com',
       license='GPLv2',
-      url='http://incubator.apache.org/deltacloud/',
+      url='http://deltacloud.apache.org/',
       py_modules=[ 'deltacloud' ]
       )

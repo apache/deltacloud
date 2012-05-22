@@ -6,7 +6,7 @@ Version: 0.4.0
 Release: 4%{?dist}
 Group: Development/Languages
 License: ASL 2.0 and MIT
-URL: http://incubator.apache.org/deltacloud
+URL: http://deltacloud.apache.org/
 Source0: http://gems.rubyforge.org/gems/%{name}-%{version}.gem
 Source1: deltacloudd-fedora
 Source2: deltacloud-core.init

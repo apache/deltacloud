@@ -12,8 +12,8 @@ Release:        1%{?dist}
 Summary:        Deltacloud API client for Python
 Group:          Applications/System
 License:        ASL 2.0
-URL:            http://incubator.apache.org/deltacloud
-Source0:        http://incubator.apache.org/deltacloud/clients/%{srcname}-%{version}.tar.gz
+URL:            http://deltacloud.apache.org
+Source0:        http://deltacloud.apache.org/clients/%{srcname}-%{version}.tar.gz
 BuildArch:      noarch
 Requires:       python2
 Requires:       libxml2-python
