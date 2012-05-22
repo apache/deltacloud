@@ -25,9 +25,9 @@ require 'uri'
 
 module Deltacloud
   module Drivers
-    module FGCP
+    module Fgcp
 
-class FGCPClient
+class FgcpClient
 
   def initialize(cert, key, endpoint = nil, version = '2011-01-31', locale = 'en')
     @version = version

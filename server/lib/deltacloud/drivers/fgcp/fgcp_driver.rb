@@ -24,7 +24,7 @@ module Deltacloud
     module Fgcp
 class FgcpDriver < Deltacloud::BaseDriver
 
-  CERT_DIR = ENV['FGCP_CERT_DIR']
+  CERT_DIR = ENV['FGCP_CERT_DIR'] || File::expand_path('~/.deltacloud/config/fgcp')
 
   def supported_collections
     DEFAULT_COLLECTIONS + [ :addresses, :load_balancers, :firewalls ]
@@ -1202,7 +1202,7 @@ eofwopxml
 
   def new_client(credentials)
     cert, key = convert_credentials(credentials)
-    FGCPClient.new(cert, key, api_provider)
+    FgcpClient.new(cert, key, api_provider)
   end
 
   def convert_credentials(credentials)
