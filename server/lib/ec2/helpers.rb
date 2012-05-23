@@ -18,5 +18,6 @@ module Deltacloud
 end
 
 require_relative './helpers/errors'
+require_relative './helpers/result'
 require_relative '../deltacloud/helpers/driver_helper'
 require_relative '../deltacloud/helpers/auth_helper'

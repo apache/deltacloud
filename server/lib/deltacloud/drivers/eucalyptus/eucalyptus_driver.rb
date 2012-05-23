@@ -63,7 +63,7 @@ module Deltacloud
         end
 
         def self.instance_state_machine
-          EC2::EC2Driver.instance_state_machine
+          Ec2::Ec2Driver.instance_state_machine
         end
 
         def instance_state_machine
