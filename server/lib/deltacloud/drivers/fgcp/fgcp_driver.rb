@@ -34,6 +34,7 @@ class FgcpDriver < Deltacloud::BaseDriver
   feature :images, :user_name
   feature :images, :user_description
 
+  define_hardware_profile('default')
 
   def valid_credentials?(credentials)
     begin
