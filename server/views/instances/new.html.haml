@@ -26,48 +26,49 @@
         %label{ :for => :name} Instance name:
         %input{ :type => :text, :id => :name, :name => :name, :value => '' }
 
-    %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-      %h3 Additional parameters
+    - if additional_instance_features?
+      %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+        %h3 Additional parameters
 
-      - if driver.class.has_feature?(:instances, :user_data)
-        %div{ 'data-role' => :fieldcontain }
-          %label{ :for => :user_data} Base64 encoded user-data:
-          %textarea{ :id => :user_data, :name => :user_data, :value => '' }
-          %br/
-          %a{ :href => "", :onclick => 'encodeb64();', :'data-ajax' => 'false'} Encode data
+        - if driver.class.has_feature?(:instances, :user_data)
+          %div{ 'data-role' => :fieldcontain }
+            %label{ :for => :user_data} Base64 encoded user-data:
+            %textarea{ :id => :user_data, :name => :user_data, :value => '' }
+            %br/
+            %a{ :href => "", :onclick => 'encodeb64();', :'data-ajax' => 'false'} Encode data
 
-      - if driver.class.has_feature?(:instances, :instance_count)
-        %div{ 'data-role' => :fieldcontain }
-          %label{ :for => :instance_count} # of instances to be launched:
-          %input{ :type => :text, :id => :instance_count, :name => :instance_count, :value => '1' }
+        - if driver.class.has_feature?(:instances, :instance_count)
+          %div{ 'data-role' => :fieldcontain }
+            %label{ :for => :instance_count} # of instances to be launched:
+            %input{ :type => :text, :id => :instance_count, :name => :instance_count, :value => '1' }
 
-      - if driver.class.has_feature?(:instances, :authentication_key)
-        %div{ 'data-role' => :fieldcontain }
-          %label{ :for => :keyname, :class => 'ui-input-text'} Instance SSH key:
-          %select{:name => 'keyname', :'data-native-menu' => "true" }
-            %option{ :value => ''} None
-            - @keys.each do |key|
-              %option{ :value => key.id } #{key.id}
+        - if driver.class.has_feature?(:instances, :authentication_key)
+          %div{ 'data-role' => :fieldcontain }
+            %label{ :for => :keyname, :class => 'ui-input-text'} Instance SSH key:
+            %select{:name => 'keyname', :'data-native-menu' => "true" }
+              %option{ :value => ''} None
+              - @keys.each do |key|
+                %option{ :value => key.id } #{key.id}
 
-      - if driver.class.has_feature?(:instances, :register_to_load_balancer)
-        %div{ 'data-role' => :fieldcontain }
-          %label{ :for => :load_balancer_id, :class => 'ui-input-text'} Register to loadbalancer:
-          %select{:name => 'load_balancer_id', :'data-native-menu' => "true" }
-            %option{ :value => ''} None
-            - @load_balancers.each do |load_balancer|
-              %option{:value => load_balancer.id} #{load_balancer.id}
+        - if driver.class.has_feature?(:instances, :register_to_load_balancer)
+          %div{ 'data-role' => :fieldcontain }
+            %label{ :for => :load_balancer_id, :class => 'ui-input-text'} Register to loadbalancer:
+            %select{:name => 'load_balancer_id', :'data-native-menu' => "true" }
+              %option{ :value => ''} None
+              - @load_balancers.each do |load_balancer|
+                %option{:value => load_balancer.id} #{load_balancer.id}
 
-      - if driver.class.has_feature?(:instances, :firewalls)
-        %div{ 'data-role' => :fieldcontain }
-          %fieldset{ :'data-role' => 'controlgroup'}
-            %legend Register to firewall:
-            - @firewalls.each_index do |i|
-              - if @firewalls[i].name == 'default'
-                %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :checked => :true, :id => "firewalls#{i}"}/
-                %label{:for => "firewalls#{i}"} Default
-              - else
-                %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :id => "firewalls#{i}"}/
-                %label{:for => "firewalls#{i}"}=@firewalls[i].name
+        - if driver.class.has_feature?(:instances, :firewalls)
+          %div{ 'data-role' => :fieldcontain }
+            %fieldset{ :'data-role' => 'controlgroup'}
+              %legend Register to firewall:
+              - @firewalls.each_index do |i|
+                - if @firewalls[i].name == 'default'
+                  %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :checked => :true, :id => "firewalls#{i}"}/
+                  %label{:for => "firewalls#{i}"} Default
+                - else
+                  %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :id => "firewalls#{i}"}/
+                  %label{:for => "firewalls#{i}"}=@firewalls[i].name
 
     - if !@hardware_profiles.empty?
       %div{ 'data-role' => :fieldcontain }

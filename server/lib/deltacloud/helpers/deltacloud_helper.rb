@@ -277,6 +277,11 @@ module Deltacloud::Helpers
       end
     end
 
+    def additional_instance_features?
+      features_arr = [ :user_data, :instance_count, :authentication_key, :register_to_load_balancer, :firewalls ]
+      features_arr.any? { |f| driver.class.has_feature?(:instances, f) }
+    end
+
 
     private
     def hardware_property_unit(prop)
