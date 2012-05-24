@@ -1,0 +1,66 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=XJe9R471T8Nlwx5FbWmeQxqDQxZFPeT9Rk26eNrXhxM=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:18:15 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeAvailabilityZonesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>5ba2473f-1eac-49d3-8e0f-8e2345afe8c1</requestId>
+            <availabilityZoneInfo>
+                <item>
+                    <zoneName>us-east-1a</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1b</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1c</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1d</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1e</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+            </availabilityZoneInfo>
+        </DescribeAvailabilityZonesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

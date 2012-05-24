@@ -1,0 +1,221 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-6f243c09&Signature=YIKo9nFbpwGUfLCLo9ls1r6Q4uV/EW6Kc3+tYXdmY4Q=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:21:06 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>80179e06-0913-49d5-9fcc-56e9139a4d5b</requestId>
+            <reservationSet>
+                <item>
+                    <reservationId>r-dd2722bf</reservationId>
+                    <ownerId>293787749884</ownerId>
+                    <groupSet>
+                        <item>
+                            <groupId>default</groupId>
+                        </item>
+                    </groupSet>
+                    <instancesSet>
+                        <item>
+                            <instanceId>i-6f243c09</instanceId>
+                            <imageId>ami-e565ba8c</imageId>
+                            <instanceState>
+                                <code>16</code>
+                                <name>running</name>
+                            </instanceState>
+                            <privateDnsName>ip-10-46-162-142.ec2.internal</privateDnsName>
+                            <dnsName>ec2-107-20-104-8.compute-1.amazonaws.com</dnsName>
+                            <reason/>
+                            <amiLaunchIndex>0</amiLaunchIndex>
+                            <productCodes/>
+                            <instanceType>m1.small</instanceType>
+                            <launchTime>2012-05-31T09:20:40.000Z</launchTime>
+                            <placement>
+                                <availabilityZone>us-east-1a</availabilityZone>
+                                <groupName/>
+                            </placement>
+                            <kernelId>aki-88aa75e1</kernelId>
+                            <monitoring>
+                                <state>disabled</state>
+                            </monitoring>
+                            <privateIpAddress>10.46.162.142</privateIpAddress>
+                            <ipAddress>107.20.104.8</ipAddress>
+                            <architecture>x86_64</architecture>
+                            <rootDeviceType>ebs</rootDeviceType>
+                            <rootDeviceName>/dev/sda1</rootDeviceName>
+                            <blockDeviceMapping>
+                                <item>
+                                    <deviceName>/dev/sda1</deviceName>
+                                    <ebs>
+                                        <volumeId>vol-6bc61d05</volumeId>
+                                        <status>attached</status>
+                                        <attachTime>2012-05-31T09:21:02.000Z</attachTime>
+                                        <deleteOnTermination>true</deleteOnTermination>
+                                    </ebs>
+                                </item>
+                            </blockDeviceMapping>
+                            <virtualizationType>paravirtual</virtualizationType>
+                            <clientToken/>
+                        </item>
+                    </instancesSet>
+                </item>
+            </reservationSet>
+        </DescribeInstancesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=TerminateInstances&InstanceId.1=i-6f243c09&Signature=+s2ryyAwJ5ZMcBaMLmS0v19o45oHxXGk6UwK0hwA32E=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:21:08 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <TerminateInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>5a97a3df-6134-4191-b5d0-777ec52795a6</requestId>
+            <instancesSet>
+                <item>
+                    <instanceId>i-6f243c09</instanceId>
+                    <currentState>
+                        <code>32</code>
+                        <name>shutting-down</name>
+                    </currentState>
+                    <previousState>
+                        <code>16</code>
+                        <name>running</name>
+                    </previousState>
+                </item>
+            </instancesSet>
+        </TerminateInstancesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-6f243c09&Signature=YIKo9nFbpwGUfLCLo9ls1r6Q4uV/EW6Kc3+tYXdmY4Q=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:21:08 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>360ea869-4c2d-43d9-9b0c-f5691a4544ae</requestId>
+            <reservationSet>
+                <item>
+                    <reservationId>r-dd2722bf</reservationId>
+                    <ownerId>293787749884</ownerId>
+                    <groupSet>
+                        <item>
+                            <groupId>default</groupId>
+                        </item>
+                    </groupSet>
+                    <instancesSet>
+                        <item>
+                            <instanceId>i-6f243c09</instanceId>
+                            <imageId>ami-e565ba8c</imageId>
+                            <instanceState>
+                                <code>32</code>
+                                <name>shutting-down</name>
+                            </instanceState>
+                            <privateDnsName>ip-10-46-162-142.ec2.internal</privateDnsName>
+                            <dnsName>ec2-107-20-104-8.compute-1.amazonaws.com</dnsName>
+                            <reason>User initiated (2012-05-31 09:21:08 GMT)</reason>
+                            <amiLaunchIndex>0</amiLaunchIndex>
+                            <productCodes/>
+                            <instanceType>m1.small</instanceType>
+                            <launchTime>2012-05-31T09:20:40.000Z</launchTime>
+                            <placement>
+                                <availabilityZone>us-east-1a</availabilityZone>
+                                <groupName/>
+                            </placement>
+                            <kernelId>aki-88aa75e1</kernelId>
+                            <monitoring>
+                                <state>disabled</state>
+                            </monitoring>
+                            <privateIpAddress>10.46.162.142</privateIpAddress>
+                            <ipAddress>107.20.104.8</ipAddress>
+                            <stateReason>
+                                <code>Client.UserInitiatedShutdown</code>
+                                <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                            </stateReason>
+                            <architecture>x86_64</architecture>
+                            <rootDeviceType>ebs</rootDeviceType>
+                            <rootDeviceName>/dev/sda1</rootDeviceName>
+                            <blockDeviceMapping>
+                                <item>
+                                    <deviceName>/dev/sda1</deviceName>
+                                    <ebs>
+                                        <volumeId>vol-6bc61d05</volumeId>
+                                        <status>attached</status>
+                                        <attachTime>2012-05-31T09:21:02.000Z</attachTime>
+                                        <deleteOnTermination>true</deleteOnTermination>
+                                    </ebs>
+                                </item>
+                            </blockDeviceMapping>
+                            <virtualizationType>paravirtual</virtualizationType>
+                            <clientToken/>
+                        </item>
+                    </instancesSet>
+                </item>
+            </reservationSet>
+        </DescribeInstancesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

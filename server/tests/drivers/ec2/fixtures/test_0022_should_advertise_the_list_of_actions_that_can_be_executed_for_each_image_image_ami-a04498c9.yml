@@ -1,0 +1,62 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-a04498c9&Signature=ic3SdwF493gccQl3CtFu1G/0/6xf5HubziUHU2AVflE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:14:35 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>9a9ef75f-3bf0-4ece-98e6-645b0f27855d</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-a04498c9</imageId>
+                    <imageLocation>amazon/suse-sles-11-sp2-rightscale-v1.00.i386</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>013907871322</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-805ea7e9</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>suse-sles-11-sp2-rightscale-v1.00.i386</name>
+                    <description>SUSE Linux Enterprise Server 11 Service Pack 2 RightScale-enabled for x86 (Build 4.2)</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-6755ae1d</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

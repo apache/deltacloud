@@ -1,6 +1,6 @@
 ENV['API_DRIVER']   = 'ec2'
-ENV['API_USERNAME'] = 'AKIAI77KNAA7ZXRLL7GQ'
-ENV['API_PASSWORD'] = 'idJ9vktNaDWAK0LWVVE/526ONvJmTl2Crto/s8Ok'
+ENV['API_USERNAME'] = 'AKIAIZ63KHGXIWDMBY6Q'
+ENV['API_PASSWORD'] = 'zUfBCbML2S6pXKS44eEEXw0Cf/G8z9hMSxP2hcLV'
 ENV['RACK_ENV']     = 'test'
 
 load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud_rack.rb')

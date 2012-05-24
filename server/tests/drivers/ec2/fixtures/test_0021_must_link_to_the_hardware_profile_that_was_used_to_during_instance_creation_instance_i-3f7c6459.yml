@@ -1,0 +1,79 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-3f7c6459&Signature=R4j1gK8B5cq6K06bsGxwDvo/0oIDhK5LUK2e2ghKvQg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:21:25 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>9fdcde33-0cef-42be-8a05-8b51998a27ae</requestId>
+            <reservationSet>
+                <item>
+                    <reservationId>r-c96d68ab</reservationId>
+                    <ownerId>293787749884</ownerId>
+                    <groupSet>
+                        <item>
+                            <groupId>default</groupId>
+                        </item>
+                    </groupSet>
+                    <instancesSet>
+                        <item>
+                            <instanceId>i-3f7c6459</instanceId>
+                            <imageId>ami-db65bab2</imageId>
+                            <instanceState>
+                                <code>48</code>
+                                <name>terminated</name>
+                            </instanceState>
+                            <privateDnsName/>
+                            <dnsName/>
+                            <reason>User initiated (2012-05-31 08:21:34 GMT)</reason>
+                            <amiLaunchIndex>0</amiLaunchIndex>
+                            <productCodes/>
+                            <instanceType>m1.small</instanceType>
+                            <launchTime>2012-05-31T08:20:48.000Z</launchTime>
+                            <placement>
+                                <availabilityZone>us-east-1a</availabilityZone>
+                                <groupName/>
+                            </placement>
+                            <kernelId>aki-b6aa75df</kernelId>
+                            <monitoring>
+                                <state>enabled</state>
+                            </monitoring>
+                            <stateReason>
+                                <code>Client.UserInitiatedShutdown</code>
+                                <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                            </stateReason>
+                            <architecture>i386</architecture>
+                            <rootDeviceType>instance-store</rootDeviceType>
+                            <blockDeviceMapping/>
+                            <virtualizationType>paravirtual</virtualizationType>
+                            <clientToken/>
+                        </item>
+                    </instancesSet>
+                </item>
+            </reservationSet>
+        </DescribeInstancesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

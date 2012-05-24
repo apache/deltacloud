@@ -1,0 +1,42 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=kh8qFYOk1VfBHN5j66XRbeAHqFxv6Nx5jLU8WGVmiCU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31&ZoneName.1=us-east-1e
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:17:58 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeAvailabilityZonesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>abe34dfb-2379-450f-a95b-cbe49c38b2e0</requestId>
+            <availabilityZoneInfo>
+                <item>
+                    <zoneName>us-east-1e</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+            </availabilityZoneInfo>
+        </DescribeAvailabilityZonesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

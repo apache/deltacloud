@@ -1,0 +1,62 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-ab844dc2&Signature=krzNQ/kfbI8diOVn2aDeXY4jcedGBLJCLeAVmj7HEX4=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:15:57 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>1f928573-10b6-42f0-adbf-4d0f209cab32</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-ab844dc2</imageId>
+                    <imageLocation>amazon/suse-sles-11-sp1-v1.01.x86_64</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>013907871322</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-825ea7eb</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>suse-sles-11-sp1-v1.01.x86_64</name>
+                    <description>SUSE Linux Enterprise Server 11 Service Pack 1 for x86_64 (Build 4.4)</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-f9da609b</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

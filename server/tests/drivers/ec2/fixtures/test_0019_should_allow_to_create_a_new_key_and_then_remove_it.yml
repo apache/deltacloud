@@ -1,0 +1,59 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=CreateKeyPair&KeyName=test_key_1338461880&Signature=O/tymz5FWZ8c2a6Of+a6jb0Va23bUQCFrf5SUao88fM=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:17:39 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <CreateKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>0d905a43-7bec-4d58-b4d7-d7ea49e0b67b</requestId>
+            <keyName>test_key_1338461880</keyName>
+            <keyFingerprint>c2:b6:cb:ed:a8:66:38:76:35:70:b6:6f:df:a6:ac:8d:d4:65:41:30</keyFingerprint>
+            <keyMaterial>-----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEAu92jAo6U3oRxB6txxrCqjfYmpezLoGwp3n0I0vBob8GowspJuIUA9+Xdu5n+
+        wjXICJy34Y9tioccaPkwRnLvg/37njMczlhbaNK2bc6y/mlm03FVBI1F+KRypMqTZN5XzSs9QshY
+        O8HIPx2PNvcOJigUrNWhH1XAi/zgkHTAGpJ7c5UnaKRAxWnNZAu1aSk/dycC/zCHkhCCjyqVzarB
+        PakV+5LQn4O5rjuSfQF/yqigJA1kVIJzK0t/1sqlIq/FM7BfI3Fqbs8HVk5YLwXPMSgVh04TgiHp
+        /53A8302071MVEH9/UqMTMhirSoaHiO7bTj/s9x8zRNt/tYPyTTsNwIDAQABAoIBAQCg+AVmeXkB
+        OIYIxlPUpSdeQB1Zao4HROaTJpta8nbp2wuY6+9C1WPBBQp6ZjatfZuKFY5RDK4VVjN3lpxQoMat
+        WAAyyyTRgU/Bf1qkt8kSyIk8fw0Tu2DK7Uz1+kVU1lZxC62P/U3s1duYiOFffUx4UTt15A4MZVN4
+        HxLjc8XufT3eMmVdSKrdGUIFef32A7dVfU04I33kSVDpkxOQipZX+kVSWUf5KatykRvrWVNPmqaf
+        p8YIneae+u1W4BVwfgoXOE30/LtlrkmoMfzCfrG3cP1KCfZxDrAZMfyxDr7MnTRb3zRhnwesgp3+
+        N472TrnPERKc/hxhIO0vIAWD1tsRAoGBAPh4ooWOj90XgfDDjBFAP5Q/8VFyCpCs08/JnB/7T28b
+        ikyoGlgVSaY/1hjuMmH8tf+1F+e0vU8r+1UTTJ7YZ/h2OXRx/L7GL8/3w8Wxk6+L5PZ6mGt4ZBPo
+        e7LyjhpfRstEiLs4CrAM750Rdlby+jbDSAxU7kywOEyS0IkKAmPLAoGBAMGO5Ehoas6ayQCMM81V
+        8Bc4LF84Z4VqokYqbTPWioUCCC/HnolANdesFbN9esYfpwMKdf6IUcba6sHyTjyhKDaOKzTZ8dZ0
+        puoqtVSM/CgiMzBuvQDN3CN24zl9n03I+cJiq44+Zm6Jhrf7gTnrUiWC98EFqf1ihN2j3yM3wEPF
+        AoGAJFnhzRBSU9JAnGy/bTatFo9USsoYaZofUuL4CGXH9UVeMmDVmdVjdQMZ24PdsyA5sDNaT/fN
+        Smvw1T2BlCus6ljBhxu2EmMEU7S325BjPueEk9rTucVfPtpgXonF6G3P+aUJK/rC9Yau95e6bHYX
+        zTM8szEpu+Z8FhfUknf4aYkCgYBkZUKBUC++NEj30MD5y4557LgPN8lySUocTNtRnQFCVjh61/ai
+        SDzlPiwPapFo/Hf7OszTFlAcbeaAbLcp+YlLKti8VCN9UgpVwYtGbM5J3ttgTsAYD68UchEP+9nK
+        Vek+a0GCyVkGEq1e9sQjj6yPKmxpoQ94D0bNU7dkpAFE5QKBgAnq837SSg4Cp1mgRxXZ6ZS2eAx3
+        /j0DKlxAV5IiL1Uwbw2PFa/9F193uTr5+1QWcCF8pPqeCAqVaX11hi/24Rlc1/L0zjLLYphvNFlH
+        PtYQ0gfvs0TQuR1KNcxTcN0nvTxRlwqP5Oy3ZrcKY5SzUAn0aJ2n5Nqtf/43AqX12J0h
+        -----END RSA PRIVATE KEY-----</keyMaterial>
+        </CreateKeyPairResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

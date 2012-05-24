@@ -1,0 +1,64 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeRegions&Signature=o/tlDsBlHnkyq5Y/KsQMhb3m7YxWC+5WDPHJrvQ7wDU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:18:15 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeRegionsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>761b7118-533c-4ebd-bd0e-3eeb97f099cd</requestId>
+            <regionInfo>
+                <item>
+                    <regionName>eu-west-1</regionName>
+                    <regionEndpoint>ec2.eu-west-1.amazonaws.com</regionEndpoint>
+                </item>
+                <item>
+                    <regionName>sa-east-1</regionName>
+                    <regionEndpoint>ec2.sa-east-1.amazonaws.com</regionEndpoint>
+                </item>
+                <item>
+                    <regionName>us-east-1</regionName>
+                    <regionEndpoint>ec2.us-east-1.amazonaws.com</regionEndpoint>
+                </item>
+                <item>
+                    <regionName>ap-northeast-1</regionName>
+                    <regionEndpoint>ec2.ap-northeast-1.amazonaws.com</regionEndpoint>
+                </item>
+                <item>
+                    <regionName>us-west-2</regionName>
+                    <regionEndpoint>ec2.us-west-2.amazonaws.com</regionEndpoint>
+                </item>
+                <item>
+                    <regionName>us-west-1</regionName>
+                    <regionEndpoint>ec2.us-west-1.amazonaws.com</regionEndpoint>
+                </item>
+                <item>
+                    <regionName>ap-southeast-1</regionName>
+                    <regionEndpoint>ec2.ap-southeast-1.amazonaws.com</regionEndpoint>
+                </item>
+            </regionInfo>
+        </DescribeRegionsResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1

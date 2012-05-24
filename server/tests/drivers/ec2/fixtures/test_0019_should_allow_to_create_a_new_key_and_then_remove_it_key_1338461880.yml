@@ -1,0 +1,40 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test_key_1338461880&Signature=HF1Upxum/EmqFvOirq50gMMSlEvXy/qDXxtAvvw5fTQ=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-05-31T10:58:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Transfer-Encoding: 
+      - chunked
+      Server: 
+      - AmazonEC2
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Thu, 31 May 2012 09:17:39 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>b4ee005a-2c0c-4b1d-b042-d0409ced2b6b</requestId>
+            <keySet>
+                <item>
+                    <keyName>test_key_1338461880</keyName>
+                    <keyFingerprint>c2:b6:cb:ed:a8:66:38:76:35:70:b6:6f:df:a6:ac:8d:d4:65:41:30</keyFingerprint>
+                </item>
+            </keySet>
+        </DescribeKeyPairsResponse>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 10:58:00 GMT
+recorded_with: VCR 2.1.1
