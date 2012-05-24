@@ -226,7 +226,7 @@ end
 
 namespace :test do
 
-  %w(mock rackspace rhevm openstack google fgcp).each do |driver|
+  %w(mock rackspace rhevm openstack google fgcp ec2).each do |driver|
     desc "Run #{driver} unit tests"
     Rake::TestTask.new(driver) { |t|
       t.test_files = FileList.new("tests/drivers/#{driver}/*_test.rb")
