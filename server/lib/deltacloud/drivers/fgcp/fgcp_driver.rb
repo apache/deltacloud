@@ -16,6 +16,7 @@
 # Author: Dies Koper <diesk@fast.au.fujitsu.com>
 
 require_relative 'fgcp_client'
+require_relative '../../runner'
 require 'openssl'
 require 'xmlsimple'
 
@@ -381,7 +382,6 @@ class FgcpDriver < Deltacloud::BaseDriver
   end
 
   def run_on_instance(credentials, opts={})
-p opts
     target = instance(credentials, opts)
     safely do
       param = {}

@@ -1,25 +1,25 @@
-%h1
-  Run command on 
-  = @instance.name || @instance.id
+=header "Run a command on #{@instance.name}"
+=subheader "#{@instance.id}"
 
-%form{ :action => run_instance_url(@instance.id), :method => :post }
-  %p
-    %label{ :for => :cmd } Desired command:
-    %input{ :name => :cmd, :value => "", :type => :text}
-  %p
-    %fieldset{ :'data-role' => :fieldcontain}
-      %legend Target instance IP address:
-      - (@instance.public_addresses | @instance.private_addresses).each_with_index do |ip, idx|
-        %label{ :for => ip.address }= "#{ip.address}"
-        %input{ :name => :ip, :value => ip.address, :id => ip.address, :type => :radio, :'data-theme' => 'b', :checked => idx == 0 || nil}/
-  %p
-    %label{ :for => :port } Target port:
-    %input{ :name => "port", :size => 5, :value => "22", :type => :text}
-  %p
-    %label{ :for => :private_key } Private key:
-  %p
-    %small Leave private key blank if using password authentication method
-  %p
-    %textarea{ :name => :private_key, :cols => 65, :rows => 20 }
-  %p
-    %input{ :type => :submit, :value => "Execute" }
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => api_url_for('/instances/%s/run' % @instance.id), :method => :post }
+    %p
+      %label{ :for => :cmd } Desired command:
+      %input{ :name => :cmd, :value => "", :type => :text}
+    %p
+      %fieldset{ :'data-role' => :fieldcontain}
+        %legend Target instance IP address:
+        - (@instance.public_addresses | @instance.private_addresses).each_with_index do |ip, idx|
+          %label{ :for => ip.address }= "#{ip.address}"
+          %input{ :name => :ip, :value => ip.address, :id => ip.address, :type => :radio, :'data-theme' => 'b', :checked => idx == 0 || nil}/
+    %p
+      %label{ :for => :port } Target port:
+      %input{ :name => "port", :size => 5, :value => "22", :type => :text}
+    %p
+      %label{ :for => :private_key } Private key:
+    %p
+      %small Leave private key blank if using password authentication method
+    %p
+      %textarea{ :name => :private_key, :cols => 65, :rows => 20 }
+    %p
+      %input{ :type => :submit, :value => "Execute" }

@@ -16,6 +16,8 @@
 
 require 'aws'
 
+require_relative '../../runner'
+
 class Instance
   attr_accessor :keyname
   attr_accessor :authn_error
@@ -768,7 +770,11 @@ module Deltacloud
                     when :s3 then Aws::S3
                     when :mon then Aws::Mon
                   end
-          klass.new(credentials.user, credentials.password, {:server => endpoint_for_service(type), :connection_mode => :per_thread})
+          klass.new(credentials.user, credentials.password, {
+            :server => endpoint_for_service(type),
+            :connection_mode => :per_thread,
+            :logger => ENV['RACK_ENV'] == 'test' ? Logger.new('/dev/null') : Logger.new(STDOUT)
+          })
         end
 
         def default_image_owner

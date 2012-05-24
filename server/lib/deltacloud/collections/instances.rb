@@ -31,6 +31,13 @@ module Deltacloud::Collections
       @keys = driver.keys(credentials) if driver.class.has_feature? :instances, :authentication_key
     end
 
+    get route_for('/instances/:id/run') do
+      respond_to do |format|
+        @instance = driver.instances(credentials, :id => params[:id]).first
+        format.html {haml :"instances/run_command" }
+      end
+    end
+
     collection :instances do
 
       standard_show_operation
@@ -86,8 +93,7 @@ module Deltacloud::Collections
         control { instance_action(:destroy) }
       end
 
-      action :run, :with_capability => :run_instance do
-        param :id,          :string,  :required
+      action :run, :with_capability => :run_on_instance do
         param :cmd,         :string,  :required, [], "Shell command to run on instance"
         param :private_key, :string,  :optional, [], "Private key in PEM format for authentication"
         param :password,    :string,  :optional, [], "Password used for authentication"
