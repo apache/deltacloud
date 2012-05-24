@@ -59,6 +59,6 @@
         - @instance.actions.each do |action|
           =link_to_action action, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
         - if @instance.state=="RUNNING" and driver.respond_to?(:run_on_instance)
-          =link_to_action 'run command', "#{run_instance_url(@instance.id)};id=#{@instance.id}", :get
+          =link_to_action 'run command', api_url('/instances/%s/run', % @instance.id), :get
         - if @instance.can_create_image?
           =link_to_action 'Create Image', api_url_for("images/new?instance_id=#{@instance.id}"), :get
