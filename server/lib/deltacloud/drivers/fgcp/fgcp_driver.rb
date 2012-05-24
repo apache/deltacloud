@@ -89,9 +89,6 @@ class FgcpDriver < Deltacloud::BaseDriver
         end
       end
     end
-#TODO: is there a way to sort them by arch and memory?
-#current order is as returned by API which is not a natural order
-#    @hardware_profiles.sort_by{|e| [e.architecture, e.memory]}
     filter_hardware_profiles(@hardware_profiles, opts)
   end
 
@@ -428,7 +425,7 @@ class FgcpDriver < Deltacloud::BaseDriver
           :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
           :state       => state,
           :actions     => actions,
-          # alining with rhevm, which returns 'system' or 'data'
+          # aligning with rhevm, which returns 'system' or 'data'
           :kind        => determine_storage_type(opts[:id]),
           :realm_id    => client.extract_vsys_id(opts[:id])
         )
@@ -449,7 +446,7 @@ class FgcpDriver < Deltacloud::BaseDriver
                 :capacity    => vdisk['size'][0],
                 :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
                 :realm_id    => client.extract_vsys_id(vdisk['vdiskId'][0]),
-                # alining with rhevm, which returns 'system' or 'data'
+                # aligning with rhevm, which returns 'system' or 'data'
                 :kind        => determine_storage_type(vdisk['vdiskId'][0]),
                 :state       => vdisk['attachedTo'].nil? ? nil : 'IN-USE'
               )
@@ -490,7 +487,7 @@ class FgcpDriver < Deltacloud::BaseDriver
         :realm_id    => client.extract_vsys_id(opts[:realm_id]),
         :instance_id => nil,
         :state       => 'DEPLOYING',
-        # alining with rhevm, which returns 'system' or 'data'
+        # aligning with rhevm, which returns 'system' or 'data'
         :kind        => 'data',
         :actions     => []
       )
@@ -551,9 +548,6 @@ class FgcpDriver < Deltacloud::BaseDriver
           if vdisks['vdisk']
             vdisks['vdisk'].each do |vdisk|
 
-#TODO: skipping system disks for now to improve performance
-if vdisk['vdiskId'][0] =~ /^.*-D-\d\d\d\d/
-
               backups = client.list_vdisk_backup(vdisk['vdiskId'][0])
               if backups['backups'] and backups['backups'][0]['backup']
                 backups['backups'][0]['backup'].each do |backup|
@@ -566,7 +560,6 @@ if vdisk['vdiskId'][0] =~ /^.*-D-\d\d\d\d/
                   )
                 end
               end
-end
             end
           end
         end
@@ -689,7 +682,7 @@ end
       client = new_client(credentials)
       opts ||= {}
       if opts[:realm_id]
-        # just in case a network realm was passed
+        # just in case a network realm was passed in
         opts[:realm_id] = client.extract_vsys_id(opts[:realm_id])
       else
         # get first vsys
@@ -699,7 +692,7 @@ end
 
       client.allocate_public_ip(opts[:realm_id])
     end
-    #TODO: new address not returned immediately!
+    # new address not returned immediately!
     Address.new(:id => 'PENDING-xxx.xxx.xxx.xxx')
   end
 
@@ -1218,15 +1211,11 @@ eofwopxml
     #username could be 'dkoper'
     #load dkoper/UserCert.p12 from cert dir
     begin
-      #p File::join(CERT_DIR, credentials.user, 'UserCert.p12')
       cert_file = File.open(File::join(CERT_DIR, credentials.user, 'UserCert.p12'), 'rb')
     rescue Errno::ENOENT => e # file not found
       raise "AuthFailure: No certificate registered under name \'#{credentials.user}\'"
 #      raise Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, "No certificate registered under name #{credentials.user}")
     end
-    #TODO: check that cert's cn is indeed the username?
-    #cert.subject=/C=AU/O=Fujitsu Limited/CN=diesk_fast
-    #raise AuthError(?) if not
 
     begin
       pkcs12 = OpenSSL::PKCS12.new(cert_file, credentials.password)
@@ -1324,21 +1313,6 @@ eofwopxml
 
     # storage volumes
     storage_volumes = []
-    # system volume
-    if server == 'vserver'
-      storage_volumes << StorageVolume.new(
-        :id          => vserver['vserverId'][0],
-        :name        => vserver['vserverName'][0],
-        #:device => '', # no API to retrieve from
-#        :capacity => '10',# or '40', need to check with image (vserver['diskimageId'][0],)
-        :realm_id    => realm_id,
-        :instance_id => vserver['vserverId'][0],
-        :state       => 'IN-USE',
-        # alining with rhevm, which returns 'system' or 'data'
-        :kind        => 'system',
-        :actions     => []
-      )
-    end
     # additional volumes
     if vserver['vdisks'] and vserver['vdisks'][0]['vdisk']
       vserver['vdisks'][0]['vdisk'].each do |vdisk|
@@ -1352,7 +1326,7 @@ eofwopxml
           :realm_id    => client.extract_vsys_id(realm_id),
           :instance_id => vserver['vserverId'][0],
           :state       => 'IN-USE',
-          # alining with rhevm, which returns 'system' or 'data'
+          # aligning with rhevm, which returns 'system' or 'data'
           :kind        => 'data',
           :actions     => actions
         )
