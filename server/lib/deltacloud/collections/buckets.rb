@@ -159,6 +159,7 @@ module Deltacloud::Collections
             end
           end
         end
+
         action :metadata, :http_method => :head, :with_capability => :blob_metadata do
           control do
             @blob_id = params[:blob]
@@ -200,12 +201,12 @@ module Deltacloud::Collections
         action :content, :http_method => :get, :with_capability => :blob do
           description "Download blob content"
           control do
-            @blob = driver.blob(credentials, { :id => params[:blob], 'bucket' => params[:bucket]})
+            @blob = driver.blob(credentials, { :id => params[:blob_id], 'bucket' => params[:id]})
             if @blob
               params['content_length'] = @blob.content_length
               params['content_type'] = @blob.content_type
               params['content_disposition'] = "attachment; filename=#{@blob.id}"
-              BlobStream.call(env, credentials, params)
+              BlobStream.call(self, credentials, params)
             else
               report_error(404)
             end
