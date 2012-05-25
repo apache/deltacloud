@@ -18,7 +18,7 @@
         %div{ 'data-role' => :navbar}
           %ul
             %li
-              %a{ :'data-icon' => 'home', :href => api_url_for(''), :'data-ajax' => 'false'} Home
+              %a{ :'data-icon' => 'home', :href => "#{api_url_for('').chomp("/")}", :'data-ajax' => 'false'} Home
             %li=link_to_format(:xml)
             %li=link_to_format(:json)
         %div{ 'data-role' => :header, 'data-theme' => 'a' }

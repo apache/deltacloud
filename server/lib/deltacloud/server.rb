@@ -53,6 +53,23 @@ module Deltacloud
       end
     end
 
+    post Deltacloud[:root_url] + '/?' do
+      param_driver, param_provider = params["driver"], params["provider"]
+      if param_driver
+        redirect "#{Deltacloud[:root_url]}\;driver=#{param_driver}", 301
+      elsif param_provider && param_provider != "default"
+#FIXME NEEDS A BETTER WAY OF GRABBING CURRENT DRIVER FROM MATRIX PARAMS...
+        current_matrix_driver = env["HTTP_REFERER"].match(/\;(driver)=(\w*).*$/i)
+        if current_matrix_driver
+          redirect "#{Deltacloud[:root_url]}\;driver=#{$2}\;provider=#{param_provider}", 301
+        else
+          redirect "#{Deltacloud[:root_url]}\;provider=#{param_provider}", 301
+        end
+      else
+        redirect "#{Deltacloud[:root_url]}", 301
+      end
+    end
+
   end
 end
 

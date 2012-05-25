@@ -8,6 +8,18 @@
       %li
         %a{ :href => api_url_for(c.collection_name),  :'data-icon' => "arrow-r"}=c.collection_name.to_s.gsub('_', ' ').titlecase
 
+
+- unless Deltacloud::Drivers.driver_config.nil?
+  %div{ :'data-role' => :footer, :'data-theme' => 'a'}
+    %form{ :action => settings.root_url, :method => :post, :'data-ajax' => 'false'}
+      %fieldset{ :'data-type' => "horizontal", :'data-role' => "controlgroup", :id => "providers" }
+        %select{:name => 'driver', :'data-inline' => 'true', :'data-native-menu' => 'false'}
+          %option{ :value => "#{driver_symbol.to_s}"} #{driver_symbol.to_s}
+          - Deltacloud::Drivers.driver_config.keys.each do |driver|
+            %option{ :value => driver } #{driver}
+        %button{ :type => :submit, :'data-inline' => "true"} Change Driver
+
+
 - unless driver.configured_providers.empty?
   %div{ :'data-role' => :footer, :'data-theme' => 'a'}
     %form{ :action => settings.root_url, :method => :post, :'data-ajax' => 'false'}
