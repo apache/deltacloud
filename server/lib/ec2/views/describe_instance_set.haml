@@ -4,13 +4,14 @@
       %instanceId=item.id
       %imageId=item.image_id
       %instanceType=item.instance_profile.name
-      %launchTime=item.launch_time
+      %launchTime=item.launch_time || Time.now.to_s
       %ipAddress=item.public_addresses.first.address
       %privateIpAddress=item.public_addresses.first.address
       %dnsName=item.public_addresses.first.address
       %privateDnsName=item.private_addresses.first.address
-      %architecture=item.instance_profile.architecture
-      %keyName=item.keyname
+      %architecture=item.instance_profile.architecture || 'i386'
+      - if item.keyname
+        %keyName=item.keyname
       %instanceState
         %code=instance_state_code(item.state.downcase)
         %name=item.state.downcase

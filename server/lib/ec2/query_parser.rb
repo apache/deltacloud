@@ -100,10 +100,12 @@ module Deltacloud::EC2
 
   class QueryParser
 
+    class InvalidAction < StandardError; end
+
     def self.parse(params, request_id)
       parser = new(request_id, params)
       unless parser.valid_action?
-        raise 'Invalid action (%s)' % parser.action
+        raise InvalidAction.new('Invalid action (%s)' % parser.action)
       else
         ActionHandler.new(parser)
       end

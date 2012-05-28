@@ -44,13 +44,23 @@ module Deltacloud::EC2
     set :version, Deltacloud[:version]
     set :root_url, Deltacloud[:root_url]
     set :root, File.join(File.dirname(__FILE__), '..', '..')
+    set :views, File.join(File.dirname(__FILE__), 'views')
+
+    error Deltacloud::EC2::QueryParser::InvalidAction do
+      status 400
+      haml :error, :locals => { :code => 'InvalidAction', :message => 'The requested action is not valid for this web service' }
+    end
 
     after do
       headers 'Server' => 'Apache-Deltacloud-EC2/' + settings.version
     end
 
     get '/' do
-      content_type :xml
+      headers 'Connection' => 'close'
+      unless params['Action']
+        redirect settings.root_url, 301
+        halt
+      end
       ec2_action = QueryParser.parse(params, request_id)
       ec2_action.perform!(credentials, driver)
       ec2_action.to_xml(self)
