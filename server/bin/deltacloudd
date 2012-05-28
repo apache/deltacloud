@@ -128,9 +128,9 @@ end
 if options[:drivers]
   $:.unshift File.join($top_srcdir, 'lib')
   server_dir = ENV['API_FRONTEND'] == 'cimi' ? 'cimi' : 'deltacloud'
-  load File.join($top_srcdir, 'lib', server_dir, 'server.rb')
+  load File.join($top_srcdir, 'lib', server_dir, 'api.rb')
   puts "Available drivers:\n\n"
-  puts "* " + driver_config.keys.map{ |d| d.to_s }.join("\n* ")
+  puts Deltacloud.drivers.keys.join("\n")
   puts
   exit(0)
 end
