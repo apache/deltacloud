@@ -15,13 +15,13 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'should respond with HTTP_OK when accessing the :realms collection with authentication' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     last_response.status.must_equal 200
   end
 
   it 'should support the JSON media type' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'application/json'
     get collection_url(:realms)
     last_response.status.must_equal 200
@@ -29,25 +29,25 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must include the ETag in HTTP headers' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     last_response.headers['ETag'].wont_be_nil
   end
 
   it 'must have the "realms" element on top level' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     xml_response.root.name.must_equal 'realms'
   end
 
   it 'must have some "realm" elements inside "realms"' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').wont_be_empty
   end
 
   it 'must provide the :id attribute for each realm in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       r[:id].wont_be_nil
@@ -55,7 +55,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must include the :href attribute for each "realm" element in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       r[:href].wont_be_nil
@@ -63,7 +63,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       r[:href].must_match /^http/
@@ -71,7 +71,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must have the URL ending with the :id of the realm' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       r[:href].must_match /#{r[:id]}$/
@@ -79,13 +79,13 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must return the list of valid parameters for the :index action' do
-    auth_as_mock
+    authenticate
     options collection_url(:realms) + '/index'
     last_response.headers['Allow'].wont_be_nil
   end
 
   it 'must have the "name" element defined for each realm in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       (r/'name').wont_be_empty
@@ -93,7 +93,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must have the "state" element defined for each realm in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       (r/'state').wont_be_empty
@@ -101,7 +101,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must return the full "realm" when following the URL in realm element' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       get collection_url(:realms) + '/' + r[:id]
@@ -110,7 +110,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must have the "name" element for the realm and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       get collection_url(:realms) + '/' + r[:id]
@@ -120,7 +120,7 @@ describe 'Deltacloud API Realms' do
   end
 
   it 'must have the "state" element for the realm and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:realms)
     (xml_response/'realms/realm').each do |r|
       get collection_url(:realms) + '/' + r[:id]

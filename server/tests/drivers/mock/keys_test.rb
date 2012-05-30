@@ -15,13 +15,13 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'should respond with HTTP_OK when accessing the :keys collection with authentication' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     last_response.status.must_equal 200
   end
 
   it 'should support the JSON media type' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'application/json'
     get collection_url(:keys)
     last_response.status.must_equal 200
@@ -29,25 +29,25 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must include the ETag in HTTP headers' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     last_response.headers['ETag'].wont_be_nil
   end
 
   it 'must have the "keys" element on top level' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     xml_response.root.name.must_equal 'keys'
   end
 
   it 'must have some "key" elements inside "keys"' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').wont_be_empty
   end
 
   it 'must tell the kind of "key" elements inside "keys"' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |k|
       k[:type].must_match /(key|password)/
@@ -55,7 +55,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must provide the :id attribute for each key in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       r[:id].wont_be_nil
@@ -63,7 +63,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must include the :href attribute for each "key" element in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       r[:href].wont_be_nil
@@ -71,7 +71,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       r[:href].must_match /^http/
@@ -79,7 +79,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must have the URL ending with the :id of the key' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       r[:href].must_match /#{r[:id]}$/
@@ -87,13 +87,13 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must return the list of valid parameters for the :index action' do
-    auth_as_mock
+    authenticate
     options collection_url(:keys) + '/index'
     last_response.headers['Allow'].wont_be_nil
   end
 
   it 'must have the "name" element defined for each key in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       (r/'name').wont_be_empty
@@ -102,7 +102,7 @@ describe 'Deltacloud API Keys' do
 
 
   it 'must return the full "key" when following the URL in key element' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       get collection_url(:keys) + '/' + r[:id]
@@ -111,7 +111,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must have the "name" element for the key and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       get collection_url(:keys) + '/' + r[:id]
@@ -121,7 +121,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'must have the "name" element for the key and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       get collection_url(:keys) + '/' + r[:id]
@@ -131,7 +131,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'should advertise the list of actions that can be executed for each key' do
-    auth_as_mock
+    authenticate
     get collection_url(:keys)
     (xml_response/'keys/key').each do |r|
       get collection_url(:keys) + '/' + r[:id]
@@ -146,7 +146,7 @@ describe 'Deltacloud API Keys' do
   end
 
   it 'should allow to create a new key and then remove it' do
-    auth_as_mock
+    authenticate
     key_name = Time.now.to_i.to_s
     post collection_url(:keys), {
       :name => 'test_key_'+key_name

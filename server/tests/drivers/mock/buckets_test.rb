@@ -15,13 +15,13 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'should respond with HTTP_OK when accessing the :buckets collection with authentication' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     last_response.status.must_equal 200
   end
 
   it 'should support the JSON media type' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'application/json'
     get collection_url(:buckets)
     last_response.status.must_equal 200
@@ -29,25 +29,25 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must include the ETag in HTTP headers' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     last_response.headers['ETag'].wont_be_nil
   end
 
   it 'must have the "buckets" element on top level' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     xml_response.root.name.must_equal 'buckets'
   end
 
   it 'must have some "bucket" elements inside "buckets"' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').wont_be_empty
   end
 
   it 'must provide the :id attribute for each bucket in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       r[:id].wont_be_nil
@@ -55,7 +55,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must include the :href attribute for each "bucket" element in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       r[:href].wont_be_nil
@@ -63,7 +63,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       r[:href].must_match /^http/
@@ -71,7 +71,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must have the URL ending with the :id of the bucket' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       r[:href].must_match /#{r[:id]}$/
@@ -79,13 +79,13 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must return the list of valid parameters for the :index action' do
-    auth_as_mock
+    authenticate
     options collection_url(:buckets) + '/index'
     last_response.headers['Allow'].wont_be_nil
   end
 
   it 'must have the "name" element defined for each bucket in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       (r/'name').wont_be_nil
@@ -93,7 +93,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must have the "state" element defined for each bucket in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       (r/'state').wont_be_nil
@@ -101,7 +101,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must return the full "bucket" when following the URL in bucket element' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       get collection_url(:buckets) + '/' + r[:id]
@@ -110,7 +110,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must have the "name" element for the bucket and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       get collection_url(:buckets) + '/' + r[:id]
@@ -120,7 +120,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must have the "size" element for the bucket and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       get collection_url(:buckets) + '/' + r[:id]
@@ -130,7 +130,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must have the "blob" elements for the bucket and it should match with the ones in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       get collection_url(:buckets) + '/' + r[:id]
@@ -145,7 +145,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must have the "blob" elements for the bucket and it should match with the ones in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       get collection_url(:buckets) + '/' + r[:id]
@@ -160,7 +160,7 @@ describe 'Deltacloud API buckets' do
   end
 
   it 'must allow to get all blobs details and the details should be set correctly' do
-    auth_as_mock
+    authenticate
     get collection_url(:buckets)
     (xml_response/'buckets/bucket').each do |r|
       get collection_url(:buckets) + '/' + r[:id]

@@ -15,13 +15,13 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should respond with HTTP_OK when accessing the :instances collection with authentication' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     last_response.status.must_equal 200
   end
 
   it 'should support the JSON media type' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'application/json'
     get collection_url(:instances)
     last_response.status.must_equal 200
@@ -29,25 +29,25 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must include the ETag in HTTP headers' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     last_response.headers['ETag'].wont_be_nil
   end
 
   it 'must have the "instances" element on top level' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     xml_response.root.name.must_equal 'instances'
   end
 
   it 'must have some "instance" elements inside "instances"' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').wont_be_empty
   end
 
   it 'must provide the :id attribute for each instance in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       r[:id].wont_be_nil
@@ -55,7 +55,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must include the :href attribute for each "instance" element in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       r[:href].wont_be_nil
@@ -63,7 +63,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       r[:href].must_match /^http/
@@ -71,7 +71,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must have the URL ending with the :id of the instance' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       r[:href].must_match /#{r[:id]}$/
@@ -79,13 +79,13 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must return the list of valid parameters for the :index action' do
-    auth_as_mock
+    authenticate
     options collection_url(:instances) + '/index'
     last_response.headers['Allow'].wont_be_nil
   end
 
   it 'must have the "name" element defined for each instance in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       (r/'name').wont_be_empty
@@ -93,7 +93,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must have the "state" element defined for each instance in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       (r/'state').wont_be_empty
@@ -102,7 +102,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must return the full "instance" when following the URL in instance element' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -111,7 +111,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must have the "name" element for the instance and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -121,7 +121,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must have the "name" element for the instance and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -131,7 +131,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must have the "owner_id" element for the instance and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -141,7 +141,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must link to the realm that was used to during instance creation' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -154,7 +154,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must link to the image that was used to during instance creation' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -167,7 +167,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'must link to the hardware_profile that was used to during instance creation' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -180,7 +180,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should advertise the public and private addresses of the instance' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -200,7 +200,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should advertise the storage volumes used by the instance' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -209,7 +209,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should advertise the list of actions that can be executed for each instance' do
-    auth_as_mock
+    authenticate
     get collection_url(:instances)
     (xml_response/'instances/instance').each do |r|
       get collection_url(:instances) + '/' + r[:id]
@@ -224,7 +224,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should allow to create and destroy new instance using the first available image without realm' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     image_id = (xml_response/'images/image').first[:id]
     image_id.wont_be_nil
@@ -250,7 +250,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should allow to create and destroy new instance using the first available image within first realm' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     image_id = (xml_response/'images/image').first[:id]
     get collection_url(:realms)
@@ -281,7 +281,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should allow to create and destroy new instance using the first available image with user defined name' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     image_id = (xml_response/'images/image').first[:id]
     image_id.wont_be_nil
@@ -310,7 +310,7 @@ describe 'Deltacloud API instances' do
   end
 
   it 'should allow to create and destroy new instance using the first available image and first hardware_profile' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     image_id = (xml_response/'images/image').first[:id]
     get collection_url(:hardware_profiles)
