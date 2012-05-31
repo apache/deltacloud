@@ -159,10 +159,15 @@ module Deltacloud
 
         def realms(credentials, opts={})
           ec2 = new_client(credentials)
-          zone_id = opts ? opts[:id] : nil
           safely do
-            return ec2.describe_availability_zones(zone_id).collect do |realm|
-              convert_realm(realm)
+            if opts[:id] and !opts[:id].empty?
+              return ec2.describe_availability_zones([opts[:id]]).collect do |realm|
+                convert_realm(realm)
+              end
+            else
+              return ec2.describe_availability_zones.collect do |realm|
+                convert_realm(realm)
+              end
             end
           end
         end
