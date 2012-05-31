@@ -37,6 +37,7 @@ module Deltacloud
         feature :instances, :authentication_key
         feature :instances, :firewalls
         feature :instances, :instance_count
+        feature :instances, :metrics
         feature :images, :owner_id
         feature :images, :image_name
         feature :images, :image_description
@@ -227,6 +228,9 @@ module Deltacloud
           instance_options = {}
           if opts[:user_data]
             instance_options[:user_data] = Base64::decode64(opts[:user_data])
+          end
+          if opts[:metrics] and !opts[:metrics].empty?
+            instance_options[:monitoring_enabled] = true
           end
           instance_options[:key_name] = opts[:keyname] if opts[:keyname]
           instance_options[:availability_zone] = opts[:realm_id] if opts[:realm_id]

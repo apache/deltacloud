@@ -42,6 +42,11 @@
             %label{ :for => :instance_count} # of instances to be launched:
             %input{ :type => :text, :id => :instance_count, :name => :instance_count, :value => '1' }
 
+        - if driver.class.has_feature?(:instances, :metrics)
+          %div{ 'data-role' => :fieldcontain }
+            %label{ :for => :metrics} Enable metrics for this instance
+            %input{ :type => :checkbox, :id => :metrics, :name => :metrics, :checked => 'false' }
+
         - if driver.class.has_feature?(:instances, :authentication_key)
           %div{ 'data-role' => :fieldcontain }
             %label{ :for => :keyname, :class => 'ui-input-text'} Instance SSH key:

@@ -58,6 +58,13 @@ module Deltacloud
         end
       end
 
+      feature :metrics, :for => :instances do
+        description "Enable more detailed monitoring and metrics reporting for the instance"
+        operation :create do
+          param :metrics, :string, :optional
+        end
+      end
+
       feature :user_name, :for => :instances do
         description "Allow to set user-defined name for the instance"
         operation :create do
