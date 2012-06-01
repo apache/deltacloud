@@ -19,7 +19,7 @@
 # The default driver is 'mock'
 ENV['API_DRIVER'] ||= 'mock'
 
-load './lib/deltacloud_rack.rb'
+load File.join(File.dirname(__FILE__), 'lib', 'deltacloud_rack.rb')
 
 Deltacloud::configure do |server|
   server.root_url '/api'
