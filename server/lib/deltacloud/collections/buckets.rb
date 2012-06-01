@@ -30,6 +30,24 @@ module Deltacloud::Collections
       end
     end
 
+
+    head route_for('/buckets/:bucket/:blob') do
+      @blob_id = params[:blob]
+      @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
+      if @blob_metadata
+        @blob_metadata.each do |k,v|
+          headers["X-Deltacloud-Blobmeta-#{k}"] = v
+        end
+        status 204
+        respond_to do |format|
+          format.xml
+          format.json
+        end
+      else
+        report_error(404)
+      end
+    end
+
     collection :buckets do
 
       standard_show_operation
@@ -162,8 +180,8 @@ module Deltacloud::Collections
 
         action :metadata, :http_method => :head, :with_capability => :blob_metadata do
           control do
-            @blob_id = params[:blob]
-            @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
+            @blob_id = params[:blob_id]
+            @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob_id], 'bucket' => params[:id]})
             if @blob_metadata
               @blob_metadata.each do |k,v|
                 headers["X-Deltacloud-Blobmeta-#{k}"] = v
@@ -182,7 +200,7 @@ module Deltacloud::Collections
         action :update, :http_method => :post, :with_capability => :update_blob_metadata do
           control do
             meta_hash = BlobHelper::extract_blob_metadata_hash(request.env)
-            success = driver.update_blob_metadata(credentials, {'bucket'=>params[:bucket], :id =>params[:blob], 'meta_hash' => meta_hash})
+            success = driver.update_blob_metadata(credentials, {'bucket'=>params[:id], :id =>params[:blob_id], 'meta_hash' => meta_hash})
             if(success)
               meta_hash.each do |k,v|
                 headers["X-Deltacloud-Blobmeta-#{k}"] = v
