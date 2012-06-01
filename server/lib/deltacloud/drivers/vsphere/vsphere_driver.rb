@@ -364,6 +364,11 @@ module Deltacloud::Drivers::Vsphere
         status 502
       end
 
+      on /Undefined namespace prefix/ do
+        message 'VSphere Internal Error'
+        status 502
+      end
+
       on /Failed to inject data/ do
         status 502
       end
