@@ -280,7 +280,7 @@ private
             :owner_id => owner,
             :description => server.send(op, :name),
             :name => server.send(op, :name),
-            :state => (server.send(op, :status) == 'ACTIVE') ? 'RUNNING' : 'PENDING',
+            :state => convert_instance_state(server.send(op, :status).downcase),
             :architecture => 'x86_64',
             :image_id => image[:id] || image["id"],
             :instance_profile => InstanceProfile::new(flavor[:id] || flavor["id"]),
@@ -292,6 +292,23 @@ private
           inst.actions = instance_actions_for(inst.state)
           inst.create_image = 'RUNNING'.eql?(inst.state)
           inst
+        end
+
+        def convert_instance_state(openstack_state)
+          case openstack_state
+            when /.*reboot/
+              "PENDING"
+            when /.*deleting/
+              "STOPPING"
+            when /.*deleted/
+              "STOPPED"
+            when /build.*$/
+              "PENDING"
+            when /active/
+              "RUNNING"
+            else
+              "UNKOWN"
+          end
         end
 
         def convert_server_addresses(server, type)
