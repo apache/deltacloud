@@ -1,0 +1,34 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/
+    body: 
+      string: ""
+    headers: 
+      Date: 
+      - Thu, 31 May 2012 13:32:30 +0000
+      Authorization: 
+      - GOOG1 GOOGUM2I5ZVSPSV5H42U:xPYbYLX8gFAmOhtahVuQSgh/kyI=
+  response: 
+    status: 
+      code: 200
+      message: 
+    headers: 
+      Date: 
+      - Thu, 31 May 2012 13:32:32 GMT
+      Server: 
+      - HTTP Upload Server Built on May 23 2012 15:51:04 (1337813464)
+      Content-Type: 
+      - application/xml; charset=UTF-8
+      Expires: 
+      - Thu, 31 May 2012 13:32:32 GMT
+      Content-Length: 
+      - "530"
+      Cache-Control: 
+      - private, max-age=0
+    body: 
+      string: <?xml version='1.0' encoding='UTF-8'?><ListBucketResult xmlns='http://doc.s3.amazonaws.com/2006-03-01'><Name>testbucki2rpux3wdelmegoogel</Name><Prefix></Prefix><Marker></Marker><IsTruncated>false</IsTruncated><Contents><Key>testblobk1ds91kVdelmegoogel</Key><LastModified>2012-05-31T13:32:30.167Z</LastModified><ETag>"6051b502c4281855ff32dc3e924fe3b0"</ETag><Size>24436</Size><StorageClass>STANDARD</StorageClass><Owner><ID>00b4903a9772c5a80c691066edef0ac07b267f576a2d11bbfc5bf1d2c7a2b8fd</ID></Owner></Contents></ListBucketResult>
+    http_version: 
+  recorded_at: Thu, 31 May 2012 13:32:32 GMT
+recorded_with: VCR 2.1.1

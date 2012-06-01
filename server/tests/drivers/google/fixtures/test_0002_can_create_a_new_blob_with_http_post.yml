@@ -1,0 +1,48 @@
+--- 
+http_interactions: 
+- request: 
+    method: put
+    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/testblobk1ds91kVdelmegoogel
+    body: 
+      string: "#<File:0xb69fd808>"
+    headers: 
+      x-goog-meta-author: 
+      - deltacloud
+      Date: 
+      - Thu, 31 May 2012 13:32:26 +0000
+      x-goog-meta-foo: 
+      - bar
+      Content-Type: 
+      - text/html
+      Content-Length: 
+      - 24436
+      Authorization: 
+      - GOOG1 GOOGUM2I5ZVSPSV5H42U:q3PlG3D+fudEtGS52CBkF/ctAl8=
+  response: 
+    status: 
+      code: 200
+      message: 
+    headers: 
+      Pragma: 
+      - no-cache
+      Date: 
+      - Thu, 31 May 2012 13:32:30 GMT
+      Server: 
+      - HTTP Upload Server Built on May 23 2012 15:51:04 (1337813464)
+      x-goog-sequence-number: 
+      - "1"
+      Expires: 
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      Content-Type: 
+      - text/html
+      ETag: 
+      - "\"6051b502c4281855ff32dc3e924fe3b0\""
+      Content-Length: 
+      - "0"
+      Cache-Control: 
+      - no-cache, no-store, must-revalidate
+    body: 
+      string: ""
+    http_version: 
+  recorded_at: Thu, 31 May 2012 13:32:30 GMT
+recorded_with: VCR 2.1.1
