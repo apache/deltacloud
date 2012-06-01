@@ -1,40 +1,54 @@
 ENV['API_DRIVER']   = "google"
-ENV['API_USER']     = 'GOOGK7JXLS6UEYS6AYVO'
-ENV['API_PASSWORD'] = 'QjxUunLgszKhBGn/LISQajGR82CfwvraxA9lqnkg'
+ENV['TESTS_API_USERNAME']     = 'GOOGUM2I5ZVSPSV5H42U'
+ENV['TESTS_API_PASSWORD'] = 'sXhLOsE4SYU+M7SKsTwwNX2YPpMOKIiRyZaZxcBp'
 
-load File.join(File.dirname(__FILE__), '..', '..', 'common.rb')
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
+require 'tests/minitest_common'
 
 require 'vcr'
 
-DeltacloudTestCommon::record!
-
-VCR.config do |c|
+VCR.configure do |c|
   c.cassette_library_dir = "#{File.dirname(__FILE__)}/fixtures/"
-  c.stub_with :excon
+  c.hook_into :excon
   c.default_cassette_options = { :record => :new_episodes}
 end
 
-#monkey patch fix for VCR normalisation code:
-#see https://github.com/myronmarston/vcr/issues/4
-#when body is a tempfile, like when creating new blob
-#this method of normalisation fails and excon throws errors
-#(Excon::Errors::SocketError:can't convert Tempfile into String)
-#
-#RELEVANT: https://github.com/myronmarston/vcr/issues/101
-#(will need revisiting when vcr 2 comes along)
+#the following can probably be moved to somewhere more 'common'
+#once other driver tests start using them (e.g. openstack).
 
-module VCR
-  module Normalizers
-    module Body
+  @@created_bucket_name="testbucki2rpux3wdelme"
+  @@created_blob_name="testblobk1ds91kVdelme"
+  @@created_blob_local_file="#{File.dirname(__FILE__)}/../common_fixtures/deltacloud_blob_test.png"
 
-    private
-    def normalize_body
-     self.body = case body
-          when nil, ''; nil
-          else
-            String.new(body) unless body.is_a?(Tempfile)
-        end
-      end
-    end
+  def check_bucket_basics(bucket, cloud)
+    (bucket/'bucket/name').first.text.must_equal "#{@@created_bucket_name}#{cloud}"
+    (bucket/'bucket').attribute("id").text.must_equal "#{@@created_bucket_name}#{cloud}"
+    (bucket/'bucket').length.must_be :>, 0
+    (bucket/'bucket/name').first.text.wont_be_nil
+    (bucket/'bucket').attribute("href").text.wont_be_nil
   end
-end
+
+  def check_blob_basics(blob, cloud)
+    (blob/'blob').length.must_equal 1
+    (blob/'blob').attribute("id").text.wont_be_nil
+    (blob/'blob').attribute("href").text.wont_be_nil
+    (blob/'blob/bucket').text.wont_be_nil
+    (blob/'blob/content_length').text.wont_be_nil
+    (blob/'blob/content_type').text.wont_be_nil
+    (blob/'blob').attribute("id").text.must_equal "#{@@created_blob_name}#{cloud}"
+    (blob/'blob/bucket').text.must_equal "#{@@created_bucket_name}#{cloud}"
+    (blob/'blob/content_length').text.to_i.must_equal File.size(@@created_blob_local_file)
+  end
+
+  def check_blob_metadata(blob, metadata_hash)
+    meta_from_blob = {}
+    #extract metadata from nokogiri blob xml
+    (0.. (((blob/'blob/user_metadata').first).elements.size - 1) ).each do |i|
+      meta_from_blob[(((blob/'blob/user_metadata').first).elements[i].attribute("key").value)] =
+                                  (((blob/'blob/user_metadata').first).elements[i].children[1].text)
+    end
+    #remove any 'x-goog-meta-' prefixes (problem for google blobs and vcr...)
+    meta_from_blob.gsub_keys(/x-.*-meta-/i, "")
+    meta_from_blob.must_equal metadata_hash
+  end
+
