@@ -170,8 +170,8 @@ describe 'Deltacloud API buckets' do
         xml_response.root[:id].must_equal b[:id]
         (xml_response/'bucket').wont_be_empty
         (xml_response/'bucket').size.must_equal 1
-        (xml_response/'bucket').first[:id].wont_be_nil
-        (xml_response/'bucket').first[:href].wont_be_nil
+        (xml_response/'bucket').first.text.wont_be_nil
+        (xml_response/'bucket').first.text.must_equal r[:id]
         (xml_response/'content_length').wont_be_empty
         (xml_response/'content_length').size.must_equal 1
         (xml_response/'content_length').first.text.must_match /^(\d+)$/
