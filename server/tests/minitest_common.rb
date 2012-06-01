@@ -29,7 +29,7 @@ module Deltacloud
     end
 
     def authenticate
-      authorize ENV['API_USERNAME'], ENV['API_PASSWORD']
+      authorize ENV['TESTS_API_USERNAME'], ENV['TESTS_API_PASSWORD']
     end
 
     def collection_url(collection)

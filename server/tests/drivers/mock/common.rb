@@ -1,6 +1,6 @@
 ENV['API_DRIVER']   = 'mock'
-ENV['API_USERNAME'] = 'mockuser'
-ENV['API_PASSWORD'] = 'mockpassword'
+ENV['TESTS_API_USERNAME'] = 'mockuser'
+ENV['TESTS_API_PASSWORD'] = 'mockpassword'
 
 
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
