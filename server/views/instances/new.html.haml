@@ -18,7 +18,7 @@
             %input{ :name => prop.param, :size => 10, :value => "#{prop.default}" }= prop.unit
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => instances_url, :method => :post, :class => :new_instance, :'data-ajax' => 'false'}
+  %form{ :action => instances_url, :method => :post, :class => :new_instance, :enctype => 'multipart/form-data', :'data-ajax' => 'false'}
     %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
 
     - if driver.class.has_feature?(:instances, :user_name)
@@ -26,7 +26,7 @@
         %label{ :for => :name} Instance name:
         %input{ :type => :text, :id => :name, :name => :name, :value => '' }
 
-    - if additional_instance_features?
+    - if additional_features_for?(:instances, [:user_name])
       %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
         %h3 Additional parameters
 
@@ -69,6 +69,15 @@
                 - else
                   %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :id => "firewalls#{i}"}/
                   %label{:for => "firewalls#{i}"}=@firewalls[i].name
+
+        - if driver.class.has_feature?(:instances, :user_files)
+          %div{ 'data-role' => :fieldcontain }
+            %h3 Make user data file(s) available in launched Instance
+            %h4 The path specified for each file below is where the data will be made available on the launched Instance.
+            - for i in 1..5
+              %h4 User file #{i}
+              %input{ :type => :text, :id => "path#{i}", :name => "path#{i}", :value => ""} Path #{i}
+              %input{ :type => "file", :name => "content#{i}", :size => 50 }
 
     - if !@hardware_profiles.empty?
       %div{ 'data-role' => :fieldcontain }
