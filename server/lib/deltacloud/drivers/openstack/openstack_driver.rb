@@ -133,8 +133,8 @@ module Deltacloud
           os = new_client( credentials )
           result = nil
 #opts[:personality]: path1='server_path1'. content1='contents1', path2='server_path2', content2='contents2' etc
-          params = extract_personality(opts)
-#          ref_prefix = get_prefix(os)
+          params = {}
+          params[:personality] = extract_personality(opts)
           params[:name] = (opts[:name] && opts[:name].length>0)? opts[:name] : Time.now.to_s
           params[:imageRef] = image_id
           params[:flavorRef] =  (opts[:hwp_id] && opts[:hwp_id].length>0) ?
@@ -323,10 +323,17 @@ private
         #OUT:{local_path=>server_path, local_path1=>server_path2 etc}
         def extract_personality(opts)
           personality_hash =  opts.inject({}) do |result, (opt_k,opt_v)|
-            if opt_k.to_s =~ /^path([1-5]+)/
-              tempfile = Tempfile.new("os_personality_local_#{$1}")
-              tempfile.write(opts[:"content#{$1}"])
-              result[tempfile.path]=opts[:"path#{$1}"]
+            if (opt_k.to_s =~ /^path([1-5]+)/ and opts[opt_k] != nil and opts[opt_k].length > 0)
+              unless opts[:"content#{$1}"].nil?
+                case opts[:"content#{$1}"]
+                  when String
+                    tempfile = Tempfile.new("os_personality_local_#{$1}")
+                    tempfile.write(opts[:"content#{$1}"])
+                    result[tempfile.path]=opts[:"path#{$1}"]
+                  when Hash
+                    result[opts[:"content#{$1}"][:tempfile].path]=opts[:"path#{$1}"]
+                end
+              end
             end
             result
           end
@@ -342,7 +349,7 @@ private
 
         exceptions do
 
-          on /Exception::BadRequest/ do
+          on /(Exception::BadRequest|PersonalityFilePathTooLong|PersonalityFileTooLarge|TooManyPersonalityItems)/ do
             status 400
           end
 
