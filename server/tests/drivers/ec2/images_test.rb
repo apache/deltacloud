@@ -24,13 +24,13 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should respond with HTTP_OK when accessing the :images collection with authentication' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     last_response.status.must_equal 200
   end
 
   it 'should support the JSON media type' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'application/json'
     get collection_url(:images)
     last_response.status.must_equal 200
@@ -38,25 +38,25 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must include the ETag in HTTP headers' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     last_response.headers['ETag'].wont_be_nil
   end
 
   it 'must have the "images" element on top level' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     xml_response.root.name.must_equal 'images'
   end
 
   it 'must have some "image" elements inside "images"' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
   end
 
   it 'must provide the :id attribute for each image in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').each do |r|
       r[:id].wont_be_nil
@@ -64,7 +64,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must include the :href attribute for each "image" element in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').each do |r|
       r[:href].wont_be_nil
@@ -72,7 +72,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').each do |r|
       r[:href].must_match /^http/
@@ -80,7 +80,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must have the URL ending with the :id of the image' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').each do |r|
       r[:href].must_match /#{r[:id]}$/
@@ -88,13 +88,13 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must return the list of valid parameters for the :index action' do
-    auth_as_mock
+    authenticate
     options collection_url(:images) + '/index'
     last_response.headers['Allow'].wont_be_nil
   end
 
   it 'must have the "name" element defined for each image in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').each do |r|
       (r/'name').wont_be_empty
@@ -102,7 +102,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must have the "state" element defined for each image in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').each do |r|
       (r/'state').wont_be_empty
@@ -110,7 +110,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must return the full "image" when following the URL in image element' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -122,7 +122,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must have the "name" element for the image and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -135,7 +135,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'must have the "name" element for the image and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -148,7 +148,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should have the "owner_id" element for each image' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -160,7 +160,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should have the "description" element for each image' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -172,7 +172,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should have the "architecture" element for each image' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -184,7 +184,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should include the list of compatible hardware_profiles for each image' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -203,7 +203,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should advertise the list of actions that can be executed for each image' do
-    auth_as_mock
+    authenticate
     get collection_url(:images)
     (xml_response/'images/image').wont_be_empty
     (xml_response/'images/image')[0..10].each do |r|
@@ -221,7 +221,7 @@ describe 'Deltacloud API Images' do
   end
 
   it 'should give client HTML form to create new image' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'text/html'
     get collection_url(:images) + '/new'
     last_response.status.must_equal 200

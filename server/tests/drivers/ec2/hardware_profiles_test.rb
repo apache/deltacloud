@@ -10,13 +10,13 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'should respond with HTTP_OK when accessing the :hardware_profiles collection with authentication' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     last_response.status.must_equal 200
   end
 
   it 'should support the JSON media type' do
-    auth_as_mock
+    authenticate
     header 'Accept', 'application/json'
     get collection_url(:hardware_profiles)
     last_response.status.must_equal 200
@@ -24,25 +24,25 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must include the ETag in HTTP headers' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     last_response.headers['ETag'].wont_be_nil
   end
 
   it 'must have the "hardware_profiles" element on top level' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     xml_response.root.name.must_equal 'hardware_profiles'
   end
 
   it 'must have some "hardware_profile" elements inside "hardware_profiles"' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').wont_be_empty
   end
 
   it 'must provide the :id attribute for each hardware_profile in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       r[:id].wont_be_nil
@@ -50,7 +50,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must include the :href attribute for each "hardware_profile" element in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       r[:href].wont_be_nil
@@ -58,7 +58,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       r[:href].must_match /^http/
@@ -66,7 +66,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must have the URL ending with the :id of the hardware_profile' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       r[:href].must_match /#{r[:id]}$/
@@ -74,13 +74,13 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must return the list of valid parameters for the :index action' do
-    auth_as_mock
+    authenticate
     options collection_url(:hardware_profiles) + '/index'
     last_response.headers['Allow'].wont_be_nil
   end
 
   it 'must have the "name" element defined for each hardware_profile in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       (r/'name').wont_be_empty
@@ -88,7 +88,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'should have the "property" element defined if not the opaque hardware_profile' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -97,7 +97,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must define the :kind attribute for each "property" ' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -106,7 +106,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must define the :name attribute for each "property" ' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -115,7 +115,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must define the :unit attribute for each "property" ' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -124,7 +124,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must define the :value attribute for each "property" ' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -133,7 +133,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must define the "param" element if property kind is not "fixed"' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -151,7 +151,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must provide the list of valid values when the property is defined as "enum"' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -164,7 +164,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must provide the range of valid values when the property is defined as "range"' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -179,7 +179,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must provide the default value within the range if property defined as "range"' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -191,7 +191,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must provide the default value that is included in enum list if property defined as "enum"' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       next if r[:id] == 'opaque'
@@ -203,7 +203,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must return the full "hardware_profile" when following the URL in hardware_profile element' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       get collection_url(:hardware_profiles) + '/' + r[:id]
@@ -212,7 +212,7 @@ describe 'Deltacloud API Hardware Profiles' do
   end
 
   it 'must have the "name" element for the hardware_profile and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:hardware_profiles)
     (xml_response/'hardware_profiles/hardware_profile').each do |r|
       get collection_url(:hardware_profiles) + '/' + r[:id]

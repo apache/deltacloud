@@ -91,7 +91,7 @@ describe 'Deltacloud API drivers' do
 
 
   it 'must return the full "driver" when following the URL in driver element' do
-    auth_as_mock
+    authenticate
     get collection_url(:drivers)
     (xml_response/'drivers/driver').each do |r|
       get collection_url(:drivers) + '/' + r[:id]
@@ -100,7 +100,7 @@ describe 'Deltacloud API drivers' do
   end
 
   it 'must have the "name" element for the driver and it should match with the one in collection' do
-    auth_as_mock
+    authenticate
     get collection_url(:drivers)
     (xml_response/'drivers/driver').each do |r|
       r[:id].wont_be_nil
