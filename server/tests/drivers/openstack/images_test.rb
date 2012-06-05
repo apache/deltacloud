@@ -31,7 +31,7 @@ module OpenstackTest
         (image/'architecture').should_not == ''
         (image/'state').text.should == 'ACTIVE'
         ENV['API_USER'].include?((image/'owner_id').text).should == true
-        (image/'actions/link').length.should == 1
+        (image/'actions/link').length.should == 2
         (image/'actions/link').first[:rel].should == 'create_instance'
       end
       @@image_id = ((last_xml_response/'images/image').first)[:id]

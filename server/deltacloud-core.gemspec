@@ -100,7 +100,7 @@ Gem::Specification.new do |s|
 # Condor Cloud
   s.add_dependency('uuidtools', '>= 2.1.1')
 
-# Openstack Compute
-  s.add_dependency('openstack-compute')
+# Openstack Compute and Object-Storage
+  s.add_dependency('openstack')
 
 end

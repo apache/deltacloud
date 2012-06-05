@@ -14,7 +14,7 @@
 # under the License.
 #
 
-require 'openstack/compute'
+require 'openstack'
 require 'tempfile'
 
 module Deltacloud
@@ -61,10 +61,10 @@ module Deltacloud
           safely do
             if(opts[:id])
               img = os.get_image(opts[:id])
-              results << convert_from_image(img, os.authuser)
+              results << convert_from_image(img, os.connection.authuser)
             else
               results = os.list_images.collect do |img|
-                convert_from_image(img, os.authuser)
+                convert_from_image(img, os.connection.authuser)
               end
             end
           end
@@ -80,7 +80,7 @@ module Deltacloud
             server = os.get_server(opts[:id])
             image_name = opts[:name] || "#{server.name}_#{Time.now}"
             img = server.create_image(:name=>image_name)
-            convert_from_image(img, os.authuser)
+            convert_from_image(img, os.connection.authuser)
           end
         end
 
@@ -118,10 +118,10 @@ module Deltacloud
           safely do
             if opts[:id]
               server = os.get_server(opts[:id].to_i)
-              insts << convert_from_server(server, os.authuser)
+              insts << convert_from_server(server, os.connection.authuser)
             else
               insts = os.list_servers_detail.collect do |server|
-                convert_from_server(server, os.authuser)
+                convert_from_server(server, os.connection.authuser)
               end
             end
           end
@@ -144,7 +144,7 @@ module Deltacloud
           end
           safely do
             server = os.create_server(params)
-            result = convert_from_server(server, os.authuser)
+            result = convert_from_server(server, os.connection.authuser)
           end
           result
         end
@@ -154,7 +154,7 @@ module Deltacloud
           safely do
             server = os.get_server(instance_id.to_i)
             server.reboot! # sends a hard reboot (power cycle) - could instead server.reboot("SOFT")
-            convert_from_server(server, os.authuser)
+            convert_from_server(server, os.connection.authuser)
           end
         end
 
@@ -163,7 +163,7 @@ module Deltacloud
           safely do
             server = os.get_server(instance_id.to_i)
             server.delete!
-            convert_from_server(server, os.authuser)
+            convert_from_server(server, os.connection.authuser)
           end
         end
 
@@ -229,7 +229,7 @@ private
             user_name, tenant_name = tokens.first, tokens.last
           end
           safely do
-              OpenStack::Compute::Connection.new(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider)
+              OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider)
           end
         end
 
@@ -353,11 +353,11 @@ private
             status 400
           end
 
-          on /Exception::Authentication/ do
+          on /OpenStack::Exception::Authentication/ do
             status 401
           end
 
-          on /Exception::ItemNotFound/ do
+          on /OpenStack::Exception::ItemNotFound/ do
             status 404
           end
 
