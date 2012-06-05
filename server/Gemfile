@@ -4,12 +4,13 @@ gemspec
 
 group :development do
   gem "compass", ">= 0.8.17"
-  gem "vcr", "<=1.11.3"
+  gem "vcr"
   gem "webmock"
   gem "rack-test", ">= 0.5.3"
   gem "ci_reporter"
   gem "cucumber", ">= 0.6.3"
   gem "rspec", ">= 2.0.0"
   gem "minitest"
+  gem "timecop"
 end
 
