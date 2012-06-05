@@ -294,6 +294,30 @@ module Deltacloud::Helpers
       klass.extend SinatraHelper
     end
 
+    HTML_ESCAPE = { '&' => '&amp;',  '>' => '&gt;',   '<' => '&lt;', '"' => '&quot;' }
+
+    def h(s)
+      s.to_s.gsub(/[&"><]/n) { |special| HTML_ESCAPE[special] }
+    end
+
+    def bt(trace)
+      return trace.join("\n") if params['fulltrace']
+      app_path = File::expand_path("../../..", __FILE__)
+      dots = false
+
+        trace = trace.map { |t| t.match(%r{^#{app_path}(.*)$}) ? "$app#{$1}" : "..." }.select do |t|
+        if t == "..."
+          keep = ! dots
+          dots = true
+        else
+          keep = true
+          dots = false
+        end
+        keep
+      end
+      "[\nAbbreviated trace\n   pass fulltrace=1 as query param to see everything\n  $app = #{app_path}\n]\n" + trace.join("\n")
+    end
+
     private
     def hardware_property_unit(prop)
       u = ::Deltacloud::HardwareProfile::unit(prop)

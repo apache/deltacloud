@@ -3,4 +3,4 @@
   %message< #{cdata @error.message}
   %backend{ :driver => driver_symbol }
     %code=response.status
-  %backtrace< #{cdata @error.backtrace.join("\n")}
+  %backtrace< #{h bt(@error.backtrace)}
