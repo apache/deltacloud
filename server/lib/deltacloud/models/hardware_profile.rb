@@ -22,7 +22,7 @@ module Deltacloud
       :storage => "GB",
       :architecture => "label",
       :cpu => "count"
-    }
+    } unless defined?(UNITS)
 
     def self.unit(name)
       UNITS[name]

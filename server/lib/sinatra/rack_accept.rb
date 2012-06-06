@@ -113,7 +113,7 @@ module Rack
       :html => { :return => 'text/html', :match => ['application/xhtml+xml', 'text/html', '*/*'] },
       :png => { :return => 'image/png', :match => ['image/png'] },
       :gv => { :return => 'application/ghostscript', :match => ['application/ghostscript'] }
-    }
+    } unless defined?(ACCEPTED_MEDIA_TYPES)
 
     def call(env)
       accept, index = env['rack-accept.request'], {}

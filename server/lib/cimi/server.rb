@@ -45,8 +45,8 @@ module CIMI
     include CIMI::Collections
     include CIMI::Model
 
-    get Deltacloud[:root_url] do
-      redirect Deltacloud[:root_url] + '/cloudEntryPoint', 301
+    get Deltacloud[:cimi].root_url do
+      redirect Deltacloud[:cimi].root_url + '/cloudEntryPoint', 301
     end
 
   end

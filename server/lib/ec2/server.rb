@@ -41,8 +41,8 @@ module Deltacloud::EC2
     enable :method_override
     disable :show_exceptions
 
-    set :version, Deltacloud[:version]
-    set :root_url, Deltacloud[:root_url]
+    set :version, Deltacloud[:ec2].version
+    set :root_url, Deltacloud[:ec2].root_url
     set :root, File.join(File.dirname(__FILE__), '..', '..')
     set :views, File.join(File.dirname(__FILE__), 'views')
 

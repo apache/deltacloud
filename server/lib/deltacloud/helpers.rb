@@ -40,8 +40,9 @@ module Deltacloud::Collections
     enable :method_override
     disable :show_exceptions
 
-    set :root_url, Deltacloud[:root_url]
-    set :version, Deltacloud[:version]
+    set :config, Deltacloud[:deltacloud]
+    set :root_url, config.root_url
+    set :version, config.version
     set :root, File.join(File.dirname(__FILE__), '..', '..')
     set :views, root + '/views'
     set :public_folder, root + '/public'

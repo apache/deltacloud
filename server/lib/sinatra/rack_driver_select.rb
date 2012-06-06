@@ -25,7 +25,7 @@ module Rack
     HEADER_TO_ENV_MAP = {
       'HTTP_X_DELTACLOUD_DRIVER' => :driver,
       'HTTP_X_DELTACLOUD_PROVIDER' => :provider
-    }
+    } unless defined?(HEADER_TO_ENV_MAP)
 
     def call(env)
       original_settings = { }

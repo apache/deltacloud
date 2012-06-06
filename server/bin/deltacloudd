@@ -61,7 +61,7 @@ BANNER
   opts.on( '-P', '--provider PROVIDER', 'Use PROVIDER (default is set in the driver)') do |provider|
     ENV['API_PROVIDER'] = provider
   end
-  opts.on('-f', '--frontend FRONTEND', 'Use the different frontend, not the Deltacloud (cimi or ec2)') do |frontend|
+  opts.on('-f', '--frontends FRONTENDS', 'Enable different frontends (cimi, ec2, deltacloud)') do |frontend|
     ENV['API_FRONTEND'] = frontend
   end
   opts.on( '-c', '--config [FILE]', 'Read provider and other config from FILE (default: ~/.deltacloud/config)') do |config|

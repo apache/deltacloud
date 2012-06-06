@@ -25,23 +25,24 @@ require_relative './deltacloud/core_ext'
 
 module Deltacloud
 
-  def self.config(conf=nil)
-    @config ||= conf
+  def self.config
+    @config ||= {}
   end
 
-  def self.configure(&block)
-    @config = Server.new(&block)
+  def self.configure(frontend=:deltacloud, &block)
+    frontend = frontend.to_sym
+    config[frontend] = Server.new(&block)
     self
   end
 
-  def self.[](item)
-    config.send(item)
+  def self.[](frontend=:deltacloud)
+    config[frontend.to_sym]
   end
 
-  def self.require_frontend!
-    ENV['API_FRONTEND'] ||= 'deltacloud'
-    require File.join(File.dirname(__FILE__), ENV['API_FRONTEND'], 'server.rb')
-    config.klass eval('::'+self[:klass])
+  def self.require_frontend!(frontend=:deltacloud)
+    frontend = frontend.to_sym
+    require File.join(File.dirname(__FILE__), frontend.to_s, 'server.rb')
+    Deltacloud[frontend].klass eval('::'+Deltacloud[frontend].klass)
   end
 
   class Server
@@ -59,7 +60,7 @@ module Deltacloud
 
     def root_url(url=nil)
       return @root_url if url.nil?
-      raise '[Core] The server URL must start with /' unless url =~ /^\//
+      raise "[Core] The server URL must start with / (#{url})" unless url =~ /^\//
       @root_url = url
     end
 

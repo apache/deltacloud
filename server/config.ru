@@ -18,6 +18,7 @@
 
 # The default driver is 'mock'
 ENV['API_DRIVER'] ||= 'mock'
+ENV['API_FRONTEND'] ||= 'deltacloud'
 
 load File.join(File.dirname(__FILE__), 'lib', 'deltacloud_rack.rb')
 
@@ -27,38 +28,56 @@ Deltacloud::configure do |server|
   server.klass 'Deltacloud::API'
 end
 
-if ENV['API_FRONTEND'] == 'cimi'
-  Deltacloud::configure do |server|
-    server.root_url '/cimi'
-    server.version '1.0.0'
-    server.klass 'CIMI::API'
-  end
+Deltacloud::configure(:cimi) do |server|
+  server.root_url '/cimi'
+  server.version '1.0.0'
+  server.klass 'CIMI::API'
 end
 
-if ENV['API_FRONTEND'] == 'ec2'
-  Deltacloud::configure do |server|
-    server.root_url '/'
-    server.version '2012-04-01'
-    server.klass 'Deltacloud::EC2::API'
-  end
+Deltacloud::configure(:ec2) do |server|
+  server.root_url '/'
+  server.version '2012-04-01'
+  server.klass 'Deltacloud::EC2::API'
 end
 
-Deltacloud.require_frontend!
+routes = {}
 
-class IndexEntrypoint < Sinatra::Base
-  get "/" do
-    redirect Deltacloud[:root_url], 301
+# If user wants to launch multiple frontends withing a single instance of DC API
+# then require them and prepare the routes for Rack
+#
+# NOTE: The '/' will not be generated, since multiple frontends could have
+#       different root_url's
+#
+if ENV['API_FRONTEND'].split(',').size > 1
+
+  ENV['API_FRONTEND'].split(',').each do |frontend|
+    Deltacloud.require_frontend!(frontend)
+    routes.merge!({
+      Deltacloud[frontend].root_url => Deltacloud[frontend].klass
+    })
   end
+
+else
+  Deltacloud.require_frontend!(ENV['API_FRONTEND'])
+  class IndexEntrypoint < Sinatra::Base
+    get "/" do
+      redirect Deltacloud[ENV['API_FRONTEND']].root_url, 301
+    end
+  end
+  routes['/'] = IndexEntrypoint.new
+  routes[Deltacloud[ENV['API_FRONTEND']].root_url] = Deltacloud[ENV['API_FRONTEND']].klass
 end
+
 
 run Rack::Builder.new {
   use Rack::MatrixParams
   use Rack::DriverSelect
 
-  run Rack::URLMap.new(
-    "/" => IndexEntrypoint.new,
-    Deltacloud[:root_url] => Deltacloud[:klass],
+  routes.merge!({
     "/stylesheets" =>  Rack::Directory.new( "public/stylesheets" ),
     "/javascripts" =>  Rack::Directory.new( "public/javascripts" )
-  )
+  })
+
+  run Rack::URLMap.new(routes)
+
 } if respond_to? :run

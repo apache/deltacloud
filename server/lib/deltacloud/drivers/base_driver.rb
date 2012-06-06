@@ -23,7 +23,7 @@ module Deltacloud
     STATE_MACHINE_OPTS = {
       :all_states => [:start, :pending, :running, :stopping, :stopped, :finish],
       :all_actions => [:create, :reboot, :stop, :start, :destroy]
-    }
+    } unless defined?(STATE_MACHINE_OPTS)
 
     def self.driver_name
       name.split('::').last.gsub('Driver', '').downcase
@@ -243,8 +243,8 @@ module Deltacloud
       firewalls(credentials, opts).first if has_capability?(:firewalls)
     end
 
-    MEMBER_SHOW_METHODS =
-      [ :realm, :image, :instance, :storage_volume, :bucket, :blob, :key, :firewall ]
+    MEMBER_SHOW_METHODS = [ :realm, :image, :instance, :storage_volume, :bucket, :blob,
+                            :key, :firewall ] unless defined?(MEMBER_SHOW_METHODS)
 
     def filter_on(collection, attribute, opts)
       return collection if opts.nil?

@@ -20,9 +20,9 @@ module Deltacloud::Helpers
 
     def self.included(klass)
       klass.class_eval do
-        set :root_url, Deltacloud[:root_url]
+        set :config, Deltacloud[:deltacloud]
         include Sinatra::Rabbit
-        Sinatra::Rabbit.set :root_path, root_url+'/'
+        Sinatra::Rabbit.set :root_path, "#{config.root_url}/"
       end
     end
 
@@ -236,7 +236,7 @@ module Deltacloud::Helpers
       end
     end
 
-    NEW_BLOB_FORM_ID = 'new_blob_form_d15cfd90'
+    NEW_BLOB_FORM_ID = 'new_blob_form_d15cfd90' unless defined?(NEW_BLOB_FORM_ID)
 
     def new_blob_form_url(bucket)
       bucket_url(@bucket.name) + "/" + NEW_BLOB_FORM_ID
