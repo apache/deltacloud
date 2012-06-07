@@ -5,7 +5,7 @@ describe 'Deltacloud API drivers' do
   include Deltacloud::Test
 
   it 'must advertise have the drivers collection in API entrypoint' do
-    get Deltacloud[:root_url]
+    get root_url
     (xml_response/'api/link[@rel=drivers]').wont_be_empty
   end
 

@@ -5,7 +5,7 @@ describe 'Deltacloud API buckets' do
   include Deltacloud::Test
 
   it 'must advertise have the buckets collection in API entrypoint' do
-    get Deltacloud[:root_url]
+    get root_url
     (xml_response/'api/link[@rel=buckets]').wont_be_empty
   end
 

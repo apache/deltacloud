@@ -7,7 +7,9 @@ Deltacloud::configure do |server|
   server.root_url '/api'
   server.version '0.5.0'
   server.klass 'Deltacloud::API'
-end.require_frontend!
+end
+
+Deltacloud.require_frontend!(:deltacloud)
 
 CONFIG = {
   :username => 'mockuser',

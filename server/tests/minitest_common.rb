@@ -4,7 +4,9 @@ Deltacloud::configure do |server|
   server.root_url '/api'
   server.version '0.5.0'
   server.klass 'Deltacloud::API'
-end.require_frontend!
+end
+
+Deltacloud.require_frontend!(:deltacloud)
 
 require 'minitest/autorun'
 require 'rack/test'
@@ -28,12 +30,20 @@ module Deltacloud
       Nokogiri::XML(last_response.body)
     end
 
+    def root_url
+      Deltacloud[:deltacloud].root_url
+    end
+
+    def api_version
+      Deltacloud[:deltacloud].version
+    end
+
     def authenticate
       authorize ENV['TESTS_API_USERNAME'], ENV['TESTS_API_PASSWORD']
     end
 
     def collection_url(collection)
-      [Deltacloud[:root_url], collection.to_s].join('/')
+      [root_url, collection.to_s].join('/')
     end
 
     def app

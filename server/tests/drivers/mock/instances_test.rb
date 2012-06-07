@@ -5,7 +5,7 @@ describe 'Deltacloud API instances' do
   include Deltacloud::Test
 
   it 'must advertise have the instances collection in API entrypoint' do
-    get Deltacloud[:root_url]
+    get root_url
     (xml_response/'api/link[@rel=instances]').wont_be_empty
   end
 

@@ -5,7 +5,7 @@ describe 'Deltacloud API storage_snapshots' do
   include Deltacloud::Test
 
   it 'must advertise have the storage_snapshots collection in API entrypoint' do
-    get Deltacloud[:root_url]
+    get root_url
     (xml_response/'api/link[@rel=storage_snapshots]').wont_be_empty
   end
 

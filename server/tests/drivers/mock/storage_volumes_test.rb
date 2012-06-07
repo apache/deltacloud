@@ -5,7 +5,7 @@ describe 'Deltacloud API storage_volumes' do
   include Deltacloud::Test
 
   it 'must advertise have the storage_volumes collection in API entrypoint' do
-    get Deltacloud[:root_url]
+    get root_url
     (xml_response/'api/link[@rel=storage_volumes]').wont_be_empty
   end
 
