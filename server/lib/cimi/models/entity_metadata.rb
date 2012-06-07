@@ -53,7 +53,6 @@ class CIMI::Model::EntityMetadata < CIMI::Model::Base
 
   def self.metadata_from_deltacloud_features(cimi_entity, dcloud_entity, context)
     deltacloud_features = context.driver.class.features[dcloud_entity]
-    puts deltacloud_features.inspect
     metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
     from_feature(cimi_entity, context, metadata_attributes.flatten!)
   end

@@ -918,7 +918,6 @@ module Deltacloud
         end
 
         def convert_load_balancer(credentials, loadbalancer)
-          puts loadbalancer.inspect
           realms = []
           balancer_realms = loadbalancer[:availability_zones].each do |zone|
             realms << realm(credentials, zone)

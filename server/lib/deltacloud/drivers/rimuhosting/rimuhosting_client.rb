@@ -37,7 +37,6 @@ module Deltacloud::Drivers::RimuHosting
       end
       safely do
         r = @service.send_request(method, @uri.path + resource, data, headers)
-        puts r.body
         res = JSON.parse(r.body)
         res = res[res.keys[0]]
 
