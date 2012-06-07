@@ -37,13 +37,13 @@ require_relative '../deltacloud/helpers/auth_helper'
 require_relative '../deltacloud/helpers/url_helper'
 require_relative '../deltacloud/helpers/deltacloud_helper'
 require_relative '../deltacloud/helpers/rabbit_helper'
-require_relative '../deltacloud/helpers/rabbit_helper'
 require_relative './helpers/cimi_helper'
 require_relative './models'
 
 module CIMI::Collections
   class Base < Sinatra::Base
 
+    include Sinatra::Rabbit
     extend Deltacloud::Helpers::Drivers
     include Sinatra::Rabbit::Features
     include CIMI::Model
@@ -62,11 +62,15 @@ module CIMI::Collections
     enable :show_errors
     disable :show_exceptions
 
-    set :root_url, Deltacloud[:cimi].root_url
-    set :version, Deltacloud[:cimi].version
+    set :config, Deltacloud[:cimi]
+    set :root_url, config.root_url
+    set :root_path, config.root_url
+    set :version, config.version
     set :root, File.join(File.dirname(__FILE__), '..', '..')
     set :views, root + '/views/cimi'
     set :public_folder, root + '/public'
+
+    Sinatra::Rabbit.set :root_path, "#{config.root_url}/"
 
     error do
       report_error

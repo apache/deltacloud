@@ -23,6 +23,7 @@ require_relative 'helpers/blob_stream_helper'
 module Deltacloud::Collections
   class Base < Sinatra::Base
 
+    include Sinatra::Rabbit
     extend Deltacloud::Helpers::Drivers
     include Sinatra::Rabbit::Features
 
@@ -42,10 +43,13 @@ module Deltacloud::Collections
 
     set :config, Deltacloud[:deltacloud]
     set :root_url, config.root_url
+    set :root_path, config.root_url
     set :version, config.version
     set :root, File.join(File.dirname(__FILE__), '..', '..')
     set :views, root + '/views'
     set :public_folder, root + '/public'
+
+    Sinatra::Rabbit.set :root_path, "#{config.root_url}/"
 
     error do
       report_error

@@ -18,14 +18,6 @@ module Deltacloud::Helpers
 
     require 'benchmark'
 
-    def self.included(klass)
-      klass.class_eval do
-        set :config, Deltacloud[:deltacloud]
-        include Sinatra::Rabbit
-        Sinatra::Rabbit.set :root_path, "#{config.root_url}/"
-      end
-    end
-
     def auth_feature_name
       return 'key' if driver.class.has_feature?(:instances, :authentication_key)
       return 'password' if driver.class.has_feature?(:instances, :authentication_password)

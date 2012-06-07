@@ -16,9 +16,7 @@
 module CIMI::Collections
   class CloudEntryPoint < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
-
-    collection  :cloudEntryPoint do
+    collection :cloudEntryPoint do
       description 'Cloud entry point'
       operation :index do
         description "list all resources of the cloud"
