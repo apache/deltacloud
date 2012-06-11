@@ -74,8 +74,8 @@ run Rack::Builder.new {
   use Rack::DriverSelect
 
   routes.merge!({
-    "/stylesheets" =>  Rack::Directory.new( "public/stylesheets" ),
-    "/javascripts" =>  Rack::Directory.new( "public/javascripts" )
+    "/stylesheets" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "stylesheets") ),
+    "/javascripts" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "javascripts") )
   })
 
   run Rack::URLMap.new(routes)
