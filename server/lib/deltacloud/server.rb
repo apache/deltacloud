@@ -44,7 +44,7 @@ module Deltacloud
 
     set :config, Deltacloud[:deltacloud]
 
-    get config.root_url + '/?' do
+    get Deltacloud.config[:deltacloud].root_url + '/?' do
       if params[:force_auth]
         return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
       end
@@ -55,20 +55,20 @@ module Deltacloud
       end
     end
 
-    post config.root_url + '/?' do
+    post Deltacloud.config[:deltacloud].root_url + '/?' do
       param_driver, param_provider = params["driver"], params["provider"]
       if param_driver
-        redirect "#{config.root_url}\;driver=#{param_driver}", 301
+        redirect "#{Deltacloud.config[:deltacloud].root_url}\;driver=#{param_driver}", 301
       elsif param_provider && param_provider != "default"
 #FIXME NEEDS A BETTER WAY OF GRABBING CURRENT DRIVER FROM MATRIX PARAMS...
         current_matrix_driver = env["HTTP_REFERER"].match(/\;(driver)=(\w*).*$/i)
         if current_matrix_driver
-          redirect "#{config.root_url}\;driver=#{$2}\;provider=#{param_provider}", 301
+          redirect "#{Deltacloud.config[:deltacloud].root_url}\;driver=#{$2}\;provider=#{param_provider}", 301
         else
-          redirect "#{config.root_url}\;provider=#{param_provider}", 301
+          redirect "#{Deltacloud.config[:deltacloud].root_url}\;provider=#{param_provider}", 301
         end
       else
-        redirect "#{config.root_url}", 301
+        redirect "#{Deltacloud.config[:deltacloud].root_url}", 301
       end
     end
 
