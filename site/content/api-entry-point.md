@@ -1,0 +1,227 @@
+---
+site_name: Deltacloud API
+title: API entry point
+---
+<br/>
+
+<div class="row">
+  <div class="span9">
+
+<h3 id="api-entry">The API entry point</h3>
+
+<p>
+Any part of the official API can be reached through the main entry point, by default <a href="http://localhost:3001/api">http://localhost:3001/api</a>. The entry point lists the resources for the current cloud provider, which the server knows about. For example, for the Amazon EC2 driver these are:
+</p>
+
+<ul style="margin-bottom:0px">
+<li>instances</li>
+<li>instance states</li>
+<li>images</li>
+<li>realms</li>
+</ul>
+
+  </div>
+  <div class="span3">
+
+<ul class="nav nav-list well">
+  <li class="nav-header">
+    REST API
+  </li>
+  <li><a href="/rest-api.html">Introduction</a></li>
+  <li class="active"><a href="#api-entry">API entry point</a></li>
+    <ul class="nav nav-list">
+      <li><a href="#feature">Features</a></li>
+    </ul>
+  <li><a href="/compute-resources.html">Compute resources</a></li>
+  <li><a href="/storage-resources.html">Storage resources</a></li>
+</ul>
+
+  </div>
+</div>
+
+<ul style="margin-top:0px">
+<li>hardware profiles</li>
+<li>keys</li>
+<li>buckets</li>
+<li>storage volumes</li>
+<li>storage snapshots</li>
+<li>load balancers</li>
+<li>addresses</li>
+<li>firewalls</li>
+</ul>
+
+<p>Example request:</p>
+
+<pre>
+GET /api?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Content-Length: 1439
+
+&lt;api driver='ec2' version='0.3.0'&gt;
+  &lt;link href='http://localhost:3001/api/instance_states' rel='instance_states'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/drivers' rel='drivers'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/addresses' rel='addresses'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/hardware_profiles' rel='hardware_profiles'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/firewalls' rel='firewalls'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/storage_volumes' rel='storage_volumes'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/images' rel='images'&gt;
+    &lt;feature name='owner_id'&gt;
+    &lt;/feature&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/realms' rel='realms'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/buckets' rel='buckets'&gt;
+    &lt;feature name='bucket_location'&gt;
+    &lt;/feature&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/instances' rel='instances'&gt;
+    &lt;feature name='user_data'&gt;
+    &lt;/feature&gt;
+    &lt;feature name='authentication_key'&gt;
+    &lt;/feature&gt;
+    &lt;feature name='firewalls'&gt;
+    &lt;/feature&gt;
+    &lt;feature name='instance_count'&gt;
+    &lt;/feature&gt;
+    &lt;feature name='attach_snapshot'&gt;
+    &lt;/feature&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/keys' rel='keys'&gt;
+  &lt;/link&gt;
+  &lt;link href='http://localhost:3001/api/load_balancers' rel='load_balancers'&gt;
+  &lt;/link&gt;
+&lt;/api&gt;
+</pre>
+
+<p>
+Some implementations for the Apache Deltacloud API may not support all resource types defined by API. For example, a Deltacloud instance pointing at a storage-only service will not expose compute resources like instances and hardware profiles.
+</p>
+
+<h3 id="feature">Features</h3>
+
+<p>
+The Apache Deltacloud API defines the standard behavior and semantics for each of the resource types as a baseline for any API implementation. It is often desirable to enhance standard API behavior with specific features. The API also defines all features that can be supported by the API implementation - each of them has a fixed predefined meaning. For example, the feature user_name indicates that a user-specified name can be assigned to an instance when it is created. Features are advertised in the top-level entry point as illustrated below:
+</p>
+
+<pre>
+&lt;api driver='mock' version='0.3.0'&gt;
+  ...
+  &lt;link href='http://localhost:3001/api/instances' rel='instances'&gt;
+    &lt;feature name='hardware_profiles'&gt;&lt;/feature&gt;
+    &lt;feature name='user_name'&gt;&lt;/feature&gt;
+    &lt;feature name='authentication_key'&gt;&lt;/feature&gt;
+  &lt;/link&gt;
+  ...
+&lt;/api&gt;
+</pre>
+
+<p>
+These features are available to each collection in the Deltacloud API:
+</p>
+
+<table class="table table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Collection</th>
+      <th>Operation</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>owner_id</td>
+      <td>Images</td>
+      <td>GET /api/images</td>
+      <td>allows filtering of the image list by owner_id</td>
+    </tr>
+    <tr>
+      <td>user_name</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>accepts a user-defined name on instance creation</td>
+    </tr>
+    <tr>
+      <td>user_data</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>provide user-defined data that is accessible by the running instance</td>
+    </tr>
+    <tr>
+      <td>user_iso</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>provides a base64 encoded gzipped ISO file accessible as CD-ROM drive by the running instnace</td>
+    </tr>
+    <tr>
+      <td>user_files</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>accept files that will be placed into the launched instance</td>
+    </tr>
+    <tr>
+      <td>firewalls</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>put the instance into one or more firewalls on launch</td>
+    </tr>
+    <tr>
+      <td>authentication_key</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>provides the authentication key to access the instance</td>
+    </tr>
+    <tr>
+      <td>authentication_password</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>provides the password to access the running instance</td>
+    </tr>
+    <tr>
+      <td>instance_count</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>specifies the number of instances to launch in one operation</td>
+    </tr>
+    <tr>
+      <td>attach_snapshot</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>attaches a storage snapshot to an instance as a storage volume</td>
+    </tr>
+    <tr>
+      <td>sandboxing</td>
+      <td>Instances</td>
+      <td>POST /api/instances</td>
+      <td>launches an instance from a sandbox image (Gogrid specific)</td>
+    </tr>
+    <tr>
+      <td>bucket_location</td>
+      <td>Buckets</td>
+      <td>POST /api/buckets</td>
+      <td>specifies a location that the bucket should be created in (e.g. specific cloud-provider datacenter)</td>
+    </tr>
+  </tbody>
+</table>
+
+<a class="btn btn-inverse btn-large" style="float: right" href="/compute-resources.html">Compute resources <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a>
+
+<br/>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Blob storage</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<div class="row">
+  <div class="span9">
+
+<h3 id="blob">Blob Storage</h3>
+
+<p>
+Blob storage represents a generic key ==&gt; value data store. It is implemented by Amazon S3 or Rackspace Cloudfiles. In Deltacloud, the organisational unit of blob storage is a bucket. Individual data items - blobs are exposed as a subcollection under each bucket.
+</p>
+
+<p>
+A bucket has
+</p>
+
+<ul>
+<li>a <strong>name</strong>;</li>
+  <li>a <strong>size</strong> (denotes the number of blobs it contains); and</li>
+  <li>a list of <strong>links to each blob</strong>.</li>
+</ul>
+<p>
+A blob has:
+</p>
+
+  </div>
+  <div class="span3">
+
+<ul class="nav nav-list well">
+<li class="nav-header">
+    REST API
+  </li>
+  <li><a href="rest-api.html">Introduction</a></li>
+  <li><a href="api-entry-point.html">API entry point</a></li>
+  <li><a href="compute-resources.html">Compute resources</a></li>
+  <li><a href="storage-resources.html">Storage resources</a></li>
+  <ul class="nav nav-list">
+<li><a href="storage-resources.html#volumes">Storage volumes</a></li>
+    <li><a href="storage-snapshots.html">Storage snaphots</a></li>
+    <li class="active"><a href="#blob">Blob storage</a></li>
+  </ul>
+</ul>
+</div>
+</div>
+
+<ul>
+<li>a <strong>content_length</strong>;</li>
+  <li>a <strong>content_type</strong>;</li>
+  <li>a <strong>last_modified</strong> timestamp;</li>
+  <li>a structure containing <strong>user_metadata</strong>;</li>
+  <li>a link to the blob <strong>content</strong>; and</li>
+  <li>a name of the bucket in which this blob exists.</li>
+</ul><p><br></p>
+
+<div class="tabbable">
+
+<ul class="nav nav-pills">
+<li class="active"><a href="#tab1" data-toggle="tab">Get a list of all buckets</a></li>
+  <li><a href="#tab2" data-toggle="tab">Get the details of a bucket</a></li>
+  <li><a href="#tab3" data-toggle="tab">Create/delete a bucket</a></li>
+  <li><a href="#tab4" data-toggle="tab">Get the details of a blob</a></li>
+  <li><a href="#tab5" data-toggle="tab">Create/delete a blob</a></li>
+  <li>   </li>
+  <li><a href="#tab6" data-toggle="tab">Get/update blob metadata</a></li>
+</ul>
+<hr>
+<div class="tab-content">
+  <div class="tab-pane tab-fade active" id="tab1">
+
+<h4>Get a list of all buckets</h4>
+
+<p>
+To return a list of all buckets belonging to the given cloud provider account use call <strong>GET /api/buckets</strong>. The response from the Deltacloud server includes the name and URI of each bucket but not the size or the list of blobs which the bucket contains. These details are available when a client requests (GETs) a specific bucket.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+GET /api/buckets?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Content-Length: 597
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;buckets&gt;
+  &lt;bucket href='http://localhost:3001/api/buckets/mybucket1' id='mybucket1'&gt;
+    &lt;name&gt;mybucket1&lt;/name&gt;
+    &lt;size&gt;&lt;/size&gt;
+  &lt;/bucket&gt;
+  &lt;bucket href='http://localhost:3001/api/buckets/mybucket2' id='mybucket2'&gt;
+    &lt;name&gt;mybucket2&lt;/name&gt;
+    &lt;size&gt;&lt;/size&gt;
+  &lt;/bucket&gt;
+  &lt;bucket href='http://localhost:3001/api/buckets/mybucket3' id='mybucket3'&gt;
+    &lt;name&gt;mybucket3&lt;/name&gt;
+    &lt;size&gt;&lt;/size&gt;
+  &lt;/bucket&gt;
+  &lt;bucket href='http://localhost:3001/api/buckets/mybucket4' id='mybucket4'&gt;
+    &lt;name&gt;mybucket4&lt;/name&gt;
+    &lt;size&gt;&lt;/size&gt;
+  &lt;/bucket&gt;
+&lt;/buckets&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane tab-fade" id="tab2">
+
+<h4>Get the details of a specific bucket</h4>
+
+<p>
+To return details of a specific bucket use call <strong>GET /api/buckets/:id</strong>. The Deltacloud server response includes the size of the bucket and the URI for each blob object that it contains.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+GET /api/buckets/mybucket1?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Content-Length: 534
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;bucket href='http://localhost:3001/api/buckets/mybucket1' id='mybucket1'&gt;
+  &lt;name&gt;mybucket1&lt;/name&gt;
+  &lt;size&gt;4&lt;/size&gt;
+  &lt;blob href='http://localhost:3001/api/buckets/mybucket1/myfile' id='myfile'&gt;&lt;/blob&gt;
+  &lt;blob href='http://localhost:3001/api/buckets/mybucket1/an_object' id='an_object'&gt;&lt;/blob&gt;
+  &lt;blob href='http://localhost:3001/api/buckets/mybucket1/picture_blob' id='picture_blob'&gt;&lt;/blob&gt;
+  &lt;blob href='http://localhost:3001/api/buckets/mybucket1/some_blob id='some_blob'&gt;&lt;/blob&gt;
+&lt;/bucket&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane tab-fade" id="tab3">
+
+<h4>Create a new bucket</h4>
+
+<p>
+To create a new bucket use call <strong>POST /api/buckets</strong>. You need to specify the name as a parameter. Optionally for Amazon S3 buckets, you can specify a bucket location with the location parameter, as per <a href="http://docs.amazonwebservices.com/general/latest/gr/index.html?rande.html">Regions and Endpoints for Amazon Simple Storage Service</a>. Valid values for S3 bucket location parameter are: "us-west-1", "EU", "ap-southeast-1", "ap-northeast-1" (while not specifying a location default to the "US Standard" region). Note that clients may specify parameters as multipart/form-data or using a content-type of application/x-www-form-urlencoded.
+</p>
+
+<p>
+On succesful creation this call will return a 201 HTTP status, specifying the URI of the newly created bucket in the <strong>Location</strong> header and the newly created bucket object in the response message body. The example request below shows how to create a new bucket in the EU (Ireland) region. If the given back-end cloud does not support locations then the location parameter is ignored.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /api/buckets?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1
+Host: localhost:3001
+Accept: */*
+Content-Length: 31
+Content-Type: application/x-www-form-urlencoded
+
+name=mybucketeurope&amp;location=EU
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 201 Created
+Location: http://localhost:3001/api/buckets/mybucketeurope
+Content-Type: application/xml
+Content-Length: 182
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;bucket href='http://localhost:3001/api/buckets/mybucketeurope' id='mybucketeurope'&gt;
+  &lt;name&gt;mybucketeurope&lt;/name&gt;
+  &lt;size&gt;0&lt;/size&gt;
+&lt;/bucket&gt;
+</pre>
+
+<h4>Delete a bucket</h4>
+
+<p>
+To delete the specified bucket use call <strong>DELETE /api/buckets/:id</strong>. The bucket must be empty (otherwise the call will fail with an error response). A succesful operation will return <strong>204 No Content</strong>.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+DELETE /api/buckets/mybucketeurope?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+</pre>
+
+  </div>
+  <div class="tab-pane tab-fade" id="tab4">
+
+<h4>Get the details of a blob</h4>
+
+<p>
+To retrieve the details of a specific blob use call <strong>GET /api/buckets/:bucket_id/:blob_id</strong>. The blob content is not returned as part of the response but rather a URI is given from which the content may be retrieved as shown below.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+GET /api/buckets/mariosbucket1/some_more_blob_woo?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Content-Length: 586
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;blob href='http://localhost:3001/api/buckets/mariosbucket1/some_more_blob_woo' id='some_more_blob_woo'&gt;
+  &lt;bucket&gt;mariosbucket1&lt;/bucket&gt;
+  &lt;content_length&gt;86&lt;/content_length&gt;
+  &lt;content_type&gt;text/plain&lt;/content_type&gt;
+  &lt;last_modified&gt;Fri Jan 28 12:23:08 UTC 2011&lt;/last_modified&gt;
+  &lt;user_metadata&gt;
+    &lt;entry key='v'&gt;
+      &lt;![CDATA[0.2.0]]&gt;
+    &lt;/entry&gt;
+    &lt;entry key='test'&gt;
+      &lt;![CDATA[value]]&gt;
+    &lt;/entry&gt;
+  &lt;/user_metadata&gt;
+  &lt;content href='http://localhost:3001/api/buckets/mariosbucket1/some_more_blob_woo/content'&gt;&lt;/content&gt;
+&lt;/blob&gt;
+</pre>
+
+<h4>Get the actual blob content</h4>
+
+<p>
+To retrieve the actual blob content use call <strong>GET /api/buckets/:bucket_id/:blob_id/content</strong>. The location of blob content is specified in the content URI returned from the <strong>GET /api/buckets/:bucket_id/:blob_id</strong> call. The content is streamed through the Deltacloud server as soon as it is received from the back-end cloud provider. The aim is to avoid the creation of a temporary file (especially significant in case of large blobs). The Deltacloud server sets <strong>Content-Disposition: attachment; filename=blob_name</strong> in the HTTP response headers.
+</p>
+
+<p>
+Example request:
+</p>
+
+<pre>
+GET /api/buckets/mariosanotherbucketohyeah/Im_a_blob_beholdme/content?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>
+Server response:
+</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Disposition: attachment; filename=Im_a_blob_beholdme
+Content-Type: text/plain
+Content-Length: 50
+
+&lt;BLOB DATA HERE&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane tab-fade" id="tab5">
+
+<h4>Create a blob object</h4>
+
+<p>
+To create a blob object and set its content use call <strong>PUT /api/buckets/:bucket_id/:blob_id</strong>. If the blob already exists then its data and metadata are overwritten with those specified in this call. The request must specify the name of the blob and the name of the bucket in which the blob is to be placed in the call URI. The client must also specify the <strong>content_length</strong> of the blob data and the <strong>blob data</strong> itself in the HTTP headers. Optionally the call may also specify a <strong>content_type</strong> and any number of <strong>key:value</strong> pairs of user defined metadata. User metadata is defined using 'X-Deltacloud-Blobmeta-' header, e.g. X-Deltacloud-Blobmeta-Version:2.1.
+</p>
+
+<p>
+To eliminate the necessity of creating a local file at the Deltacloud server for each blob created, the Deltacloud server starts to stream the blob data to the back-end cloud provider as soon as the request headers are processed. A succesful operation will return the newly created blob object, as shown below.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+PUT /api/buckets/mybucket/12Jul2011blob?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+Content-Type: text/plain
+Content-Length: 128988
+X-Deltacloud-Blobmeta-Version:2.1
+X-Deltacloud-Blobmeta-Author:msa
+
+... BLOB DATA ...
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;blob href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob' id='12Jul2011blob'&gt;
+  &lt;bucket&gt;mybucket&lt;/bucket&gt;
+  &lt;content_length&gt;128988&lt;/content_length&gt;
+  &lt;content_type&gt;text/plain&lt;/content_type&gt;
+  &lt;last_modified&gt;Wed Jul 13 13:27:22 UTC 2011&lt;/last_modified&gt;
+  &lt;user_metadata&gt;
+    &lt;entry key='author'&gt;
+      &lt;![CDATA[msa]]&gt;
+    &lt;/entry&gt;
+    &lt;entry key='version'&gt;
+      &lt;![CDATA[2.1]]&gt;
+    &lt;/entry&gt;
+  &lt;/user_metadata&gt;
+  &lt;content href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob/content'&gt;
+  &lt;/content&gt;
+&lt;/blob&gt;
+</pre>
+
+<p>
+The Deltacloud server also responds to an alternative <strong>POST /api/buckets/:bucket_id</strong> route for creating or updating a blob object. As with the <strong>PUT</strong> method for creating/updating a blob, the client must specify the <strong>bucket</strong> in which the blob is to be created through the call URI (i.e. you <strong>POST</strong> to the specified bucket). The rest of the required fields, that is, the <strong>name</strong> of the blob, the <strong>blob_data</strong> and the <strong>content-length</strong> are specified by the client as <strong>multipart/form-data</strong> (i.e. in <strong>HTTP POST</strong> form fields).
+</p>
+
+<p>
+In order to specify the optional user metadata for a given blob the client must set the form field <strong>meta_params</strong> to specify the number of metadata key/value pairs. The metadata itself is then specified by the client with fields of the form <strong>meta_nameN</strong> and <strong>meta_valueN</strong> where N is an integer from 1 up to the number specified by the <strong>meta_params</strong> field (e.g. meta_name1=author, meta_value1=jrd).
+</p>
+
+<p>
+It should be noted that the <strong>POST</strong> method for creating a blob is non streaming - the Deltacloud server will create a temporary file with the blob data, before the file is transferred to the backend cloud. Thus, it should only be used for blobs with a relatively small content-length and in general the <strong>PUT</strong> method should be preferred for larger blobs. This <strong>POST</strong> method is mainly provided for clients that cannot easily invoke a <strong>HTTP PUT</strong> operation (e.g. web browsers) and can be used for creating/updating a blob through the deltacloud HTML interface (provided for testing purposes).
+</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /api/buckets/mybucket?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu) libcurl/7.20.1 N
+Accept: */*
+Content-Length: 113582
+Expect: 100-continue
+Content-Type: multipart/form-data; boundary=----------------------------517f5f2df858
+
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="blob"
+
+12Jul2011blob
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="blob_data"; filename="small.txt"
+Content-Type: text/plain
+
+&lt;THE_BLOB_DATA_HERE&gt;
+
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="meta_params"
+
+2
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="meta_name1"
+
+author
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="meta_value1"
+jjs
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="meta_name2"
+
+version
+------------------------------517f5f2df858
+Content-Disposition: form-data; name="meta_value2"
+
+2.2
+------------------------------517f5f2df858--
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;blob href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob' id='12Jul2011blob'&gt;
+  &lt;bucket&gt;mybucket&lt;/bucket&gt;
+  &lt;content_length&gt;112766&lt;/content_length&gt;
+  &lt;content_type&gt;text/plain&lt;/content_type&gt;
+  &lt;last_modified&gt;&lt;/last_modified&gt;
+  &lt;user_metadata&gt;
+    &lt;entry key='x-amz-meta-author'&gt;
+      &lt;![CDATA[jjs]]&gt;
+    &lt;/entry&gt;
+    &lt;entry key='x-amz-meta-version'&gt;
+      &lt;![CDATA[2.2]]&gt;
+    &lt;/entry&gt;
+  &lt;/user_metadata&gt;
+  &lt;content href='http://localhost:3001/api/buckets/mybucket/12Jul2011blob/content'&gt;
+  &lt;/content&gt;
+&lt;/blob&gt;
+</pre>
+
+<h4>Delete a blob object</h4>
+
+<p>
+To delete the specified blob object from the back-end cloud use call <strong>DELETE /api/buckets/:bucket_id/:blob_id</strong>. The names of the blob and the bucket in which this exists are specified the in call URI. After a succesful operation the Deltacloud server responds with a <strong>HTTP 204</strong> (No Content) with no message body.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+DELETE /api/buckets/mybucket/12Jul2011blob?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+Connection: close
+Server: thin 1.2.11
+</pre>
+
+  </div>
+  <div class="tab-pane tab-fade" id="tab6">
+
+<h4>Get all metadata fields</h4>
+
+<p>
+To return all user defined metadata fields on a specified blob URI use the HTTP HEAD operation <strong>HEAD /api/buckets/:bucket_id/:blob_id</strong>. As per <a href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616</a> this <strong>HEAD</strong> operation does not return a message body. Rather, the blob user metadata values are returned in the response X-Deltacloud-Blobmeta- headers (e.g., X-Deltacloud-Blobmeta-version:1.2).
+</p>
+
+<p>Example request:</p>
+
+<pre>
+HEAD /api/buckets/mybucket/myblob?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+X-Deltacloud-Blobmeta-version: 1.21
+X-Deltacloud-Blobmeta-author: jrd
+</pre>
+
+<h4>Update the user-defined blob metadata</h4>
+
+<p>
+To update the user-defined blob metadata use call <strong>POST /api/buckets/:bucket_id/:blob_id</strong> on the URI of a blob. This operation will overwrite all previously set user-metadata values (if any) and replace them with those specified in this call. The client must set the user-defined metadata in the X-Deltacloud-Blobmeta- headers (e.g., X-Deltacloud-Blobmeta-Model:2012).
+</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /api/buckets/mybucket/myblob?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1
+Host: localhost:3001
+Accept: */*
+X-Deltacloud-Blobmeta-model: 2012
+X-Deltacloud-Blobmeta-paint: Stannite_Grey
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+X-Deltacloud-Blobmeta-model: 2012
+X-Deltacloud-Blobmeta-paint: Stannite_Grey
+</pre>
+
+</div>
+</div>
+</div>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

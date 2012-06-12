@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Getting the Sources</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<h3>Setting up a developement environment</h3>
+
+<h4>Installing dependencies</h4>
+<p>
+First, you will need all the installation dependencies for Deltacloud. Follow the steps in <a href="install-deltacloud.html">Install Deltacloud</a> section to get these dependencies.
+</p>
+
+<h4>Getting the sources</h4>
+
+<p>The Deltacloud repository is hosted at the Apache Software Foundation, using the <a href="http://git-scm.com/">Git</a> version control system. If you don’t have Git already, use the yum or apt package managers:</p>
+
+<pre>
+$ sudo yum install git
+</pre>
+<p>or</p>
+<pre>
+$ sudo apt-get install git
+</pre>
+
+<p>The canonical Deltacloud repository is located at <a href="https://git-wip-us.apache.org/repos/asf/deltacloud.git">https://git-wip-us.apache.org/repos/asf/deltacloud.git</a> with read-only mirrors at <strong>git://git.apache.org/deltacloud.git</strong> and <strong>git://github.com/apache/deltacloud</strong>.</p>
+
+<p>Go to your root directory and run git to get the latest version of Deltacloud source code from git repository. You can also use a different directory, but remember, where you clone the code:</p>
+
+<pre>
+$ git clone git://git.apache.org/deltacloud.git
+</pre>
+
+<p>This will pull the latest version to the directory <strong>~/deltacloud</strong>.</p>
+
+<h4>Development dependencies</h4>
+<p>
+Apart from installation dependecies, you have to install some additional libraries, in order to develop for Deltacloud. The Deltacloud source includes a Gemfile: <strong>/path/to/deltacloud/server/Gemfile</strong>, which lists these development dependencies.
+</p>
+
+<p>
+You can easily get all the development dependecies with <a href="http://gembundler.com/">Bundler</a>:
+</p>
+
+<p>Install Bundler (if you don't have it yet):</p>
+
+<pre>$ gem install bundler</pre>
+
+<p>Then, get the required dependencies:</p>
+
+<pre>
+$ cd /path/to/deltacloud/server
+$ bundle
+</pre>
+
+<h4>Building from source and installing the Deltacloud gem</h4>
+
+<p>
+Build and install the Deltacloud server gem:
+</p>
+
+<pre>
+$ cd path/to/DeltacloudProject/deltacloud/server
+$ rake package
+$ gem install pkg/deltacloud-core-&lt;version&gt;.gem
+</pre>
+
+<p>
+Then install the Deltacloud client gem:
+</p>
+
+<pre>
+$ cd path/to/DeltacloudProject/deltacloud/client
+$ rake package
+$ gem install pkg/deltacloud-client-&lt;version&gt;.gem
+</pre>
+
+<p><a class="btn btn-inverse btn-large" style="float: right" href="how-to-contribute.html">Contribute</a>
+<br></p>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

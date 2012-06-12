@@ -1,0 +1,226 @@
+---
+site_name: Deltacloud API
+title: Keys
+---
+
+<br/>
+
+<div class="alert alert-info">
+<a class="close" data-dismiss="alert" href="#">×</a>
+This section is currently being updated.
+</div>
+
+<div class="row">
+  <div class="span8">
+
+<h3 id="keys">Keys</h3>
+
+<p>
+A key captures the credentials required to access an Instance. The Deltacloud API supports two main types of keys: the <strong>password</strong> type of key which have username and password attributes and the <strong>key</strong> type which have fingerprint and pem (private key) attributes (public/private keypair). The key type is determined by the back-end cloud provider.
+</p>
+
+<p>
+Some cloud providers require the specification of the credentials used for connecting to an instance as a parameter for instance creation. An example is the Amazon EC2 cloud which uses <strong>key</strong> type of keys and where the identifier of the key used with a given instance is supplied within the keyname parameter to the <a href="/instances.html#post">POST /api/instances</a> call.
+</p>
+
+<p>
+Other cloud providers report the instance credentials in response to instance creation and make them available for subsequent retrieval. For example, the Gogrid Cloud the <strong>password</strong> type of keys (note: the Rackspace cloud also reports credentials during instance creation though it does not provide a mechanism with which to retrieve those passwords thereafter).
+</p>
+
+<h4 id="get">Get a list of all keys</h4>
+
+<p>
+To get a list of all available keys use call <strong>GET /api/keys</strong>. The example shown below is for keys from the Amazon EC2 cloud, which are of type <strong>key</strong>. Note that the XML response does not contain the private key attribute. This is because EC2 only provides the private key once, when the key is created (see <a href="#create">key creation</a> for an example):
+</p>
+
+  </div>
+  <div class="span4">
+
+<ul class="nav nav-list well">
+  <li class="nav-header">
+    REST API
+  </li>
+  <li><a href="/rest-api.html">Introduction</a></li>
+  <li><a href="/api-entry-point.html">API entry point</a></li>
+  <li><a href="/compute-resources.html">Compute resources</a></li>
+  <ul class="nav nav-list">
+    <li><a href="/realms.html">Realms</a></li>
+    <li><a href="/hardware-profiles.html">Hardware profiles</a></li>
+    <li><a href="/images.html">Images</a></li>
+    <li><a href="/instance-states.html">Instance states</a></li>
+    <li><a href="/instances.html">Instances</a></li>
+    <li class="active"><a href="#keys">Keys</a></li>
+    <li><a href="/firewalls.html">Firewalls</a></li>
+    <li><a href="/addresses.html">Addresses</a></li>
+    <li><a href="/load-balancers.html">Load balancers</a></li>
+  </ul>
+  <li><a href="/storage-resources.html">Storage resources</a></li>
+</ul>
+
+  </div>
+</div>
+
+<p>Example request:</p>
+
+<pre>
+GET /api/keys?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Date: Tue, 26 Jul 2011 08:09:26 GMT
+Content-Length: 733
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;keys&gt;
+  &lt;key href='http://localhost:3001/api/keys/deltacloud_jsmith' id='deltacloud_jsmith' type='key'&gt;
+    &lt;actions&gt;
+      &lt;link href='http://localhost:3001/api/keys/deltacloud_jsmith' method='delete' rel='destroy' /&gt;
+    &lt;/actions&gt;
+    &lt;fingerprint&gt;38:93:81:11:83:c2:c7:27:e8:79:17:e2:08:c9:13:99:73:90:8e:cc&lt;/fingerprint&gt;
+    &lt;state&gt;AVAILABLE&lt;/state&gt;
+  &lt;/key&gt;
+  &lt;key href='http://localhost:3001/api/keys/the_key' id='the_key' type='key'&gt;
+    &lt;actions&gt;
+      &lt;link href='http://localhost:3001/api/keys/the_key' method='delete' rel='destroy' /&gt;
+    &lt;/actions&gt;
+    &lt;fingerprint&gt;39:d3:9b:bb:93:92:97:27:e9:7d:b7:e2:09:9d:b3:dd:73:d0:9e:99&lt;/fingerprint&gt;
+    &lt;state&gt;AVAILABLE&lt;/state&gt;
+  &lt;/key&gt;
+&lt;/keys&gt;
+</pre>
+
+<h4>Get the description of a key</h4>
+
+<p>
+To get the XML description for a specific key use call <strong>GET /api/keys/:id</strong>. The example below shows a key of type <strong>password</strong> from the Gogrid cloud:
+</p>
+
+<p>Example request:</p>
+
+<pre>
+GET /api/keys/72398?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.21.2 (x86_64-apple-darwin10.3.1)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Date: Tue, 26 Jul 2011 11:13:25 GMT
+Content-Length: 269
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;key href='http://localhost:3001/api/keys/72398' id='72398' type='password'&gt;
+    &lt;actions&gt;
+    &lt;/actions&gt;
+    &lt;username&gt;&lt;![CDATA[26648]]&gt;&lt;/username&gt;
+    &lt;password&gt;&lt;![CDATA[3woc7UWdJsJEcm8@]]&gt;&lt;/password&gt;
+    &lt;state&gt;&lt;/state&gt;
+&lt;/key&gt;
+</pre>
+
+<h4 id="create">Create a new key</h4>
+
+<p>
+To create a new key use call <strong>POST /api/keys</strong>. Some back-end cloud providers allow a client to create new credentials for accessing Instances. The parameters (key attributes) required by this function will depend on the back-end and are specified in the relevant driver. At present only the Amazon EC2 cloud implements a key create method and this requires the key name to be specified as a parameter. It should be noted that the private key attribute of a newly created key is reported only once, in response to the create operation as shown in the example below. The client should save the private key for future use with instance authentication. In all subsequent calls, only the fingerprint attribute is displayed in the Deltacloud server response, as illustrated by the <a href="#get">GET /api/keys</a> call above.
+</p>
+
+<p>
+Note that as with other HTTP POST calls in the Deltacloud REST API, client requests may specify the required parameters as multipart/form-data, or using the application/x-www-form-urlencoded content type.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /api/keys?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+Content-Length: 19
+Content-Type: application/x-www-form-urlencoded
+
+name=jsmith_new_key
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 201 Created
+Content-Type: application/xml
+Date: Tue, 26 Jul 2011 10:58:58 GMT
+Content-Length: 2062
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;key href='http://localhost:3001/api/keys/jsmith_new_key' id='jsmith_new_key' type='key'&gt;
+  &lt;actions&gt;
+    &lt;link href='http://localhost:3001/api/keys/jsmith_new_key' method='delete' rel='destroy' /&gt;
+  &lt;/actions&gt;
+  &lt;fingerprint&gt;c6:80:5c:0a:b8:66:0d:58:5a:bf:0f:c2:5d:35:d3:c7:49:f3:5a:5f&lt;/fingerprint&gt;
+  &lt;pem&gt;
+    &lt;![CDATA[-----BEGIN RSA PRIVATE KEY-----
+    MIIEpgIBAAKCAQEAsPIzLQEpoLkxd0WESPEWQ4AMn9e0T6jHIMl/a2GUx2TA2Q10n6i5h4VAXXrK
+    m9fNnPJhw1uRbuL7Oz57QSftGUfz05EaLOsvIEq3OXA0HqnFPF7Dd4yvy07KfgNHe2c26NqIqxgw
+    GCy6tfd/9iKQIlFCG8I/M6fgEG/vw30GP5EywYLS0J7lYfNHJAVAznjX0LoOWvT0zYajZ7gWJ30/
+    sQ/IFaKxC3BpT6K2aQP+RgAimALHinFuoT4+07SsrQXEezLemAG/gdbw3+7DL9BGq0CCoY1RxeC7
+    qNh9BJwHtq9QPYg/RKruiYak/TSoB71/VP67lJv0WEkCRJKEFpz5SQIDAQABAoIBAQChVyZcmdvI
+    JjS5aVSWYeWIBMD+GmPZ4q428iPR2LcdHHxPLVqyndkVfeXTlrwZX6umuMd1pw+zyRmEypL+NRaW
+    36mutnbkkEl3K0loASw07V3fjxSx9EDyo1Q1lG3gUpuZtHG7eCGaWWahtxwhZSCBehBKWVLhmefP
+    dRFs8Zn56LhfxByS/HcmHYddq1ggynFgg1DszYKTiJ0k5Zd/w4gh3GXH02S50cNFumJh9tbZNeDz
+    yqa6a12N21loZ/VRRL7lEjpf3K2n0DCQ5pp0I9/FiwuwHMWr6qPSsQt9N/XclNiVg7fz+btNsqVY
+    US1kBkvazoaANmF3VOXT9bmiFnuBAoGBAOkURD2uBe9UUl7xvWON7yS+tBcs1KyYDsTEhsS5dLdk
+    n73/5vyEVzozdywTR7lQWVQhWWwkK/FJd9Xo/VV5bGXl+MK/JxIQHrEhLzO1OeYEBiw2eKhigyDb
+    lm7pk/DuBNqgnA9YVnSvRYjpnvgBeb89CHvdhqn52GcbB2ShXurRAoGBAMJYyqNyl8CiIqesigts
+    tlRk0UmS/LS6I58f7nbcrkgO3ZDsYhXhj9aKSJx56bpWTwoFdl7nTSUwkFgq2ts3g7EPQbYD/5G6
+    kwpq0tvC23zZTfYvjExNVORh9PJBCrBl1tC/5nqYSrHC7H3Ys/SW3DF+0LPTdOtx5FwL5Utr3lT5
+    AoGBAM3Y8EvpHaS5O+ZOaY07FTHGmxa8qTelM6XkS4ICqGovnEUZdM8fskncmit6+6VWqQ38RhWT
+    /Jsk34k0NEkA7BMyf/i/CaqSQgj93co1C+VxOGJj2TwdhOHIDZv2/omSLQdJQYrr4a87/JVmftdZ
+    tkSHiq6afwwvdEfbPzRIsKOBAoGBAK5EjEAP6z+So1yS/J3N95ipZnmA0hUErBhtu5jdvXFj0w22
+    ySUxw5bvHLkjIJA0AF/OEhx7b9OfPm+wzdqwZugH9DZQU4TLNjqrGzRv//xtptjQPg/Vb//yToBE
+    Dl+qkftReEwJ70CCtykJfiQeeofvXRlCzZ6p28kl6Y+9w/mRAoGBANI8AGB1iUDMQDiEfTAuH7jB
+    nZTZUsfAaysoku3gyVmtcu1Zo7T02b8YW3ypuNu664KO7eNik9q68yKa7oDuLVrVj6Sh2DInoeW9
+    vbjp2KcyMVEPHzWh86LV9IY5oHjQxlK/PMhQWMEeysi6j2qFqrx2rqRhG6kZUcFHFoHQpmv2
+    -----END RSA PRIVATE KEY-----]]&gt;
+  &lt;/pem&gt;
+  &lt;state&gt;AVAILABLE&lt;/state&gt;
+&lt;/key&gt;
+</pre>
+
+<h4>Delete a key</h4>
+
+<p>
+To delete a key, specified by its <strong>:id</strong> attribute use call <strong>DELETE /api/keys/:id</strong>. Note that as with the :create operation, this feature is currently only available in the Amazon EC2 driver.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+DELETE /api/keys/jsmith_new_key?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+Date: Tue, 26 Jul 2011 10:18:38 GMT
+</pre>
+
+<a class="btn btn-inverse btn-large" style="float: right" href="/firewalls.html">Firewalls <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a>
+
+<br/>

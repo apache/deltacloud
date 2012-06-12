@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Command Line Tools</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<h3 id="command">Using Deltacloud command tool</h3>
+
+<p>Installing the Deltacloud Ruby client also gives you the <strong>deltacloudc</strong> command line tool. This executable uses the Deltacloud client library to speak to the Deltacloud server through the <a href="rest-api.html">REST API</a>. This means that you can control your cloud infrastructure from the command line. The general usage pattern for deltacloudc is:</p><p>
+
+</p><pre>$ deltacloudc collection operation [options]</pre>
+
+<dl>
+<dt>Collection</dt>
+  <dd>
+  refers to the Deltacloud object collections, such as Instances, Images, Buckets, Realms etc., as described in a greater detail in the <a href="rest-api.html">REST API documentation</a>.
+  </dd>
+  <dt>Operation</dt>
+  <dd>
+  is collection dependant. All collections respond to 'index' and 'show' operations (retrieve details on all objects in a given collection or on a specific object). Some collections respond to 'create' and 'destroy' operations. The collection of instances (realized virtual servers) responds to operations for managing the instance lifecycle, such as 'stop' or 'reboot'. 
+  </dd>
+  <dt>Options</dt>
+  <dd>
+  are listed by invoking <strong>deltacloudc -h</strong>. The important option is <strong>-u</strong>, which specifies the API_URL, where the Deltacloud server is running. The API_URL takes the form of <strong>http://[user]:[password]@[api_url]:[port]/[api]</strong>. Alternatively, you can set the API_URL environment variable (e.g., export API_URL=http://mockuser:mockpassword@localhost:3001/api). If your username or your password contains special characters, it's necessary to use options <strong>-U</strong> and <strong>-P</strong> in addition to the option <strong>-u</strong>. Check the <a href="supported-providers.html#credentials"> list of credentials</a> you need for each back-end cloud provider.
+  </dd>
+</dl><p>
+The following examples assume that the Deltacloud server is running on your local machine port 3001 (the <strong>deltacloudd</strong> server daemon defaults to 'localhost:3001') and that it was started with the 'mock' provider (i.e. deltacloudd -i mock ).</p>
+
+<p> List all <strong>collections</strong> available in the current driver:</p>
+
+<pre>$ deltacloudc -l -u http://mockuser:mockpassword@localhost:3001/api</pre>
+
+<p>Get a list of all <strong>images</strong>:</p>
+
+<pre>$ deltacloudc images index -u http://mockuser:mockpassword@localhost:3001/api</pre>
+
+<p>List all operations for the <strong>buckets</strong> collection:</p>
+
+<pre>$ deltacloudc buckets -l -u http://mockuser:mockpassword@localhost:3001/api</pre>
+
+<p>Create a new <strong>blob</strong> in the bucket called 'bucket1':</p>
+
+<pre>$ deltacloudc blob create -i 'my_new_blob' -b 'bucket1' -f /home/marios/file.txt</pre>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

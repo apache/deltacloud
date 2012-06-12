@@ -1,0 +1,80 @@
+require 'nanoc3/tasks'
+require 'yaml'
+##
+# Configurable Constants
+#
+BASE_URL = 'http://deltacloud.org'
+
+namespace :optimize do
+
+  ##
+  # Gem Requirement:
+  #  YUI-Compressor - Bundled in Gemfile
+  #
+  desc 'Compress all stylesheet files'
+  task :stylesheets do
+    require 'yui/compressor'
+    compressor = YUI::CssCompressor.new
+
+    Dir['output/**/*.css'].each do |stylesheet|
+      puts "Compressing Stylesheet: #{stylesheet}"
+      css = File.read(stylesheet)
+      File.open(stylesheet, 'w') do |file|
+        file.write(compressor.compress(css))
+      end
+    end
+  end
+
+  ##
+  # Gem Requirement:
+  #  YUI-Compressor - Bundled in Gemfile
+  #
+  desc 'Compress all javascript files'
+  task :javascripts do
+    require 'yui/compressor'
+    compressor = YUI::JavaScriptCompressor.new(:munge => true)
+
+    Dir['output/**/*.js'].each do |javascript|
+      puts "Compressing JavaScript: #{javascript}"
+      js = File.read(javascript)
+      File.open(javascript, 'w') do |file|
+        file.write(compressor.compress(js))
+      end
+    end
+  end
+
+  ##
+  # Package Requirement:
+  #  jpegoptim
+  # Install OSX:
+  #  brew install jpegoptim
+  # Install Ubuntu:
+  #  [apt-get | aptitude] install jpegoptim
+  #
+  desc 'Optimize JPG images in output/images directory using jpegoptim'
+  task :jpg do
+    puts `find output/images -name '*.jpg' -exec jpegoptim {} \\;`
+  end
+
+  ##
+  # Package Requirement:
+  #  optipng
+  # Install OSX:
+  #  brew install optipng
+  # Install Ubuntu:
+  #  [apt-get | aptitude] install optipng
+  #
+  desc 'Optimize PNG images in output/images directory using optipng'
+  task :png do
+    puts `find output/images -name '*.png' -exec optipng {} \\;`
+  end
+
+  ##
+  # Convenient task for performing all optimization techniques at once
+  #
+  desc 'Optimize all JPG, PNG, Stylesheet and JavaScript files in the output directory'
+  task :all => [:jpg, :png, :javascripts, :stylesheets]
+end
+
+
+

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>The Deltacloud Ruby Client</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<div class="row">
+  <div class="span8">
+
+<h3>Working with Deltacloud Ruby Client</h3>
+<p>Each type of a resource has an associated model. Where resource refers to other resources, natural navigation across the object model is possible. For example:</p>
+
+<pre>
+puts instance.image.name
+puts instance.hardware_profile.architecture
+</pre>
+
+<h4 id="realms">Listing realms</h4>
+<p>Retrieve a complete list of realms available to you:</p>
+
+<pre>realm = client.realms</pre>
+
+</div>
+  <div class="span4">
+  
+<ul class="nav nav-list well">
+<li class="nav-header">Deltacloud Ruby Client</li>
+  <li class="active"><a href="#realms">Listing realms</a></li>
+  <li><a href="#profiles">Listing hardware profiles</a></li>
+  <li><a href="#images">Listing images</a></li>
+  <li><a href="#instances1">Listing instances</a></li>
+  <li><a href="#instances2">Lauching instances</a></li>
+  <li><a href="#instances3">Manipulating instances</a></li>
+  <li><a href="http://deltacloud.apache.org/ruby-client/doc/index.html">Client documentation</a></li>
+</ul>
+</div>
+</div>
+
+<p>You can access a specific realm by adding its identifier:</p>
+
+<pre>realm = client.realm( 'us' )</pre>
+
+<h4 id="profiles">Listing hardware profiles</h4>
+
+<p>Display a complete list of hardware profiles available for launching machines:</p>
+
+<pre>hwp = client.hardware_profiles</pre>
+
+<p>You can filter hardware profiles by architecture.</p>
+
+<pre>hardware_profiles = client.hardware_profiles( :architecture=&gt;'x86_64' )</pre>
+
+<p>Retrieve a specific hardware profile by its identifier:</p>
+
+<pre>hardware_profile = client.hardware_profile( 'm1-small' )</pre>
+
+<h4 id="images">Listing images</h4>
+
+<p>Return a complete list of images:</p>
+
+<pre>images = client.images</pre>
+
+<p>Retrieve a list of images owned by the currently authenticated user:</p>
+
+<pre>images = client.images( :owner_id=&gt;:self )</pre>
+
+<p>You can also retrieve a list of images visible to you but owned by a specific user:</p>
+
+<pre>images = client.images( :owner_id=&gt;'daryll' )</pre>
+
+<p>Access a specific image by its identifier:</p>
+
+<pre>image = client.image( 'ami-8675309' )</pre>
+
+<h4 id="instances1">Listing instances</h4>
+
+<p>Get a list of all instances visible to you:</p>
+
+<pre>instances = client.instances</pre>
+
+<p>Retrieve a list of all running instances:</p>
+
+<pre>instances = client.instances( :state =&gt;:running )</pre>
+
+<p>Look up the first instance in the list:</p>
+
+<pre>instance = client.instances.first</pre>
+
+<p>Find a specific instance by its identifier:</p>
+
+<pre>instance = client.instance( 'i-90125' )</pre>
+
+<h4 id="instances2">Launching instances</h4>
+
+<p>Launch an instance using an image identifier:</p>
+
+<pre>instance = client.create_instance(image_id)</pre>
+
+<p>You may specify a hardware profile:</p>
+
+<pre>instance = client.create_instance(image_id, :hwp_id =&gt; 'm1-small')</pre>
+
+<p>To create new instance, you can also use the 'user_name' feature:</p>
+
+<pre>instance = client.create_instance(image_id, :name =&gt; 'myinst1')</pre>
+
+<h4 id="instances3">Manipulating instances</h4>
+
+<p>Start an instance:</p>
+
+<pre>instance.start!</pre>
+
+<p>Execute the 'reboot' operation:</p>
+
+<pre>instance.reboot!</pre>
+
+<p>Destroy an instance:</p>
+
+<pre>instance.destroy!</pre>
+
+<p><br></p>
+
+<p>For more details on Deltacloud Ruby client see the full <a href="http://deltacloud.apache.org/ruby-client/doc/index.html">documentation</a>.</p>
+
+<p><a class="btn btn-inverse btn-large" style="float: right" href="usage.html#clients"><i class="icon-arrow-left icon-white" style="vertical-align:baseline"> </i> Back</a></p>
+
+<p><br></p>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

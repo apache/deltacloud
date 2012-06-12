@@ -1,0 +1,77 @@
+--- 
+site_name: Deltacloud API
+title: Deltacloud API
+---
+
+<div class="row">
+<div class="span12 intro">
+  <div class="article-nav news well tweet"></div>
+</div>
+<div class="span4 grad1 about">
+<blockquote>
+<h3>What does Deltacloud give you?</h3>
+<ul>
+  <li><span style="font-size:small">
+  an opportunity to manage cloud instances the way you want
+  </span></li>
+  <li><span style="font-size:small">
+  a way to protect your apps from cloud API changes and incompatitibilities
+  </span></li>
+  <li><span style="font-size:small">
+  support for all major <a class="providers" href="#supported-providers.html" title="Supported providers">cloud service providers</a>
+  </span></li>
+</ul>
+<br/>
+
+<a class="btn btn-large" style="float:right" href="/about.html">Learn more</a>
+
+</blockquote>
+</div>
+
+<div class="span4 grad1 about">
+<blockquote>
+<h3>Developers info</h3>
+<br/>
+<h6>Deltacloud:</h6>
+<ul>
+  <li><span style="font-size:small">
+  is an open source Apache project
+  </span></li>
+  <li><span style="font-size:small">
+  is a <a href="#rest-api.html" title="API Documentation">REST-based API </a>for simple any-platform access
+  </span></li>
+  <li><span style="font-size:small">
+  is written in Ruby
+  </span></li>
+  <br/>
+  <br/>
+</ul>
+<br />
+
+<a class="btn btn-large" style="float:right" href="/how-to-contribute.html">Contribute to Deltacloud</a>
+<br/>
+
+</blockquote>
+</div>
+<div class="span4 grad1 about">
+  <blockquote>
+    <p>
+      <strong>Current stable version:</strong><br>
+      <a class="btn" href="/"> deltacloud-core-0.5.0</a>
+    </p>
+    <br/>
+    <p>
+      <strong>Found a bug?</strong><br>
+      <a class="btn" href="/"> Report it!</a>
+    </p>
+  </blockquote>
+</div>
+
+<div class="span12">
+<br/>
+<p>
+Deltacloud makes it easy for cloud providers to <a href="/.html">add their cloud</a> to the Deltacloud API.
+</p>
+</div>
+
+</div>

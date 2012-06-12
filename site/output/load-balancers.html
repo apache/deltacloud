@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Load balancers</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<div class="row">
+  <div class="span9">
+
+<h3 id="load">Load balancers</h3>
+
+<p>
+Load balancers allow distribution of ingress network traffic received by a specified IP address to a number of running instances. For example, a number of instances that are fulfilling the role of web servers can be attached to a single load balancer. It allows you to handle a large number of requests without influence on website performance.
+</p>
+
+<p>
+This collection is not supported by all back-end cloud providers and at present, it is implemented for the Gogrid and Amazon EC2 cloud drivers. A load balancer is launched into a specific realm. Only instances within this specific realm may be attached to the balancer. Each load balancer has
+</p>
+
+<ul>
+<li>a <strong>list of instances</strong>;</li>
+  <li>a <strong>public address</strong> representing the IP address that the balancer will respond on to client requests;</li>
+  <li>a <strong>created_at</strong> timestamp; and</li>
+  <li>a list of <strong>listeners</strong>.</li>
+</ul>
+<p>
+Each <strong>listener</strong> has a <strong>protocol</strong> (e.g. TCP), a <strong>load balancer port</strong> and an <strong>instance port</strong>. The load balancer represents the port on which the balancer accepts connections. The instance port represents the port on which network traffic is forwarded to instances in the <strong>instance list</strong>.
+</p>
+
+  </div>
+  <div class="span3">
+
+<ul class="nav nav-list well">
+<li class="nav-header">
+    REST API
+  </li>
+  <li><a href="rest-api.html">Introduction</a></li>
+  <li><a href="api-entry-point.html">API entry point</a></li>
+  <li><a href="compute-resources.html">Compute resources</a></li>
+  <ul class="nav nav-list">
+<li><a href="realms.html">Realms</a></li>
+    <li><a href="hardware-profiles.html">Hardware profiles</a></li>
+    <li><a href="images.html">Images</a></li>
+    <li><a href="instance-states.html">Instance states</a></li>
+    <li><a href="instances.html">Instances</a></li>
+    <li><a href="keys.html">Keys</a></li>
+    <li><a href="firewalls.html">Firewalls</a></li>
+    <li><a href="addresses.html">Addresses</a></li>
+    <li class="active"><a href="#load">Load balancers</a></li>
+  </ul>
+<li><a href="storage-resources.html">Storage resources</a></li>
+</ul>
+</div>
+</div>
+
+<p><br></p>
+
+<ul class="nav nav-pills">
+<li class="active"><a href="#tab1" data-toggle="tab">Get the details of all load balancers</a></li>
+  <li><a href="#tab2" data-toggle="tab">Get the details for a load balancer</a></li>
+  <li><a href="#tab3" data-toggle="tab">Create/delete a load balancer</a></li>
+  <li><a href="#tab4" data-toggle="tab">Register/unregister an instance</a></li>
+</ul><hr><div class="tab-content">
+  <div class="tab-pane active" id="tab1">
+  
+
+<h4>Get the details of all load balancers</h4>
+
+<p>
+To retrieve details of all load balancers use call <strong>GET /api/load_balancers</strong>.
+</p>
+
+<p>
+Example request:
+</p>
+
+<pre>
+GET /api/load_balancers?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Date: Thu, 28 Jul 2011 13:37:19 GMT
+Content-Length: 1844
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;load_balancers&gt;
+  &lt;load_balancer href='http://localhost:3001/api/load_balancers/webtraffic-balancer' id='webtraffic-balancer'&gt;
+    &lt;actions&gt;
+      &lt;link href='http://localhost:3001/api/load_balancers/webtraffic-balancer' method='delete' rel='destroy' /&gt;
+      &lt;link href='http://localhost:3001/api/load_balancers/webtraffic-balancer/register' method='post' rel='register' /&gt;
+    &lt;/actions&gt;
+    &lt;public_addresses&gt;
+      &lt;address&gt;webtraffic-balancer-1306196965.us-east-1.elb.amazonaws.com&lt;/address&gt;
+    &lt;/public_addresses&gt;
+    &lt;created_at&gt;Thu Jul 28 13:29:52 UTC 2011&lt;/created_at&gt;
+    &lt;realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'&gt;&lt;/realm&gt;
+    &lt;listeners&gt;
+      &lt;listener protocol='HTTP'&gt;
+        &lt;load_balancer_port&gt;80&lt;/load_balancer_port&gt;
+        &lt;instance_port&gt;3001&lt;/instance_port&gt;
+      &lt;/listener&gt;
+    &lt;/listeners&gt;
+    &lt;instances&gt;
+    &lt;/instances&gt;
+  &lt;/load_balancer&gt;
+  &lt;load_balancer href='http://localhost:3001/api/load_balancers/secure-site-balancer' id='secure-site-balancer'&gt;
+    &lt;actions&gt;
+      &lt;link href='http://localhost:3001/api/load_balancers/secure-site-balancer' method='delete' rel='destroy' /&gt;
+      &lt;link href='http://localhost:3001/api/load_balancers/secure-site-balancer/register' method='post' rel='register' /&gt;
+    &lt;/actions&gt;
+    &lt;public_addresses&gt;
+      &lt;address&gt;secure-site-balancer-1347100846.us-east-1.elb.amazonaws.com&lt;/address&gt;
+    &lt;/public_addresses&gt;
+    &lt;created_at&gt;Thu Jul 28 13:36:29 UTC 2011&lt;/created_at&gt;
+    &lt;realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'&gt;&lt;/realm&gt;
+    &lt;listeners&gt;
+      &lt;listener protocol='HTTP'&gt;
+        &lt;load_balancer_port&gt;443&lt;/load_balancer_port&gt;
+        &lt;instance_port&gt;443&lt;/instance_port&gt;
+      &lt;/listener&gt;
+    &lt;/listeners&gt;
+    &lt;instances&gt;
+    &lt;/instances&gt;
+  &lt;/load_balancer&gt;
+&lt;/load_balancers&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane" id="tab2">
+
+<h4>Get the details for a load balancer</h4>
+
+<p>To retrieve details for a specific load balancer use call <strong>GET /api/load_balancers/:id</strong>.</p>
+
+<p>Example request:</p>
+
+<pre>
+GET /api/load_balancers/secure-site-balancer?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+Date: Thu, 28 Jul 2011 18:11:49 GMT
+Content-Length: 1361
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;load_balancer href='http://localhost:3001/api/load_balancers/secure-site-balancer' id='secure-site-balancer'&gt;
+  &lt;actions&gt;
+    &lt;link href='http://localhost:3001/api/load_balancers/secure-site-balancer' method='delete' rel='destroy' /&gt;
+    &lt;link href='http://localhost:3001/api/load_balancers/secure-site-balancer/register' method='post' rel='register' /&gt;
+  &lt;/actions&gt;
+  &lt;public_addresses&gt;
+    &lt;address&gt;secure-site-balancer-1347100846.us-east-1.elb.amazonaws.com&lt;/address&gt;
+  &lt;/public_addresses&gt;
+  &lt;created_at&gt;Thu Jul 28 13:36:29 UTC 2011&lt;/created_at&gt;
+  &lt;realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'&gt;&lt;/realm&gt;
+  &lt;listeners&gt;
+    &lt;listener protocol='HTTP'&gt;
+      &lt;load_balancer_port&gt;443&lt;/load_balancer_port&gt;
+      &lt;instance_port&gt;443&lt;/instance_port&gt;
+    &lt;/listener&gt;
+  &lt;/listeners&gt;
+  &lt;instances&gt;
+    &lt;instance href='http://localhost:3001/api/instances/i-4f06b52e' id='i-4f06b52e'&gt;
+      &lt;link href='http://localhost:3001/api/load_balancers/secure-site-balancer/unregister?instance_id=i-4f06b52e' rel='unregister' /&gt;
+    &lt;/instance&gt;
+    &lt;instance href='http://localhost:3001/api/instances/i-d706b5b6' id='i-d706b5b6'&gt;
+      &lt;link href='http://localhost:3001/api/load_balancers/secure-site-balancer/unregister?instance_id=i-d706b5b6' rel='unregister' /&gt;
+    &lt;/instance&gt;
+  &lt;/instances&gt;
+&lt;/load_balancer&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane" id="tab3">
+
+<h4>Create a load balancer</h4>
+
+<p>
+To create a new load balancer use call <strong>POST /api/load_balancers</strong>. Clients must provide the load balancer <strong>name</strong>, the <strong>realm_id</strong> to which the balancer is applied, a <strong>listener_protocol</strong> which the balancer will respond to (one of <strong>HTTP</strong> or <strong>TCP</strong>), the <strong>listener_balancer_port</strong> which specifies the port that the load balancer will be expecting network traffic on and finally the <strong>listener_instance_port</strong> which specifies the port on which instances will be receiving network traffic forwarded by the load balancer. As with other operations in the Deltacloud API, parameters may be specified by a requesting client using multipart/form-data or as application/x-www-form-urlencoded data.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+OST /api/load_balancers?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+Content-Length: 121
+Content-Type: application/x-www-form-urlencoded
+
+name=webtraffic-balancer&amp;realm_id=us-east-1c&amp;listener_protocol=HTTP&amp;
+listener_balancer_port=80&amp;listener_instance_port=3001
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 201 Created
+Content-Type: application/xml
+Date: Thu, 28 Jul 2011 13:30:05 GMT
+Content-Length: 884
+
+&lt;?xml version='1.0' encoding='utf-8' ?&gt;
+&lt;load_balancer href='http://localhost:3001/api/load_balancers/webtraffic-balancer' id='webtraffic-balancer'&gt;
+  &lt;actions&gt;
+    &lt;link href='http://localhost:3001/api/load_balancers/webtraffic-balancer' method='delete' rel='destroy' /&gt;
+    &lt;link href='http://localhost:3001/api/load_balancers/webtraffic-balancer/register' method='post' rel='register' /&gt;
+  &lt;/actions&gt;
+  &lt;public_addresses&gt;
+    &lt;address&gt;webtraffic-balancer-1306196965.us-east-1.elb.amazonaws.com&lt;/address&gt;
+  &lt;/public_addresses&gt;
+  &lt;created_at&gt;Thu Jul 28 13:29:52 UTC 2011&lt;/created_at&gt;
+  &lt;realm href='http://localhost:3001/api/realms/us-east-1a' id='us-east-1a'&gt;&lt;/realm&gt;
+  &lt;listeners&gt;
+    &lt;listener protocol='HTTP'&gt;
+      &lt;load_balancer_port&gt;80&lt;/load_balancer_port&gt;
+      &lt;instance_port&gt;3001&lt;/instance_port&gt;
+    &lt;/listener&gt;
+  &lt;/listeners&gt;
+  &lt;instances&gt;
+  &lt;/instances&gt;
+&lt;/load_balancer&gt;
+</pre>
+
+<h4>Delete a load balancer</h4>
+
+<p>To delete the specified load balancer from the back-end cloud provider use call <strong>DELETE /api/load_balancers/:id</strong>. The Deltacloud server will respond with <strong>HTTP 204 No Content</strong> for a succesful operation</p>
+
+<p>Example request:</p>
+
+<pre>
+DELETE /api/load_balancers/webtraffic-balancer?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+Date: Thu, 28 Jul 2011 13:23:33 GMT
+</pre>
+
+  </div>
+  <div class="tab-pane" id="tab4">
+
+<h4>Register an instance with a load balancer</h4>
+
+<p>
+To register a running instance with a specified load balancer use call <strong>POST /api/load_balancers/:id/register</strong>. Clients must provide the <strong>instance_id</strong> as a parameter to the request. The Deltacloud server will respond with a <strong>HTTP 204 No Content</strong> after a succesful operation. The Deltacloud server will accept client request parameters encoded as multipart/form-data or as application/x-www-form-urlencoded data.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /api/load_balancers/secure-site-balancer/register?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+Content-Length: 22
+Content-Type: application/x-www-form-urlencoded
+
+instance_id=i-4f06b52e
+</pre>
+
+Server response:
+
+<pre>
+HTTP/1.1 204 No Content
+Date: Thu, 28 Jul 2011 18:20:03 GMT
+</pre>
+
+<h4>Unreagister an instance from a load balancer</h4>
+
+<p>
+To unregister a specified instance from the given load balancer use call <strong>POST /api/load_balancers/:id/unregister</strong>. The client must supply the <strong>instance_id</strong> parameter to identify the instance, either as multipart/form-data or as application/x-www-form-urlencoded data.
+</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /api/load_balancers/secure-site-balancer/unregister?format=xml HTTP/1.1
+Authorization: Basic AU1J3UB2121Afd1DdyQWxLaTYTmJMNF4zTXBoRGdhMDh2RUw5ZDAN9zVXVa==
+User-Agent: curl/7.20.1 (i386-redhat-linux-gnu)
+Host: localhost:3001
+Accept: */*
+Content-Length: 22
+Content-Type: application/x-www-form-urlencoded
+
+instance_id=i-4f06b52e
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 204 No Content
+Date: Thu, 28 Jul 2011 19:09:17 GMT
+</pre>
+
+  </div>
+</div>
+
+<p><a class="btn btn-inverse btn-large" style="float: right" href="storage-resources.html">Storage resources <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
+
+<p><br></p>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>

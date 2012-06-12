@@ -1,0 +1,22 @@
+h1. nanoc-bootstrap
+
+nanoc-bootstrap is a nanoc 3 skeleton with Twitter Bootstrap pre-configured.
+
+h2. nanoc 3
+
+nanoc is a simple but very flexible static site generator written in Ruby. It operates on local files, and therefore does not run on the server. nanoc “compiles” the local source files into HTML (usually), by evaluating eRuby, Markdown, etc.
+
+h2. Twitter Bootstrap
+
+Bootstrap is Twitter's toolkit for kickstarting CSS for websites, apps, and more. It includes base CSS styles for typography, forms, buttons, tables, grids, navigation, alerts, and more.
+
+h2. Resources
+
+"http://nanoc.stoneship.org/":http://nanoc.stoneship.org/
+"http://groups.google.com/group/nanoc":http://groups.google.com/group/nanoc
+"http://twitter.github.com/bootstrap!":http://twitter.github.com/bootstrap!
+"http://groups.google.com/group/twitter-bootstrap":http://groups.google.com/group/twitter-bootstrap
+
+
+
+

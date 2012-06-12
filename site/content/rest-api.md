@@ -1,0 +1,184 @@
+--- 
+site_name: Deltacloud API
+title: REST API
+---
+
+<br/>
+
+<div class="row">
+  <div class="span9">
+
+<h3 id="rest">REST API</h3>
+
+<p>
+Apache Deltacloud is a REST-based (HATEOAS) cloud abstraction API. It enables management of resources in different IaaS clouds using a single API. There are back-end drivers communicating with each cloud provider's native API and the Deltacloud Core Framework provides the basis for implementing drivers to new IaaS clouds. Apache Deltacloud currently supports many back-end <a href="/drivers.html#drivers">cloud providers</a>.
+</p>
+
+<p>
+With Deltacloud project, you don't have to limit yourself to a single cloud provider. Instead of taking care of a number of clouds, you are dealing with just one API abstraction.
+</p>
+
+<h3 id="collections">Collections</h3>
+
+<p style="margin-bottom:0px">
+The following terms describe abstractions used in the Apache Deltacloud API. Each collection represents an entity in the back-end provider cloud, such as a running virtual server or a server image. Please note that the list of supported collections may differ from cloud to cloud. Only the appropriate collections are exposed for a given back-end driver (e.g. the Microsoft Azure driver currently exposes only the Buckets collection).
+</p>
+
+  </div>
+  <div class="span3">
+
+<ul class="nav nav-list well">
+  <li class="nav-header">
+    REST API
+  </li>
+  <li class="active"><a href="#rest">Introduction</a></li>
+  <ul class="nav nav-list">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#requests">Client requests</a></li>
+    <li><a href="#auth">Authentication</a></li>
+    <li><a href="#response">Server responses</a></li>
+    <li><a href="#conv">API conventions</a></li>
+    <li><a href="#stab">API stability</a></li>
+    <li><a href="#doc">Online documentation</a></li>
+  </ul>
+  <li><a href="/api-entry-point.html">API entry point</a></li>
+  <li><a href="/compute-resources.html">Compute resources</a></li>
+  <li><a href="/storage-resources.html">Storage resources</a></li>
+</ul>
+
+  </div>
+</div>
+
+<dl class="dl dl-horizontal">
+<dt><h4>Realms</h4></dt>
+  <dd>
+  A distinct organizational unit within the back-end cloud, for exapmle a datacenter. A realm may but does not necessarily represent the geographical location of the compute resources which you access.
+  </dd>
+  <dt><h4>Instances</h4></dt>
+  <dd>
+  A realized virtual server, running in a given back-end cloud. Instances are instantiated from server images.
+  </dd>
+  <dt><h4>Images</h4></dt>
+  <dd>
+  Templates (virtual machine images) from which instances are created. Each image defines the root partition and initial storage for the instance operating system.
+  <dt><h4>Instance states</h4></dt>
+  <dd>
+  Instance states represent the instance lifecycle. at any time an instance is in one of states: start, pending, running, stopped, shutting_down, finished.
+  </dd>
+  <dt><h4>Keys</h4></dt>
+  <dd>
+  Keys represent credentials used to access a running instance. Keys can take the form of key (for example an RSA key) or of password (with username and password attributes).
+  </dd>
+  <dt><h4>Storage volume</h4></dt>
+  <dd>
+  A virtual storage device that can be attached to an instance and mounted by the OS.
+  </dd>
+  <dt><h4>Storage snapshot</h4></dt>
+  <dd>
+  Storage snapshots are copies, snapshots of a storage volume at a specified time.
+  </dd>
+  <dt><h4>Bucket</h4></dt>
+  <dd>
+  A container for data blobs. The organizational unit of a generic key ==> value based on data store (such as Rackspace CloudFiles or Amazon S3). Individual data items, blobs, are exposed as a subcollection under a bucket.
+  </dd>
+  <dt><h4>Blob</h4></dt>
+  <dd>
+  A generic binary data item that exists within a specified bucket (an object in Amazon S3 and Rackspace CloudFiles).
+  </dd>
+  <dt><h4>Address</h4></dt>
+  <dd>
+  Address represents an IP address. Depending on the back-end cloud provider, address can be public or private. Public address represents a unique, globally routable IP address, private address represents an address routable only within a private network.
+  </dd>
+  <dt><h4>Load Balancer</h4></dt>
+  <dd>
+  A load balancer allows a distribution of ingress network traffic received by a specified IP address to a number of instances.
+  </dd>
+  <dt><h4>Firewalls</h4></dt>
+  <dd>Sets of rules that govern the accessibility of a running instance over the public Internet.
+  </dd>
+  <dt><h4>Metrics</h4></dt>
+  <dd>
+  Metrics collection provides useful information about your cloud resources, e.g. CPU utilization or network throughput. It may be helpful for developers for better scaling and monitoring. The collection is currently supported only for Amazon EC2 cloud. It collects information from Amazon CloudWatch service.
+  </dd>
+</dl>
+
+<h3 id="requests">Client Requests</h3>
+
+<p>
+In accordance with REST principles, clients make requests through HTTP with the usual meanings assigned to the standard HTTP verbs GET, POST, PUT, and DELETE.
+</p>
+
+<p>
+Besides the generally accepted REST design principles, Apache Deltacloud follows the guidelines discussed in the Fedora Project <a href="http://fedoraproject.org/wiki/Cloud_APIs_REST_Style_Guide">Cloud APIs Rest Style Guide</a>.
+</p>
+
+<p>
+The URL space of the API is structured into collections of resources. The top level entities used in the Deltacloud API are: realms, images, instance states, instances, keys, storage volumes, storage snapshots, blob storage, hardware profiles and drivers.
+</p>
+
+<h3 id="auth">Authentication</h3>
+
+<p>
+The Deltacloud API server is stateless and does not keep any information about the current client. The Deltalcloud server does not store the credentials for the back-end cloud which the server is talking to. Instead, the server uses HTTP basic authentication and clients have to send the username/password for the back-end cloud on every request.
+</p>
+
+<p>
+The specifics of what needs to be sent varies from cloud to cloud; some cloud providers request a username and password for API access, the others use special-purpose API keys. Check the list of the <a href="/drivers.html#credentials">credentials</a> to find out what kind of information a specific cloud provider expects.
+</p>
+
+<h3 id="response">Server responses</h3>
+
+<p>
+The server can respond to client requests in various formats. The appropriate response format is determined by HTTP content negotiation. The primary format is XML. The output is also available as JSON and as HTML (mostly for testing). Clients can also explicitly request a specific response format by including the <strong>format=</strong> request parameter (<strong>http://deltacloudserver.foo/api?format=xml</strong> or <strong>http://deltacloudserver.foo/api?format=json</strong>).
+</p>
+
+<p>
+In general (especially for the HTML interface), list operations such as <strong>GET /api/realms</strong> will provide a list of objects of this resource type with only brief details. Full details can be retrieved by making a request <strong>GET /api/realms/:id</strong> to the URL of the individual realm.
+</p>
+
+<h3 id="conv">API conventions</h3>
+
+<p>
+Any XML element which represents an object (such as an instance) has a <strong>href</strong> and an <strong>id</strong> attribute. The href attribute provides the URL at which object-specific actions can be performed (for example a GET action applied to the URL will return details of the object). The id provides an identifier of the object, which is unique within its collection (there is a unique id for each Instance, Image, Realm etc).
+</p>
+
+<p>
+Objects also have a human-readable name. The name is provided in a <code>&lt;name/&gt;</code> child element of the object’s container tag.
+</p>
+
+<h3 id="stab">API stability and evolution</h3>
+
+<p>
+Every change to the API is made in a way that allows old clients to work against newer versions of the API server.
+</p>
+
+<p>
+You may come across the following changes in newer versions of the API:
+</p>
+
+<ul>
+  <li>adding new collections, or supporting new operations on existing collections</li>
+  <li>adding optional parameters to existing operations</li>
+  <li>adding additional attributes and elements to the XML/JSON responses</li>
+</ul>
+
+<p>
+On the other hand, these changes would violate API stability and therefore they are not made:
+</p>
+
+<ul>
+  <li>removing an operation on a collection</li>
+  <li>making an optional parameter for an operation mandatory</li>
+  <li>removing attributes or elements from XML responses</li>
+</ul>
+
+<h3 id="doc">Online documentation</h3>
+
+<p>
+You can access an automatically generated documentation on every server running the Deltacloud Core API service through the URL <a href="http://localhost:3001/api/docs/">http://localhost:3001/api/docs/</a>. The documentation is both available in HTML and XML, though the XML format is not part of this specification and may change in an incompatible way.
+</p>
+
+<a class="btn btn-inverse btn-large" style="float: right" href="/api-entry-point.html">API entry point <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a>
+
+<br/>
+

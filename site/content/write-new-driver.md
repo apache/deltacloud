@@ -1,0 +1,246 @@
+---
+site_name: Deltacloud API
+title: Write New Provider Driver
+---
+
+<br/>
+
+<ul class="breadcrumb">
+  <li>
+    <a href="/how-to-contribute.html#how">How to contribute?</a> <span class="divider">/</span>
+  </li>
+  <li class="active">Write a provider driver</li>
+</ul>
+
+<h3 id="driver">Write a provider driver</h3>
+
+<p>The deltacloud drivers are stored in <strong>deltacloud/server/lib/deltacloud/drivers</strong>.</p>
+
+<ol>
+
+  <li>
+
+  <p>
+  To add a driver for a hypotetical <strong>Foo</strong> cloud, add a directory into /drivers/ and then add a file for a driver itself:
+  </p>
+
+<pre>deltacloud/server/lib/deltacloud/drivers/foo/foo_driver.rb</pre>
+
+  <p>You need to define a class <strong>Deltacloud::Drivers::Foo::FooDriver</strong> to this file. The class has to be a subclass of the <strong>Deltacloud::BaseDriver</strong>.
+  </p>
+
+  </li>
+  <li>
+
+  <p>Set up which <a href="/rest-api.html#">collections</a> the provider for you are writing the driver supports - e.g. images, instances, keys, buckets/blobs (storage), etc.:</p>
+
+<pre>
+def supported_collections
+  DEFAULT_COLLECTIONS + [ :buckets ] - [ :storage_snapshots, :storage_volumes ]
+end
+</pre>
+
+  <p>This declares that the driver supports the <strong>DEFAULT_COLLECTIONS</strong> (defined in <strong>deltacloud/server/lib/drivers.rb</strong>) except <a href="/rest-api.html#">storage_snapshots</a> and <a href="/rest-api.html#">storage_volumes</a> and also supports the <a href="/rest-api.html#">buckets</a> collection. A storage only cloud provider driver would support only the buckets collection.</p>
+
+  </li>
+  <li>
+  
+  <p>
+  Define the methods for each collection that your driver supports. The methods, as well as the routes to them, are defined in <strong>deltacloud/server/lib/deltacloud/server.rb</strong>. You can look at the existing drivers to get the idea of how to implement a specific method.
+  </p>
+  
+  </li>
+  <li>
+
+  <p>
+  Consider how the driver will be communicating with the cloud provider. Many of the existing drivers use external ruby gems for this purpose. For example, the <strong>ec2</strong> driver uses the <a href="https://github.com/appoxy/aws/">aws</a> gem, the <strong>rackspace</strong> driver uses the <a href="https://github.com/rackspace/ruby-cloudfiles">cloudfiles</a> and <a href="https://github.com/rackspace/ruby-cloudservers">cloudservers</a> gems. However, other drivers implement their own clients to communicate with the cloud provider, such as the IBM SBC driver and the Gogrid driver. This also explains why some drivers in the <strong>/drivers</strong> directory contain only the provider <strong>_driver.rb</strong> file, while the others also define a <strong>provider_client.rb</strong> file. It is entirely up to you, whether you write your own client or use an existing one.
+  </p>
+  
+  </li>
+</ol>
+
+<p>Thus, your driver for the cloud provider Foo may look like:</p>
+
+<pre>
+require 'deltacloud/base_driver'
+require 'foo_lib' # a library for talking to the foo cloud
+
+module Deltacloud
+  module Drivers
+    module Foo
+
+class FooDriver < Deltacloud::BaseDriver
+
+    def supported_collections
+      DEFAULT_COLLECTIONS + [ :buckets ]
+    end
+
+    def images(credentials, opts={})
+      client = new_foo_client(credentials)
+      # Use client to get a list of images from the back-end cloud and then create a Deltacloud Image object for each of these.
+      # Filter the result (eg specific image requested) and return to user.
+    end
+
+    def realms(credentials, opts={})
+      (...)
+    end
+
+    def instances(credentials, opts={})
+      (...)
+    end
+
+    ... ETC
+
+    private
+
+    def new_foo_client(credentials)
+      client = FooLib::Service.new({:user => credentials.user,
+:pass => credentials.password })
+    end
+
+end
+        end
+      end
+    end
+</pre>
+
+<p>
+An important method for drivers that implement the <a href="/rest-api.html#">instances</a> collection is <strong>instance_states</strong>. This method represents the finite-state-machine for instances which varies across cloud providers. In some clouds an instance may be in the 'running' state after creation, whereas in other clouds an instance may need to be started explicitly. For example:
+</p>
+
+<pre>
+define_instance_states do
+  start.to( :pending )          .on( :create )
+  pending.to( :running )        .automatically
+  running.to( :running )        .on( :reboot )
+  running.to( :shutting_down )  .on( :stop )
+  shutting_down.to( :stopped )  .automatically
+  stopped.to( :finish )         .automatically
+end
+</pre>
+
+<p>
+The voodoo used here (i.e. definition of .to and .on etc) is defined in <strong>/deltacloud/server/lib/deltacloud/state_machine.rb</strong>.
+</p>
+
+<p>Valid states are:</p>
+
+<ul>
+  <li><strong>:begin</strong></li>
+  <li><strong>:pending</strong></li>
+  <li><strong>:running</strong></li>
+  <li><strong>:shutting_down</strong></li>
+  <li><strong>:stopped</strong></li>
+  <li><strong>:end</strong></li>
+</ul>
+
+<p>The instance is located in the<strong>:begin</strong> state before being created. Immediately after being destroyed the instance is removed to the <strong>:end</strong> state.</p>
+
+<p>Valid transition actions are:</p>
+
+<ul>
+  <li><strong>:stop</strong></li>
+  <li><strong>:start</strong></li>
+  <li><strong>:reboot</strong></li>
+</ul>
+
+<p>The action <strong>:automatically</strong> may be used to indicate a tranisition that may occur without an action being triggered (see the example above).</p>
+
+<p>You can implement some other methods according to the collections you will be supporting:</p>
+
+<ul>
+  <li><strong>hardware_profiles(credentials, opts=nil)</strong></li>
+  <li><strong>images(credentials, opts=nil)</strong></li>
+  <li><strong>realms(credentials, opts=nil)</strong></li>
+  <li><strong>instances(credentials, opts=nil)</strong></li>
+  <li><strong>create_instance(credentials, image_id, opts)</strong></li>
+  <li><strong>reboot_instance(credentials, id)</strong></li>
+  <li><strong>stop_instance(credentials, id)</strong></li>
+  <li><strong>destroy_instance(credentials, id)</strong></li>
+</ul>
+
+<p>
+The <strong>hardware_profiles(...)</strong> method should return an array of HardwareProfile objects. The <strong>opts</strong> hash, if present, must be inspected for <strong>:id</strong> and <strong>:architecture</strong> keys. If these keys are available, the results should be filtered by the value associated with each key. The <strong>filter_on(...)</strong> helper method is used for the filtering and as you can see from existing driver method definitions, is invoked in many of the driver collection methods:
+</p>
+
+<pre>
+def hardware_profiles(credentials, opts=nil)
+  hardware_profiles = # get all hardware profiles from provider
+  hardware_profiles = filter_on( hardware_profiles, :id, opts )
+  hardware_profiles = filter_on( hardware_profiles, :architecture, opts )
+  return hardware_profiles
+end
+</pre>
+
+<p>
+Once you've implemented some of the methods for your driver you should test if the driver is working correctly. Before you'll do this, you need to create a yaml file for your driver so that the Deltacloud server recognizes the driver. Assuming you've written the driver for cloud Foo and you've created the file foo_driver.rb (containing the class Deltacloud::Drivers::Foo::FooDriver), you need to drop a file into <strong>/deltacloud/server/config/drivers</strong> called <strong>foo.yaml</strong>, which contains:
+</p>
+
+<pre>
+---
+:foo:
+  :name Foo
+</pre>
+
+<p>Then, you can start the Deltacloud server:</p>
+
+<pre>
+deltacloudd -i foo
+</pre>
+
+<p>
+  <a class="btn btn-inverse btn-large" href="/how-to-contribute.html"><i class="icon-arrow-left icon-white" style="vertical-align:baseline"> </i> Back</a>
+  <a class="btn btn-inverse btn-large" style="float:right" data-toggle="modal" href="#tests">Test the driver</a>
+</p>
+
+<div class="modal hide" id="tests">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Writing and running tests</h3>
+  </div>
+  <div class="modal-body">
+
+<p>
+You should add a test to every new feature or new driver you create to make sure, that everything is running as expected. There are two different directories in the Deltacloud project, where the tests are stored: <strong>/deltacloud/server/tests</strong> for Unit tests for drivers and <strong>/deltacloud/tests</strong> for Cucumber tests.
+</p>
+
+<p>Initiate the Unit tests:</p>
+
+<pre>
+$ cd /path/to/deltacloud/server
+$ rake test
+</pre>
+
+<p>This will invoke all Unit tests defined in <strong>/deltacloud/server/tests</strong> by inspecting the Rakefile in <strong>/deltacloud/server</strong>. To invoke a specific driver tests type:</p>
+
+<pre>
+$ cd /path/to/deltacloud/server
+$ rake test:rackspace
+  _OR_
+$ rake test:mock
+  _etc_
+</pre>
+
+<p>Initiate the Cucumber tests:</p>
+
+<pre>
+$ cd /path/to/deltacloud/server
+$ rake cucumber
+</pre>
+
+<p>Alternatively, you can invoke the cucumber tests directly without using Rakefile: </p>
+
+<pre>
+$ cd /path/to/deltacloud/server
+$ cucumber ../tests/mock
+  _OR_
+$ cucumber ../tests/ec2
+  _etc_
+</pre>
+
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+  </div>
+</div>
+

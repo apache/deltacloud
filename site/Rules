@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+require 'coderay'
+require 'nanoc-code-classifier'
+
+compile '/assets/less/*' do
+  # Note:  built-in less filter not working properly
+  #        using commandline filter instead
+  filter :bootstrap if @item.identifier.gsub('/assets/less/','').chop == 'bootstrap'
+end
+
+compile '/assets/css/*' do
+  filter :rainpress
+end
+
+compile '/assets/js/*/' do
+  # minify JS :)
+  if $use_minified_js then
+    filter :shellcmd, "java -jar js/js-compiler.jar"
+  end
+end
+
+compile '/assets/*/' do
+  # don't compile
+end
+
+route '/assets/css/*/' do
+  @item.identifier.chop + '.' + @item[:extension]
+end
+
+route '/assets/js/*/' do
+  @item.identifier.chop + '.' + @item[:extension]
+end
+
+route '/assets/less/*/' do
+  # don't copy over
+end
+
+compile '*' do
+  if item[:extension] == 'md'
+    filter :kramdown
+    filter :code_classifier, :pre_class => "coderay"
+    filter :colorize_syntax, :colorizers => { :ruby => :coderay }
+    filter :relativize_paths, :type => :html
+    if item.identifier == '/'
+      layout 'home'
+    else
+      layout 'default'
+    end
+  end
+end
+
+route '*' do
+  if item.binary?
+    # Write item with identifier /foo/ to /foo.ext
+    item.identifier.chop + '.' + item[:extension]
+  else
+    # The index.html files need special handling, else nanoc barfs
+    if item[:filename] =~ /index.md$/
+      item.identifier + 'index.html'
+    else
+      # Write out haml files with a flat dir structure
+      item.identifier.chop + '.' + 'html'
+    end
+  end
+end
+
+layout '*', :erb

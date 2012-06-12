@@ -1,0 +1,50 @@
+--- 
+site_name: Deltacloud API
+title: Run the Deltacloud server
+---
+<br/>
+<h2> Quick-start guide</h2>
+<p>This guide focuses on a linux environment. Some of the Deltacloud developers are running recent versions of <a href="http://fedoraproject.org/">Fedora</a>. However, you should be able to install Deltacloud on any OS that supports Ruby. If you are having any problems with installation, please <a href="/contact.html">let us know</a>, we'd love to hear from you!</p>
+
+<h3>Running the Deltacloud server</h3>
+<p>Start the server by typing <strong>deltacloudd -i driver_id</strong>.</p>
+<p>The <strong>driver_id</strong> is the name of the cloud provider that you have an account with, for example <code>deltacloudd -i ec2</code>.</p>
+<p>If you don't yet have an account with a cloud provider, you can still try the Deltacloud mock driver:</p> 
+<pre>deltacloudd -i mock</pre>
+<p>This will start the Deltacloud server on your local machine with the mock driver, accepting connections on port 3001 (default). From version 0.4.0 of Deltacloud, you can use the '-l' flag to see all available <strong>driver_ids</strong> that can be used with the <strong>deltacloudd</strong> executable:</p>
+<pre>
+$ deltacloudd -l
+
+Available drivers:
+* condor
+* vsphere
+* opennebula
+* eucalyptus
+* rhevm
+* sbc
+* azure
+* gogrid
+* mock
+* rackspace
+* rimuhosting
+* terremark
+* ec2
+</pre>
+
+<h2>Deltacloud HTML interface</h2>
+<p>After you start the server, you are ready to use the Deltacloud HTML interface.</p>
+<p>Open the following address in your web browser:</p>
+<pre>http://localhost:3001/api</pre>
+<p>To display the XML output from the server in the browser, append <strong>format=xml</strong> to each URL. On Webkit based browsers like Safari, you might need to instruct the server explicitly to <a href="http://www.gethifi.com/blog/webkit-team-admits-accept-header-error">return HTML</a>. Do this by appending <strong>format=html</strong> to each URL.</p>
+<p>Your browser will prompt you for credentials when you invoke an operation that requires authentication.</p>
+
+The '-h' flag will list all available options for deltacloudd. For example, to start the Deltacloud server with the Rackspace driver on port 10000 you can use:</p>
+
+<pre>$ deltacloudd -i rackspace -p 10000</pre>
+
+<p>You may want to install the server on another machine and make Deltacloud available on your local network. To do this you need to bind the Deltacloud server to an address other than 'localhost' (default). For instance, if you install and start Deltacloud on a machine with the IP address 192.168.10.200 you should start the server with:</p>
+
+<pre>$ deltacloudd -i ec2 -p 5000 -r 192.168.10.200</pre>
+
+<p>This will make the Deltacloud server available at the address <strong>http://192.168.10.200:5000/api</strong>.</p>
+
