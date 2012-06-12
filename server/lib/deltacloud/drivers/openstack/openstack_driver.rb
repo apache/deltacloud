@@ -179,49 +179,116 @@ module Deltacloud
         end
 
         def buckets(credentials, opts={})
-
+          os = new_client(credentials, :buckets)
+          buckets = []
+          safely do
+            if opts[:id]
+              buckets << convert_bucket(os.container(opts[:id]))
+            else
+              os.containers.each{|bucket_name| buckets << convert_bucket(os.container(bucket_name))}
+            end
+          end
+          buckets
         end
 
         def create_bucket(credentials, name, opts={})
-
+          os = new_client(credentials, :buckets)
+          bucket = nil
+          safely do
+            bucket = os.create_container(name)
+          end
+          convert_bucket(bucket)
         end
 
         def delete_bucket(credentials, name, opts={})
-
+          os = new_client(credentials, :buckets)
+          safely do
+            os.delete_container(name)
+          end
         end
 
         def blobs(credentials, opts={})
-
+          os = new_client(credentials, :buckets)
+          blobs = []
+          safely do
+            bucket = os.container(opts['bucket'])
+            if(opts[:id])
+              blobs << convert_blob(bucket.object(opts[:id]), opts['bucket'])
+            else
+              bucket.objects_detail.each{|blob| blobs << convert_blob(blob, opts['bucket'])}
+            end
+          end
+          blobs
         end
 
         def blob_data(credentials, bucket, blob, opts={})
-
+          os = new_client(credentials, :buckets)
+          safely do
+            os.container(bucket).object(blob).data_stream do |chunk|
+              yield chunk
+            end
+          end
         end
 
         def create_blob(credentials, bucket, blob, data, opts={})
-
+          os = new_client(credentials, :buckets)
+          safely do
+            BlobHelper.rename_metadata_headers(opts, "X-Object-Meta-")
+            os_blob = os.container(bucket).create_object(blob, {:content_type=> data[:type], :metadata=>opts}, data[:tempfile])
+            convert_blob(os_blob, bucket)
+          end
         end
 
         def delete_blob(credentials, bucket, blob, opts={})
-
+          os = new_client(credentials, :buckets)
+          safely do
+            os.container(bucket).delete_object(blob)
+          end
         end
 
         def blob_metadata(credentials, opts={})
-
+          os = new_client(credentials, :buckets)
+          safely do
+            os.container(opts['bucket']).object(opts[:id]).metadata
+          end
         end
 
         def update_blob_metadata(credentials, opts={})
-
+          os = new_client(credentials, :buckets)
+          safely do
+            BlobHelper.rename_metadata_headers(opts["meta_hash"], "")
+            blob = os.container(opts['bucket']).object(opts[:id])
+            blob.set_metadata(opts['meta_hash'])
+          end
         end
 
+        #params: {:user,:password,:bucket,:blob,:content_type,:content_length,:metadata}
         def blob_stream_connection(params)
-
+          tokens = params[:user].split("+")
+          user_name, tenant_name = tokens.first, tokens.last
+          #need a client for the auth_token and endpoints
+          os = OpenStack::Connection.create(:username => user_name, :api_key => params[:password], :authtenant => tenant_name, :auth_url => api_provider, :service_type => "object-store")
+          http = Net::HTTP.new(os.connection.service_host, os.connection.service_port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          path = os.connection.service_path + URI.encode("/#{params[:bucket]}/#{params[:blob]}")
+          request = Net::HTTP::Put.new(path)
+          request['X-Auth-Token'] = os.connection.authtoken
+          request['X-Storage-Token'] = os.connection.authtoken
+          request['Connection'] = "Keep-Alive"
+          request['Content-Type'] = params[:content_type]
+          request['Content-Length'] = params[:content_length]
+          request['Expect'] = "100-continue"
+          metadata = params[:metadata] || {}
+          BlobHelper::rename_metadata_headers(metadata, 'X-Object-Meta-')
+          metadata.each{|k,v| request[k] = v}
+          return http, request
         end
 
 private
 
         #for v2 authentication credentials.name == "username+tenant_name"
-        def new_client(credentials, buckets=false)
+        def new_client(credentials, type = :compute)
           tokens = credentials.user.split("+")
           if (tokens.size != 2 && api_v2)
             raise ValidationFailure.new(Exception.new("Error: expected \"username+tenantname\" as username, you provided: #{credentials.user}"))
@@ -229,7 +296,15 @@ private
             user_name, tenant_name = tokens.first, tokens.last
           end
           safely do
-              OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider)
+              case type
+                when :compute
+                  OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider)
+                when :buckets
+                  OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider, :service_type => "object-store")
+                else
+                  raise ValidationFailure.new(Exception.new("Error: tried to initialise Openstack connection using" +
+                    " an unknown service_type: #{type}"))
+              end
           end
         end
 
@@ -317,6 +392,23 @@ private
             type = (addr.send(op, :version) == 4)? :ipv4 : :ipv6
             InstanceAddress.new(addr.send(op, address_label), {:type=>type} )
           end
+        end
+
+        def convert_bucket(bucket)
+          Bucket.new({ :id => bucket.name,
+                       :name => bucket.name,
+                       :size => bucket.count,
+                       :blob_list => bucket.objects })
+        end
+
+        def convert_blob(blob, bucket_name)
+          op, blob_meta = (blob.class == Hash)? [:fetch, {}] : [:send, blob.metadata]
+          Blob.new({   :id => blob.send(op, :name),
+                       :bucket => bucket_name,
+                       :content_length => blob.send(op, :bytes),
+                       :content_type => blob.send(op, :content_type),
+                       :last_modified => blob.send(op, :last_modified),
+                       :user_metadata => blob_meta })
         end
 
         #IN: path1='server_path1'. content1='contents1', path2='server_path2', content2='contents2' etc
