@@ -15,14 +15,21 @@
       %li
         %a{ :href => realm_url(realm.id), :'data-ajax' => 'false'}
           %h3=realm.name
-    %li{ :'data-role' => 'list-divider'} Instances
-    - @load_balancer.instances.each do |instance|
+    %li{ :'data-role' => 'list-divider'} Registered Instances
+    - @registered_instances.each do |instance|
       %li
-        %a{ :href => instance_url(instance.id), :'data-ajax' => 'false'}
-          %h3=instance.name
+        %a{ :href => instance_url(instance[:id]), :'data-ajax' => 'false'}
+          %h3=instance[:name]
+          =link_to_action "UnRegister", api_url_for("load_balancers/#{@load_balancer.id}/unregister?instance_id=#{instance[:id]}"), :post
+    %li{ :'data-role' => 'list-divider'} UnRegistered Instances
+    - @unregistered_instances.each do |instance|
+      %li
+        %a{:href => instance_url(instance[:id]), :'data-ajax' => 'false'}
+          %h3=instance[:name]
+          =link_to_action "Register", api_url_for("load_balancers/#{@load_balancer.id}/register?instance_id=#{instance[:id]}"), :post
     %li{ :'data-role' => 'list-divider'} Actions
     %li
-      =link_to_action "Destroy", destroy_load_balancer_url(@load_balancer.id), :delete
+      =link_to_action "Destroy", api_url_for("load_balancers/#{@load_balancer.id}"), :delete
 
   =header "Listeners", :back => 'false'
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
@@ -33,4 +40,3 @@
       %li{ :'data-role' => 'list-divider'} Instance port
       %li
         %p{ :'data-role' => 'fieldcontain'}=listener.instance_port
-

@@ -17,11 +17,28 @@ module Deltacloud::Collections
   class LoadBalancers < Base
     check_capability :for => lambda { |m| driver.has_capability? m }
 
+    new_route_for :load_balancers do
+      @realms = driver.realms(credentials)
+    end
+
     collection :load_balancers do
       description "Load balancers are used distribute workload across multiple instances"
 
       standard_index_operation
-      standard_show_operation
+
+      operation :show, :with_capability => :load_balancer do
+        param :id, :string, :required
+        control do
+          @load_balancer = driver.load_balancer(credentials, params)
+          @registered_instances = @load_balancer.instances.collect{|i| {:id => i.id, :name=> i.name}}
+          @unregistered_instances = driver.instances(credentials).collect{|i| {:id => i.id, :name => i.name}} - @registered_instances
+          respond_to do |format|
+            format.xml { haml :'load_balancers/show' }
+            format.json { xml_to_json('load_balancers/show') }
+            format.html { haml :'load_balancers/show' }
+          end
+        end
+      end
 
       operation :create do
         param :name,  :string,  :required
@@ -32,11 +49,11 @@ module Deltacloud::Collections
         control do
           @load_balancer = driver.create_load_balancer(credentials, params)
           status 201  # Created
-          response['Location'] = load_balancer_url(@instance.id)
+          response['Location'] = load_balancer_url(@load_balancer.id)
           respond_to do |format|
             format.xml  { haml :"load_balancers/show" }
             format.json { convert_to_json(:load_balancer, @load_balancer) }
-            format.html { haml :"load_balancers/show" }
+            format.html { redirect load_balancer_url(@load_balancer.id)}
           end
         end
       end
@@ -45,11 +62,11 @@ module Deltacloud::Collections
         param :instance_id, :string,  :required
         control do
           driver.lb_register_instance(credentials, params)
-          @load_balancer = driver.load_balancer(credential, params[:id])
+          @load_balancer = driver.load_balancer(credentials, params[:id])
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
             format.json { xml_to_json('load_balancers/show') }
-            format.html { haml :'load_balancers/show' }
+            format.html { redirect load_balancer_url(@load_balancer.id)}
           end
         end
       end
@@ -58,11 +75,11 @@ module Deltacloud::Collections
         param :instance_id, :string,  :required
         control do
           driver.lb_unregister_instance(credentials, params)
-          @load_balancer = driver.load_balancer(credential, params[:id])
+          @load_balancer = driver.load_balancer(credentials, params[:id])
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
             format.json { xml_to_json('load_balancers/show')}
-            format.html { haml :'load_balancers/show' }
+            format.html { redirect load_balancer_url(@load_balancer.id) }
           end
         end
       end
