@@ -18,6 +18,14 @@ module Deltacloud::Collections
 
     check_capability :for => lambda { |m| driver.respond_to? m }
 
+    get route_for('/addresses/:id/associate') do
+      @address = driver.address(credentials, params )
+      @instances = driver.instances(credentials)
+      respond_to do |format|
+        format.html {haml :"addresses/associate"}
+      end
+    end
+
     collection :addresses do
       description "Pool of IP addresses allocated in cloud provider"
 

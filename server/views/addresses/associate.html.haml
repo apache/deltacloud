@@ -2,7 +2,7 @@
 =subheader @address.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => associate_address_url(@address.id), :method => :post}
+  %form{ :action => "#{address_url(@address.id)}/associate", :method => :post}
     %div{ 'data-role' => :fieldcontain }
       %label{ :for => :name} Instance:
       %select{:name => 'instance_id'}

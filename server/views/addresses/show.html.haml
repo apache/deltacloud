@@ -13,9 +13,8 @@
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
         - if @address.associated?
-          %a{:href => instance_url(@address.instance_id) }=@address.instance_id
-          =link_to_action 'Disassociate', disassociate_address_url(@address.id), :post
+          =link_to_action 'Disassociate', "#{address_url(@address.id)}/disassociate", :post
         - else
           - if driver.respond_to?(:associate_address)
-            =link_to_action 'Associate', associate_address_url(@address.id), :get
+            =link_to_action 'Associate',"#{address_url(@address.id)}/associate", :get
         =link_to_action "Destroy", destroy_address_url(@address.id), :delete

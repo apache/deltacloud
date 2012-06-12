@@ -1,5 +1,5 @@
 =header "Addresses" do
-  %a{ :href => "#", :onclick => "create_address('#{create_address_url}')", :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => "false", :method => :post} Create new address
+  %a{ :href => "#", :onclick => "create_address('#{addresses_url}')", :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => "false", :method => :post} Create new address
 =subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
