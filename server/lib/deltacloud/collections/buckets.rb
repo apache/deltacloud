@@ -48,6 +48,40 @@ module Deltacloud::Collections
       end
     end
 
+    put route_for ("/buckets/:bucket/:blob") do
+      if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
+        content_type = env["CONTENT_TYPE"]
+        content_type ||=  ""
+        @blob = driver.blob(credentials, {:id => params[:blob],
+                                          'bucket' => params[:bucket]})
+        respond_to do |format|
+          format.xml { haml :"blobs/show" }
+          format.html { haml :"blobs/show" }
+          format.json { convert_to_json(:blob, @blob) }
+        end
+      elsif(env["BLOB_FAIL"])
+        report_error(500) #OK?
+      else # small blobs - < 112kb dont hit the streaming monkey patch - use 'normal' create_blob
+        # also, if running under webrick don't hit the streaming patch (Thin specific)
+        bucket_id = params[:bucket]
+        blob_id = params[:blob]
+        temp_file = Tempfile.new("temp_blob_file")
+        temp_file.write(env['rack.input'].read)
+        temp_file.flush
+        content_type = env['CONTENT_TYPE'] || ""
+        blob_data = {:tempfile => temp_file, :type => content_type}
+        user_meta = BlobHelper::extract_blob_metadata_hash(request.env)
+        @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
+        temp_file.delete
+        respond_to do |format|
+          format.xml { haml :"blobs/show" }
+          format.html { haml :"blobs/show" }
+          format.json { convert_to_json(:blob, @blob) }
+        end
+      end
+    end
+
+
     collection :buckets do
 
       standard_show_operation
@@ -201,7 +235,7 @@ module Deltacloud::Collections
           control do
             meta_hash = BlobHelper::extract_blob_metadata_hash(request.env)
             success = driver.update_blob_metadata(credentials, {'bucket'=>params[:id], :id =>params[:blob_id], 'meta_hash' => meta_hash})
-            if(success)
+           if(success)
               meta_hash.each do |k,v|
                 headers["X-Deltacloud-Blobmeta-#{k}"] = v
               end

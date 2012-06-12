@@ -149,7 +149,6 @@ require 'base64'
 class BlobStreamIO
 
   attr_accessor :size, :provider, :sock
-
   def initialize(request)
     @client_request = request
     @size = 0
@@ -159,7 +158,7 @@ class BlobStreamIO
     #deal with blob_metadata: (X-Deltacloud-Blobmeta-name: value)
     user_meta = BlobHelper::extract_blob_metadata_hash(request.env)
     @content_length = request.env['CONTENT_LENGTH']
-    @http, provider_request = driver.blob_stream_connection({:user=>user,
+    @http, provider_request = Deltacloud::API.driver.blob_stream_connection({:user=>user,
        :password=>password, :bucket=>bucket, :blob=>blob, :metadata=> user_meta,
        :content_type=>content_type, :content_length=>@content_length })
     @content_length = @content_length.to_i #for comparison of size in '<< (data)'
