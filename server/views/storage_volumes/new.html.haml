@@ -1,21 +1,23 @@
-%h1 Create new storage volume
+=header "Create new Storage Volume"
 
-%form{ :action => storage_volumes_url, :method => :post }
-  %p
-    %label
-      Name:
-    %input{ :name => 'name', :size => 30 } (optional)
-  %p
-    %label
-      Snapshot ID:
-    %input{ :name => 'snapshot_id', :size => 30 } (optional)
-  %p
-    %label
-      Capacity (in GB):
-    %input{ :name => "capacity", :size => 3, :value => "1"}
-  %p
-    %label
-      Realm ID:
-    %input{ :name => "realm_id", :size => 10, :value => driver.realms(credentials).first.id}
-  %p
-    %input{ :type => :submit, :name => "commit", :value => "create" }/
+
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => storage_volumes_url, :method => :post }
+    %p
+      %label
+        Name:
+      %input{ :name => 'name', :size => 30 } (optional)
+    %p
+      %label
+        Snapshot ID:
+      %input{ :name => 'snapshot_id', :size => 30 } (optional)
+    %p
+      %label
+        Capacity (in GB):
+      %input{ :name => "capacity", :size => 3, :value => "1"}
+    %p
+      %label
+        Realm ID:
+      %input{ :name => "realm_id", :size => 10, :value => driver.realms(credentials).first.id}
+    %p
+      %input{ :type => :submit, :name => "commit", :value => "create" }/

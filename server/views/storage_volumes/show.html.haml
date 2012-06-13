@@ -37,7 +37,7 @@
         - if ["AVAILABLE", "IN-USE"].include?(@storage_volume.state)
           =link_to_action "Snapshot", api_url_for("storage_snapshots/new?volume_id=#{@storage_volume.id}"), :get
           - unless @storage_volume.instance_id
-            =link_to_action "Delete", destroy_storage_volume_url(@storage_volume.id), :delete
+            =link_to_action "Delete", api_url_for("storage_volumes/#{@storage_volume.id}"), :delete
             =link_to_action "Attach", api_url_for("storage_volumes/#{@storage_volume.id}/attach_instance"), :get
           - if @storage_volume.instance_id
             =link_to_action "Detach", detach_storage_volume_url(@storage_volume.id), :post
