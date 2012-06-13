@@ -373,6 +373,10 @@ module Deltacloud::Drivers::Vsphere
         status 502
       end
 
+      on /Requested datastore does not exists or misconfigured/ do
+        status 502
+      end
+
       on /Connection timed out/ do
         status 504
       end
