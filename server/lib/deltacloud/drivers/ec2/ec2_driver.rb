@@ -409,7 +409,7 @@ module Deltacloud
           safely do
             s3_client = new_client(credentials, :s3)
             unless (opts[:id].nil?)
-              bucket = s3_client.bucket(opts[:id])
+              bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, opts[:id])
               buckets << convert_bucket(bucket)
             else
               bucket_list = s3_client.buckets
@@ -447,7 +447,7 @@ module Deltacloud
           s3_client = new_client(credentials, :s3)
           blobs = []
           safely do
-            s3_bucket = s3_client.bucket(opts['bucket'])
+            s3_bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, opts['bucket'])
             if(opts[:id])
               blobs << convert_object(s3_bucket.key(opts[:id], true))
             else
@@ -504,7 +504,8 @@ module Deltacloud
           s3_client = new_client(credentials, :s3)
           blob_meta = {}
           safely do
-            the_blob = s3_client.bucket(opts['bucket']).key(opts[:id], true)
+            the_bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, opts['bucket'])
+            the_blob = the_bucket.key(opts[:id], true)
             blob_meta = the_blob.meta_headers
           end
         end
@@ -513,13 +514,15 @@ module Deltacloud
           s3_client = new_client(credentials, :s3)
           meta_hash = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
           safely do
-            the_blob = s3_client.bucket(opts['bucket']).key(opts[:id])
+            the_bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, opts['bucket'])
+            the_blob = the_bucket.key(opts[:id])
             the_blob.save_meta(meta_hash)
           end
         end
 
         def blob_data(credentials, bucket_id, blob_id, opts={})
           s3_client = new_client(credentials, :s3)
+          bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, bucket_id)
           safely do
             s3_client.interface.get(bucket_id, blob_id) do |chunk|
               yield chunk
@@ -772,7 +775,7 @@ module Deltacloud
         end
 
         private
-        def new_client(credentials, type = :ec2)
+        def new_client(credentials, type = :ec2, endpoint = nil)
           klass = case type
                     when :elb then Aws::Elb
                     when :ec2 then Aws::Ec2
@@ -780,7 +783,7 @@ module Deltacloud
                     when :mon then Aws::Mon
                   end
           klass.new(credentials.user, credentials.password, {
-            :server => endpoint_for_service(type),
+            :server => endpoint || endpoint_for_service(type),
             :connection_mode => :per_thread,
             :logger => ENV['RACK_ENV'] == 'test' ? Logger.new('/dev/null') : Logger.new(STDOUT)
           })
@@ -799,6 +802,16 @@ module Deltacloud
           # return the endpoint if it does not map to a default endpoint, allowing
           # the endpoint to be a full hostname instead of a region.
           Deltacloud::Drivers::driver_config[:ec2][:entrypoints][service.to_s][endpoint] || endpoint
+        end
+
+        def get_bucket_with_endpoint(s3_client, credentials, s3_bucket_name)
+            s3_bucket = s3_client.bucket(s3_bucket_name)
+            endpoint_for_bucket = Deltacloud::Drivers::driver_config[:ec2][:entrypoints]["s3"]["#{s3_bucket.location}"]
+            if (s3_client.interface.params[:server] != endpoint_for_bucket)
+              s3_client = new_client(credentials, :s3, endpoint_for_bucket)
+              s3_bucket = s3_client.bucket(s3_bucket_name)
+            end
+            [s3_bucket, s3_client]
         end
 
         def convert_bucket(s3_bucket)

@@ -6,7 +6,7 @@
       Bucket Name:
       %input{ :name => 'name', :size => 250}/
       %br
-    -if driver.class.has_feature?(:bucket_location, :buckets)
+    -if driver.class.has_feature?(:buckets, :bucket_location)
       %p
         %label
           Location: (optional)
