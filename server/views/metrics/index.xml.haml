@@ -1,4 +1,5 @@
-!!!XML
+- unless defined?(partial)
+  !!!XML
 %metrics
   - @elements.each do |c|
-    = h
+    = haml :'metrics/show', :locals => { :@metric => c, :partial => true}
