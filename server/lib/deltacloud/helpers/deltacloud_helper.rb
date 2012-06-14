@@ -110,25 +110,23 @@ module Deltacloud::Helpers
       end
 
       headers['X-Backend-Runtime'] = @benchmark.real.to_s
-      status 202
 
       if name == :destroy
-        respond_to do |format|
-          format.xml { return 204 }
-          format.json { return 204 }
-          format.html { return redirect(instances_url) }
+        response = respond_to do |format|
+          format.html { redirect(instances_url) }
         end
+        halt 204, response
       end
 
-      if @instance.class != Instance
-        response['Location'] = instance_url(params[:id])
-        halt
-      end
-
-      respond_to do |format|
-        format.xml { haml :"instances/show" }
-        format.html { haml :"instances/show" }
-        format.json {convert_to_json(:instance, @instance) }
+      unless @instance.class == Instance
+        redirect instance_url(params[:id])
+      else
+        response = respond_to do |format|
+          format.xml { haml :"instances/show" }
+          format.html { haml :"instances/show" }
+          format.json { xml_to_json("instances/show") }
+        end
+        halt 202, response
       end
     end
 
