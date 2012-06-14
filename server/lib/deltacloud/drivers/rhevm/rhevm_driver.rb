@@ -328,6 +328,7 @@ class RhevmDriver < Deltacloud::BaseDriver
     end
 
     on /(not supported|custom properties are not configured)/ do
+      message "The user_data, require the floppyinject hook installed in your RHEV-M deployment"
       status 501
     end
 
