@@ -23,7 +23,7 @@ require_relative 'helpers/driver_helper'
 
 module Deltacloud
 
-  API_VERSION = '0.5.0'
+  API_VERSION = '1.0.0'
 
   def self.drivers
     Drivers.driver_config

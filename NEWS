@@ -1,3 +1,92 @@
+1.0.0 - 2012-06-15
+  * New EC2 frontend: clients can now use the EC2 API when talking to
+    Deltacloud. That makes Deltacloud an EC2-to-many-backends proxy.
+    See http://mifo.sk/deltacloud-with-ec2-frontend
+  * metrics: new collection for gathering/controlling metrics (supported by
+    EC2 driver)
+  * Report destroy/delete actions on images when available (JIRA 207)
+  * Compatibly with Ruby 1.9
+  * ability to run multiple frontends from the same server (see deltacloudd
+    --frontends)
+  * Deltacloud is now a modular Sinatra application. See
+    http://www.sinatrarb.com/intro#Modular%20vs.%20Classic%20Style
+  * Use sinatra-rabbit for RESTful routing/controllers
+    (https://github.com/mifo/sinatra-rabbit)
+  * Always return status 202 after reboot in all drivers (JIRA 162)
+  * Numerous enhancements and bug fixes in HTML UI (JIRA 232, 211, 210,
+    204, 67, and many more)
+  * Order hardware profiles by cpu, memory (JIRA 208)
+  * Return status 501 when backend lacks needed capability
+  * Report list of hardware profile with images to indicate compatibility
+    of an image with a set of HWP
+  * Windows: fix error caused by syslog not available on Windows (JIRA 186)
+  * Use minitest for all our tests
+  * Drivers
+    + EC2
+      - fix retrieval of IP address for run_on_instance (JIRA 211) (Dies Koper)
+      - return sttus 404 when deleting nonexistant load balancer (JIRA 169)
+      - CloudWatch support via new Metrics collection
+      - return status 404 when getting nonexistent blob (JIRA 174)
+      - fix memory amount reported for t1.micro
+      - add new m1.medium HWP
+      - return status 404 when getting nonexistent instance
+    + Fujitsu Global Cloud Platform (FGCP)
+      - new driver contributed by Dies Koper
+    + GoGrid
+      - fix retrieval of IP address for run_on_instance (JIRA 211) (Dies Koper)
+    + Mock
+      - support run_on_instance (JIRA 212) (Dies Koper)
+      - create storage directories with mode 0750 (JIRA 139)
+      - allow destroying storage snapshot
+      - return status 404 when deleting nonexistent bucket
+    + OpenNebula
+      - support AI v.3.x (Daniel Molina)
+      - support using API_PROVIDER env var to select OpenNebula installation
+    + OpenStack
+      - updated for API v2.0
+      - support buckets/blob collection
+      - use the new openstack gem (https://github.com/ruby-openstack)
+      - more accurate reporting of instance state (JIRA 209)
+    + Rackspace
+      - fix retrieval of IP address for run_on_instance (JIRA 211) (Dies Koper)
+    + RHEV-M
+      - better error message when trying to use user_data with a backend
+        that is missing the floppyinject hook (JIRA 233)
+      - better error message when instance stop/reboot fails (JIRA 185)
+      - return status 400 when no provider is specified
+      - return status 502 if backend runs out of memory (JIRA 154)
+      - return status code 400 when instance name is too long
+      - return status 404 for unknown data center
+      - return status 502 for inaccessible provider
+      - use rbovirt gem (https://github.com/abenari/rbovirt)
+    + vSphere
+      - return status 502 when user_data is used and backend datastore is
+        misconfigured (JIRA 203)
+      - respond with status 504 on connection timeout (JIRA 225)
+      - return status 502 when vSphere behaves erratically because being
+        overloaded (JIRA 225, BZ 805171)
+      - return status 502 when backend reports ToolsUnavailable, caused by
+        lack of VMWare tools in instance
+      - return created image after create_image operation (JIRA 122)
+      - return status 502 for inaccessible provider
+      - do not indicate that storage volumes and snapshots are supported,
+        they are not (JIRA 135)
+  * CIMI
+    + support networking collections (VSP, VSPTemplate, VSPConfig, Address,
+      AddressTemplate, Network, NetworkTemplate, RoutingGroup,
+      RoutingGroupTemplate)
+    + Improved support for many compute collections (Machine etc.)
+    + added X-CIMI-Specification-Version HTTP header for all responses
+    + support X-Deltacloud-Provider and X-Deltacloud-Driver request headers
+    + client app:
+      - allow switching between EC2, RHEV-M, and OpenStack as backend
+      - views for networking entities
+  * Ruby client
+    - Add --user and --password params to deltacloudc (JIRA 141)
+    - Fix error when instances have numeric names (JIRA 27)
+    - Fix listing keys collection (partial fix for JIRA 199)
+    - Handle 301 properly for API entrypoint
+
 0.5.0 - 2012-01-05
   * add display of storage volumes to instance view
   * add way to change provider in HTML UI when applicable (JIRA 105)

@@ -2,7 +2,7 @@ load File.join(File.dirname(__FILE__), '..', 'lib', 'deltacloud_rack.rb')
 
 Deltacloud::configure do |server|
   server.root_url '/api'
-  server.version '0.5.0'
+  server.version '1.0.0'
   server.klass 'Deltacloud::API'
 end
 
