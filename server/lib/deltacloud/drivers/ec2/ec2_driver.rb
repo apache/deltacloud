@@ -160,17 +160,19 @@ module Deltacloud
 
         def realms(credentials, opts={})
           ec2 = new_client(credentials)
+          realms = []
           safely do
             if opts[:id] and !opts[:id].empty?
-              return ec2.describe_availability_zones([opts[:id]]).collect do |realm|
-                convert_realm(realm)
+              ec2.describe_availability_zones([opts[:id]]).collect do |realm|
+                realms << convert_realm(realm) unless realm.empty?
               end
             else
-              return ec2.describe_availability_zones.collect do |realm|
-                convert_realm(realm)
+              ec2.describe_availability_zones.collect do |realm|
+                realms << convert_realm(realm) unless realm.empty?
               end
             end
           end
+          realms
         end
 
         def create_image(credentials, opts={})
