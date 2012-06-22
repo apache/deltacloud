@@ -896,6 +896,7 @@ eofwpxml
             :id => vsys['vsysId'][0] + '-S-0001',
             :name => fw_name,
             :description => "#{vsys['vsysName'][0]} [#{vsys['baseDescriptor'][0]}]",
+            :rules => [],
             :owner_id => vsys['creator'][0]
           })
         end
