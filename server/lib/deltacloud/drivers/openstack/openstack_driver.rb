@@ -23,9 +23,11 @@ module Deltacloud
       class OpenstackDriver < Deltacloud::BaseDriver
 
         feature :instances, :user_name
+        feature :instances, :authentication_key
         feature :instances, :authentication_password
         feature :instances, :user_files
         feature :images, :user_name
+        feature :keys, :import_key
 
         define_instance_states do
           start.to( :pending )          .on( :create )
@@ -141,6 +143,9 @@ module Deltacloud
                           opts[:hwp_id] : hardware_profiles(credentials).first.name
           if opts[:password] && opts[:password].length > 0
             params[:adminPass]=opts[:password]
+          end
+          if opts[:keyname] && opts[:keyname].length > 0
+            params[:key_name]=opts[:keyname]
           end
           safely do
             server = os.create_server(params)
@@ -285,6 +290,30 @@ module Deltacloud
           return http, request
         end
 
+        def keys(credentials, opts={})
+          os = new_client(credentials)
+          keys = []
+          safely do
+            os.keypairs.values.each{|key| keys << convert_key(key)}
+          end
+          filter_on(keys, :id, opts)
+        end
+
+        def create_key(credentials, opts={})
+          os = new_client(credentials)
+          safely do
+            params = (opts[:public_key] and opts[:public_key].length > 0)? {:name=>opts[:key_name], :public_key=> opts[:public_key]} : {:name=>opts[:key_name]}
+            convert_key(os.create_keypair(params))
+          end
+        end
+
+        def destroy_key(credentials, opts={})
+          os = new_client(credentials)
+          safely do
+            os.delete_keypair(opts[:id])
+          end
+        end
+
 private
 
         #for v2 authentication credentials.name == "username+tenant_name"
@@ -362,7 +391,8 @@ private
             :public_addresses => convert_server_addresses(server, :public),
             :private_addresses => convert_server_addresses(server, :private),
             :username => 'root',
-            :password => password
+            :password => password,
+            :keyname => server.send(op, :key_name)
           )
           inst.actions = instance_actions_for(inst.state)
           inst.create_image = 'RUNNING'.eql?(inst.state)
@@ -411,6 +441,17 @@ private
                        :user_metadata => blob_meta })
         end
 
+        def convert_key(key)
+          Key.new(
+            :id => key[:name],
+            :fingerprint => key[:fingerprint],
+            :credential_type => :key,
+            :pem_rsa_key => key[:private_key], # only available once, on create_key
+            :state => "AVAILABLE"
+          )
+        end
+
+
         #IN: path1='server_path1'. content1='contents1', path2='server_path2', content2='contents2' etc
         #OUT:{local_path=>server_path, local_path1=>server_path2 etc}
         def extract_personality(opts)
@@ -455,6 +496,10 @@ private
 
           on /Exception::Other/ do
             status 500
+          end
+
+          on /OpenStack::Exception::NotImplemented/ do
+            status 501
           end
 
         end

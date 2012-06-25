@@ -101,6 +101,6 @@ Gem::Specification.new do |s|
   s.add_dependency('uuidtools', '>= 2.1.1')
 
 # Openstack Compute and Object-Storage
-  s.add_dependency('openstack')
+  s.add_dependency('openstack', '>= 1.0.1')
 
 end

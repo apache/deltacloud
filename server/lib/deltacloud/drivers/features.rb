@@ -148,6 +148,14 @@ module Deltacloud
           param :sandbox, :string,  :optional
         end
       end
+
+      feature :import_key, :for => :keys do
+        description "Allow importing existing public key for creation of new key on provider"
+        operation :create do
+          param :public_key, :string, :optional
+        end
+      end
+
     end
 
   end

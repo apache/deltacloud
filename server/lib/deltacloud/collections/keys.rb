@@ -15,6 +15,9 @@
 
 module Deltacloud::Collections
   class Keys < Base
+
+    include Deltacloud::Features
+
     check_capability :for => lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
@@ -31,8 +34,9 @@ module Deltacloud::Collections
 
       operation :create, :with_capability => :create_key do
         param :name,  :string,  :required
+        param :public_key, :string, :optional
         control do
-          @key = driver.create_key(credentials, { :key_name => params[:name] })
+          @key = driver.create_key(credentials, { :key_name => params[:name], :public_key => params[:public_key]})
           status 201
           response['Location'] = key_url(@key.id)
           respond_to do |format|

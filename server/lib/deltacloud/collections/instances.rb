@@ -47,6 +47,7 @@ module Deltacloud::Collections
         param :image_id,     :string, :required
         param :realm_id,     :string, :optional
         param :hwp_id,       :string, :optional
+        param :keyname,      :string, :optional
         control do
           @instance = driver.create_instance(credentials, params[:image_id], params)
           if @instance.kind_of? Array

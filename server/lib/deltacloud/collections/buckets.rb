@@ -48,7 +48,7 @@ module Deltacloud::Collections
       end
     end
 
-    put route_for ("/buckets/:bucket/:blob") do
+    put route_for("/buckets/:bucket/:blob") do
       if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
         content_type = env["CONTENT_TYPE"]
         content_type ||=  ""
