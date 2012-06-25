@@ -1,7 +1,7 @@
 $(document).ready(function() {
   $(".tweet").tweet({
     username: "deltacloud",
-    query : '#deltacloud OR @deltacloud',
+    query : '#deltacloud',
     join_text: "auto",
     avatar_size: 32,
     count: 2,
