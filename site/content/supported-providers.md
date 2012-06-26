@@ -132,7 +132,7 @@ title: Supported Providers
       <td>yes</td>
       <td>yes</td>
       <td>yes</td>
-      <td>yes</td>
+      <td>no</td>
       <td>yes</td>
       <td>yes</td>
       <td>yes</td>
@@ -189,6 +189,20 @@ title: Supported Providers
       <td>yes</td>
       <td>yes</td>
       <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+    </tr>
+    <tr>
+      <td class='provider'>
+        <strong>FGCP</strong>
+      </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>no</td>
       <td>yes</td>
       <td>yes</td>
       <td>yes</td>
