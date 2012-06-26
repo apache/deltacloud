@@ -3,12 +3,6 @@
 require 'coderay'
 require 'nanoc-code-classifier'
 
-compile '/assets/less/*' do
-  # Note:  built-in less filter not working properly
-  #        using commandline filter instead
-  filter :bootstrap if @item.identifier.gsub('/assets/less/','').chop == 'bootstrap'
-end
-
 compile '/assets/css/*' do
   filter :rainpress
 end
@@ -34,6 +28,10 @@ end
 
 route '/assets/less/*/' do
   # don't copy over
+end
+
+route '/htaccess/' do
+    '/.htaccess'
 end
 
 compile '*' do

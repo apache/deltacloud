@@ -1,0 +1,4 @@
+Redirect 301 /documentation.html /usage.html
+Redirect 301 /download.html /getting-sources.html
+Redirect 301 /api.html /rest-api.html
+Redirect 301 /developers.html /how-to-contribute.html
