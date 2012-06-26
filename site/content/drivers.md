@@ -514,7 +514,7 @@ The following table gives details about the credentials that must be provided fo
       <td>vsphere</td>
       <td>vSphere user</td>
       <td>vSphere user password</td>
-      <td>Set the environment variable API_PROVIDER to the hostname of the vSphere server.</td>
+      <td>Set the environment variable API_PROVIDER to the hostname of the vSphere server and the Datastore.</td>
     </tr>
   </tbody>
 </table>
@@ -697,10 +697,10 @@ You can find the details on how to make the VMware vSphere driver work with Delt
 </p>
 
 <p>
-In order to connect to vSphere, you need to set the API_PROVIDER environment variable or use the 'X-Deltacloud-Provider' HTTP header in the request to the vSphere host you want to use. For example:
+In order to connect to vSphere, you need to set the API_PROVIDER environment variable or use the 'X-Deltacloud-Provider' HTTP header in the request to the vSphere host you want to use and the Datastore you want to speak to. For example:
 </p>
 
-<pre>API_PROVIDER="vsphere.hostname.com"</pre>
+<pre>API_PROVIDER="vsphere.hostname.com;DATASTORE-ID"</pre>
 
 <p>
 The username and password in 401 challenge should be the same as you use in the vSphere Control Center.
