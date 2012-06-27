@@ -91,8 +91,8 @@ Gem::Specification.new do |s|
   s.add_dependency('cloudfiles')
 
 # Terremark Vcloud Express
-  s.add_dependency('fog')
-  s.add_dependency('excon')
+  s.add_dependency('fog', '>= 1.4.0')
+  s.add_dependency('excon', '>= 0.14.2' )
 
 # Rhevm and Condor Cloud
   s.add_dependency('rest-client')
