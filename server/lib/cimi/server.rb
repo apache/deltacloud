@@ -31,7 +31,7 @@ module CIMI
   class API < Collections::Base
 
     # Enable logging
-    use Rack::CommonLogger
+    use Deltacloud[:cimi].logger
     use Rack::Date
     use Rack::ETag
     use Rack::MatrixParams

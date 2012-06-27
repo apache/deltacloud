@@ -22,6 +22,7 @@ unless Kernel.respond_to?(:require_relative)
 end
 
 require_relative './deltacloud/core_ext'
+require_relative './sinatra/rack_logger'
 
 module Deltacloud
 
@@ -50,11 +51,13 @@ module Deltacloud
     attr_reader :root_url
     attr_reader :version
     attr_reader :klass
+    attr_reader :logger
 
     def initialize(opts={}, &block)
       @root_url = opts[:root_url]
       @version = opts[:version]
       @klass = opts[:klass]
+      @logger = opts[:logger] || Rack::DeltacloudLogger
       instance_eval(&block)
     end
 
@@ -72,6 +75,11 @@ module Deltacloud
     def klass(k=nil)
       return @klass if k.nil?
       @klass = k
+    end
+
+    def logger(logger=nil)
+      return @logger if logger.nil?
+      @logger = logger
     end
 
   end

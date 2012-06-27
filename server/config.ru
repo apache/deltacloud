@@ -26,18 +26,21 @@ Deltacloud::configure do |server|
   server.root_url '/api'
   server.version '1.0.0'
   server.klass 'Deltacloud::API'
+  server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
 end
 
 Deltacloud::configure(:cimi) do |server|
   server.root_url '/cimi'
   server.version '1.0.0'
   server.klass 'CIMI::API'
+  server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
 end
 
 Deltacloud::configure(:ec2) do |server|
   server.root_url '/'
   server.version '2012-04-01'
   server.klass 'Deltacloud::EC2::API'
+  server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
 end
 
 routes = {}

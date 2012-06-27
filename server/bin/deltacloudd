@@ -75,6 +75,7 @@ BANNER
   opts.on( '-g', '--group GROUP', 'Group to run daemon as. Use with -d (default: "nobody")') { |group| options[:group] = group }
   opts.on( '-b', '--pid PID', 'File to store PID (default: tmp/pids/thin.pid)') { |pid| options[:pid] = pid }
   opts.on( '-l', '--drivers', 'List available drivers') { |env| options[:drivers] = true }
+  opts.on( '-L', '--log FILE', 'Log requests to a file (default: disabled)') { |log| ENV['API_LOG'] = log }
   opts.on( '-s', '--ssl', 'Enable SSL (default: disabled)') { |ssl| options[:ssl] = true }
   opts.on( '-k', '--ssl-key KEY', 'SSL key file to use') { |key| options[:ssl_key] = key }
   opts.on( '-C', '--ssl-cert CERT', 'SSL certificate file to use') { |cert| options[:ssl_cert] = cert }

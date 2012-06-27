@@ -31,7 +31,7 @@ module Deltacloud
   class API < Collections::Base
 
     # Enable logging
-    use Rack::CommonLogger
+    use Deltacloud[:deltacloud].logger
     use Rack::Date
     use Rack::ETag
     use Rack::MatrixParams

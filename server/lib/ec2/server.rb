@@ -29,7 +29,7 @@ module Deltacloud::EC2
     extend Deltacloud::Helpers::Drivers
 
     use Rack::ETag
-    use Rack::CommonLogger
+    use Deltacloud[:ec2].logger
 
     helpers Sinatra::AuthHelper
     helpers Deltacloud::Helpers::Drivers
