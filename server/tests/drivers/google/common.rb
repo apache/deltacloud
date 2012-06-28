@@ -1,6 +1,6 @@
 ENV['API_DRIVER']   = "google"
-ENV['TESTS_API_USERNAME']     = 'GOOGUM2I5ZVSPSV5H42U'
-ENV['TESTS_API_PASSWORD'] = 'sXhLOsE4SYU+M7SKsTwwNX2YPpMOKIiRyZaZxcBp'
+ENV['TESTS_API_USERNAME'] = "GOOGXKQLYTEOZTILUBZ5"
+ENV['TESTS_API_PASSWORD'] = "M3pvZUy2ivT78ipQ+u1xv6TkY83q9DUnGXkov3tA"
 
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', '..')
 require 'tests/minitest_common'

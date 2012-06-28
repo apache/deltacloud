@@ -6,41 +6,41 @@ http_interactions:
     body: 
       string: ""
     headers: 
-      x-goog-meta-oof: 
-      - rab
-      x-goog-meta-author: 
-      - ApacheDeltacloud
-      Date: 
-      - Thu, 31 May 2012 13:32:36 +0000
-      x-goog-metadata-directive: 
-      - REPLACE
       x-goog-copy-source: 
       - /testbucki2rpux3wdelmegoogel/testblobk1ds91kVdelmegoogel
+      x-goog-metadata-directive: 
+      - REPLACE
       Authorization: 
-      - GOOG1 GOOGUM2I5ZVSPSV5H42U:n1S+jiaGFzqRAKcv5FLwSg1pgmI=
+      - GOOG1 GOOGXKQLYTEOZTILUBZ5:PxARsMZjsd/7EloIXv4FqJu+KQA=
+      x-goog-meta-author: 
+      - ApacheDeltacloud
+      x-goog-meta-oof: 
+      - rab
+      Date: 
+      - Thu, 28 Jun 2012 13:51:58 +0000
   response: 
     status: 
       code: 200
       message: 
     headers: 
-      Pragma: 
-      - no-cache
-      Date: 
-      - Thu, 31 May 2012 13:32:37 GMT
+      Content-Length: 
+      - "175"
       Server: 
-      - HTTP Upload Server Built on May 23 2012 15:51:04 (1337813464)
+      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
       Expires: 
       - Fri, 01 Jan 1990 00:00:00 GMT
       Content-Type: 
-      - text/html
+      - text/html; charset=UTF-8
+      Pragma: 
+      - no-cache
+      Date: 
+      - Thu, 28 Jun 2012 13:51:59 GMT
       ETag: 
       - "\"6051b502c4281855ff32dc3e924fe3b0\""
-      Content-Length: 
-      - "175"
       Cache-Control: 
       - no-cache, no-store, must-revalidate
     body: 
-      string: <?xml version='1.0' encoding='UTF-8'?><CopyObjectResult><LastModified>2012-05-31T13:32:30.167Z</LastModified><ETag>"6051b502c4281855ff32dc3e924fe3b0"</ETag></CopyObjectResult>
+      string: <?xml version='1.0' encoding='UTF-8'?><CopyObjectResult><LastModified>2012-06-28T13:51:55.477Z</LastModified><ETag>"6051b502c4281855ff32dc3e924fe3b0"</ETag></CopyObjectResult>
     http_version: 
-  recorded_at: Thu, 31 May 2012 13:32:37 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Thu, 28 Jun 2012 13:51:59 GMT
+recorded_with: VCR 2.2.2

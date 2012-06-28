@@ -6,41 +6,41 @@ http_interactions:
     body: 
       string: ""
     headers: 
-      Date: 
-      - Thu, 31 May 2012 13:32:34 +0000
       Authorization: 
-      - GOOG1 GOOGUM2I5ZVSPSV5H42U:nnxAdtq+3nPXa/jplDEaDc8MoIY=
+      - GOOG1 GOOGXKQLYTEOZTILUBZ5:VLj31PaC2zrYNSrBqrVWVcFR49I=
+      Date: 
+      - Thu, 28 Jun 2012 13:51:57 +0000
   response: 
     status: 
       code: 200
       message: 
     headers: 
+      Content-Length: 
+      - "24436"
       Accept-Ranges: 
       - bytes
-      Last-Modified: 
-      - Thu, 31 May 2012 13:32:30 GMT
-      Date: 
-      - Thu, 31 May 2012 13:32:35 GMT
-      x-goog-meta-author: 
-      - deltacloud
       Server: 
-      - HTTP Upload Server Built on May 23 2012 15:51:04 (1337813464)
+      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
       x-goog-meta-foo: 
       - bar
       Expires: 
-      - Thu, 31 May 2012 13:32:35 GMT
-      x-goog-sequence-number: 
-      - "1"
+      - Thu, 28 Jun 2012 13:51:58 GMT
+      x-goog-meta-author: 
+      - deltacloud
       Content-Type: 
       - text/html
-      ETag: 
-      - "\"6051b502c4281855ff32dc3e924fe3b0\""
-      Content-Length: 
-      - "24436"
+      Last-Modified: 
+      - Thu, 28 Jun 2012 13:51:55 GMT
+      Date: 
+      - Thu, 28 Jun 2012 13:51:58 GMT
       Cache-Control: 
       - private, max-age=0
+      ETag: 
+      - "\"6051b502c4281855ff32dc3e924fe3b0\""
+      x-goog-sequence-number: 
+      - "1"
     body: 
       string: ""
     http_version: 
-  recorded_at: Thu, 31 May 2012 13:32:35 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Thu, 28 Jun 2012 13:51:58 GMT
+recorded_with: VCR 2.2.2
