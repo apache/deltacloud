@@ -29,4 +29,4 @@ require 'entities'
 
 $:.unshift File.join('..', '..','server', 'lib')
 require 'deltacloud/core_ext'
-require 'cimi/model'
+require 'cimi/models'
