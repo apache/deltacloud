@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'rack/body_proxy'
+require_relative 'body_proxy'
 
 # This module is based on Rack::CommonLogger[1]
 # Copyright (C) 2007, 2008, 2009, 2010 Christian Neukirchen <purl.org/net/chneukirchen>
