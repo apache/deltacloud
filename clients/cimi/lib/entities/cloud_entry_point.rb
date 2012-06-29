@@ -15,11 +15,10 @@
 
 
 class CIMI::Frontend::CloudEntryPoint < CIMI::Frontend::Entity
-
   get '/cimi/cloudEntryPoint' do
     entry_point_xml = get_entity_collection('cloudEntryPoint', credentials)
     @entry_point = CIMI::Model::CloudEntryPoint.from_xml(entry_point_xml)
-    @entities = CIMI::Model::root_entities.map { |e| e.underscore.downcase }
+    @entities = CIMI::Model::root_entities.map { |e| e.underscore.downcase }.reject{|col| @entry_point[col].href.nil?}
     haml :'cloud_entry_point/index'
   end
 
