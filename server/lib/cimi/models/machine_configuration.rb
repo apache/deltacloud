@@ -52,16 +52,16 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
     # We accept just profiles with all properties set
     return unless profile.memory or profile.cpu or profile.storage
     memory = profile.memory.value || profile.memory.default
-    cpu = profile.cpu.value || profile.cpu.default
-    storage = profile.storage.value || profile.storage.default
+    cpu = (profile.cpu ? (profile.cpu.value || profile.cpu.default) : nil )
+    storage = (profile.storage ? (profile.storage.value || profile.storage.default) :  nil )
     machine_hash = {
       :name => profile.name,
       :description => "Machine Configuration with #{memory} #{profile.memory.unit} "+
         "of memory and #{cpu} CPU",
-      :cpu => cpu,
+      :cpu => ( cpu if cpu ) ,
       :created => Time.now.to_s,  # FIXME: DC hardware_profile has no mention about created_at
       :memory => { :quantity => profile.memory.value || profile.memory.default, :units => profile.memory.unit },
-      :disks => [ { :capacity => { :quantity => profile.storage.value || profile.storage.default, :units => profile.storage.unit } } ],
+      :disks => (  [ { :capacity => { :quantity => profile.storage.value || profile.storage.default, :units => profile.storage.unit } } ] if storage ),
       :id => context.machine_configuration_url(profile.name)
     }
     self.new(machine_hash)

@@ -132,7 +132,6 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   private
-
   def self.from_instance(instance, context)
     cpu =  memory = disks = (instance.instance_profile.id == "opaque")? "n/a" : nil
     self.new(
@@ -187,6 +186,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.convert_instance_storage(profile, context)
     machine_conf = CIMI::Model::MachineConfiguration.find(profile.name, context)
+    return nil unless machine_conf.disks
     storage_override = profile.overrides.find { |p, v| p == :storage }
     [
       { :capacity => {
