@@ -19,6 +19,15 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     scalar :href
   end
 
+  DELTACLOUD_MAPPINGS = { "MachineImages" => "images",
+                          "MachineConfigurations" => "hardware_profiles",
+                          "Machines" => "instances",
+                          "Volumes" => "storage_volumes",
+                          "MachineAdmins" => "keys",
+                          "VolumeImages" => "storage_snapshots",
+                        }
+
+
   def self.create(context)
     self.new(entities(context).merge({
       :name => context.driver.name,
@@ -32,6 +41,9 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
   # Return an Hash of the CIMI root entities used in CloudEntryPoint
   def self.entities(context)
     CIMI::Model.root_entities.inject({}) do |result, entity|
+      if DELTACLOUD_MAPPINGS[entity]
+        next result unless context.driver.respond_to?(DELTACLOUD_MAPPINGS[entity])
+      end
       result[entity.underscore] = { :href => context.send(:"#{entity.underscore}_url") }
       result
     end

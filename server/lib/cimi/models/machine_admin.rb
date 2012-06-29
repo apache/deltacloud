@@ -25,6 +25,7 @@ class CIMI::Model::MachineAdmin < CIMI::Model::Base
 
   def self.find(id, context)
     if id == :all
+      return [] unless context.driver.respond_to?(:keys)
       keys = context.driver.keys(context.credentials)
       keys.map { |key| from_key(key, context) }
     else
