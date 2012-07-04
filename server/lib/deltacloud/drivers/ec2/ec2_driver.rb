@@ -563,7 +563,7 @@ module Deltacloud
 
         def storage_volumes(credentials, opts={})
           ec2 = new_client( credentials )
-          volume_list = (opts and opts[:id]) ? opts[:id] : nil
+          volume_list = (opts and opts[:id]) ? [opts[:id]] : []
           safely do
             ec2.describe_volumes(volume_list).collect do |volume|
               convert_volume(volume)
