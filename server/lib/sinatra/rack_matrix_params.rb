@@ -92,7 +92,7 @@ module Rack
       else
         # For other methods it's more complicated
         if env['REQUEST_METHOD']!='POST' and not matrix_params.keys.empty?
-          env['QUERY_STRING'].gsub!(/;([^\/]*)/, '')
+          env['QUERY_STRING'] = env['QUERY_STRING'].gsub(/;([^\/]*)/, '')
           new_params = matrix_params.collect do |component, params|
             params.collect { |k,v| "#{component}[#{k}]=#{CGI::escape(v.to_s)}" }
           end.flatten
