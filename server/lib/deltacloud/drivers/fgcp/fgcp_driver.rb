@@ -1235,7 +1235,7 @@ eofwopxml
     else
       # vserver
       state = @@INSTANCE_STATE_MAP[client.get_vserver_status(vserver['vserverId'][0])['vserverStatus'][0]]
-      create_image = (state == /STOPPED|UNEXPECTED_STOP/)
+      create_image = (state =~ /STOPPED|UNEXPECTED_STOP/)
     end
 
     {
