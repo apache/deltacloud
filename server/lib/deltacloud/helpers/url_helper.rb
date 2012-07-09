@@ -35,9 +35,9 @@ module Sinatra
           t = $1
           if t.match(/^(stop|reboot|start|attach|detach)_/)
             action = $1
-            api_url_for(t.pluralize.split('_').last + '/' + args.first + '/' + action, :full)
+            api_url_for(t.pluralize.split('_').last + '/' + args.first.to_s + '/' + action, :full)
           elsif t.match(/^(destroy|update)_/)
-            api_url_for(t.pluralize.split('_').last + '/' + args.first, :full)
+            api_url_for(t.pluralize.split('_').last + '/' + args.first.to_s, :full)
           else
             api_url_for(t.pluralize, :full) + '/' + "#{args.first}"
           end

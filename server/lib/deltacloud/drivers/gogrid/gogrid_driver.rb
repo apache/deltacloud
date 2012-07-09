@@ -409,7 +409,7 @@ class GogridDriver < Deltacloud::BaseDriver
 
   def convert_image(gg_image, owner_id=nil)
     Image.new( {
-      :id=>gg_image['id'],
+      :id=>gg_image['id'].to_s,
       :name => "#{gg_image['friendlyName']}",
       :description=> convert_description(gg_image).to_s,
       :owner_id=>gg_image['owner']['name'].to_s,
