@@ -18,9 +18,9 @@
 
 
 Gem::Specification.new do |s|
-  s.author = 'Red Hat, Inc.'
+  s.author = 'The Apache Software Foundation'
   s.homepage = "http://www.deltacloud.org"
-  s.email = 'deltacloud-users@lists.fedorahosted.org'
+  s.email = 'dev@deltacloud.apache.org'
   s.name = 'deltacloud-client'
   s.description = %q{Deltacloud REST Client for API}
   s.version = '1.0.0'
