@@ -42,7 +42,7 @@ title: Deltacloud API
     <blockquote>
       <p>
       <strong>Current release:</strong><br>
-      <a class="btn btn-info" href="https://rubygems.org/gems/deltacloud-core" target="_blank"><b>deltacloud-core-1.0.0</b></a><br/>
+      <a class="btn btn-info" href="/download.html"><b>deltacloud-core-1.0.0</b></a><br/>
       <small>More about <a href="/install-deltacloud.html">installation</a>...</small>
       </p>
       <br/>
