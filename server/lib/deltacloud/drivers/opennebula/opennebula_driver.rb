@@ -45,10 +45,10 @@ class OpennebulaDriver < Deltacloud::BaseDriver
       @hardware_profiles = REXML::Document.new(xml).root.elements.map {|d|
         elem = d.elements
         ::Deltacloud::HardwareProfile.new(elem['NAME'].text) {
-          cpu          elem['CPU']
-          memory       elem['MEMORY']
-          storage      elem['STORAGE']
-          architecture elem['ARCHITECTURE']
+          cpu          elem['CPU'].text if elem['CPU']
+          memory       elem['MEMORY'].text if elem['MEMORY']
+          storage      elem['STORAGE'].text  if elem['STORAGE']
+          architecture elem['ARCHITECTURE'].text if elem['ARCHITECTURE']
         }
       }
     end
