@@ -6,7 +6,8 @@
   %properties
     -@metric.properties.each do |prop|
       -haml_tag(prop.name, :<) do
-        - prop.values.each do |p|
-          %sample
-            - p.each do |k, v|
-              %property{ :name => k, :value => v }
+        - if prop.values
+          - prop.values.each do |p|
+            %sample
+              - p.each do |k, v|
+                %property{ :name => k, :value => v }
