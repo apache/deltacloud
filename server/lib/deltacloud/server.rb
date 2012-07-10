@@ -55,6 +55,10 @@ module Deltacloud
       end
     end
 
+    options Deltacloud.config[:deltacloud].root_url + '/?' do
+      headers 'Allow' => Deltacloud.collections.select { |c| driver.respond_to?(c.collection_name) }.map { |c| c.collection_name }.join(',')
+    end
+
     post Deltacloud.config[:deltacloud].root_url + '/?' do
       param_driver, param_provider = params["driver"], params["provider"]
       if param_driver

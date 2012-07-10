@@ -31,10 +31,10 @@ module Rack
       original_settings = { }
       req = Rack::Request.new(env)
       if req.params['api'] and req.params['api']['driver']
-	env['HTTP_X_DELTACLOUD_DRIVER'] = req.params['api']['driver']
+        env['HTTP_X_DELTACLOUD_DRIVER'] = req.params['api']['driver']
       end
       if req.params['api'] and req.params['api']['provider']
-	env['HTTP_X_DELTACLOUD_PROVIDER'] = req.params['api']['provider']
+        env['HTTP_X_DELTACLOUD_PROVIDER'] = req.params['api']['provider']
       end
       HEADER_TO_ENV_MAP.each do |header, name|
         original_settings[name] = Thread.current[name]

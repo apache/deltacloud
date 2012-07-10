@@ -15,7 +15,8 @@
 
 module Deltacloud::Collections
   class Metrics < Base
-    check_capability :for => lambda { |m| driver.respond_to? m }
+
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :metrics do
       description 'Metrics provide monitoring for the cloud resources'

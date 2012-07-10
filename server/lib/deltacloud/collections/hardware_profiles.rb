@@ -16,7 +16,7 @@
 module Deltacloud::Collections
   class HardwareProfiles < Base
 
-    check_capability :for => lambda { |m| !driver.class.send(m).empty? }
+    set :capability, lambda { |m| !driver.class.send(m).empty? }
 
     collection :hardware_profiles do
 

@@ -18,7 +18,7 @@ module Deltacloud::Collections
 
     include Deltacloud::Features
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
     get route_for('/keys/new') do

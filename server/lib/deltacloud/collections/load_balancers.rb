@@ -15,7 +15,8 @@
 
 module Deltacloud::Collections
   class LoadBalancers < Base
-    check_capability :for => lambda { |m| driver.has_capability? m }
+
+    set :capability, lambda { |m| driver.respond_to? m }
 
     new_route_for :load_balancers do
       @realms = driver.realms(credentials)

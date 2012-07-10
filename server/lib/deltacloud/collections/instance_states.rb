@@ -16,7 +16,7 @@
 module Deltacloud::Collections
   class InstanceStates < Base
 
-    check_capability :for => lambda { |m| !driver.send(m).nil? }
+    set :capability, lambda { |m| !driver.send(m).nil? }
 
     collection :instance_states do
       operation :index, :with_capability => :instance_state_machine do

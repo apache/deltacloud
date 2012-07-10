@@ -16,7 +16,8 @@
 module Deltacloud::Collections
   class Firewalls < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
     get route_for('/firewalls/:id/new_rule') do

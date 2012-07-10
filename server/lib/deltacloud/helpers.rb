@@ -79,10 +79,6 @@ module Deltacloud::Collections
       end
     end
 
-    def self.check_capability(opts={})
-      Sinatra::Rabbit.set :check_capability, opts[:for]
-    end
-
     def self.check_features(opts={})
       Sinatra::Rabbit.set :check_features, opts[:for]
     end

@@ -16,7 +16,7 @@
 module Deltacloud::Collections
   class Addresses < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     get route_for('/addresses/:id/associate') do
       @address = driver.address(credentials, params )
