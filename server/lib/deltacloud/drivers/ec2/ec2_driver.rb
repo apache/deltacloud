@@ -935,7 +935,7 @@ module Deltacloud
         def convert_load_balancer(credentials, loadbalancer)
           realms = []
           balancer_realms = loadbalancer[:availability_zones].each do |zone|
-            realms << realm(credentials, zone)
+            realms << realm(credentials, :id => zone)
           end
           balancer = LoadBalancer.new({
             :id => loadbalancer[:name],
