@@ -378,7 +378,7 @@ module Deltacloud
                 :instance_port => opts['listener_instance_port'],
                 :protocol => opts['listener_protocol']}]
             )
-            return load_balancer(credentials, opts['name'])
+            return load_balancer(credentials, :id => opts['name'])
           end
         end
 
@@ -588,7 +588,7 @@ module Deltacloud
             unless ec2.delete_volume(opts[:id])
               raise Deltacloud::BackendError.new(500, "StorageVolume", "Cannot delete storage volume")
             end
-            storage_volume(credentials, opts[:id])
+            storage_volume(credentials, :id => opts[:id])
           end
         end
 
