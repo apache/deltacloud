@@ -8,6 +8,6 @@
       %li
         %a{ :href => metric_url(metric.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/metric.png'}
-          %h3= metric.id
+          %h3= metric.entity || metric.id
           %p
             = metric.properties.map { |p| p.name }.join(', ')

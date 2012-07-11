@@ -32,6 +32,7 @@ class FgcpDriver < Deltacloud::BaseDriver
   end
 
   feature :instances, :user_name
+  feature :instances, :metrics
   feature :images, :user_name
   feature :images, :user_description
 
@@ -195,6 +196,7 @@ class FgcpDriver < Deltacloud::BaseDriver
                   )
       elsif xml = client.list_vsys['vsyss']
 
+        return [] if xml.nil?
         xml[0]['vsys'].each do |vsys|
 
           realms << Realm::new(
@@ -253,6 +255,7 @@ class FgcpDriver < Deltacloud::BaseDriver
         end
       elsif xml = client.list_vsys['vsyss']
 
+        return [] if xml.nil?
         xml[0]['vsys'].each do |vsys|
 
           # use get_vsys_configuration (instead of get_vserver_configuration) to retrieve all vservers in one call
@@ -431,6 +434,7 @@ class FgcpDriver < Deltacloud::BaseDriver
         )
       elsif xml = client.list_vsys['vsyss']
 
+        return [] if xml.nil?
         xml[0]['vsys'].each do |vsys|
 
           vdisks = client.list_vdisk(vsys['vsysId'][0])['vdisks'][0]
@@ -542,6 +546,7 @@ class FgcpDriver < Deltacloud::BaseDriver
         end
       elsif xml = client.list_vsys['vsyss']
 
+        return [] if xml.nil?
         xml[0]['vsys'].each do |vsys|
 
           vdisks = client.list_vdisk(vsys['vsysId'][0])['vdisks'][0]
@@ -703,9 +708,9 @@ class FgcpDriver < Deltacloud::BaseDriver
       if opts[:realm_id]
         opts[:realm_id] = client.extract_vsys_id(opts[:realm_id])
       else
-        xml = client.list_public_ips
-        if xml['publicips']
-          xml['publicips'][0]['publicip'].find do |ip|
+        xml = client.list_public_ips['publicips']
+        if xml
+          xml[0]['publicip'].find do |ip|
             opts[:realm_id] = ip['vsysId'][0] if opts[:id] == ip['address'][0]
           end
         end
@@ -887,10 +892,10 @@ eofwpxml
           :rules    => rules
         })
       else
-        xml = client.list_vsys
-        return [] if xml['vsyss'].nil?
+        xml = client.list_vsys['vsyss']
+        return [] if xml.nil?
 
-        firewalls = xml['vsyss'][0]['vsys'].collect do |vsys|
+        firewalls = xml[0]['vsys'].collect do |vsys|
 
           Firewall.new({
             :id => vsys['vsysId'][0] + '-S-0001',
@@ -1007,10 +1012,10 @@ eofwopxml
     balancers = []
     safely do
       client = new_client(credentials)
-      xml = client.list_vsys
-      return [] if xml['vsyss'].nil?
+      xml = client.list_vsys['vsyss']
+      return [] if xml.nil?
 
-      xml['vsyss'][0]['vsys'].each do |vsys|
+      xml[0]['vsys'].each do |vsys|
 
         # use get_vsys_configuration (instead of list_efm) to retrieve all SLBs incl. realms in one call
         vsys_config = client.get_vsys_configuration(vsys['vsysId'][0])
@@ -1131,6 +1136,99 @@ eofwopxml
     end
   end
 
+  def metrics(credentials, opts={})
+    opts ||= {}
+    metrics_arr = []
+    safely do
+      client = new_client(credentials)
+      realms = []
+
+      # first check for cases of id or realm_id specified
+      if opts[:id]
+        metrics_arr << Metric.new(
+          :id     => opts[:id],
+          :entity => client.get_vserver_attributes(opts[:id])['vserver'][0]['vserverName'][0]
+        )
+      elsif opts[:realm_id]
+        # if realm is set, list vservers in that realm (vsys/network ID), else list from all vsys
+        realms << opts[:realm_id]
+      else
+
+        # list all vsys
+        xml = client.list_vsys['vsyss']
+        realms = xml[0]['vsys'].collect { |vsys| vsys['vsysId'][0] } if xml
+      end
+
+      # list all vservers
+      realms.each do |realm_id|
+
+        xml = client.list_vservers(client.extract_vsys_id(realm_id))['vservers']
+
+        if xml and xml[0]['vserver']
+
+          xml[0]['vserver'].each do |vserver|
+
+            # should check whether vserver is actually in opts[:realm_id] if network segment?
+            metrics_arr << Metric.new(
+              :id     => vserver['vserverId'][0],
+              :entity => vserver['vserverName'][0]
+            )
+          end
+        end
+      end
+
+      # add metric names to metrics
+      metrics_arr.each do |metric|
+        @@METRIC_NAMES.each do |name|
+          metric.add_property(name)
+        end
+        metric.properties.sort! {|a,b| a.name <=> b.name}
+      end
+    end
+    metrics_arr
+  end
+
+  def metric(credentials, opts={})
+    safely do
+      client = new_client(credentials)
+      perf = client.get_performance_information(opts[:id], 'hour')
+
+      metric = Metric.new(
+        :id         => opts[:id],
+        :entity     => perf['serverName'][0],
+        :properties => []
+      )
+      # if instance hasn't been running for an hour, no info will be returned
+      unless perf['performanceinfos'].nil? or perf['performanceinfos'][0].nil? or perf['performanceinfos'][0]['performanceinfo'].nil?
+
+        perf['performanceinfos'][0]['performanceinfo'].each do |sample|
+
+          timestamp = Time.at(sample['recordTime'][0].to_i / 1000)
+          sample.each do |measure|
+
+            measure_name = measure[0]
+            unless measure_name == 'recordTime'
+
+              unit = metric_unit_for(measure_name)
+              average = (unit == 'Percent') ? measure[1][0].to_f * 100 : measure[1][0]
+
+              properties = metric.add_property(measure_name).properties
+              property = properties.find { |p| p.name == measure_name }
+              property.values ||= []
+              property.values << {
+                :average   => average,
+                :timestamp => timestamp,
+                :unit      => unit
+              }
+            end
+          end
+          metric.properties.sort! {|a,b| a.name <=> b.name}
+        end
+      end
+      metric
+    end
+  end
+
   ######################################################################
   # Providers
   ######################################################################
@@ -1209,8 +1307,6 @@ eofwopxml
   end
 
   def convert_credentials(credentials)
-    #username could be 'dkoper'
-    #load dkoper/UserCert.p12 from cert dir
     begin
       cert_file = File.open(File::join(CERT_DIR, credentials.user, 'UserCert.p12'), 'rb')
     rescue Errno::ENOENT => e # file not found
@@ -1385,6 +1481,30 @@ eofwopxml
 
     client.get_efm_configuration("#{vsys_id}-S-0001", 'FW_NAT_RULE')
   end
+
+  def metric_unit_for(name)
+    case name
+      when /Utilization/ then 'Percent'
+      when /Byte/ then 'Bytes'
+      when /Sector/ then 'Count'
+      when /Count/ then 'Count'
+      when /Packet/ then 'Count'
+      else 'None'
+    end
+  end
+
+  # FGCP instance states mapped to DeltaCloud
+  @@METRIC_NAMES = [
+    'cpuUtilization',
+    'diskReadRequestCount',
+    'diskReadSector',
+    'diskWriteRequestCount',
+    'diskWriteSector',
+    'nicInputByte',
+    'nicInputPacket',
+    'nicOutputByte',
+    'nicOutputPacket'
+  ]
 
   # FGCP instance states mapped to DeltaCloud
   @@INSTANCE_STATE_MAP = {

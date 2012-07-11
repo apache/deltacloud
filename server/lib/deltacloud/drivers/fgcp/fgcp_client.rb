@@ -87,6 +87,10 @@ class FgcpClient
     request('GetVSYSConfiguration', {'vsysId' => vsys_id})
   end
 
+  def list_vservers(vsys_id)
+    request('ListVServer', {'vsysId' => vsys_id})
+  end
+
   def start_vserver(vserver_id)
     request('StartVServer', {'vsysId' => extract_vsys_id(vserver_id), 'vserverId' => vserver_id})
   end
@@ -282,6 +286,15 @@ eoidxml
 
   def destroy_vsys(vsys_id)
     request('DestroyVSYS', {'vsysId' => vsys_id})
+  end
+
+  def get_performance_information(vserver_id, interval, data_type=nil)
+    @version = '2012-02-18'
+    if data_type.nil?
+      request('GetPerformanceInformation', {'vsysId' => extract_vsys_id(vserver_id), 'serverId' => vserver_id, 'interval' => interval})
+    else
+      request('GetPerformanceInformation', {'vsysId' => extract_vsys_id(vserver_id), 'serverId' => vserver_id, 'dataType' => data_type, 'interval' => interval})
+    end
   end
 
   #extract vsysId from vserverId, efmId or networkId

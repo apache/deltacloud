@@ -2,7 +2,7 @@
   !!! XML
 %metric{:href => metric_url(@metric.id), :id => @metric.id}
   -haml_tag(:entity, :<) do
-    -haml_concat @metric.send(:id)
+    -haml_concat @metric.send(:entity) || @metric.send(:id)
   %properties
     -@metric.properties.each do |prop|
       -haml_tag(prop.name, :<) do
