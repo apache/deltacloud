@@ -83,8 +83,8 @@ module OCCIClient
     ######################################################################
     # Retieves the pool of Virtual Machines
     ######################################################################
-    def get_vms
-      get('/compute')
+    def get_vms(verbose=false)
+      get('/compute', verbose)
     end
 
     ######################################################################
@@ -196,8 +196,8 @@ module OCCIClient
     ######################################################################
     # Retieves the pool of Images owned by the user
     ######################################################################
-    def get_images
-      get('/storage')
+    def get_images(verbose=false)
+      get('/storage', verbose)
     end
 
 
@@ -275,10 +275,16 @@ module OCCIClient
 
     private
 
-    def get(path)
+    def get(path, verbose=false)
       url = URI.parse(@endpoint+path)
+
+      params = []
+      params << "verbose=true" if verbose
+      params << "#{url.query}" if url.query
+
       path = url.path
-      path << "?#{url.query}" if url.query
+      path << "?#{params.join('&')}"
+
       req = Net::HTTP::Get.new(path)
 
       do_request(url, req)

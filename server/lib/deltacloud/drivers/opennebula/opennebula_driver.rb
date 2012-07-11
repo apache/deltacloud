@@ -84,13 +84,11 @@ class OpennebulaDriver < Deltacloud::BaseDriver
   def images(credentials, opts=nil)
     occi_client = new_client(credentials)
 
-    xml = treat_response(occi_client.get_images)
+    xml = treat_response(occi_client.get_images(true))
 
     # TBD Add extended info in the pool
     images = REXML::Document.new(xml).root.elements.map do |d|
-      im_id = d.attributes['href'].split("/").last
-      storage = treat_response(occi_client.get_image(im_id))
-      convert_image(storage, credentials)
+      convert_image(d, credentials)
     end
   end
 
@@ -156,13 +154,10 @@ class OpennebulaDriver < Deltacloud::BaseDriver
   def instances(credentials, opts=nil)
     occi_client = new_client(credentials)
 
-    xml = treat_response(occi_client.get_vms)
-
+    xml = treat_response(occi_client.get_vms(true))
     # TBD Add extended info in the pool
     instances = REXML::Document.new(xml).root.elements.map do |d|
-      vm_id = d.attributes['href'].split("/").last
-      computexml = treat_response(occi_client.get_vm(vm_id))
-      convert_instance(computexml, credentials)
+      convert_instance(d, credentials)
     end
 
     instances = filter_on( instances, :state, opts )
@@ -221,7 +216,7 @@ class OpennebulaDriver < Deltacloud::BaseDriver
 
 
   def convert_image(diskxml, credentials)
-    storage = REXML::Document.new(diskxml).root.elements
+    storage = REXML::Document.new(diskxml.to_s).root.elements
 
     # TBD Add Image STATE, OWNER
     Image.new( {
@@ -235,10 +230,8 @@ class OpennebulaDriver < Deltacloud::BaseDriver
     } )
   end
 
-
   def convert_instance(computexml, credentials)
-    compute = REXML::Document.new(computexml)
-    computehash = compute.root.elements
+    computehash = REXML::Document.new(computexml.to_s).root.elements
 
     network = []
     computehash.each('NIC/IP') {|ip| network<<InstanceAddress.new(ip.text, :type => :ipv4)}
@@ -247,7 +240,6 @@ class OpennebulaDriver < Deltacloud::BaseDriver
     if computehash['DISK/STORAGE']
       image_id = computehash['DISK/STORAGE'].attributes['href'].split("/").last
     end
-
     Instance.new( {
       :id=>computehash['ID'].text,
       :owner_id=>credentials.user,
