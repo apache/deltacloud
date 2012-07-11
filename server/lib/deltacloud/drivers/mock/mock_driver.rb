@@ -76,6 +76,7 @@ module Deltacloud::Drivers::Mock
     feature :instances, :user_name
     feature :instances, :user_data
     feature :instances, :authentication_key
+    feature :instances, :metrics
     feature :images, :user_name
     feature :images, :user_description
 
@@ -447,6 +448,55 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    #--
+    # Metrics
+    #--
+    def metrics(credentials, opts={})
+      check_credentials( credentials )
+      instances = @client.build_all(Instance)
+      instances = filter_on( instances, :id, opts )
+
+      metrics_arr = instances.collect do |instance|
+        Metric.new(
+          :id     => instance.id,
+          :entity => instance.name
+        )
+      end
+
+      # add metric names to metrics
+      metrics_arr.each do |metric|
+        @@METRIC_NAMES.each do |name|
+          metric.add_property(name)
+        end
+        metric.properties.sort! {|a,b| a.name <=> b.name}
+      end
+      metrics_arr
+    end
+
+    def metric(credentials, opts={})
+      metric = metrics(credentials, opts).first
+      sample_count = rand(10) + 1
+
+      metric.properties.each do |property|
+
+        property.values = (0..5).collect do |i|
+
+          unit = metric_unit_for(property.name)
+          average = (property.name == 'cpuUtilization') ? (rand * 1000).to_i / 10.0 : rand(1000)
+          max = (property.name == 'cpuUtilization') ? (1000 + 10 * average).to_i / 20.0 : average * (i + 1)
+          min = (property.name == 'cpuUtilization') ? (2.5 * average).to_i / 10.0 : (average / 4).to_i
+          {
+            :minimum   => min,
+            :maximum   => max,
+            :average   => average,
+            :timestamp => Time.now - i * 60,
+            :unit      => unit
+          }
+        end
+      end
+      metric
+    end
+
     def valid_credentials?(credentials)
       begin
         check_credentials(credentials)
@@ -491,6 +541,30 @@ module Deltacloud::Drivers::Mock
       @client.store(:instances, instance)
       StorageVolume.new(volume)
     end
+
+    def metric_unit_for(name)
+      case name
+        when /Utilization/ then 'Percent'
+        when /Byte/ then 'Bytes'
+        when /Sector/ then 'Count'
+        when /Count/ then 'Count'
+        when /Packet/ then 'Count'
+        else 'None'
+      end
+    end
+
+    # names copied from FGCP driver
+    @@METRIC_NAMES = [
+      'cpuUtilization',
+      'diskReadRequestCount',
+      'diskReadSector',
+      'diskWriteRequestCount',
+      'diskWriteSector',
+      'nicInputByte',
+      'nicInputPacket',
+      'nicOutputByte',
+      'nicOutputPacket'
+    ]
 
     exceptions do
 
