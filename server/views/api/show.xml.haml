@@ -1,6 +1,5 @@
 %api{ :version => settings.version, :driver => driver_symbol, :provider => Thread.current[:provider] || ENV['API_PROVIDER'] }
-  - Deltacloud.collections.each do |c|
-    - next unless c.operation(:index).has_capability?
+  - supported_collections do |c|
     %link{ :rel => c.collection_name, :href => self.send(:"#{c.collection_name}_url")}
       - c.features.select { |f| driver.class.has_feature?(c.collection_name, f.name) }.each do |f|
         %feature{ :name => f.name }

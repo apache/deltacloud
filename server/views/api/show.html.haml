@@ -3,8 +3,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview, :'data-inset' => 'true'}
-    - Deltacloud.collections.each do |c|
-      - next unless c.operation(:index).has_capability?
+    - supported_collections do |c|
       %li
         %a{ :href => api_url_for(c.collection_name),  :'data-icon' => "arrow-r"}=c.collection_name.to_s.gsub('_', ' ').titlecase
 
