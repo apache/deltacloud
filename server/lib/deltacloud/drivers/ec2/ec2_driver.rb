@@ -608,7 +608,7 @@ module Deltacloud
 
         def storage_snapshots(credentials, opts={})
           ec2 = new_client(credentials)
-          snapshot_list = (opts and opts[:id]) ? opts[:id] : []
+          snapshot_list = (opts and opts[:id]) ? [opts[:id]] : []
           safely do
             ec2.describe_snapshots(snapshot_list).collect do |snapshot|
               convert_snapshot(snapshot)
