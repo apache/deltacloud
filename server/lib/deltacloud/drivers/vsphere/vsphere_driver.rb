@@ -73,7 +73,7 @@ module Deltacloud::Drivers::Vsphere
 
     # Images are virtual machines with 'template' flag set to be true.
     # Thus we're getting them using find_vm and list_virtual_machines
-    def images(credentials, opts=nil)
+    def images(credentials, opts={})
       cloud = new_client(credentials)
       img_arr = []
       profiles = hardware_profiles(credentials)
@@ -123,7 +123,7 @@ module Deltacloud::Drivers::Vsphere
     end
 
     # List all datacenters managed by the vSphere or vCenter entrypoint.
-    def realms(credentials, opts=nil)
+    def realms(credentials, opts={})
       vsphere = new_client(credentials)
       safely do
         if opts and opts[:id]
@@ -140,7 +140,7 @@ module Deltacloud::Drivers::Vsphere
 
     # List all running instances, across all datacenters. DeltaCloud API does
     # not yet support filtering instances by realm.
-    def instances(credentials, opts=nil)
+    def instances(credentials, opts={})
       cloud = new_client(credentials)
       inst_arr, machine_vms, pending_vms = [], [], []
       safely do
@@ -212,7 +212,7 @@ module Deltacloud::Drivers::Vsphere
     end
 
 
-    def create_instance(credentials, image_id, opts)
+    def create_instance(credentials, image_id, opts={})
       vsphere = new_client(credentials)
       safely do
         if opts[:hwp_cpu]
