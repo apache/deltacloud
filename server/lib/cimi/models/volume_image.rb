@@ -25,7 +25,7 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   def self.find(id, context)
     storage_snapshots = []
     opts = ( id==:all  ) ? {}  : { :id=>id }
-    storage_snapshots = self.driver.storage_snapshots(context.credentials, opts)
+    storage_snapshots = context.driver.storage_snapshots(context.credentials, opts)
     storage_snapshots.collect!{ |snapshot| from_storage_snapshot(snapshot, context) }
     return storage_snapshots.first unless storage_snapshots.length > 1
     return storage_snapshots
