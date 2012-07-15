@@ -1232,27 +1232,29 @@ eofwopxml
   ######################################################################
   # Providers
   ######################################################################
+  # output of this method is used to list regions (id, url) under /api/drivers/fgcp
   def providers(credentials, opts={})
-    cert, key = convert_credentials(credentials)
-    cert.subject.to_s =~ /\b[Cc]=(\w\w)\b/
-    country = $1.downcase
-    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'][country]
-    [
+    configured_providers.collect do |region|
       Provider.new(
-        :id => "fgcp-#{country}",
-        :name => "Fujitsu Global Cloud Platform - #{country.upcase}",
-        :url => endpoint
+        :id => "fgcp-#{region}",
+        :name => "Fujitsu Global Cloud Platform - #{region.upcase}",
+        :url => Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'][region]
       )
-    ]
+    end
   end
 
-# following code enables region drop-down box on GUI. No need as retrieving region from cert (subject c)
-#  def configured_providers
-#    Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'].keys
-#  end
+  # following method enables region drop-down box on GUI
+  def configured_providers
+    Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'].keys.sort
+  end
 
   exceptions do
     on /AuthFailure/ do
+      status 401
+    end
+
+    # User not found: using certificate with wrong region
+    on /User not found in selectData./ do
       status 401
     end
 
@@ -1274,6 +1276,11 @@ eofwopxml
     # wrong vdiskId, etc.
     on /RESOURCE_NOT_FOUND/ do
       status 404
+    end
+
+    # trying an operation that is not supported (yet) by the target region
+    on /NOTFOUND: API to the Version/ do
+      status 501 # Not Implemented
     end
 
     # destroying a running SLB, etc.

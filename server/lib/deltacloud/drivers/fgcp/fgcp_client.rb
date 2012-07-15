@@ -29,13 +29,16 @@ module Deltacloud
 
 class FgcpClient
 
-  def initialize(cert, key, endpoint = nil, version = '2011-01-31', locale = 'en')
+  def initialize(cert, key, region = nil, version = '2011-01-31', locale = 'en')
     @version = version
     @locale = locale
-    cert.subject.to_s =~ /\b[Cc]=(\w\w)\b/
-    country = $1.downcase
-    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'][country] unless endpoint
-    raise "API endpoint not found for region #{country}" if endpoint.nil?
+    if region.nil?
+      cert.subject.to_s =~ /\b[Cc]=(\w\w)\b/
+      region = $1.downcase
+    end
+    # first 'jp' region is now 'jp-east'
+    region = 'jp-east' if region == 'jp'
+    endpoint = Deltacloud::Drivers::driver_config[:fgcp][:entrypoints]['default'][region] || region
 
     #proxy settings:
     http_proxy = ENV['http_proxy']
@@ -320,7 +323,6 @@ eoidxml
     begin
       if attachment.nil?
         @uri.query = encode_params(params)
-
         resp = @service.request_get(@uri.request_uri, @headers)
       else
         #multipart post
