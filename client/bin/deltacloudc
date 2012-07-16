@@ -35,6 +35,8 @@ deltacloudc collection operation [options]
 
 URL format:
 API_URL=http://[user]:[password]@[api_url][port][/uri]
+  OR 
+API_URL=http://[api_url][port][/uri] with -U and -P for credentials
 
 Examples:
 
@@ -44,7 +46,7 @@ Examples:
 
  2. To list the operations for the 'images' collection:
 
-        deltacloudc images -l -u http://user:password@deltacloud.foo:3333/api
+        deltacloudc images -l -U username -P password -u http://deltacloud.foo:3333/api
 
  3. To list all images (i.e. call the 'index' operation of 'images'):
 
@@ -52,7 +54,7 @@ Examples:
 
  4. To get the details of image '5':
 
-        deltacloudc images show -i 5 -u http://user:password@deltacloud.foo:3333/api
+        deltacloudc images show -i 5 -U username -P password -u http://deltacloud.foo:3333/api
 
 Options:
 BANNER
@@ -106,7 +108,7 @@ options[:collection] = ARGV[0]
 options[:operation] = ARGV[1]
 
 # Connect to Deltacloud API and fetch all entry points
-client = DeltaCloud.new(options[:api_user] || ENV['API_USER'], options[:api_password] || ENV['API_PASSWORD'], api_url)
+client = DeltaCloud.new(options[:api_user] || url.user || ENV['API_USER'], options[:api_password] || url.password || ENV['API_PASSWORD'], api_url)
 collections = client.entry_points.keys
 
 # Exclude collection which don't have methods in client library yet
