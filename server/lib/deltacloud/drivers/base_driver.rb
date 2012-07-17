@@ -16,6 +16,12 @@
 
 module Deltacloud
 
+  require_relative '../core_ext.rb'
+  require_relative './exceptions.rb'
+  require_relative './features.rb'
+  require_relative '../models/hardware_profile.rb'
+  require_relative '../models/state_machine.rb'
+
   class BaseDriver
 
     include ExceptionHandler
@@ -33,12 +39,6 @@ module Deltacloud
       @features ||= {}
     end
 
-    def self.features_for(entity)
-      features.inject([]) do |result, item|
-        result << item[entity] if item.has_key? entity
-        result
-      end
-    end
 
     def self.feature(collection, feature_name)
       return if has_feature?(collection, feature_name)
@@ -255,14 +255,6 @@ module Deltacloud
       else
         return collection.select{|e| filter == e.send(attribute) }
       end
-    end
-
-    def supported_collections
-      DEFAULT_COLLECTIONS
-    end
-
-    def has_collection?(collection)
-      supported_collections.include?(collection)
     end
 
     def catched_exceptions_list
