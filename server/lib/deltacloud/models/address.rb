@@ -22,7 +22,7 @@ class Address < BaseModel
   end
 
   def associated?
-    true unless self.instance_id.nil?
+    !self.instance_id.nil?
   end
 
 end

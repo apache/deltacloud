@@ -19,7 +19,7 @@ class Metric < BaseModel
   attr_accessor :properties
 
   def unknown?
-    true if self.entity == :unknown
+    self.entity == :unknown
   end
 
   def add_property(name, values=nil)

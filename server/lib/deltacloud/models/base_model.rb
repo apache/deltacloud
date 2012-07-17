@@ -44,18 +44,4 @@ class BaseModel
     @id
   end
 
-  def to_hash
-    out = {}
-    self.attributes.each do |attribute|
-      if self.send(:"#{attribute}")
-        out.merge!({ attribute => self.send(:"#{attribute}") } )
-      end
-    end
-    out
-  end
-
-  def to_json(*a)
-    self.to_hash.to_json(*a)
-  end
-
 end

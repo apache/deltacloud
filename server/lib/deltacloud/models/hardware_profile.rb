@@ -154,35 +154,14 @@ module Deltacloud
     end
 
     def default?(prop, v)
-      p = @properties[prop.to_sym]
-      p && p.default.to_s == v
-    end
-
-    def to_hash
-      props = []
-      self.each_property do |p|
-        if p.kind.eql? :fixed
-          props << { :kind => p.kind, :value => p.value, :name => p.name, :unit => p.unit }
-        else
-          param = { :operation => "create", :method => "post", :name => p.name }
-          if p.kind.eql? :range
-            param[:range] = { :first => p.first, :last => p.last }
-          elsif p.kind.eql? :enum
-            param[:enum] = p.values.collect { |v| { :entry => v } }
-          end
-          param
-          props << { :kind => p.kind, :value => p.default, :name => p.name, :unit => p.unit, :param => param }
-        end
-      end
-      {
-        :id => self.name,
-        :properties => props
-      }
+      property(prop) && property(prop).default.to_s == v
     end
 
     def include?(prop, v)
-      p = @properties[prop]
-      p.nil? || p.include?(v)
+      return false unless p = property(prop)
+      return true if p.kind == :range and (p.first..p.last).include?(v)
+      return true if p.kind == :enum and p.values.include?(v)
+      false
     end
 
     def params

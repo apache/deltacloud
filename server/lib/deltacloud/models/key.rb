@@ -28,11 +28,11 @@ class Key < BaseModel
   end
 
   def is_password?
-    true if @credential_type.eql?(:password)
+    @credential_type.eql?(:password)
   end
 
   def is_key?
-    true if @credential_type.eql?(:key)
+    @credential_type.eql?(:key)
   end
 
   # Mock fingerprint generator

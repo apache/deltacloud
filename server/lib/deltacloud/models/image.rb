@@ -24,16 +24,4 @@ class Image < BaseModel
   attr_accessor :state
   attr_accessor :hardware_profiles
 
-  alias :to_hash_original :to_hash
-
-  def to_hash
-    h = self.to_hash_original
-    h.merge({
-      :actions => [ :create_instance => {
-        :method => 'post',
-        :href => "#{settings.root_url}/instances;image_id=#{self.id}"
-      }]
-    })
-  end
-
 end
