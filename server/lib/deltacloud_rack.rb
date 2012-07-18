@@ -42,7 +42,7 @@ module Deltacloud
 
   def self.require_frontend!(frontend=:deltacloud)
     frontend = frontend.to_sym
-    require File.join(File.dirname(__FILE__), frontend.to_s, 'server.rb')
+    load File.join(File.dirname(__FILE__), frontend.to_s, 'server.rb')
     Deltacloud[frontend].klass eval('::'+Deltacloud[frontend].klass)
   end
 
