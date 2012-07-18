@@ -25,6 +25,10 @@ module Deltacloud::Helpers
       Thread.current[:driver] ||= ENV['API_DRIVER']
     end
 
+    def provider_name
+      Thread.current[:provider] || ENV['API_PROVIDER']
+    end
+
     def driver_class_name
       driver_name.camelize
     end

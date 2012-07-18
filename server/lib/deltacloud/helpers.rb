@@ -66,6 +66,10 @@ module Deltacloud::Collections
 
     after do
       headers 'Server' => 'Apache-Deltacloud/' + settings.version
+      headers 'X-Deltacloud-Driver' => driver_name
+      if provider_name
+        headers 'X-Deltacloud-Provider' => provider_name
+      end
     end
 
     def self.new_route_for(route, &block)
