@@ -20,87 +20,10 @@
 require 'rake'
 require 'rake/testtask'
 require 'rubygems/package_task'
-require 'rspec/core/rake_task'
-
-begin
-  require 'ci/reporter/rake/test_unit'
-rescue LoadError
-end
+load File.join(File.dirname(__FILE__), 'config.ru')
 
 $top_srcdir = File.dirname(__FILE__)
 $:.unshift File.join($top_srcdir, 'lib')
-
-begin
-  require 'cucumber'
-  require 'cucumber/rake/task'
-  namespace :cucumber do
-    %w(mock ec2 sbc).each do |driver|
-      namespace driver do
-        Cucumber::Rake::Task.new(:test) do |t|
-          t.cucumber_opts = "../tests/#{driver} --format pretty"
-          t.rcov = false
-        end
-        Cucumber::Rake::Task.new(:features) do |t|
-          t.cucumber_opts = "../tests/#{driver} --format html --out ../tests/tmp/cucumber_#{driver}.html"
-          t.rcov = false
-        end
-        Cucumber::Rake::Task.new(:junit) do |t|
-          t.cucumber_opts = "../tests/#{driver} --format junit --out #{File.join(File.dirname(__FILE__), "tmp", "junit_#{driver}")}"
-        end
-      end
-    end
-  end
-  Cucumber::Rake::Task.new(:cimi) do |t|
-    t.cucumber_opts = "tests/cimi/features --format pretty"
-    t.rcov = false
-  end
-  namespace :cimi do
-    Cucumber::Rake::Task.new(:machines) do |t|
-      t.cucumber_opts = "tests/cimi/features/machines.feature --format pretty"
-      t.rcov = false
-    end
-    Cucumber::Rake::Task.new(:machine_images) do |t|
-      t.cucumber_opts = "tests/cimi/features/machine_images.feature --format pretty"
-      t.rcov = false
-    end
-    Cucumber::Rake::Task.new(:volumes) do |t|
-      t.cucumber_opts = "tests/cimi/features/volumes.feature --format pretty"
-      t.rcov = false
-   end
-  end
-rescue LoadError
-end
-
-
-desc "Call our Test::Unit suite"
-task :test do
-  %w(mock rackspace rhevm openstack google fgcp).each do |driver|
-   Rake::Task["test:#{driver}"].reenable
-   Rake::Task["test:#{driver}"].invoke
-  end
-end
-
-desc "Call our Cucumber suite"
-task :cucumber do
-  %w(mock ec2 sbc).each do |driver|
-   Rake::Task["cucumber:#{driver}:test"].reenable
-   Rake::Task["cucumber:#{driver}:test"].invoke
-  end
-end
-
-RSpec::Core::RakeTask.new do |t|
-  t.pattern = FileList['spec/**/*_spec.rb']
-  t.rspec_opts = [ "--format", "nested", "--color", "-r ./spec/spec_helper.rb"]
-end
-
-Dir['spec/**/*_spec.rb'].each do |file|
-  RSpec::Core::RakeTask.new("spec:#{File.basename(file).gsub(/_spec\.rb$/, '')}") do |t|
-    t.pattern = FileList[file]
-    t.rspec_opts = [ "--format", "nested", "--color", "-r ./spec/spec_helper.rb"]
-  end
-end
-
-
 
 begin
   require 'yard'
@@ -115,25 +38,6 @@ spec = Gem::Specification.load('deltacloud-core.gemspec')
 Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
-
-namespace :routes do
-  desc "List all REST routes for the Deltacloud API"
-  task :api do
-    require 'deltacloud/server.rb'
-    Sinatra::Rabbit::routes.each do |m, path|
-      puts sprintf("\033[1;30m%-8s\033[0m %s", m.to_s.upcase, path)
-    end
-  end
-
-  desc "List all REST routes for the CIMI API"
-  task :cimi do
-    require 'cimi/server.rb'
-    Sinatra::Rabbit::routes.each do |m, path|
-      puts sprintf("\033[1;30m%-8s\033[0m %s", m.to_s.upcase, path)
-    end
-  end
-end
-
 
 namespace :mock do
   namespace :fixtures do
@@ -174,64 +78,36 @@ namespace :mock do
   end
 end
 
-namespace :openshift do
-
-  desc "Deploy Deltacloud API to OpenShift"
-  task :deploy do
-    print "RHN or OpenShift login with OpenShift Express access: "
-    STDOUT.flush
-    login = STDIN.gets.chomp
-    print "Password: "
-    system "stty -echo"
-    password = STDIN.gets.chomp
-    system "stty echo"
-    puts `rhc-create-app --rhlogin #{login} --app deltacloudtest --password '#{password}' --type ruby-1.8`
-  end
-end
-
-namespace :rabbit do
-  load File.join(File.dirname(__FILE__), 'config.ru')
-
-  desc "List the routes defined by Rabbit"
-  task :routes do
-    Deltacloud.collections.each do |c|
-      puts "\033[1;32;m#{c.name}\33[0m"
-      c.operations.each do |o|
-        puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
-          o.http_method.to_s.upcase,
-          o.operation_name,
-          o.full_path,
-          o.description[0..100]
-        ]
-      end
-      unless c.collections.empty?
-        puts
-        c.collections.each do |s|
-          puts "\033[1;32;m#{s.name}\33[0m"
-          s.operations.each do |o|
-            puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
-              o.http_method.to_s.upcase,
-              o.operation_name,
-              o.full_path,
-              o.description[0..100]
-            ]
-          end
+desc "List the routes defined by Rabbit"
+task :routes do
+  Deltacloud.collections.each do |c|
+    puts "\033[1;32;m#{c.name}\33[0m"
+    c.operations.each do |o|
+      puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
+        o.http_method.to_s.upcase,
+        o.operation_name,
+        o.full_path,
+        o.description[0..100]
+      ]
+    end
+    unless c.collections.empty?
+      puts
+      c.collections.each do |s|
+        puts "\033[1;32;m#{s.name}\33[0m"
+        s.operations.each do |o|
+          puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
+            o.http_method.to_s.upcase,
+            o.operation_name,
+            o.full_path,
+            o.description[0..100]
+          ]
         end
       end
-      puts
     end
+    puts
   end
-
 end
 
-namespace :test do
-
-  %w(mock rackspace rhevm openstack google fgcp ec2).each do |driver|
-    desc "Run #{driver} unit tests"
-    Rake::TestTask.new(driver) { |t|
-      t.test_files = FileList.new("tests/drivers/#{driver}/*_test.rb")
-      t.verbose = true
-      t.warning = false
-    }
-  end
+Rake::TestTask.new do |t|
+  t.test_files = FileList['tests/helpers/**/*test.rb', 'tests/drivers/base/*test.rb', 'tests/drivers/models/*test.rb']
 end
