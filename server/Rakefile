@@ -109,5 +109,10 @@ task :routes do
 end
 
 Rake::TestTask.new do |t|
-  t.test_files = FileList['tests/helpers/**/*test.rb', 'tests/drivers/base/*test.rb', 'tests/drivers/models/*test.rb']
+  t.test_files = FileList[
+    'tests/helpers/**/*test.rb',      # Deltacloud extensions (core_ext) and other helpers
+    'tests/drivers/base/*test.rb',    # Deltacloud drivers API tests
+    'tests/drivers/models/*test.rb',  # Deltacloud models tests
+    'tests/deltacloud/*test.rb'       # Deltacloud internal API tests
+  ]
 end
