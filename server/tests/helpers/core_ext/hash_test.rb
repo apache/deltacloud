@@ -10,12 +10,31 @@ class TestHash < MiniTest::Unit::TestCase
     h = {
       :'test-key-1' => '1',
       :'test-key-2' => '2',
-      :'test-key-3' => '3',
+      'test-key-3' => '3',
+      :random => '10'
     }
-    h.gsub_keys(/test-key/, 'test')
-    assert_equal h['test-1'], '1'
-    assert_equal h['test-2'], '2'
-    assert_equal h['test-3'], '3'
+
+    h.gsub_keys(/test/, 'new')
+
+    assert_equal '1', h['new-key-1']
+    assert_equal '2', h['new-key-2']
+    assert_equal '3', h['new-key-3']
+    assert_equal '10', h[:random]
+  end
+
+  def test_symbolize_keys
+    assert_equal true, {}.respond_to?(:"symbolize_keys")
+    h = {
+      'test1' => 1,
+      :test3 => 3
+    }
+
+    h.symbolize_keys
+
+    assert_equal 1, h[:test1]
+    assert_equal nil, h['test1']
+    assert_equal 3, h[:test3]
+
   end
 
 end

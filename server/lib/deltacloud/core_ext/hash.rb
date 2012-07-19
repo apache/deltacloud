@@ -16,15 +16,17 @@
 class Hash
   def gsub_keys(rgx_pattern, replacement)
     remove = []
-    self.each_key do |key|
+    new_hash = {}
+    each_key do |key|
       if key.to_s.match(rgx_pattern)
          new_key = key.to_s.gsub(rgx_pattern, replacement).downcase
-         self[new_key] = self[key]
-         remove << key
+         new_hash[new_key] = self[key]
+      else
+        new_hash[key] = self[key]
       end
     end
-    #remove the original keys
-    self.delete_if{|k,v| remove.include?(k)}
+    clear
+    merge!(new_hash)
   end
 
   # Method copied from https://github.com/rails/rails/blob/77efc20a54708ba37ba679ffe90021bf8a8d3a8a/activesupport/lib/active_support/core_ext/hash/keys.rb#L23
