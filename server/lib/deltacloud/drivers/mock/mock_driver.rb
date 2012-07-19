@@ -402,12 +402,22 @@ module Deltacloud::Drivers::Mock
         :id => blob_id,
         :name => blob_id,
         :bucket => bucket_id,
-        :content_length => blob_data[:tempfile].length,
-        :content_type => blob_data[:type],
         :last_modified => Time.now,
         :user_metadata => BlobHelper::rename_metadata_headers(blob_meta, ''),
-        :content => blob_data[:tempfile].read
       }
+      if blob_data.kind_of? Hash
+        blob.merge!({
+          :content_length => blob_data[:tempfile].length,
+          :content_type => blob_data[:type],
+          :content => blob_data[:tempfile].read
+        })
+      elsif blob_data.kind_of? String
+        blob.merge!({
+          :content_length => blob_data.size,
+          :content_type => 'text/plain',
+          :content => blob_data
+        })
+      end
       @client.store(:blobs, blob)
       Blob.new(blob)
     end
