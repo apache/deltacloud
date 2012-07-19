@@ -11,7 +11,7 @@ class TestInteger < MiniTest::Unit::TestCase
     assert_equal '2nd', 2.ordinalize
     assert_equal '3rd', 3.ordinalize
     assert_equal '6th', 6.ordinalize
-    assert_equal '1100th', 1100.ordinalize
+    assert_equal '1211th', 1211.ordinalize
   end
 
 end
