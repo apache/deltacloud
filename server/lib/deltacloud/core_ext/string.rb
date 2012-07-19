@@ -40,6 +40,7 @@ class String
   end
 
   def singularize
+    return self.gsub(/ies$/, 'y') if self =~ /ies$/
     return self.gsub(/es$/, '') if self =~ /sses$/
     self.gsub(/s$/, '')
   end
