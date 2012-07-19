@@ -152,7 +152,7 @@ module Deltacloud::Helpers
     end
 
     def render_cdata(text)
-      "<![CDATA[#{text.strip}]]>"
+      "<![CDATA[#{text.strip}]]>" unless text.nil?
     end
 
     def link_to_action(action, url, method)

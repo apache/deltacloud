@@ -9,6 +9,5 @@
   %user_metadata
     - if @blob.user_metadata.respond_to? :each
       - @blob.user_metadata.each do |k, v|
-        %entry{:key => k}
-          #{cdata v}
+        %entry{:key => k}=render_cdata(v)
   %content{:href => bucket_url(@blob.bucket) + '/' + @blob.id + '/content', :rel => 'blob_content'}

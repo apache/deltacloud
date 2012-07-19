@@ -42,6 +42,7 @@ describe Deltacloud::Helpers::Application do
     @helper.render_cdata('test').must_equal '<![CDATA[test]]>'
     @helper.render_cdata('').must_equal '<![CDATA[]]>'
     @helper.render_cdata('test   ').must_equal '<![CDATA[test]]>'
+    @helper.render_cdata(nil).must_be_nil
   end
 
   it 'provide helper to access driver entrypoints' do
