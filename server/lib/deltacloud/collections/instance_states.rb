@@ -13,7 +13,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'open3'
+
 module Deltacloud::Collections
+
   class InstanceStates < Base
 
     set :capability, lambda { |m| !driver.send(m).nil? }
@@ -42,7 +45,7 @@ module Deltacloud::Collections
               gv = erb(:"instance_states/show")
               png =  ''
               cmd = 'dot -Kdot -Gpad="0.2,0.2" -Gsize="5.0,8.0" -Gdpi="180" -Tpng'
-              Open3.popen3( cmd ) do |stdin, stdout, stderr|
+              ::Open3.popen3( cmd ) do |stdin, stdout, stderr|
                 stdin.write( gv )
                 stdin.close()
                 png = stdout.read
