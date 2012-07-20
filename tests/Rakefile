@@ -19,28 +19,16 @@
 # Add your own tasks in files placed in lib/tasks ending in .rake,
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-require 'rake'
-require 'cucumber'
-require 'cucumber/rake/task'
+require 'rake/testtask'
+require 'deltacloud/test_setup.rb'
 
-DRIVER=ENV['API_DRIVER'] || 'mock'
+namespace :test do
 
-Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "../tests/#{DRIVER} --format html --out ../tests/tmp/cucumber_#{DRIVER}.html"
-  t.rcov = false
+    file_list = Rake::FileList.new(deltacloud_test_file_names)
+    Rake::TestTask.new(:deltacloud) do |t|
+      t.test_files = file_list << "deltacloud/base_api_test.rb"
+      t.options = "-v"
+    end
+
 end
 
-Cucumber::Rake::Task.new(:cucumber) do |t|
-  t.cucumber_opts = "../tests/#{DRIVER} --format pretty"
-  t.rcov = false
-end
-
-Cucumber::Rake::Task.new(:rcov) do |t|
-  t.cucumber_opts = "../tests/#{DRIVER} --format pretty"
-  t.rcov = true
-  t.rcov_opts << %[-o "../tests/tmp/coverage_#{DRIVER}"]
-end
-
-Cucumber::Rake::Task.new(:junit) do |t|
-  t.cucumber_opts = "../tests/#{DRIVER} --format junit --out #{File.join(File.dirname(__FILE__), "tmp", "junit_#{DRIVER}")}"
-end
