@@ -118,6 +118,7 @@ Rake::TestTask.new do |t|
     'tests/drivers/base/*test.rb',            # Deltacloud drivers API tests
     'tests/drivers/models/*test.rb',          # Deltacloud models tests
     'tests/deltacloud/*test.rb',              # Deltacloud internal API tests
-    'tests/deltacloud/collections/*test.rb'   # Deltacloud collections
+    'tests/deltacloud/collections/*test.rb',  # Deltacloud collections
+    'tests/drivers/*/*test.rb'                # Deltacloud driver specific unit tests
   ]
 end
