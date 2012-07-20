@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 
-load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
-load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud', 'models', 'instance_profile.rb')
+require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
+require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'instance_profile.rb')
 
 describe InstanceProfile do
 

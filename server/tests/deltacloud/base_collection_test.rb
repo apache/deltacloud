@@ -1,6 +1,5 @@
 require 'minitest/autorun'
-
-load File.join(File.dirname(__FILE__), 'common.rb')
+require_relative 'common.rb'
 
 describe Deltacloud::Collections::Base do
 

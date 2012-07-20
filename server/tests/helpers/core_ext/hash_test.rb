@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 
-load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud', 'core_ext.rb')
+require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'core_ext.rb')
 
 class TestHash < MiniTest::Unit::TestCase
 

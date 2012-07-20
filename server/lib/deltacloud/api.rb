@@ -16,7 +16,15 @@
 require 'rubygems'
 require 'ostruct'
 
-load File.join(File.dirname(__FILE__), 'core_ext.rb')
+unless Kernel.respond_to?(:require_relative)
+  module Kernel
+    def require_relative(path)
+      require File.join(File.dirname(caller[0]), path.to_str)
+    end
+  end
+end
+
+require_relative 'core_ext'
 require_relative 'models'
 require_relative 'drivers'
 require_relative 'helpers/driver_helper'

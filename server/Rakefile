@@ -20,7 +20,6 @@
 require 'rake'
 require 'rake/testtask'
 require 'rubygems/package_task'
-load File.join(File.dirname(__FILE__), 'config.ru')
 
 $top_srcdir = File.dirname(__FILE__)
 $:.unshift File.join($top_srcdir, 'lib')
@@ -80,6 +79,7 @@ end
 
 desc "List the routes defined by Rabbit"
 task :routes do
+  load File.join(File.dirname(__FILE__), 'config.ru')
   Deltacloud.collections.each do |c|
     puts "\033[1;32;m#{c.name}\33[0m"
     c.operations.each do |o|

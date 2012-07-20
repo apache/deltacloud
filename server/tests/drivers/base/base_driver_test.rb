@@ -1,6 +1,5 @@
 require 'minitest/autorun'
-
-load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud', 'drivers', 'base_driver.rb')
+require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'drivers', 'base_driver.rb')
 
 describe Deltacloud::BaseDriver do
 

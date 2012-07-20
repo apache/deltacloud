@@ -3,7 +3,7 @@ require 'rack/test'
 require 'nokogiri'
 require 'pp'
 
-load File.join(File.dirname(__FILE__), '..', '..', 'lib', 'deltacloud_rack.rb')
+require_relative File.join('..', '..', 'lib', 'deltacloud_rack.rb')
 
 include Rack::Test::Methods
 

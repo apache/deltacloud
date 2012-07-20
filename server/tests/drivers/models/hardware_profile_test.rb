@@ -2,8 +2,8 @@ require 'minitest/autorun'
 require 'sinatra/base'
 require 'sinatra/rabbit'
 
-load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
-load File.join(File.dirname(__FILE__), '..', '..', '..', 'lib', 'deltacloud', 'models', 'hardware_profile.rb')
+require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
+require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'hardware_profile.rb')
 
 describe Deltacloud::HardwareProfile do
 
