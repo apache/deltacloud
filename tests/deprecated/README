@@ -1,0 +1,6 @@
+The tests under this directory are no longer being used.
+
+In July 2012 it was decided to move to using MiniTest as
+the test suite for all our spec/unit tests.
+
+The cucumber features/step_definitions are kept here for reference.
