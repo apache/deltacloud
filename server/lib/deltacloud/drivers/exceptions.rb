@@ -37,6 +37,13 @@ module Deltacloud
       end
     end
 
+    class ForbiddenError < DeltacloudException
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(403, e.class.name, message, e.backtrace)
+      end
+    end
+
     class UnknownMediaTypeError < DeltacloudException
       def initialize(e, message=nil)
         message ||= e.message
@@ -136,6 +143,7 @@ module Deltacloud
         return @handler if @handler
         case @status
           when 401 then Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, @message)
+          when 403 then Deltacloud::ExceptionHandler::ForbiddenError.new(e, @message)
           when 404 then Deltacloud::ExceptionHandler::ObjectNotFound.new(e, @message)
           when 406 then Deltacloud::ExceptionHandler::UnknownMediaTypeError.new(e, @message)
           when 405 then Deltacloud::ExceptionHandler::MethodNotAllowed.new(e, @message)
@@ -176,7 +184,7 @@ module Deltacloud
         Deltacloud::ExceptionHandler::exceptions.each do |exdef|
           if exdef.match?($!)
             new_exception = exdef.handler($!)
-            m = new_exception.message.nil? ? $!.message : new_exception.message
+            m = (new_exception && !new_exception.message.nil?) ? new_exception.message : $!.message
             unless ENV['RACK_ENV'] == 'test'
               $stderr.send(report_method, "#{[$!.class.to_s, m].join(':')}\n#{$!.backtrace[0..10].join("\n")}")
             end
