@@ -28,10 +28,10 @@ features_hash = discover_features
 
 describe 'Deltacloud API buckets collection' do
 
-MiniTest::Unit.after_tests{
-  #finally delete the bucket/blob we created for the tests:
-  delete_bucket_and_blob(bucket, blob)
-}
+  MiniTest::Unit.after_tests{
+    #finally delete the bucket/blob we created for the tests:
+    delete_bucket_and_blob(bucket, blob)
+  }
 
   it 'must advertise the buckets collection in API entrypoint' do
     res = xml_response(get)
@@ -68,7 +68,7 @@ MiniTest::Unit.after_tests{
   it 'should be possible to specify location for POST /api/buckets if bucket_location feature' do
     skip("No bucket_location feature specified for driver #{API_DRIVER} running at #{API_URL}... skipping test") unless features_hash["buckets"].include?("bucket_location")
     bucket_name = random_name
-#    res = post({:name=>bucket_name, :bucket_location=>
+    #    res = post({:name=>bucket_name, :bucket_location=>
   end
 
 

@@ -19,10 +19,10 @@ require 'deltacloud/test_setup.rb'
 
 namespace :test do
 
-    file_list = Rake::FileList.new(deltacloud_test_file_names)
-    Rake::TestTask.new(:deltacloud) do |t|
-      t.test_files = file_list << "deltacloud/base_api_test.rb"
-      t.options = "-v"
-    end
+  file_list = Rake::FileList.new(deltacloud_test_file_names)
+  Rake::TestTask.new(:deltacloud) do |t|
+    t.test_files = file_list << "deltacloud/base_api_test.rb"
+    t.options = "-v"
+  end
 
 end

@@ -79,18 +79,18 @@ end
 #the TEST_FILES hash and deltacloud_test_file_names method
 #which follows is used in the Rakefile for the rake test:deltacloud task
 TEST_FILES =  { :images             => "images_test.rb",
-                :realms             => "realms_test.rb",
-                :hardware_profiles  => "hardware_profiles_test.rb",
-                :instance_states    => "instance_states_test.rb",
-                :instances          => "instances_test.rb",
-                :keys               => "keys_test.rb",
-                :firewalls          => "firewalls_test.rb",
-                :addresses          => "addresses_test.rb",
-                :load_balancers     => "load_balancers_test.rb",
-                :storage_volumes    => "storage_volumes_test.rb",
-                :storage_snapshots  => "storage_snapshots_test.rb",
-                :buckets            => "buckets_test.rb"
-              }
+  :realms             => "realms_test.rb",
+  :hardware_profiles  => "hardware_profiles_test.rb",
+  :instance_states    => "instance_states_test.rb",
+  :instances          => "instances_test.rb",
+  :keys               => "keys_test.rb",
+  :firewalls          => "firewalls_test.rb",
+  :addresses          => "addresses_test.rb",
+  :load_balancers     => "load_balancers_test.rb",
+  :storage_volumes    => "storage_volumes_test.rb",
+  :storage_snapshots  => "storage_snapshots_test.rb",
+  :buckets            => "buckets_test.rb"
+}
 #gets the list of collections from the server running at API_URL and translates those into file names accoring to TEST_FILES
 def deltacloud_test_file_names
   driver_collections = xml_response(RestClient.get API_URL, {:accept=>:xml}).xpath("//api/link").inject([]){|res, current| res<<current[:rel].to_sym ;res}
@@ -102,7 +102,7 @@ def create_a_bucket_and_blob
   bucket_name = random_name
   blob_name = random_name
   #create bucket:
-#  res = RestClient.post "#{API_URL}/buckets", {:name=>bucket_name}, {:Authorization=>BASIC_AUTH}
+  #  res = RestClient.post "#{API_URL}/buckets", {:name=>bucket_name}, {:Authorization=>BASIC_AUTH}
   res = post({:name=>bucket_name}, "/buckets", {}, true)
   raise Exception.new("unable to create bucket with name #{bucket_name} for bucket_test.rb") unless res.code == 201
   #create blob:
@@ -117,10 +117,10 @@ def random_name
 end
 
 def delete_bucket_and_blob(bucket, blob)
-#  res = RestClient.delete "#{API_URL}/buckets/#{bucket}/#{blob}", {:Authorization=>BASIC_AUTH}
+  #  res = RestClient.delete "#{API_URL}/buckets/#{bucket}/#{blob}", {:Authorization=>BASIC_AUTH}
   res = delete({}, "/buckets/#{bucket}/#{blob}")
   raise Exception.new("unable to delete blob with name #{blob} for bucket_test.rb") unless res.code == 204
-#  res = RestClient.delete "#{API_URL}/buckets/#{bucket}", {:Authorization=>BASIC_AUTH}
+  #  res = RestClient.delete "#{API_URL}/buckets/#{bucket}", {:Authorization=>BASIC_AUTH}
   res = delete({}, "/buckets/#{bucket}")
   raise Exception.new("unable to delete bucket with name #{bucket} for bucket_test.rb") unless res.code == 204
 end
