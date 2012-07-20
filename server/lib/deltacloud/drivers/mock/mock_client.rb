@@ -19,6 +19,8 @@
 
 module Deltacloud::Drivers::Mock
 
+  require 'fileutils'
+
   class Client
     def initialize(storage_root)
       @storage_root = storage_root

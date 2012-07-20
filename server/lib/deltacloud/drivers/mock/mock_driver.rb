@@ -91,7 +91,7 @@ module Deltacloud::Drivers::Mock
       @client = Client.new(storage_root)
     end
 
-    def realms(credentials, opts=nil)
+    def realms(credentials, opts={})
       check_credentials( credentials )
       results = []
       safely do
@@ -101,7 +101,6 @@ module Deltacloud::Drivers::Mock
         raise "NotImplementedTest" if opts and opts[:id] == "501"
         raise "ProviderErrorTest" if opts and opts[:id] == "502"
         raise "ProviderTimeoutTest" if opts and opts[:id] == "504"
-        return REALMS if ( opts.nil? )
         results = REALMS
       end
       results = filter_on( results, :id, opts )
@@ -189,6 +188,7 @@ module Deltacloud::Drivers::Mock
       end
 
       hwp = find_hardware_profile(credentials, opts[:hwp_id], image_id)
+      hwp ||= find_hardware_profile(credentials, 'm1-small', image_id)
 
       name = opts[:name] || "i-#{Time.now.to_i}"
 
