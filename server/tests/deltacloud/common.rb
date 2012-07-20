@@ -1,7 +1,6 @@
 require 'logger'
 require 'rack/test'
 require 'nokogiri'
-require 'pp'
 
 require_relative File.join('..', '..', 'lib', 'deltacloud_rack.rb')
 

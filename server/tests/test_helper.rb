@@ -1,3 +1,7 @@
+require 'pp'
+
+ENV['RACK_ENV'] = 'test'
+
 %x[rake mock:fixtures:reset]
 
 if ENV['COVERAGE']
