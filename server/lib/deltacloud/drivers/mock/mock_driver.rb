@@ -258,9 +258,8 @@ module Deltacloud::Drivers::Mock
       volumes
     end
 
-    def create_storage_volume(credentials, opts=nil)
+    def create_storage_volume(credentials, opts={})
       check_credentials(credentials)
-      opts ||= {}
       opts[:capacity] ||= "1"
       id = "Volume#{Time.now.to_i}"
       volume = {
@@ -274,13 +273,13 @@ module Deltacloud::Drivers::Mock
       StorageVolume.new(volume)
     end
 
-    def destroy_storage_volume(credentials, opts=nil)
+    def destroy_storage_volume(credentials, opts={})
       check_credentials(credentials)
       @client.destroy(:storage_volumes, opts[:id])
     end
 
     #opts: {:id=,:instance_id,:device}
-    def attach_storage_volume(credentials, opts)
+    def attach_storage_volume(credentials, opts={})
       check_credentials(credentials)
       attach_volume_instance(opts[:id], opts[:device], opts[:instance_id])
     end
@@ -320,9 +319,10 @@ module Deltacloud::Drivers::Mock
         :fingerprint => Key::generate_mock_fingerprint,
         :pem_rsa_key => Key::generate_mock_pem
       }
-
-      raise "KeyExist" if @client.load(:keys, key_hash[:id])
-      @client.store(:keys, key_hash)
+      safely do
+        raise "KeyExist" if @client.load(:keys, key_hash[:id])
+        @client.store(:keys, key_hash)
+      end
       return Key.new(key_hash)
     end
 
