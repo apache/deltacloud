@@ -177,7 +177,9 @@ module Deltacloud
           if exdef.match?($!)
             new_exception = exdef.handler($!)
             m = new_exception.message.nil? ? $!.message : new_exception.message
-            $stderr.send(report_method, "#{[$!.class.to_s, m].join(':')}\n#{$!.backtrace[0..10].join("\n")}")
+            unless ENV['RACK_ENV'] == 'test'
+              $stderr.send(report_method, "#{[$!.class.to_s, m].join(':')}\n#{$!.backtrace[0..10].join("\n")}")
+            end
             raise exdef.handler($!) unless new_exception.nil?
           end
         end
