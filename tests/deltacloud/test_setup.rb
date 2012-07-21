@@ -48,11 +48,45 @@ def json_response(json)
   JSON.parse(json)
 end
 
-def get(params={}, path="", authenticate = false)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
+# Make a GET request for +path+ and return the +RestClient::Response+. The
+# query string for the request is generated from +params+, with the
+# exception of a few special entries in params, which are used to set some
+# headers, and will not appear in the query string:
+#
+#   :noauth          : do not send an auth header
+#   :user, :password : use these for the auth header
+#   :accept          : can be :xml or :json, and sets the Accept header
+#   :driver, :provider : set driver and/or provider with the appropriate header
+#
+# If none of the auth relevant params are set, use the username and
+# password for the current driver from the config
+def get(path, params={})
+  path = "" if path == "/"
+  headers = {}
+  unless params.delete(:noauth)
+    if params[:user]
+      u = params.delete(:user)
+      p = params.delete(:password)
+      headers['Authorization'] = "Basic #{Base64.encode64("#{u}:#{p}")}"
+    else
+      headers['Authorization'] = BASIC_AUTH
+    end
   end
-  RestClient.get API_URL+path, params
+  headers["X-Deltacloud-Driver"] = params.delete(:driver) if params[:driver]
+  headers["X-Deltacloud-Provider"] = params.delete(:provider) if params[:providver]
+  headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
+
+  if path =~ /^https?:/
+    url = path
+  else
+    url = API_URL + path
+  end
+  url += "?" + params.map { |k,v| "#{k}=#{v}" }.join("&") unless params.empty?
+  if ENV["LOG"] && ENV["LOG"].include?("requests")
+    puts "GET #{url}"
+    headers.each { |k, v| puts "#{k}: #{v}" }
+  end
+  RestClient.get url, headers
 end
 
 def post(post_body = "", path= "", params={}, authenticate = false)
@@ -126,7 +160,7 @@ def delete_bucket_and_blob(bucket, blob)
 end
 
 def discover_features
-  res = xml_response(get)
+  res = xml_response(get("/"))
   features_hash = res.xpath("//api/link").inject({}) do |result, collection|
     result.merge!({collection[:rel] => []})
     collection.children.inject([]){|features, current_child| result[collection[:rel]] << current_child[:name] if current_child.name == "feature"}

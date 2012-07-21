@@ -34,16 +34,16 @@ describe 'Deltacloud API buckets collection' do
   }
 
   it 'must advertise the buckets collection in API entrypoint' do
-    res = xml_response(get)
+    res = xml_response(get("/"))
     (res/'api/link[@rel=buckets]').wont_be_empty
   end
 
   it 'must require authentication to access the "bucket" collection' do
-    proc {  get({},BUCKETS) }.must_raise RestClient::Request::Unauthorized
+    proc {  get(BUCKETS, :noauth => true) }.must_raise RestClient::Request::Unauthorized
   end
 
   it 'should respond with HTTP_OK when accessing the :buckets collection with authentication' do
-    res = get({}, BUCKETS, true)
+    res = get(BUCKETS)
     res.code.must_equal 200
   end
 
@@ -58,7 +58,7 @@ describe 'Deltacloud API buckets collection' do
     xml_res.xpath("//bucket").size.must_equal 1
     xml_res.xpath("//bucket")[0][:id].must_equal bucket_name
     #GET bucket
-    res = get({}, BUCKETS+"/"+bucket_name, true)
+    res = get(BUCKETS+"/"+bucket_name)
     res.code.must_equal 200
     #DELETE bucket
     res = delete({}, BUCKETS+"/"+bucket_name)
@@ -73,57 +73,57 @@ describe 'Deltacloud API buckets collection' do
 
 
   it 'should support the JSON media type' do
-    res = get({:accept=>:json}, BUCKETS, true)
+    res = get(BUCKETS, :accept=>:json)
     res.code.must_equal 200
     res.headers[:content_type].must_equal 'application/json'
     assert_silent {JSON.parse(res)}
   end
 
   it 'must include the ETag in HTTP headers' do
-    res = get({}, BUCKETS, true)
+    res = get(BUCKETS)
     res.headers[:etag].wont_be_nil
   end
 
   it 'must have the "buckets" element on top level' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
     xml_res.root.name.must_equal 'buckets'
   end
 
   it 'must have some "bucket" elements inside "buckets"' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
     (xml_res/'buckets/bucket').wont_be_empty
   end
 
   it 'must provide the :id attribute for each bucket in collection' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
     (xml_res/'buckets/bucket').each do |r|
       r[:id].wont_be_nil
     end
   end
 
   it 'must include the :href attribute for each "bucket" element in collection' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
     (xml_res/'buckets/bucket').each do |r|
       r[:href].wont_be_nil
     end
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
     (xml_res/'buckets/bucket').each do |r|
       r[:href].must_match /^http/
     end
   end
 
   it 'must have the URL ending with the :id of the bucket' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
     (xml_res/'buckets/bucket').each do |r|
       r[:href].must_match /#{r[:id]}$/
     end
   end
 
   it 'must have the "name" element defined for each bucket in collection' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept => :xml))
     (xml_res/'buckets/bucket').each do |r|
       (r/'name').wont_be_nil
       (r/'name').wont_be_empty
@@ -131,7 +131,7 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'must have the "size" element defined for each bucket in collection' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept => :xml))
     (xml_res/'buckets/bucket').each do |r|
       (r/'size').wont_be_nil
       (r/'size').wont_be_empty
@@ -139,26 +139,26 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'must return 200 OK when following the URL in bucket element' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept => :xml))
     (xml_res/'buckets/bucket').each do |r|
-      bucket_res = RestClient.get(r[:href], {:Authorization=>BASIC_AUTH})
+      bucket_res = get r[:href]
       bucket_res.code.must_equal 200
     end
   end
 
   it 'must have the "name" element for the bucket and it should match with the one in collection' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept => :xml))
     (xml_res/'buckets/bucket').each do |r|
-      bucket_xml = xml_response(get({:accept=>:xml}, BUCKETS+"/#{r[:id]}", true))
+      bucket_xml = xml_response(get(BUCKETS+"/#{r[:id]}", :accept=>:xml))
       (bucket_xml/'name').wont_be_empty
       (bucket_xml/'name').first.text.must_equal((r/'name').first.text)
     end
   end
 
   it 'all "blob" elements for the bucket should match the ones in collection' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept => :xml))
     (xml_res/'buckets/bucket').each do |r|
-      bucket_xml = xml_response(get({:accept=>:xml}, BUCKETS+"/#{r[:id]}", true))
+      bucket_xml = xml_response(get(BUCKETS+"/#{r[:id]}", :accept=>:xml))
       (bucket_xml/'bucket/blob').each do |b|
         b[:id].wont_be_nil
         b[:href].wont_be_nil
@@ -169,11 +169,11 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'must allow to get all blobs details and the details should be set correctly' do
-    xml_res = xml_response(get({:accept=>:xml}, BUCKETS, true))
+    xml_res = xml_response(get(BUCKETS, :accept => :xml))
     (xml_res/'buckets/bucket').each do |r|
-      bucket_xml = xml_response(get({:accept=>:xml}, BUCKETS+"/#{r[:id]}", true))
+      bucket_xml = xml_response(get(BUCKETS+"/#{r[:id]}", :accept=>:xml))
       (bucket_xml/'bucket/blob').each do |b|
-        blob_xml = xml_response(get({:accept=>:xml}, BUCKETS+"/#{r[:id]}/#{b[:id]}", true))
+        blob_xml = xml_response(get(BUCKETS+"/#{r[:id]}/#{b[:id]}", :accept=>:xml))
         blob_xml.root.name.must_equal 'blob'
         blob_xml.root[:id].must_equal b[:id]
         (blob_xml/'bucket').wont_be_empty
