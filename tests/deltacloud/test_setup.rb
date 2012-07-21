@@ -40,12 +40,14 @@ end
 API_VERSION = Nokogiri::XML(RestClient.get API_URL).root[:version]
 #SETUP
 
-def xml_response(xml)
-  Nokogiri::XML(xml)
-end
+module RestClient::Response
+  def xml
+    @xml ||= Nokogiri::XML(body)
+  end
 
-def json_response(json)
-  JSON.parse(json)
+  def json
+    @json ||= JSON.parse(body)
+  end
 end
 
 # Make a GET request for +path+ and return the +RestClient::Response+. The
@@ -127,7 +129,7 @@ TEST_FILES =  { :images             => "images_test.rb",
 }
 #gets the list of collections from the server running at API_URL and translates those into file names accoring to TEST_FILES
 def deltacloud_test_file_names
-  driver_collections = xml_response(RestClient.get API_URL, {:accept=>:xml}).xpath("//api/link").inject([]){|res, current| res<<current[:rel].to_sym ;res}
+  driver_collections = (RestClient.get API_URL, {:accept=>:xml}).xml.xpath("//api/link").inject([]){|res, current| res<<current[:rel].to_sym ;res}
   driver_collections.inject([]){|res, current| res << "deltacloud/#{TEST_FILES[current]}" if TEST_FILES[current] ;res}
 end
 
@@ -137,8 +139,8 @@ def random_name
 end
 
 def discover_features
-  res = xml_response(get("/"))
-  features_hash = res.xpath("//api/link").inject({}) do |result, collection|
+  res = get("/")
+  features_hash = res.xml.xpath("//api/link").inject({}) do |result, collection|
     result.merge!({collection[:rel] => []})
     collection.children.inject([]){|features, current_child| result[collection[:rel]] << current_child[:name] if current_child.name == "feature"}
     result

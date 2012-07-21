@@ -38,17 +38,18 @@ def create_a_bucket_and_blob
   unless res.code == 200
     raise Exception.new("Failed to create blob #{blob_name}")
   end
-  return [bucket_name, blob_name]
+  return [ bucket_name, blob_name ]
 end
 
 #make sure we have at least one bucket and blob to test
-bucket, blob = create_a_bucket_and_blob
+created_bucket_and_blob = create_a_bucket_and_blob
 
 features_hash = discover_features
 
 describe 'Deltacloud API buckets collection' do
 
   MiniTest::Unit.after_tests {
+    bucket, blob = created_bucket_and_blob
     # delete the bucket/blob we created for the tests
     res = delete("/buckets/#{bucket}/#{blob}")
     unless res.code == 204
@@ -61,7 +62,7 @@ describe 'Deltacloud API buckets collection' do
   }
 
   it 'must advertise the buckets collection in API entrypoint' do
-    res = xml_response(get("/"))
+    res = get("/").xml
     (res/'api/link[@rel=buckets]').wont_be_empty
   end
 
@@ -80,10 +81,9 @@ describe 'Deltacloud API buckets collection' do
     res = post(BUCKETS, :name=>bucket_name)
     #check response
     res.code.must_equal 201
-    xml_res = xml_response(res)
-    xml_res.xpath("//bucket/name").text.must_equal bucket_name
-    xml_res.xpath("//bucket").size.must_equal 1
-    xml_res.xpath("//bucket")[0][:id].must_equal bucket_name
+    res.xml.xpath("//bucket/name").text.must_equal bucket_name
+    res.xml.xpath("//bucket").size.must_equal 1
+    res.xml.xpath("//bucket")[0][:id].must_equal bucket_name
     #GET bucket
     res = get(BUCKETS+"/"+bucket_name)
     res.code.must_equal 200
@@ -112,81 +112,81 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'must have the "buckets" element on top level' do
-    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
-    xml_res.root.name.must_equal 'buckets'
+    res = get(BUCKETS, :accept=>:xml)
+    res.xml.root.name.must_equal 'buckets'
   end
 
   it 'must have some "bucket" elements inside "buckets"' do
-    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
-    (xml_res/'buckets/bucket').wont_be_empty
+    res = get(BUCKETS, :accept=>:xml)
+    (res.xml/'buckets/bucket').wont_be_empty
   end
 
   it 'must provide the :id attribute for each bucket in collection' do
-    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept=>:xml)
+    (res.xml/'buckets/bucket').each do |r|
       r[:id].wont_be_nil
     end
   end
 
   it 'must include the :href attribute for each "bucket" element in collection' do
-    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept=>:xml)
+    (res.xml/'buckets/bucket').each do |r|
       r[:href].wont_be_nil
     end
   end
 
   it 'must use the absolute URL in each :href attribute' do
-    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept=>:xml)
+    (res.xml/'buckets/bucket').each do |r|
       r[:href].must_match /^http/
     end
   end
 
   it 'must have the URL ending with the :id of the bucket' do
-    xml_res = xml_response(get(BUCKETS, :accept=>:xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept=>:xml)
+    (res.xml/'buckets/bucket').each do |r|
       r[:href].must_match /#{r[:id]}$/
     end
   end
 
   it 'must have the "name" element defined for each bucket in collection' do
-    xml_res = xml_response(get(BUCKETS, :accept => :xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept => :xml)
+    (res.xml/'buckets/bucket').each do |r|
       (r/'name').wont_be_nil
       (r/'name').wont_be_empty
     end
   end
 
   it 'must have the "size" element defined for each bucket in collection' do
-    xml_res = xml_response(get(BUCKETS, :accept => :xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept => :xml)
+    (res.xml/'buckets/bucket').each do |r|
       (r/'size').wont_be_nil
       (r/'size').wont_be_empty
     end
   end
 
   it 'must return 200 OK when following the URL in bucket element' do
-    xml_res = xml_response(get(BUCKETS, :accept => :xml))
-    (xml_res/'buckets/bucket').each do |r|
+    res = get(BUCKETS, :accept => :xml)
+    (res.xml/'buckets/bucket').each do |r|
       bucket_res = get r[:href]
       bucket_res.code.must_equal 200
     end
   end
 
   it 'must have the "name" element for the bucket and it should match with the one in collection' do
-    xml_res = xml_response(get(BUCKETS, :accept => :xml))
-    (xml_res/'buckets/bucket').each do |r|
-      bucket_xml = xml_response(get(BUCKETS+"/#{r[:id]}", :accept=>:xml))
-      (bucket_xml/'name').wont_be_empty
-      (bucket_xml/'name').first.text.must_equal((r/'name').first.text)
+    res = get(BUCKETS, :accept => :xml)
+    (res.xml/'buckets/bucket').each do |r|
+      bucket = get(BUCKETS+"/#{r[:id]}", :accept=>:xml)
+      (bucket.xml/'name').wont_be_empty
+      (bucket.xml/'name').first.text.must_equal((r/'name').first.text)
     end
   end
 
   it 'all "blob" elements for the bucket should match the ones in collection' do
-    xml_res = xml_response(get(BUCKETS, :accept => :xml))
-    (xml_res/'buckets/bucket').each do |r|
-      bucket_xml = xml_response(get(BUCKETS+"/#{r[:id]}", :accept=>:xml))
-      (bucket_xml/'bucket/blob').each do |b|
+    res = get(BUCKETS, :accept => :xml)
+    (res.xml/'buckets/bucket').each do |r|
+      bucket = get(BUCKETS+"/#{r[:id]}", :accept=>:xml)
+      (bucket.xml/'bucket/blob').each do |b|
         b[:id].wont_be_nil
         b[:href].wont_be_nil
         b[:href].must_match /^http/
@@ -196,33 +196,33 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'must allow to get all blobs details and the details should be set correctly' do
-    xml_res = xml_response(get(BUCKETS, :accept => :xml))
-    (xml_res/'buckets/bucket').each do |r|
-      bucket_xml = xml_response(get(BUCKETS+"/#{r[:id]}", :accept=>:xml))
-      (bucket_xml/'bucket/blob').each do |b|
-        blob_xml = xml_response(get(BUCKETS+"/#{r[:id]}/#{b[:id]}", :accept=>:xml))
-        blob_xml.root.name.must_equal 'blob'
-        blob_xml.root[:id].must_equal b[:id]
-        (blob_xml/'bucket').wont_be_empty
-        (blob_xml/'bucket').size.must_equal 1
-        (blob_xml/'bucket').first.text.wont_be_nil
-        (blob_xml/'bucket').first.text.must_equal r[:id]
-        (blob_xml/'content_length').wont_be_empty
-        (blob_xml/'content_length').size.must_equal 1
-        (blob_xml/'content_length').first.text.must_match /^(\d+)$/
-        (blob_xml/'content_type').wont_be_empty
-        (blob_xml/'content_type').size.must_equal 1
-        (blob_xml/'content_type').first.text.wont_be_nil
-        (blob_xml/'last_modified').wont_be_empty
-        (blob_xml/'last_modified').size.must_equal 1
-        (blob_xml/'last_modified').first.text.wont_be_empty
-        (blob_xml/'content').wont_be_empty
-        (blob_xml/'content').size.must_equal 1
-        (blob_xml/'content').first[:rel].wont_be_nil
-        (blob_xml/'content').first[:rel].must_equal 'blob_content'
-        (blob_xml/'content').first[:href].wont_be_nil
-        (blob_xml/'content').first[:href].must_match /^http/
-        (blob_xml/'content').first[:href].must_match /\/content$/
+    res = get(BUCKETS, :accept => :xml)
+    (res.xml/'buckets/bucket').each do |r|
+      bucket = get(BUCKETS+"/#{r[:id]}", :accept=>:xml)
+      (bucket.xml/'bucket/blob').each do |b|
+        blob = get(BUCKETS+"/#{r[:id]}/#{b[:id]}", :accept=>:xml)
+        blob.xml.root.name.must_equal 'blob'
+        blob.xml.root[:id].must_equal b[:id]
+        (blob.xml/'bucket').wont_be_empty
+        (blob.xml/'bucket').size.must_equal 1
+        (blob.xml/'bucket').first.text.wont_be_nil
+        (blob.xml/'bucket').first.text.must_equal r[:id]
+        (blob.xml/'content_length').wont_be_empty
+        (blob.xml/'content_length').size.must_equal 1
+        (blob.xml/'content_length').first.text.must_match /^(\d+)$/
+        (blob.xml/'content_type').wont_be_empty
+        (blob.xml/'content_type').size.must_equal 1
+        (blob.xml/'content_type').first.text.wont_be_nil
+        (blob.xml/'last_modified').wont_be_empty
+        (blob.xml/'last_modified').size.must_equal 1
+        (blob.xml/'last_modified').first.text.wont_be_empty
+        (blob.xml/'content').wont_be_empty
+        (blob.xml/'content').size.must_equal 1
+        (blob.xml/'content').first[:rel].wont_be_nil
+        (blob.xml/'content').first[:rel].must_equal 'blob_content'
+        (blob.xml/'content').first[:href].wont_be_nil
+        (blob.xml/'content').first[:href].must_match /^http/
+        (blob.xml/'content').first[:href].must_match /\/content$/
       end
     end
   end
