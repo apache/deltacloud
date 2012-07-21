@@ -65,25 +65,19 @@ def get(path, params={})
   RestClient.get url, headers
 end
 
-def post(post_body = "", path= "", params={}, authenticate = false)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
-  end
-  RestClient.post API_URL+path, post_body, params
+def post(path, post_body, params={})
+  url, headers = process_url_params(path, params)
+  RestClient.post url, post_body, headers
 end
 
-def delete(params={}, path = "", authenticate = true)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
-  end
-  RestClient.delete API_URL+path, params
+def delete(path, params={})
+  url, headers = process_url_params(path, params)
+  RestClient.delete url, headers
 end
 
-def options(params={}, path="", authenticate = false)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
-  end
-  RestClient.options API_URL+path, params
+def options(path, params={})
+  url, headers = process_url_params(path, params)
+  RestClient.options url, headers
 end
 
 # Should be private
@@ -143,7 +137,7 @@ def create_a_bucket_and_blob
   blob_name = random_name
   #create bucket:
   #  res = RestClient.post "#{API_URL}/buckets", {:name=>bucket_name}, {:Authorization=>BASIC_AUTH}
-  res = post({:name=>bucket_name}, "/buckets", {}, true)
+  res = post("/buckets", :name=>bucket_name)
   raise Exception.new("unable to create bucket with name #{bucket_name} for bucket_test.rb") unless res.code == 201
   #create blob:
   res = RestClient.put "#{API_URL}/buckets/#{bucket_name}/#{blob_name}", "This is the test blob content", {:Authorization=>BASIC_AUTH, :content_type=>"text/plain", "X-Deltacloud-Blobmeta-Version"=>"1.0", "X-Deltacloud-Blobmeta-Author"=>"herpyderp"}
@@ -158,10 +152,10 @@ end
 
 def delete_bucket_and_blob(bucket, blob)
   #  res = RestClient.delete "#{API_URL}/buckets/#{bucket}/#{blob}", {:Authorization=>BASIC_AUTH}
-  res = delete({}, "/buckets/#{bucket}/#{blob}")
+  res = delete("/buckets/#{bucket}/#{blob}")
   raise Exception.new("unable to delete blob with name #{blob} for bucket_test.rb") unless res.code == 204
   #  res = RestClient.delete "#{API_URL}/buckets/#{bucket}", {:Authorization=>BASIC_AUTH}
-  res = delete({}, "/buckets/#{bucket}")
+  res = delete("/buckets/#{bucket}")
   raise Exception.new("unable to delete bucket with name #{bucket} for bucket_test.rb") unless res.code == 204
 end
 

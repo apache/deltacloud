@@ -50,7 +50,7 @@ describe 'Deltacloud API buckets collection' do
   it 'should be possible to create bucket with POST /api/buckets and delete it with DELETE /api/buckets/:id' do
     bucket_name = random_name
     #create bucket
-    res = post({:name=>bucket_name}, BUCKETS, {}, true)
+    res = post(BUCKETS, :name=>bucket_name)
     #check response
     res.code.must_equal 201
     xml_res = xml_response(res)
@@ -61,7 +61,7 @@ describe 'Deltacloud API buckets collection' do
     res = get(BUCKETS+"/"+bucket_name)
     res.code.must_equal 200
     #DELETE bucket
-    res = delete({}, BUCKETS+"/"+bucket_name)
+    res = delete(BUCKETS+"/"+bucket_name)
     res.code.must_equal 204
   end
 
