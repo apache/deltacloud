@@ -61,6 +61,33 @@ end
 # If none of the auth relevant params are set, use the username and
 # password for the current driver from the config
 def get(path, params={})
+  url, headers = process_url_params(path, params)
+  RestClient.get url, headers
+end
+
+def post(post_body = "", path= "", params={}, authenticate = false)
+  if authenticate
+    params.merge!({:Authorization=>BASIC_AUTH})
+  end
+  RestClient.post API_URL+path, post_body, params
+end
+
+def delete(params={}, path = "", authenticate = true)
+  if authenticate
+    params.merge!({:Authorization=>BASIC_AUTH})
+  end
+  RestClient.delete API_URL+path, params
+end
+
+def options(params={}, path="", authenticate = false)
+  if authenticate
+    params.merge!({:Authorization=>BASIC_AUTH})
+  end
+  RestClient.options API_URL+path, params
+end
+
+# Should be private
+def process_url_params(path, params)
   path = "" if path == "/"
   headers = {}
   unless params.delete(:noauth)
@@ -86,28 +113,7 @@ def get(path, params={})
     puts "GET #{url}"
     headers.each { |k, v| puts "#{k}: #{v}" }
   end
-  RestClient.get url, headers
-end
-
-def post(post_body = "", path= "", params={}, authenticate = false)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
-  end
-  RestClient.post API_URL+path, post_body, params
-end
-
-def delete(params={}, path = "", authenticate = true)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
-  end
-  RestClient.delete API_URL+path, params
-end
-
-def options(params={}, path="", authenticate = false)
-  if authenticate
-    params.merge!({:Authorization=>BASIC_AUTH})
-  end
-  RestClient.options API_URL+path, params
+  [url, headers]
 end
 
 #the TEST_FILES hash and deltacloud_test_file_names method
