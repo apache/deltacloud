@@ -131,32 +131,9 @@ def deltacloud_test_file_names
   driver_collections.inject([]){|res, current| res << "deltacloud/#{TEST_FILES[current]}" if TEST_FILES[current] ;res}
 end
 
-def create_a_bucket_and_blob
-  #random bucket and blob name - make sure starts with letter:
-  bucket_name = random_name
-  blob_name = random_name
-  #create bucket:
-  #  res = RestClient.post "#{API_URL}/buckets", {:name=>bucket_name}, {:Authorization=>BASIC_AUTH}
-  res = post("/buckets", :name=>bucket_name)
-  raise Exception.new("unable to create bucket with name #{bucket_name} for bucket_test.rb") unless res.code == 201
-  #create blob:
-  res = RestClient.put "#{API_URL}/buckets/#{bucket_name}/#{blob_name}", "This is the test blob content", {:Authorization=>BASIC_AUTH, :content_type=>"text/plain", "X-Deltacloud-Blobmeta-Version"=>"1.0", "X-Deltacloud-Blobmeta-Author"=>"herpyderp"}
-  raise Exception.new("unable to create blob with name #{blob_name} for bucket_test.rb") unless res.code == 200
-  return [bucket_name, blob_name]
-end
-
 def random_name
   name = rand(36**10).to_s(36)
   name.insert(0, "apitest")
-end
-
-def delete_bucket_and_blob(bucket, blob)
-  #  res = RestClient.delete "#{API_URL}/buckets/#{bucket}/#{blob}", {:Authorization=>BASIC_AUTH}
-  res = delete("/buckets/#{bucket}/#{blob}")
-  raise Exception.new("unable to delete blob with name #{blob} for bucket_test.rb") unless res.code == 204
-  #  res = RestClient.delete "#{API_URL}/buckets/#{bucket}", {:Authorization=>BASIC_AUTH}
-  res = delete("/buckets/#{bucket}")
-  raise Exception.new("unable to delete bucket with name #{bucket} for bucket_test.rb") unless res.code == 204
 end
 
 def discover_features

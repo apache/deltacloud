@@ -21,6 +21,26 @@ require "deltacloud/test_setup.rb"
 require 'ruby-debug'
 BUCKETS = "/buckets"
 
+def create_a_bucket_and_blob
+  bucket_name = random_name
+  blob_name = random_name
+  res = post(BUCKETS, :name=>bucket_name)
+  unless res.code == 201
+    raise Exception.new("Failed to create bucket #{bucket_name}")
+  end
+
+  res = RestClient.put "#{API_URL}/buckets/#{bucket_name}/#{blob_name}",
+    "This is the test blob content",
+    {:Authorization=>BASIC_AUTH,
+     :content_type=>"text/plain",
+     "X-Deltacloud-Blobmeta-Version"=>"1.0",
+     "X-Deltacloud-Blobmeta-Author"=>"herpyderp"}
+  unless res.code == 200
+    raise Exception.new("Failed to create blob #{blob_name}")
+  end
+  return [bucket_name, blob_name]
+end
+
 #make sure we have at least one bucket and blob to test
 bucket, blob = create_a_bucket_and_blob
 
@@ -28,9 +48,16 @@ features_hash = discover_features
 
 describe 'Deltacloud API buckets collection' do
 
-  MiniTest::Unit.after_tests{
-    #finally delete the bucket/blob we created for the tests:
-    delete_bucket_and_blob(bucket, blob)
+  MiniTest::Unit.after_tests {
+    # delete the bucket/blob we created for the tests
+    res = delete("/buckets/#{bucket}/#{blob}")
+    unless res.code == 204
+      raise Exception.new("Failed to delete blob #{blob}")
+    end
+    res = delete("/buckets/#{bucket}")
+    unless res.code == 204
+      raise Exception.new("Failed to delete bucket #{bucket}")
+    end
   }
 
   it 'must advertise the buckets collection in API entrypoint' do
