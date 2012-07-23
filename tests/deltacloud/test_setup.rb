@@ -23,8 +23,9 @@ require 'base64'
 require 'yaml'
 
 #SETUP
-$:.unshift File.join(File.dirname(__FILE__), '..')
-CONFIG = YAML.load(File.open("deltacloud/config.yaml"))
+topdir = File.join(File.dirname(__FILE__), '..')
+$:.unshift topdir
+CONFIG = YAML.load(File.open(File::join(topdir, "config.yaml")))
 API_URL = CONFIG["api_url"]
 API_DRIVER = RestClient.get(API_URL) do |response, request, result|
   Nokogiri::XML(response).root[:driver]
