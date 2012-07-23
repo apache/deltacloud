@@ -33,19 +33,19 @@ describe "Deltacloud API Entry Point" do
     res = get_api :accept => :xml
     driver = res.xml.root[:driver]
     driver.wont_be_nil
-    DRIVERS.include?(driver).must_equal true
+    api.drivers.include?(driver).must_equal true
   end
 
   it 'advertise the current API version in API entrypoint' do
     res = get_api :accept => :xml
     version = res.xml.root[:version]
     version.wont_be_nil
-    version.must_equal API_VERSION
+    version.must_equal api.version
   end
 
   it 'advertise the current API version in HTTP headers' do
     res = get_api
-    res.headers[:server].must_equal "Apache-Deltacloud/#{API_VERSION}"
+    res.headers[:server].must_equal "Apache-Deltacloud/#{api.version}"
   end
 
   it 'must include the ETag in HTTP headers' do

@@ -29,9 +29,9 @@ def create_a_bucket_and_blob
     raise Exception.new("Failed to create bucket #{bucket_name}")
   end
 
-  res = RestClient.put "#{API_URL}/buckets/#{bucket_name}/#{blob_name}",
+  res = RestClient.put "#{api.url}/buckets/#{bucket_name}/#{blob_name}",
     "This is the test blob content",
-    {:Authorization=>BASIC_AUTH,
+    {:Authorization=>api.basic_auth,
      :content_type=>"text/plain",
      "X-Deltacloud-Blobmeta-Version"=>"1.0",
      "X-Deltacloud-Blobmeta-Author"=>"herpyderp"}
@@ -93,7 +93,7 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'should be possible to specify location for POST /api/buckets if bucket_location feature' do
-    skip("No bucket_location feature specified for driver #{API_DRIVER} running at #{API_URL}... skipping test") unless features_hash["buckets"].include?("bucket_location")
+    skip("No bucket_location feature specified for driver #{api.driver} running at #{api.url}... skipping test") unless features_hash["buckets"].include?("bucket_location")
     bucket_name = random_name
     #    res = post({:name=>bucket_name, :bucket_location=>
   end

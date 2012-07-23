@@ -21,25 +21,11 @@ require 'nokogiri'
 require 'json'
 require 'base64'
 require 'yaml'
+require 'singleton'
 
 #SETUP
 topdir = File.join(File.dirname(__FILE__), '..')
 $:.unshift topdir
-CONFIG = YAML.load(File.open(File::join(topdir, "config.yaml")))
-API_URL = CONFIG["api_url"]
-API_DRIVER = RestClient.get(API_URL) do |response, request, result|
-  Nokogiri::XML(response).root[:driver]
-end
-raise Exception.new("Can't find config for driver: #{API_DRIVER} currently running at #{API_URL} in config.yaml file") unless CONFIG[API_DRIVER] and CONFIG[API_DRIVER]["user"] and CONFIG[API_DRIVER]["password"]
-USER    = CONFIG[API_DRIVER]["user"]
-PASSWORD= CONFIG[API_DRIVER]["password"]
-BASIC_AUTH="Basic #{Base64.encode64(USER+":"+PASSWORD)}"
-
-DRIVERS = RestClient.get(API_URL+"/drivers") do |response, request, result|
-  Nokogiri::XML(response).xpath("//driver/name").inject([]){|res, c| res << c.text.downcase; res}
-end
-API_VERSION = Nokogiri::XML(RestClient.get API_URL).root[:version]
-#SETUP
 
 module RestClient::Response
   def xml
@@ -49,6 +35,69 @@ module RestClient::Response
   def json
     @json ||= JSON.parse(body)
   end
+end
+
+module Deltacloud
+  module Test
+
+    class Config
+
+      include Singleton
+
+      def initialize
+        fname = ENV["CONFIG"] || File::join(File::dirname(__FILE__), "..",
+                                            "config.yaml")
+        @hash = YAML.load(File::open(fname))
+      end
+
+      def url
+        @hash["api_url"]
+      end
+
+      def basic_auth(u = nil, p = nil)
+        u ||= @hash[driver]["user"]
+        p ||= @hash[driver]["password"]
+        "Basic #{Base64.encode64("#{u}:#{p}")}"
+      end
+
+      def driver
+        xml.root[:driver]
+      end
+
+      def drivers
+        @drivers ||= RestClient.get(url+"/drivers").xml.xpath("//driver/name").map { |c| c.text.downcase }
+      end
+
+      def version
+        xml.root[:version]
+      end
+
+      private
+      def xml
+        unless @xml
+          @xml = RestClient.get(url).xml
+          drv = @xml.root[:driver]
+          unless @hash[drv]
+            raise "No config for #{drv} driver in config.yaml used by #{url}"
+          end
+          unless @hash[drv]["user"] && @hash[drv]["password"]
+            raise "No user or password in config.yaml for #{drv} driver used by #{url}"
+          end
+        end
+        @xml
+      end
+    end
+
+    def self.config
+      Config::instance
+    end
+  end
+end
+
+# Return the current test config; we call that 'api' since it looks a
+# little prettier in the tests
+def api
+  Deltacloud::Test::config
 end
 
 # Make a GET request for +path+ and return the +RestClient::Response+. The
@@ -91,9 +140,9 @@ def process_url_params(path, params)
     if params[:user]
       u = params.delete(:user)
       p = params.delete(:password)
-      headers['Authorization'] = "Basic #{Base64.encode64("#{u}:#{p}")}"
+      headers['Authorization'] = api.basic_auth(u, p)
     else
-      headers['Authorization'] = BASIC_AUTH
+      headers['Authorization'] = api.basic_auth
     end
   end
   headers["X-Deltacloud-Driver"] = params.delete(:driver) if params[:driver]
@@ -103,7 +152,7 @@ def process_url_params(path, params)
   if path =~ /^https?:/
     url = path
   else
-    url = API_URL + path
+    url = api.url + path
   end
   url += "?" + params.map { |k,v| "#{k}=#{v}" }.join("&") unless params.empty?
   if ENV["LOG"] && ENV["LOG"].include?("requests")
@@ -128,9 +177,9 @@ TEST_FILES =  { :images             => "images_test.rb",
   :storage_snapshots  => "storage_snapshots_test.rb",
   :buckets            => "buckets_test.rb"
 }
-#gets the list of collections from the server running at API_URL and translates those into file names accoring to TEST_FILES
+#gets the list of collections from the server running at api.url and translates those into file names accoring to TEST_FILES
 def deltacloud_test_file_names
-  driver_collections = (RestClient.get API_URL, {:accept=>:xml}).xml.xpath("//api/link").inject([]){|res, current| res<<current[:rel].to_sym ;res}
+  driver_collections = (RestClient.get api.url, {:accept=>:xml}).xml.xpath("//api/link").inject([]){|res, current| res<<current[:rel].to_sym ;res}
   driver_collections.inject([]){|res, current| res << "deltacloud/#{TEST_FILES[current]}" if TEST_FILES[current] ;res}
 end
 
