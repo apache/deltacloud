@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-66ebc41e&Signature=iUvi16C5PceLaBL5YrWL93FjyckyqHHzWjQHV2pwn/A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:24:27 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>174a13f4-a933-42c5-aaed-baa521aefce2</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-3e7bb05a</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-66ebc41e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>32</code>\n
+        \                       <name>shutting-down</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-09-88-3E.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-20-249-105.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason>User initiated (2012-07-23 12:24:23 GMT)</reason>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:23:49.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.210.143.204</privateIpAddress>\n
+        \                   <ipAddress>23.20.249.105</ipAddress>\n                    <stateReason>\n
+        \                       <code>Client.UserInitiatedShutdown</code>\n                        <message>Client.UserInitiatedShutdown:
+        User initiated shutdown</message>\n                    </stateReason>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-00d08b61</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-23T12:24:14.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+recorded_with: VCR 2.1.1

@@ -1,0 +1,85 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=atwiE6qVPEe16UKLCLHLk6gxkGI42zNAqqfyN9exBv0=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:14 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeAvailabilityZonesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>a06e8029-5236-4267-af90-5a470d6b65b2</requestId>\n
+        \   <availabilityZoneInfo>\n        <item>\n            <zoneName>us-east-1a</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1b</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1c</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1d</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1e</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n    </availabilityZoneInfo>\n</DescribeAvailabilityZonesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=atwiE6qVPEe16UKLCLHLk6gxkGI42zNAqqfyN9exBv0=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:15 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeAvailabilityZonesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>4e32efc1-f336-4134-bc63-8551d3619949</requestId>\n
+        \   <availabilityZoneInfo>\n        <item>\n            <zoneName>us-east-1a</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1b</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1c</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1d</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n        <item>\n            <zoneName>us-east-1e</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n    </availabilityZoneInfo>\n</DescribeAvailabilityZonesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+recorded_with: VCR 2.1.1

@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-d8eac5a0&Signature=aY73r5YiXQgu3drzlk3iAYsf0ZqguttvPU4z3OILa5U=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:25:10 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>809c3d99-d8f5-4507-b14b-d75a8dd26f7a</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-ec7ab188</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-d8eac5a0</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>0</code>\n
+        \                       <name>pending</name>\n                    </instanceState>\n
+        \                   <privateDnsName/>\n                    <dnsName/>\n                    <reason/>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:25:10.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping/>\n                    <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+recorded_with: VCR 2.1.1

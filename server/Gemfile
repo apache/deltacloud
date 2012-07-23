@@ -6,5 +6,8 @@ group :development do
   gem "rack-test"
   gem "minitest"
   gem "simplecov"
+  gem "webmock"
+  gem "vcr"
+  gem "aws"
 end
 

@@ -1,0 +1,163 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:10 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>909535b1-bded-42f7-9603-b1970de6db64</requestId>\n
+        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
+        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:11 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>7de17cc6-e53a-47bb-8801-348d0d56e8cf</requestId>\n
+        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
+        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:11 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>ec0d3d07-76e5-4df3-8efa-f9fdebf7520c</requestId>\n
+        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
+        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:12 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>e5a0c9ef-2510-4358-8645-6e00c92fcf61</requestId>\n
+        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
+        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=unknown&Signature=arkcDAXicuFyUh1HA8Xdnc3dPyDR85xl5R7wo8vOf8s=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:13 GMT
+      Cneonction:
+      - close
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <Response><Errors><Error><Code>InvalidKeyPair.NotFound</Code><Message>The
+        key pair ''unknown'' does not exist</Message></Error></Errors><RequestID>616ff498-dae8-4708-874b-5aa7516cd42f</RequestID></Response>'
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+recorded_with: VCR 2.1.1

@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&Signature=g4hO3pNSLUSgJPtvULUCvYyNCDIZgNuTc2jSfJg1Wq0=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:06 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>d0a0aa97-c1fc-41d2-94c2-ae6cf6de9ae7</requestId>\n
+        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
+        \       </item>\n        <item>\n            <keyName>test2</keyName>\n            <keyFingerprint>8d:34:a2:2a:71:ce:51:17:0b:a8:86:1a:bf:d8:b0:b2:ad:90:79:49</keyFingerprint>\n
+        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&Signature=g4hO3pNSLUSgJPtvULUCvYyNCDIZgNuTc2jSfJg1Wq0=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:06 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>d820c7ea-e070-4d12-af59-33684e29fb07</requestId>\n
+        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
+        \       </item>\n        <item>\n            <keyName>test2</keyName>\n            <keyFingerprint>8d:34:a2:2a:71:ce:51:17:0b:a8:86:1a:bf:d8:b0:b2:ad:90:79:49</keyFingerprint>\n
+        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+recorded_with: VCR 2.1.1

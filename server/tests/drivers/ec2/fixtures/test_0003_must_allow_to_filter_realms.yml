@@ -1,0 +1,167 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=h49McV822SFee5Govv94m/ZTu6jwmC265RSJ/lqoIpY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31&ZoneName.1=us-east-1a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:16 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeAvailabilityZonesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>7ad35df9-4260-4942-b2c2-8263a022c657</requestId>\n
+        \   <availabilityZoneInfo>\n        <item>\n            <zoneName>us-east-1a</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n    </availabilityZoneInfo>\n</DescribeAvailabilityZonesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=h49McV822SFee5Govv94m/ZTu6jwmC265RSJ/lqoIpY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31&ZoneName.1=us-east-1a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:17 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeAvailabilityZonesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>36a01cde-3ce0-4045-a211-5abf99297cac</requestId>\n
+        \   <availabilityZoneInfo>\n        <item>\n            <zoneName>us-east-1a</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n    </availabilityZoneInfo>\n</DescribeAvailabilityZonesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=h49McV822SFee5Govv94m/ZTu6jwmC265RSJ/lqoIpY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31&ZoneName.1=us-east-1a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:17 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeAvailabilityZonesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>1644f04f-d709-4123-8dad-716d8bd226ea</requestId>\n
+        \   <availabilityZoneInfo>\n        <item>\n            <zoneName>us-east-1a</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n    </availabilityZoneInfo>\n</DescribeAvailabilityZonesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=h49McV822SFee5Govv94m/ZTu6jwmC265RSJ/lqoIpY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31&ZoneName.1=us-east-1a
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:18 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeAvailabilityZonesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>5160f3cd-a754-48d5-a203-ce152b1dea50</requestId>\n
+        \   <availabilityZoneInfo>\n        <item>\n            <zoneName>us-east-1a</zoneName>\n
+        \           <zoneState>available</zoneState>\n            <regionName>us-east-1</regionName>\n
+        \           <messageSet/>\n        </item>\n    </availabilityZoneInfo>\n</DescribeAvailabilityZonesResponse>"
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeAvailabilityZones&Signature=pm4d1Vf8bxMiCN+/yn7xXDhevuqk5ZawW8E2sAzaO/s=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31&ZoneName.1=unknown
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 23 Jul 2012 12:26:19 GMT
+      Cneonction:
+      - close
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <Response><Errors><Error><Code>InvalidParameterValue</Code><Message>Invalid
+        availability zone: [unknown]</Message></Error></Errors><RequestID>e1ec63f0-c2b2-4b60-8d5a-e3164704edc3</RequestID></Response>'
+    http_version: 
+  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+recorded_with: VCR 2.1.1
