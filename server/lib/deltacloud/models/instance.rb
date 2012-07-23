@@ -62,7 +62,7 @@ class Instance < BaseModel
   end
 
   def method_missing(name, *args)
-    if name =~ /is_(\w+)\?/
+    if name.to_s =~ /is_(\w+)\?/
       self.state.downcase.eql?($1)
     else
       raise NoMethodError.new(name.to_s)
