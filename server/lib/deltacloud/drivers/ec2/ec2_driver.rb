@@ -142,8 +142,13 @@ module Deltacloud
           profiles = hardware_profiles(nil)
           if opts[:id]
             safely do
-              img_arr = ec2.describe_images([opts[:id]]).collect do |image|
-                convert_image(image, profiles)
+              begin
+                img_arr = ec2.describe_images([opts[:id]]).collect do |image|
+                  convert_image(image, profiles)
+                end
+              rescue => e
+                raise e unless e.message =~ /Invalid id/ or e.message =~ /does not exist/
+                img_arr = []
               end
             end
             return img_arr
@@ -163,8 +168,13 @@ module Deltacloud
           realms = []
           safely do
             if opts[:id] and !opts[:id].empty?
-              ec2.describe_availability_zones([opts[:id]]).collect do |realm|
-                realms << convert_realm(realm) unless realm.empty?
+              begin
+                ec2.describe_availability_zones([opts[:id]]).collect do |realm|
+                  realms << convert_realm(realm) unless realm.empty?
+                end
+              rescue => e
+                raise e unless e.message =~ /Invalid availability zone/
+                realms = []
               end
             else
               ec2.describe_availability_zones.collect do |realm|
@@ -197,8 +207,13 @@ module Deltacloud
           ec2 = new_client(credentials)
           inst_arr = []
           safely do
-            ec2_inst = ec2.describe_instances([opts[:id]]).first
-            raise "Instance #{opts[:id]} NotFound" if ec2_inst.nil?
+            begin
+              ec2_inst = ec2.describe_instances([opts[:id]]).first
+            rescue => e
+              raise e unless e.message =~ /Invalid id/ or e.message =~ /NotFound/
+              ec2_inst = nil
+            end
+            return if ec2_inst.nil?
             instance = convert_instance(ec2_inst)
             return nil unless instance
             if ec2_inst[:aws_platform] == 'windows'
@@ -329,8 +344,13 @@ module Deltacloud
           ec2 = new_client(credentials)
           opts ||= {}
           safely do
-            ec2.describe_key_pairs(opts[:id] ? [opts[:id]] : nil).collect do |key|
-              convert_key(key)
+            begin
+              ec2.describe_key_pairs(opts[:id] ? [opts[:id]] : nil).collect do |key|
+                convert_key(key)
+              end
+            rescue => e
+              raise e unless e.message =~ /does not exist/
+              []
             end
           end
         end
@@ -787,7 +807,7 @@ module Deltacloud
           klass.new(credentials.user, credentials.password, {
             :server => endpoint || endpoint_for_service(type),
             :connection_mode => :per_thread,
-            :logger => ENV['RACK_ENV'] == 'test' ? Logger.new('/dev/null') : Logger.new(STDOUT)
+            :logger => ENV['RACK_ENV'] == 'test' ? Logger.new(StringIO.new) : Logger.new(STDOUT)
           })
         end
 
