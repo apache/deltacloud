@@ -44,9 +44,10 @@ end
 #make sure we have at least one bucket and blob to test
 created_bucket_and_blob = create_a_bucket_and_blob
 
-features_hash = discover_features
-
 describe 'Deltacloud API buckets collection' do
+  include Deltacloud::Test::Methods
+
+  need_collection :buckets
 
   MiniTest::Unit.after_tests {
     bucket, blob = created_bucket_and_blob
@@ -92,12 +93,14 @@ describe 'Deltacloud API buckets collection' do
     res.code.must_equal 204
   end
 
-  it 'should be possible to specify location for POST /api/buckets if bucket_location feature' do
-    skip("No bucket_location feature specified for driver #{api.driver} running at #{api.url}... skipping test") unless features_hash["buckets"].include?("bucket_location")
-    bucket_name = random_name
-    #    res = post({:name=>bucket_name, :bucket_location=>
-  end
+  describe "with feature bucket_location" do
+    need_feature :buckets, :bucket_location
 
+    it 'should be possible to specify location for POST /api/buckets if bucket_location feature' do
+      bucket_name = random_name
+      #    res = post({:name=>bucket_name, :bucket_location=>
+    end
+  end
 
   it 'should support the JSON media type' do
     res = get(BUCKETS, :accept=>:json)

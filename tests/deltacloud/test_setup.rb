@@ -72,6 +72,18 @@ module Deltacloud
         xml.root[:version]
       end
 
+      def collections
+        xml.xpath("//api/link").map { |c| c[:rel].to_sym }
+      end
+
+      def features
+        result = {}
+        xml.xpath("//api/link").each do |coll|
+          result[coll[:rel].to_sym] = coll.xpath("feature").map { |c| c[:name].to_sym }
+        end
+        result
+      end
+
       private
       def xml
         unless @xml
@@ -162,37 +174,39 @@ def process_url_params(path, params)
   [url, headers]
 end
 
-#the TEST_FILES hash and deltacloud_test_file_names method
-#which follows is used in the Rakefile for the rake test:deltacloud task
-TEST_FILES =  { :images             => "images_test.rb",
-  :realms             => "realms_test.rb",
-  :hardware_profiles  => "hardware_profiles_test.rb",
-  :instance_states    => "instance_states_test.rb",
-  :instances          => "instances_test.rb",
-  :keys               => "keys_test.rb",
-  :firewalls          => "firewalls_test.rb",
-  :addresses          => "addresses_test.rb",
-  :load_balancers     => "load_balancers_test.rb",
-  :storage_volumes    => "storage_volumes_test.rb",
-  :storage_snapshots  => "storage_snapshots_test.rb",
-  :buckets            => "buckets_test.rb"
-}
-#gets the list of collections from the server running at api.url and translates those into file names accoring to TEST_FILES
-def deltacloud_test_file_names
-  driver_collections = (RestClient.get api.url, {:accept=>:xml}).xml.xpath("//api/link").inject([]){|res, current| res<<current[:rel].to_sym ;res}
-  driver_collections.inject([]){|res, current| res << "deltacloud/#{TEST_FILES[current]}" if TEST_FILES[current] ;res}
+module Deltacloud::Test::Methods
+
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+  module ClassMethods
+    # Only run tests if collection +name+ is supported by current
+    # driver. Use inside a 'describe' block. Tests that are not run because
+    # of a missing collection are marked as skipped
+    def need_collection(name)
+      before :each do
+        unless api.collections.include?(name.to_sym)
+          skip "#{api.driver} doesn't support #{name}"
+        end
+      end
+    end
+
+    # Only run tests if collection +collection+ supports feature +name+ in
+    # the current driver. Use inside a 'describe' block. Tests that are not
+    # run because of a missing collection are marked as skipped
+    def need_feature(collection, name)
+      before :each do
+        f = api.features[collection.to_sym]
+        unless f && f.include?(name.to_sym)
+          skip "#{collection} for #{api.driver} doesn't support #{name}"
+        end
+      end
+    end
+  end
 end
 
 def random_name
   name = rand(36**10).to_s(36)
   name.insert(0, "apitest")
-end
-
-def discover_features
-  res = get("/")
-  features_hash = res.xml.xpath("//api/link").inject({}) do |result, collection|
-    result.merge!({collection[:rel] => []})
-    collection.children.inject([]){|features, current_child| result[collection[:rel]] << current_child[:name] if current_child.name == "feature"}
-    result
-  end
 end

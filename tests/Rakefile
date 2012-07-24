@@ -15,14 +15,10 @@
 # under the License.
 
 require 'rake/testtask'
-require 'deltacloud/test_setup.rb'
 
 namespace :test do
-
   desc "Run tests for the Deltacloud API frontend."
   Rake::TestTask.new(:deltacloud) do |t|
-    file_list = Rake::FileList.new(deltacloud_test_file_names)
-    t.test_files = file_list << "deltacloud/base_api_test.rb"
+    t.test_files = FileList["deltacloud/*_test.rb"]
   end
-
 end
