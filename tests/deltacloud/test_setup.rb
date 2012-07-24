@@ -106,78 +106,83 @@ module Deltacloud
   end
 end
 
-# Return the current test config; we call that 'api' since it looks a
-# little prettier in the tests
-def api
-  Deltacloud::Test::config
-end
-
-# Make a GET request for +path+ and return the +RestClient::Response+. The
-# query string for the request is generated from +params+, with the
-# exception of a few special entries in params, which are used to set some
-# headers, and will not appear in the query string:
-#
-#   :noauth          : do not send an auth header
-#   :user, :password : use these for the auth header
-#   :accept          : can be :xml or :json, and sets the Accept header
-#   :driver, :provider : set driver and/or provider with the appropriate header
-#
-# If none of the auth relevant params are set, use the username and
-# password for the current driver from the config
-def get(path, params={})
-  url, headers = process_url_params(path, params)
-  RestClient.get url, headers
-end
-
-def post(path, post_body, params={})
-  url, headers = process_url_params(path, params)
-  RestClient.post url, post_body, headers
-end
-
-def delete(path, params={})
-  url, headers = process_url_params(path, params)
-  RestClient.delete url, headers
-end
-
-def options(path, params={})
-  url, headers = process_url_params(path, params)
-  RestClient.options url, headers
-end
-
-# Should be private
-def process_url_params(path, params)
-  path = "" if path == "/"
-  headers = {}
-  unless params.delete(:noauth)
-    if params[:user]
-      u = params.delete(:user)
-      p = params.delete(:password)
-      headers['Authorization'] = api.basic_auth(u, p)
-    else
-      headers['Authorization'] = api.basic_auth
-    end
-  end
-  headers["X-Deltacloud-Driver"] = params.delete(:driver) if params[:driver]
-  headers["X-Deltacloud-Provider"] = params.delete(:provider) if params[:providver]
-  headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
-
-  if path =~ /^https?:/
-    url = path
-  else
-    url = api.url + path
-  end
-  url += "?" + params.map { |k,v| "#{k}=#{v}" }.join("&") unless params.empty?
-  if ENV["LOG"] && ENV["LOG"].include?("requests")
-    puts "GET #{url}"
-    headers.each { |k, v| puts "#{k}: #{v}" }
-  end
-  [url, headers]
-end
-
 module Deltacloud::Test::Methods
 
-  def self.included(base)
-    base.extend ClassMethods
+  module Global
+    # Return the current test config; we call that 'api' since it looks a
+    # little prettier in the tests
+    def api
+      Deltacloud::Test::config
+    end
+
+    # Make a GET request for +path+ and return the +RestClient::Response+. The
+    # query string for the request is generated from +params+, with the
+    # exception of a few special entries in params, which are used to set some
+    # headers, and will not appear in the query string:
+    #
+    #   :noauth          : do not send an auth header
+    #   :user, :password : use these for the auth header
+    #   :accept          : can be :xml or :json, and sets the Accept header
+    #   :driver, :provider : set driver and/or provider with the appropriate header
+    #
+    # If none of the auth relevant params are set, use the username and
+    # password for the current driver from the config
+    def get(path, params={})
+      url, headers = process_url_params(path, params)
+      RestClient.get url, headers
+    end
+
+    def post(path, post_body, params={})
+      url, headers = process_url_params(path, params)
+      RestClient.post url, post_body, headers
+    end
+
+    def delete(path, params={})
+      url, headers = process_url_params(path, params)
+      RestClient.delete url, headers
+    end
+
+    def options(path, params={})
+      url, headers = process_url_params(path, params)
+      RestClient.options url, headers
+    end
+
+    def random_name
+      name = rand(36**10).to_s(36)
+      name.insert(0, "apitest")
+    end
+
+    private
+
+    def process_url_params(path, params)
+      path = "" if path == "/"
+      headers = {}
+      unless params.delete(:noauth)
+        if params[:user]
+          u = params.delete(:user)
+          p = params.delete(:password)
+          headers['Authorization'] = api.basic_auth(u, p)
+        else
+          headers['Authorization'] = api.basic_auth
+        end
+      end
+      headers["X-Deltacloud-Driver"] = params.delete(:driver) if params[:driver]
+      headers["X-Deltacloud-Provider"] = params.delete(:provider) if params[:providver]
+      headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
+
+      if path =~ /^https?:/
+        url = path
+      else
+        url = api.url + path
+      end
+      url += "?" + params.map { |k,v| "#{k}=#{v}" }.join("&") unless params.empty?
+      if ENV["LOG"] && ENV["LOG"].include?("requests")
+        puts "GET #{url}"
+        headers.each { |k, v| puts "#{k}: #{v}" }
+      end
+      [url, headers]
+    end
+
   end
 
   module ClassMethods
@@ -204,9 +209,12 @@ module Deltacloud::Test::Methods
       end
     end
   end
-end
 
-def random_name
-  name = rand(36**10).to_s(36)
-  name.insert(0, "apitest")
+
+  def self.included(base)
+    base.extend ClassMethods
+    base.extend Global
+    base.send(:include, Global)
+  end
+
 end

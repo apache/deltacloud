@@ -18,6 +18,7 @@ $:.unshift File.join(File.dirname(__FILE__), '..')
 require "deltacloud/test_setup.rb"
 
 describe "Deltacloud API Entry Point" do
+  include Deltacloud::Test::Methods
 
   # Get the API entrypoint without any authentication
   def get_api(params={})
