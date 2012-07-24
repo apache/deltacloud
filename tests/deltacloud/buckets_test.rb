@@ -21,44 +21,40 @@ require "deltacloud/test_setup.rb"
 require 'ruby-debug'
 BUCKETS = "/buckets"
 
-def create_a_bucket_and_blob
-  bucket_name = random_name
-  blob_name = random_name
-  res = post(BUCKETS, :name=>bucket_name)
-  unless res.code == 201
-    raise Exception.new("Failed to create bucket #{bucket_name}")
-  end
-
-  res = RestClient.put "#{api.url}/buckets/#{bucket_name}/#{blob_name}",
-    "This is the test blob content",
-    {:Authorization=>api.basic_auth,
-     :content_type=>"text/plain",
-     "X-Deltacloud-Blobmeta-Version"=>"1.0",
-     "X-Deltacloud-Blobmeta-Author"=>"herpyderp"}
-  unless res.code == 200
-    raise Exception.new("Failed to create blob #{blob_name}")
-  end
-  return [ bucket_name, blob_name ]
-end
-
-#make sure we have at least one bucket and blob to test
-created_bucket_and_blob = create_a_bucket_and_blob
-
 describe 'Deltacloud API buckets collection' do
   include Deltacloud::Test::Methods
 
   need_collection :buckets
 
-  MiniTest::Unit.after_tests {
-    bucket, blob = created_bucket_and_blob
-    # delete the bucket/blob we created for the tests
-    res = delete("/buckets/#{bucket}/#{blob}")
-    unless res.code == 204
-      raise Exception.new("Failed to delete blob #{blob}")
+  #make sure we have at least one bucket and blob to test
+  begin
+    @my_bucket = random_name
+    @my_blob = random_name
+    res = post(BUCKETS, :name=>@my_bucket)
+    unless res.code == 201
+      raise Exception.new("Failed to create bucket #{@my_bucket}")
     end
-    res = delete("/buckets/#{bucket}")
+
+    res = RestClient.put "#{api.url}/buckets/#{@my_bucket}/#{@my_blob}",
+    "This is the test blob content",
+    {:Authorization=>api.basic_auth,
+      :content_type=>"text/plain",
+      "X-Deltacloud-Blobmeta-Version"=>"1.0",
+      "X-Deltacloud-Blobmeta-Author"=>"herpyderp"}
+    unless res.code == 200
+      raise Exception.new("Failed to create blob #{@my_blob}")
+    end
+  end
+
+  # delete the bucket/blob we created for the tests
+  MiniTest::Unit.after_tests {
+    res = delete("/buckets/#{@my_bucket}/#{@my_blob}")
     unless res.code == 204
-      raise Exception.new("Failed to delete bucket #{bucket}")
+      raise Exception.new("Failed to delete blob #{@my_blob}")
+    end
+    res = delete("/buckets/#{@my_bucket}")
+    unless res.code == 204
+      raise Exception.new("Failed to delete bucket #{@my_bucket}")
     end
   }
 
