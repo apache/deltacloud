@@ -108,18 +108,57 @@ task :routes do
   end
 end
 
-Rake::TestTask.new do |t|
-  t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
-  unless RUBY_VERSION < '1.9.0'
-    t.loader = :testrb
+DRIVERS = [:mock, :ec2, :rhevm]
+
+desc 'Run all tests'
+task :test do
+
+  Rake::Task["mock:fixtures:reset"].invoke
+  puts "\n[ \033[1;37;mrake test:base\33[0m ]\n"
+  Rake::Task["test:base"].invoke
+  DRIVERS.each do |driver|
+    puts "\n[ \033[1;37;mrake drivers:#{driver}\33[0m ]\n"
+    Rake::Task["test:drivers:#{driver}"].invoke
   end
-  t.test_files = FileList[
-    'tests/helpers/**/*test.rb',              # Deltacloud extensions (core_ext) and other helpers
-    'tests/drivers/base/*test.rb',            # Deltacloud drivers API tests
-    'tests/drivers/models/*test.rb',          # Deltacloud models tests
-    'tests/deltacloud/*test.rb',              # Deltacloud internal API tests
-    'tests/deltacloud/collections/*test.rb',  # Deltacloud collections
-    'tests/drivers/mock/*test.rb',            # Deltacloud Mock driver specific unit tests
-    'tests/drivers/ec2/*test.rb'              # Deltacloud EC2 driver specific unit tests
-  ]
 end
+
+namespace :test do
+
+  desc "Run all tests and generate code coverage report"
+  task :coverage do
+    ENV['COVERAGE'] = '1'
+    puts "[ \033[1;37;mCoverage report will be generated to server/coverage\33[0m ]\n\n"
+    Rake::Task["test"].invoke
+  end
+
+  namespace :drivers do
+
+    DRIVERS.each do |driver|
+      Rake::TestTask.new(driver) do |t|
+        t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
+        unless RUBY_VERSION < '1.9.0'
+          t.loader = :testrb
+        end
+        t.test_files = FileList["tests/drivers/#{driver}/*test.rb"]
+      end
+    end
+
+  end
+
+  Rake::TestTask.new(:base) do |t|
+    t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
+    unless RUBY_VERSION < '1.9.0'
+      t.loader = :testrb
+    end
+    t.test_files = FileList[
+      'tests/helpers/core_ext/*test.rb',        # Deltacloud extensions (core_ext) and other helpers
+      'tests/drivers/base/*test.rb',            # Deltacloud drivers API tests
+      'tests/drivers/models/*test.rb',          # Deltacloud models tests
+      'tests/deltacloud/*test.rb',              # Deltacloud internal API tests
+      'tests/deltacloud/collections/*test.rb',  # Deltacloud collections
+    ]
+  end
+
+end
+
+
