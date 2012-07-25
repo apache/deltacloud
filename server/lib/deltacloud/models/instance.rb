@@ -46,10 +46,6 @@ class Instance < BaseModel
     self.create_image
   end
 
-  def to_s
-    name
-  end
-
   def hardware_profile
     instance_profile
   end
