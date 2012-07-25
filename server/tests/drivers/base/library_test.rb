@@ -28,10 +28,6 @@ describe 'Deltacloud API Library' do
     Deltacloud.new(:mock).current_provider.must_be_nil
   end
 
-  it 'should return pre-defined providers for the driver' do
-    Deltacloud.new(:ec2).providers[:entrypoints].must_be_kind_of Hash
-  end
-
   it 'should yield the backend driver' do
     Deltacloud.new :mock do |mock|
       mock.must_be_instance_of Deltacloud::Drivers::Mock::MockDriver
