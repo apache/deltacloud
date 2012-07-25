@@ -85,8 +85,13 @@ class RhevmDriver < Deltacloud::BaseDriver
     client = new_client(credentials)
     img_arr = []
     safely do
-      if (!opts.nil? && opts[:id])
-        img_arr << convert_image(client, client.template(opts[:id]))
+      if opts[:id]
+        begin
+          img_arr << convert_image(client, client.template(opts[:id]))
+        rescue OVIRT::OvirtException => e
+          raise e unless e.message =~ /Resource Not Found/
+          img_arr = []
+        end
       else
         img_arr = client.templates.collect { |t| convert_image(client, t) }
       end
@@ -176,7 +181,7 @@ class RhevmDriver < Deltacloud::BaseDriver
         raise "Parameter name must be #{USER_NAME_MAX} characters or less" if opts[:name].length > USER_NAME_MAX
       end
       params[:name] = opts[:name]
-      params[:template] = opts[:image_id]
+      params[:template] = image_id
       params[:cluster] = opts[:realm_id] if opts[:realm_id]
       params[:hwp_id] = opts[:hwp_id] if opts[:hwp_id]
       params[:memory] = (opts[:hwp_memory].to_i * 1024 * 1024) if opts[:hwp_memory]
@@ -308,7 +313,7 @@ class RhevmDriver < Deltacloud::BaseDriver
       :owner_id => client.credentials[:username],
       :architecture => 'x86_64', # All RHEV-M VMs are x86_64
       :hardware_profiles => hardware_profiles(nil),
-      :state => img.status
+      :state => img.status.strip.upcase
     )
   end
 
