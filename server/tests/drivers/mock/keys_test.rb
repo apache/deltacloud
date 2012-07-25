@@ -38,7 +38,7 @@ describe 'MockDriver Keys' do
     key = @driver.create_key(:key_name => 'test1')
     key.wont_be_nil
     key.must_be_kind_of Key
-    Proc.new { @driver.create_key(:key_name => 'test1') }.must_raise Deltacloud::ExceptionHandler::ProviderError, 'KeyExist'
+    Proc.new { @driver.create_key(:key_name => 'test1') }.must_raise Deltacloud::ExceptionHandler::ForbiddenError, 'KeyExist'
     @driver.destroy_key :id => key.id
     @driver.key(:id => key.id).must_be_nil
   end
