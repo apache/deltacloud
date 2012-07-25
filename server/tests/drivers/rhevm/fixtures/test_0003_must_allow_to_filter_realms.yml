@@ -1,0 +1,748 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:49 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:54 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '971'
+      Date:
+      - Wed, 25 Jul 2012 11:53:49 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
+        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
+        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
+        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
+        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
+        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n    </cluster>\n</clusters>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:49 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:49 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '971'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
+        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
+        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
+        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
+        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
+        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n    </cluster>\n</clusters>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '971'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
+        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
+        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
+        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
+        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
+        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n    </cluster>\n</clusters>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:55 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '971'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
+        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
+        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
+        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
+        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
+        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n    </cluster>\n</clusters>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:56 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:56 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:50 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:56 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '971'
+      Date:
+      - Wed, 25 Jul 2012 11:53:51 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
+        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
+        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
+        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
+        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
+        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n    </cluster>\n</clusters>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:56 GMT
+- request:
+    method: get
+    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      X-Powered-By:
+      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '715'
+      Date:
+      - Wed, 25 Jul 2012 11:53:51 GMT
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
+        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
+        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
+        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
+        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
+        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
+        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
+    http_version: 
+  recorded_at: Wed, 25 Jul 2012 11:54:56 GMT
+recorded_with: VCR 2.1.1
