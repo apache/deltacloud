@@ -65,7 +65,15 @@ module Deltacloud
     end
 
     def providers
-      Deltacloud.drivers[current_driver.to_sym]
+      if backend.respond_to? :providers
+        backend.providers(@credentials)
+      else
+        Deltacloud.drivers[current_driver.to_sym]
+      end
+    end
+
+    def provider(opts={})
+      providers.find { |p| p.id == opts[:id] }
     end
 
     def method_missing(name, *args)
