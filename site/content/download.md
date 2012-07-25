@@ -10,7 +10,7 @@ title: Download
 </p>
 <p>
   Use the links below to download a distribution of Apache Deltacloud.
-  Alternatively you can use one of the <a href="http://www.apache.org/dyn/closer.cgi?path=incubator/deltacloud/">Apache mirrors</a>.
+  Alternatively you can use one of the <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud">Apache mirrors</a>.
   It is good practice to <a href="#verify">verify the integrity</a> of the distribution files,
   especially if you are using one of our mirror sites. To do this, you must use the
   signatures from our <a href="http://www.apache.org/dist/deltacloud/">main distribution directory</a>.
