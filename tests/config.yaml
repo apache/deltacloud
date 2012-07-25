@@ -6,13 +6,13 @@ mock:
   password: "mockpassword"
 #EC2 DRIVER CONFIG:
 ec2:
-  user: #your EC2 KEY HERE
-  password: #your EC2 SECRET_KEY HERE
+  user: #EC2 KEY
+  password: #EC2 SECRET KEY
   bucket_locations:
   #location constraint : provider
-    "EU" : "eu-west-1"
-    "sa-east-1" : "sa-east-1"
-    "us-west-1" : "us-west-1"
-    "us-west-2" : "us-west-2"
-    "ap-southeast-1" : "ap-southeast-1"
-    "ap-northeast-1" : "ap-northeast-1"
+    - "EU"
+    - "sa-east-1"
+    - "us-west-1"
+    - "us-west-2"
+    - "ap-southeast-1"
+    - "ap-northeast-1"

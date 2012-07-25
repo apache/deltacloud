@@ -60,6 +60,10 @@ module Deltacloud
         "Basic #{Base64.encode64("#{u}:#{p}")}"
       end
 
+      def bucket_locations
+        @hash[driver]["bucket_locations"]
+      end
+
       def driver
         xml.root[:driver]
       end
@@ -124,6 +128,8 @@ module Deltacloud::Test::Methods
     #   :user, :password : use these for the auth header
     #   :accept          : can be :xml or :json, and sets the Accept header
     #   :driver, :provider : set driver and/or provider with the appropriate header
+    #   :content_type    : set content_type for upload (e.g. put blob)
+    #   :x_deltacloud_blobmeta-X : set deltacloud blob metadata
     #
     # If none of the auth relevant params are set, use the username and
     # password for the current driver from the config
@@ -137,6 +143,17 @@ module Deltacloud::Test::Methods
       RestClient.post url, post_body, headers
     end
 
+    def put(path, body, params={})
+      url, headers = process_url_params(path, params)
+      if body.is_a?(File)
+        #set timeouts http://rdoc.info/github/archiloque/rest-client/RestClient/Resource
+        resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout=> 9999)
+        resource.put  body.read, headers
+      else
+        RestClient.put url, body, headers
+      end
+    end
+
     def delete(path, params={})
       url, headers = process_url_params(path, params)
       RestClient.delete url, headers
@@ -145,6 +162,11 @@ module Deltacloud::Test::Methods
     def options(path, params={})
       url, headers = process_url_params(path, params)
       RestClient.options url, headers
+    end
+
+    def head(path, params={})
+      url, headers = process_url_params(path, params)
+      RestClient.head url, headers
     end
 
     def random_name
@@ -167,9 +189,14 @@ module Deltacloud::Test::Methods
         end
       end
       headers["X-Deltacloud-Driver"] = params.delete(:driver) if params[:driver]
-      headers["X-Deltacloud-Provider"] = params.delete(:provider) if params[:providver]
+      headers["X-Deltacloud-Provider"] = params.delete(:provider) if params[:provider]
       headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
-
+      headers[:content_type] = params.delete(:content_type) if params[:content_type]
+      #grab X-Deltacloud-Blobmeta headers for blob metadata:
+      params.inject({}) do |res, (cur_k, cur_v)|
+        headers[cur_k] = params.delete(cur_k) if cur_k =~ /X-Deltacloud-Blobmeta/i
+        res
+      end
       if path =~ /^https?:/
         url = path
       else
