@@ -21,6 +21,14 @@ require 'rake'
 require 'rake/testtask'
 require 'rubygems/package_task'
 
+begin
+  require "bundler"
+  Bundler.setup
+rescue LoadError
+  $stderr.puts "Please install bundler with 'gem install bundler'"
+  exit(1)
+end
+
 $top_srcdir = File.dirname(__FILE__)
 $:.unshift File.join($top_srcdir, 'lib')
 
