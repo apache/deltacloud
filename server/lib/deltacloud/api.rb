@@ -29,6 +29,47 @@ require_relative 'models'
 require_relative 'drivers'
 require_relative 'helpers/driver_helper'
 
+module TestPoller
+  # This method will pool the resource until condition is true
+  # Will raise 'Timeout' when it reach retry count
+  #
+  # default opts[:retries] => 10
+  # default opts[:time_between_retry] => 10 (seconds)
+  # default opts[:timeout] => 60 (seconds) -> single request timeout
+  #
+  # opts[:before] => Proc -> executed 'before' making each request
+  # opts[:after] => Proc -> executed 'after' making each request
+  #
+  def wait_for!(driver, opts={}, &block)
+    opts[:retries] ||= 10
+    opts[:time_between_retry] ||= 10
+    opts[:timeout] ||= 60
+    opts[:method] ||= self.class.name.downcase.to_sym
+    opts[:retries].downto(0) do |r|
+      result = begin
+        timeout(opts[:timeout]) do
+          if opts[:before]
+            new_instance = opts[:before].call(r) { driver.send(opts[:method], :id => self.id) }
+          else
+            new_instance = driver.send(opts[:method], :id => self.id)
+          end
+          ((yield new_instance) == true) ? new_instance : false
+        end
+      rescue Timeout::Error
+        false
+      ensure
+        opts[:after].call(r) if opts[:after]
+      end
+      return result unless result == false
+      sleep(opts[:time_between_retry])
+    end
+    raise Timeout::Error
+  end
+end
+
+class Instance; include TestPoller; end
+class Image; include TestPoller; end
+
 module Deltacloud
 
   API_VERSION = '1.0.0'
