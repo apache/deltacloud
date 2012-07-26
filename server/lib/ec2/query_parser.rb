@@ -31,6 +31,10 @@ module Deltacloud::EC2
       :terminate_instances => { :method => :destroy_instance, :params => { 'InstanceId.1' => :id }},
     }
 
+    def self.mappings
+      MAPPINGS
+    end
+
     attr_reader :action
 
     def initialize(action)
@@ -38,12 +42,13 @@ module Deltacloud::EC2
     end
 
     def deltacloud_method
-      MAPPINGS[action.action][:method]
+      self.class.mappings[action.action][:method]
     end
 
     def deltacloud_method_params
-      MAPPINGS[action.action][:params].inject({}) do |result, p|
-        result[p.last] = action.parameters.delete(p.first)
+      parameters = action.parameters.dup
+      self.class.mappings[action.action][:params].inject({}) do |result, p|
+        result[p.last] = parameters.delete(p.first)
         result.delete_if { |k,v| v.nil? }
       end
     end
@@ -137,7 +142,7 @@ module Deltacloud::EC2
     end
 
     def valid_actions
-      ActionHandler::MAPPINGS.keys
+      ActionHandler::mappings.keys
     end
 
     def valid_action?
