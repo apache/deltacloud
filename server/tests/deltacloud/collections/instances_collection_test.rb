@@ -19,5 +19,43 @@ describe Deltacloud::Collections::Instances do
     status.must_equal 200
   end
 
+  it 'returns list of instances in various formats with index operation' do
+    formats.each do |format|
+      header 'Accept', format
+      get root_url + '/instances'
+      status.must_equal 200
+    end
+  end
+
+  it 'returns details about instance in various formats with show operation' do
+    formats.each do |format|
+      header 'Accept', format
+      get root_url + '/instances/inst1'
+      status.must_equal 200
+    end
+  end
+
+  it 'allow to create and execute actions on created instance' do
+    post root_url + '/instances', { :image_id => 'img1', :name => 'test', }
+    status.must_equal 201
+    instance_id = xml.root[:id]
+    instance_id.wont_be_nil
+    delete root_url + '/instances/' + instance_id
+    status.must_equal 405
+    # You can't remove RUNNING instance
+    (xml/'error/message').first.text.strip.must_equal 'Requested method not allowed'
+    post root_url + '/instances/' + instance_id + '/reboot'
+    status.must_equal 202
+    post root_url + '/instances/' + instance_id + '/stop'
+    status.must_equal 202
+    post root_url + '/instances/' + instance_id + '/start'
+    status.must_equal 202
+    post root_url + '/instances/' + instance_id + '/stop'
+    status.must_equal 202
+    (xml/'instance/state').first.text.strip.must_equal 'STOPPED'
+    delete root_url + '/instances/' + instance_id
+    status.must_equal 204
+  end
+
 
 end

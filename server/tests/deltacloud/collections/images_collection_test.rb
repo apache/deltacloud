@@ -17,7 +17,7 @@ describe Deltacloud::Collections::Images do
     @collection.operation(:show).must_equal Sinatra::Rabbit::ImagesCollection::ShowOperation
   end
 
-  it 'returns list of drivers in various formats with index operation' do
+  it 'returns list of images in various formats with index operation' do
     formats.each do |format|
       header 'Accept', format
       get root_url + '/images'
@@ -25,7 +25,7 @@ describe Deltacloud::Collections::Images do
     end
   end
 
-  it 'returns details about driver in various formats with show operation' do
+  it 'returns details about image in various formats with show operation' do
     formats.each do |format|
       header 'Accept', format
       get root_url + '/images/img1'
