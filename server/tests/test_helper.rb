@@ -1,3 +1,7 @@
+require 'rubygems'
+require 'logger'
+require 'rack/test'
+require 'nokogiri'
 require 'pp'
 require 'require_relative'
 
@@ -47,3 +51,11 @@ def record_retries(name='')
     }
   }
 end
+
+include Rack::Test::Methods
+
+def status; last_response.status; end
+def headers; last_response.headers; end
+def response_body; last_response.body; end
+def xml; Nokogiri::XML(response_body); end
+def formats; [ 'application/xml', 'application/json', 'text/html' ]; end
