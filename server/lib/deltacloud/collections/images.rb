@@ -22,8 +22,8 @@ module Deltacloud::Collections
     set :capability, lambda { |m| driver.respond_to? m }
 
     new_route_for :images do
-      @instance = driver.instance(credentials, :id => params[:instance_id]) if params[:instance_id]
-      halt 404 unless @instance
+      halt 404 unless params[:instance_id]
+      @instance = Instance.new( :id => params[:instance_id] )
     end
 
     collection :images do
