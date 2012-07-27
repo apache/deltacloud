@@ -124,6 +124,9 @@ task :test do
   Rake::Task["mock:fixtures:reset"].invoke
   puts "\n[ \033[1;37;mrake test:base\33[0m ]\n"
   Rake::Task["test:base"].invoke
+  Rake::Task["mock:fixtures:reset"].invoke
+  puts "\n[ \033[1;37;mrake test:ec2\33[0m ]\n"
+  Rake::Task["test:ec2"].invoke
   DRIVERS.each do |driver|
     puts "\n[ \033[1;37;mrake drivers:#{driver}\33[0m ]\n"
     Rake::Task["test:drivers:#{driver}"].invoke
@@ -164,6 +167,16 @@ namespace :test do
       'tests/drivers/models/*test.rb',          # Deltacloud models tests
       'tests/deltacloud/*test.rb',              # Deltacloud internal API tests
       'tests/deltacloud/collections/*test.rb',  # Deltacloud collections
+    ]
+  end
+
+  Rake::TestTask.new(:ec2) do |t|
+    t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
+    unless RUBY_VERSION < '1.9.0'
+      t.loader = :testrb
+    end
+    t.test_files = FileList[
+      'tests/ec2/*test.rb',                     # EC2 frontend internal API tests
     ]
   end
 
