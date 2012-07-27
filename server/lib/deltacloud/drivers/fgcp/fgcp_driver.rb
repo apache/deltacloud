@@ -1249,6 +1249,16 @@ eofwopxml
   end
 
   exceptions do
+
+    on /ALREADY_STARTED/ do
+      status 405
+    end
+
+    # trying to start a running vserver, etc.
+    on /ILLEGAL_STATE/ do
+      status 405
+    end
+
     on /AuthFailure/ do
       status 401
     end
