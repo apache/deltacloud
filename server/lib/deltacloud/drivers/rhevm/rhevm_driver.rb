@@ -278,19 +278,14 @@ class RhevmDriver < Deltacloud::BaseDriver
     unless state.respond_to?(:upcase)
       raise "State #{state.inspect} is not a string"
     end
-    case state.strip.upcase
-    when 'WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
-      'RESTORING_STATE', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE' then
-      'PENDING'
-    when 'POWERING_DOWN' then
-      'STOPPING'
-    when 'UNASSIGNED', 'DOWN', 'PAUSED', 'NOT_RESPONDING', 'SUSPENDED', 'IMAGE_ILLEGAL', 'UNKNOWN' then
-      'STOPPED'
-    when 'UP', 'MIGRATING_TO', 'MIGRATING_FROM'
-      'RUNNING'
-    else
-      raise "Unexpected state '#{state}'"
-    end
+    state = state.gsub('\\', '').strip.upcase
+    return 'PENDING' if ['WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
+                        'RESTORING_STATE', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE'].include? state
+    return 'STOPPING' if state == 'POWERING_DOWN'
+    return 'STOPPED' if ['UNASSIGNED', 'DOWN', 'PAUSED', 'NOT_RESPONDING', 'SUSPENDED',
+                         'IMAGE_ILLEGAL', 'UNKNOWN'].include? state
+    return 'RUNNING' if ['UP', 'MIGRATING_TO', 'MIGRATING_FROM'].include? state
+    raise "Unexpected state '#{state}'"
   end
 
   def convert_volume(volume)
