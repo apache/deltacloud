@@ -49,7 +49,7 @@ module Deltacloud::Collections
                 stdin.write( gv )
                 stdin.close()
                 png = stdout.read
-              end
+              end rescue Errno::EPIPE
               content_type 'image/png'
               png
             end
