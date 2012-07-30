@@ -2,15 +2,15 @@
 http_interactions:
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=RunInstances&AddressingType=public&ImageId=ami-aecd60c7&InstanceType=t1.micro&KeyName=test1&MaxCount=1&MinCount=1&Placement.AvailabilityZone=us-east-1a&SecurityGroup.1=default&Signature=xoCDwGrtLmj2z2kDBktyTrkrInC8Dro6X523yYnn0yQ=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&UserData=testuserdata&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=RunInstances&AddressingType=public&ImageId=ami-aecd60c7&InstanceType=t1.micro&KeyName=test1&MaxCount=1&MinCount=1&Placement.AvailabilityZone=us-east-1a&Signature=R0RoODEniv2px1ilemZ5L3PykJeYd+8GkgY9u8hZyrY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&UserData=testuserdata&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -18,25 +18,25 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:24:34 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:06:44 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RunInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>f6e2047f-36e3-45a2-9ca2-7a2d675bc380</requestId>\n
-        \   <reservationId>r-627ab106</reservationId>\n    <ownerId>293787749884</ownerId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>6825ad3c-56bd-4ecd-bf66-14ac2a222559</requestId>\n
+        \   <reservationId>r-882d9cec</reservationId>\n    <ownerId>293787749884</ownerId>\n
         \   <groupSet>\n        <item>\n            <groupId>default</groupId>\n        </item>\n
-        \   </groupSet>\n    <instancesSet>\n        <item>\n            <instanceId>i-8aebc4f2</instanceId>\n
+        \   </groupSet>\n    <instancesSet>\n        <item>\n            <instanceId>i-fd749186</instanceId>\n
         \           <imageId>ami-aecd60c7</imageId>\n            <instanceState>\n
         \               <code>0</code>\n                <name>pending</name>\n            </instanceState>\n
         \           <privateDnsName/>\n            <dnsName/>\n            <reason/>\n
         \           <keyName>test1</keyName>\n            <amiLaunchIndex>0</amiLaunchIndex>\n
         \           <productCodes/>\n            <instanceType>t1.micro</instanceType>\n
-        \           <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n            <placement>\n
+        \           <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n            <placement>\n
         \               <availabilityZone>us-east-1a</availabilityZone>\n                <groupName/>\n
         \           </placement>\n            <kernelId>aki-88aa75e1</kernelId>\n
         \           <monitoring>\n                <state>disabled</state>\n            </monitoring>\n
@@ -46,18 +46,18 @@ http_interactions:
         \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
         \           <clientToken/>\n        </item>\n    </instancesSet>\n</RunInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -65,56 +65,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:24:57 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:07 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>e9d2dc80-1c0e-486d-9927-0c64a41fc0f3</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>1547a31c-7dbb-4f33-b97e-ed26a25c7242</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -122,56 +122,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:24:58 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:08 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>eca35b42-08cc-42d3-8441-beb7e59d64c3</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>cc993e7b-1cbe-4ab4-b9a0-46943d5c9d3b</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -179,56 +179,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:24:58 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:08 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>9ae030bc-d5b2-4e24-89bd-6d93af41b432</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>fdac9df8-2723-4384-a65d-5d263cf9569a</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -236,56 +236,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:24:59 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:08 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>90dd903a-22ba-4be5-8bf2-67bd78b09f1a</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>c458844c-c2a2-4542-b3c0-63ac83f70934</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -293,56 +293,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:00 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:09 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>031e48e9-580c-4e34-9422-86931aaa006e</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>3470f147-9ad0-4161-9d78-8150eefbd852</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -350,56 +350,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:01 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:10 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>5f464a9f-33eb-4ca2-b5d4-b7c1ca87e251</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>96868514-b4ed-486a-a8ca-4dd2f17882ed</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -407,56 +407,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:02 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:10 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>d2eed2ec-34a8-4392-a07b-bf1546823e4c</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>7c4a1e37-1be7-411d-a5a1-0b23b0d87e42</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -464,56 +464,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:03 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:11 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>ae6d853b-53b5-4d70-b02f-9367fb676112</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>055bdaef-0508-4d6d-8a9a-0ecd104daf6d</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -521,56 +521,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:04 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:11 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>e043a407-ac66-40fe-9c22-69ace18b1646</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>78e2843b-0e83-4eae-b957-ef39075a9868</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -578,56 +578,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:05 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:12 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>e79b5951-9090-40ae-b40e-32641a3e3566</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>01cec307-2683-40d4-a50c-6e5b83157de3</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -635,56 +635,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:05 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:13 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>19f15a39-de2a-4472-b158-b2f1a9dc9f58</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>ce7e45e0-6e0a-4a5b-a204-88054d4b0502</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -692,56 +692,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:05 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:14 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>144bc30e-71de-43f2-ba52-cd29516e71ec</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>a8f629d3-94c5-4f9a-8b34-51d2ddf2f6a0</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -749,56 +749,56 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:06 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:15 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>a74d1601-e7a2-4b21-a0a9-7de157248682</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>9c485099-d4de-4499-b8e2-ded1ec3bdb90</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
         \                   <instanceState>\n                        <code>16</code>\n
         \                       <name>running</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
         \                   <reason/>\n                    <keyName>test1</keyName>\n
         \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
-        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n
         \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=TerminateInstances&InstanceId.1=i-8aebc4f2&Signature=wnnbqeEEKQVHk0JlMWK+DXMNN0egWJBm3s+MZniMs28=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=TerminateInstances&InstanceId.1=i-fd749186&Signature=v0K4YTFYd8y/+V2NN2Y+IQt65986IKDMuSa8AUXi2Fo=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ''
     headers:
-      Accept:
-      - ! '*/*'
       User-Agent:
       - ''
+      Accept:
+      - ! '*/*'
   response:
     status:
       code: 200
@@ -806,26 +806,86 @@ http_interactions:
     headers:
       Content-Type:
       - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:07 GMT
-      Server:
-      - AmazonEC2
+      - Mon, 30 Jul 2012 11:07:15 GMT
     body:
-      encoding: US-ASCII
+      encoding: UTF-8
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<TerminateInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>ebfedb87-2db0-4a6d-bf64-bc9e552dbaa4</requestId>\n
-        \   <instancesSet>\n        <item>\n            <instanceId>i-8aebc4f2</instanceId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>11b3b2e2-db5b-4ec5-a53b-c55c2c2a3f69</requestId>\n
+        \   <instancesSet>\n        <item>\n            <instanceId>i-fd749186</instanceId>\n
         \           <currentState>\n                <code>32</code>\n                <name>shutting-down</name>\n
         \           </currentState>\n            <previousState>\n                <code>16</code>\n
         \               <name>running</name>\n            </previousState>\n        </item>\n
         \   </instancesSet>\n</TerminateInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
 - request:
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeInstances&InstanceId.1=i-8aebc4f2&Signature=ZUP5RvEqK9oMtW/M8PcWuKLViw/EiEgzPvwxPcw8Bsg=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-fd749186&Signature=Rg03inb0DLdzZQyCPvRURftYeu4Pld+SDhWZWObVxcU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      User-Agent:
+      - ''
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Server:
+      - AmazonEC2
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:07:16 GMT
+    body:
+      encoding: UTF-8
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>c632b68e-83c4-4441-b1ce-ee497bbc1c98</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-882d9cec</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-fd749186</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>32</code>\n
+        \                       <name>shutting-down</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-02-7E-CB.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-23-22-177-20.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason>User initiated (2012-07-30 11:07:16 GMT)</reason>\n
+        \                   <keyName>test1</keyName>\n                    <amiLaunchIndex>0</amiLaunchIndex>\n
+        \                   <productCodes/>\n                    <instanceType>t1.micro</instanceType>\n
+        \                   <launchTime>2012-07-30T11:06:44.000Z</launchTime>\n                    <placement>\n
+        \                       <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.248.129.53</privateIpAddress>\n
+        \                   <ipAddress>23.22.177.20</ipAddress>\n                    <stateReason>\n
+        \                       <code>Client.UserInitiatedShutdown</code>\n                        <message>Client.UserInitiatedShutdown:
+        User initiated shutdown</message>\n                    </stateReason>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-e66f6087</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:07:05.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=RunInstances&AddressingType=public&ImageId=ami-aecd60c7&InstanceType=t1.micro&KeyName=test1&MaxCount=1&MinCount=1&Placement.AvailabilityZone=us-east-1a&SecurityGroup.1=default&Signature=8cFeW7c7C5SkhPpGDz0gIv8btxPzYgTFPnwFSFcFkbA=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&UserData=testuserdata&Version=2010-08-31
     body:
       encoding: US-ASCII
       string: ''
@@ -844,43 +904,866 @@ http_interactions:
       Transfer-Encoding:
       - chunked
       Date:
-      - Mon, 23 Jul 2012 12:25:07 GMT
+      - Mon, 30 Jul 2012 11:10:09 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<RunInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>21dcdb26-2b73-4d9e-8773-f42d521ea35f</requestId>\n
+        \   <reservationId>r-8a2e9fee</reservationId>\n    <ownerId>293787749884</ownerId>\n
+        \   <groupSet>\n        <item>\n            <groupId>default</groupId>\n        </item>\n
+        \   </groupSet>\n    <instancesSet>\n        <item>\n            <instanceId>i-2570955e</instanceId>\n
+        \           <imageId>ami-aecd60c7</imageId>\n            <instanceState>\n
+        \               <code>0</code>\n                <name>pending</name>\n            </instanceState>\n
+        \           <privateDnsName/>\n            <dnsName/>\n            <reason/>\n
+        \           <keyName>test1</keyName>\n            <amiLaunchIndex>0</amiLaunchIndex>\n
+        \           <productCodes/>\n            <instanceType>t1.micro</instanceType>\n
+        \           <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n            <placement>\n
+        \               <availabilityZone>us-east-1a</availabilityZone>\n                <groupName/>\n
+        \           </placement>\n            <kernelId>aki-88aa75e1</kernelId>\n
+        \           <monitoring>\n                <state>disabled</state>\n            </monitoring>\n
+        \           <stateReason>\n                <code>pending</code>\n                <message>pending</message>\n
+        \           </stateReason>\n            <architecture>x86_64</architecture>\n
+        \           <rootDeviceType>ebs</rootDeviceType>\n            <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
+        \           <clientToken/>\n        </item>\n    </instancesSet>\n</RunInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:31 GMT
       Server:
       - AmazonEC2
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>86db4dd8-493e-468f-9a44-0fff837d5513</requestId>\n
-        \   <reservationSet>\n        <item>\n            <reservationId>r-627ab106</reservationId>\n
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>5c25ca7b-10b0-4a2a-83f1-8556ddc67257</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
         \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
         \                   <groupId>default</groupId>\n                </item>\n
         \           </groupSet>\n            <instancesSet>\n                <item>\n
-        \                   <instanceId>i-8aebc4f2</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
-        \                   <instanceState>\n                        <code>32</code>\n
-        \                       <name>shutting-down</name>\n                    </instanceState>\n
-        \                   <privateDnsName>domU-12-31-39-10-42-E7.compute-1.internal</privateDnsName>\n
-        \                   <dnsName>ec2-23-20-131-250.compute-1.amazonaws.com</dnsName>\n
-        \                   <reason>User initiated (2012-07-23 12:25:07 GMT)</reason>\n
-        \                   <keyName>test1</keyName>\n                    <amiLaunchIndex>0</amiLaunchIndex>\n
-        \                   <productCodes/>\n                    <instanceType>t1.micro</instanceType>\n
-        \                   <launchTime>2012-07-23T12:24:34.000Z</launchTime>\n                    <placement>\n
-        \                       <availabilityZone>us-east-1a</availabilityZone>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
         \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
         \                   <monitoring>\n                        <state>disabled</state>\n
-        \                   </monitoring>\n                    <privateIpAddress>10.198.65.17</privateIpAddress>\n
-        \                   <ipAddress>23.20.131.250</ipAddress>\n                    <stateReason>\n
-        \                       <code>Client.UserInitiatedShutdown</code>\n                        <message>Client.UserInitiatedShutdown:
-        User initiated shutdown</message>\n                    </stateReason>\n                    <architecture>x86_64</architecture>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
         \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
         \                   <blockDeviceMapping>\n                        <item>\n
         \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
-        \                               <volumeId>vol-4ad78c2b</volumeId>\n                                <status>attached</status>\n
-        \                               <attachTime>2012-07-23T12:24:53.000Z</attachTime>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
         \                               <deleteOnTermination>true</deleteOnTermination>\n
         \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
         \                   <virtualizationType>paravirtual</virtualizationType>\n
         \                   <clientToken/>\n                </item>\n            </instancesSet>\n
         \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:32 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>4dcfdd88-bf4f-4f2f-bf3d-7d629c19a0e0</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:33 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>cac06d76-46ae-4554-a858-460acc42e3ac</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:34 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>bfaafee7-52c0-401f-a298-b43d04ff6a1f</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:34 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>3f20f492-0d14-480f-97b7-7b8b753222d9</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:36 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>8712c198-79e4-4abd-bce8-48264d2f08ae</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:36 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>2a574354-6c22-4a8c-91c0-61aa5e19ea8e</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:37 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>f4dbbd76-1501-46d7-beeb-16420d248ec3</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:38 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>34083f03-22bb-4817-8c17-8dbdcd3caa5e</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:38 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>54611bef-ff1c-4118-adbe-418fbf1d3bce</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:38 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>8ff76241-533c-4c07-97d9-1b25a5c186f1</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:39 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>2fba0b0b-ebe6-4488-b234-0eae03f3d76c</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:41 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>c5d072a3-4b53-429f-ad75-70307e50ebd3</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>16</code>\n
+        \                       <name>running</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason/>\n                    <keyName>test1</keyName>\n
+        \                   <amiLaunchIndex>0</amiLaunchIndex>\n                    <productCodes/>\n
+        \                   <instanceType>t1.micro</instanceType>\n                    <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n
+        \                   <placement>\n                        <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=TerminateInstances&InstanceId.1=i-2570955e&Signature=lMcpzE5ztcCNAv/B5N/uptBvexEUxr8jyk6p49ZTj58=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:42 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<TerminateInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>2e6e3945-1d26-4a14-908d-88ec82ee5d0f</requestId>\n
+        \   <instancesSet>\n        <item>\n            <instanceId>i-2570955e</instanceId>\n
+        \           <currentState>\n                <code>32</code>\n                <name>shutting-down</name>\n
+        \           </currentState>\n            <previousState>\n                <code>16</code>\n
+        \               <name>running</name>\n            </previousState>\n        </item>\n
+        \   </instancesSet>\n</TerminateInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-2570955e&Signature=nmsD4nelZt1ddVHrSPKuJRoUrbcKRFLQaPd9YAFep60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 30 Jul 2012 11:10:42 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeInstancesResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>5b47dec9-63f2-4a32-8266-cfd6f5815d9d</requestId>\n
+        \   <reservationSet>\n        <item>\n            <reservationId>r-8a2e9fee</reservationId>\n
+        \           <ownerId>293787749884</ownerId>\n            <groupSet>\n                <item>\n
+        \                   <groupId>default</groupId>\n                </item>\n
+        \           </groupSet>\n            <instancesSet>\n                <item>\n
+        \                   <instanceId>i-2570955e</instanceId>\n                    <imageId>ami-aecd60c7</imageId>\n
+        \                   <instanceState>\n                        <code>32</code>\n
+        \                       <name>shutting-down</name>\n                    </instanceState>\n
+        \                   <privateDnsName>domU-12-31-39-03-30-7D.compute-1.internal</privateDnsName>\n
+        \                   <dnsName>ec2-107-22-66-178.compute-1.amazonaws.com</dnsName>\n
+        \                   <reason>User initiated (2012-07-30 11:10:42 GMT)</reason>\n
+        \                   <keyName>test1</keyName>\n                    <amiLaunchIndex>0</amiLaunchIndex>\n
+        \                   <productCodes/>\n                    <instanceType>t1.micro</instanceType>\n
+        \                   <launchTime>2012-07-30T11:10:09.000Z</launchTime>\n                    <placement>\n
+        \                       <availabilityZone>us-east-1a</availabilityZone>\n
+        \                       <groupName/>\n                    </placement>\n                    <kernelId>aki-88aa75e1</kernelId>\n
+        \                   <monitoring>\n                        <state>disabled</state>\n
+        \                   </monitoring>\n                    <privateIpAddress>10.249.51.139</privateIpAddress>\n
+        \                   <ipAddress>107.22.66.178</ipAddress>\n                    <stateReason>\n
+        \                       <code>Client.UserInitiatedShutdown</code>\n                        <message>Client.UserInitiatedShutdown:
+        User initiated shutdown</message>\n                    </stateReason>\n                    <architecture>x86_64</architecture>\n
+        \                   <rootDeviceType>ebs</rootDeviceType>\n                    <rootDeviceName>/dev/sda1</rootDeviceName>\n
+        \                   <blockDeviceMapping>\n                        <item>\n
+        \                           <deviceName>/dev/sda1</deviceName>\n                            <ebs>\n
+        \                               <volumeId>vol-506c6331</volumeId>\n                                <status>attached</status>\n
+        \                               <attachTime>2012-07-30T11:10:28.000Z</attachTime>\n
+        \                               <deleteOnTermination>true</deleteOnTermination>\n
+        \                           </ebs>\n                        </item>\n                    </blockDeviceMapping>\n
+        \                   <virtualizationType>paravirtual</virtualizationType>\n
+        \                   <clientToken/>\n                </item>\n            </instancesSet>\n
+        \       </item>\n    </reservationSet>\n</DescribeInstancesResponse>"
+    http_version: 
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+recorded_with: VCR 2.2.4

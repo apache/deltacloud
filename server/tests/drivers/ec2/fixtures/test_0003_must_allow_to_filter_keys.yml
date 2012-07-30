@@ -1,163 +1,180 @@
----
-http_interactions:
-- request:
+--- 
+http_interactions: 
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=test1&Signature=Joj0FkHDH1/SQw+nVTiAQgQKo+uuCmMmRWtKHXLqunI=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:10 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>909535b1-bded-42f7-9603-b1970de6db64</requestId>\n
-        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
-        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:01 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>d3a8a58b-2008-46ce-a9fa-ace3d2486a9a</requestId>
+            <keySet>
+                <item>
+                    <keyName>test1</keyName>
+                    <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>
+                </item>
+            </keySet>
+        </DescribeKeyPairsResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=test1&Signature=Joj0FkHDH1/SQw+nVTiAQgQKo+uuCmMmRWtKHXLqunI=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:11 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>7de17cc6-e53a-47bb-8801-348d0d56e8cf</requestId>\n
-        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
-        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:02 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>6f7b8b4f-8c5b-409c-9315-11df822ef599</requestId>
+            <keySet>
+                <item>
+                    <keyName>test1</keyName>
+                    <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>
+                </item>
+            </keySet>
+        </DescribeKeyPairsResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=test1&Signature=Joj0FkHDH1/SQw+nVTiAQgQKo+uuCmMmRWtKHXLqunI=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:11 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>ec0d3d07-76e5-4df3-8efa-f9fdebf7520c</requestId>\n
-        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
-        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:03 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>2c4e8280-3795-46ef-97b4-808251b08ed8</requestId>
+            <keySet>
+                <item>
+                    <keyName>test1</keyName>
+                    <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>
+                </item>
+            </keySet>
+        </DescribeKeyPairsResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test1&Signature=X2DSDB5Q1aZXQpXSU14UPHemqi5PDNB7ltGIuwYXg4A=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=test1&Signature=Joj0FkHDH1/SQw+nVTiAQgQKo+uuCmMmRWtKHXLqunI=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:12 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>e5a0c9ef-2510-4358-8645-6e00c92fcf61</requestId>\n
-        \   <keySet>\n        <item>\n            <keyName>test1</keyName>\n            <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>\n
-        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:03 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>f6a469f8-d75c-4087-a8df-bab1cf2f6f22</requestId>
+            <keySet>
+                <item>
+                    <keyName>test1</keyName>
+                    <keyFingerprint>3d:22:8e:63:63:45:53:fa:50:3b:e7:00:09:aa:c0:7f:95:8c:2c:b5</keyFingerprint>
+                </item>
+            </keySet>
+        </DescribeKeyPairsResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=unknown&Signature=arkcDAXicuFyUh1HA8Xdnc3dPyDR85xl5R7wo8vOf8s=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=unknown&Signature=I7/JtwvxhmqLFQ7CUYy4vyPQxKg6mkPNMpJ3q7vpli4=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 400
       message: Bad Request
-    headers:
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:13 GMT
-      Cneonction:
+    headers: 
+      Cneonction: 
       - close
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! '<?xml version="1.0" encoding="UTF-8"?>
-
-        <Response><Errors><Error><Code>InvalidKeyPair.NotFound</Code><Message>The
-        key pair ''unknown'' does not exist</Message></Error></Errors><RequestID>616ff498-dae8-4708-874b-5aa7516cd42f</RequestID></Response>'
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:04 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response><Errors><Error><Code>InvalidKeyPair.NotFound</Code><Message>The key pair 'unknown' does not exist</Message></Error></Errors><RequestID>e936912f-c98a-4a08-8e87-7b99d143f048</RequestID></Response>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+recorded_with: VCR 2.2.4

@@ -1,783 +1,1395 @@
----
-http_interactions:
-- request:
+--- 
+recorded_with: VCR 2.2.4
+http_interactions: 
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=KLzLL4dy5UUeBWFUDbYUZ38wvyCr2jGXq++7Qdpcb2k=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=7xtiwWEIAuEU3TfSKWNtSMr8NxrkBEGMdy0t8enC/ec=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
-      - text/xml;charset=UTF-8
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:35 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeImagesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>5be8b2ed-fed9-45a2-9b3b-ea6fcc028ef9</requestId>\n
-        \   <imagesSet>\n        <item>\n            <imageId>ami-aecd60c7</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-b4f064ca</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \   </imagesSet>\n</DescribeImagesResponse>"
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Mon, 30 Jul 2012 11:05:27 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>91b1f964-91b8-407b-a417-42222c96b228</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-aecd60c7</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-b4f064ca</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=KLzLL4dy5UUeBWFUDbYUZ38wvyCr2jGXq++7Qdpcb2k=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=7xtiwWEIAuEU3TfSKWNtSMr8NxrkBEGMdy0t8enC/ec=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
-      - text/xml;charset=UTF-8
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:36 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeImagesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>de757992-a907-42ca-af2e-56f6b72cbfd7</requestId>\n
-        \   <imagesSet>\n        <item>\n            <imageId>ami-aecd60c7</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-b4f064ca</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \   </imagesSet>\n</DescribeImagesResponse>"
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Mon, 30 Jul 2012 11:05:28 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>f9de928f-6ff9-4fbc-9b9e-ed2328dc7afc</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-aecd60c7</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-b4f064ca</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=KLzLL4dy5UUeBWFUDbYUZ38wvyCr2jGXq++7Qdpcb2k=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=7xtiwWEIAuEU3TfSKWNtSMr8NxrkBEGMdy0t8enC/ec=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
-      - text/xml;charset=UTF-8
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:37 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeImagesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>d9f8733c-f239-4b5f-91bc-59ae3e304f18</requestId>\n
-        \   <imagesSet>\n        <item>\n            <imageId>ami-aecd60c7</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-b4f064ca</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \   </imagesSet>\n</DescribeImagesResponse>"
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Mon, 30 Jul 2012 11:05:27 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>4d10716c-e4ad-4666-929f-12d251995769</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-aecd60c7</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-b4f064ca</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=KLzLL4dy5UUeBWFUDbYUZ38wvyCr2jGXq++7Qdpcb2k=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&ImageId.1=ami-aecd60c7&Signature=7xtiwWEIAuEU3TfSKWNtSMr8NxrkBEGMdy0t8enC/ec=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
-      - text/xml;charset=UTF-8
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:38 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeImagesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>93de8dd4-8485-47f7-a8ba-a20ae20697ec</requestId>\n
-        \   <imagesSet>\n        <item>\n            <imageId>ami-aecd60c7</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-b4f064ca</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \   </imagesSet>\n</DescribeImagesResponse>"
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Mon, 30 Jul 2012 11:05:29 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>db08c4af-fbee-4adb-9e26-59c90c34b0dc</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-aecd60c7</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-b4f064ca</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&Filter.1.Name=image-type&Filter.1.Value.1=machine&Owner.1=137112412989&Signature=wwlEd6hj44+aR5YUPEwFb6S/fJzl2GQuvVGPM1B/oyA=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&Filter.1.Name=image-type&Filter.1.Value.1=machine&Owner.1=137112412989&Signature=+lGt+yIgRZGn1dj/WYhWSXbSdrEG2LNQpOgopFmJGGk=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
-      - text/xml;charset=UTF-8
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:38 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeImagesResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>3d06e5d2-3155-4872-ba8e-e953cfa35b94</requestId>\n
-        \   <imagesSet>\n        <item>\n            <imageId>ami-0078da69</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.2.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.2.x86_64-s3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-0278da6b</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.2.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-b6aa75df</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.2.i386-s3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-08728661</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-0.9.9-beta.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.9-beta.i386-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-674a930d</snapshotId>\n
-        \                       <volumeSize>10</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-0af30663</imageId>\n            <imageLocation>amazon/amzn-ami-0.9.7-beta.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.7-beta.x86_64-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-f295cd99</snapshotId>\n
-        \                       <volumeSize>10</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-0da96764</imageId>\n            <imageLocation>amazon/amzn-hvm-ami-2011.09.2.x86_64</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-hvm-ami-2011.09.2.x86_64</name>\n            <description>Amazon
-        Linux AMI x86_64 HVM EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-53b64631</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-1b814f72</imageId>\n            <imageLocation>amazon/amzn-ami-2011.09.2.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-825ea7eb</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.2.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-59f01b3b</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-221fec4b</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.02.1.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.02.1.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-2272864b</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-0.9.9-beta.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.9-beta.x86_64-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-8926ffe3</snapshotId>\n
-        \                       <volumeSize>10</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-2a1fec43</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.02.1.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.02.1.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-30f30659</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-0.9.7-beta.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.7-beta.i386-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-d895cdb3</snapshotId>\n
-        \                       <volumeSize>10</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-31814f58</imageId>\n            <imageLocation>amazon/amzn-ami-2011.09.2.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-805ea7e9</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.2.i386-ebs</name>\n
-        \           <description>Amazon Linux AMI i386 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-0ff3186d</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-321eed5b</imageId>\n            <imageLocation>amazon/amzn-hvm-ami-2011.02.1-beta.x86_64-ext4</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-hvm-ami-2011.02.1-beta.x86_64-ext4</name>\n            <description>Amazon
-        Linux AMI x86_64 HVM EBS EXT4</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-7a18c216</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-38c33651</imageId>\n            <imageLocation>amazon/amzn-ami-0.9.8-beta.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.8-beta.x86_64-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-10b9957b</snapshotId>\n
-        \                       <volumeSize>10</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-3ac33653</imageId>\n            <imageLocation>amazon/amzn-ami-0.9.8-beta.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.8-beta.i386-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-14ba967f</snapshotId>\n
-        \                       <volumeSize>10</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-41814f28</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.2.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-825ea7eb</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.2.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-4478da2d</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-gpu-hvm-2012.03.2.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-ami-gpu-hvm-2012.03.2.x86_64-ebs</name>\n            <description>Amazon
-        Linux AMI x86_64 GPU EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-739b3f0d</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-4b814f22</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.2.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-805ea7e9</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.2.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-6078da09</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.2.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.2.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-e59d399b</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-6678da0f</imageId>\n            <imageLocation>amazon/amzn-ami-hvm-2012.03.2.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-ami-hvm-2012.03.2.x86_64-ebs</name>\n            <description>Amazon
-        Linux AMI x86_64 HVM EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-299e3a57</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-6e78da07</imageId>\n            <imageLocation>amazon/amzn-ami-pv-2012.03.2.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-b6aa75df</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.2.i386-ebs</name>\n
-        \           <description>Amazon Linux AMI i386 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-879e3af9</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-7341831a</imageId>\n            <imageLocation>amazon/amzn-ami-2011.09.1.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-825ea7eb</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.1.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-8d3fd3ee</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-74f0061d</imageId>\n            <imageLocation>amazon/amzn-ami-2010.11.1-beta.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2010.11.1-beta.x86_64-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-ffa69295</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-76f0061f</imageId>\n            <imageLocation>amazon/amzn-ami-2010.11.1-beta.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2010.11.1-beta.i386-ebs</name>\n
-        \           <description>Amazon</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-cba692a1</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-7f418316</imageId>\n            <imageLocation>amazon/amzn-ami-2011.09.1.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-805ea7e9</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.1.i386-ebs</name>\n
-        \           <description>Amazon Linux AMI i386 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-133fd370</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-827185eb</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.9-beta.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.9-beta.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-8c1fece5</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-2011.02.1.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.02.1.i386-ebs</name>\n
-        \           <description>Amazon Linux AMI i386 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-22fc264e</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-8cc035e5</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.8-beta.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.8-beta.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-8e1fece7</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-2011.02.1.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.02.1.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-a6fc26ca</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-8ec035e7</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.8-beta.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.8-beta.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-94cd60fd</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.3.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.x86_64-s3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-954082fc</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.1.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-825ea7eb</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.1.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-987185f1</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.9-beta.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.9-beta.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-9f4082f6</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.1.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-805ea7e9</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2011.09.1.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-a0cd60c9</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.3.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-b6aa75df</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.i386-ebs</name>\n
-        \           <description>Amazon Linux AMI i386 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-86f064f8</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-a8cd60c1</imageId>\n            <imageLocation>amazon/amzn-ami-hvm-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-ami-hvm-2012.03.3.x86_64-ebs</name>\n            <description>Amazon
-        Linux AMI x86_64 HVM EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-48f76336</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-a99d6bc0</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-2010.11.1-beta.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2010.11.1-beta.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-aecd60c7</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-b4f064ca</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-b6cd60df</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.3.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-b6aa75df</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.3.i386-s3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-d59d6bbc</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-2010.11.1-beta.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-2010.11.1-beta.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-d8f005b1</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.7-beta.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-427d952b</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.7-beta.x86_64-S3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-daf005b3</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.7-beta.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-407d9529</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-0.9.7-beta.i386-S3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-db65bab2</imageId>\n
-        \           <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.1.i386.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-b6aa75df</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.1.i386-s3</name>\n
-        \           <description>Amazon Linux AMI i386 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-df4183b6</imageId>\n
-        \           <imageLocation>amazon/amzn-hvm-ami-2011.09.1.x86_64</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-hvm-ami-2011.09.1.x86_64</name>\n            <description>Amazon
-        Linux AMI x86_64 HVM EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-0b11fd68</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-e565ba8c</imageId>\n            <imageLocation>amazon/amzn-ami-pv-2012.03.1.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.1.x86_64-ebs</name>\n
-        \           <description>Amazon Linux AMI x86_64 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-dbb6e5a1</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-e965ba80</imageId>\n            <imageLocation>amazon/amzn-ami-hvm-2012.03.1.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-ami-hvm-2012.03.1.x86_64-ebs</name>\n            <description>Amazon
-        Linux AMI x86_64 HVM EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-9db2e1e7</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-eccf6285</imageId>\n            <imageLocation>amazon/amzn-ami-gpu-hvm-2012.03.3.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-ami-gpu-hvm-2012.03.3.x86_64-ebs</name>\n            <description>Amazon
-        Linux AMI x86_64 GPU EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-2449dd5a</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-ed65ba84</imageId>\n            <imageLocation>amazon/amzn-ami-pv-2012.03.1.i386-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>i386</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-b6aa75df</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.1.i386-ebs</name>\n
-        \           <description>Amazon Linux AMI i386 EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-2bb6e551</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>paravirtual</virtualizationType>\n        </item>\n
-        \       <item>\n            <imageId>ami-f565ba9c</imageId>\n            <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.1.x86_64.manifest.xml</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <kernelId>aki-88aa75e1</kernelId>\n
-        \           <imageOwnerAlias>amazon</imageOwnerAlias>\n            <name>amzn-ami-pv-2012.03.1.x86_64-s3</name>\n
-        \           <description>Amazon Linux AMI x86_64 S3</description>\n            <rootDeviceType>instance-store</rootDeviceType>\n
-        \           <blockDeviceMapping/>\n            <virtualizationType>paravirtual</virtualizationType>\n
-        \       </item>\n        <item>\n            <imageId>ami-fd65ba94</imageId>\n
-        \           <imageLocation>amazon/amzn-ami-gpu-hvm-2012.03.1.x86_64-ebs</imageLocation>\n
-        \           <imageState>available</imageState>\n            <imageOwnerId>137112412989</imageOwnerId>\n
-        \           <isPublic>true</isPublic>\n            <architecture>x86_64</architecture>\n
-        \           <imageType>machine</imageType>\n            <imageOwnerAlias>amazon</imageOwnerAlias>\n
-        \           <name>amzn-ami-gpu-hvm-2012.03.1.x86_64-ebs</name>\n            <description>Amazon
-        Linux AMI x86_64 GPU EBS</description>\n            <rootDeviceType>ebs</rootDeviceType>\n
-        \           <rootDeviceName>/dev/sda1</rootDeviceName>\n            <blockDeviceMapping>\n
-        \               <item>\n                    <deviceName>/dev/sda1</deviceName>\n
-        \                   <ebs>\n                        <snapshotId>snap-2db6e557</snapshotId>\n
-        \                       <volumeSize>8</volumeSize>\n                        <deleteOnTermination>true</deleteOnTermination>\n
-        \                   </ebs>\n                </item>\n            </blockDeviceMapping>\n
-        \           <virtualizationType>hvm</virtualizationType>\n        </item>\n
-        \   </imagesSet>\n</DescribeImagesResponse>"
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Mon, 30 Jul 2012 11:05:30 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeImagesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>10d318b0-265a-4dab-8b21-7f7eaaae1ec8</requestId>
+            <imagesSet>
+                <item>
+                    <imageId>ami-0078da69</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.2.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.2.x86_64-s3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-0278da6b</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.2.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-b6aa75df</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.2.i386-s3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-08728661</imageId>
+                    <imageLocation>amazon/amzn-ami-0.9.9-beta.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.9-beta.i386-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-674a930d</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-0af30663</imageId>
+                    <imageLocation>amazon/amzn-ami-0.9.7-beta.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.7-beta.x86_64-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-f295cd99</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-0da96764</imageId>
+                    <imageLocation>amazon/amzn-hvm-ami-2011.09.2.x86_64</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-hvm-ami-2011.09.2.x86_64</name>
+                    <description>Amazon Linux AMI x86_64 HVM EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-53b64631</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-1b814f72</imageId>
+                    <imageLocation>amazon/amzn-ami-2011.09.2.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-825ea7eb</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.2.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-59f01b3b</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-221fec4b</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.02.1.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.02.1.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-2272864b</imageId>
+                    <imageLocation>amazon/amzn-ami-0.9.9-beta.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.9-beta.x86_64-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-8926ffe3</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-2a1fec43</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.02.1.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.02.1.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-30f30659</imageId>
+                    <imageLocation>amazon/amzn-ami-0.9.7-beta.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.7-beta.i386-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-d895cdb3</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-31814f58</imageId>
+                    <imageLocation>amazon/amzn-ami-2011.09.2.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-805ea7e9</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.2.i386-ebs</name>
+                    <description>Amazon Linux AMI i386 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-0ff3186d</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-321eed5b</imageId>
+                    <imageLocation>amazon/amzn-hvm-ami-2011.02.1-beta.x86_64-ext4</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-hvm-ami-2011.02.1-beta.x86_64-ext4</name>
+                    <description>Amazon Linux AMI x86_64 HVM EBS EXT4</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-7a18c216</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-38c33651</imageId>
+                    <imageLocation>amazon/amzn-ami-0.9.8-beta.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.8-beta.x86_64-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-10b9957b</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-3ac33653</imageId>
+                    <imageLocation>amazon/amzn-ami-0.9.8-beta.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.8-beta.i386-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-14ba967f</snapshotId>
+                                <volumeSize>10</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-41814f28</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.2.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-825ea7eb</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.2.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-4478da2d</imageId>
+                    <imageLocation>amazon/amzn-ami-gpu-hvm-2012.03.2.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-gpu-hvm-2012.03.2.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 GPU EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-739b3f0d</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-4b814f22</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.2.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-805ea7e9</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.2.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-6078da09</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.2.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.2.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-e59d399b</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-6678da0f</imageId>
+                    <imageLocation>amazon/amzn-ami-hvm-2012.03.2.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-hvm-2012.03.2.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 HVM EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-299e3a57</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-6e78da07</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.2.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-b6aa75df</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.2.i386-ebs</name>
+                    <description>Amazon Linux AMI i386 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-879e3af9</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-7341831a</imageId>
+                    <imageLocation>amazon/amzn-ami-2011.09.1.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-825ea7eb</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.1.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-8d3fd3ee</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-74f0061d</imageId>
+                    <imageLocation>amazon/amzn-ami-2010.11.1-beta.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2010.11.1-beta.x86_64-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-ffa69295</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-76f0061f</imageId>
+                    <imageLocation>amazon/amzn-ami-2010.11.1-beta.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2010.11.1-beta.i386-ebs</name>
+                    <description>Amazon</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-cba692a1</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-7f418316</imageId>
+                    <imageLocation>amazon/amzn-ami-2011.09.1.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-805ea7e9</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.1.i386-ebs</name>
+                    <description>Amazon Linux AMI i386 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-133fd370</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-827185eb</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.9-beta.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.9-beta.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-8c1fece5</imageId>
+                    <imageLocation>amazon/amzn-ami-2011.02.1.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.02.1.i386-ebs</name>
+                    <description>Amazon Linux AMI i386 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-22fc264e</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-8cc035e5</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.8-beta.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.8-beta.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-8e1fece7</imageId>
+                    <imageLocation>amazon/amzn-ami-2011.02.1.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.02.1.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-a6fc26ca</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-8ec035e7</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.8-beta.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.8-beta.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-94cd60fd</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.3.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.x86_64-s3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-954082fc</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.1.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-825ea7eb</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.1.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-987185f1</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.9-beta.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.9-beta.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-9f4082f6</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2011.09.1.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-805ea7e9</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2011.09.1.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-a0cd60c9</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.3.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-b6aa75df</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.i386-ebs</name>
+                    <description>Amazon Linux AMI i386 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-86f064f8</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-a8cd60c1</imageId>
+                    <imageLocation>amazon/amzn-ami-hvm-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-hvm-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 HVM EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-48f76336</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-a99d6bc0</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2010.11.1-beta.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2010.11.1-beta.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-aecd60c7</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-b4f064ca</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-b6cd60df</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.3.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-b6aa75df</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.3.i386-s3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-d59d6bbc</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-2010.11.1-beta.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-2010.11.1-beta.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-d8f005b1</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.7-beta.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-427d952b</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.7-beta.x86_64-S3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-daf005b3</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-0.9.7-beta.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-407d9529</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-0.9.7-beta.i386-S3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-db65bab2</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.1.i386.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-b6aa75df</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.1.i386-s3</name>
+                    <description>Amazon Linux AMI i386 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-df4183b6</imageId>
+                    <imageLocation>amazon/amzn-hvm-ami-2011.09.1.x86_64</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-hvm-ami-2011.09.1.x86_64</name>
+                    <description>Amazon Linux AMI x86_64 HVM EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-0b11fd68</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-e565ba8c</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.1.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.1.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-dbb6e5a1</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-e965ba80</imageId>
+                    <imageLocation>amazon/amzn-ami-hvm-2012.03.1.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-hvm-2012.03.1.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 HVM EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-9db2e1e7</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-eccf6285</imageId>
+                    <imageLocation>amazon/amzn-ami-gpu-hvm-2012.03.3.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-gpu-hvm-2012.03.3.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 GPU EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-2449dd5a</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-ed65ba84</imageId>
+                    <imageLocation>amazon/amzn-ami-pv-2012.03.1.i386-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>i386</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-b6aa75df</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.1.i386-ebs</name>
+                    <description>Amazon Linux AMI i386 EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-2bb6e551</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-f565ba9c</imageId>
+                    <imageLocation>amzn-ami-us-east-1/amzn-ami-pv-2012.03.1.x86_64.manifest.xml</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <kernelId>aki-88aa75e1</kernelId>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-pv-2012.03.1.x86_64-s3</name>
+                    <description>Amazon Linux AMI x86_64 S3</description>
+                    <rootDeviceType>instance-store</rootDeviceType>
+                    <blockDeviceMapping/>
+                    <virtualizationType>paravirtual</virtualizationType>
+                </item>
+                <item>
+                    <imageId>ami-fd65ba94</imageId>
+                    <imageLocation>amazon/amzn-ami-gpu-hvm-2012.03.1.x86_64-ebs</imageLocation>
+                    <imageState>available</imageState>
+                    <imageOwnerId>137112412989</imageOwnerId>
+                    <isPublic>true</isPublic>
+                    <architecture>x86_64</architecture>
+                    <imageType>machine</imageType>
+                    <imageOwnerAlias>amazon</imageOwnerAlias>
+                    <name>amzn-ami-gpu-hvm-2012.03.1.x86_64-ebs</name>
+                    <description>Amazon Linux AMI x86_64 GPU EBS</description>
+                    <rootDeviceType>ebs</rootDeviceType>
+                    <rootDeviceName>/dev/sda1</rootDeviceName>
+                    <blockDeviceMapping>
+                        <item>
+                            <deviceName>/dev/sda1</deviceName>
+                            <ebs>
+                                <snapshotId>snap-2db6e557</snapshotId>
+                                <volumeSize>8</volumeSize>
+                                <deleteOnTermination>true</deleteOnTermination>
+                            </ebs>
+                        </item>
+                    </blockDeviceMapping>
+                    <virtualizationType>hvm</virtualizationType>
+                </item>
+            </imagesSet>
+        </DescribeImagesResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=ami-aaaaaaaa&Signature=XnTroSWZuVj9NK7+nugXloczy0LL4HiuZTFssXi0X3o=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&ImageId.1=ami-aaaaaaaa&Signature=HMdPYtsGfqWVjDV3CUbKTyE8CFum+ewKw5uYYsPhO+o=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 400
       message: Bad Request
-    headers:
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:39 GMT
-      Cneonction:
-      - close
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! '<?xml version="1.0" encoding="UTF-8"?>
-
-        <Response><Errors><Error><Code>InvalidAMIID.NotFound</Code><Message>The AMI
-        ID ''ami-aaaaaaaa'' does not exist</Message></Error></Errors><RequestID>71a55a59-ef30-40eb-a719-ffffecbec72c</RequestID></Response>'
+      Cneonction: 
+      - close
+      Date: 
+      - Mon, 30 Jul 2012 11:05:30 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response><Errors><Error><Code>InvalidAMIID.NotFound</Code><Message>The AMI ID 'ami-aaaaaaaa' does not exist</Message></Error></Errors><RequestID>6e3a59f3-3e2c-496d-b411-3550fc282d2f</RequestID></Response>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeImages&ImageId.1=unknown&Signature=UOe9PfwQjIeQ98xUXppbrjn7dMtgE8ADUBtyBe6rLMo=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeImages&ImageId.1=unknown&Signature=cd/Dufs0Id6k4OzWMsgkmxstPNsWiv3YtAKgr0jZSME=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 400
       message: Bad Request
-    headers:
-      Transfer-Encoding:
+    headers: 
+      Transfer-Encoding: 
       - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:23:40 GMT
-      Cneonction:
-      - close
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! '<?xml version="1.0" encoding="UTF-8"?>
-
-        <Response><Errors><Error><Code>InvalidAMIID.Malformed</Code><Message>Invalid
-        id: "unknown" (expecting "ami-...")</Message></Error></Errors><RequestID>d45a6b66-245d-4078-9f14-b48ec14b8267</RequestID></Response>'
+      Cneonction: 
+      - close
+      Date: 
+      - Mon, 30 Jul 2012 11:05:32 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response><Errors><Error><Code>InvalidAMIID.Malformed</Code><Message>Invalid id: "unknown" (expecting "ami-...")</Message></Error></Errors><RequestID>51ed9a95-e99d-40f7-8c96-0c35f7a6a1d0</RequestID></Response>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT

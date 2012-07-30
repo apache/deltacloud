@@ -2,7 +2,7 @@
 http_interactions: 
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-7177920a&Signature=DHxm7p2CMHn5fzkybhIzC977iJ/i59rnLEIXVWdrTVE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-1175906a&Signature=/0lQtQjHSNG89u6EI+HtMwray5kfpEvmhKJesTiRXnU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
     body: 
       string: ""
     headers: 
@@ -22,15 +22,15 @@ http_interactions:
       Transfer-Encoding: 
       - chunked
       Date: 
-      - Mon, 30 Jul 2012 11:07:51 GMT
+      - Mon, 30 Jul 2012 11:05:53 GMT
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>98f9d892-c605-4f89-b06f-5ff2841a3964</requestId>
+            <requestId>36315277-b16f-490f-bde1-d1304b421cc8</requestId>
             <reservationSet>
                 <item>
-                    <reservationId>r-362c9d52</reservationId>
+                    <reservationId>r-6a2d9c0e</reservationId>
                     <ownerId>293787749884</ownerId>
                     <groupSet>
                         <item>
@@ -39,19 +39,19 @@ http_interactions:
                     </groupSet>
                     <instancesSet>
                         <item>
-                            <instanceId>i-7177920a</instanceId>
+                            <instanceId>i-1175906a</instanceId>
                             <imageId>ami-aecd60c7</imageId>
                             <instanceState>
-                                <code>16</code>
-                                <name>running</name>
+                                <code>0</code>
+                                <name>pending</name>
                             </instanceState>
-                            <privateDnsName>domU-12-31-39-02-75-62.compute-1.internal</privateDnsName>
-                            <dnsName>ec2-23-20-114-135.compute-1.amazonaws.com</dnsName>
+                            <privateDnsName/>
+                            <dnsName/>
                             <reason/>
                             <amiLaunchIndex>0</amiLaunchIndex>
                             <productCodes/>
                             <instanceType>t1.micro</instanceType>
-                            <launchTime>2012-07-30T11:07:18.000Z</launchTime>
+                            <launchTime>2012-07-30T11:05:52.000Z</launchTime>
                             <placement>
                                 <availabilityZone>us-east-1a</availabilityZone>
                                 <groupName/>
@@ -60,22 +60,10 @@ http_interactions:
                             <monitoring>
                                 <state>disabled</state>
                             </monitoring>
-                            <privateIpAddress>10.248.122.144</privateIpAddress>
-                            <ipAddress>23.20.114.135</ipAddress>
                             <architecture>x86_64</architecture>
                             <rootDeviceType>ebs</rootDeviceType>
                             <rootDeviceName>/dev/sda1</rootDeviceName>
-                            <blockDeviceMapping>
-                                <item>
-                                    <deviceName>/dev/sda1</deviceName>
-                                    <ebs>
-                                        <volumeId>vol-ba6f60db</volumeId>
-                                        <status>attached</status>
-                                        <attachTime>2012-07-30T11:07:42.000Z</attachTime>
-                                        <deleteOnTermination>true</deleteOnTermination>
-                                    </ebs>
-                                </item>
-                            </blockDeviceMapping>
+                            <blockDeviceMapping/>
                             <virtualizationType>paravirtual</virtualizationType>
                             <clientToken/>
                         </item>

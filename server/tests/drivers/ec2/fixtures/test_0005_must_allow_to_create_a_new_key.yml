@@ -1,164 +1,186 @@
----
-http_interactions:
-- request:
+--- 
+http_interactions: 
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=CreateKeyPair&KeyName=test-key-1&Signature=JiS33nNgDrpDbA+AOVK5az1/GJv2rmHRT/OstQmas88=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=CreateKeyPair&KeyName=test-key-1&Signature=NyXFaoWEIHrQP8OJrHwNw5TxDhCedwcuPQpAIaCD4wk=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:03 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<CreateKeyPairResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>00a06730-5e6a-42b0-b7a8-4bbd43c18de0</requestId>\n
-        \   <keyName>test-key-1</keyName>\n    <keyFingerprint>00:de:c9:b8:0b:f7:06:66:05:12:25:90:eb:2d:92:09:4d:14:64:02</keyFingerprint>\n
-        \   <keyMaterial>-----BEGIN RSA PRIVATE KEY-----\nMIIEogIBAAKCAQEAkAQUqaBvFVxPicOm6U+OC6rGkZZzO0MOymlDDCZbUllpYmMCgUIdeU1GKb4q\nCbkpIdeqfE9wbd/5fCL+m5T6nRAdXi2LsLK5j/tutEXfE5TBndpwraYhtm0Rlj+nleFe0NDrnRHm\nxbkqGsCJ+xByQZMHcGRXuVOvcPsq4DcAg7BWYupdjzsE1hdPQ+OWiDpxHGBCpun6Tbrens0YWwci\n+vOJLNnT+RktQMPZi8ozfpmIMF4bU8un+tfC6tu6qYoXot7tEirxYVaEW1yZ+90cKFygH28ETOct\nhzGhx5dB+2Ae2Egq6X/VjxIH4pTmS9TRvmNO9xbOCVe7OFUtj+N8rwIDAQABAoIBADqrnutX88lE\n+RZLwdTs1xaDtS+clkc/U2g8p9bsTWnoCRnO8jdMgwtm4r2gvimF6G7kGI1aI5hvlYjwDL+/WrXf\n2ccDURRkS1qP+RKyIGYuxQ4U7rCfrL5QAskuF4zk6qaxZjtwDo7gl3mclNnWYmW6i15LUr2qjR+/\nA0Gixq/e6v+DIww83AHmq34aDmFH0Fy40AerrRc8cxRDAFAR6+uxRIVYgUkfGGAlnnX94WCiIj+s\n6evyDSiweDCR1x/hRY1guHK87uYuZnT5rqs7P4iNCVsCIGEfOZp/1q0e2jXkWYguALvM3Sf5UnKU\nehUoIyyl5RbCyXG/RaSTKNdDQ0ECgYEAzvDvNyjYExrp8cW9L060431rYr6NZZmqud1ziVCHsfMu\nvj/IBqMqWj76KnU/3ewwAIEI8gtrO9Gf6GEFABFWQvg823yTjL4+jWEjO3I7u+NsirahmLaDU+3A\nOWqIEpHSuEl974hSZ8tgpBQsFK/Igk0JJzcLIuISEjTSWREOLCECgYEAsihGIC7e5oFmmC0CB6d1\nyxiwWVITh4K3Us0pdTzuL/UvRP/Vb+3nrReca8WVG6mtpZ8i5yJF0FLavfvfft8JnloMvbNqyp4w\n6svuGp1JjvKKGkK7YX0PtH65vZ04OtgXYgH/rapSSXH56Yu+AVCzVi0GVhMtj76lgHm8036EDs8C\ngYAtYaDUE9zus6RCJP8L9NKuYL6/9NHFSiGqiOnhXwui9pV1mz8eVYHgMJdj4DqVTEpqkeGIUwC9\nKYdLypryHNsx7IZMC9G/t6i4EGlNjAuVdJZFBTAC8WNzcFwLO1WD3P6880Du2pJXuL4EvXe9QZ9T\nE9nCA8wpZjJYU8UdSyQ0gQKBgGL0Dac4gWQEgaiKbzMzJzEMYH7sIJ7G0u4xuBI/KokGpR+s/a7y\ntBinIaGWl/BKeYGhdzBsD9za+FZHvOZqGZyTpboEGo+596+iX3j23fGA84YMhKlsXjnBnYcc+Stt\n9Obh91JNZPEYVlgK3xk56rI1xewvMMJDgQdwFppeDhlvAoGAYk8rr6oN/fQIFYOYpMxLb5cZAIF5\niAB7kdpVy2CC33gJUySj9Poh9iffPTAXZPSqpR2B4sMyUd5IJrIX/AOxaeTxe/ekKs5e4gnLec2G\nc2PNhjNedW4C3HsoWRXOsXyNVUmUkHazf/uKtuu1urE4JuUjQI2ya9HbuoL8HoaLIiY=\n-----END
-        RSA PRIVATE KEY-----</keyMaterial>\n</CreateKeyPairResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:07:58 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <CreateKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>8449507c-2d7d-4968-a6d4-3945b186b11c</requestId>
+            <keyName>test-key-1</keyName>
+            <keyFingerprint>70:9e:3f:f3:a7:80:bc:77:ca:50:ef:dc:38:e7:d7:28:72:53:35:1c</keyFingerprint>
+            <keyMaterial>-----BEGIN RSA PRIVATE KEY-----
+        MIIEogIBAAKCAQEAkDdCpjV5vndFMUIpTC8SMHt5Y34erTwpmBMi4q744dQJgIwVkLcCCafoMXKG
+        6pgcITUgJmxF6S3rjR2c4DnWpThga7i1bN/tZxOqG5XA+N1HTzA9KNkGRjTJxSZ8yjCSa1Wwqk6l
+        mQ9HwNHA0erLqz5lB+oLyeeZ/8n9U2MselUxv8S2h7AuAJEIhaSNHrtNMLlN4TLbfqlEpdqwiEMa
+        FiIqhmE7TezsSERzx252dnd3VWRA9xHC9D0UrrSR0pVN0RgYdstBp5HaGJOBq8GUnLrVVaRfBt0B
+        F77pShvgQL+6NT1r8CN1RBh6AbOGNJs1T9j+Rp9ti8WPPohHLUFTcwIDAQABAoIBADvpWRzndk40
+        CmCuVa26mFnf0cwNZv0c00LEIGf/vJFEnzXx/DuEa6pLQODZ7UakLnt1MIgFzv1SAFs9hCB6prs4
+        soXN1EEIvf1mY/LVwbchZjB1n9LKZhrgbzoiBRGSICHLFXuK9KyjdnGaMfqDCl13rE0fZApa1tU2
+        urDbsGyZO/kdbIqMcDFYWNvl9pBHRJfGIlvikTIp+BAqt+pnA6YY8iPZ//bQkmTd3JC6cI1Ivia0
+        2g3vGbZV7hnSmzMbOTphiYsbjVwCEHimf5RJDGuS4RA6WtnOsRGa26kQTg/EawKexztVev6bekqs
+        Ryc7mmURtw2kZxfsksaqLnkhLBECgYEAzPAjoEc5FcnYTm0YeCO9gE3BNj9MLng13UXBOAwpuOrm
+        cY4P4dt5bI0ddUEIHyVk1Mg983jzJ0AnI6L0WR7mAonR75byHUWzVijy8C16FOM5Mo4jVph3wpPl
+        FmASpzTZTY3gaHzffkebAh/9eLfjzMvdPUhRgBn6Qb8wbkYL9y0CgYEAtCX9cbjn07A4HSR2UdBq
+        ztUj46KIIVSm8pxFGUfPmtqW6I8xg2nVS5aqyfU68dNiEy7ZYX6PXqDZ2o6JbmnLMsdLiex+eeUx
+        nNPvsy96Zh/aUR19Dgikl4TZJ17k4ULwfzSAQahw3o6a1YgsLAgwq4Nv4IR8tXURx4PY9Jw3GR8C
+        gYBuOcbfoQ8qEes+m1zq2UZGaQu/kqH16IAIKEl5TMlwBR+2+dK/Bt2zLd8nPrgQkHtAGwd/GZGm
+        jdG/UBkeigjqWphIxiYo6mE/uTyZQ8yCyYftEhgdrlnTlNpFg5zkw/8QwHtvl6JZeEf+B5i8QiPK
+        9edj267COLaqgBubZB9xbQKBgE3J1b2kdV5gSmqzEvBTCbvUJ1IlHZke35QFTIUVEB0y5FT5eAzh
+        xzuDjK32WYSQnVnhMfa6Wpgm5stMHyXxQs/jZMfiud5SzHCGx4tdJgIxIOlDzXsg2kmfENHCVRy7
+        9fNHrVYssMg5Vbx8t24v/ywgbk/JhbwpGAtJ8IX3aodLAoGANfAuXz/KixKYmgwYMFCSkf58mOAI
+        BONOhc1yuY5r6R2UNAGspvhDl72DyckDGC4j85jZH65yVLjTx2izGwNm3kbkce3vidNIO2KUz7fB
+        P9vRdSJXP0N+L66NXvtIFhOmIW7f5Q4VdqOPtQLagE6USzhEi/n+kJ8LOl9QpJ+jmek=
+        -----END RSA PRIVATE KEY-----</keyMaterial>
+        </CreateKeyPairResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=CreateKeyPair&KeyName=test-key-1&Signature=JiS33nNgDrpDbA+AOVK5az1/GJv2rmHRT/OstQmas88=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=CreateKeyPair&KeyName=test-key-1&Signature=NyXFaoWEIHrQP8OJrHwNw5TxDhCedwcuPQpAIaCD4wk=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 400
       message: Bad Request
-    headers:
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:04 GMT
-      Cneonction:
+    headers: 
+      Cneonction: 
       - close
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! '<?xml version="1.0" encoding="UTF-8"?>
-
-        <Response><Errors><Error><Code>InvalidKeyPair.Duplicate</Code><Message>The
-        keypair ''test-key-1'' already exists.</Message></Error></Errors><RequestID>717f8dba-7856-4010-beb3-ce9e0276c6b2</RequestID></Response>'
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:07:59 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response><Errors><Error><Code>InvalidKeyPair.Duplicate</Code><Message>The keypair 'test-key-1' already exists.</Message></Error></Errors><RequestID>88d9774c-167b-4f49-8607-bcf41ac425c4</RequestID></Response>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test-key-1&Signature=w36zVNjmT+WhbgTF7hODm7NDLVd9BldEQ+lhVE3YFAY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=test-key-1&Signature=l+ATQ3FiS4bLbi620LP/OSi2F86Hd5ZKi0ROB0G2ntE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:04 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeKeyPairsResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>dd952563-b2e3-47fe-b658-570ab8550e06</requestId>\n
-        \   <keySet>\n        <item>\n            <keyName>test-key-1</keyName>\n
-        \           <keyFingerprint>00:de:c9:b8:0b:f7:06:66:05:12:25:90:eb:2d:92:09:4d:14:64:02</keyFingerprint>\n
-        \       </item>\n    </keySet>\n</DescribeKeyPairsResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:07:59 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeKeyPairsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>9486aa26-4262-4289-baf4-9def08e153eb</requestId>
+            <keySet>
+                <item>
+                    <keyName>test-key-1</keyName>
+                    <keyFingerprint>70:9e:3f:f3:a7:80:bc:77:ca:50:ef:dc:38:e7:d7:28:72:53:35:1c</keyFingerprint>
+                </item>
+            </keySet>
+        </DescribeKeyPairsResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DeleteKeyPair&KeyName=test-key-1&Signature=wwfFq6DFixzO1EX1tgDHZHiDRtHeq6kgX1OA2eVdNU0=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DeleteKeyPair&KeyName=test-key-1&Signature=Nf9fiAxqvDg6XFceaeOnrJE6uuuLJbdsLxYoB+RPR60=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Content-Type: 
       - text/xml;charset=UTF-8
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:05 GMT
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DeleteKeyPairResponse
-        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>bf625367-9791-4661-9dd0-814acfceb4cd</requestId>\n
-        \   <return>true</return>\n</DeleteKeyPairResponse>"
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:00 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DeleteKeyPairResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>f11cf9db-4b85-4b85-895f-c245cf927d39</requestId>
+            <return>true</return>
+        </DeleteKeyPairResponse>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAIZ63KHGXIWDMBY6Q&Action=DescribeKeyPairs&KeyName.1=test-key-1&Signature=w36zVNjmT+WhbgTF7hODm7NDLVd9BldEQ+lhVE3YFAY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-23T12:21:00.000Z&Version=2010-08-31
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - ''
-  response:
-    status:
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeKeyPairs&KeyName.1=test-key-1&Signature=l+ATQ3FiS4bLbi620LP/OSi2F86Hd5ZKi0ROB0G2ntE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - ""
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 400
       message: Bad Request
-    headers:
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 23 Jul 2012 12:26:05 GMT
-      Cneonction:
+    headers: 
+      Cneonction: 
       - close
-      Server:
+      Server: 
       - AmazonEC2
-    body:
-      encoding: US-ASCII
-      string: ! '<?xml version="1.0" encoding="UTF-8"?>
-
-        <Response><Errors><Error><Code>InvalidKeyPair.NotFound</Code><Message>The
-        key pair ''test-key-1'' does not exist</Message></Error></Errors><RequestID>c09ef995-b86b-4371-9421-3a8f8b36d121</RequestID></Response>'
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Mon, 30 Jul 2012 11:08:00 GMT
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <Response><Errors><Error><Code>InvalidKeyPair.NotFound</Code><Message>The key pair 'test-key-1' does not exist</Message></Error></Errors><RequestID>5047e47e-c675-49fc-bcf1-e28f363b4810</RequestID></Response>
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+recorded_with: VCR 2.2.4
