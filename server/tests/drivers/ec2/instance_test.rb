@@ -6,7 +6,7 @@ require_relative 'common.rb'
 describe 'Ec2Driver Instances' do
 
   before do
-    @driver = Deltacloud::new(:ec2, :user => 'AKIAIZ63KHGXIWDMBY6Q', :password => 'zUfBCbML2S6pXKS44eEEXw0Cf/G8z9hMSxP2hcLV')
+    @driver = Deltacloud::new(:ec2, credentials)
     VCR.insert_cassette __name__
   end
 
@@ -26,10 +26,10 @@ describe 'Ec2Driver Instances' do
   end
 
   it 'must allow to filter instances' do
-    @driver.instances(:id => 'i-4cdcf034').wont_be_empty
-    @driver.instances(:id => 'i-4cdcf034').must_be_kind_of Array
-    @driver.instances(:id => 'i-4cdcf034').size.must_equal 1
-    @driver.instances(:id => 'i-4cdcf034').first.id.must_equal 'i-4cdcf034'
+    @driver.instances(:id => 'i-4d15f036').wont_be_empty
+    @driver.instances(:id => 'i-4d15f036').must_be_kind_of Array
+    @driver.instances(:id => 'i-4d15f036').size.must_equal 1
+    @driver.instances(:id => 'i-4d15f036').first.id.must_equal 'i-4d15f036'
     @driver.instances(:owner_id => '293787749884').wont_be_empty
     @driver.instances(:owner_id => '293787749884').each do |inst|
       inst.owner_id.must_equal '293787749884'
@@ -39,9 +39,9 @@ describe 'Ec2Driver Instances' do
   end
 
   it 'must allow to retrieve single instance' do
-    @driver.instance(:id => 'i-4cdcf034').wont_be_nil
-    @driver.instance(:id => 'i-4cdcf034').must_be_kind_of Instance
-    @driver.instance(:id => 'i-4cdcf034').id.must_equal 'i-4cdcf034'
+    @driver.instance(:id => 'i-4d15f036').wont_be_nil
+    @driver.instance(:id => 'i-4d15f036').must_be_kind_of Instance
+    @driver.instance(:id => 'i-4d15f036').id.must_equal 'i-4d15f036'
     @driver.instance(:id => 'i-00000000').must_be_nil
     @driver.instance(:id => 'unknown').must_be_nil
   end

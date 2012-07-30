@@ -6,7 +6,7 @@ require_relative 'common.rb'
 describe 'Ec2Driver Images' do
 
   before do
-    @driver = Deltacloud::new(:ec2, :user => 'AKIAIZ63KHGXIWDMBY6Q', :password => 'zUfBCbML2S6pXKS44eEEXw0Cf/G8z9hMSxP2hcLV')
+    @driver = Deltacloud::new(:ec2, credentials)
     VCR.insert_cassette __name__
   end
 
