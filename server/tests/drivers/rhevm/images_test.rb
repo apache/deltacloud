@@ -38,20 +38,28 @@ describe 'RhevmDriver Images' do
   end
 
   it 'must allow to retrieve single image' do
-    @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').wont_be_nil
-    @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').must_be_kind_of Image
-    @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').id.must_equal 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872'
-    @driver.image(:id => 'ami-aaaaaaaa').must_be_nil
-    @driver.image(:id => 'unknown').must_be_nil
+    # NOTE: This test will cause VCR to fail due to wrong serialization
+    # of YAML under Ruby 1.8.
+    #
+    if RUBY_VERSION =~ /^1\.9/
+      puts "=asdasdasd"
+      @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').wont_be_nil
+      @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').must_be_kind_of Image
+      @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').id.must_equal 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872'
+      @driver.image(:id => 'ami-aaaaaaaa').must_be_nil
+      @driver.image(:id => 'unknown').must_be_nil
+    end
   end
 
   it 'must throw proper exception when destroying used image' do
-    image = @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872')
-    image.wont_be_nil
-    image.state.must_equal 'OK'
-    Proc.new {
-      @driver.destroy_image(image.id)
-    }.must_raise Deltacloud::ExceptionHandler::BackendError, 'Cannot delete Template. Template is being used by the following VMs: test1.'
+    if RUBY_VERSION =~ /^1\.9/
+      image = @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872')
+      image.wont_be_nil
+      image.state.must_equal 'OK'
+      Proc.new {
+        @driver.destroy_image(image.id)
+      }.must_raise Deltacloud::ExceptionHandler::BackendError, 'Cannot delete Template. Template is being used by the following VMs: test1.'
+    end
   end
 
   it 'must support destroying images' do
