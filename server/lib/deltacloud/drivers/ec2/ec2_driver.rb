@@ -205,7 +205,6 @@ module Deltacloud
 
         def instance(credentials, opts={})
           ec2 = new_client(credentials)
-          inst_arr = []
           safely do
             begin
               ec2_inst = ec2.describe_instances([opts[:id]]).first
@@ -544,7 +543,7 @@ module Deltacloud
 
         def blob_data(credentials, bucket_id, blob_id, opts={})
           s3_client = new_client(credentials, :s3)
-          bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, bucket_id)
+          s3_client = get_bucket_with_endpoint(s3_client, credentials, bucket_id)[1]
           safely do
             s3_client.interface.get(bucket_id, blob_id) do |chunk|
               yield chunk
@@ -776,7 +775,7 @@ module Deltacloud
 
         def providers(credentials, opts={})
           ec2 = new_client(credentials)
-          providers = ec2.describe_regions.map{|r| Provider.new( {:id=>r, :name=>r,
+          @providers ||= ec2.describe_regions.map{|r| Provider.new( {:id=>r, :name=>r,
            :url=>"#{ENV['API_HOST']}:#{ENV['API_PORT']}#{Deltacloud[ENV['API_FRONTEND'] || :deltacloud].root_url}\;provider=#{r}" }) }
         end
 
@@ -789,7 +788,7 @@ module Deltacloud
             realms(credentials) && true
           rescue => e
             if e.class.name =~ /AuthFailure/
-              retval = false
+              false
             else
               safely { raise e }
             end
@@ -954,7 +953,7 @@ module Deltacloud
 
         def convert_load_balancer(credentials, loadbalancer)
           realms = []
-          balancer_realms = loadbalancer[:availability_zones].each do |zone|
+          loadbalancer[:availability_zones].each do |zone|
             realms << realm(credentials, :id => zone)
           end
           balancer = LoadBalancer.new({
@@ -985,7 +984,7 @@ module Deltacloud
           end
         end
          #sources_string is @group,297467797945,test@address,ipv4,10.1.1.1,24 etc
-         id_string = "#{user_id}~#{protocol}~#{from_port}~#{to_port}~#{sources_string.chomp!(",")}"
+         "#{user_id}~#{protocol}~#{from_port}~#{to_port}~#{sources_string.chomp!(",")}"
 #sources_string.slice(0,sources_string.length-1)}"
         end
 
