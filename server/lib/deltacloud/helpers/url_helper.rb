@@ -96,7 +96,7 @@ module Sinatra
         else
           port = ":#{port}"
         end
-        base = "#{scheme}://#{request_host}#{port}#{request.script_name.empty? ? Deltacloud[ENV['API_FRONTEND'] || :deltacloud].root_url : request.script_name}"
+        base = "#{scheme}://#{request_host}#{port}#{request.script_name.empty? ? settings.config.root_url : request.script_name}"
       else
         raise TypeError, "Unknown url_for mode #{mode}"
       end
