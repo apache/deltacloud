@@ -22,7 +22,7 @@ module CIMI::Collections
         description "list all resources of the cloud"
         control do
           if params[:force_auth]
-            return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
+            halt 401 unless driver.valid_credentials?(credentials)
           end
           entry_point = CIMI::Model::CloudEntryPoint.create(self)
           respond_to do |format|
