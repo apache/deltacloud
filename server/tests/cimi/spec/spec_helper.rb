@@ -14,6 +14,7 @@
 # under the License.
 #
 
+require 'rubygems'
 require 'minitest/autorun'
 require 'minitest/spec'
 require 'xmlsimple'

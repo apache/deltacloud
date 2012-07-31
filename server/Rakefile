@@ -185,11 +185,13 @@ namespace :test do
   namespace :cimi do
     Rake::TestTask.new(:models) do |t|
       t.ruby_opts << '-r./tests/cimi/spec/spec_helper.rb'    # Load SimpleCov when COVERAGE=1 is set
+      t.ruby_opts << '-r./tests/test_helper.rb'    # Load SimpleCov when COVERAGE=1 is set
       unless RUBY_VERSION < '1.9.0'
         t.loader = :testrb
       end
       t.test_files = FileList[
         'tests/cimi/spec/cimi/model/*spec.rb',        # CIMI frontend serialization API tests
+        'tests/cimi/collections/*test.rb',        # CIMI frontend API tests
       ]
     end
   end

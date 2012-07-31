@@ -14,6 +14,9 @@
 # under the License.
 #
 
+require 'rubygems'
+require 'require_relative'
+
 if require 'minitest/autorun'
   require_relative '../../spec_helper.rb'
 end

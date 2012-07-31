@@ -13,7 +13,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-
+require 'rubygems'
+require 'require_relative'
 require_relative '../../spec_helper.rb' if require 'minitest/autorun'
 
 describe "MachineConfiguration model" do
