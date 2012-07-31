@@ -104,4 +104,7 @@ Gem::Specification.new do |s|
 # Openstack Compute and Object-Storage
   s.add_dependency('openstack', '>= 1.0.1')
 
+# Aruba Cloud
+  s.add_dependency('savon', '>= 1.0.0')
+
 end
