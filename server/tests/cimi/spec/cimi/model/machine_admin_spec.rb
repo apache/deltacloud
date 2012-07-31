@@ -14,15 +14,19 @@
 # under the License.
 #
 
-describe "Volume Template model" do
+if require 'minitest/autorun'
+  require_relative '../../spec_helper.rb'
+end
 
-  before(:all) do
-    @xml = IO::read(File::join(DATA_DIR, "volume_template.xml"))
-    @json = IO::read(File::join(DATA_DIR, "volume_template.json"))
+describe "MachineAdmin model" do
+
+  before do
+    @xml = IO::read(File::join(DATA_DIR, "machine_admin.xml"))
+    @json = IO::read(File::join(DATA_DIR, "machine_admin.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::VolumeTemplate, @xml, @json
+    should_properly_serialize_model CIMI::Model::MachineAdmin, @xml, @json
   end
 
 end

@@ -13,15 +13,19 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-describe "MachineTemplate model" do
 
-  before(:all) do
-    @xml = IO::read(File::join(DATA_DIR, "machine_template.xml"))
-    @json = IO::read(File::join(DATA_DIR, "machine_template.json"))
+require_relative '../../spec_helper.rb' if require 'minitest/autorun'
+
+describe "MachineImage model" do
+
+  before do
+    @xml = IO::read(File::join(DATA_DIR, "machine_image.xml"))
+    @json = IO::read(File::join(DATA_DIR, "machine_image.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::MachineTemplate, @xml, @json
+    should_properly_serialize_model CIMI::Model::MachineImage, @xml, @json
   end
+
 
 end

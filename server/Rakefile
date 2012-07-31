@@ -127,6 +127,8 @@ task :test do
   Rake::Task["mock:fixtures:reset"].invoke
   puts "\n[ \033[1;37;mrake test:ec2\33[0m ]\n"
   Rake::Task["test:ec2"].invoke
+  puts "\n[ \033[1;37;mrake test:cimi:models\33[0m ]\n"
+  Rake::Task["test:cimi:models"].invoke
   DRIVERS.each do |driver|
     puts "\n[ \033[1;37;mrake drivers:#{driver}\33[0m ]\n"
     Rake::Task["test:drivers:#{driver}"].invoke
@@ -180,6 +182,16 @@ namespace :test do
     ]
   end
 
+  namespace :cimi do
+    Rake::TestTask.new(:models) do |t|
+      t.ruby_opts << '-r./tests/cimi/spec/spec_helper.rb'    # Load SimpleCov when COVERAGE=1 is set
+      unless RUBY_VERSION < '1.9.0'
+        t.loader = :testrb
+      end
+      t.test_files = FileList[
+        'tests/cimi/spec/cimi/model/*spec.rb',        # CIMI frontend serialization API tests
+      ]
+    end
+  end
+
 end
-
-

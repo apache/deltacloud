@@ -14,14 +14,13 @@
 # under the License.
 #
 
-require 'rubygems'
-require 'pp'
-require 'rspec/core'
+require 'minitest/autorun'
+require 'minitest/spec'
 require 'xmlsimple'
 require 'require_relative'
 
-require_relative '../lib/deltacloud/core_ext.rb'
-require_relative '../lib/cimi/models.rb'
+require_relative '../../../lib/deltacloud/core_ext.rb'
+require_relative '../../../lib/cimi/models.rb'
 
 DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'cimi', 'data')
 
@@ -94,28 +93,20 @@ end
 
 def should_properly_serialize_model(model_class, xml, json)
   # Roundtrip in same format
-  model_class.from_xml(xml).should serialize_to xml, :fmt => :xml
-  model_class.from_json(json).should serialize_to json, :fmt => :json
+  model_class.from_xml(xml).must_serialize_to xml, :fmt => :xml
+  model_class.from_json(json).must_serialize_to json, :fmt => :json
   # Roundtrip crossing format
-  model_class.from_xml(xml).should serialize_to json, :fmt => :json
-  model_class.from_json(json).should serialize_to xml, :fmt => :xml
+  model_class.from_xml(xml).must_serialize_to json, :fmt => :json
+  model_class.from_json(json).must_serialize_to xml, :fmt => :xml
 end
 
-RSpec::Matchers.define :serialize_to do |exp, opts|
-  match do |act|
-    matcher(exp, act, opts[:fmt]).match?
-  end
+module MiniTest::Assertions
 
-  failure_message_for_should do |act|
-    m = matcher(exp, act, opts[:fmt])
-    m.match?
-    "#{opts[:fmt].to_s.upcase} documents do not match\n" + m.errors
-  end
-
-  def matcher(exp, act, fmt)
-    raise "missing format; use :fmt => [:xml || :json]" if fmt.nil?
-    exp, act = [exp, act].map { |x| convert(x, fmt) }
-    HashCmp.new(exp, act)
+  def assert_serialize_to(exp, act, opts)
+    raise "missing format; use :fmt => [:xml || :json]" if opts[:fmt].nil?
+    exp, act = [exp, act].map { |x| convert(x, opts[:fmt]) }
+    m = HashCmp.new(exp, act)
+    assert m.match?,  "#{opts[:fmt].to_s.upcase} documents do not match\n" + m.errors
   end
 
   def convert(x, fmt)
@@ -130,4 +121,7 @@ RSpec::Matchers.define :serialize_to do |exp, opts|
     end
     x
   end
+
 end
+
+CIMI::Model::Base.infect_an_assertion :assert_serialize_to, :must_serialize_to

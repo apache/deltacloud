@@ -1,4 +1,3 @@
-
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -15,16 +14,17 @@
 # under the License.
 #
 
-describe "Volume Configuration model" do
+require_relative '../../spec_helper.rb' if require 'minitest/autorun'
 
-  before(:all) do
-    @xml = IO::read(File::join(DATA_DIR, "volume_configuration.xml"))
-    @json = IO::read(File::join(DATA_DIR, "volume_configuration.json"))
+describe "Volume Template model" do
+
+  before do
+    @xml = IO::read(File::join(DATA_DIR, "volume_template.xml"))
+    @json = IO::read(File::join(DATA_DIR, "volume_template.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::VolumeConfiguration, @xml, @json
+    should_properly_serialize_model CIMI::Model::VolumeTemplate, @xml, @json
   end
-
 
 end
