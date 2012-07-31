@@ -1,3 +1,5 @@
+ENV['API_FRONTEND'] = 'cimi'
+
 require_relative File.join('..', '..', 'lib', 'deltacloud_rack.rb')
 
 # Set the default driver used for server API tests
@@ -17,4 +19,4 @@ unless Deltacloud::config[:deltacloud]
   Deltacloud.require_frontend!
 end
 
-def root_url; Deltacloud.config[:deltacloud].root_url; end
+def root_url; Deltacloud.config[:cimi].root_url; end
