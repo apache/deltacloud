@@ -42,14 +42,14 @@ module Deltacloud::Helpers
         m = Deltacloud::Drivers.const_get(driver_class_name)
         m.const_get(driver_class_name + "Driver").new
       rescue NameError
-        raise "[ERROR] The driver class name is not defined as #{driver_class_name}Driver"
+        nil
       end
     end
 
     def driver
       $:.unshift File.join(File.dirname(__FILE__), '..', '..')
       begin
-        require_relative driver_source_name
+        require_relative(driver_source_name) unless driver_class
         driver_class
       rescue LoadError => e
         raise "[ERROR] The driver '#{driver_name}' is unknown or not installed (#{driver_source_name})\n" +
