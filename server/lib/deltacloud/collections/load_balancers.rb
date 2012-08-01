@@ -41,7 +41,7 @@ module Deltacloud::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_load_balancer do
         param :name,  :string,  :required
         param :realm_id,  :string,  :required
         param :listener_protocol,  :string,  :required, ['HTTP', 'TCP']
@@ -59,7 +59,7 @@ module Deltacloud::Collections
         end
       end
 
-      action :register do
+      action :register, :with_capability => :lb_register_instance do
         param :instance_id, :string,  :required
         control do
           driver.lb_register_instance(credentials, params)
@@ -72,7 +72,7 @@ module Deltacloud::Collections
         end
       end
 
-      action :unregister do
+      action :unregister, :with_capability => :lb_unregister_instance do
         param :instance_id, :string,  :required
         control do
           driver.lb_unregister_instance(credentials, params)
@@ -85,7 +85,7 @@ module Deltacloud::Collections
         end
       end
 
-      operation :destroy do
+      operation :destroy, :with_capability => :destroy_load_balancer do
         control do
           driver.destroy_load_balancer(credentials, params[:id])
           status 204

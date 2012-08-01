@@ -37,7 +37,7 @@ module Deltacloud::Collections
         control { show(:storage_volume) }
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_storage_volume do
         param :snapshot_id, :string,  :optional
         param :capacity,    :string,  :optional
         param :realm_id,    :string,  :optional
