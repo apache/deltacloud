@@ -31,7 +31,9 @@ module Deltacloud
   class API < Collections::Base
 
     # Enable logging
-    use Deltacloud[:deltacloud].logger
+    # NOTE: Jruby use different logging mechanism not complatible with our
+    # logger.
+    use Deltacloud[:deltacloud].logger unless RUBY_PLATFORM == 'java'
     use Rack::Date
     use Rack::ETag
     use Rack::MatrixParams
