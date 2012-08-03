@@ -20,6 +20,14 @@ namespace :test do
   desc "Run tests for the Deltacloud API frontend."
   Rake::TestTask.new(:deltacloud) do |t|
     t.test_files = FileList["deltacloud/*_test.rb"]
-    t.options = "-v"
   end
+
+  namespace :deltacloud do
+    ["base_api", "buckets", "images", "instances", "instance_states", "keys", "realms", "storage_volumes", "storage_snapshots", "hardware_profiles"].each do |col|
+      Rake::TestTask.new(col) do |t|
+        t.test_files = FileList["deltacloud/#{col}_test.rb"]
+      end
+    end
+  end
+
 end

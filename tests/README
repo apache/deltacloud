@@ -1,0 +1,104 @@
+API TESTS README:
+=================
+
+These tests use RestClient [https://github.com/archiloque/rest-client] to make
+requests to a deltacloud server running somewhere. The requests/tests are meant
+ to exercise all the REST routes defined in the API
+[http://deltacloud.apache.org/rest-api.html]. At minimum you need to configure
+the tests with the location of the deltacloud server to be tested, as well as
+the credentials for the driver you expect to be running at that deltacloud server.
+ Otherwise you'll see a RunTime error like:
+
+"No user or password in config.yaml for openstack driver used by
+http://localhost:3001/api"
+
+
+RUNNING the tests:
+==================
+
+* Need a deltacloud server running somewhere
+* edit the config.yaml file (more on this below)
+* rake test:deltacloud to run all tests
+* rake test:deltacloud:COLLECTION to run a specific collection test, or 'base_api'
+  for just the API tests.... e.g. rake test:deltacloud:buckets, rake
+  test:deltacloud:base_api, rake test:deltacloud:images
+* more verbose output is achieved by passing TEST_OPTS="-v", e.g.
+  rake test:deltacloud TEST_OPTS="-v"
+* you can use your own config.yaml by passing it via the CONFIG variable to the
+  rake task:
+  rake test:deltacloud:buckets CONFIG="/some/where/config.yaml" TEST_OPTS="-v"
+
+
+CONFIGURATION - the config.yaml file:
+=====================================
+
+* api_url - set this to the URI for the running deltacloud server
+* each driver has it's own section... enter credentials for the driver
+  you expect to be running at api_url. If there is no section for your driver,
+  add it - the section should have the name used by the deltacloud server for that
+  driver. For example for the rhevm driver:
+
+---
+api_url: "http://localhost:3003/api"
+mock:
+  user: "mockuser"
+  password: "mockpassword"
+#this is a comment
+rhevm:
+  user: "username"
+  password: "mypassword"
+
+* running the instances collection tests involves launching instances. The image,
+  realm and hardware profile used to launch those instances are chosen at random
+  from the returned lists. However, this may cause errors to occur - especially
+  in EC2 where for example a given realm may be 'at capacity' and not accepting
+  any more requests ("please use us-east-1b/1c/1a instead"), or your user creds
+  may not allow you to launch a particular image  (again this was seen for ec2).
+  If you are hitting errors like this, you can configure a 'preferred'
+  image/realm/hardware_profile to use for the instances test. Refer to the 'ec2'
+  section of the config.yaml file:
+
+ec2:
+  user: KEY
+  password: SECRET_KEY
+  instances:
+    preferred_image: "ami-2b5fba42"
+    preferred_hwp: "m1.small"
+    preferred_realm: "us-east-1b"
+
+You can add this 'instances' section under any driver in the config.yaml file and
+those values will be used in the instances test. You can also only include only
+some of those, for example a preferred_image but not a preferred_hwp.
+
+
+FILE LAYOUT:
+============
+deltacloud
+|--D-->tests
+|------------------------------------------------------------------------------
+   |----->config.yaml                       the tests config file
+   |---------------------------------------------------------------------------
+   |----->Rakefile                          rake routes for running tests
+   |---------------------------------------------------------------------------
+   |--D-->deprecated                        'old' cuke tests - for reference
+   |---------------------------------------------------------------------------
+   |--D-->deltacloud                        tests for the deltacloud API - idea
+      |                                     is for test directories to be added
+      |                                     for CIMI and EC2 frontends
+      |------------------------------------------------------------------------
+      |-----> test_setup.rb                 loads configuration, wrappers for
+      |                                     RestClient methods (get/put/post
+      |                                     etc) and mini DSL - like
+      |                                     need_collection/need_feature.
+      |------------------------------------------------------------------------
+      |-----> base_api_test.rb              tests for the API itself
+      |------------------------------------------------------------------------
+      |-----> common_tests_collections.rb   common tests that are executed
+      |                                     for all collections
+      |------------------------------------------------------------------------
+      |-----> instances_test.rb             tests for instances collection
+      |------------------------------------------------------------------------
+      |-----> images_test.rb                tests for images collection
+      |------------------------------------------------------------------------
+      |... etc for all the collections
+
