@@ -27,6 +27,7 @@ Deltacloud::configure do |server|
   server.version '1.0.0'
   server.klass 'Deltacloud::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
+  server.default_driver ENV['API_DRIVER']
 end
 
 Deltacloud::configure(:cimi) do |server|
@@ -34,6 +35,7 @@ Deltacloud::configure(:cimi) do |server|
   server.version '1.0.0'
   server.klass 'CIMI::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
+  server.default_driver ENV['API_DRIVER']
 end
 
 Deltacloud::configure(:ec2) do |server|
@@ -41,6 +43,7 @@ Deltacloud::configure(:ec2) do |server|
   server.version '2012-04-01'
   server.klass 'Deltacloud::EC2::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
+  server.default_driver ENV['API_DRIVER']
 end
 
 routes = {}
@@ -54,21 +57,22 @@ routes = {}
 if ENV['API_FRONTEND'].split(',').size > 1
 
   ENV['API_FRONTEND'].split(',').each do |frontend|
-    Deltacloud.require_frontend!(frontend)
+    Deltacloud[frontend.to_sym].require!
     routes.merge!({
       Deltacloud[frontend].root_url => Deltacloud[frontend].klass
     })
   end
 
 else
-  Deltacloud.require_frontend!(ENV['API_FRONTEND'])
+  Deltacloud[ENV['API_FRONTEND'].to_sym].require!
+  Deltacloud[ENV['API_FRONTEND'].to_sym].default_frontend!
   class IndexEntrypoint < Sinatra::Base
     get "/" do
-      redirect Deltacloud[ENV['API_FRONTEND']].root_url, 301
+      redirect Deltacloudd.default_frontend.root_url, 301
     end
   end
   routes['/'] = IndexEntrypoint.new
-  routes[Deltacloud[ENV['API_FRONTEND']].root_url] = Deltacloud[ENV['API_FRONTEND']].klass
+  routes[Deltacloud.default_frontend.root_url] = Deltacloud.default_frontend.klass
 end
 
 

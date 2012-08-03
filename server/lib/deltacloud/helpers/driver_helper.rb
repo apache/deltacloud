@@ -22,7 +22,7 @@ module Deltacloud::Helpers
     end
 
     def driver_name
-      Thread.current[:driver] ||= ENV['API_DRIVER']
+      Thread.current[:driver] ||= Deltacloud.default_frontend.default_driver.to_s
     end
 
     def provider_name

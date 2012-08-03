@@ -26,7 +26,7 @@ module Deltacloud
 
   def self.configure(frontend=:deltacloud, &block)
     frontend = frontend.to_sym
-    config[frontend] = Server.new(&block)
+    config[frontend] ||= Server.new(frontend, &block)
     self
   end
 
@@ -36,22 +36,37 @@ module Deltacloud
 
   def self.require_frontend!(frontend=:deltacloud)
     frontend = frontend.to_sym
+    return false if frontend_required?(frontend)
     require_relative File.join(frontend.to_s, 'server.rb')
     Deltacloud[frontend].klass eval('::'+Deltacloud[frontend].klass)
   end
 
+  def self.frontend_required?(frontend)
+    true unless Deltacloud[frontend].klass.kind_of? String
+  end
+
+  def self.default_frontend(frontend=nil)
+    @default_frontend = frontend unless frontend.nil?
+    raise "Could not determine default API frontend" if @default_frontend.nil? and !config[:deltacloud]
+    @default_frontend || config[:deltacloud]
+  end
+
   class Server
 
+    attr_reader :name
     attr_reader :root_url
     attr_reader :version
     attr_reader :klass
     attr_reader :logger
+    attr_reader :default_driver
 
-    def initialize(opts={}, &block)
+    def initialize(frontend, opts={}, &block)
+      @name=frontend.to_sym
       @root_url = opts[:root_url]
       @version = opts[:version]
       @klass = opts[:klass]
       @logger = opts[:logger] || Rack::DeltacloudLogger
+      @default_driver = opts[:default_driver] || :mock
       instance_eval(&block)
     end
 
@@ -71,9 +86,22 @@ module Deltacloud
       @klass = k
     end
 
+    def default_driver(drv=nil)
+      return @default_driver if drv.nil?
+      @default_driver = drv
+    end
+
     def logger(logger=nil)
       return @logger if logger.nil?
       @logger = logger
+    end
+
+    def require!
+      Deltacloud.require_frontend!(@name)
+    end
+
+    def default_frontend!
+      Deltacloud.default_frontend(self)
     end
 
   end

@@ -776,7 +776,7 @@ module Deltacloud
         def providers(credentials, opts={})
           ec2 = new_client(credentials)
           @providers ||= ec2.describe_regions.map{|r| Provider.new( {:id=>r, :name=>r,
-           :url=>"#{ENV['API_HOST']}:#{ENV['API_PORT']}#{Deltacloud[ENV['API_FRONTEND'] || :deltacloud].root_url}\;provider=#{r}" }) }
+           :url=>"#{ENV['API_HOST']}:#{ENV['API_PORT']}#{Deltacloud.default_frontend.root_url}\;provider=#{r}" }) }
         end
 
         def configured_providers

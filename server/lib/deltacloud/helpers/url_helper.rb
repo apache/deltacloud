@@ -79,7 +79,7 @@ module Sinatra
     def url_for url_fragment, mode=:path_only
       case mode
       when :path_only
-        base = request.script_name.empty? ? Deltacloud[ENV['API_FRONTEND'] || :deltacloud].root_url : request.script_name
+        base = request.script_name.empty? ? Deltacloud.default_frontend.root_url : request.script_name
       when :full
         scheme = request.scheme
         port = request.port
