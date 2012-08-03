@@ -31,14 +31,14 @@ describe "Deltacloud API Entry Point" do
   end
 
   it 'advertise the current driver in API entrypoint' do
-    res = get_api :accept => :xml
+    res = get_api
     driver = res.xml.root[:driver]
     driver.wont_be_nil
     api.drivers.include?(driver).must_equal true
   end
 
   it 'advertise the current API version in API entrypoint' do
-    res = get_api :accept => :xml
+    res = get_api
     version = res.xml.root[:version]
     version.wont_be_nil
     version.must_equal api.version
@@ -55,30 +55,30 @@ describe "Deltacloud API Entry Point" do
   end
 
   it 'advertise collections in API entrypoint' do
-    res = get_api :accept => :xml
+    res = get_api
     res.xml.xpath('//api/link').wont_be_empty
   end
 
   it 'include the :href and :rel attribute for each collection in API entrypoint' do
-    get_api(:accept => :xml).xml.xpath("//api/link").each do |collection|
+    get_api().xml.xpath("//api/link").each do |collection|
       collection[:href].wont_be_nil
       collection[:rel].wont_be_nil
     end
   end
 
   it 'uses the absolute URI in the :href attribute for each collection in API entrypoint' do
-    get_api(:accept => :xml).xml.xpath("//api/link").each do |collection|
+    get_api().xml.xpath("//api/link").each do |collection|
       collection[:href].must_match /^http/
     end
   end
 
   it 'advertise features for some collections in API entrypoint' do
-    doc = get_api(:accept => :xml)
+    doc = get_api()
     doc.xml.xpath("//api/link/feature").wont_be_empty
   end
 
   it 'advertise the name of the feature for some collections in API entrypoint' do
-    get_api(:accept => :xml).xml.xpath("//api/link/feature").each do |feature|
+    get_api().xml.xpath("//api/link/feature").each do |feature|
       feature[:name].wont_be_nil
     end
   end
@@ -94,17 +94,17 @@ describe "Deltacloud API Entry Point" do
   end
 
   it 'must change the driver when using X-Deltacloud-Driver HTTP header' do
-    res = get_api(:driver => 'ec2', :accept=> :xml)
+    res = get_api(:driver => 'ec2')
     res.xml.root[:driver].must_equal 'ec2'
-    res = get_api(:driver => 'mock', :accept=> :xml)
+    res = get_api(:driver => 'mock')
     res.xml.root[:driver].must_equal 'mock'
   end
 
   it 'must change the features when driver is swapped using HTTP headers' do
-    res = get_api(:driver => 'ec2', :accept=> :xml)
+    res = get_api(:driver => 'ec2')
     # The 'user_name' feature is not supported currently for the EC2 driver
     (res.xml/'api/link/feature').map { |f| f[:name] }.wont_include 'user_name'
-    res = get_api(:driver => 'mock', :accept=> :xml)
+    res = get_api(:driver => 'mock')
     # But it's supported in Mock driver
     (res.xml/'api/link/feature').map { |f| f[:name] }.must_include 'user_name'
   end
@@ -120,17 +120,17 @@ describe "Deltacloud API Entry Point" do
   end
 
   it 'must change the API PROVIDER using the /api;provider matrix parameter in URI' do
-    res = get(';provider=test1', :public => true)
+    res = get(";provider=test1", :noauth=>true)
     res.xml.root[:provider].wont_be_nil
     res.xml.root[:provider].must_equal 'test1'
-    res = get(';provider=test2', :public => true)
+    res = get(";provider=test2", :noauth=>true)
     res.xml.root[:provider].must_equal 'test2'
   end
 
   it 'must change the API DRIVER using the /api;driver matrix parameter in URI' do
-    res = get(';driver=ec2', :public => true)
+    res = get(";driver=ec2", :noauth=>true)
     res.xml.root[:driver].must_equal 'ec2'
-    res = get(';driver=mock', :public => true)
+    res = get(";driver=mock", :noauth=>true)
     res.xml.root[:driver].must_equal 'mock'
   end
 
