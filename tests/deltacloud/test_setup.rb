@@ -22,10 +22,10 @@ require 'json'
 require 'base64'
 require 'yaml'
 require 'singleton'
-
 #SETUP
 topdir = File.join(File.dirname(__FILE__), '..')
 $:.unshift topdir
+require 'deltacloud/common_tests_collections.rb'
 
 module RestClient::Response
   def xml
@@ -34,6 +34,25 @@ module RestClient::Response
 
   def json
     @json ||= JSON.parse(body)
+  end
+end
+
+class String
+  def singularize
+    return self.gsub(/ies$/, 'y') if self =~ /ies$/
+    return self.gsub(/es$/, '') if self =~ /sses$/
+    self.gsub(/s$/, '')
+  end
+end
+
+class Array
+  alias :original_method_missing :method_missing
+
+  def method_missing(name, *args)
+    if name == :choice
+      return self.sample(*args)
+    end
+    original_method_missing(name, *args)
   end
 end
 
@@ -62,6 +81,14 @@ module Deltacloud
 
       def bucket_locations
         @hash[driver]["bucket_locations"]
+      end
+
+      def instances_config
+        @hash[driver]["instances"] || {}
+      end
+
+      def preferred_provider
+        @hash[driver]["preferred_provider"]
       end
 
       def driver
@@ -139,6 +166,9 @@ module Deltacloud::Test::Methods
     end
 
     def post(path, post_body, params={})
+      if api.preferred_provider and not params[:provider]
+        params[:provider] = api.preferred_provider
+      end
       url, headers = process_url_params(path, params)
       RestClient.post url, post_body, headers
     end
@@ -147,7 +177,7 @@ module Deltacloud::Test::Methods
       url, headers = process_url_params(path, params)
       if body.is_a?(File)
         #set timeouts http://rdoc.info/github/archiloque/rest-client/RestClient/Resource
-        resource = RestClient::Resource.new(url, :open_timeout => 10, :timeout=> 9999)
+        resource = RestClient::Resource.new(url, :open_timeout => 120, :timeout=> 9999)
         resource.put  body.read, headers
       else
         RestClient.put url, body, headers
@@ -190,7 +220,11 @@ module Deltacloud::Test::Methods
       end
       headers["X-Deltacloud-Driver"] = params.delete(:driver) if params[:driver]
       headers["X-Deltacloud-Provider"] = params.delete(:provider) if params[:provider]
-      headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
+      if params[:accept]
+            headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
+      else #default to xml
+            headers["Accept"] = "application/xml"
+      end
       headers[:content_type] = params.delete(:content_type) if params[:content_type]
       #grab X-Deltacloud-Blobmeta headers for blob metadata:
       params.inject({}) do |res, (cur_k, cur_v)|
@@ -200,7 +234,7 @@ module Deltacloud::Test::Methods
       if path =~ /^https?:/
         url = path
       else
-        url = api.url + path
+        url = path.start_with?("/", ";") ? api.url + path : api.url+"/"+ path
       end
       url += "?" + params.map { |k,v| "#{k}=#{v}" }.join("&") unless params.empty?
       if ENV["LOG"] && ENV["LOG"].include?("requests")
