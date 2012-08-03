@@ -1,4 +1,6 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative'
+
 require_relative 'common.rb'
 
 describe Deltacloud::API do
@@ -20,13 +22,13 @@ describe Deltacloud::API do
 
   it 'must advertise current API version in response headers' do
     get root_url
-    headers['Server'].must_match /Apache-Deltacloud\/(\d+).(\d+).(\d+)/
+    headers['Server'].must_match(/Apache-Deltacloud\/(\d+).(\d+).(\d+)/)
     xml.root.name.must_equal 'api'
   end
 
   it 'must advertise current API driver in response headers' do
     get root_url
-    headers['X-Deltacloud-Driver'].must_equal ENV['API_DRIVER']
+    headers['X-Deltacloud-Driver'].must_equal Deltacloud[:deltacloud].default_driver.to_s
     xml.root.name.must_equal 'api'
   end
 
@@ -47,10 +49,10 @@ describe Deltacloud::API do
   it 'must support setting driver and provider using POST' do
     post root_url, { :driver => :ec2 }
     headers['Location'].wont_be_nil
-    headers['Location'].must_match /\/api;driver=ec2/
+    headers['Location'].must_match(/\/api;driver=ec2/)
     post root_url, { :provider => :test_provider }
     headers['Location'].wont_be_nil
-    headers['Location'].must_match /\/api;provider=test_provider/
+    headers['Location'].must_match(/\/api;provider=test_provider/)
   end
 
   it 'must support matrix parameters for changing API driver' do
@@ -76,7 +78,7 @@ describe Deltacloud::API do
     get root_url + ';driver=ec2'
     headers['X-Deltacloud-Driver'].must_equal 'ec2'
     get root_url
-    headers['X-Deltacloud-Driver'].must_equal ENV['API_DRIVER']
+    headers['X-Deltacloud-Driver'].must_equal Deltacloud[:deltacloud].default_driver.to_s
     xml.root.name.must_equal 'api'
   end
 
@@ -127,7 +129,7 @@ describe Deltacloud::API do
     get root_url
     status.must_equal 200
     headers['Content-Type'].must_equal 'text/html'
-    response_body.must_match /^<\!DOCTYPE html>/
+    response_body.must_match(/^<\!DOCTYPE html>/)
   end
 
   it 'must support media type negotiation for XML format' do

@@ -1,4 +1,6 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative'
+
 require_relative 'common.rb'
 
 describe Deltacloud::Collections::Base do

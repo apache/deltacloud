@@ -1,4 +1,6 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative'
+require_relative '../../test_helper.rb'
 
 require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'core_ext.rb')
 

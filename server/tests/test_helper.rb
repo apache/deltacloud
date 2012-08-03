@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'logger'
+require 'minitest/autorun'
 require 'rack/test'
 require 'nokogiri'
 require 'pp'
@@ -44,6 +45,8 @@ class Time
   end
 end
 
+# Test helpers
+
 def record_retries(name='')
   {
     :before => Proc.new { |r, &block|
@@ -58,4 +61,6 @@ def status; last_response.status; end
 def headers; last_response.headers; end
 def response_body; last_response.body; end
 def xml; Nokogiri::XML(response_body); end
+def json; JSON::parse(response_body); end
 def formats; [ 'application/xml', 'application/json', 'text/html' ]; end
+def root_url(url=''); Deltacloud.default_frontend.root_url + url; end

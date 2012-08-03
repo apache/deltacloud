@@ -1,6 +1,7 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative'
 
-require_relative 'common.rb'
+require_relative './common.rb'
 
 describe Deltacloud::EC2::API do
 

@@ -1,4 +1,6 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative'
+
 require_relative 'common.rb'
 
 describe Deltacloud do
@@ -21,6 +23,10 @@ describe Deltacloud do
 
   it 'should be able to require the correct frontned' do
     Deltacloud[:deltacloud].klass.must_equal Deltacloud::API
+  end
+
+  it 'should not require already required frontend' do
+    Deltacloud.require_frontend!.must_equal false
   end
 
   describe Deltacloud::Server do

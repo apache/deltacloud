@@ -1,4 +1,6 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative'
+
 require_relative File.join('..', 'common.rb')
 
 describe Deltacloud::Collections::Instances do
