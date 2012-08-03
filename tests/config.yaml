@@ -4,15 +4,28 @@ api_url: "http://localhost:3001/api"
 mock:
   user: "mockuser"
   password: "mockpassword"
+#OPENSTACK DRIVER CONFIG
+openstack:
+  user:
+  password:
+  #used for instances tests:
+  instances:
+    preferred_image: "14075"
 #EC2 DRIVER CONFIG:
 ec2:
-  user: #EC2 KEY
-  password: #EC2 SECRET KEY
+  user:
+  password:
   bucket_locations:
-  #location constraint : provider
+  #location constraint
     - "EU"
     - "sa-east-1"
     - "us-west-1"
     - "us-west-2"
     - "ap-southeast-1"
     - "ap-northeast-1"
+  preferred_provider: "us-east-1"
+  #used for instances tests:
+  instances:
+    preferred_image: "ami-2b5fba42"
+    preferred_hwp: "m1.small"
+    preferred_realm: "us-east-1b"
