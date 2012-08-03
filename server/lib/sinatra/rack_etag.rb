@@ -68,7 +68,11 @@ module Rack
 
       def digest_body(body)
         parts = []
-        body.each { |part| parts << part }
+        if RUBY_VERSION =~ /^1\.8/
+          body.each { |part, b| parts << part }
+        else
+          body.each { |part| parts << part }
+        end
         string_body = parts.join
         digest = Digest::MD5.hexdigest(string_body) unless string_body.empty?
         [digest, parts]
