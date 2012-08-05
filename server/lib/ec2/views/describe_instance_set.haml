@@ -5,16 +5,19 @@
       %imageId=item.image_id
       %instanceType=item.instance_profile.name
       %launchTime=item.launch_time || Time.now.to_s
-      %ipAddress=item.public_addresses.first.address
-      %privateIpAddress=item.public_addresses.first.address
-      %dnsName=item.public_addresses.first.address
-      %privateDnsName=item.private_addresses.first.address
+      - if item.public_addresses and not item.public_addresses.empty?
+        %ipAddress=item.public_addresses.first.address
+        %dnsName=item.public_addresses.first.address
+      - if item.private_addresses and not item.private_addresses.empty?
+        %privateIpAddress=item.private_addresses.first.address
+        %privateDnsName=item.private_addresses.first.address
       %architecture=item.instance_profile.architecture || 'i386'
       - if item.keyname
         %keyName=item.keyname
-      %instanceState
-        %code=instance_state_code(item.state.downcase)
-        %name=item.state.downcase
+      - if item.state
+        %instanceState
+          %code=instance_state_code(item.state.downcase)
+          %name=item.state.downcase
       %placement
         %availabilityZone=item.realm_id
         %groupName
