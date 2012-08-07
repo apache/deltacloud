@@ -15,52 +15,11 @@
 # under the License.
 
 require 'rubygems'
-require 'minitest/autorun'
-require 'rest_client'
-require 'nokogiri'
-require 'json'
-require 'base64'
-require 'yaml'
+require 'require_relative'
+require_relative '../helpers/common.rb'
+require_relative 'common_tests_collections.rb'
+
 require 'singleton'
-#SETUP
-topdir = File.join(File.dirname(__FILE__), '..')
-$:.unshift topdir
-require 'deltacloud/common_tests_collections.rb'
-
-module RestClient::Response
-  def xml
-    @xml ||= Nokogiri::XML(body)
-  end
-
-  def json
-    @json ||= JSON.parse(body)
-  end
-end
-
-class String
-  def singularize
-    return self.gsub(/ies$/, 'y') if self =~ /ies$/
-    return self.gsub(/es$/, '') if self =~ /sses$/
-    self.gsub(/s$/, '')
-  end
-  def pluralize
-    return self + 'es' if self =~ /ess$/
-    return self[0, self.length-1] + "ies" if self =~ /ty$/
-    return self if self =~ /data$/
-    self + "s"
-  end
-end
-
-class Array
-  alias :original_method_missing :method_missing
-
-  def method_missing(name, *args)
-    if name == :choice
-      return self.sample(*args)
-    end
-    original_method_missing(name, *args)
-  end
-end
 
 module Deltacloud
   module Test
@@ -70,9 +29,7 @@ module Deltacloud
       include Singleton
 
       def initialize
-        fname = ENV["CONFIG"] || File::join(File::dirname(__FILE__), "..",
-                                            "config.yaml")
-        @hash = YAML.load(File::open(fname))
+        @hash = Deltacloud::Test::yaml_config
       end
 
       def url
