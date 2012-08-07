@@ -212,7 +212,6 @@ describe 'Deltacloud API buckets collection' do
   end
 
   it 'should be possible to GET blob data with GET /api/buckets/:id/blob/content' do
-skip("SKIPPING THIS TEST FOR NOW - KNOWN ISSUE WITH GET CONTENT ON DELTACLOUD SIDE FIXME")
     res = get("#{BUCKETS}/#{@@my_bucket}/#{@@my_blob}/content")
     res.code.must_equal 200
     res.must_equal "This is the test blob content"
