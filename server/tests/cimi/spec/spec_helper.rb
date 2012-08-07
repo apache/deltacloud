@@ -58,6 +58,14 @@ class HashCmp
         mismatch("different array lengths", exp, act, path)
       end
       name = path.pop
+      if name == "property"
+        # Special hack for properties, since they truly are a hash
+        # and therefore not ordered, even though XmlSimple
+        # represents them as an array; since that array can be generated
+        # from a hash, in Ruby 1.8 the order of the array is random
+        exp = exp.sort! { |item1, item2| item1["name"] <=> item2["name"] }
+        act = act.sort! { |item1, item2| item1["name"] <=> item2["name"] }
+      end
       0.upto(exp.size-1) do |i|
         compare_values(exp[i], act[i], path + [ "#{name}[#{i}]" ])
       end

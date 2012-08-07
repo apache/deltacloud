@@ -176,27 +176,28 @@ class CIMI::Model::Schema
     def initialize(name, opts = {}, &block)
       opts[:json_name] = name.to_s.pluralize unless opts[:json_name]
       super(name, opts)
-      @struct = Struct.new(name, opts, &block)
     end
 
     def from_xml(xml, model)
-      model[name] = (xml[xml_name] || []).map { |elt| @struct.convert_from_xml(elt) }
-    end
-
-    def from_json(json, model)
-      model[name] = (json[json_name] || {}).inject([]) do |result,item|
-        result << @struct.convert_from_json({ 'name' => item[0], 'value' => item[1] })
+      model[name] = (xml[xml_name] || []).inject({}) do |result, item|
+        result[item["name"]] = item["content"]
+        result
       end
     end
 
+    def from_json(json, model)
+      model[name] = json[json_name] || {}
+    end
+
     def to_xml(model, xml)
-      ary = (model[name] || []).map { |elt| @struct.convert_to_xml(elt) }
+      ary = (model[name] || {}).map { |k, v| { "name" => k, "content" => v } }
       xml[xml_name] = ary unless ary.empty?
     end
 
     def to_json(model, json)
-      ary = (model[name] || []).map { |elt| @struct.convert_to_json(elt) }
-      json[json_name] = ary.inject({}) { |result, item| result[item['name']] = item['value']; result } unless ary.empty?
+      if model[name] && ! model[name].empty?
+        json[json_name] = model[name]
+      end
     end
   end
 
@@ -262,8 +263,8 @@ class CIMI::Model::Schema
       add_attributes!([name, opts], Struct, &block)
     end
 
-    def hash(name, opts={}, &block)
-      add_attributes!([name, opts], Hash, &block)
+    def hash(name)
+      add_attributes!([name, {}], Hash)
     end
   end
 

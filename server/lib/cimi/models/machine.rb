@@ -158,10 +158,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   def self.convert_instance_properties(instance, context)
-    properties = []
-    properties << { :name => :machine_image, :value => context.machine_image_url(instance.image_id) }
+    properties = {}
+    properties["machine_image"] = context.machine_image_url(instance.image_id)
     if instance.respond_to? :keyname
-      properties << { :name => :machine_admin, :value => context.machine_admin_url(instance.keyname) }
+      properties["machine_admin"] = context.machine_admin_url(instance.keyname)
     end
     properties
   end

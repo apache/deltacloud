@@ -199,10 +199,7 @@ class CIMI::Model::Base
   #
   text :id, :name, :description, :created
 
-  # FIXME: this doesn't match with JSON
-  hash :property, :content => :value do
-    scalar :name
-  end
+  hash :property
 
   def self.act_as_root_entity(name=nil)
     if name
