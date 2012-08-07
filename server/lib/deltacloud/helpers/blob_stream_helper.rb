@@ -25,10 +25,7 @@ begin
     AsyncResponse = [-1, {}, []].freeze
     def self.call(context, credentials, params)
      body = DeferrableBody.new
-      #Get the headers out asap. Don't specify a content-type let
-      #the client guess and if they can't they SHOULD default to
-      #'application/octet-stream' anyway as per:
-      #http://www.w3.org/Protocols/rfc2616/rfc2616-sec7.html#sec7.2.1
+      #Get the headers out asap.
       EM.next_tick { context.env['async.callback'].call [200, {
         'Content-Type' => "#{params['content_type']}",
         'Content-Disposition' => params["content_disposition"],
@@ -36,9 +33,9 @@ begin
       }
       #call the driver from here. the driver method yields for every chunk
       #of blob it receives. Then use body.call to write that chunk as received.
-      context.driver.blob_data(credentials, params[:id], params[:blob_id], params) {|chunk| body.call ["#{chunk}"]} #close blob_data block
+      context.driver.blob_data(credentials, params[:id], params[:blob_id], params) {|chunk| body.call [chunk]} #close blob_data block
       body.succeed
-      AsyncResponse # Tell Thin to not close connection & work other requests
+      AsyncResponse.dup # Tell Thin to not close connection & work other requests
     end
   end
 
@@ -54,6 +51,7 @@ begin
     def each(&blk)
       @body_callback = blk
     end
+
   end
 rescue LoadError => e
   # EventMachine isn't available, disable blob streaming

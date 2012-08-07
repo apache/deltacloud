@@ -258,7 +258,7 @@ module Deltacloud::Collections
             @blob = driver.blob(credentials, { :id => params[:blob_id], 'bucket' => params[:id]})
             if @blob
               params['content_length'] = @blob.content_length
-              params['content_type'] = @blob.content_type
+              params['content_type'] = (@blob.content_type.nil? || @blob.content_type == "")? "application/octet-stream" : @blob.content_type
               params['content_disposition'] = "attachment; filename=#{@blob.id}"
               BlobStream.call(self, credentials, params)
             else

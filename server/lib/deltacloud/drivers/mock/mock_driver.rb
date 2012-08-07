@@ -388,6 +388,8 @@ module Deltacloud::Drivers::Mock
     def blob_data(credentials, bucket_id, blob_id, opts = {})
       check_credentials(credentials)
       if blob = @client.load(:blobs, blob_id)
+        #give event machine a chance
+        sleep 1
         blob[:content].split('').each {|part| yield part}
       end
     end
@@ -406,6 +408,7 @@ module Deltacloud::Drivers::Mock
         :user_metadata => BlobHelper::rename_metadata_headers(blob_meta, ''),
       }
       if blob_data.kind_of? Hash
+        blob_data[:tempfile].rewind
         blob.merge!({
           :content_length => blob_data[:tempfile].length,
           :content_type => blob_data[:type],
