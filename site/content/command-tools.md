@@ -5,6 +5,20 @@ title: Command Line Tools
 
 <br/>
 
+
+<h3 id="command">deltacloudc is being deprecated</h3>
+
+The deltacloudc command line tool is being deprecated. For now the code making up deltacloudc has been moved to the /deltacloud/clients/console directory but will ultimately be removed from the repo. If the command line client is important to you then please <a href="/contact.html">let us know</a>. A new command line client may be put onto the roadmap if there is demand for one.
+
+The deltacloud core developers use (almost exclusively) <a href="http://curl.haxx.se/">cURL</a> as a command line client for working with a deltacloud server. You can find more information on working with cURL against deltacloud <a href="/curl-examples.html">here</a>.
+
+<hr/>
+<br/>
+<h1> /deprecated: </h1>
+<br/>
+<hr/>
+<br/>
+
 <h3 id="command">Using Deltacloud command tool</h3>
 
 <p>Installing the Deltacloud Ruby client also gives you the <strong>deltacloudc</strong> command line tool. This executable uses the Deltacloud client library to speak to the Deltacloud server through the <a href="/rest-api.html">REST API</a>. This means that you can control your cloud infrastructure from the command line. The general usage pattern for deltacloudc is:<p>
@@ -18,7 +32,7 @@ title: Command Line Tools
   </dd>
   <dt>Operation</dt>
   <dd>
-  is collection dependant. All collections respond to 'index' and 'show' operations (retrieve details on all objects in a given collection or on a specific object). Some collections respond to 'create' and 'destroy' operations. The collection of instances (realized virtual servers) responds to operations for managing the instance lifecycle, such as 'stop' or 'reboot'. 
+  is collection dependant. All collections respond to 'index' and 'show' operations (retrieve details on all objects in a given collection or on a specific object). Some collections respond to 'create' and 'destroy' operations. The collection of instances (realized virtual servers) responds to operations for managing the instance lifecycle, such as 'stop' or 'reboot'.
   </dd>
   <dt>Options</dt>
   <dd>

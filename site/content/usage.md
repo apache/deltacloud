@@ -1,4 +1,4 @@
---- 
+---
 site_name: Deltacloud API
 title: Usage
 ---
@@ -10,7 +10,7 @@ title: Usage
 Instead of dealing with HTTP interface you can use various clients to communicate with Deltacloud server.
 
 <h3>The Deltacloud Ruby Client</h3>
-You need to install Ruby client seperately to the Deltacloud API server. Assuming you already have Ruby and RubyGems setup, you can install the Deltacloud client by simply typing: 
+You need to install Ruby client seperately to the Deltacloud API server. Assuming you already have Ruby and RubyGems setup, you can install the Deltacloud client by simply typing:
 
 <pre>$ sudo gem install deltacloud-client</pre>
 
@@ -129,6 +129,12 @@ http://localhost:3001/api/buckets/mybucket/my_new_blob?format=xml
 The <strong>'-iv'</strong> flags will ensure that cURL displays the request and response headers (blob metadata are reported in the response headers with an empty response body).
 </p>
 
+
+<a class="btn btn-inverse btn-large" style="float: right" href="/curl-examples.html">Working with cURL</a>
+
+<br/>
+<br/>
+
 <h3>Libdeltacloud Client (C library)</h3>
 <p>
 Libdeltacloud is a C/C++ library for accessing the Deltacloud API. It exports convenient structures and functions for manipulating cloud objects through the Deltacloud API.
@@ -144,7 +150,7 @@ As of version 0.9, libdeltacloud is mostly <strong>API stable</strong>, but not 
 </p>
 
 <p>
-Due to the magic of libtool versioning, programs built against an older version of libdeltacloud will refuse to run against a newer version of libdeltacloud if the size of the structures has changed. If this happens, then the program must be recompiled against the newer libdeltacloud. 
+Due to the magic of libtool versioning, programs built against an older version of libdeltacloud will refuse to run against a newer version of libdeltacloud if the size of the structures has changed. If this happens, then the program must be recompiled against the newer libdeltacloud.
 </p>
 
 <a class="btn btn-inverse btn-large" style="float: right" href="http://deltacloud.apache.org/libdeltacloud/index.html">Libdeltacloud documentation</a>
