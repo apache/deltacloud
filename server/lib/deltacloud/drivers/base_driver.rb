@@ -156,7 +156,11 @@ module Deltacloud
 
     def has_capability?(method)
       method = (RUBY_VERSION =~ /^1\.9/) ? method : method.to_s
-      (self.class.instance_methods - self.class.superclass.instance_methods).include? method
+      # Prevent has_capability fail when driver is inherited from another
+      # driver, like Eucalyptus
+      superclass_methods = self.class.superclass.name == 'Deltacloud::BaseDriver' ?
+        self.class.superclass.instance_methods : []
+      (self.class.instance_methods - superclass_methods).include? method
     end
 
     ## Capabilities
