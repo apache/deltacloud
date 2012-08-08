@@ -68,7 +68,7 @@ else
   Deltacloud[ENV['API_FRONTEND'].to_sym].default_frontend!
   class IndexEntrypoint < Sinatra::Base
     get "/" do
-      redirect Deltacloudd.default_frontend.root_url, 301
+      redirect Deltacloud.default_frontend.root_url, 301
     end
   end
   routes['/'] = IndexEntrypoint.new
