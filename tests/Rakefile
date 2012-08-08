@@ -30,4 +30,8 @@ namespace :test do
     end
   end
 
+  Rake::TestTask.new(:cimi) do |t|
+    t.test_files = FileList["cimi/*_test.rb"]
+  end
+
 end

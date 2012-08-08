@@ -29,3 +29,9 @@ ec2:
     image: "ami-2b5fba42"
     hardware_profile: "m1.small"
     realm: "us-east-1b"
+
+# CIMI testing
+cimi:
+  cep: "http://localhost:3001/cimi/cloudEntryPoint"
+  user: "mockuser"
+  password: "mockpassword"
