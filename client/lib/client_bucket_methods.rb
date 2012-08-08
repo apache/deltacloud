@@ -27,7 +27,7 @@ module ClientBucketMethods
     #actually response here is 204 - no content - so nothing returned to client?
     request(:delete, "#{api_uri.to_s}/buckets/#{params['id']}") do |response|
       handle_backend_error(response) if response.code!=204
-      response
+      nil if response.code == 204
     end
   end
 
@@ -53,7 +53,7 @@ module ClientBucketMethods
   def destroy_blob(params)
     request(:delete, "#{api_uri.to_s}/buckets/#{params['bucket']}/#{params[:id]}") do |response|
       handle_backend_error(response) if response.code!=204
-      response
+      nil if response.code == 204
     end
   end
 
