@@ -1,9 +1,0 @@
-:name: MockUserInstance
-:state: RUNNING
-:image_id: img3
-:owner_id: mockuser
-:public_addresses: [ img3.inst1.public.com ]
-:private_addresses: [ img3.inst1.private.com ]
-:realm_id: us
-:instance_profile: !ruby/object:InstanceProfile
-  id: m1-small
