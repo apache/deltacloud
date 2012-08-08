@@ -17,6 +17,7 @@
 
 from httplib2 import Http
 from urllib import urlencode
+from urlparse import urljoin
 import libxml2
 
 
@@ -29,40 +30,27 @@ class SimpleRestClient:
         self.client.follow_all_redirect = True
         self.client.add_credentials(self.user, self.password)
 
-    def GET(self, uri):
-        if uri.startswith('http://'):
-            current_url = ''
-        else:
-            current_url = self.url
-        status, response = self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'GET', headers={'accept':'application/xml'})
+    def do_request(self, uri, method='GET', params=None):
+        if params:
+            params = urlencode(params)
+        status, response = self.client.request(urljoin(self.url, uri),
+                method=method.upper(),
+                body=params,
+                headers={'accept':'application/xml'})
         response = self.parse_xml(response)
         return status, response
 
-    def POST(self, uri, params={}):
-        if uri.startswith('http://'):
-            current_url = ''
-        else:
-            current_url = self.url
-        if not params:
-            params = {}
-        status, response = self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'POST',
-                                               urlencode(params), headers={'accept':'application/xml'})
-        response = self.parse_xml(response)
-        return status, response
+    def GET(self, uri):
+        return self.do_request(uri, 'GET')
+
+    def POST(self, uri, params=None):
+        return self.do_request(uri, 'POST', params)
 
     def DELETE(self, uri):
-        if uri.startswith('http://'):
-            current_url = ''
-        else:
-            current_url = self.url
-        return self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'DELETE')
+        return self.do_request(uri, 'DELETE')
 
     def PUT(self, uri):
-        if uri.startswith('http://'):
-            current_url = ''
-        else:
-            current_url = self.url
-        return self.client.request('{url}{uri}'.format(url=current_url, uri=uri), 'PUT')
+        return self.do_request(uri, 'PUT')
 
     def parse_xml(self, response):
         return libxml2.parseDoc(response)
