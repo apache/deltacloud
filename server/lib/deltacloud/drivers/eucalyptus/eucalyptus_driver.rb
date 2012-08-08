@@ -71,7 +71,7 @@ module Deltacloud
         end
 
         def default_image_owner
-          "self" 
+          "self"
         end
 
         def default_image_type

@@ -75,7 +75,7 @@ module Deltacloud
       return if hw_profile
       hw_profile = ::Deltacloud::HardwareProfile.new( name, &block )
       @hardware_profiles << hw_profile
-      hw_params = hw_profile.params
+      hw_profile.params
       # FIXME: Features
       #unless hw_params.empty?
       #  feature :instances, :hardware_profiles do
@@ -145,7 +145,6 @@ module Deltacloud
 
     def instance_actions_for(state)
       actions = []
-      state_key = state.downcase.to_sym
       states = instance_state_machine.states()
       current_state = states.find{|e| e.name == state.underscore.to_sym }
       if ( current_state )
