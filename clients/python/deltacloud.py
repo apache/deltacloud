@@ -37,7 +37,8 @@ class SimpleRestClient:
                 method=method.upper(),
                 body=params,
                 headers={'accept':'application/xml'})
-        response = self.parse_xml(response)
+        if response:
+            response = self.parse_xml(response)
         return status, response
 
     def GET(self, uri):
@@ -127,44 +128,31 @@ class Instance(Deltacloud):
             self.key_name = key_auth[0].xpathEval('keyname')[0].content
 
     def start(self):
-        action = self.instance.xpathEval("actions/link[@rel='start']")
-        if not action:
-            return False
-        else:
-            if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-                return True
-            else:
-                return False
+        return self.do_action('start')
 
     def stop(self):
-        action = self.instance.xpathEval("actions/link[@rel='stop']")
-        if not action:
-            return False
-        else:
-            if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-                return True
-            else:
-                return False
+        return self.do_action('stop')
 
     def reboot(self):
-        action = self.instance.xpathEval("actions/link[@rel='reboot']")
-        if not action:
-            return False
-        else:
-            if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-                return True
-            else:
-                return False
+        return self.do_action('reboot')
 
     def destroy(self):
-        action = self.instance.xpathEval("actions/link[@rel='destroy']")
-        if not action:
+        return self.do_action('destroy')
+
+    def actions(self):
+        '''Return all the actions allowed on the instance.'''
+        return [link.xpathEval('@rel')[0].content for link in
+                self.instance.xpathEval('actions/link')]
+
+    def do_action(self, action):
+        '''Run the specified action.'''
+        if not action in self.actions():
             return False
-        else:
-            if self.deltacloud.client.POST(action[0].xpathEval("@href")[0].content, {})[0]['status'] == '200':
-                return True
-            else:
-                return False
+        action = self.instance.xpathEval("actions/link[@rel='%s']" % action)[0]
+        url = action.xpathEval('@href')[0].content
+        method = action.xpathEval('@method')[0].content
+        response, body = self.deltacloud.client.do_request(url, method)
+        return response['status'][0] == '2'  # HTTP 2xx codes mean success
 
 
 class Image(Deltacloud):
