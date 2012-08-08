@@ -136,7 +136,7 @@ class Instance(Deltacloud):
             self.username = password_auth[0].xpathEval('username')[0].content
             self.password = password_auth[0].xpathEval('password')[0].content
         if key_auth:
-            self.key_name = key_auth[0].xpathEval('keyname').content
+            self.key_name = key_auth[0].xpathEval('keyname')[0].content
 
     def start(self):
         action = self.instance.xpathEval("actions/link[@rel='start']")
