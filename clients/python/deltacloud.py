@@ -152,7 +152,11 @@ class Instance(Deltacloud):
         url = action.xpathEval('@href')[0].content
         method = action.xpathEval('@method')[0].content
         response, body = self.deltacloud.client.do_request(url, method)
-        return response['status'][0] == '2'  # HTTP 2xx codes mean success
+        if not response['status'][0] == '2':  # HTTP 2xx codes mean success
+            return False
+        if body:
+            self.instance = body.xpathEval('instance')[0]
+        return True
 
 
 class Image(Deltacloud):
