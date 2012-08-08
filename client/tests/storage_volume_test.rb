@@ -16,75 +16,75 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-require 'specs/spec_helper'
+require_relative './test_helper.rb'
 
-describe "storage volumes" do
-
-  it_should_behave_like "all resources"
+describe "Storage Volumes" do
 
   it "allow retrieval of all storage volumes owned by the current user" do
     [API_URL, API_URL_REDIRECT].each do |entry_point|
       client = DeltaCloud.new( API_NAME, API_PASSWORD, entry_point )
-      client.connect do |client|
-        storage_volumes = client.storage_volumes
-        storage_volumes.should_not be_nil
-        storage_volumes.should_not be_empty
+      client.connect do |c|
+        storage_volumes = c.storage_volumes
+        storage_volumes.wont_be_nil
+        storage_volumes.wont_be_nil
         ids = storage_volumes.collect{|e| e.id}
-        ids.size.should eql( 3 )
-        ids.should include( 'vol2' )
-        ids.should include( 'vol3' )
+        ids.size.must_equal 3
+        ids.must_include 'vol1'
+        ids.must_include 'vol3'
       end
     end
   end
 
   it "should allow fetching of storage volume by id" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_volume = client.storage_volume( 'vol3' )
-      storage_volume.id.should eql( 'vol3' )
-      storage_volume.uri.should eql( API_URL + '/storage_volumes/vol3' )
-      storage_volume.capacity.should eql( 1.0 )
-      storage_volume.device.should eql( '/dev/sda1' )
-      storage_volume.instance.should_not be_nil
-      storage_volume.instance.id.should eql( 'inst1' )
+    client.connect do |c|
+      storage_volume = c.storage_volume( 'vol3' )
+      storage_volume.id.must_equal 'vol3'
+      storage_volume.uri.must_equal API_URL + '/storage_volumes/vol3'
+      storage_volume.capacity.must_equal 1.0
+      storage_volume.device.must_equal '/dev/sda1'
+      storage_volume.instance.wont_be_nil
+      storage_volume.instance.id.must_equal 'inst1'
       ip = storage_volume.instance
-      ip.hardware_profile.architecture.value.should eql( 'i386' )
+      ip.hardware_profile.architecture.value.must_equal 'i386'
     end
   end
 
   it "should allow fetching of storage volume by URI" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_volume = client.fetch_storage_volume( API_URL + '/storage_volumes/vol3' )
-      storage_volume.should_not be_nil
-      storage_volume.id.should eql( 'vol3' )
-      storage_volume.uri.should eql( API_URL + '/storage_volumes/vol3' )
-      storage_volume.capacity.should eql( 1.0 )
-      storage_volume.device.should eql( '/dev/sda1' )
-      storage_volume.instance.should_not be_nil
-      storage_volume.instance.id.should eql( 'inst1' )
+    client.connect do |c|
+      storage_volume = c.fetch_storage_volume( API_URL + '/storage_volumes/vol3' )
+      storage_volume.wont_be_nil
+      storage_volume.id.must_equal 'vol3'
+      storage_volume.uri.must_equal API_URL + '/storage_volumes/vol3'
+      storage_volume.capacity.must_equal 1.0
+      storage_volume.device.must_equal '/dev/sda1'
+      storage_volume.instance.wont_be_nil
+      storage_volume.instance.id.must_equal 'inst1'
       ip = storage_volume.instance
-      ip.hardware_profile.architecture.value.should eql( 'i386' )
+      ip.hardware_profile.architecture.value.must_equal 'i386'
     end
   end
 
   it "should raise exception for unknown storage volume by ID" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     lambda {
-      client.connect do |client|
-        client.storage_volume( 'bogus' )
+      client.connect do |c|
+        c.storage_volume( 'bogus' )
       end
-    }.should raise_error(DeltaCloud::HTTPError::NotFound)
+    }.must_raise DeltaCloud::HTTPError::NotFound
   end
 
   it "should raise exception for unknown storage volume by URI" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     lambda {
-      client.connect do |client|
+      client.connect do |c|
         client.fetch_storage_volume( API_URL + '/storage_volumes/bogus' )
       end
-    }.should raise_error(DeltaCloud::HTTPError::NotFound)
+    }.must_raise DeltaCloud::HTTPError::NotFound
   end
 
 

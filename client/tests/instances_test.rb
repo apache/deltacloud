@@ -16,35 +16,35 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-require 'specs/spec_helper'
+require_relative './test_helper.rb'
 
-describe "instances" do
-
-  it_should_behave_like "all resources"
+describe "Instances" do
 
   it "should allow retrieval of all instances" do
     [API_URL, API_URL_REDIRECT].each do |entry_point|
       DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
         instances = client.instances
-        instances.should_not be_empty
+        instances.wont_be_empty
         instances.each do |instance|
-          instance.uri.should_not be_nil
-          instance.uri.should be_a( String )
-          instance.owner_id.should_not be_nil
-          instance.owner_id.should be_a( String )
-          instance.image.should_not be_nil
-          instance.image.to_s.should match(/DeltaCloud::API::.*::Image/)
-          instance.hardware_profile.should_not be_nil
-          instance.hardware_profile.should be_a( DeltaCloud::API::Base::HardwareProfile )
-          instance.state.should_not be_nil
-          instance.state.should be_a( String )
-          instance.public_addresses.should_not be_nil
-          instance.public_addresses.should_not be_empty
-          instance.public_addresses.should be_a( Array )
-          instance.private_addresses.should_not be_nil
-          instance.private_addresses.should_not be_empty
-          instance.private_addresses.should be_a( Array )
+          instance.uri.wont_be_nil
+          instance.uri.must_be_kind_of String
+          instance.owner_id.wont_be_nil
+          instance.owner_id.must_be_kind_of String
+          instance.image.wont_be_nil
+          instance.image.to_s.must_match /DeltaCloud::API::.*::Image/
+          instance.hardware_profile.wont_be_nil
+          instance.hardware_profile.must_be_kind_of DeltaCloud::API::Base::HardwareProfile
+          instance.state.wont_be_nil
+          instance.state.must_be_kind_of String
+          instance.public_addresses.wont_be_nil
+          instance.public_addresses.wont_be_empty
+          instance.public_addresses.must_be_kind_of Array
+          instance.private_addresses.wont_be_nil
+          instance.private_addresses.wont_be_empty
+          instance.private_addresses.must_be_kind_of Array
         end
       end
     end
@@ -53,60 +53,60 @@ describe "instances" do
   it "should allow navigation from instance to image" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instances = client.instances
-      instances.should_not be_empty
+      instances.wont_be_empty
       instance = instances.first
-      instance.image.should_not be_nil
-      instance.image.description.should_not be_nil
-      instance.image.description.should be_a(String)
+      instance.image.wont_be_nil
+      instance.image.description.wont_be_nil
+      instance.image.description.must_be_kind_of String
     end
   end
 
   it "should allow retrieval of a single instance" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.instance( "inst0" )
-      instance.should_not be_nil
-      instance.name.should_not be_nil
-      instance.name.should eql( 'Mock Instance With Profile Change' )
-      instance.uri.should_not be_nil
-      instance.uri.should be_a( String )
-      instance.owner_id.should eql( "mockuser" )
-      instance.public_addresses.first.class.should eql(Hash)
-      instance.public_addresses.first[:type].should eql('hostname')
-      instance.public_addresses.first[:address].should eql('img1.inst0.public.com')
-      instance.image.should_not be_nil
-      instance.image.uri.should eql( API_URL + "/images/img1" )
-      instance.hardware_profile.should_not be_nil
-      instance.hardware_profile.should_not be_nil
-      instance.hardware_profile.uri.should eql( API_URL + "/hardware_profiles/m1-large" )
-      instance.hardware_profile.memory.value.should eql('10240')
-      instance.hardware_profile.storage.value.should eql('850')
-      instance.state.should eql( "RUNNING" )
-      instance.actions.should_not be_nil
+      instance.wont_be_nil
+      instance.name.wont_be_nil
+      instance.name.must_equal 'Mock Instance With Profile Change'
+      instance.uri.wont_be_nil
+      instance.uri.must_be_kind_of String
+      instance.owner_id.must_equal "mockuser"
+      instance.public_addresses.first.class.must_equal Hash
+      instance.public_addresses.first[:type].must_equal 'hostname'
+      instance.public_addresses.first[:address].must_equal 'img1.inst0.public.com'
+      instance.image.wont_be_nil
+      instance.image.uri.must_equal API_URL + "/images/img1"
+      instance.hardware_profile.wont_be_nil
+      instance.hardware_profile.wont_be_nil
+      instance.hardware_profile.uri.must_equal API_URL + "/hardware_profiles/m1-large" 
+      instance.hardware_profile.memory.value.must_equal '10240'
+      instance.hardware_profile.storage.value.must_equal '850'
+      instance.state.must_equal "RUNNING" 
+      instance.actions.wont_be_nil
     end
   end
 
   it "should allow creation of new instances with reasonable defaults" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :name=>'TestInstance', :hardware_profile => 'm1-large' )
-      instance.should_not be_nil
-      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
-      instance.id.should match( /inst[0-9]+/ )
-      instance.name.should eql( 'TestInstance' )
-      instance.image.id.should eql( 'img1' )
-      instance.hardware_profile.id.should eql( 'm1-large' )
-      instance.realm.id.should eql( 'us' )
+      instance.wont_be_nil
+      instance.uri.must_match %r{#{API_URL}/instances/inst[0-9]+}
+      instance.id.must_match /inst[0-9]+/
+      instance.name.must_equal 'TestInstance'
+      instance.image.id.must_equal 'img1'
+      instance.hardware_profile.id.must_equal 'm1-large'
+      instance.realm.id.must_equal 'us'
     end
   end
 
   it "should allow creation of new instances with specific realm" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :realm=>'eu', :hardware_profile => 'm1-large' )
-      instance.should_not be_nil
-      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
-      instance.id.should match( /inst[0-9]+/ )
-      instance.image.id.should eql( 'img1' )
-      instance.hardware_profile.id.should eql( 'm1-large' )
-      instance.realm.id.should eql( 'eu' )
+      instance.wont_be_nil
+      instance.uri.must_match %r{#{API_URL}/instances/inst[0-9]+}
+      instance.id.must_match  /inst[0-9]+/
+      instance.image.id.must_equal 'img1'
+      instance.hardware_profile.id.must_equal 'm1-large'
+      instance.realm.id.must_equal 'eu'
     end
   end
 
@@ -114,12 +114,12 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1',
                                          :hardware_profile=>'m1-xlarge' )
-      instance.should_not be_nil
-      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
-      instance.id.should match( /inst[0-9]+/ )
-      instance.image.id.should eql( 'img1' )
-      instance.hardware_profile.id.should eql( 'm1-xlarge' )
-      instance.realm.id.should eql( 'us' )
+      instance.wont_be_nil
+      instance.uri.must_match  %r{#{API_URL}/instances/inst[0-9]+}
+      instance.id.must_match  /inst[0-9]+/
+      instance.image.id.must_equal 'img1'
+      instance.hardware_profile.id.must_equal 'm1-xlarge'
+      instance.realm.id.must_equal 'us'
     end
   end
 
@@ -127,13 +127,13 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       hwp = { :id => 'm1-xlarge', :memory => 32768 }
       instance = client.create_instance( 'img1', :hardware_profile=> hwp )
-      instance.should_not be_nil
-      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
-      instance.id.should match( /inst[0-9]+/ )
-      instance.image.id.should eql( 'img1' )
-      instance.hardware_profile.id.should eql( 'm1-xlarge' )
-      instance.hardware_profile.memory.value.should eql('12288')
-      instance.realm.id.should eql( 'us' )
+      instance.wont_be_nil
+      instance.uri.must_match  %r{#{API_URL}/instances/inst[0-9]+}
+      instance.id.must_match  /inst[0-9]+/
+      instance.image.id.must_equal 'img1'
+      instance.hardware_profile.id.must_equal 'm1-xlarge'
+      instance.hardware_profile.memory.value.must_equal'12288'
+      instance.realm.id.must_equal 'us' 
     end
   end
 
@@ -141,30 +141,30 @@ describe "instances" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.create_instance( 'img1', :realm=>'eu',
                                          :hardware_profile=>'m1-xlarge' )
-      instance.should_not be_nil
-      instance.uri.should match( %r{#{API_URL}/instances/inst[0-9]+} )
-      instance.id.should match( /inst[0-9]+/ )
-      instance.image.id.should eql( 'img1' )
-      instance.hardware_profile.id.should eql( 'm1-xlarge' )
-      instance.realm.id.should eql( 'eu' )
+      instance.wont_be_nil
+      instance.uri.must_match  %r{#{API_URL}/instances/inst[0-9]+}
+      instance.id.must_match  /inst[0-9]+/
+      instance.image.id.must_equal 'img1'
+      instance.hardware_profile.id.must_equal 'm1-xlarge'
+      instance.realm.id.must_equal 'eu'
     end
   end
 
   it "should allow fetching of instances by id" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.instance( 'inst1' )
-      instance.should_not be_nil
-      instance.uri.should_not be_nil
-      instance.uri.should be_a( String )
+      instance.wont_be_nil
+      instance.uri.wont_be_nil
+      instance.uri.must_be_kind_of String
     end
   end
 
   it "should allow fetching of instances by URI" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       instance = client.fetch_instance( API_URL + '/instances/inst1' )
-      instance.should_not be_nil
-      instance.uri.should eql( API_URL + '/instances/inst1' )
-      instance.id.should eql( 'inst1' )
+      instance.wont_be_nil
+      instance.uri.must_equal API_URL + '/instances/inst1'
+      instance.id.must_equal 'inst1'
     end
   end
 
@@ -172,26 +172,26 @@ describe "instances" do
     it "should allow actions that are valid" do
       DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
         instance = client.instance( 'inst1' )
-        instance.should_not be_nil
-        instance.state.should eql( "RUNNING" )
-        instance.uri.should eql( API_URL + '/instances/inst1' )
-        instance.id.should eql( 'inst1' )
+        instance.wont_be_nil
+        instance.state.must_equal "RUNNING"
+        instance.uri.must_equal API_URL + '/instances/inst1'
+        instance.id.must_equal 'inst1'
         instance.stop!
-        instance.state.should eql( "STOPPED" )
+        instance.state.must_equal "STOPPED"
         instance.start!
-        instance.state.should eql( "RUNNING" )
+        instance.state.must_equal "RUNNING"
       end
     end
 
     it "should not allow actions that are invalid" do
       DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
         instance = client.instance( 'inst1' )
-        instance.should_not be_nil
+        instance.wont_be_nil
         unless instance.state.eql?("RUNNING")
           instance.start!
         end
-        instance.state.should eql( "RUNNING" )
-        lambda{instance.start!}.should raise_error
+        instance.state.must_equal "RUNNING"
+        lambda{instance.start!}.must_raise NoMethodError
       end
     end
 
@@ -201,9 +201,7 @@ describe "instances" do
                                            :name=>'TestDestroyInstance',
                                            :hardware_profile => 'm1-xlarge' )
         instance.stop!
-        lambda {
-          instance.destroy!
-        }.should_not raise_error
+        instance.destroy!.must_be_nil
       end
     end
   end

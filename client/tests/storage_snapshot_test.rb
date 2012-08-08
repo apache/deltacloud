@@ -16,66 +16,66 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-require 'specs/spec_helper'
+require_relative './test_helper.rb'
 
-describe "storage snapshot" do
-
-  it_should_behave_like "all resources"
+describe "Storage Snapshot" do
 
   it "allow retrieval of all storage volumes owned by the current user" do
     [API_URL, API_URL_REDIRECT].each do |entry_point|
       client = DeltaCloud.new( API_NAME, API_PASSWORD, entry_point )
-      client.connect do |client|
-        storage_snapshots = client.storage_snapshots
-        storage_snapshots.should_not be_nil
-        storage_snapshots.should_not be_empty
+      client.connect do |c|
+        storage_snapshots = c.storage_snapshots
+        storage_snapshots.wont_be_nil
+        storage_snapshots.wont_be_empty
         ids = storage_snapshots.collect{|e| e.id}
-        ids.size.should eql( 3 )
-        ids.should include( 'snap2' )
-        ids.should include( 'snap3' )
+        ids.size.must_equal 3
+        ids.must_include 'snap2'
+        ids.must_include 'snap3'
       end
     end
   end
 
   it "should allow fetching of storage volume by id" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_snapshot = client.storage_snapshot( 'snap2' )
-      storage_snapshot.should_not be_nil
-      storage_snapshot.id.should eql( 'snap2' )
-      storage_snapshot.storage_volume.capacity.should eql( 1.0 )
-      storage_snapshot.storage_volume.id.should eql( 'vol2' )
+    client.connect do |c|
+      storage_snapshot = c.storage_snapshot( 'snap2' )
+      storage_snapshot.wont_be_nil
+      storage_snapshot.id.must_equal 'snap2'
+      storage_snapshot.storage_volume.capacity.must_equal 1.0
+      storage_snapshot.storage_volume.id.must_equal 'vol2'
     end
   end
 
   it "should allow fetching of storage volume by URI"  do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
-    client.connect do |client|
-      storage_snapshot = client.fetch_storage_snapshot( API_URL + '/storage_snapshots/snap2' )
-      storage_snapshot.should_not be_nil
-      storage_snapshot.id.should eql( 'snap2' )
-      storage_snapshot.storage_volume.capacity.should eql( 1.0 )
-      storage_snapshot.storage_volume.id.should eql( 'vol2' )
+    client.connect do |c|
+      storage_snapshot = c.fetch_storage_snapshot( API_URL + '/storage_snapshots/snap2' )
+      storage_snapshot.wont_be_nil
+      storage_snapshot.id.must_equal 'snap2'
+      storage_snapshot.storage_volume.capacity.must_equal 1.0
+      storage_snapshot.storage_volume.id.must_equal 'vol2'
     end
   end
 
   it "should return nil for unknown storage volume by ID" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     lambda {
-      client.connect do |client|
-        client.storage_snapshot( "bogus" )
+      client.connect do |c|
+        c.storage_snapshot( "bogus" )
       end
-    }.should raise_error(DeltaCloud::HTTPError::NotFound)
+    }.must_raise DeltaCloud::HTTPError::NotFound
   end
 
   it "should return nil for unknown storage volume by URI" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     lambda {
-      client.connect do |client|
-        client.fetch_storage_snapshot( API_URL + '/storage_snapshots/bogus' )
+      client.connect do |c|
+        c.fetch_storage_snapshot( API_URL + '/storage_snapshots/bogus' )
       end
-    }.should raise_error(DeltaCloud::HTTPError::NotFound)
+    }.must_raise DeltaCloud::HTTPError::NotFound
   end
 
 end

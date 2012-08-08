@@ -16,20 +16,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'specs/spec_helper'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
+
+require_relative './test_helper.rb'
 
 def check_key(the_key, key_name = "")
-  the_key.should_not be_nil
-  the_key.id.should be_a(String)
-  the_key.id.should eql(key_name)
-  the_key.actions.should_not be_nil
-  the_key.actions.size.should eql(1)
-  the_key.actions.first[0].should eql("destroy")
-  the_key.actions.first[1].should eql("#{API_URL}/keys/#{key_name}")
-  the_key.fingerprint.should_not be_nil
-  the_key.fingerprint.should be_a(String)
-  the_key.pem.should_not be_nil
-  the_key.pem.first.should be_a(String)
+  the_key.wont_be_nil
+  the_key.id.must_be_kind_of String
+  the_key.id.must_equal key_name
+  the_key.actions.wont_be_nil
+  the_key.actions.size.must_equal 1
+  the_key.actions.first[0].must_equal "destroy"
+  the_key.actions.first[1].must_equal "#{API_URL}/keys/#{key_name}"
+  the_key.fingerprint.wont_be_nil
+  the_key.fingerprint.must_be_kind_of String
+  the_key.pem.wont_be_nil
+  the_key.pem.must_be_kind_of String
 end
 
 def create_key_if_necessary(client, key_name)
@@ -40,22 +43,17 @@ def create_key_if_necessary(client, key_name)
 end
 
 
-describe "keys" do
-
-  it_should_behave_like "all resources"
-
+describe "Keys" do
   it "should allow retrieval of all keys" do
     [API_URL, API_URL_REDIRECT].each do |entry_point|
       DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        lambda{
-              client.keys
-              }.should_not raise_error
+        client.keys.wont_be_empty
       end
     end
   end
 end
 
-describe "operations on keys" do
+describe "Operations on Keys" do
 
   it "should allow successful creation of a new key" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
@@ -79,7 +77,7 @@ describe "operations on keys" do
       create_key_if_necessary(client, name)
       lambda{
               client.create_key({:name => name})
-            }.should raise_error
+            }.must_raise DeltaCloud::HTTPError::Forbidden
     end
   end
 
@@ -88,9 +86,7 @@ describe "operations on keys" do
       name = "my_new_key"
       create_key_if_necessary(client, name)
       the_key = client.key(name)
-      lambda{
-              the_key.destroy!
-            }.should_not raise_error
+      the_key.destroy!.must_be_nil
     end
   end
 

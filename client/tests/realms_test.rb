@@ -16,26 +16,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'specs/spec_helper'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-describe "realms" do
+require_relative './test_helper.rb'
 
-  it_should_behave_like "all resources"
+describe "Realms" do
+
+  before do
+    @client = DeltaCloud.new(API_NAME, API_PASSWORD, API_URL)
+  end
 
   it "should allow retrieval of all realms" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        realms = client.realms
-        realms.should_not be_empty
-        realms.each do |realm|
-          realm.uri.should_not be_nil
-          realm.uri.should be_a(String)
-          realm.id.should_not be_nil
-          realm.id.should be_a(String)
-          realm.name.should_not be_nil
-          realm.name.should be_a(String)
-        end
-      end
+    realms = @client.realms
+    realms.wont_be_empty
+    realms.each do |realm|
+      realm.uri.wont_be_nil
+      realm.uri.must_be_kind_of String
+      realm.id.wont_be_nil
+      realm.id.must_be_kind_of String
+      realm.name.wont_be_nil
+      realm.name.must_be_kind_of String
     end
   end
 
@@ -43,23 +44,23 @@ describe "realms" do
   it "should allow fetching a realm by id" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       realm = client.realm( 'us' )
-      realm.should_not be_nil
-      realm.id.should eql( 'us' )
-      realm.name.should eql( 'United States' )
-      realm.state.should eql( 'AVAILABLE' )
+      realm.wont_be_nil
+      realm.id.must_equal 'us'
+      realm.name.must_equal 'United States'
+      realm.state.must_equal 'AVAILABLE'
       realm = client.realm( 'eu' )
-      realm.should_not be_nil
-      realm.id.should eql( 'eu' )
-      realm.name.should eql( 'Europe' )
-      realm.state.should eql( 'AVAILABLE' )
+      realm.wont_be_nil
+      realm.id.must_equal 'eu'
+      realm.name.must_equal 'Europe'
+      realm.state.must_equal 'AVAILABLE'
     end
   end
 
   it "should allow fetching a realm by URI" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       realm = client.fetch_realm( API_URL + '/realms/us' )
-      realm.should_not be_nil
-      realm.id.should eql( 'us' )
+      realm.wont_be_nil
+      realm.id.must_equal 'us'
     end
   end
 

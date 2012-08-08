@@ -16,33 +16,34 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'specs/spec_helper'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
+
+require_relative './test_helper.rb'
 
 describe "server error handler" do
 
-  it_should_behave_like "all resources"
-
   it 'should capture HTTP 500 error as DeltacloudError' do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      expect { client.realm('500') }.should raise_error(DeltaCloud::HTTPError::DeltacloudError)
+      lambda { client.realm('500') }.must_raise DeltaCloud::HTTPError::DeltacloudError
     end
   end
 
   it 'should capture HTTP 502 error as ProviderError' do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      expect { client.realm('502') }.should raise_error(DeltaCloud::HTTPError::ProviderError)
+      lambda { client.realm('502') }.must_raise DeltaCloud::HTTPError::ProviderError
     end
   end
 
   it 'should capture HTTP 501 error as NotImplemented' do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      expect { client.realm('501') }.should raise_error(DeltaCloud::HTTPError::NotImplemented)
+      lambda { client.realm('501') }.must_raise DeltaCloud::HTTPError::NotImplemented
     end
   end
 
   it 'should capture HTTP 504 error as ProviderTimeout' do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      expect { client.realm('504') }.should raise_error(DeltaCloud::HTTPError::ProviderTimeout)
+      lambda { client.realm('504') }.must_raise DeltaCloud::HTTPError::ProviderTimeout
     end
   end
 
@@ -52,7 +53,7 @@ describe "client error handler" do
 
   it 'should capture HTTP 404 error as NotFound' do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      expect { client.realm('non-existing-realm') }.should raise_error(DeltaCloud::HTTPError::NotFound)
+      lambda { client.realm('non-existing-realm') }.must_raise DeltaCloud::HTTPError::NotFound
     end
   end
 

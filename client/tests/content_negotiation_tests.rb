@@ -16,11 +16,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'specs/spec_helper'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-def client
-  RestClient::Resource.new(API_URL)
-end
+require_relative './test_helper.rb'
+
+def client; RestClient::Resource.new(API_URL); end
 
 def headers(header)
   encoded_credentials = ["#{API_NAME}:#{API_PASSWORD}"].pack("m0").gsub(/\n/,'')
@@ -38,8 +39,8 @@ describe "return JSON" do
       'Accept' => "application/json"
     }
     client.get(header_hash) do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^application\/json/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^application\/json/
     end
   end
 
@@ -48,8 +49,8 @@ describe "return JSON" do
       'Accept' => "application/json"
     }
     client.get(header_hash) do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^application\/json/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^application\/json/
     end
   end
 
@@ -59,49 +60,41 @@ describe "return HTML in different browsers" do
 
   it "wants XML using format parameter" do
     client.get(:params => { 'format' => 'xml' }, 'Accept' => 'application/xhtml+xml') do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^application\/xml/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^application\/xml/
     end
   end
 
   it "raise 406 error on wrong accept" do
     client['hardware_profiles'].get('Accept' => 'image/png;q=1') do |response, request, &block|
-      response.code.should == 406
+      response.code.must_equal 406
     end
   end
 
   it "wants HTML using format parameter and accept set to XML" do
     client.get(:params => { 'format' => 'html'}, 'Accept' => 'application/xml') do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^text\/html/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^text\/html/
     end
   end
 
-#  FIXME: This return 406 for some reason on GIT sinatra
-#  it "wants a PNG image" do 
-#    client['instance_states'].get('Accept' => 'image/png') do |response, request, &block|
-#      response.code.should == 200
-#      response.headers[:content_type].should =~ /^image\/png/
-#    end
-#  end
-
   it "doesn't have accept header" do
     client.get('Accept' => '') do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^application\/xml/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^application\/xml/
     end
   end
 
   it "can handle unknown formats" do
     client.get('Accept' => 'format/unknown') do |response, request, &block|
-      response.code.should == 406
+      response.code.must_equal 406
     end
   end
 
   it "wants explicitly XML" do
     client.get('Accept' => 'application/xml') do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^application\/xml/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^application\/xml/
     end
   end
 
@@ -111,15 +104,15 @@ describe "return HTML in different browsers" do
       'User-agent' => "Mozilla/5.0 (Windows; U; MSIE 9.0; Windows NT 9.0; en-US)"
     }
     client.get(header_hash) do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^text\/html/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^text\/html/
     end
   end
 
   it "Mozilla Firefox" do
     client.get('Accept' => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8") do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^text\/html/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^text\/html/
     end
   end
 
@@ -129,8 +122,8 @@ describe "return HTML in different browsers" do
       'User-agent' => "Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11"
     }
     client.get(header_hash) do |response, request, &block|
-      response.code.should == 200
-      response.headers[:content_type].should =~ /^text\/html/
+      response.code.must_equal 200
+      response.headers[:content_type].must_match /^text\/html/
     end
   end
 

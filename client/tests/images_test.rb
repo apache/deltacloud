@@ -16,28 +16,28 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-require 'specs/spec_helper'
+require_relative './test_helper.rb'
 
-describe "images" do
-
-  it_should_behave_like "all resources"
+describe "Images" do
 
   it "should allow retrieval of all images" do
     [API_URL, API_URL_REDIRECT].each do |entry_point|
       DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
         images = client.images
-        images.should_not be_empty
-        images.size.should eql( 3 )
+        images.wont_be_empty
+        images.size.must_equal 3
         images.each do |image|
-          image.uri.should_not be_nil
-          image.uri.should be_a(String)
-          image.description.should_not be_nil
-          image.description.should be_a(String)
-          image.architecture.should_not be_nil
-          image.architecture.should be_a(String)
-          image.owner_id.should_not be_nil
-          image.owner_id.should be_a(String)
+          image.uri.wont_be_nil
+          image.uri.must_be_kind_of String
+          image.description.wont_be_nil
+          image.description.must_be_kind_of String
+          image.architecture.wont_be_nil
+          image.architecture.must_be_kind_of String
+          image.owner_id.wont_be_nil
+          image.owner_id.must_be_kind_of String
         end
       end
     end
@@ -46,17 +46,17 @@ describe "images" do
   it "should allow retrieval of my own images" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       images = client.images( :owner_id=>:self )
-      images.should_not be_empty
-      images.size.should eql( 1 )
+      images.wont_be_empty
+      images.size.must_equal 1
       images.each do |image|
-        image.uri.should_not be_nil
-        image.uri.should be_a(String)
-        image.description.should_not be_nil
-        image.description.should be_a(String)
-        image.architecture.should_not be_nil
-        image.architecture.should be_a(String)
-        image.owner_id.should_not be_nil
-        image.owner_id.should be_a(String)
+        image.uri.wont_be_nil
+        image.uri.must_be_kind_of String
+        image.description.wont_be_nil
+        image.description.must_be_kind_of String
+        image.architecture.wont_be_nil
+        image.architecture.must_be_kind_of String
+        image.owner_id.wont_be_nil
+        image.owner_id.must_be_kind_of String
       end
     end
   end
@@ -64,20 +64,20 @@ describe "images" do
   it "should allow retrieval of a single image by ID" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       image = client.image( 'img1' )
-      image.should_not be_nil
-      image.uri.should eql( API_URL + '/images/img1' )
-      image.id.should eql( 'img1' )
-      image.architecture.should eql( 'x86_64' )
+      image.wont_be_nil
+      image.uri.must_equal API_URL + '/images/img1'
+      image.id.must_equal 'img1'
+      image.architecture.must_equal 'x86_64'
     end
   end
 
   it "should allow retrieval of a single image by URI" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       image = client.fetch_image( API_URL + '/images/img1' )
-      image.should_not be_nil
-      image.uri.should eql( API_URL + '/images/img1' )
-      image.id.should eql( 'img1' )
-      image.architecture.should eql( 'x86_64' )
+      image.wont_be_nil
+      image.uri.must_equal API_URL + '/images/img1'
+      image.id.must_equal 'img1'
+      image.architecture.must_equal 'x86_64'
     end
   end
 
@@ -85,14 +85,14 @@ describe "images" do
     it "return matching images" do
       DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
         images = client.images( :architecture=>'x86_64' )
-        images.should_not be_empty
+        images.wont_be_empty
         images.each do |image|
-          image.architecture.should eql( 'x86_64' )
+          image.architecture.must_equal 'x86_64'
         end
         images = client.images( :architecture=>'i386' )
-        images.should_not be_empty
+        images.wont_be_empty
         images.each do |image|
-          image.architecture.should eql( 'i386' )
+          image.architecture.must_equal 'i386'
         end
       end
     end
@@ -100,7 +100,7 @@ describe "images" do
     it "should return an empty array for no matches" do
       DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
         images = client.images( :architecture=>'8088' )
-        images.should be_empty
+        images.must_be_empty
       end
     end
   end

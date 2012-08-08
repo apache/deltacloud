@@ -16,28 +16,28 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
 
-require 'specs/spec_helper'
+require_relative './test_helper.rb'
 
 def prop_check(prop, value_class)
   if prop.present?
-    prop.value.should_not be_nil
-    prop.value.should be_a(value_class)
+    prop.value.wont_be_nil
+    prop.value.must_be_kind_of value_class
   end
 end
 
-describe "hardware_profiles" do
-
-  it_should_behave_like "all resources"
+describe "Hardware Profiles" do
 
   it "should allow retrieval of all hardware profiles" do
     [API_URL, API_URL_REDIRECT].each do |entry_point|
       DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
         hardware_profiles = client.hardware_profiles
-        hardware_profiles.should_not be_empty
+        hardware_profiles.wont_be_empty
         hardware_profiles.each do |hwp|
-          hwp.uri.should_not be_nil
-          hwp.uri.should be_a(String)
+          hwp.uri.wont_be_nil
+          hwp.uri.must_be_kind_of String
           prop_check(hwp.architecture, String) unless hwp.name.eql?("opaque")
        end
       end
@@ -47,17 +47,17 @@ describe "hardware_profiles" do
   it "should allow filtering of hardware_profiles by architecture" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       hardware_profiles = client.hardware_profiles( :architecture=>'i386' )
-      hardware_profiles.should_not be_empty
-      hardware_profiles.size.should eql( 2 )
-      hardware_profiles.first.architecture.value.should eql( 'i386' )
+      hardware_profiles.wont_be_empty
+      hardware_profiles.size.must_equal 2
+      hardware_profiles.first.architecture.value.must_equal 'i386'
     end
   end
 
   it "should allow fetching a hardware_profile by id" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       hwp = client.hardware_profile( 'm1-small' )
-      hwp.should_not be_nil
-      hwp.id.should eql( 'm1-small' )
+      hwp.wont_be_nil
+      hwp.id.must_equal 'm1-small'
     end
   end
 
@@ -65,15 +65,15 @@ describe "hardware_profiles" do
     client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
     hwp1 = client.hardware_profile( 'm1-small' )
     hwp2 = client.hardware_profile( 'm1-large' )
-    hwp1.storage.value.should_not eql(hwp2.storage.value)
-    hwp1.memory.value.should_not eql(hwp2.memory.value)
+    hwp1.storage.value.wont_equal hwp2.storage.value
+    hwp1.memory.value.wont_equal hwp2.memory.value
   end
 
   it "should allow fetching a hardware_profile by URI" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       hwp = client.fetch_hardware_profile( API_URL + '/hardware_profiles/m1-small' )
-      hwp.should_not be_nil
-      hwp.id.should eql( 'm1-small' )
+      hwp.wont_be_nil
+      hwp.id.must_equal 'm1-small'
     end
   end
 
