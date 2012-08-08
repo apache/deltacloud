@@ -17,12 +17,13 @@ require 'nokogiri'
 require 'rest_client'
 require 'base64'
 require 'logger'
-require 'hwp_properties'
-require 'instance_state'
-require 'documentation'
-require 'base_object'
-require 'errors'
-require 'client_bucket_methods'
+require 'require_relative' if RUBY_VERSION =~ /^1\.8/
+require_relative './hwp_properties.rb'
+require_relative './instance_state.rb'
+require_relative './documentation.rb'
+require_relative './base_object.rb'
+require_relative './errors.rb'
+require_relative './client_bucket_methods.rb'
 
 module DeltaCloud
 
@@ -146,7 +147,7 @@ module DeltaCloud
           end
 
           define_method :"fetch_#{model.to_s.singularize}" do |url|
-            id = url.grep(/\/#{model}\/(.*)$/)
+            url =~ /\/#{model}\/(.*)$/
             self.send(model.to_s.singularize.to_sym, $1)
           end
 
