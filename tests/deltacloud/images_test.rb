@@ -70,4 +70,29 @@ describe 'Deltacloud API Images collection' do
     end
   end
 
+
+  it 'should be able to filter images list by owner_id attribute' do
+    #get an image - either random or from "preferred" section of config.yaml:
+    image_id = get_a("image")
+    image = get(IMAGES+"/#{image_id}")
+    owner_id = (image.xml/"image/owner_id").text
+    filtered_image_list = get(IMAGES, {:owner_id=>owner_id})
+    #check owner_id of each:
+    (filtered_image_list.xml/"images/image").each do |img|
+      (img/"owner_id").text.must_equal owner_id
+    end
+  end
+
+  it 'should be able to filter images list by architecture attribute' do
+    #get an image - either random or from "preferred" section of config.yaml:
+    image_id = get_a("image")
+    image = get(IMAGES+"/#{image_id}")
+    arch = (image.xml/"image/architecture").text
+    filtered_image_list = get(IMAGES, {:architecture=>arch})
+    #check architecture of each:
+    (filtered_image_list.xml/"images/image").each do |img|
+      (img/"architecture").text.must_equal arch
+    end
+  end
+
 end
