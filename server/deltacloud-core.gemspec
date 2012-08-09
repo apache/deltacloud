@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
     which implements the REST interface.
   EOF
 
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
   s.files = FileList[
@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
     'support/condor/config/**',
     'lib/**/*.rb',
     'lib/**/*.yml',
+    'lib/**/*.haml',
     'tests/**/*.rb',
     'views/**/*.haml',
     'views/instance_states/*.erb',
@@ -61,7 +62,7 @@ Gem::Specification.new do |s|
 
   s.bindir = 'bin'
   s.executables = 'deltacloudd'
-  s.test_files= Dir.glob("tests/*_test.rb")
+  s.test_files= Dir.glob("tests/**/*_test.rb")
   s.extra_rdoc_files = Dir["LICENSE", "DISCLAIMER", "NOTICE"]
   s.required_ruby_version = '>= 1.8.1'
   s.has_rdoc = 'false'
@@ -76,7 +77,7 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh', '>= 2.0.0')
   s.add_dependency('thin', '>= 1.2.5') unless RUBY_PLATFORM == 'java'
   s.add_dependency('nokogiri', '>= 1.4.3')
-  s.add_dependency('require_relative')
+  s.add_dependency('require_relative') if RUBY_VERSION =~ /^1\.8/
 
 # dependencies for various cloud providers:
 # RHEV-M
