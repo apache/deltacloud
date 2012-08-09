@@ -1,6 +1,6 @@
 %h1 Attach storage volume
 
-%form{ :action => attach_storage_volume_url(params[:id]), :method => :post }
+%form{ :action => api_url_for("storage_volumes/#{params[:id]}/attach"), :method => :post }
   %p
     %label
       Instance ID:
