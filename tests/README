@@ -61,14 +61,15 @@ rhevm:
 ec2:
   user: KEY
   password: SECRET_KEY
-  instances:
-    preferred_image: "ami-2b5fba42"
-    preferred_hwp: "m1.small"
-    preferred_realm: "us-east-1b"
+  preferred:
+    image: "ami-2b5fba42"
+    hardware_profile: "m1.small"
+    realm: "us-east-1b"
 
-You can add this 'instances' section under any driver in the config.yaml file and
-those values will be used in the instances test. You can also only include only
-some of those, for example a preferred_image but not a preferred_hwp.
+You can add this 'preferred' section under any driver in the config.yaml file and
+those values will be used in the instances test (and can also be used by other tests
+in future). You can also only include only some of those, for example a "image"
+ but not a "hardware_profile".
 
 
 FILE LAYOUT:

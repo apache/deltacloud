@@ -43,6 +43,12 @@ class String
     return self.gsub(/es$/, '') if self =~ /sses$/
     self.gsub(/s$/, '')
   end
+  def pluralize
+    return self + 'es' if self =~ /ess$/
+    return self[0, self.length-1] + "ies" if self =~ /ty$/
+    return self if self =~ /data$/
+    self + "s"
+  end
 end
 
 class Array
@@ -83,12 +89,8 @@ module Deltacloud
         @hash[driver]["bucket_locations"]
       end
 
-      def instances_config
-        @hash[driver]["instances"] || {}
-      end
-
-      def preferred_provider
-        @hash[driver]["preferred_provider"]
+      def preferred
+        @hash[driver]["preferred"] || {}
       end
 
       def driver
@@ -166,8 +168,8 @@ module Deltacloud::Test::Methods
     end
 
     def post(path, post_body, params={})
-      if api.preferred_provider and not params[:provider]
-        params[:provider] = api.preferred_provider
+      if api.preferred["provider"] and not params[:provider]
+        params[:provider] = api.preferred["provider"]
       end
       url, headers = process_url_params(path, params)
       RestClient.post url, post_body, headers
@@ -202,6 +204,15 @@ module Deltacloud::Test::Methods
     def random_name
       name = rand(36**10).to_s(36)
       name.insert(0, "apitest")
+    end
+
+    def get_a(item)
+      if api.preferred[item]
+        item_id = api.preferred[item]
+      else
+        item_list = get("/#{item.pluralize}")
+        item_id = (item_list.xml/"#{item.pluralize}/#{item}").to_a.choice[:id]
+      end
     end
 
     private

@@ -26,12 +26,7 @@ describe 'Deltacloud API instances collection' do
   begin
     #keep track of what we create for deletion after tests:
     @@created_resources = {:instances=>[], :keys=>[], :images=>[], :firewalls=>[]}
-    if api.instances_config["preferred_image"]
-      image_id = api.instances_config["preferred_image"]
-    else
-      image_list = get("/images")
-      image_id = (image_list.xml/'images/image').to_a.choice[:id]
-    end
+    image_id = get_a("image")
     res = post(INSTANCES, :image_id=>image_id)
     unless res.code == 201
       raise Exception.new("Failed to create instance from image_id #{image_id}")
@@ -60,8 +55,15 @@ puts "CLEANING UP... resources for deletion: #{@@created_resources.inspect}"
     #keys
     [:keys, :images, :firewalls].each do |col|
       @@created_resources[col].each do |k|
-        res = delete("/#{col}/#{k}")
-        @@created_resources[col].delete(k) if res.code == 204
+        attempts = 0
+        begin
+          res = delete("/#{col}/#{k}")
+          @@created_resources[col].delete(k) if res.code == 204
+        rescue Exception => e
+          sleep(10)
+          attempts += 1
+          retry if (attempts <=5)
+        end
       end
       @@created_resources.delete(col) if @@created_resources[col].empty?
     end
@@ -74,33 +76,6 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     (res.xml/'instances/instance').each do |r|
       instance_res = get(INSTANCES + '/' + r[:id])
       yield instance_res.xml
-    end
-  end
-
-  def get_image
-    if api.instances_config["preferred_image"]
-      image_id = api.instances_config["preferred_image"]
-    else
-      image_list = get("/images")
-      image_id = (image_list.xml/'images/image').to_a.choice[:id]
-    end
-  end
-
-  def get_realm
-    if api.instances_config["preferred_realm"]
-      realm_id = api.instances_config["preferred_realm"]
-    else
-      realms_list = get("/realms")
-      realm_id = (realms_list.xml/'realms/realm').to_a.choice[:id]
-    end
-  end
-
-  def get_hwp
-    if api.instances_config["preferred_hwp"]
-      hwp_id = api.instances_config["preferred_hwp"]
-    else
-      hw_profile_list = get("/hardware_profiles")
-      hwp_id = (hw_profile_list.xml/'hardware_profiles/hardware_profile').to_a.choice[:id]
     end
   end
 
@@ -194,7 +169,7 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
 
   it 'should allow to create new instance using image without realm' do
     #random image and create instance
-    image_id = get_image
+    image_id = get_a("image")
     image_id.wont_be_nil
     res = post(INSTANCES, :image_id=>image_id)
     res.code.must_equal 201
@@ -211,9 +186,9 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
 
   it 'should allow to create new instance using image and realm' do
     #random image, realm and create instance
-    image_id = get_image
+    image_id = get_a("image")
     image_id.wont_be_nil
-    realm_id = get_realm
+    realm_id = get_a("realm")
     realm_id.wont_be_nil
     res = post(INSTANCES, :image_id=>image_id, :realm_id=>realm_id)
     res.code.must_equal 201
@@ -231,18 +206,18 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
 
   it 'should allow to create new instance using image, realm and hardware_profile' do
     #random image, realm, hardware_profile and create instance
-    image_id = get_image
+    image_id = get_a("image")
     image_id.wont_be_nil
     #check if this image defines compatible hw_profiles:
     res = get("/images/"+image_id)
     if (res.xml/'image/hardware_profiles').empty?
-      hwp_id = get_hwp
+      hwp_id = get_a("hardware_profile")
     else
       hwp_id = (res.xml/'image/hardware_profiles/hardware_profile').to_a.choice[:id]
     end
     hwp_id.wont_be_nil
     #random realm:
-    realm_id = get_realm
+    realm_id = get_a("realm")
     realm_id.wont_be_nil
     res = post(INSTANCES, :image_id=>image_id, :realm_id=>realm_id, :hwp_id => hwp_id)
     res.code.must_equal 201
@@ -288,7 +263,7 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
         key_res.code.must_equal 201
         key_id = (key_res.xml/'key')[0][:id]
         #create instance with this key:
-        image_id = get_image
+        image_id = get_a("image")
         res = post(INSTANCES, :image_id => image_id, :keyname => key_id)
         res.code.must_equal 201
         instance_id = (res.xml/'instance')[0][:id]
@@ -309,7 +284,7 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
 
     it 'should allow specification of name for created instance when supported' do
       instance_name = random_name
-      image_id = get_image
+      image_id = get_a("image")
       res = post(INSTANCES, :image_id => image_id, :name => instance_name)
       res.code.must_equal 201
       instance_id = (res.xml/'instance')[0][:id]
@@ -335,7 +310,7 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
         fw_id = (fw_res.xml/'firewall')[0][:id]
         ((fw_res.xml/'firewall/name')[0].text).must_equal fw_name
         #create instance with this firewall:
-        image_id = get_image
+        image_id = get_a("image")
         res = post(INSTANCES, :image_id => image_id, :firewalls1 => fw_id)
         res.code.must_equal 201
         instance_id = (res.xml/'instance')[0][:id]
