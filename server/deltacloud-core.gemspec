@@ -77,7 +77,7 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh', '>= 2.0.0')
   s.add_dependency('thin', '>= 1.2.5') unless RUBY_PLATFORM == 'java'
   s.add_dependency('nokogiri', '>= 1.4.3')
-  s.add_dependency('require_relative') if RUBY_VERSION =~ /^1\.8/
+  s.add_dependency('require_relative')
 
 # dependencies for various cloud providers:
 # RHEV-M
