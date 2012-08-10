@@ -96,4 +96,11 @@ describe 'MockDriver Instances' do
     @driver.instance(:id => instance.id).must_be_nil
   end
 
+  it 'must support run_on_instance' do
+    run_cmd = @driver.run_on_instance(:cmd => 'uname', :port => '22', :private_key => '123', :ip => '127.0.0.1')
+    run_cmd.body.must_equal 'This is where the output would appear if this were not a mock provider'
+    run_cmd.ssh.must_be_kind_of Deltacloud::Drivers::Mock::MockDriver::Mock_ssh
+    run_cmd.ssh.command.must_equal 'uname'
+  end
+
 end
