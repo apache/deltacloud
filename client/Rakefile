@@ -21,34 +21,13 @@ require 'rake/testtask'
 
 load 'deltacloud-client.gemspec'
 
-desc "Generate documentation"
-task 'documentation' do
-  load 'lib/documentation.rb'
-end
-
 spec = Gem::Specification.load('deltacloud-client.gemspec')
+
 Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
-def available?(name)
-  Gem::Specification.find_by_name(name)
-rescue Gem::LoadError
-  false
-rescue
-  Gem.available?(name)
-end
-
-if available?('rspec')
-  require 'rspec/core/rake_task'
-  desc "Run all examples"
-  RSpec::Core::RakeTask.new('spec') do |t|
-    t.pattern = FileList['specs/**/*_spec.rb']
-    t.rspec_opts = [ "--format", "nested", "--color"]
-  end
-end
-
-desc "Reinstall gem"
+desc "Re-install the deltacloud-client gem"
 task :reinstall do
   puts %x{gem uninstall deltacloud-client --all -I -x}
   puts %x{gem build deltacloud-client.gemspec}
