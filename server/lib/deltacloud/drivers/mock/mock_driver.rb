@@ -17,8 +17,10 @@
 require 'yaml'
 require 'base64'
 require 'etc'
+
 require_relative 'mock_client'
 require_relative 'mock_driver_cimi_methods'
+require_relative '../../runner'
 
 module Deltacloud::Drivers::Mock
 
@@ -45,7 +47,7 @@ module Deltacloud::Drivers::Mock
     end
 
     define_hardware_profile('m1-large') do
-      cpu                (1..6)
+      cpu              (1..6)
       memory           ( 7680.. 15*1024), :default => 10 * 1024
       storage          [ 850, 1024 ]
       architecture     'x86_64'
@@ -488,7 +490,6 @@ module Deltacloud::Drivers::Mock
 
     def metric(credentials, opts={})
       metric = metrics(credentials, opts).first
-      sample_count = rand(10) + 1
 
       metric.properties.each do |property|
 
