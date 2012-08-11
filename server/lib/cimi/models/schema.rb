@@ -25,8 +25,8 @@ class CIMI::Model::Schema
 
     def initialize(name, opts = {})
       @name = name
-      @xml_name = (opts[:xml_name] || name).to_s.camelize(true)
-      @json_name = (opts[:json_name] || name).to_s.camelize(true)
+      @xml_name = opts[:xml_name] || name.to_s.camelize(true)
+      @json_name = opts[:json_name] || name.to_s.camelize(true)
     end
 
     def from_xml(xml, model)
@@ -144,10 +144,12 @@ class CIMI::Model::Schema
   end
 
   class Array < Attribute
-    # For an array :things, we collect all <thing/> elements (XmlSimple
+    # For an array :funThings, we collect all <funThing/> elements (XmlSimple
     # actually does the collecting)
     def initialize(name, opts = {}, &block)
-      opts[:xml_name] = name.to_s.singularize unless opts[:xml_name]
+      unless opts[:xml_name]
+        opts[:xml_name] = name.to_s.singularize.camelize.uncapitalize
+      end
       super(name, opts)
       @struct = Struct.new(name, opts, &block)
     end

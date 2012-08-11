@@ -62,7 +62,7 @@ describe "Schema" do
     end
 
     it "should allow aliasing the XML and JSON name" do
-      @schema.scalar :aliased, :xml_name => :xml, :json_name => :json
+      @schema.scalar :aliased, :xml_name => "xml", :json_name => "json"
       obj = @schema.from_xml({"aliased" => "no", "xml" => "yes"}, {})
       obj[:aliased].must_equal "yes"
 
