@@ -67,3 +67,20 @@ module Deltacloud
     end
   end
 end
+
+# Add an assertion for URI's
+module MiniTest::Assertions
+  def assert_uri(obj, msg = nil)
+    msg = message(msg) { "Expected #{mu_pp(obj)} to be a valid URI" }
+    refute_nil obj, msg
+    refute_empty obj, msg
+    begin
+      u = URI.parse(obj)
+      refute_nil u.path, msg
+    rescue => e
+      fail "Could not parse URI #{mu_pp(obj)}"
+    end
+  end
+end
+
+MiniTest::Expectations::infect_an_assertion :assert_uri, :must_be_uri, :unary
