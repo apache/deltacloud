@@ -15,6 +15,7 @@
 
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
+  text  :base_uri, :xml_name => "baseURI", :json_name => "baseURI"
   array :entity_metadata do
     scalar :href
   end
@@ -33,6 +34,7 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
       :name => context.driver.name,
       :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
       :id => context.cloudEntryPoint_url,
+      :base_uri => context.root_url,
       :created => Time.now,
       :entity_metadata => CIMI::Model::EntityMetadata.all_uri(context)
     }))

@@ -39,6 +39,9 @@ describe "CIMI Entry Point" do
       (res.xml/"CloudEntryPoint/id").text.must_equal api.cep_url
     end
 
+    it "should have a baseURI" do
+      (res.xml/"CloudEntryPoint/baseURI").text.must_be_uri
+    end
   end
 
   describe "JSON form" do
@@ -52,6 +55,10 @@ describe "CIMI Entry Point" do
     it "should return JSON if asked to" do
       res.headers[:content_type].must_equal "application/json"
       res.json["id"].must_equal api.cep_url
+    end
+
+    it "should have a baseURI" do
+      res.json["baseURI"].must_be_uri
     end
   end
 end
