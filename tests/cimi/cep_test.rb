@@ -42,6 +42,10 @@ describe "CIMI Entry Point" do
     it "should have a baseURI" do
       (res.xml/"CloudEntryPoint/baseURI").text.must_be_uri
     end
+
+    it "should have a name" do
+      (res.xml/"CloudEntryPoint/name").wont_be_empty
+    end
   end
 
   describe "JSON form" do
@@ -59,6 +63,10 @@ describe "CIMI Entry Point" do
 
     it "should have a baseURI" do
       res.json["baseURI"].must_be_uri
+    end
+
+    it "should have a name" do
+      res.json["name"].wont_be_empty
     end
   end
 end
