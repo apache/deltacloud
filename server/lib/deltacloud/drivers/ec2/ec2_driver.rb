@@ -459,6 +459,7 @@ module Deltacloud
 
         def delete_bucket(credentials, name, opts={})
           s3_client = new_client(credentials, :s3)
+          s3_bucket, s3_client = get_bucket_with_endpoint(s3_client, credentials, name)
           safely do
             s3_client.interface.delete_bucket(name)
           end
@@ -835,7 +836,7 @@ module Deltacloud
 
         def get_bucket_with_endpoint(s3_client, credentials, s3_bucket_name)
             s3_bucket = s3_client.bucket(s3_bucket_name)
-            endpoint_for_bucket = Deltacloud::Drivers::driver_config[:ec2][:entrypoints]["s3"]["#{s3_bucket.location}"]
+            endpoint_for_bucket = Deltacloud::Drivers::driver_config[:ec2][:entrypoints]["s3"]["#{s3_bucket.location}"] || "s3.amazonaws.com"
             if (s3_client.interface.params[:server] != endpoint_for_bucket)
               s3_client = new_client(credentials, :s3, endpoint_for_bucket)
               s3_bucket = s3_client.bucket(s3_bucket_name)
