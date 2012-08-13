@@ -1,0 +1,135 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=CreateSnapshot&Signature=cfJIsh6i/FlJL1VR0PoMFEyAypYcGBix4ALBl38Jevo=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31&VolumeId=vol-732cf013
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:16 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: UTF-8
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<CreateSnapshotResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>da0aeb11-4ce9-4a66-95dd-e80d93d9e93f</requestId>\n
+        \   <snapshotId>snap-31427e41</snapshotId>\n    <volumeId>vol-732cf013</volumeId>\n
+        \   <status>pending</status>\n    <startTime>2012-08-13T13:03:16.000Z</startTime>\n
+        \   <progress/>\n    <ownerId>293787749884</ownerId>\n    <volumeSize>1</volumeSize>\n
+        \   <description/>\n</CreateSnapshotResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=WhsfqioaMBh6Ckf1pVssw2iQwCJW342ccteEFlzVjas=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-31427e41&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:06:34 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: UTF-8
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeSnapshotsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>46817a7b-2192-4cbd-b75d-c23336b38892</requestId>\n
+        \   <snapshotSet>\n        <item>\n            <snapshotId>snap-31427e41</snapshotId>\n
+        \           <volumeId>vol-732cf013</volumeId>\n            <status>completed</status>\n
+        \           <startTime>2012-08-13T13:03:16.000Z</startTime>\n            <progress>100%</progress>\n
+        \           <ownerId>293787749884</ownerId>\n            <volumeSize>1</volumeSize>\n
+        \           <description/>\n        </item>\n    </snapshotSet>\n</DescribeSnapshotsResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DeleteSnapshot&Signature=NUV2nYRFcx/3aXXse+nkxIUJHa1WBFv0B4DPAetmLoc=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId=snap-31427e41&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:06:48 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DeleteSnapshotResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>8625b29a-18c6-4c12-b02e-899831c4e58c</requestId>\n
+        \   <return>true</return>\n</DeleteSnapshotResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=WhsfqioaMBh6Ckf1pVssw2iQwCJW342ccteEFlzVjas=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-31427e41&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:06:59 GMT
+      Cneonction:
+      - close
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <Response><Errors><Error><Code>InvalidSnapshot.NotFound</Code><Message>The
+        snapshot ''snap-31427e41'' does not exist.</Message></Error></Errors><RequestID>c00009d7-e0b7-400d-a67d-3c2d570f2f03</RequestID></Response>'
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+recorded_with: VCR 2.2.4

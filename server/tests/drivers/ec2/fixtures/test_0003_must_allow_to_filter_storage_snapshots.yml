@@ -1,0 +1,179 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=4F8ZfM2QVhVzHAd4rP7X6WOlLLLGSb5zZNMgM65QDVA=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-e5bc8d95&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:17 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeSnapshotsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>045ae8eb-4f40-4a01-8771-a1e1130202b3</requestId>\n
+        \   <snapshotSet>\n        <item>\n            <snapshotId>snap-e5bc8d95</snapshotId>\n
+        \           <volumeId>vol-b7aa77d7</volumeId>\n            <status>completed</status>\n
+        \           <startTime>2012-08-13T06:26:42.000Z</startTime>\n            <progress>100%</progress>\n
+        \           <ownerId>647496772601</ownerId>\n            <volumeSize>1</volumeSize>\n
+        \           <description>pvlinux-amazon-2012.03-amd64_1.1.0.117_120813_015012</description>\n
+        \       </item>\n    </snapshotSet>\n</DescribeSnapshotsResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=4F8ZfM2QVhVzHAd4rP7X6WOlLLLGSb5zZNMgM65QDVA=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-e5bc8d95&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:17 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeSnapshotsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>f3e79dfe-7927-4219-9e0e-571e78747904</requestId>\n
+        \   <snapshotSet>\n        <item>\n            <snapshotId>snap-e5bc8d95</snapshotId>\n
+        \           <volumeId>vol-b7aa77d7</volumeId>\n            <status>completed</status>\n
+        \           <startTime>2012-08-13T06:26:42.000Z</startTime>\n            <progress>100%</progress>\n
+        \           <ownerId>647496772601</ownerId>\n            <volumeSize>1</volumeSize>\n
+        \           <description>pvlinux-amazon-2012.03-amd64_1.1.0.117_120813_015012</description>\n
+        \       </item>\n    </snapshotSet>\n</DescribeSnapshotsResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=4F8ZfM2QVhVzHAd4rP7X6WOlLLLGSb5zZNMgM65QDVA=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-e5bc8d95&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:18 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeSnapshotsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>69f1e6f2-89cf-4741-bfd9-3e383d8a539a</requestId>\n
+        \   <snapshotSet>\n        <item>\n            <snapshotId>snap-e5bc8d95</snapshotId>\n
+        \           <volumeId>vol-b7aa77d7</volumeId>\n            <status>completed</status>\n
+        \           <startTime>2012-08-13T06:26:42.000Z</startTime>\n            <progress>100%</progress>\n
+        \           <ownerId>647496772601</ownerId>\n            <volumeSize>1</volumeSize>\n
+        \           <description>pvlinux-amazon-2012.03-amd64_1.1.0.117_120813_015012</description>\n
+        \       </item>\n    </snapshotSet>\n</DescribeSnapshotsResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=4F8ZfM2QVhVzHAd4rP7X6WOlLLLGSb5zZNMgM65QDVA=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-e5bc8d95&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:18 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeSnapshotsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>7759ba56-9556-493a-8c66-bee3f74901d7</requestId>\n
+        \   <snapshotSet>\n        <item>\n            <snapshotId>snap-e5bc8d95</snapshotId>\n
+        \           <volumeId>vol-b7aa77d7</volumeId>\n            <status>completed</status>\n
+        \           <startTime>2012-08-13T06:26:42.000Z</startTime>\n            <progress>100%</progress>\n
+        \           <ownerId>647496772601</ownerId>\n            <volumeSize>1</volumeSize>\n
+        \           <description>pvlinux-amazon-2012.03-amd64_1.1.0.117_120813_015012</description>\n
+        \       </item>\n    </snapshotSet>\n</DescribeSnapshotsResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=dLk0G5tnd5fRnG9BR2gi2NxNRWIc028R3Ob5L/lxc6o=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-00000000&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:18 GMT
+      Cneonction:
+      - close
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <Response><Errors><Error><Code>InvalidSnapshot.NotFound</Code><Message>The
+        snapshot ''snap-00000000'' does not exist.</Message></Error></Errors><RequestID>a348b234-4f14-4af7-9f07-7bc30e3db211</RequestID></Response>'
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+recorded_with: VCR 2.2.4

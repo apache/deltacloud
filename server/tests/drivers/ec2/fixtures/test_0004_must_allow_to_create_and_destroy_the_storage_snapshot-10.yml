@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=WhsfqioaMBh6Ckf1pVssw2iQwCJW342ccteEFlzVjas=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-31427e41&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:03:16 GMT
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<DescribeSnapshotsResponse
+        xmlns=\"http://ec2.amazonaws.com/doc/2010-08-31/\">\n    <requestId>b5e9332b-0975-4b88-afe6-00d079e195d0</requestId>\n
+        \   <snapshotSet>\n        <item>\n            <snapshotId>snap-31427e41</snapshotId>\n
+        \           <volumeId>vol-732cf013</volumeId>\n            <status>completed</status>\n
+        \           <startTime>2012-08-13T13:03:16.000Z</startTime>\n            <progress>100%</progress>\n
+        \           <ownerId>293787749884</ownerId>\n            <volumeSize>1</volumeSize>\n
+        \           <description/>\n        </item>\n    </snapshotSet>\n</DescribeSnapshotsResponse>"
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+recorded_with: VCR 2.2.4

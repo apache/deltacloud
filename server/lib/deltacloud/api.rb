@@ -63,6 +63,7 @@ end
 
 class Instance; include TestPoller; end
 class Image; include TestPoller; end
+class StorageSnapshot; include TestPoller; end
 
 module Deltacloud
 

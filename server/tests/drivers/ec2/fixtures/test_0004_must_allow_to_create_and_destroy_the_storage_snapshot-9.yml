@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeSnapshots&Signature=WhsfqioaMBh6Ckf1pVssw2iQwCJW342ccteEFlzVjas=&SignatureMethod=HmacSHA256&SignatureVersion=2&SnapshotId.1=snap-31427e41&Timestamp=2012-08-13T13:03:00.000Z&Version=2010-08-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 13 Aug 2012 13:06:59 GMT
+      Cneonction:
+      - close
+      Server:
+      - AmazonEC2
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <Response><Errors><Error><Code>InvalidSnapshot.NotFound</Code><Message>The
+        snapshot ''snap-31427e41'' does not exist.</Message></Error></Errors><RequestID>ea4e13ce-649c-465f-95b1-f5502ed7b266</RequestID></Response>'
+    http_version: 
+  recorded_at: Mon, 13 Aug 2012 13:03:00 GMT
+recorded_with: VCR 2.2.4

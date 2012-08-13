@@ -16,6 +16,10 @@ def credentials
   }
 end
 
+unless Time.respond_to? :be
+  require_relative '../../test_helper.rb'
+end
+
 Time.be(DateTime.parse("2012-07-30 11:05:00 +0000").to_s)
 
 VCR.configure do |c|
