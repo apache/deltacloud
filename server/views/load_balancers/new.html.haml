@@ -1,38 +1,39 @@
-%h1 New Load Balancer
+=header "Create new load balancer"
 
-%form{ :action => load_balancers_url, :method => :post }
-  %p
-    %label
-      Name:
-    %input{ :name => 'name', :size => 30 }/
-  -if @instances
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => load_balancers_url, :method => :post }
     %p
       %label
-        Running instance:
-      %select{ :name => 'instance_id'}
-        - @instances.select{|i| i.state=="RUNNING"}.each do |instance|
-          %option{ :value => instance.id } #{instance.id}
-  %p
-    %label
-      Realm:
-    %select{ :name => 'realm_id'}
-      - @realms.each do |realm|
-        %option{ :value => realm.id } #{realm.id} - #{realm.name}
-  %hr
-  %p
-    %label
-      Protocol:
-    %select{ :name => 'listener_protocol'}
-      %option{ :value => 'HTTP'}  HTTP
-      %option{ :value => 'TCP'} TCP
-  %p
-    %label
-      Load balancer port:
-    %input{ :name => "listener_balancer_port", :size => 30}
-  %p
-    %label
-      Instances port:
-    %input{ :name => "listener_instance_port", :size => 30}
-  %p
-    %input{ :type => :submit, :name => "commit", :value => "create" }/
+        Name:
+      %input{ :name => 'name', :size => 30 }/
+    -if @instances
+      %p
+        %label
+          Running instance:
+        %select{ :name => 'instance_id'}
+          - @instances.select{|i| i.state=="RUNNING"}.each do |instance|
+            %option{ :value => instance.id } #{instance.id}
+    %p
+      %label
+        Realm:
+      %select{ :name => 'realm_id'}
+        - @realms.each do |realm|
+          %option{ :value => realm.id } #{realm.id} - #{realm.name}
+    %hr
+    %p
+      %label
+        Protocol:
+      %select{ :name => 'listener_protocol'}
+        %option{ :value => 'HTTP'}  HTTP
+        %option{ :value => 'TCP'} TCP
+    %p
+      %label
+        Load balancer port:
+      %input{ :name => "listener_balancer_port", :size => 30}
+    %p
+      %label
+        Instances port:
+      %input{ :name => "listener_instance_port", :size => 30}
+    %p
+      %input{ :type => :submit, :name => "commit", :value => "create" }/
 
