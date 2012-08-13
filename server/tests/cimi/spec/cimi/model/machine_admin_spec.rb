@@ -15,7 +15,7 @@
 #
 
 require 'rubygems'
-require 'require_relative'
+require 'require_relative' if RUBY_VERSION < '1.9'
 
 if require 'minitest/autorun'
   require_relative '../../spec_helper.rb'

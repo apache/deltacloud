@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require 'rack/test'
 require 'nokogiri'
 require 'pp'
-require 'require_relative'
+require 'require_relative' if RUBY_VERSION < '1.9'
 
 ENV['RACK_ENV'] = 'test'
 

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'require_relative'
+require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative '../../test_helper.rb'
 
 require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'core_ext.rb')

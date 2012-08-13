@@ -16,7 +16,7 @@
 require 'rubygems'
 require 'ostruct'
 
-require 'require_relative'
+require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'core_ext'
 require_relative 'models'

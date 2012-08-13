@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'require_relative'
+require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative './deltacloud/core_ext'
 require_relative './sinatra/rack_logger'
