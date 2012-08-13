@@ -3,4 +3,4 @@ log/*.log
 *.kpf
 tmp/*
 pkg/*
-Gemfile.lock
+*.lock
