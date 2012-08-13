@@ -63,7 +63,7 @@ module Deltacloud::Collections
         param :instance_id, :string,  :required
         control do
           driver.lb_register_instance(credentials, params)
-          @load_balancer = driver.load_balancer(credentials, params[:id])
+          @load_balancer = driver.load_balancer(credentials, :id => params[:id])
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
             format.json { xml_to_json('load_balancers/show') }
@@ -76,7 +76,7 @@ module Deltacloud::Collections
         param :instance_id, :string,  :required
         control do
           driver.lb_unregister_instance(credentials, params)
-          @load_balancer = driver.load_balancer(credentials, params[:id])
+          @load_balancer = driver.load_balancer(credentials, :id => params[:id])
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
             format.json { xml_to_json('load_balancers/show')}
