@@ -107,7 +107,7 @@ class CIMI::Model::Base
       @schema_duped
     end
 
-    private :'clone_base_schema', :'base_schema_cloned?'
+    private :clone_base_schema, :base_schema_cloned?
 
     def inherited(child)
       child.instance_eval do
