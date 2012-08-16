@@ -1,3 +1,79 @@
+1.0.2 - 2012-08-20
+  * code works with MRI Ruby 1.9.x, MRI 1.8.7, and jRuby
+  * deltacloudd: accept -L/--log option to send log to a file; -V option to
+    get detailed logs
+  * Revamp all the tests in tests/, server/tests/, and client/tests/ to use
+    only the minitest test framework; also expanded the coverage of all
+    these test suites
+  * Make tests/ a test suite that can be run against any server with the
+    Deltacloud API (and eventually CIMI API)
+  * use require_relative gem for MRI Ruby 1.8
+  * require sinatra-rabbit >= 1.0.7 (JIRA 254)
+  * require excon >= 1.4.0
+  * Prevent hash_capability to fail finding methods (JIRA 265)
+  * Removed deltacloudc command line client; see
+    http://deltacloud.apache.org/curl-examples.html on how to use curl in
+    its stead
+  * Fix memory leak (JIRA 290)
+  * Fix author and mailing list address in client and server gemspec
+  * Drivers
+    + Aruba
+      - new driver (Giacomo Bagnoli)
+    + EC2
+      - fix 'bad URI' error when accessing us-east bucket from other region
+        (JIRA 300)
+      - fix exception when looking up storage snapshot with invalid id
+      - fix register/deregister load balancer actions
+      - fix exception when attaching storage volume to instance (JIRA 296)
+      - fix error when looking up storage snapshots (JIRA 262)
+      - fix error describing load balancer (JIRA 259)
+      - fix error viewing storage volume details from web UI (JIRA 249)
+    + FGCP (all by Dies Koper)
+      - properly translate more backend errors
+      - added West Japan region
+      - improved error handling when connecting to wrong region, or wrong
+        API version
+      - add metrics support
+      - properly report whether image creation from an instance is possible
+        (JIRA 250)
+      - prevent error when listing firewall with no rules as XML
+      - removed system volumes from instance
+      - reinstated snapshots for system volumes
+    + GoGrid
+      - fix exception in listing images (JIRA 255)
+    + Mock
+      - fix exception when running command on instance (JIRA 298)
+      - added metrics support
+    + OpenNebula
+      - make driver compatible with ON 3.6 (Daniel Molina)
+      - fix exception when requesting hardware profiles (JIRA 258)
+    + OpenStack
+      - support keys collection (JIRA 205)
+      - allow specifying keyname when creating instance (JIRA 205)
+    + RHEV-M
+      - properly report image_id for an instance and image status
+  * CIMI frontend
+    - fix error from GET /cimi/machines against vSphere (JIRA 279)
+    - fix error when looking up VolumeImage
+    - expose only collections supported by backend in cloud entry point
+    - fix error when backend does not report cpu or storage for MachineConfig
+      (JIRA 245)
+  * Deltacloud frontend
+    - fix streaming of blob content for large blobs
+    - fix EPIPE error when graphviz is not installed
+    - do not retrieve instance when performing start/stop/destroy (JIRA 214)
+    - add 'X-Deltacloud-Driver' and 'X-Deltacloud-Provider' to all responses
+    - fixed broken listing of supported collections in /api
+    - fix error changing provider from HTML UI (JIRA 248)
+  * EC2 frontend
+    - (describe_instance_set) suppress state, IP address and DNS
+      information if not supplied by the backend
+  * Ruby client
+    - return nil from destroy_bucket/destroy_blob
+  * CIMI client
+    - expose only collections supported by backend in cloud entry point
+    - report mandatory baseURI
+
 1.0.0 - 2012-06-15
   * New EC2 frontend: clients can now use the EC2 API when talking to
     Deltacloud. That makes Deltacloud an EC2-to-many-backends proxy.

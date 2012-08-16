@@ -67,7 +67,7 @@ class StorageSnapshot; include TestPoller; end
 
 module Deltacloud
 
-  API_VERSION = '1.0.0'
+  API_VERSION = '1.0.2'
 
   def self.drivers
     Drivers.driver_config

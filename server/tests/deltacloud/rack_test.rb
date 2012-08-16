@@ -8,7 +8,7 @@ describe Deltacloud do
   before do
     Deltacloud::configure :cimi do |server|
       server.root_url '/cimi'
-      server.version '0.0.1'
+      server.version '1.0.2'
       server.klass 'CIMI'
       server.logger Logger
     end
@@ -37,8 +37,8 @@ describe Deltacloud do
     end
 
     it 'should provide the correct version' do
-      Deltacloud.config[:deltacloud].version.must_equal '1.0.0'
-      Deltacloud.config[:cimi].version.must_equal '0.0.1'
+      Deltacloud.config[:deltacloud].version.must_equal '1.0.2'
+      Deltacloud.config[:cimi].version.must_equal '1.0.2'
     end
 
     it 'should provide the logger facility' do
