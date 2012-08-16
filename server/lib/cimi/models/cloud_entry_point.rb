@@ -16,18 +16,10 @@
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
   text  :base_uri, :xml_name => "baseURI", :json_name => "baseURI"
+
   array :entity_metadata do
     scalar :href
   end
-
-  DELTACLOUD_MAPPINGS = { "MachineImages" => "images",
-                          "MachineConfigurations" => "hardware_profiles",
-                          "Machines" => "instances",
-                          "Volumes" => "storage_volumes",
-                          "MachineAdmins" => "keys",
-                          "VolumeImages" => "storage_snapshots",
-                        }
-
 
   def self.create(context)
     self.new(entities(context).merge({
@@ -42,12 +34,13 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
   # Return an Hash of the CIMI root entities used in CloudEntryPoint
   def self.entities(context)
-    CIMI::Model.root_entities.inject({}) do |result, entity|
-      if DELTACLOUD_MAPPINGS[entity]
-        next result unless context.driver.respond_to?(DELTACLOUD_MAPPINGS[entity])
+    CIMI::Collections.cimi_modules.inject({}) do |supported_entities, m|
+      m.collections.each do |c|
+        index_operation_capability = c.operation(:index).required_capability
+        next if m.settings.respond_to?(:capability) and !m.settings.capability(index_operation_capability)
+        supported_entities[c.collection_name.to_s] = { :href => context.send(:"#{c.collection_name}_url") }
       end
-      result[entity.underscore] = { :href => context.send(:"#{entity.underscore}_url") }
-      result
+      supported_entities
     end
   end
 
