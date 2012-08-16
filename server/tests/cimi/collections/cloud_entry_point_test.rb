@@ -43,4 +43,13 @@ describe CIMI::Collections::CloudEntryPoint do
     status.must_equal 200
   end
 
+  it 'advertise only supported CIMI collections by driver' do
+    header 'X-Deltacloud-Driver', 'ec2'
+    get root_url + '/cloudEntryPoint'
+    (xml/'CloudEntryPoint/routingGroups').must_be_empty
+    header 'X-Deltacloud-Driver', 'mock'
+    get root_url + '/cloudEntryPoint'
+    (xml/'CloudEntryPoint/routingGroups').wont_be_empty
+  end
+
 end
