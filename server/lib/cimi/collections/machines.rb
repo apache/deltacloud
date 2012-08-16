@@ -16,12 +16,12 @@
 module CIMI::Collections
   class Machines < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :machines do
       description 'List all machine'
 
-      operation :index do
+      operation :index, :with_capability => :instances do
         param :CIMISelect,  :string,  :optional
         description "List all machines"
         control do
@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :instance do
         description "Show specific machine."
         control do
           machine = Machine.find(params[:id], self)
@@ -44,7 +44,7 @@ module CIMI::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_instance do
         description "Create a new Machine entity."
         control do
           if request.content_type.end_with?("+json")
@@ -60,7 +60,7 @@ module CIMI::Collections
         end
       end
 
-      operation :destroy do
+      operation :destroy, :with_capability => :destroy_instance do
         description "Delete a specified machine."
         param :id,          :string,    :required
         control do
@@ -69,7 +69,7 @@ module CIMI::Collections
         end
       end
 
-      action :stop do
+      action :stop, :with_capability => :stop_instance do
         description "Stop specific machine."
         control do
           machine = Machine.find(params[:id], self)
@@ -85,7 +85,7 @@ module CIMI::Collections
         end
       end
 
-      action :restart do
+      action :restart, :with_capability => :restart_instance do
         description "Start specific machine."
         control do
           machine = Machine.find(params[:id], self)
@@ -101,7 +101,7 @@ module CIMI::Collections
         end
       end
 
-      action :start do
+      action :start, :with_capability => :start_instance do
         description "Start specific machine."
         control do
           machine = Machine.find(params[:id], self)
@@ -120,7 +120,7 @@ module CIMI::Collections
       #NOTE: The routes for attach/detach used here are NOT as specified by CIMI
       #will likely move later. CIMI specifies PUT of the whole Machine description
       #with inclusion/ommission of the volumes you want [att|det]ached
-      action :attach_volume, :http_method => :put do
+      action :attach_volume, :http_method => :put, :with_capability => :attach_storage_volume do
         description "Attach CIMI Volume(s) to a machine."
         control do
           if request.content_type.end_with?("+json")
@@ -136,7 +136,7 @@ module CIMI::Collections
         end
       end
 
-      action :detach_volume, :http_method => :put do
+      action :detach_volume, :http_method => :put, :with_capability => :detach_storage_volume do
         description "Detach CIMI Volume(s) from a machine."
         control do
           if request.content_type.end_with?("+json")

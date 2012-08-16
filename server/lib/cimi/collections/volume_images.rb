@@ -16,12 +16,12 @@
 module CIMI::Collections
   class VolumeImages < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :volume_images do
       description 'This entity represents an image that could be place on a pre-loaded volume.'
 
-      operation :index do
+      operation :index, :with_capability => :storage_snapshots do
         description "List all volumes images"
         param :CIMISelect,  :string,  :optional
         control do
@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :storage_snapshot do
         description "Show a specific volume image"
         control do
           volume_image = VolumeImage.find(params[:id], self)

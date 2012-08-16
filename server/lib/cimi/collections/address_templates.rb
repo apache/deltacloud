@@ -16,11 +16,11 @@
 module CIMI::Collections
   class AddressTemplates < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :address_templates do
 
-      operation :index do
+      operation :index, :with_capability => :address_templates do
         description 'List all AddressTemplates in the AddressTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -32,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :address_template do
         description 'Show a specific AddressTemplate'
         control do
           address_template = CIMI::Model::AddressTemplate.find(params[:id], self)

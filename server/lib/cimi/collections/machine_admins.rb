@@ -16,12 +16,12 @@
 module CIMI::Collections
   class MachineAdmins < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :machine_admins do
       description 'Machine Admin entity'
 
-      operation :index do
+      operation :index, :with_capability => :keys do
         description "List all machine admins"
         param :CIMISelect,  :string,  :optional
         control do
@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :key do
         description "Show specific machine admin"
         control do
           machine_admin = MachineAdmin.find(params[:id], self)
@@ -44,7 +44,7 @@ module CIMI::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_key do
         description "Show specific machine admin"
         control do
           if request.content_type.end_with?("+json")
@@ -60,7 +60,7 @@ module CIMI::Collections
         end
       end
 
-      operation :delete do
+      operation :delete, :with_capability => :destroy_key do
         description "Delete specified MachineAdmin entity"
         control do
           MachineAdmin.delete!(params[:id], self)

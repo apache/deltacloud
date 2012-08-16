@@ -16,10 +16,11 @@
 module CIMI::Collections
   class NetworkTemplates < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :network_templates do
 
-      operation :index do
+      operation :index, :with_capability => :network_templates do
         description 'List all Network Templates in the NetworkTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -31,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :network_template do
         description 'Show a specific Network Template'
         control do
           network_template = NetworkTemplate.find(params[:id], self)

@@ -16,10 +16,11 @@
 module CIMI::Collections
   class VspConfigurations < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :vsp_configurations do
 
-      operation :index do
+      operation :index, :with_capability => :vsp_configurations do
         description 'List all VSPConfigurations in the VSPConfigurationCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -31,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :vsp_configuration do
         description 'Show a specific VSPConfiguration'
         control do
           vsp_config = VSPConfiguration.find(params[:id], self)

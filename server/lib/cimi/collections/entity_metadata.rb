@@ -16,8 +16,6 @@
 module CIMI::Collections
   class EntityMetadata < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
-
     collection :entity_metadata do
 
       operation :index do

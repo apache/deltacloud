@@ -16,12 +16,12 @@
 module CIMI::Collections
   class MachineImages < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :machine_images do
       description 'List all machine images'
 
-      operation :index do
+      operation :index, :with_capability => :images do
         description "List all machine configurations"
         param :CIMISelect,  :string,  :optional
         control do
@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :image do
         description "Show specific machine image."
         control do
           machine_image = MachineImage.find(params[:id], self)

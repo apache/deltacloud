@@ -16,10 +16,11 @@
 module CIMI::Collections
   class RoutingGroupTemplates < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :routing_group_templates do
 
-      operation :index do
+      operation :index, :with_capability => :routing_groups do
         description 'List all RoutingGroupTemplates in the RoutingGroupTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -31,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :routing_group do
         description 'Show a specific RoutingGroupTemplate'
         control do
           routing_group_template = RoutingGroupTemplate.find(params[:id], self)

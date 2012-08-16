@@ -16,10 +16,11 @@
 module CIMI::Collections
   class Volumes < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :volumes do
 
-      operation :index do
+      operation :index, :with_capability => :storage_volumes do
         description "List all volumes"
         param :CIMISelect,  :string,  :optional
         control do
@@ -31,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :storage_volume do
         description "Show specific Volume."
         control do
           volume = Volume.find(params[:id], self)

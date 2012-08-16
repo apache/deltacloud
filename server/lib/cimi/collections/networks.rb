@@ -16,12 +16,12 @@
 module CIMI::Collections
   class Networks < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
 
     collection :networks do
       description 'A Network represents an abstraction of a layer 2 broadcast domain'
 
-      operation :index do
+      operation :index, :with_capability => :networks do
         description "List all Networks"
         param :CIMISelect,  :string,  :optional
         control do
@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :network do
         description "Show a specific Network"
         control do
           network = Network.find(params[:id], self)
@@ -44,7 +44,7 @@ module CIMI::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_network do
         description "Create a new Network"
         control do
           if request.content_type.end_with?("json")
@@ -59,7 +59,7 @@ module CIMI::Collections
         end
       end
 
-      operation :destroy do
+      operation :destroy, :with_capability => :delete_network do
         description "Delete a specified Network"
         param :id, :string, :required
         control do
@@ -68,7 +68,7 @@ module CIMI::Collections
         end
       end
 
-      action :start do
+      action :start, :with_capability => :start_network do
         description "Start specific network."
         control do
           network = Network.find(params[:id], self)
@@ -85,7 +85,7 @@ module CIMI::Collections
         end
       end
 
-      action :stop do
+      action :stop, :with_capability => :stop_network do
         description "Stop specific network."
         control do
           network = Network.find(params[:id], self)
@@ -102,7 +102,7 @@ module CIMI::Collections
         end
       end
 
-      action :suspend do
+      action :suspend, :with_capability => :suspend_network do
         description "Suspend specific network."
         control do
           network = Network.find(params[:id], self)

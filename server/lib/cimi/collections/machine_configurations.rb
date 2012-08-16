@@ -21,7 +21,7 @@ module CIMI::Collections
     collection :machine_configurations do
       description 'List all machine configurations'
 
-      operation :index do
+      operation :index, :with_capability => :hardware_profiles do
         param :CIMISelect,  :string,  :optional
         description "List all machine configurations"
         control do
@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :hardware_profile do
         control do
           machine_conf = MachineConfiguration.find(params[:id], self)
           respond_to do |format|

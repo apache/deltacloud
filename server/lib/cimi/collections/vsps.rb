@@ -16,12 +16,13 @@
 module CIMI::Collections
   class Vsps < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :vsps do
 
       description 'A VSP represents the connection parameters of a network port'
 
-      operation :index do
+      operation :index, :with_capability => :vsps do
         description 'List all VSPs in the VSPCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -33,7 +34,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :vsp do
         description 'Show a specific VSP'
         control do
           vsp = VSP.find(params[:id], self)
@@ -44,7 +45,7 @@ module CIMI::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_vsp do
         description "Create a new VSP"
         control do
           if request.content_type.end_with?("json")
@@ -59,7 +60,7 @@ module CIMI::Collections
         end
       end
 
-      operation :destroy do
+      operation :destroy, :with_capability => :delete_vsp do
         description "Delete a specified VSP"
         control do
           CIMI::Model::VSP.delete!(params[:id], self)
@@ -67,7 +68,7 @@ module CIMI::Collections
         end
       end
 
-      action :start do
+      action :start, :with_capability => :start_vsp do
         description "Start specific VSP."
         param :id,          :string,    :required
         control do
@@ -85,7 +86,7 @@ module CIMI::Collections
         end
       end
 
-      action :stop do
+      action :stop, :with_capability => :stop_vsp do
         description "Stop specific VSP."
         control do
           vsp = VSP.find(params[:id], self)

@@ -16,12 +16,13 @@
 module CIMI::Collections
   class VspTemplates < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :vsp_templates do
 
       description 'The VSP Template is a set of Configuration values for realizing a VSP. A VSP Template may be used to create multiple VSPs'
 
-      operation :index do
+      operation :index, :with_capability => :vsp_templates do
         description 'List all VSPTemplates in the VSPTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -33,7 +34,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :vsp_template do
         description 'Show a specific VSPTemplate'
         control do
           vsp_template = VSPTemplate.find(params[:id], self)

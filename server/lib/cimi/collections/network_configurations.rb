@@ -16,10 +16,11 @@
 module CIMI::Collections
   class NetworkConfigurations < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :network_configurations do
 
-      operation :index do
+      operation :index, :with_capability => :network_configurations do
         description 'List all NetworkConfigurations'
         param :CIMISelect, :string, :optional
         control do
@@ -31,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :network_configuration do
         description 'Show a specific NetworkConfiguration'
         control do
           network_config = NetworkConfiguration.find(params[:id], self)

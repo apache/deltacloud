@@ -16,12 +16,13 @@
 module CIMI::Collections
   class Addresses < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |m| driver.respond_to? m }
+
     collection :addresses do
 
       description 'An Address represents an IP address, and its associated metdata, for a particular Network.'
 
-      operation :index do
+      operation :index, :with_capability => :addresses do
         description 'List all Addresses in the AddressCollection'
         param :CIMISelect, :string, :optional
         control do
@@ -33,7 +34,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show do
+      operation :show, :with_capability => :address do
         description 'Show a specific Address'
         control do
           address = CIMI::Model::Address.find(params[:id], self)
@@ -44,7 +45,7 @@ module CIMI::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_address do
         description "Create a new Address"
         control do
           if request.content_type.end_with?("json")
@@ -59,7 +60,7 @@ module CIMI::Collections
         end
       end
 
-      operation :destroy do
+      operation :destroy, :with_capability => :delete_address do
         description "Delete a specified Address"
         param :id, :string, :required
         control do
