@@ -1,8 +1,9 @@
 --- 
+recorded_with: VCR 2.2.4
 http_interactions: 
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=CreateVpc&CidrBlock=172.16.0.0/16&Signature=1v+DVE5pE5wAGscby85h5Phi5O5OEl+3WgxOn/BgNaE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T22:36:42.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=CreateVpc&CidrBlock=172.16.0.0/16&Signature=62kOuCAxVbNEYwqtW1kFLpUEVu4eJk91xpk3InvdGsY=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T23:23:35.000Z&Version=2010-08-31
     body: 
       string: ""
     headers: 
@@ -15,31 +16,31 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Server: 
-      - AmazonEC2
+      Date: 
+      - Tue, 28 Aug 2012 23:23:36 GMT
       Transfer-Encoding: 
       - chunked
-      Date: 
-      - Tue, 28 Aug 2012 22:36:42 GMT
       Content-Type: 
       - text/xml;charset=UTF-8
+      Server: 
+      - AmazonEC2
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <CreateVpcResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>12201e58-4637-4663-a0da-a9c3bcf49d5c</requestId>
+            <requestId>b4feaef5-9df4-4f49-8e61-83b95f78684a</requestId>
             <vpc>
-                <vpcId>vpc-6a952301</vpcId>
+                <vpcId>vpc-a276c0c9</vpcId>
                 <state>pending</state>
                 <cidrBlock>172.16.0.0/16</cidrBlock>
                 <dhcpOptionsId>default</dhcpOptionsId>
             </vpc>
         </CreateVpcResponse>
     http_version: 
-  recorded_at: Tue, 28 Aug 2012 22:36:42 GMT
+  recorded_at: Tue, 28 Aug 2012 23:23:36 GMT
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=CreateSubnet&AvailabilityZone=us-east-1b&CidrBlock=172.16.3.0/24&Signature=EIzFCEEuL0/0E/GVatWByMC0qybmPTw0+kd2xHnOGuw=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T22:36:42.000Z&Version=2010-08-31&VpcId=vpc-6a952301
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=CreateSubnet&AvailabilityZone=us-east-1b&CidrBlock=172.16.3.0/24&Signature=0K1m0h3jPi5++y2eYjVPf/tbX3iD1+XzALm8gtiG57M=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T23:23:36.000Z&Version=2010-08-31&VpcId=vpc-a276c0c9
     body: 
       string: ""
     headers: 
@@ -52,28 +53,27 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Server: 
-      - AmazonEC2
+      Date: 
+      - Tue, 28 Aug 2012 23:23:36 GMT
       Transfer-Encoding: 
       - chunked
-      Date: 
-      - Tue, 28 Aug 2012 22:36:43 GMT
       Content-Type: 
       - text/xml;charset=UTF-8
+      Server: 
+      - AmazonEC2
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <CreateSubnetResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>e3939c15-3c67-4e33-b1d8-88242dd2317c</requestId>
+            <requestId>8e6c33e3-f805-46ba-801e-2ca76cf1b3e5</requestId>
             <subnet>
-                <subnetId>subnet-62952309</subnetId>
+                <subnetId>subnet-a676c0cd</subnetId>
                 <state>pending</state>
-                <vpcId>vpc-6a952301</vpcId>
+                <vpcId>vpc-a276c0c9</vpcId>
                 <cidrBlock>172.16.3.0/24</cidrBlock>
                 <availableIpAddressCount>251</availableIpAddressCount>
                 <availabilityZone>us-east-1b</availabilityZone>
             </subnet>
         </CreateSubnetResponse>
     http_version: 
-  recorded_at: Tue, 28 Aug 2012 22:36:43 GMT
-recorded_with: VCR 2.2.4
+  recorded_at: Tue, 28 Aug 2012 23:23:36 GMT

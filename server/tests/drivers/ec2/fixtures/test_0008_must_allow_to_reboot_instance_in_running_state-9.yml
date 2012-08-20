@@ -1,37 +1,38 @@
 --- 
+recorded_with: VCR 2.2.4
 http_interactions: 
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-7177920a&Signature=DHxm7p2CMHn5fzkybhIzC977iJ/i59rnLEIXVWdrTVE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeInstances&InstanceId.1=i-768c640c&Signature=eDq/2+kVeLxeyHSksc7JDVsk9XUHplUeLHvpXQPUfp4=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T23:24:50.000Z&Version=2010-08-31
     body: 
       string: ""
     headers: 
-      User-Agent: 
-      - ""
       Accept: 
       - "*/*"
+      User-Agent: 
+      - ""
   response: 
     status: 
       code: 200
       message: OK
     headers: 
+      Date: 
+      - Tue, 28 Aug 2012 23:24:50 GMT
+      Transfer-Encoding: 
+      - chunked
       Content-Type: 
       - text/xml;charset=UTF-8
       Server: 
       - AmazonEC2
-      Transfer-Encoding: 
-      - chunked
-      Date: 
-      - Mon, 30 Jul 2012 11:07:18 GMT
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>5e2c9e6e-25f1-4874-8370-e3a4791d19b2</requestId>
+            <requestId>fcfdf0b8-f53a-48f0-996d-b065d21b5ff3</requestId>
             <reservationSet>
                 <item>
-                    <reservationId>r-362c9d52</reservationId>
-                    <ownerId>293787749884</ownerId>
+                    <reservationId>r-1ff40478</reservationId>
+                    <ownerId>122214243412</ownerId>
                     <groupSet>
                         <item>
                             <groupId>default</groupId>
@@ -39,7 +40,7 @@ http_interactions:
                     </groupSet>
                     <instancesSet>
                         <item>
-                            <instanceId>i-7177920a</instanceId>
+                            <instanceId>i-768c640c</instanceId>
                             <imageId>ami-aecd60c7</imageId>
                             <instanceState>
                                 <code>0</code>
@@ -51,7 +52,7 @@ http_interactions:
                             <amiLaunchIndex>0</amiLaunchIndex>
                             <productCodes/>
                             <instanceType>t1.micro</instanceType>
-                            <launchTime>2012-07-30T11:07:18.000Z</launchTime>
+                            <launchTime>2012-08-28T23:24:39.000Z</launchTime>
                             <placement>
                                 <availabilityZone>us-east-1a</availabilityZone>
                                 <groupName/>
@@ -72,5 +73,4 @@ http_interactions:
             </reservationSet>
         </DescribeInstancesResponse>
     http_version: 
-  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
-recorded_with: VCR 2.2.4
+  recorded_at: Tue, 28 Aug 2012 23:24:51 GMT

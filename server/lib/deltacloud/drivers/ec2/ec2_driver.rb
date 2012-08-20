@@ -263,8 +263,15 @@ module Deltacloud
           if opts[:metrics] and !opts[:metrics].empty?
             instance_options[:monitoring_enabled] = true
           end
+          if opts[:realm_id]
+            az, sn = opts[:realm_id].split(":")
+            if sn
+              instance_options[:subnet_id] = sn
+            else
+              instance_options[:availability_zone] = az
+            end
+          end
           instance_options[:key_name] = opts[:keyname] if opts[:keyname]
-          instance_options[:availability_zone] = opts[:realm_id] if opts[:realm_id]
           instance_options[:instance_type] = opts[:hwp_id] if opts[:hwp_id] && opts[:hwp_id].length > 0
           firewalls = opts.inject([]){|res, (k,v)| res << v if k =~ /firewalls\d+$/; res}
           instance_options[:group_ids] = firewalls unless firewalls.empty?
@@ -919,6 +926,10 @@ module Deltacloud
           if instance[:aws_instance_type] == "t1.micro"
             inst_profile_opts[:hwp_architecture]=instance[:architecture]
           end
+          realm_id = instance[:aws_availability_zone]
+          unless instance[:subnet_id].empty?
+            realm_id = "#{realm_id}:#{instance[:subnet_id]}"
+          end
          Instance.new(
             :id => instance[:aws_instance_id],
             :name => instance[:aws_image_id],
@@ -929,7 +940,7 @@ module Deltacloud
             :keyname => instance[:ssh_key_name],
             :launch_time => instance[:aws_launch_time],
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type], inst_profile_opts),
-            :realm_id => instance[:aws_availability_zone],
+            :realm_id => realm_id,
             :public_addresses => [InstanceAddress.new(instance[:dns_name], :type => :hostname)],
             :private_addresses => [InstanceAddress.new(instance[:private_dns_name], :type => :hostname)],
             :firewalls => instance[:aws_groups],

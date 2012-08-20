@@ -90,6 +90,16 @@ describe 'Ec2Driver Instances' do
     instances.each { |i| i.is_stopped?.must_equal true }
   end
 
+  it 'must allow creating instance in a VPC subnet' do
+    realm_id = "#{@@subnet[:availability_zone]}:#{@@subnet[:subnet_id]}"
+    instance = @driver.create_instance('ami-aecd60c7',
+                                       :realm_id => realm_id,
+                                       :hwp_id => 'm1.small')
+    instance.must_be_kind_of Instance
+    instance.realm_id.must_equal realm_id
+    @driver.destroy_instance(instance.id)
+  end
+
   it 'must allow to reboot instance in running state' do
     instance = @driver.create_instance('ami-aecd60c7', :realm_id => 'us-east-1a', :hwp_id => 't1.micro')
     instance = instance.wait_for!(@driver, record_retries) { |i| i.is_running? }

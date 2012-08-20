@@ -1,37 +1,38 @@
 --- 
+recorded_with: VCR 2.2.4
 http_interactions: 
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJYOQYLLOIWN5LQ3A&Action=DescribeInstances&InstanceId.1=i-7177920a&Signature=DHxm7p2CMHn5fzkybhIzC977iJ/i59rnLEIXVWdrTVE=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-07-30T11:05:00.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeInstances&InstanceId.1=i-768c640c&Signature=CaDNHQcCS+m5OWCZLgeRwOa7xGt69trAaPuN8L1/6AM=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T23:25:05.000Z&Version=2010-08-31
     body: 
       string: ""
     headers: 
-      User-Agent: 
-      - ""
       Accept: 
       - "*/*"
+      User-Agent: 
+      - ""
   response: 
     status: 
       code: 200
       message: OK
     headers: 
+      Date: 
+      - Tue, 28 Aug 2012 23:25:05 GMT
+      Transfer-Encoding: 
+      - chunked
       Content-Type: 
       - text/xml;charset=UTF-8
       Server: 
       - AmazonEC2
-      Transfer-Encoding: 
-      - chunked
-      Date: 
-      - Mon, 30 Jul 2012 11:07:40 GMT
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <DescribeInstancesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>979b5d58-f354-45c4-9d83-24eedc45d653</requestId>
+            <requestId>bdfd429f-e248-4106-8bae-4300893775b2</requestId>
             <reservationSet>
                 <item>
-                    <reservationId>r-362c9d52</reservationId>
-                    <ownerId>293787749884</ownerId>
+                    <reservationId>r-1ff40478</reservationId>
+                    <ownerId>122214243412</ownerId>
                     <groupSet>
                         <item>
                             <groupId>default</groupId>
@@ -39,19 +40,19 @@ http_interactions:
                     </groupSet>
                     <instancesSet>
                         <item>
-                            <instanceId>i-7177920a</instanceId>
+                            <instanceId>i-768c640c</instanceId>
                             <imageId>ami-aecd60c7</imageId>
                             <instanceState>
-                                <code>0</code>
-                                <name>pending</name>
+                                <code>32</code>
+                                <name>shutting-down</name>
                             </instanceState>
-                            <privateDnsName>domU-12-31-39-02-75-62.compute-1.internal</privateDnsName>
-                            <dnsName>ec2-23-20-114-135.compute-1.amazonaws.com</dnsName>
-                            <reason/>
+                            <privateDnsName>domU-12-31-39-03-CA-6E.compute-1.internal</privateDnsName>
+                            <dnsName>ec2-23-22-221-103.compute-1.amazonaws.com</dnsName>
+                            <reason>User initiated (2012-08-28 23:25:04 GMT)</reason>
                             <amiLaunchIndex>0</amiLaunchIndex>
                             <productCodes/>
                             <instanceType>t1.micro</instanceType>
-                            <launchTime>2012-07-30T11:07:18.000Z</launchTime>
+                            <launchTime>2012-08-28T23:24:39.000Z</launchTime>
                             <placement>
                                 <availabilityZone>us-east-1a</availabilityZone>
                                 <groupName/>
@@ -60,8 +61,12 @@ http_interactions:
                             <monitoring>
                                 <state>disabled</state>
                             </monitoring>
-                            <privateIpAddress>10.248.122.144</privateIpAddress>
-                            <ipAddress>23.20.114.135</ipAddress>
+                            <privateIpAddress>10.249.201.152</privateIpAddress>
+                            <ipAddress>23.22.221.103</ipAddress>
+                            <stateReason>
+                                <code>Client.UserInitiatedShutdown</code>
+                                <message>Client.UserInitiatedShutdown: User initiated shutdown</message>
+                            </stateReason>
                             <architecture>x86_64</architecture>
                             <rootDeviceType>ebs</rootDeviceType>
                             <rootDeviceName>/dev/sda1</rootDeviceName>
@@ -69,9 +74,9 @@ http_interactions:
                                 <item>
                                     <deviceName>/dev/sda1</deviceName>
                                     <ebs>
-                                        <volumeId>vol-ba6f60db</volumeId>
-                                        <status>attaching</status>
-                                        <attachTime>2012-07-30T11:07:24.000Z</attachTime>
+                                        <volumeId>vol-75aa0f0e</volumeId>
+                                        <status>attached</status>
+                                        <attachTime>2012-08-28T23:25:01.000Z</attachTime>
                                         <deleteOnTermination>true</deleteOnTermination>
                                     </ebs>
                                 </item>
@@ -84,5 +89,4 @@ http_interactions:
             </reservationSet>
         </DescribeInstancesResponse>
     http_version: 
-  recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
-recorded_with: VCR 2.2.4
+  recorded_at: Tue, 28 Aug 2012 23:25:05 GMT

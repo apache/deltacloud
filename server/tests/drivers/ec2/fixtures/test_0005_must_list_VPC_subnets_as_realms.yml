@@ -1,8 +1,9 @@
 --- 
+recorded_with: VCR 2.2.4
 http_interactions: 
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeAvailabilityZones&Signature=v93MQI1cGoYMFByjuzOvr9DZAbE50n6cNkgTf4g8rJs=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T22:36:44.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeAvailabilityZones&Signature=ubo/K69ZBrM5BTXwk5mcGytDQ2KSbwHD2hWLh67rejw=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T23:25:07.000Z&Version=2010-08-31
     body: 
       string: ""
     headers: 
@@ -15,19 +16,19 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Server: 
-      - AmazonEC2
+      Date: 
+      - Tue, 28 Aug 2012 23:25:06 GMT
       Transfer-Encoding: 
       - chunked
-      Date: 
-      - Tue, 28 Aug 2012 22:36:45 GMT
       Content-Type: 
       - text/xml;charset=UTF-8
+      Server: 
+      - AmazonEC2
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <DescribeAvailabilityZonesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>aa77686e-b8b2-4870-8f1e-6232077dbade</requestId>
+            <requestId>9ffa9aed-b47f-4a5a-96ab-1c6e554e0cb0</requestId>
             <availabilityZoneInfo>
                 <item>
                     <zoneName>us-east-1a</zoneName>
@@ -56,10 +57,10 @@ http_interactions:
             </availabilityZoneInfo>
         </DescribeAvailabilityZonesResponse>
     http_version: 
-  recorded_at: Tue, 28 Aug 2012 22:36:45 GMT
+  recorded_at: Tue, 28 Aug 2012 23:25:07 GMT
 - request: 
     method: get
-    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeSubnets&Signature=r2v7oE4F8OoTHhXc1NYAdJTr6giszS8MSsQ7prKHM4g=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T22:36:45.000Z&Version=2010-08-31
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeSubnets&Signature=li4JSzmstzaJIi+7xN5T9sHaPEKIuqAjn4As7Gz8TfU=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T23:25:07.000Z&Version=2010-08-31
     body: 
       string: ""
     headers: 
@@ -72,20 +73,28 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Server: 
-      - AmazonEC2
+      Date: 
+      - Tue, 28 Aug 2012 23:25:07 GMT
       Transfer-Encoding: 
       - chunked
-      Date: 
-      - Tue, 28 Aug 2012 22:36:45 GMT
       Content-Type: 
       - text/xml;charset=UTF-8
+      Server: 
+      - AmazonEC2
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
         <DescribeSubnetsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
-            <requestId>c95921ad-17a4-4262-b877-2d357f6873f6</requestId>
+            <requestId>c0d2d063-8928-439c-a0cf-daabc07e7e5f</requestId>
             <subnetSet>
+                <item>
+                    <subnetId>subnet-6a9a2c01</subnetId>
+                    <state>available</state>
+                    <vpcId>vpc-979d2bfc</vpcId>
+                    <cidrBlock>172.16.3.0/24</cidrBlock>
+                    <availableIpAddressCount>251</availableIpAddressCount>
+                    <availabilityZone>us-east-1b</availabilityZone>
+                </item>
                 <item>
                     <subnetId>subnet-dd5bfcb6</subnetId>
                     <state>available</state>
@@ -95,9 +104,9 @@ http_interactions:
                     <availabilityZone>us-east-1a</availabilityZone>
                 </item>
                 <item>
-                    <subnetId>subnet-62952309</subnetId>
+                    <subnetId>subnet-a676c0cd</subnetId>
                     <state>available</state>
-                    <vpcId>vpc-6a952301</vpcId>
+                    <vpcId>vpc-a276c0c9</vpcId>
                     <cidrBlock>172.16.3.0/24</cidrBlock>
                     <availableIpAddressCount>251</availableIpAddressCount>
                     <availabilityZone>us-east-1b</availabilityZone>
@@ -105,5 +114,4 @@ http_interactions:
             </subnetSet>
         </DescribeSubnetsResponse>
     http_version: 
-  recorded_at: Tue, 28 Aug 2012 22:36:45 GMT
-recorded_with: VCR 2.2.4
+  recorded_at: Tue, 28 Aug 2012 23:25:08 GMT
