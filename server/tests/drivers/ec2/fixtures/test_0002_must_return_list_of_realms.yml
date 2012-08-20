@@ -1,5 +1,4 @@
 --- 
-recorded_with: VCR 2.2.4
 http_interactions: 
 - request: 
     method: get
@@ -18,12 +17,12 @@ http_interactions:
     headers: 
       Date: 
       - Mon, 30 Jul 2012 11:05:04 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
       Server: 
       - AmazonEC2
       Transfer-Encoding: 
       - chunked
-      Content-Type: 
-      - text/xml;charset=UTF-8
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
@@ -81,12 +80,12 @@ http_interactions:
     headers: 
       Date: 
       - Mon, 30 Jul 2012 11:05:05 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
       Server: 
       - AmazonEC2
       Transfer-Encoding: 
       - chunked
-      Content-Type: 
-      - text/xml;charset=UTF-8
     body: 
       string: |-
         <?xml version="1.0" encoding="UTF-8"?>
@@ -127,3 +126,86 @@ http_interactions:
         </DescribeAvailabilityZonesResponse>
     http_version: 
   recorded_at: Mon, 30 Jul 2012 11:05:00 GMT
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeSubnets&Signature=P2fvw5n27dvw0TkOwhu7KiUgKkMR2eCPabzIrNMPLuc=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T19:12:03.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+      User-Agent: 
+      - ""
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Tue, 28 Aug 2012 19:12:04 GMT
+      Server: 
+      - AmazonEC2
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeSubnetsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>f2d1c818-096a-4746-afee-7862d0a58cfc</requestId>
+            <subnetSet>
+                <item>
+                    <subnetId>subnet-dd5bfcb6</subnetId>
+                    <state>available</state>
+                    <vpcId>vpc-0b40e760</vpcId>
+                    <cidrBlock>10.1.0.0/24</cidrBlock>
+                    <availableIpAddressCount>251</availableIpAddressCount>
+                    <availabilityZone>us-east-1a</availabilityZone>
+                </item>
+            </subnetSet>
+        </DescribeSubnetsResponse>
+    http_version: 
+  recorded_at: Tue, 28 Aug 2012 19:12:04 GMT
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeSubnets&Signature=LDiqi0eL5WZCJtyoNdoSjhcVxGsFyowDT2/1jVlx/cM=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T19:12:04.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+      User-Agent: 
+      - ""
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Date: 
+      - Tue, 28 Aug 2012 19:12:04 GMT
+      Server: 
+      - AmazonEC2
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeSubnetsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>e3fce148-6be5-4b2f-99b1-66cc9297ab08</requestId>
+            <subnetSet>
+                <item>
+                    <subnetId>subnet-dd5bfcb6</subnetId>
+                    <state>available</state>
+                    <vpcId>vpc-0b40e760</vpcId>
+                    <cidrBlock>10.1.0.0/24</cidrBlock>
+                    <availableIpAddressCount>251</availableIpAddressCount>
+                    <availabilityZone>us-east-1a</availabilityZone>
+                </item>
+            </subnetSet>
+        </DescribeSubnetsResponse>
+    http_version: 
+  recorded_at: Tue, 28 Aug 2012 19:12:05 GMT
+recorded_with: VCR 2.2.4

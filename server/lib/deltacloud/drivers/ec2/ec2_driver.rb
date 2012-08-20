@@ -15,6 +15,8 @@
 #
 
 require 'aws'
+# Delete this once VPC support is merged upstream
+require_relative 'aws_vpc_monkey_patch'
 
 require_relative '../../runner'
 
@@ -164,22 +166,35 @@ module Deltacloud
         end
 
         def realms(credentials, opts={})
+          # We have two different kinds of realms:
+          #  (1) Availability Zones
+          #  (2) Subnets in VPC's (scoped to an AZ)
+          # For the latter, the ID is AZ:SUBNET, and we can tell that we
+          # are looking at such a realm by checking if the id contains a colon
           ec2 = new_client(credentials)
           realms = []
           safely do
             if opts[:id] and !opts[:id].empty?
+              az, sn = opts[:id].split(":")
               begin
-                ec2.describe_availability_zones([opts[:id]]).collect do |realm|
-                  realms << convert_realm(realm) unless realm.empty?
+                if sn
+                  subnet = ec2.describe_subnets(sn).first
+                  realms << convert_realm(subnet) if subnet
+                else
+                  ec2.describe_availability_zones([az]).collect do |realm|
+                    realms << convert_realm(realm) unless realm.empty?
+                  end
                 end
               rescue => e
                 raise e unless e.message =~ /Invalid availability zone/
                 realms = []
               end
             else
-              ec2.describe_availability_zones.collect do |realm|
-                realms << convert_realm(realm) unless realm.empty?
+              realms = ec2.describe_availability_zones.collect do |realm|
+                convert_realm(realm) unless realm.empty?
               end
+              realms = realms +
+                ec2.describe_subnets.map { |sn| convert_realm(sn) }
             end
           end
           realms
@@ -871,6 +886,12 @@ module Deltacloud
         end
 
         def convert_realm(realm)
+          # We also allow subnets as realms
+          if realm[:subnet_id]
+            realm[:zone_name] =
+              "#{realm[:availability_zone]}:#{realm[:subnet_id]}"
+            realm[:zone_state] = realm[:state]
+          end
           Realm.new(
             :id => realm[:zone_name],
             :name => realm[:zone_name],

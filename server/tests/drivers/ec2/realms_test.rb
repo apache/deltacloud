@@ -40,4 +40,9 @@ describe 'Ec2Driver Realms' do
     @driver.realm(:id => 'unknown').must_be_nil
   end
 
+  it 'must list VPC subnets as realms' do
+    id = "#{@@subnet[:availability_zone]}:#{@@subnet[:subnet_id]}"
+    @driver.realms.find { |r| r.id == id }.wont_be_nil
+  end
+
 end

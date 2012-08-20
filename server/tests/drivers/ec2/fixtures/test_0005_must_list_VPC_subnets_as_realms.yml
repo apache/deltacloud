@@ -1,0 +1,109 @@
+--- 
+http_interactions: 
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeAvailabilityZones&Signature=v93MQI1cGoYMFByjuzOvr9DZAbE50n6cNkgTf4g8rJs=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T22:36:44.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+      User-Agent: 
+      - ""
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Server: 
+      - AmazonEC2
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Tue, 28 Aug 2012 22:36:45 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeAvailabilityZonesResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>aa77686e-b8b2-4870-8f1e-6232077dbade</requestId>
+            <availabilityZoneInfo>
+                <item>
+                    <zoneName>us-east-1a</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1b</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1c</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+                <item>
+                    <zoneName>us-east-1d</zoneName>
+                    <zoneState>available</zoneState>
+                    <regionName>us-east-1</regionName>
+                    <messageSet/>
+                </item>
+            </availabilityZoneInfo>
+        </DescribeAvailabilityZonesResponse>
+    http_version: 
+  recorded_at: Tue, 28 Aug 2012 22:36:45 GMT
+- request: 
+    method: get
+    uri: https://ec2.us-east-1.amazonaws.com/?AWSAccessKeyId=AKIAJHMN5TTUKVLK5WCQ&Action=DescribeSubnets&Signature=r2v7oE4F8OoTHhXc1NYAdJTr6giszS8MSsQ7prKHM4g=&SignatureMethod=HmacSHA256&SignatureVersion=2&Timestamp=2012-08-28T22:36:45.000Z&Version=2010-08-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+      User-Agent: 
+      - ""
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Server: 
+      - AmazonEC2
+      Transfer-Encoding: 
+      - chunked
+      Date: 
+      - Tue, 28 Aug 2012 22:36:45 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <DescribeSubnetsResponse xmlns="http://ec2.amazonaws.com/doc/2010-08-31/">
+            <requestId>c95921ad-17a4-4262-b877-2d357f6873f6</requestId>
+            <subnetSet>
+                <item>
+                    <subnetId>subnet-dd5bfcb6</subnetId>
+                    <state>available</state>
+                    <vpcId>vpc-0b40e760</vpcId>
+                    <cidrBlock>10.1.0.0/24</cidrBlock>
+                    <availableIpAddressCount>251</availableIpAddressCount>
+                    <availabilityZone>us-east-1a</availabilityZone>
+                </item>
+                <item>
+                    <subnetId>subnet-62952309</subnetId>
+                    <state>available</state>
+                    <vpcId>vpc-6a952301</vpcId>
+                    <cidrBlock>172.16.3.0/24</cidrBlock>
+                    <availableIpAddressCount>251</availableIpAddressCount>
+                    <availabilityZone>us-east-1b</availabilityZone>
+                </item>
+            </subnetSet>
+        </DescribeSubnetsResponse>
+    http_version: 
+  recorded_at: Tue, 28 Aug 2012 22:36:45 GMT
+recorded_with: VCR 2.2.4
