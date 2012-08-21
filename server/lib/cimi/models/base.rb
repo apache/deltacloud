@@ -168,6 +168,16 @@ class CIMI::Model::Base
     model
   end
 
+  def self.parse(text, content_type)
+    if content_type == "application/xml"
+      from_xml(text)
+    elsif content_type == "application/json"
+      from_json(text)
+    else
+      raise "Can not parse content type #{content_type}"
+    end
+  end
+
   #
   # Serialize
   #
