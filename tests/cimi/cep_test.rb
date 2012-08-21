@@ -18,55 +18,21 @@ $:.unshift File.join(File.dirname(__FILE__))
 
 require "test_helper.rb"
 
-describe "CIMI Entry Point" do
-  include CIMI::Test::Methods
-
-  describe "XML form" do
-    # Cache the response for all assertions
-    res = cep(:accept => :xml)
-
-    it "should set the proper content type" do
-      res.headers[:content_type].must_equal "application/xml"
-    end
-
-    it "should use CloudEntryPoint as the XML root" do
-      res.xml.root.name.must_equal "CloudEntryPoint"
-      names = res.xml.xpath("/c:CloudEntryPoint", api.ns).map { |e| e.name }
-      names.must_equal ["CloudEntryPoint"]
-    end
-
-    it "should have an id equal to the CEP URL" do
-      (res.xml/"CloudEntryPoint/id").text.must_equal api.cep_url
-    end
-
-    it "should have a baseURI" do
-      (res.xml/"CloudEntryPoint/baseURI").text.must_be_uri
-    end
-
-    it "should have a name" do
-      (res.xml/"CloudEntryPoint/name").wont_be_empty
-    end
+describe "CIMI Entry Point Behavior" do
+  # We'd like to call this :cep, but there's already a method by that name
+  model :subject, CIMI::Model::CloudEntryPoint, :cache => true do |fmt|
+    cep(:accept => fmt)
   end
 
-  describe "JSON form" do
-    # Cache the response for all assertions
-    res = cep(:accept => :json)
+  it "should have an id equal to the CEP URL" do
+    subject.id.must_equal api.cep_url
+  end
 
-    it "should set the proper content type" do
-      res.headers[:content_type].must_equal "application/json"
-    end
+  it "should have a baseURI" do
+    subject.base_uri.must_be_uri
+  end
 
-    it "should return JSON if asked to" do
-      res.headers[:content_type].must_equal "application/json"
-      res.json["id"].must_equal api.cep_url
-    end
-
-    it "should have a baseURI" do
-      res.json["baseURI"].must_be_uri
-    end
-
-    it "should have a name" do
-      res.json["name"].wont_be_empty
-    end
+  it "should have a name" do
+    subject.name.wont_be_empty
   end
 end

@@ -19,6 +19,7 @@ require 'require_relative'
 require_relative '../helpers/common.rb'
 
 require 'singleton'
+require_relative "../../server/lib/cimi/models"
 
 # Add CIMI specific config stuff
 module CIMI
@@ -106,3 +107,61 @@ module CIMI::Test::Methods
     base.send(:include, Global)
   end
 end
+
+# Special spec class for 'behavior' tests that need to be run once
+# for XML and once for JSON
+class CIMI::Test::Spec < MiniTest::Spec
+  include CIMI::Test::Methods
+
+  CONTENT_TYPES = { :xml => "application/xml",
+    :json => "application/json" }
+
+  def use_format(fmt)
+    @format = fmt
+    @content_type = CONTENT_TYPES[fmt]
+  end
+
+  def self.it desc = "anonymous", &block
+    block ||= proc { skip "(no tests defined)" }
+
+    CONTENT_TYPES.keys.each do |fmt|
+      super("#{desc} [#{fmt}]") do
+        use_format(fmt)
+        instance_eval &block
+      end
+    end
+  end
+
+  def self.model(name, model_class, opts = {}, &block)
+    define_method name do
+      @_memoized ||= {}
+      @@_cache ||= {}
+      @_memoized.fetch("#{name}_#{@format}") do |k|
+        if opts[:cache]
+          @_memoized[k] = @@_cache.fetch(k) do |k|
+            @@_cache[k] = fetch_model(k, model_class, &block)
+          end
+        else
+          @_memoized[k] = fetch_model(k, model_class, &block)
+        end
+      end
+    end
+  end
+
+  def last_response
+    @@_cache ||= {}
+    @@_cache[:last_response]
+  end
+
+  private
+
+  def fetch_model(k, model_class, &block)
+    response = instance_exec(@format, &block)
+    @@_cache[:last_response] = response
+    assert_equal @content_type, response.headers[:content_type]
+    # FIXME: for XML check that the correct namespace is set
+    model_class.parse(response.body, @content_type)
+  end
+end
+
+MiniTest::Spec.register_spec_type(/Behavior$/, CIMI::Test::Spec)

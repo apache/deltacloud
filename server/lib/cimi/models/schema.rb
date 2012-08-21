@@ -14,6 +14,8 @@
 # under the License.
 #
 
+require_relative "../../deltacloud/core_ext"
+
 # The smarts of converting from XML and JSON into internal objects
 class CIMI::Model::Schema
 
