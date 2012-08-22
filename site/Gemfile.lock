@@ -1,0 +1,77 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    POpen4 (0.1.4)
+      Platform (>= 0.4.0)
+      open4
+    Platform (0.4.0)
+    adsf (1.1.1)
+      rack (>= 1.0.0)
+    coderay (1.0.7)
+    colored (1.2)
+    commonjs (0.2.6)
+    cri (2.3.0)
+      colored (>= 1.2)
+    daemons (1.1.8)
+    eventmachine (0.12.10)
+    ffi (1.0.11)
+    fssm (0.2.9)
+    guard (1.2.1)
+      listen (>= 0.4.2)
+      thor (>= 0.14.6)
+    guard-nanoc (0.1.0)
+      guard (>= 0.2.1)
+      nanoc (>= 3.1.5)
+    kramdown (0.13.7)
+    less (2.2.1)
+      commonjs (~> 0.2.6)
+    listen (0.4.6)
+      rb-fchange (~> 0.0.5)
+      rb-fsevent (~> 0.9.1)
+      rb-inotify (~> 0.8.8)
+    mime-types (1.19)
+    nanoc (3.3.1)
+      cri (~> 2.1)
+    nanoc-code-classifier (0.0.4)
+      nanoc (~> 3.0)
+      nokogiri (~> 1.0)
+    nokogiri (1.5.5)
+    open4 (1.3.0)
+    rack (1.4.1)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
+    rack-rewrite (1.2.1)
+    rainpress (1.0)
+    rb-fchange (0.0.5)
+      ffi
+    rb-fsevent (0.9.1)
+    rb-inotify (0.8.8)
+      ffi (>= 0.5.0)
+    thin (1.3.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 0.12.6)
+      rack (>= 1.0.0)
+    thor (0.15.3)
+    yui-compressor (0.9.6)
+      POpen4 (>= 0.1.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  adsf
+  coderay
+  fssm
+  guard
+  guard-nanoc
+  kramdown
+  less
+  mime-types
+  nanoc
+  nanoc-code-classifier
+  rack-contrib
+  rack-rewrite
+  rainpress
+  rb-fsevent
+  thin
+  yui-compressor
