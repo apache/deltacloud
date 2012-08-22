@@ -1,0 +1,32 @@
+--- 
+http_interactions: 
+- request: 
+    method: delete
+    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/testblobk1ds91kVdelmegoogel
+    body: 
+      string: ""
+    headers: 
+      Authorization: 
+      - GOOG1 GOOGXKQLYTEOZTILUBZ5:pBRSCxxl46XfP4llbg6Jedh9wXY=
+      Date: 
+      - Thu, 28 Jun 2012 13:51:59 +0000
+  response: 
+    status: 
+      code: 204
+      message: 
+    headers: 
+      Content-Length: 
+      - "0"
+      Server: 
+      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
+      Expires: 
+      - Thu, 28 Jun 2012 13:52:00 GMT
+      Date: 
+      - Thu, 28 Jun 2012 13:52:00 GMT
+      Cache-Control: 
+      - private, max-age=0
+    body: 
+      string: ""
+    http_version: 
+  recorded_at: Thu, 28 Jun 2012 13:52:00 GMT
+recorded_with: VCR 2.2.2
