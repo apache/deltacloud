@@ -14,6 +14,7 @@
 # under the License.
 
 require 'fog'
+require_relative '../../helpers/blob_stream_helper.rb'
 
 module Deltacloud
   module Drivers
