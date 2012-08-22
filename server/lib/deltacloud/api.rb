@@ -117,7 +117,8 @@ module Deltacloud
       begin
         params = ([@credentials] + args).flatten
         backend.send(name, *params)
-      rescue ArgumentError
+      rescue ArgumentError => e
+        puts "[W] Wrong arguments for #{name}. Omitting credentials injection. (#{e.message})"
         backend.send(name, *args)
       end
     end
