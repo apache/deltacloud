@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'rake'
-
 Gem::Specification.new do |s|
   s.author = 'The Apache Software Foundation'
   s.homepage = "http://www.deltacloud.org"
@@ -32,7 +30,7 @@ Gem::Specification.new do |s|
   s.version = '1.0.2'
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
-  s.files = FileList[
+  s.files = [
     'Rakefile',
     '*.gemspec',
     'config.ru',
@@ -58,7 +56,7 @@ Gem::Specification.new do |s|
     'public/stylesheets/images/*.png',
     'public/stylesheets/compiled/*.css',
     'bin/deltacloudd'
-  ].to_a
+  ].map { |f| Dir[f] }.flatten
 
   s.bindir = 'bin'
   s.executables = 'deltacloudd'
