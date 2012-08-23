@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=C2F0CE1770142482131436B72401C6EA; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:32:05 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=3AAB949ED0DB20DDA00B3947908539E4; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:32:06 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+recorded_with: VCR 2.2.4

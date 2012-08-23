@@ -116,7 +116,7 @@ task :routes do
   end
 end
 
-DRIVERS = [:mock, :ec2, :rhevm, :google]
+DRIVERS = [:mock, :ec2, :rhevm, :google, :gogrid]
 
 desc 'Run all tests'
 task :test do

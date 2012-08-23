@@ -1,0 +1,243 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=87A459B42A77DC20FBC140BCD534F88B; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:31:56 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web3-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=BD487E1A0FC60197BD19AF400F45559D; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:31:58 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web3-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=CD7452BF9BBD9FAE2DA8ABCAF574D67D; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:31:59 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=7132D28B26D640FEC06CCA6DADAEAC61; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:32:00 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web3-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=588EFEE4070AE5F4F1A128B95AFE5EEB; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:32:02 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=ip.datacenter&sig=87793253b9792183251c078d84eaef1c&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=29F64E3F091EF32E93433262E565E042; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:32:04 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '367'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":3,"start":0,"numpages":0,"returned":3},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"US
+        West 1 Datacenter","name":"US-West-1","object":"option"},{"id":2,"description":"US
+        East 1 Datacenter","name":"US-East-1","object":"option"},{"id":3,"description":"EU-West-1
+        Datacenter","name":"EU-West-1","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:30:00 GMT
+recorded_with: VCR 2.2.4

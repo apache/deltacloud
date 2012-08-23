@@ -1,0 +1,704 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web3-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=CA42ACB7D6951F1A0D9EE948AC5B158D; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:50:36 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=2F93B76D74B0C8010B13008A5F42909F; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:50:37 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web4-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=3D02A0FE522C21DB29B492C92909EF3C; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:50:39 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=6F8E0DF0E4BD8F82B610C74D32CB7373; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:50:40 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=DDA4CDBB7392EA7554FF234E521F661A; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:50:43 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=91992F3D776A5B7F3D973246F2C6A31F; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:50:44 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=f9872e632cd2f7a5363b6b545629cc33&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      X-Mashery-Error-Code:
+      - ERR_403_NOT_AUTHORIZED
+      Content-Type:
+      - text/xml
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '27'
+      Date:
+      - Thu, 23 Aug 2012 11:57:19 GMT
+      Server:
+      - Mashery Proxy
+    body:
+      encoding: US-ASCII
+      string: <h1>403 Not Authorized</h1>
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:51:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=A426594650A9EA41A1135224F0FFC863; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:41 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=853F51FB591DCB50F0651698EC1682BC; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:43 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=0958F20E829443BDC4BE322B3E5471B1; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:44 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=D4DAA9C598D508F248721DE7FFAB0D63; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:45 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=F88BF0B653F9349898B66FDEAC2BD7A4; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:46 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web3-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=F63896956D34444B5D8EFAD2CFB23850; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:47 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=234EB47A2E7B3A696C26A50E6CEDB00C; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:48 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web1-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=A6C1FEE35921C0065B981BCAF2F2C657; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:57:50 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.type&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web2-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=8136F8E04836D9740E5A3884F50C4F38; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:58:06 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '291'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Web
+        or Application Server","name":"Web Server","object":"option"},{"id":2,"description":"Database
+        Server","name":"Database Server","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+- request:
+    method: get
+    uri: https://api.gogrid.com/api/common/lookup/list?api_key=9bbf139b8b57d967&format=json&lookup=server.ram&sig=52eca28707f013e583b8e28e936ee587&v=1.9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Connection:
+      - close
+      X-Mashery-Responder:
+      - mashery-web3-lax.mashery.com
+      Server:
+      - Apache-Coyote/1.1
+      Set-Cookie:
+      - JSESSIONID=FA7533F466A490BDD7BB21E76B880FB2; Path=/api; Secure
+      Date:
+      - Thu, 23 Aug 2012 11:58:08 GMT
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '658'
+      Content-Type:
+      - text/html
+    body:
+      encoding: US-ASCII
+      string: ! '{"summary":{"total":7,"start":0,"numpages":0,"returned":7},"status":"success","method":"/common/lookup/list","list":[{"id":1,"description":"Server
+        with 512MB RAM","name":"512MB","object":"option"},{"id":2,"description":"Server
+        with 1GB RAM","name":"1GB","object":"option"},{"id":3,"description":"Server
+        with 2GB RAM","name":"2GB","object":"option"},{"id":4,"description":"Server
+        with 4GB RAM","name":"4GB","object":"option"},{"id":5,"description":"Server
+        with 8GB RAM","name":"8GB","object":"option"},{"id":8,"description":"Server
+        with 16GB RAM","name":"16GB","object":"option"},{"id":9,"description":"Server
+        with 24GB RAM","name":"24GB","object":"option"}]}'
+    http_version: 
+  recorded_at: Thu, 23 Aug 2012 11:58:00 GMT
+recorded_with: VCR 2.2.4
