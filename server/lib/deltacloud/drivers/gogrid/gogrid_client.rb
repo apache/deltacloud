@@ -17,6 +17,7 @@
 require 'digest/md5'
 require 'cgi'
 require 'open-uri'
+require 'json'
 
 module Kernel
   def suppress_warnings
@@ -44,7 +45,7 @@ class GoGridClient
                  apikey='YOUR API KEY',
                  secret='YOUR SHARED SECRET',
                  format='json',
-                 version='1.6')
+                 version='1.9')
     @server = server
     @secret = secret
     @default_params = {'format'=>format, 'v'=>version,'api_key' => apikey}
@@ -52,13 +53,13 @@ class GoGridClient
 
   def getRequestURL(method,params)
     requestURL = @server+'/'+method+'?'
-  	call_params = @default_params.merge(params)
-  	call_params['sig']=getSignature(@default_params['api_key'],@secret)
-  	requestURL = requestURL+encode_params(call_params)
+    call_params = @default_params.merge(params)
+    call_params['sig']=getSignature(@default_params['api_key'],@secret)
+    requestURL = requestURL+encode_params(call_params)
   end
 
   def getSignature(key,secret)
-    Digest::MD5.hexdigest(key+secret+"%.0f"%Time.new.to_f)
+    Digest::MD5.hexdigest(key+secret+"%.0f"%Time.now.to_f)
   end
 
   def sendAPIRequest(method,params={})
@@ -71,8 +72,8 @@ class GoGridClient
     if version
       @default_params['v'] = version
     else
-      @default_params['v'] = '1.5'
-   end
+      @default_params['v'] = '1.9'
+    end
     request = sendAPIRequest(method, params)
     JSON::parse(request)
   end
