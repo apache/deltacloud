@@ -102,7 +102,7 @@ module DeltaCloud
           :values => @providers
         }
       end
-      
+
 
       # This method define collection of text elements inside REST model
       # XML syntax: <addresses>

@@ -196,7 +196,7 @@ class GoogleDriver < Deltacloud::BaseDriver
   def valid_credentials?(credentials)
     begin
       new_client(credentials).get_service && true
-    rescue => e
+    rescue
       return false
     end
     return true

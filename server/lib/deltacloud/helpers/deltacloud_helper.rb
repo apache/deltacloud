@@ -55,7 +55,6 @@ module Deltacloud::Helpers
       filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
       filter.merge!(:state => params[:state]) if params[:state]
       filter = {} if filter.keys.size.eql?(0)
-      singular = model.to_s.singularize.to_sym
       begin
         @benchmark = Benchmark.measure do
           @elements = driver.send(model.to_sym, credentials, filter)
@@ -179,7 +178,6 @@ module Deltacloud::Helpers
     end
 
     def image_for_state(state)
-      state_img = "stopped" if (state!='RUNNING' or state!='PENDING')
       capture_haml do
         haml_tag :img, :src => "/images/#{state}" % state.downcase, :title => state
       end
