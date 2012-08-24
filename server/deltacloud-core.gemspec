@@ -62,11 +62,11 @@ Gem::Specification.new do |s|
   s.executables = 'deltacloudd'
   s.test_files= Dir.glob("tests/**/*_test.rb")
   s.extra_rdoc_files = Dir["LICENSE", "DISCLAIMER", "NOTICE"]
-  s.required_ruby_version = '>= 1.8.1'
+  s.required_ruby_version = '>= 1.8.6'
   s.has_rdoc = 'false'
   s.add_dependency('rake', '>= 0.8.7')
   s.add_dependency('haml', '>= 2.2.17')
-  s.add_dependency('sinatra', '>= 0.9.4')
+  s.add_dependency('sinatra', '>= 1.3.0')
   s.add_dependency('sinatra-rabbit', '>= 1.0.10')
   s.add_dependency('crack')
   s.add_dependency('rack', '>= 1.0.0')
@@ -77,33 +77,39 @@ Gem::Specification.new do |s|
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
 
-# dependencies for various cloud providers:
-# RHEV-M
-  s.add_dependency('rbovirt', '>=0.0.6')
+  # dependencies for various cloud providers:
 
-# Amazon EC2 S3
+  # RHEV-M and oVirt
+  s.add_dependency('rbovirt', '>=0.0.12')
+
+  # Amazon EC2 S3
   s.add_dependency('aws', '>=2.5.4')
-# Microsoft Azure
+  # Microsoft Azure
   s.add_dependency('waz-storage', '>=1.1.0')
 
-# Rackspace Cloudservers Cloudfiles
+  # Rackspace Cloudservers Cloudfiles
   s.add_dependency('cloudservers')
   s.add_dependency('cloudfiles')
 
-# Terremark Vcloud Express
+  # Terremark Vcloud Express
   s.add_dependency('fog', '>= 1.4.0')
   s.add_dependency('excon', '>= 0.14.2' )
 
-# Rhevm and Condor Cloud
+  # Rhevm and Condor Cloud
   s.add_dependency('rest-client')
 
-# Condor Cloud
+  # Condor Cloud
   s.add_dependency('uuidtools', '>= 2.1.1')
 
-# Openstack Compute and Object-Storage
+  # Openstack Compute and Object-Storage
   s.add_dependency('openstack', '>= 1.0.1')
 
-# Aruba Cloud
+  # Aruba Cloud
   s.add_dependency('savon', '>= 1.0.0')
+
+  # VSphere
+  s.add_dependency('rbvmomi')
+
+
 
 end
