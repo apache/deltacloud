@@ -1,5 +1,7 @@
 require 'vcr'
 
+require_relative '../../test_helper.rb'
+
 def credentials
   {
     :user => '9bbf139b8b57d967',
@@ -8,7 +10,36 @@ def credentials
 end
 
 unless Time.respond_to? :be
-  require_relative '../../test_helper.rb'
+  require 'time'
+
+  # This code was originally copied from:
+  # https://github.com/jtrupiano/timecop/issues/8#issuecomment-1396047
+  #
+  # Since 'timecop' gem has broken 'timezone' support, this small monkey-patching
+  # on Time object seems to fix this issue.
+
+  unless Time.respond_to? :be
+    class Time
+      module TimeMock
+        attr_accessor :mock_time
+
+        def mock_now
+          @mock_time || Time.original_now
+        end
+
+        def be(a_time)
+          @mock_time = Time.parse(a_time)
+        end
+
+      end
+
+      class << self
+        include TimeMock
+        alias_method :original_now, :now
+        alias_method :now, :mock_now
+      end
+    end
+  end
 end
 
 VCR.configure do |c|
@@ -18,4 +49,3 @@ VCR.configure do |c|
   # Set this to :new_episodes when you want to 're-record'
   c.default_cassette_options = { :record => :new_episodes }
 end
-
