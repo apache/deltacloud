@@ -1,5 +1,7 @@
-require 'minitest/autorun'
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION < '1.9'
+
+require_relative 'common'
 
 describe BaseModel do
 

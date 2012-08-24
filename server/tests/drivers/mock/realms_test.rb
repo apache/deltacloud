@@ -1,6 +1,7 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION < '1.9'
 
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'api.rb')
+require_relative 'common'
 
 describe 'MockDriver Realms' do
 

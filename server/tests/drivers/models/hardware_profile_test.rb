@@ -1,9 +1,10 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION < '1.9'
+
+require_relative 'common'
+
 require 'sinatra/base'
 require 'sinatra/rabbit'
-
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'hardware_profile.rb')
 
 describe Deltacloud::HardwareProfile do
 

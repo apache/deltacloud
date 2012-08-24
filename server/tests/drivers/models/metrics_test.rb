@@ -1,7 +1,7 @@
-require 'minitest/autorun'
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION < '1.9'
 
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'base_model.rb')
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'models', 'metric.rb')
+require_relative 'common'
 
 describe Metric do
 

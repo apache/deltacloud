@@ -1,5 +1,9 @@
-require 'minitest/autorun'
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'drivers', 'base_driver.rb')
+require 'rubygems'
+require 'require_relative' if RUBY_VERSION < '1.9'
+
+require_relative 'common'
+
+require_relative '../../../lib/deltacloud/drivers/base_driver'
 
 describe Deltacloud::BaseDriver do
 

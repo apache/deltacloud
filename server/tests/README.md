@@ -4,9 +4,9 @@ Deltacloud API tests guide
 Running tests
 -----------------------
 
-Each test can be run manually using the Ruby or 'testrb' tool:
+Each test can be run manually using:
 
-$ ruby tests/deltacloud/base_collection_test.rb
+$ bundle exec ruby tests/drivers/ec2/realms_test.rb
 
 In addition to manual run, you can use one of there Rake tasks:
 

@@ -1,5 +1,7 @@
 require 'vcr'
 
+require_relative '../../test_helper'
+
 # Credentials used to access RHEV-M server
 #
 # NOTE: If these are changed, the VCR fixtures need to be re-recorded

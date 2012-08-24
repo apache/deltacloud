@@ -1,5 +1,7 @@
 require 'vcr'
 
+require_relative '../../test_helper'
+
 def credentials
   {
     :user => 'GOOGXKQLYTEOZTILUBZ5',

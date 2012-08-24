@@ -3,6 +3,8 @@
 require 'right_http_connection'
 require 'vcr'
 
+require_relative '../../test_helper.rb'
+
 # Freeze time, so EC2 signatures have all the same time
 # This will avoid IncorrectSignature exceptions
 
@@ -14,10 +16,6 @@ def credentials
     :user => 'AKIAJYOQYLLOIWN5LQ3A',
     :password => 'Ra2ViYaYgocAJqPAQHxMVU/l2sGGU2pifmWT4q3H'
   }
-end
-
-unless Time.respond_to? :be
-  require_relative '../../test_helper.rb'
 end
 
 Time.be(DateTime.parse("2012-07-30 11:05:00 +0000").to_s)

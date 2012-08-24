@@ -6,6 +6,8 @@ require 'nokogiri'
 require 'pp'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
+require_relative '../lib/deltacloud/api.rb'
+
 ENV['RACK_ENV'] = 'test'
 
 if ENV['COVERAGE']
@@ -24,24 +26,26 @@ require 'time'
 # Since 'timecop' gem has broken 'timezone' support, this small monkey-patching
 # on Time object seems to fix this issue.
 
-class Time
-  module TimeMock
-    attr_accessor :mock_time
+unless Time.respond_to? :be
+  class Time
+    module TimeMock
+      attr_accessor :mock_time
 
-    def mock_now
-      @mock_time || Time.original_now
+      def mock_now
+        @mock_time || Time.original_now
+      end
+
+      def be(a_time)
+        @mock_time = Time.parse(a_time)
+      end
+
     end
 
-    def be(a_time)
-      @mock_time = Time.parse(a_time)
+    class << self
+      include TimeMock
+      alias_method :original_now, :now
+      alias_method :now, :mock_now
     end
-
-  end
-
-  class << self
-    include TimeMock
-    alias_method :original_now, :now
-    alias_method :now, :mock_now
   end
 end
 
