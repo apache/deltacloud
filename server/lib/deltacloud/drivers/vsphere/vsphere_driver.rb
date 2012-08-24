@@ -15,7 +15,7 @@
 #
 
 require 'rbvmomi'
-require 'deltacloud/drivers/vsphere/vsphere_client'
+require_relative './vsphere_client.rb'
 
 module Deltacloud::Drivers::Vsphere
 
@@ -74,7 +74,6 @@ module Deltacloud::Drivers::Vsphere
     # Images are virtual machines with 'template' flag set to be true.
     # Thus we're getting them using find_vm and list_virtual_machines
     def images(credentials, opts={})
-      cloud = new_client(credentials)
       img_arr = []
       profiles = hardware_profiles(credentials)
       # Skip traversing through all instances in all datacenters when ID
@@ -86,9 +85,8 @@ module Deltacloud::Drivers::Vsphere
           template_vms = list_virtual_machines(credentials).select { |vm| vm[:instance] && vm[:instance].summary.config[:template] }
         end
         img_arr = template_vms.collect do |image_hash|
-          image, realm = image_hash[:instance], image_hash[:datastore]
+          image = image_hash[:instance]
           config = image.summary.config
-          instance_state = convert_state(:instance, image.summary.runtime[:powerState])
           # Preload all properties to save multiple SOAP calls to vSphere
           properties = {
             :name => config[:name],
@@ -115,7 +113,6 @@ module Deltacloud::Drivers::Vsphere
     end
 
     def create_image(credentials, opts={})
-      vsphere = new_client(credentials)
       safely do
         find_vm(credentials, opts[:id])[:instance].MarkAsTemplate
       end
@@ -132,7 +129,7 @@ module Deltacloud::Drivers::Vsphere
         else
           rootFolder = vsphere.serviceInstance.content.rootFolder
           rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).collect do |dc|
-            dc.datastoreFolder.childEntity.collect { |datastore| convert_realm(datastore) }
+            dc.datastoreFolder.childEntity.collect { |ds| convert_realm(ds) }
           end.flatten
         end
       end
@@ -141,7 +138,6 @@ module Deltacloud::Drivers::Vsphere
     # List all running instances, across all datacenters. DeltaCloud API does
     # not yet support filtering instances by realm.
     def instances(credentials, opts={})
-      cloud = new_client(credentials)
       inst_arr, machine_vms, pending_vms = [], [], []
       safely do
         # Using find_vm is a way faster than listing all virtual machines
@@ -213,12 +209,10 @@ module Deltacloud::Drivers::Vsphere
 
 
     def create_instance(credentials, image_id, opts={})
-      vsphere = new_client(credentials)
       safely do
         if opts[:hwp_cpu]
           raise "Invalid CPU value. Must be in integer format" unless valid_cpu_value?(opts[:hwp_cpu])
         end
-        rootFolder = vsphere.serviceInstance.content.rootFolder
         vm = find_vm(credentials, opts[:image_id])
         raise "ERROR: Could not find the image in given datacenter" unless vm[:instance]
         # New instance need valid resource pool and datastore to be placed.
