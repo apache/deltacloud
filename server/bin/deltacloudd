@@ -150,10 +150,15 @@ end
 
 if options[:config]
   cfg = YAML::load(File.read(options[:config]))
-  if c = cfg[ENV["API_DRIVER"].to_sym]
-    ENV["API_PROVIDER"] ||= c[:provider]
-    ENV["API_USER"] ||= c[:user]
-    ENV["API_PASSWORD"] ||= c[:password]
+  if cfg.keys.any? { |k| k.is_a?(Symbol) }
+    puts "The config file #{options[:config]} uses symbols as keys"
+    puts "  Change them to be ordinary strings"
+    exit(1)
+  end
+  if c = cfg[ENV["API_DRIVER"]]
+    ENV["API_PROVIDER"] ||= c["provider"]
+    ENV["API_USER"] ||= c["user"]
+    ENV["API_PASSWORD"] ||= c["password"]
   end
 end
 
