@@ -5,12 +5,6 @@ require 'vcr'
 
 require_relative '../../test_helper.rb'
 
-# Freeze time, so EC2 signatures have all the same time
-# This will avoid IncorrectSignature exceptions
-
-# NOTE: This timestamp need to be changed when re-recording
-#       the fixtures.
-
 def credentials
   {
     :user => 'AKIAJYOQYLLOIWN5LQ3A',
@@ -18,12 +12,12 @@ def credentials
   }
 end
 
-Time.be(DateTime.parse("2012-07-30 11:05:00 +0000").to_s)
-
 VCR.configure do |c|
   # NOTE: Empty this directory before re-recording
   c.cassette_library_dir = File.join(File.dirname(__FILE__), 'fixtures')
   c.hook_into :webmock
-  # Set this to :new_episodes when you want to 're-record'
-  c.default_cassette_options = { :record => :new_episodes }
+  matcher = VCR.request_matchers.uri_without_param("AWSAccessKeyId",
+                                                   "Signature", "Timestamp")
+  c.register_request_matcher(:ec2_matcher, &matcher)
+  c.default_cassette_options = { :record => :new_episodes, :match_requests_on => [:method, :ec2_matcher] }
 end

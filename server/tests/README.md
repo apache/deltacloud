@@ -94,11 +94,7 @@ Updating VCR data
 
 In some cases you will need to re-record the VCR fixtures for particular test.
 This happen when a new request is made to the backend cloud in method that
-already has tests. To do so, you will need your own credentials. Then in the
-'before' section of test you will need to use Time.be method to freeze time
-to the current time and use your credentials instead of 'default' ones.
-
-NOTE: This may change at some point to be more user-friendly.
+already has tests. To do so, you will need your own credentials.
 
 
 Test scenarios

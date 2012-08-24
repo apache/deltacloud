@@ -5,7 +5,6 @@ require_relative 'common.rb'
 
 describe 'Ec2Driver StorageSnapshots' do
   before do
-    Time.be(DateTime.parse("2012-08-13 13:03:00 +0000").to_s)
     @driver = Deltacloud::new(:ec2, credentials)
     VCR.insert_cassette __name__
   end
