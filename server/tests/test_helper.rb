@@ -20,12 +20,14 @@ if ENV['COVERAGE']
   end
 end
 
-def record_retries(name='')
-  {
-    :before => Proc.new { |r, &block|
-      VCR.use_cassette("#{__name__}-#{name.empty? ? '' : "#{name}-"}#{r}", &block)
-    }
+def record_retries(name='', opts = {})
+  opts[:before] = Proc.new { |r, &block|
+    VCR.use_cassette("#{__name__}-#{name.empty? ? '' : "#{name}-"}#{r}", &block)
   }
+  if VCR.configuration.default_cassette_options[:record] == :none
+    opts[:time_between_retry] = 0
+  end
+  opts
 end
 
 include Rack::Test::Methods

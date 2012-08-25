@@ -35,8 +35,7 @@ describe 'GoGridDriver Instances' do
     driver = Deltacloud::new(:gogrid, credentials)
 
     # Go fast when running off a recording
-    opts = record_retries
-    opts[:time_between_retry] = VCR.configuration.default_cassette_options[:record] == :none ? 0 : 60
+    opts = record_retries('', :time_between_retry => 60)
     @@instance.wait_for!(driver, opts) do |i|
       i.actions.include?(:destroy)
     end
