@@ -1,0 +1,37 @@
+--- 
+recorded_with: VCR 2.2.4
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.gogrid.com/api/grid/image/get?api_key=b5e87458eb2d3297&format=json&id=unknown&sig=6f5408a9932ef8c8cb411bcc8af63142&v=1.9
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 400
+      message: Bad Request
+    headers: 
+      Content-Length: 
+      - "221"
+      Accept-Ranges: 
+      - bytes
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
+      - text/html
+      Connection: 
+      - close
+      - close
+      Date: 
+      - Sat, 25 Aug 2012 00:35:25 GMT
+      Set-Cookie: 
+      - JSESSIONID=5A49F33E830B8FBD147CF4D20C84F576; Path=/api; Secure
+      X-Mashery-Responder: 
+      - mashery-web2-lax.mashery.com
+    body: 
+      string: "{\"summary\":{\"total\":1,\"start\":0,\"returned\":1},\"status\":\"failure\",\"method\":\"/grid/image/get\",\"list\":[{\"message\":\"No object found that matches your input criteria.\",\"object\":\"error\",\"errorcode\":\"IllegalArgumentException\"}]}"
+    http_version: 
+  recorded_at: Sat, 25 Aug 2012 00:35:25 GMT

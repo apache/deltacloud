@@ -1,458 +1,137 @@
----
-http_interactions:
-- request:
+--- 
+recorded_with: VCR 2.2.4
+http_interactions: 
+- request: 
     method: get
-    uri: https://api.gogrid.com/api/grid/server/get?api_key=9bbf139b8b57d967&format=json&name=test&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web2-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=6B8AA4F8650838C68E0196447E02FB0A; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:13:50 GMT
-      Accept-Ranges:
-      - bytes
-      Content-Length:
-      - '2807'
-      Content-Type:
-      - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":1,"start":0,"numpages":0,"returned":1},"status":"success","method":"/grid/server/get","list":[{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600}]}'
-    http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
-    method: get
-    uri: https://api.gogrid.com/api/support/password/list?api_key=9bbf139b8b57d967&format=json&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web1-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=9DBF0090611699BF713E7B1B63EB0084; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:13:52 GMT
-      Accept-Ranges:
-      - bytes
-      Content-Length:
-      - '3041'
-      Content-Type:
-      - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/support/password/list","list":[{"id":399303,"username":"root","applicationtype":"os","server":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600},"object":"password","password":"HOLybUeOv3"},{"id":72398,"username":"26648","applicationtype":"US-West-1
-        Storage","object":"password","password":"3woc7UWdJsJEcm8@"}]}'
-    http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
-    method: get
-    uri: https://api.gogrid.com/api/grid/server/get?api_key=9bbf139b8b57d967&format=json&name=test&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web2-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=2642ED5669A6EA6C1D4DDF9A9115D2CF; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:13:53 GMT
-      Accept-Ranges:
-      - bytes
-      Content-Length:
-      - '2807'
-      Content-Type:
-      - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":1,"start":0,"numpages":0,"returned":1},"status":"success","method":"/grid/server/get","list":[{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600}]}'
-    http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
-    method: get
-    uri: https://api.gogrid.com/api/support/password/list?api_key=9bbf139b8b57d967&format=json&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web2-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=1225989D8111D53A58AA41D3B8A8F7A3; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:13:54 GMT
-      Accept-Ranges:
-      - bytes
-      Content-Length:
-      - '3041'
-      Content-Type:
-      - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/support/password/list","list":[{"id":399303,"username":"root","applicationtype":"os","server":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600},"object":"password","password":"HOLybUeOv3"},{"id":72398,"username":"26648","applicationtype":"US-West-1
-        Storage","object":"password","password":"3woc7UWdJsJEcm8@"}]}'
-    http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
-    method: get
-    uri: https://api.gogrid.com/api/grid/server/get?api_key=9bbf139b8b57d967&format=json&name=test&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web1-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=49ED1F09EF5246B518BDDC2F164003A2; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:13:56 GMT
-      Accept-Ranges:
-      - bytes
-      Content-Length:
-      - '2807'
-      Content-Type:
-      - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":1,"start":0,"numpages":0,"returned":1},"status":"success","method":"/grid/server/get","list":[{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600}]}'
-    http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
-    method: get
-    uri: https://api.gogrid.com/api/support/password/list?api_key=9bbf139b8b57d967&format=json&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web3-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=F0653DBF8C5A3660C13DA28FC07D9743; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:13:59 GMT
-      Accept-Ranges:
-      - bytes
-      Content-Length:
-      - '3041'
-      Content-Type:
-      - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":2,"start":0,"numpages":0,"returned":2},"status":"success","method":"/support/password/list","list":[{"id":399303,"username":"root","applicationtype":"os","server":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600},"object":"password","password":"HOLybUeOv3"},{"id":72398,"username":"26648","applicationtype":"US-West-1
-        Storage","object":"password","password":"3woc7UWdJsJEcm8@"}]}'
-    http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
-    method: get
-    uri: https://api.gogrid.com/api/grid/server/get?api_key=9bbf139b8b57d967&format=json&name=unknown&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
+    uri: https://api.gogrid.com/api/grid/server/get?api_key=b5e87458eb2d3297&format=json&name=test-instance&sig=c40e7dfda86ec2e1b26862c6f7b35507&v=1.9
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 400
       message: Bad Request
-    headers:
-      Connection:
-      - close
-      - close
-      X-Mashery-Responder:
-      - mashery-web1-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=AC052E6530E167B552737CBA53317F90; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:14:00 GMT
-      Accept-Ranges:
+    headers: 
+      Content-Length: 
+      - "222"
+      Accept-Ranges: 
       - bytes
-      Content-Length:
-      - '222'
-      Content-Type:
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
       - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":1,"start":0,"returned":1},"status":"failure","method":"/grid/server/get","list":[{"message":"No
-        object found that matches your input criteria.","object":"error","errorcode":"IllegalArgumentException"}]}'
+      Connection: 
+      - close
+      - close
+      Date: 
+      - Sat, 25 Aug 2012 00:35:32 GMT
+      Set-Cookie: 
+      - JSESSIONID=946906F2F76C53FCBB5972EABAD2F38D; Path=/api; Secure
+      X-Mashery-Responder: 
+      - mashery-web3-lax.mashery.com
+    body: 
+      string: "{\"summary\":{\"total\":1,\"start\":0,\"returned\":1},\"status\":\"failure\",\"method\":\"/grid/server/get\",\"list\":[{\"message\":\"No object found that matches your input criteria.\",\"object\":\"error\",\"errorcode\":\"IllegalArgumentException\"}]}"
     http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-- request:
+  recorded_at: Sat, 25 Aug 2012 00:35:33 GMT
+- request: 
     method: get
-    uri: https://api.gogrid.com/api/grid/server/list?api_key=9bbf139b8b57d967&format=json&sig=65def4a564c4fabc70570d1bf8a8f07d&v=1.9
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
+    uri: https://api.gogrid.com/api/grid/server/list?api_key=b5e87458eb2d3297&format=json&sig=c40e7dfda86ec2e1b26862c6f7b35507&v=1.9
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Connection:
-      - close
-      X-Mashery-Responder:
-      - mashery-web1-lax.mashery.com
-      Server:
-      - Apache-Coyote/1.1
-      Set-Cookie:
-      - JSESSIONID=1372365AB3475A9780D53BD998F069BE; Path=/api; Secure
-      Date:
-      - Thu, 23 Aug 2012 12:14:01 GMT
-      Accept-Ranges:
+    headers: 
+      Content-Length: 
+      - "2726"
+      Accept-Ranges: 
       - bytes
-      Content-Length:
-      - '2808'
-      Content-Type:
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
       - text/html
-    body:
-      encoding: US-ASCII
-      string: ! '{"summary":{"total":1,"start":0,"numpages":0,"returned":1},"status":"success","method":"/grid/server/list","list":[{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"state":{"id":1,"description":"Server
-        is in active state.","name":"On","object":"option"},"image":{"os":{"id":73,"description":"CentOS
-        5.6 (32-bit)","name":"CentOS 5.6 (32-bit)","object":"option"},"datacenterlist":[{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":2,"description":"US
-        East 1 Datacenter","name":"US-East-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000},{"state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"datacenter":{"id":3,"description":"EU-West-1
-        Datacenter","name":"EU-West-1","object":"option"},"object":"image_datacenter_state","updatedTime":1294198799000}],"location":"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img","state":{"id":2,"description":"Image
-        is available for adds","name":"Available","object":"option"},"friendlyName":"CentOS
-        5.6 (32-bit) w/ None","object":"serverimage","architecture":{"id":1,"description":"32
-        bit OS","name":"32-bit","object":"option"},"isPublic":true,"billingtokens":[{"id":73,"price":0,"name":"CentOS
-        5.6 (32-bit)","object":"billingtoken"}],"type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"id":9928,"isActive":true,"gsitype":{"id":1,"description":"Image
-        produced and certified by GoGrid","name":"baseGSI","object":"option"},"price":0,"description":"CentOS
-        5.6 (32-bit) w/ None","name":"centos5.6_32_base","owner":{"id":-1,"name":"GoGrid","object":"customer"},"updatedTime":1294198799000,"minram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"}},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"server","type":{"id":1,"description":"Web
-        or Application Server","name":"Web Server","object":"option"},"cores":0.5,"ip":{"id":1656767,"subnet":"173.204.26.112/255.255.255.240","state":{"id":2,"description":"IP
-        is reserved or in use","name":"Assigned","object":"option"},"datacenter":{"id":1,"description":"US
-        West 1 Datacenter","name":"US-West-1","object":"option"},"object":"ip","public":true,"ip":"173.204.26.114"},"id":386143,"ram":{"id":1,"description":"Server
-        with 512MB RAM","name":"512MB","object":"option"},"description":"testdesc","name":"test","isSandbox":false,"diskSize":25600}]}'
+      Connection: 
+      - close
+      Date: 
+      - Sat, 25 Aug 2012 00:35:33 GMT
+      Set-Cookie: 
+      - JSESSIONID=A2601E3B26AFCD342D2DEB96C08461F8; Path=/api; Secure
+      X-Mashery-Responder: 
+      - mashery-web2-lax.mashery.com
+    body: 
+      string: "{\"summary\":{\"total\":1,\"start\":0,\"numpages\":0,\"returned\":1},\"status\":\"success\",\"method\":\"/grid/server/list\",\"list\":[{\"os\":{\"id\":73,\"description\":\"CentOS 5.6 (32-bit)\",\"name\":\"CentOS 5.6 (32-bit)\",\"object\":\"option\"},\"ram\":{\"id\":1,\"description\":\"Server with 512MB RAM\",\"name\":\"512MB\",\"object\":\"option\"},\"name\":\"test-instance\",\"state\":{\"id\":3,\"description\":null,\"name\":\"Off\",\"object\":\"option\"},\"isSandbox\":false,\"image\":{\"os\":{\"id\":73,\"description\":\"CentOS 5.6 (32-bit)\",\"name\":\"CentOS 5.6 (32-bit)\",\"object\":\"option\"},\"datacenterlist\":[{\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"datacenter\":{\"id\":1,\"description\":\"US West 1 Datacenter\",\"name\":\"US-West-1\",\"object\":\"option\"},\"object\":\"image_datacenter_state\",\"updatedTime\":1294198799000},{\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"datacenter\":{\"id\":2,\"description\":\"US East 1 Datacenter\",\"name\":\"US-East-1\",\"object\":\"option\"},\"object\":\"image_datacenter_state\",\"updatedTime\":1294198799000},{\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"datacenter\":{\"id\":3,\"description\":\"EU-West-1 Datacenter\",\"name\":\"EU-West-1\",\"object\":\"option\"},\"object\":\"image_datacenter_state\",\"updatedTime\":1294198799000}],\"location\":\"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img\",\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"friendlyName\":\"CentOS 5.6 (32-bit) w/ None\",\"object\":\"serverimage\",\"architecture\":{\"id\":1,\"description\":\"32 bit OS\",\"name\":\"32-bit\",\"object\":\"option\"},\"isPublic\":true,\"billingtokens\":[{\"id\":73,\"price\":0,\"name\":\"CentOS 5.6 (32-bit)\",\"object\":\"billingtoken\"}],\"type\":{\"id\":1,\"description\":\"Web or Application Server\",\"name\":\"Web Server\",\"object\":\"option\"},\"id\":9928,\"isActive\":true,\"gsitype\":{\"id\":1,\"description\":\"Image produced and certified by GoGrid\",\"name\":\"baseGSI\",\"object\":\"option\"},\"price\":0,\"description\":\"CentOS 5.6 (32-bit) w/ None\",\"name\":\"centos5.6_32_base\",\"owner\":{\"id\":-1,\"name\":\"GoGrid\",\"object\":\"customer\"},\"updatedTime\":1294198799000,\"minram\":{\"id\":1,\"description\":\"Server with 512MB RAM\",\"name\":\"512MB\",\"object\":\"option\"}},\"datacenter\":{\"id\":1,\"description\":\"US West 1 Datacenter\",\"name\":\"US-West-1\",\"object\":\"option\"},\"object\":\"server\",\"type\":{\"id\":1,\"description\":\"Web or Application Server\",\"name\":\"Web Server\",\"object\":\"option\"},\"ip\":{\"id\":1107369,\"subnet\":\"173.1.167.112/255.255.255.240\",\"state\":{\"id\":2,\"description\":\"IP is reserved or in use\",\"name\":\"Assigned\",\"object\":\"option\"},\"datacenter\":{\"id\":1,\"description\":\"US West 1 Datacenter\",\"name\":\"US-West-1\",\"object\":\"option\"},\"object\":\"ip\",\"public\":true,\"ip\":\"173.1.167.116\"}}]}"
     http_version: 
-  recorded_at: Thu, 23 Aug 2012 12:12:00 GMT
-recorded_with: VCR 2.2.4
+  recorded_at: Sat, 25 Aug 2012 00:35:33 GMT
+- request: 
+    method: get
+    uri: https://api.gogrid.com/api/grid/server/get?api_key=b5e87458eb2d3297&format=json&name=unknown&sig=3f66e819b531a499b14b41323828335b&v=1.9
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 400
+      message: Bad Request
+    headers: 
+      Content-Length: 
+      - "222"
+      Accept-Ranges: 
+      - bytes
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
+      - text/html
+      Connection: 
+      - close
+      - close
+      Date: 
+      - Sat, 25 Aug 2012 00:35:34 GMT
+      Set-Cookie: 
+      - JSESSIONID=41E3E9ADE096E41C697A915D9F210FBA; Path=/api; Secure
+      X-Mashery-Responder: 
+      - mashery-web3-lax.mashery.com
+    body: 
+      string: "{\"summary\":{\"total\":1,\"start\":0,\"returned\":1},\"status\":\"failure\",\"method\":\"/grid/server/get\",\"list\":[{\"message\":\"No object found that matches your input criteria.\",\"object\":\"error\",\"errorcode\":\"IllegalArgumentException\"}]}"
+    http_version: 
+  recorded_at: Sat, 25 Aug 2012 00:35:34 GMT
+- request: 
+    method: get
+    uri: https://api.gogrid.com/api/grid/server/list?api_key=b5e87458eb2d3297&format=json&sig=729522f93fb25f59441171ad1bd0cd90&v=1.9
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Content-Length: 
+      - "2726"
+      Accept-Ranges: 
+      - bytes
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
+      - text/html
+      Connection: 
+      - close
+      Date: 
+      - Sat, 25 Aug 2012 00:35:34 GMT
+      Set-Cookie: 
+      - JSESSIONID=D74CCACA85B1E0B2299736317F30C3BF; Path=/api; Secure
+      X-Mashery-Responder: 
+      - mashery-web2-lax.mashery.com
+    body: 
+      string: "{\"summary\":{\"total\":1,\"start\":0,\"numpages\":0,\"returned\":1},\"status\":\"success\",\"method\":\"/grid/server/list\",\"list\":[{\"os\":{\"id\":73,\"description\":\"CentOS 5.6 (32-bit)\",\"name\":\"CentOS 5.6 (32-bit)\",\"object\":\"option\"},\"ram\":{\"id\":1,\"description\":\"Server with 512MB RAM\",\"name\":\"512MB\",\"object\":\"option\"},\"name\":\"test-instance\",\"state\":{\"id\":3,\"description\":null,\"name\":\"Off\",\"object\":\"option\"},\"isSandbox\":false,\"image\":{\"os\":{\"id\":73,\"description\":\"CentOS 5.6 (32-bit)\",\"name\":\"CentOS 5.6 (32-bit)\",\"object\":\"option\"},\"datacenterlist\":[{\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"datacenter\":{\"id\":1,\"description\":\"US West 1 Datacenter\",\"name\":\"US-West-1\",\"object\":\"option\"},\"object\":\"image_datacenter_state\",\"updatedTime\":1294198799000},{\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"datacenter\":{\"id\":2,\"description\":\"US East 1 Datacenter\",\"name\":\"US-East-1\",\"object\":\"option\"},\"object\":\"image_datacenter_state\",\"updatedTime\":1294198799000},{\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"datacenter\":{\"id\":3,\"description\":\"EU-West-1 Datacenter\",\"name\":\"EU-West-1\",\"object\":\"option\"},\"object\":\"image_datacenter_state\",\"updatedTime\":1294198799000}],\"location\":\"gogrid/GSI-840b854e-4862-49d4-8c83-4768ae48fa3b.img\",\"state\":{\"id\":2,\"description\":\"Image is available for adds\",\"name\":\"Available\",\"object\":\"option\"},\"friendlyName\":\"CentOS 5.6 (32-bit) w/ None\",\"object\":\"serverimage\",\"architecture\":{\"id\":1,\"description\":\"32 bit OS\",\"name\":\"32-bit\",\"object\":\"option\"},\"isPublic\":true,\"billingtokens\":[{\"id\":73,\"price\":0,\"name\":\"CentOS 5.6 (32-bit)\",\"object\":\"billingtoken\"}],\"type\":{\"id\":1,\"description\":\"Web or Application Server\",\"name\":\"Web Server\",\"object\":\"option\"},\"id\":9928,\"isActive\":true,\"gsitype\":{\"id\":1,\"description\":\"Image produced and certified by GoGrid\",\"name\":\"baseGSI\",\"object\":\"option\"},\"price\":0,\"description\":\"CentOS 5.6 (32-bit) w/ None\",\"name\":\"centos5.6_32_base\",\"owner\":{\"id\":-1,\"name\":\"GoGrid\",\"object\":\"customer\"},\"updatedTime\":1294198799000,\"minram\":{\"id\":1,\"description\":\"Server with 512MB RAM\",\"name\":\"512MB\",\"object\":\"option\"}},\"datacenter\":{\"id\":1,\"description\":\"US West 1 Datacenter\",\"name\":\"US-West-1\",\"object\":\"option\"},\"object\":\"server\",\"type\":{\"id\":1,\"description\":\"Web or Application Server\",\"name\":\"Web Server\",\"object\":\"option\"},\"ip\":{\"id\":1107369,\"subnet\":\"173.1.167.112/255.255.255.240\",\"state\":{\"id\":2,\"description\":\"IP is reserved or in use\",\"name\":\"Assigned\",\"object\":\"option\"},\"datacenter\":{\"id\":1,\"description\":\"US West 1 Datacenter\",\"name\":\"US-West-1\",\"object\":\"option\"},\"object\":\"ip\",\"public\":true,\"ip\":\"173.1.167.116\"}}]}"
+    http_version: 
+  recorded_at: Sat, 25 Aug 2012 00:35:35 GMT

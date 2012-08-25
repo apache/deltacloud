@@ -6,7 +6,6 @@ require_relative 'common'
 describe 'GoGridDriver Realms' do
 
   before do
-    Time.be(DateTime.parse("2012-08-23 11:30:00 +0000").to_s)
     @driver = Deltacloud::new(:gogrid, credentials)
     VCR.insert_cassette __name__
   end

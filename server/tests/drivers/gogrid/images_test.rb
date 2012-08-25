@@ -6,7 +6,6 @@ require_relative 'common'
 describe 'GoGridDriver Images' do
 
   before do
-    Time.be(DateTime.parse("2012-08-23 11:45:00 +0000").to_s)
     @driver = Deltacloud::new(:gogrid, credentials)
     VCR.insert_cassette __name__
   end
@@ -27,19 +26,32 @@ describe 'GoGridDriver Images' do
   end
 
   it 'must allow to filter images' do
-    @driver.images(:id => '9928').wont_be_empty
-    @driver.images(:id => '9928').must_be_kind_of Array
-    @driver.images(:id => '9928').size.must_equal 1
-    @driver.images(:id => '9928').first.id.must_equal '9928'
-    @driver.images(:id => '9928').first.name.must_equal 'CentOS 5.6 (32-bit) w/ None'
+    img = @driver.images.first
+    img.wont_be_nil
+
+    imgs = @driver.images(:id => img.id)
+    imgs.wont_be_empty
+    imgs.must_be_kind_of Array
+    imgs.size.must_equal 1
+    imgs.first.id.must_equal img.id
+    imgs.first.name.must_equal img.name
+  end
+
+  it 'must return an empty array for nonexistent image' do
     @driver.images(:id => 'unknown').must_be_empty
   end
 
   it 'must allow to retrieve single image' do
-    @driver.image(:id => '9928').wont_be_nil
-    @driver.image(:id => '9928').must_be_kind_of Image
-    @driver.image(:id => '9928').id.must_equal '9928'
-    @driver.image(:id => 'unknown').must_be_nil
+    some_img = @driver.images.first
+    some_img.wont_be_nil
+    by_id = @driver.image(:id => some_img.id)
+
+    by_id.wont_be_nil
+    by_id.must_be_kind_of Image
+    by_id.id.must_equal some_img.id
   end
 
+  it 'must return nil when retrieving a single nonexistent image' do
+    @driver.image(:id => 'unknown').must_be_nil
+  end
 end
