@@ -20,11 +20,12 @@
     %li{ :'data-role' => 'list-divider'} Architecture
     %li
       %p{ :'data-role' => 'fieldcontain'}=@image.architecture
-    %li{ :'data-role' => 'list-divider'} Hardware Profiles
-    %li
-      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        - @image.hardware_profiles.each do |hwp|
-          %a{ :href => api_url_for("hardware_profiles/#{hwp.name}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
+    - if @image.hardware_profiles
+      %li{ :'data-role' => 'list-divider'} Hardware Profiles
+      %li
+        %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+          - @image.hardware_profiles.each do |hwp|
+            %a{ :href => api_url_for("hardware_profiles/#{hwp.name}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
