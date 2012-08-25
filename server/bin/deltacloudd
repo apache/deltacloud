@@ -239,7 +239,8 @@ else
     argv_opts.unshift "thin"
     command = argv_opts.join(" ")
     Dir::chdir($top_srcdir)
-    rerun = Rerun::Runner.new(command, :dir => $top_srcdir)
+    rerun = Rerun::Runner.new(command,
+      :dir => File::join($top_srcdir, "lib", "deltacloud"))
     rerun.start
     rerun.join
   else
