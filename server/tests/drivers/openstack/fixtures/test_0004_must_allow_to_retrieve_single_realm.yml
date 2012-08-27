@@ -1,0 +1,205 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://10.34.32.211:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"password"},"tenantName":"admin"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - X-Auth-Token
+      Content-Length:
+      - '2010'
+      Date:
+      - Mon, 27 Aug 2012 16:15:34 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"expires": "2012-08-28T16:15:34Z", "id": "0bfb2862179d47229291a25cf608398e",
+        "tenant": {"description": null, "enabled": true, "id": "e827289fd66f4effb5b9b5012282fdb7",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "volume", "name": "Volume Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:9292/v1", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:9292/v1", "internalURL": "http://10.34.32.211:9292/v1"}],
+        "endpoints_links": [], "type": "image", "name": "Image Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "compute", "name": "Compute Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8773/services/Admin", "region": "RegionOne",
+        "publicURL": "http://10.34.32.211:8773/services/Cloud", "internalURL": "http://10.34.32.211:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "EC2 Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:35357/v2.0", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:5000/v2.0", "internalURL": "http://10.34.32.211:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "Identity Service"}], "user":
+        {"username": "admin", "roles_links": [], "id": "f2286a51122345cea7d216c120974b41",
+        "roles": [{"id": "e7e292b28c4b4befb06232fa935a3c48", "name": "KeystoneServiceAdmin"},
+        {"id": "7e716d5a52f348bb9a7fbbc230041b2a", "name": "admin"}, {"id": "bf2113c0cb924b34907521808ed9df13",
+        "name": "KeystoneAdmin"}], "name": "admin"}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:26:52 GMT
+- request:
+    method: get
+    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/limits
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Auth-Token:
+      - 0bfb2862179d47229291a25cf608398e
+      X-Storage-Token:
+      - 0bfb2862179d47229291a25cf608398e
+      Connection:
+      - Keep-Alive
+      User-Agent:
+      - OpenStack Ruby API 1.0.3
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Compute-Request-Id:
+      - req-776452b2-0885-4489-9efd-6dfa45880247
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '900'
+      Date:
+      - Mon, 27 Aug 2012 16:15:34 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"limits": {"rate": [{"regex": ".*", "limit": [{"next-available":
+        "2012-08-27T15:44:04Z", "unit": "MINUTE", "verb": "POST", "remaining": 9,
+        "value": 10}, {"next-available": "2012-08-27T16:15:34Z", "unit": "MINUTE",
+        "verb": "PUT", "remaining": 10, "value": 10}, {"next-available": "2012-08-27T15:39:45Z",
+        "unit": "MINUTE", "verb": "DELETE", "remaining": 99, "value": 100}], "uri":
+        "*"}, {"regex": "^/servers", "limit": [{"next-available": "2012-08-27T16:15:34Z",
+        "unit": "DAY", "verb": "POST", "remaining": 50, "value": 50}], "uri": "*/servers"},
+        {"regex": ".*changes-since.*", "limit": [{"next-available": "2012-08-27T16:15:34Z",
+        "unit": "MINUTE", "verb": "GET", "remaining": 3, "value": 3}], "uri": "*changes-since*"}],
+        "absolute": {"maxServerMeta": 128, "maxPersonality": 5, "maxImageMeta": 128,
+        "maxPersonalitySize": 10240, "maxTotalCores": 20, "maxTotalInstances": 10,
+        "maxTotalRAMSize": 51200}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:26:52 GMT
+- request:
+    method: post
+    uri: http://10.34.32.211:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"password"},"tenantName":"admin"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - X-Auth-Token
+      Content-Length:
+      - '2010'
+      Date:
+      - Mon, 27 Aug 2012 16:15:34 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"expires": "2012-08-28T16:15:34Z", "id": "9c158b0229204befb2d9253e822bf0c8",
+        "tenant": {"description": null, "enabled": true, "id": "e827289fd66f4effb5b9b5012282fdb7",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "volume", "name": "Volume Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:9292/v1", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:9292/v1", "internalURL": "http://10.34.32.211:9292/v1"}],
+        "endpoints_links": [], "type": "image", "name": "Image Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "compute", "name": "Compute Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8773/services/Admin", "region": "RegionOne",
+        "publicURL": "http://10.34.32.211:8773/services/Cloud", "internalURL": "http://10.34.32.211:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "EC2 Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:35357/v2.0", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:5000/v2.0", "internalURL": "http://10.34.32.211:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "Identity Service"}], "user":
+        {"username": "admin", "roles_links": [], "id": "f2286a51122345cea7d216c120974b41",
+        "roles": [{"id": "e7e292b28c4b4befb06232fa935a3c48", "name": "KeystoneServiceAdmin"},
+        {"id": "7e716d5a52f348bb9a7fbbc230041b2a", "name": "admin"}, {"id": "bf2113c0cb924b34907521808ed9df13",
+        "name": "KeystoneAdmin"}], "name": "admin"}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:26:52 GMT
+- request:
+    method: get
+    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/limits
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Auth-Token:
+      - 9c158b0229204befb2d9253e822bf0c8
+      X-Storage-Token:
+      - 9c158b0229204befb2d9253e822bf0c8
+      Connection:
+      - Keep-Alive
+      User-Agent:
+      - OpenStack Ruby API 1.0.3
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Compute-Request-Id:
+      - req-922f233b-ea8a-48aa-8e4e-0b7e60ff4100
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '900'
+      Date:
+      - Mon, 27 Aug 2012 16:15:34 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"limits": {"rate": [{"regex": ".*", "limit": [{"next-available":
+        "2012-08-27T15:44:04Z", "unit": "MINUTE", "verb": "POST", "remaining": 9,
+        "value": 10}, {"next-available": "2012-08-27T16:15:34Z", "unit": "MINUTE",
+        "verb": "PUT", "remaining": 10, "value": 10}, {"next-available": "2012-08-27T15:39:45Z",
+        "unit": "MINUTE", "verb": "DELETE", "remaining": 99, "value": 100}], "uri":
+        "*"}, {"regex": "^/servers", "limit": [{"next-available": "2012-08-27T16:15:34Z",
+        "unit": "DAY", "verb": "POST", "remaining": 50, "value": 50}], "uri": "*/servers"},
+        {"regex": ".*changes-since.*", "limit": [{"next-available": "2012-08-27T16:15:34Z",
+        "unit": "MINUTE", "verb": "GET", "remaining": 3, "value": 3}], "uri": "*changes-since*"}],
+        "absolute": {"maxServerMeta": 128, "maxPersonality": 5, "maxImageMeta": 128,
+        "maxPersonalitySize": 10240, "maxTotalCores": 20, "maxTotalInstances": 10,
+        "maxTotalRAMSize": 51200}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:26:52 GMT
+recorded_with: VCR 2.2.4

@@ -1,0 +1,152 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://10.34.32.211:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"password"},"tenantName":"admin"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - X-Auth-Token
+      Content-Length:
+      - '2010'
+      Date:
+      - Mon, 27 Aug 2012 16:17:33 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"expires": "2012-08-28T16:17:33Z", "id": "40a1700185dc45d8bb7763d78c5ce28a",
+        "tenant": {"description": null, "enabled": true, "id": "e827289fd66f4effb5b9b5012282fdb7",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "volume", "name": "Volume Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:9292/v1", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:9292/v1", "internalURL": "http://10.34.32.211:9292/v1"}],
+        "endpoints_links": [], "type": "image", "name": "Image Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "compute", "name": "Compute Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8773/services/Admin", "region": "RegionOne",
+        "publicURL": "http://10.34.32.211:8773/services/Cloud", "internalURL": "http://10.34.32.211:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "EC2 Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:35357/v2.0", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:5000/v2.0", "internalURL": "http://10.34.32.211:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "Identity Service"}], "user":
+        {"username": "admin", "roles_links": [], "id": "f2286a51122345cea7d216c120974b41",
+        "roles": [{"id": "e7e292b28c4b4befb06232fa935a3c48", "name": "KeystoneServiceAdmin"},
+        {"id": "7e716d5a52f348bb9a7fbbc230041b2a", "name": "admin"}, {"id": "bf2113c0cb924b34907521808ed9df13",
+        "name": "KeystoneAdmin"}], "name": "admin"}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:28:52 GMT
+- request:
+    method: post
+    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers
+    body:
+      encoding: UTF-8
+      string: ! '{"server":{"personality":[],"name":"server2012-08-27 14:28:52 +0200","imageRef":"bf7ce59a-d9f9-45d4-9313-f45b16436602","flavorRef":"1","security_groups":[]}}'
+    headers:
+      X-Auth-Token:
+      - 40a1700185dc45d8bb7763d78c5ce28a
+      X-Storage-Token:
+      - 40a1700185dc45d8bb7763d78c5ce28a
+      Connection:
+      - Keep-Alive
+      User-Agent:
+      - OpenStack Ruby API 1.0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      X-Compute-Request-Id:
+      - req-858ade33-e6ef-4dcb-8769-20aa6251b674
+      Location:
+      - http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers/5dcb220a-92bf-4b50-85d9-526f4de6b09c
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '400'
+      Date:
+      - Mon, 27 Aug 2012 16:17:34 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"server": {"OS-DCF:diskConfig": "MANUAL", "id": "5dcb220a-92bf-4b50-85d9-526f4de6b09c",
+        "links": [{"href": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers/5dcb220a-92bf-4b50-85d9-526f4de6b09c",
+        "rel": "self"}, {"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/servers/5dcb220a-92bf-4b50-85d9-526f4de6b09c",
+        "rel": "bookmark"}], "adminPass": "a3wTpcYuno7N"}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:28:52 GMT
+- request:
+    method: get
+    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers/5dcb220a-92bf-4b50-85d9-526f4de6b09c
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Auth-Token:
+      - 40a1700185dc45d8bb7763d78c5ce28a
+      X-Storage-Token:
+      - 40a1700185dc45d8bb7763d78c5ce28a
+      Connection:
+      - Keep-Alive
+      User-Agent:
+      - OpenStack Ruby API 1.0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Compute-Request-Id:
+      - req-0959cfe1-bd29-456c-975e-85e0f03ebdc0
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1334'
+      Date:
+      - Mon, 27 Aug 2012 16:17:34 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"server": {"OS-EXT-STS:task_state": "scheduling", "addresses": {},
+        "links": [{"href": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers/5dcb220a-92bf-4b50-85d9-526f4de6b09c",
+        "rel": "self"}, {"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/servers/5dcb220a-92bf-4b50-85d9-526f4de6b09c",
+        "rel": "bookmark"}], "image": {"id": "bf7ce59a-d9f9-45d4-9313-f45b16436602",
+        "links": [{"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/images/bf7ce59a-d9f9-45d4-9313-f45b16436602",
+        "rel": "bookmark"}]}, "OS-EXT-STS:vm_state": "building", "OS-EXT-SRV-ATTR:instance_name":
+        "instance-00000012", "flavor": {"id": "1", "links": [{"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/flavors/1",
+        "rel": "bookmark"}]}, "id": "5dcb220a-92bf-4b50-85d9-526f4de6b09c", "user_id":
+        "f2286a51122345cea7d216c120974b41", "OS-DCF:diskConfig": "MANUAL", "accessIPv4":
+        "", "accessIPv6": "", "progress": 0, "OS-EXT-STS:power_state": 0, "config_drive":
+        "", "status": "BUILD", "updated": "2012-08-27T16:17:34Z", "hostId": "", "OS-EXT-SRV-ATTR:host":
+        "openstack-01.lab.eng.brq.redhat.com", "key_name": "", "OS-EXT-SRV-ATTR:hypervisor_hostname":
+        null, "name": "server2012-08-27 14:28:52 +0200", "created": "2012-08-27T16:17:34Z",
+        "tenant_id": "e827289fd66f4effb5b9b5012282fdb7", "metadata": {}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:28:52 GMT
+recorded_with: VCR 2.2.4

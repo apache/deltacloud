@@ -1,0 +1,197 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://10.34.32.211:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"password"},"tenantName":"admin"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - X-Auth-Token
+      Content-Length:
+      - '2010'
+      Date:
+      - Mon, 27 Aug 2012 16:16:39 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"expires": "2012-08-28T16:16:39Z", "id": "2d7eb883d34c4549835b12ab72fa4863",
+        "tenant": {"description": null, "enabled": true, "id": "e827289fd66f4effb5b9b5012282fdb7",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "volume", "name": "Volume Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:9292/v1", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:9292/v1", "internalURL": "http://10.34.32.211:9292/v1"}],
+        "endpoints_links": [], "type": "image", "name": "Image Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "compute", "name": "Compute Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8773/services/Admin", "region": "RegionOne",
+        "publicURL": "http://10.34.32.211:8773/services/Cloud", "internalURL": "http://10.34.32.211:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "EC2 Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:35357/v2.0", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:5000/v2.0", "internalURL": "http://10.34.32.211:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "Identity Service"}], "user":
+        {"username": "admin", "roles_links": [], "id": "f2286a51122345cea7d216c120974b41",
+        "roles": [{"id": "e7e292b28c4b4befb06232fa935a3c48", "name": "KeystoneServiceAdmin"},
+        {"id": "7e716d5a52f348bb9a7fbbc230041b2a", "name": "admin"}, {"id": "bf2113c0cb924b34907521808ed9df13",
+        "name": "KeystoneAdmin"}], "name": "admin"}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:27:57 GMT
+- request:
+    method: get
+    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/os-keypairs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Auth-Token:
+      - 2d7eb883d34c4549835b12ab72fa4863
+      X-Storage-Token:
+      - 2d7eb883d34c4549835b12ab72fa4863
+      Connection:
+      - Keep-Alive
+      User-Agent:
+      - OpenStack Ruby API 1.0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Compute-Request-Id:
+      - req-92d34996-f7b5-4254-9893-2dc4b196dd0b
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '756'
+      Date:
+      - Mon, 27 Aug 2012 16:16:39 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"keypairs": [{"keypair": {"public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDLRqcGJtIWRsRlm9E+BAX1YThZc8y2zdXUF9KY3R1e8sWGnDjBIS91WWliaIgP8CrSMfFEWSzUJbyqrsBui4E0JDP04vcS5W0ioY/BmJD99nRaRncS+KKHChUuVMIjQ6cn+hI76OgfpPqM3GNgkxl2grW2arwXrzWRJ2tEP6QnlQ==
+        nova@openstack-01.lab.eng.brq.redhat.com\n", "name": "test1", "fingerprint":
+        "9a:be:87:83:75:ae:06:0e:b7:c4:19:be:f7:52:bd:a8"}}, {"keypair": {"public_key":
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDQq0Nu2t2KLs7AQLIUHX6x94tx6sacAXSgkHvlVJLM9HHHPMFlXeerYEeaPSC/vS7mwl0bXNN/ETXRpJ5Thd6BAnLDEAJcvrm63NHeJ4axvALzs6mQyndAu7UpFrK3nEaDPKgZPnEAKCUvBD+vLoySWilaNWGxsVH5kFpbT+73NQ==
+        nova@openstack-01.lab.eng.brq.redhat.com\n", "name": "test2", "fingerprint":
+        "cc:1d:51:aa:d7:dd:b7:07:ec:3b:3c:0c:1a:0c:04:c5"}}]}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:27:57 GMT
+- request:
+    method: post
+    uri: http://10.34.32.211:5000/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"password"},"tenantName":"admin"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - X-Auth-Token
+      Content-Length:
+      - '2010'
+      Date:
+      - Mon, 27 Aug 2012 16:16:39 GMT
+    body:
+      encoding: US-ASCII
+      string: ! '{"access": {"token": {"expires": "2012-08-28T16:16:39Z", "id": "1fab3d0817254f2fb3cf6070a5a95194",
+        "tenant": {"description": null, "enabled": true, "id": "e827289fd66f4effb5b9b5012282fdb7",
+        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "volume", "name": "Volume Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:9292/v1", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:9292/v1", "internalURL": "http://10.34.32.211:9292/v1"}],
+        "endpoints_links": [], "type": "image", "name": "Image Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "region": "RegionOne", "publicURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
+        "internalURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7"}],
+        "endpoints_links": [], "type": "compute", "name": "Compute Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:8773/services/Admin", "region": "RegionOne",
+        "publicURL": "http://10.34.32.211:8773/services/Cloud", "internalURL": "http://10.34.32.211:8773/services/Cloud"}],
+        "endpoints_links": [], "type": "ec2", "name": "EC2 Service"}, {"endpoints":
+        [{"adminURL": "http://10.34.32.211:35357/v2.0", "region": "RegionOne", "publicURL":
+        "http://10.34.32.211:5000/v2.0", "internalURL": "http://10.34.32.211:5000/v2.0"}],
+        "endpoints_links": [], "type": "identity", "name": "Identity Service"}], "user":
+        {"username": "admin", "roles_links": [], "id": "f2286a51122345cea7d216c120974b41",
+        "roles": [{"id": "e7e292b28c4b4befb06232fa935a3c48", "name": "KeystoneServiceAdmin"},
+        {"id": "7e716d5a52f348bb9a7fbbc230041b2a", "name": "admin"}, {"id": "bf2113c0cb924b34907521808ed9df13",
+        "name": "KeystoneAdmin"}], "name": "admin"}}}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:27:57 GMT
+- request:
+    method: get
+    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/os-keypairs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      X-Auth-Token:
+      - 1fab3d0817254f2fb3cf6070a5a95194
+      X-Storage-Token:
+      - 1fab3d0817254f2fb3cf6070a5a95194
+      Connection:
+      - Keep-Alive
+      User-Agent:
+      - OpenStack Ruby API 1.0.3
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Compute-Request-Id:
+      - req-f3776a90-fafb-4b5e-89d9-d75b9a58a9fa
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '756'
+      Date:
+      - Mon, 27 Aug 2012 16:16:39 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"keypairs": [{"keypair": {"public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDLRqcGJtIWRsRlm9E+BAX1YThZc8y2zdXUF9KY3R1e8sWGnDjBIS91WWliaIgP8CrSMfFEWSzUJbyqrsBui4E0JDP04vcS5W0ioY/BmJD99nRaRncS+KKHChUuVMIjQ6cn+hI76OgfpPqM3GNgkxl2grW2arwXrzWRJ2tEP6QnlQ==
+        nova@openstack-01.lab.eng.brq.redhat.com\n", "name": "test1", "fingerprint":
+        "9a:be:87:83:75:ae:06:0e:b7:c4:19:be:f7:52:bd:a8"}}, {"keypair": {"public_key":
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDQq0Nu2t2KLs7AQLIUHX6x94tx6sacAXSgkHvlVJLM9HHHPMFlXeerYEeaPSC/vS7mwl0bXNN/ETXRpJ5Thd6BAnLDEAJcvrm63NHeJ4axvALzs6mQyndAu7UpFrK3nEaDPKgZPnEAKCUvBD+vLoySWilaNWGxsVH5kFpbT+73NQ==
+        nova@openstack-01.lab.eng.brq.redhat.com\n", "name": "test2", "fingerprint":
+        "cc:1d:51:aa:d7:dd:b7:07:ec:3b:3c:0c:1a:0c:04:c5"}}]}'
+    http_version: 
+  recorded_at: Mon, 27 Aug 2012 12:27:57 GMT
+recorded_with: VCR 2.2.4
