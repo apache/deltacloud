@@ -45,8 +45,13 @@ module Deltacloud
           results = []
           safely do
             if opts[:id]
-              flavor = os.flavor(opts[:id])
-              results << convert_from_flavor(flavor)
+              begin
+                flavor = os.flavor(opts[:id])
+                results << convert_from_flavor(flavor)
+              rescue => e
+                raise e unless e.message =~ /The resource could not be found/
+                results = []
+              end
             else
               results = os.flavors.collect do |f|
                 convert_from_flavor(f)
@@ -62,17 +67,20 @@ module Deltacloud
           profiles = hardware_profiles(credentials)
           safely do
             if(opts[:id])
-              img = os.get_image(opts[:id])
-              results << convert_from_image(img, os.connection.authuser)
+              begin
+                img = os.get_image(opts[:id])
+                results << convert_from_image(img, os.connection.authuser)
+              rescue => e
+                raise e unless e.message =~ /Image not found/
+                results = []
+              end
             else
-              results = os.list_images.collect do |img|
-                convert_from_image(img, os.connection.authuser)
+              results = os.list_images.collect do |i|
+                convert_from_image(i, os.connection.authuser)
               end
             end
           end
-          results.each do |img|
-            img.hardware_profiles = profiles
-          end
+          results.each { |img| img.hardware_profiles = profiles }
           filter_on(results, :owner_id, opts)
         end
 
@@ -108,6 +116,7 @@ module Deltacloud
                 end
               end
           end
+          return [] if opts[:id] and opts[:id] != 'default'
           [ Realm.new( { :id=>'default',
                         :name=>'default',
                         :limit => limits,
@@ -119,11 +128,16 @@ module Deltacloud
           insts = []
           safely do
             if opts[:id]
-              server = os.get_server(opts[:id])
-              insts << convert_from_server(server, os.connection.authuser)
+              begin
+                server = os.get_server(opts[:id])
+                insts << convert_from_server(server, os.connection.authuser)
+              rescue => e
+                raise e unless e.message =~ /The resource could not be found/
+                insts = []
+              end
             else
-              insts = os.list_servers_detail.collect do |server|
-                convert_from_server(server, os.connection.authuser)
+              insts = os.list_servers_detail.collect do |s|
+                convert_from_server(s, os.connection.authuser)
               end
             end
           end
