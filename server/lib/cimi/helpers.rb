@@ -86,7 +86,7 @@ module CIMI::Collections
     end
 
     after do
-      headers 'X-CIMI-Specification-Version' => Deltacloud[:cimi].version
+      headers 'CIMI-Specification-Version' => Deltacloud[:cimi].version
     end
 
     def self.new_route_for(route, &block)
