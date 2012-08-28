@@ -1,6 +1,7 @@
 - unless defined?(partial)
   !!! XML
-%hardware_profile{ :href => hardware_profile_url(@hardware_profile.name), :id => @hardware_profile.name }
+%hardware_profile{ :href => hardware_profile_url(@hardware_profile.id), :id => @hardware_profile.id }
+  %id= @hardware_profile.id
   %name<
     = @hardware_profile.name
   - @hardware_profile.each_property do |prop|

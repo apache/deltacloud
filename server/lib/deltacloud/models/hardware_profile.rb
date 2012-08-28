@@ -15,7 +15,7 @@
 # under the License.
 
 module Deltacloud
-  class HardwareProfile
+  class HardwareProfile < BaseModel
 
     UNITS = {
       :memory => "MB",
@@ -26,6 +26,62 @@ module Deltacloud
 
     def self.unit(name)
       UNITS[name]
+    end
+
+    class << self
+      def property(prop)
+        define_method(prop) do |*args|
+          values, opts, *ignored = *args
+          unless values.nil?
+            @properties[prop] = Property.new(prop, values, opts || {})
+          end
+          @properties[prop]
+        end
+      end
+    end
+
+    attr_accessor :name
+
+    property :cpu
+    property :architecture
+    property :memory
+    property :storage
+
+    def initialize(profile_id, &block)
+      @properties   = {}
+      super(:id => profile_id)
+      result = instance_eval(&block) if block_given?
+      @name ||= profile_id
+      result
+    end
+
+    def each_property(&block)
+      @properties.each_value { |prop| yield prop }
+    end
+
+    def properties
+      @properties.values
+    end
+
+    def property(name)
+      @properties[name.to_sym]
+    end
+
+    def default?(prop, v)
+      property(prop) && property(prop).default.to_s == v
+    end
+
+    def include?(prop, v)
+      return false unless p = property(prop)
+      return true if p.kind == :range and (p.first..p.last).include?(v)
+      return true if p.kind == :enum and p.values.include?(v)
+      false
+    end
+
+    def params
+      @properties.values.inject([]) { |m, prop|
+        m << prop.to_param
+      }.compact
     end
 
     class Property
@@ -82,10 +138,10 @@ module Deltacloud
           # overide fixed values.
           #
           # when :fixed then (v == @default.to_s)
-          when :fixed then true
-          when :range then match_type?(first, v) and (first..last).include?(v)
-          when :enum then match_type?(values.first, v) and values.include?(v)
-          else false
+        when :fixed then true
+        when :range then match_type?(first, v) and (first..last).include?(v)
+        when :enum then match_type?(values.first, v) and values.include?(v)
+        else false
         end
       end
 
@@ -114,60 +170,6 @@ module Deltacloud
         return v.to_i if v =~ /(\d+)/
         v.to_s
       end
-    end
-
-    class << self
-      def property(prop)
-        define_method(prop) do |*args|
-          values, opts, *ignored = *args
-          instvar = :"@#{prop}"
-          unless values.nil?
-            @properties[prop] = Property.new(prop, values, opts || {})
-          end
-          @properties[prop]
-        end
-      end
-    end
-
-    attr_reader :name
-    property :cpu
-    property :architecture
-    property :memory
-    property :storage
-
-    def initialize(name,&block)
-      @properties   = {}
-      @name         = name
-      instance_eval &block if block_given?
-    end
-
-    def each_property(&block)
-      @properties.each_value { |prop| yield prop }
-    end
-
-    def properties
-      @properties.values
-    end
-
-    def property(name)
-      @properties[name.to_sym]
-    end
-
-    def default?(prop, v)
-      property(prop) && property(prop).default.to_s == v
-    end
-
-    def include?(prop, v)
-      return false unless p = property(prop)
-      return true if p.kind == :range and (p.first..p.last).include?(v)
-      return true if p.kind == :enum and p.values.include?(v)
-      false
-    end
-
-    def params
-      @properties.values.inject([]) { |m, prop|
-        m << prop.to_param
-      }.compact
     end
   end
 end

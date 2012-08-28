@@ -5,7 +5,7 @@
   %ul{ :'data-role' => :listview, :'data-inset' => :true }
     - for profile in order_hardware_profiles(@hardware_profiles)
       %li{ :'data-theme' => 'c'}
-        %a{ :href => hardware_profile_url(profile.name)}
+        %a{ :href => hardware_profile_url(profile.id)}
           %img{ :class => 'ui-link-thumb', :src => '/images/profile.png'}
           %h3= profile.name
           %p

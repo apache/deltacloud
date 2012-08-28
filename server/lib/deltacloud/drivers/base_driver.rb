@@ -69,19 +69,13 @@ module Deltacloud
       ExceptionHandler::exceptions(&block)
     end
 
-    def self.define_hardware_profile(name,&block)
+    def self.define_hardware_profile(profile_id, &block)
       @hardware_profiles ||= []
-      hw_profile = @hardware_profiles.find{|e| e.name == name}
+      hw_profile = @hardware_profiles.find{|e| e.id == profile_id }
       return if hw_profile
-      hw_profile = ::Deltacloud::HardwareProfile.new( name, &block )
+      hw_profile = ::Deltacloud::HardwareProfile.new(profile_id, &block )
       @hardware_profiles << hw_profile
       hw_profile.params
-      # FIXME: Features
-      #unless hw_params.empty?
-      #  feature :instances, :hardware_profiles do
-      #    decl.operation(:create) { add_params(hw_params) }
-      #  end
-      #end
     end
 
     def self.hardware_profiles
@@ -89,14 +83,14 @@ module Deltacloud
       @hardware_profiles
     end
 
-    def hardware_profiles(credentials, opts = nil)
+    def hardware_profiles(credentials, opts = {})
       results = self.class.hardware_profiles
       filter_hardware_profiles(results, opts)
     end
 
-    def hardware_profile(credentials, name)
-      name = name[:id] if name.kind_of? Hash
-      hardware_profiles(credentials, :id => name).first
+    def hardware_profile(credentials, profile_id)
+      profile_id = profile_id[:id] if profile_id.kind_of? Hash
+      hardware_profiles(credentials, :id => profile_id).first
     end
 
     def filter_hardware_profiles(profiles, opts)
@@ -104,25 +98,24 @@ module Deltacloud
         if v = opts[:architecture]
           profiles = profiles.select { |hwp| hwp.include?(:architecture, v) }
         end
-        # As a request param, we call 'name' 'id'
         if v = opts[:id]
-          profiles = profiles.select { |hwp| hwp.name == v }
+          profiles = profiles.select { |hwp| hwp.id == v }
         end
       end
       profiles
     end
 
-    def find_hardware_profile(credentials, name, image_id)
+    def find_hardware_profile(credentials, profile_id, image_id)
       hwp = nil
       if name
-        unless hwp = hardware_profiles(credentials, :id => name).first
+        unless hwp = hardware_profile(credentials, profile_id)
           raise BackendError.new(400, "bad-hardware-profile-name",
-            "Hardware profile '#{name}' does not exist", nil)
+                                 "Hardware profile '#{name}' does not exist", nil)
         end
       else
         unless image = image(credentials, :id=>image_id)
           raise BackendError.new(400, "bad-image-id",
-              "Image with ID '#{image_id}' does not exist", nil)
+                                 "Image with ID '#{image_id}' does not exist", nil)
         end
         hwp = hardware_profiles(credentials,
                                 :architecture=>image.architecture).first
