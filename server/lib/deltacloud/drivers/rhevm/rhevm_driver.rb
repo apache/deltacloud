@@ -55,6 +55,7 @@ class RhevmDriver < Deltacloud::BaseDriver
     pending.to( :stopped )        .automatically
     stopped.to( :running )        .on( :start )
     running.to( :stopping )       .on( :stop )
+    stopping.to( :stopped )       .on( :stop )
     stopped.to( :finish )         .on( :destroy )
   end
 
