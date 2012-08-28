@@ -6,10 +6,7 @@ require 'vcr'
 require_relative '../../test_helper.rb'
 
 def credentials
-  {
-    :user => 'AKIAJYOQYLLOIWN5LQ3A',
-    :password => 'Ra2ViYaYgocAJqPAQHxMVU/l2sGGU2pifmWT4q3H'
-  }
+  Deltacloud::Test::config.credentials('ec2')
 end
 
 VCR.configure do |c|
