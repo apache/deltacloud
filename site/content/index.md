@@ -1,4 +1,4 @@
---- 
+---
 site_name: Deltacloud API
 title: Deltacloud API
 ---
@@ -15,6 +15,7 @@ title: Deltacloud API
       <ul>
         <li>an opportunity to manage cloud instances the way you want</li>
         <li>a way to protect your apps from cloud API changes and incompatitibilities</li>
+        <li>three frontends: 'classic' Deltacloud, DMTF CIMI, and EC2</li>
         <li>support for all major <a class="providers" href="/drivers.html#drivers" title="Supported providers">cloud service providers</a></li>
         <li>makes it easy for cloud providers to <a href="/how-to-contribute.html">add their cloud</a></li>
       </ul>
@@ -42,7 +43,7 @@ title: Deltacloud API
     <blockquote>
       <p>
       <strong>Current release:</strong><br>
-      <a class="btn btn-info" href="/download.html"><b>deltacloud-core-1.0.0</b></a><br/>
+      <a class="btn btn-info" href="/download.html"><b>deltacloud-core-1.0.2</b></a><br/>
       <small>More about <a href="/install-deltacloud.html">installation</a>...</small>
       </p>
       <br/>
