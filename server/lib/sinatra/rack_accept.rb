@@ -29,7 +29,7 @@ module Rack
           begin
             assumed_layout = args[1] == :layout
             args[1] = "#{args[1]}.#{@media_type}".to_sym if args[1].is_a?(::Symbol)
-            render_without_format *args, &block
+            render_without_format(*args, &block)
           rescue Errno::ENOENT => e
             raise "ERROR: Missing template: #{args[1]}.#{args[0]}" unless assumed_layout
             raise e
@@ -39,65 +39,65 @@ module Rack
       end
     end
 
-      module Helpers
+    module Helpers
 
-        # This code was inherited from respond_to plugin
-        # http://github.com/cehoffman/sinatra-respond_to
-        #
-        # This method is used to overide the default content_type returned from
-        # rack-accept middleware.
-        def self.included(klass)
-          klass.class_eval do
-            alias :content_type_without_save :content_type
-            def content_type(*args)
-              content_type_without_save *args
-              request.env['rack-accept.formats'] = { args.first.to_sym => 1 }
-              response['Content-Type']
-            end
+      # This code was inherited from respond_to plugin
+      # http://github.com/cehoffman/sinatra-respond_to
+      #
+      # This method is used to overide the default content_type returned from
+      # rack-accept middleware.
+      def self.included(klass)
+        klass.class_eval do
+          alias :content_type_without_save :content_type
+          def content_type(*args)
+            content_type_without_save(*args)
+            request.env['rack-accept.formats'] = { args.first.to_sym => 1 }
+            response['Content-Type']
           end
         end
+      end
 
-        def accepting_formats
-          request.env['rack-accept.formats']
+      def accepting_formats
+        request.env['rack-accept.formats']
+      end
+
+      def static_file?(path)
+        public_dir = File.expand_path(settings.public)
+        path = File.expand_path(File.join(public_dir, unescape(path)))
+        path[0, public_dir.length] == public_dir && File.file?(path)
+      end
+
+      def respond_to(&block)
+        wants = {}
+        def wants.method_missing(type, *args, &handler)
+          self[type] = handler
         end
+        yield wants
 
-        def static_file?(path)
-          public_dir = File.expand_path(settings.public)
-          path = File.expand_path(File.join(public_dir, unescape(path)))
-          path[0, public_dir.length] == public_dir && File.file?(path)
+        if Deltacloud.default_frontend.name == :cimi
+          @media_type = (accepting_formats.has_key?(:xml) ? [:xml, accepting_formats[:xml]] : nil)
+        end if Deltacloud.respond_to? :default_frontend
+
+        @media_type ||= accepting_formats.to_a.sort { |a,b| a[1]<=>b[1] }.reverse.select do |format, priority|
+          wants.keys.include?(format) == true
+        end.first
+        if @media_type and @media_type.kind_of? Symbol
+          @media_type = [ @media_type ]
         end
-
-        def respond_to(&block)
-          wants = {}
-          def wants.method_missing(type, *args, &handler)
-            self[type] = handler
-          end
-          yield wants
-          if Deltacloud.default_frontend.name == :cimi
-            @media_type = (accepting_formats.has_key?(:xml) ? [:xml, accepting_formats[:xml]] : nil)
-          end
-          @media_type ||= accepting_formats.to_a.sort { |a,b| a[1]<=>b[1] }.reverse.select do |format, priority|
-            wants.keys.include?(format) == true
-          end.first
-          if @media_type and @media_type.kind_of? Symbol
-            @media_type = [ @media_type ]
-          end
-          if @media_type and @media_type[0]
-            @media_type = @media_type[0]
-            if  Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type]
-              headers 'Content-Type' => Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type][:return]
-            else
-              headers 'Content-Type' => 'application/xml'
-            end
-            wants[@media_type.to_sym].call if wants[@media_type.to_sym]
+        if @media_type and @media_type[0]
+          @media_type = @media_type[0]
+          if  Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type]
+            headers 'Content-Type' => Rack::MediaType::ACCEPTED_MEDIA_TYPES[@media_type][:return]
           else
-            headers 'Content-Type' => nil
-            status 406
+            headers 'Content-Type' => 'application/xml'
           end
+          wants[@media_type.to_sym].call if wants[@media_type.to_sym]
+        else
+          headers 'Content-Type' => nil
+          status 406
         end
-
+      end
     end
-
   end
 
   class MediaType < Sinatra::Base
@@ -119,7 +119,7 @@ module Rack
       accept, index = env['rack-accept.request'], {}
 
       # Skip everything when 'format' parameter is set in URL
-      if env['rack.request.query_hash']["format"]
+      if env['rack.request.query_hash'] and env['rack.request.query_hash']["format"]
          media_type = case env['rack.request.query_hash']["format"]
             when 'html' then :html
             when 'xml' then :xml
@@ -135,8 +135,8 @@ module Rack
         sorted_media_types << 'application/xml' if sorted_media_types.empty?
         # Choose the right format with the media type according to the priority
         ACCEPTED_MEDIA_TYPES.each do |format, definition|
-          definition[:match].each do |media_type|
-            break if index[format] = sorted_media_types.index(media_type)
+          definition[:match].each do |mt|
+            break if index[format] = sorted_media_types.index(mt)
           end
         end
         # Reject formats with no/nil priority
