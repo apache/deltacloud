@@ -10,6 +10,8 @@ group :development do
   gem "rack-test"
   gem "minitest"
   gem "simplecov"
+  gem 'turn'
+  gem 'minitest-reporters'
   gem "webmock"
   gem "vcr"
   gem "aws"

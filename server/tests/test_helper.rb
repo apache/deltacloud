@@ -20,6 +20,22 @@ if ENV['COVERAGE']
   end
 end
 
+# Make the test output more nice and readable
+#
+begin
+  require 'turn'
+  Turn.config do |c|
+    c.format  = :pretty
+    c.trace   = true
+    c.natural = true
+  end
+rescue; end
+
+begin
+  require "minitest/reporters"
+  MiniTest::Reporters.use!(MiniTest::Reporters::JUnitReporter.new) if !ENV['BUILD_NUMBER'].nil?
+rescue;end
+
 def record_retries(name='', opts = {})
   opts[:before] = Proc.new { |r, &block|
     VCR.use_cassette("#{__name__}-#{name.empty? ? '' : "#{name}-"}#{r}", &block)
