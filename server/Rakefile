@@ -164,6 +164,7 @@ namespace :test do
     end
     t.test_files = FileList[
       'tests/helpers/core_ext/*test.rb',        # Deltacloud extensions (core_ext) and other helpers
+      'tests/helpers/rack/*test.rb',            # Rack extensions Deltacloud use
       'tests/drivers/base/*test.rb',            # Deltacloud drivers API tests
       'tests/drivers/models/*test.rb',          # Deltacloud models tests
       'tests/deltacloud/*test.rb',              # Deltacloud internal API tests
