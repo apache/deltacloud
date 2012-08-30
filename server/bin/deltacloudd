@@ -240,7 +240,7 @@ else
     command = argv_opts.join(" ")
     Dir::chdir($top_srcdir)
     rerun = Rerun::Runner.new(command,
-      :dir => File::join($top_srcdir, "lib", "deltacloud"))
+      :dir => File::join($top_srcdir, "lib"))
     rerun.start
     rerun.join
   else
