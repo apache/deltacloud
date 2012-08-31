@@ -17,19 +17,15 @@ class CIMI::Model::Network < CIMI::Model::Base
 
   text :state
 
-  text :access
+  text :network_type
 
-  text :bandwidth_limit
+  text :mtu
 
-  text :traffic_priority
+  text :class_of_service
 
-  text :max_traffic_delay
+  href :network_ports
 
-  text :max_traffic_loss
-
-  text :max_traffic_jitter
-
-  href :routing_group
+  href :forwarding_group
 
   href :event_log
 

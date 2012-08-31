@@ -33,7 +33,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show, :with_capability => :network do
+      operation :show, :with_capability => :networks do
         description "Show a specific Network"
         control do
           network = Network.find(params[:id], self)

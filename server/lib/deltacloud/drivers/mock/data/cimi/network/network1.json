@@ -3,13 +3,11 @@
   "description": "the first network",
   "created": "Thu Jan 12 15:25:41 EET 2012",
   "state": "STARTED",
-  "access": "Public",
-  "bandwidthLimit": 2,
-  "trafficPriority": 1,
-  "maxTrafficDelay": 500000,
-  "maxTrafficLoss": 100,
-  "maxTrafficJitter": 100000,
-  "routingGroup": { "href": "http://cimi.example.org/routinggroups/group1" },
+  "networkType": "PUBLIC",
+  "classOfService": "GOLD",
+  "mtu": 1500,
+  "networkPorts": { "href": "http://cimi.example.org/networks/network1/networkports"},
+  "forwardingGroup": { "href": "http://cimi.example.org/forwarding_groups/group1" },
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/networks/network1" },
     { "rel": "delete", "href": "http://cimi.example.org/networks/network1" }
