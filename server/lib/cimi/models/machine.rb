@@ -18,33 +18,15 @@ class CIMI::Model::Machine < CIMI::Model::Base
   text :state
   text :cpu
 
-  struct :memory do
-    scalar :quantity
-    scalar :units
-  end
+  text :memory
 
   href :event_log
 
-  array :disks do
-    struct :capacity do
-      scalar :quantity
-      scalar :units
-    end
-    scalar :format
-    scalar :attachment_point
-  end
+  href :disks
 
-  array :volumes do
-    scalar :href
-    scalar :protocol
-    scalar :attachment_point
-  end
+  href :volumes
 
-  array :network_interfaces do
-    href :vsp
-    text :hostname, :mac_address, :state, :protocol, :allocation
-    text :address, :default_gateway, :dns, :max_transmission_unit
-  end
+  href :network_interfaces
 
   array :meters do
     scalar :href
@@ -133,7 +115,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   private
   def self.from_instance(instance, context)
-    cpu =  memory = disks = (instance.instance_profile.id == "opaque")? "n/a" : nil
+    cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     self.new(
       :name => instance.id,
       :description => instance.name,
@@ -142,10 +124,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
       :memory => memory || convert_instance_memory(instance.instance_profile, context),
-      :disks => disks || convert_instance_storage(instance.instance_profile, context),
-      :network_interfaces => convert_instance_addresses(instance),
+      :disks => {:href => context.machine_url(instance.id)+"/disks"},
+      :network_interfaces => {:href => context.machine_url(instance.id+"/network_interfaces")},
       :operations => convert_instance_actions(instance, context),
-      :volumes=>convert_storage_volumes(instance, context),
+      :volumes=>{:href=>context.machine_url(instance.id)+"/volumes"},
       :property => convert_instance_properties(instance, context)
     )
   end
@@ -178,23 +160,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   def self.convert_instance_memory(profile, context)
     machine_conf = CIMI::Model::MachineConfiguration.find(profile.name, context)
     memory_override = profile.overrides.find { |p, v| p == :memory }
-    {
-      :quantity => memory_override.nil? ? machine_conf.memory[:quantity] : memory_override[1],
-      :units => machine_conf.memory[:units]
-    }
-  end
-
-  def self.convert_instance_storage(profile, context)
-    machine_conf = CIMI::Model::MachineConfiguration.find(profile.name, context)
-    return nil unless machine_conf.disks
-    storage_override = profile.overrides.find { |p, v| p == :storage }
-    [
-      { :capacity => {
-          :quantity => storage_override.nil? ? machine_conf.disks.first[:capacity][:quantity] : storage_override[1],
-          :units => machine_conf.disks.first[:capacity][:units]
-        }
-      }
-    ]
+    memory_override.nil? ? machine_conf.memory : context.to_kibibyte(memory_override[1].to_i,"MB")
   end
 
   def self.convert_instance_addresses(instance)

@@ -20,10 +20,20 @@ module CIMIHelper
     status code
   end
 
-
   def href_id(href, entity)
     split_on = self.send(:"#{entity.to_s}_url")
     href.split("#{split_on}/").last
+  end
+
+  def to_kibibyte(value, unit)
+    case unit
+      when "GB"
+        value*1024*1024
+      when "MB"
+        value*1024
+      else
+        nil # should probably be exploding something here...
+    end
   end
 
 end

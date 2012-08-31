@@ -117,6 +117,28 @@ module CIMI::Collections
         end
       end
 
+      operation :disks, :with_capability => :hardware_profiles do
+        description "Retrieve the Machine's DiskCollection"
+        control do
+          disks = DiskCollection.default(params[:id], self)
+          respond_to do |format|
+            format.json {disks.to_json}
+            format.xml  {disks.to_xml}
+          end
+        end
+      end
+
+      operation :volumes, :with_capability => :storage_volumes do
+        description "Retrieve the Machine's MachineVolumeCollection"
+        control do
+          volumes = MachineVolumeCollection.default(params[:id], self)
+          respond_to do |format|
+            format.json {volumes.to_json}
+            format.xml  {volumes.to_xml}
+          end
+        end
+      end
+
       #NOTE: The routes for attach/detach used here are NOT as specified by CIMI
       #will likely move later. CIMI specifies PUT of the whole Machine description
       #with inclusion/ommission of the volumes you want [att|det]ached
