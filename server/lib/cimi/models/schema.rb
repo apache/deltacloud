@@ -81,6 +81,9 @@ class CIMI::Model::Schema
   end
 
   class Struct < Attribute
+
+    attr_accessor :schema
+
     def initialize(name, opts, &block)
       content = opts[:content]
       super(name, opts)
@@ -146,6 +149,9 @@ class CIMI::Model::Schema
   end
 
   class Array < Attribute
+
+    attr_accessor :struct
+
     # For an array :funThings, we collect all <funThing/> elements (XmlSimple
     # actually does the collecting)
     def initialize(name, opts = {}, &block)
@@ -208,6 +214,9 @@ class CIMI::Model::Schema
   #
   # The actual Schema class
   #
+
+  attr_accessor :attributes
+
   def initialize
     @attributes = []
   end
@@ -228,6 +237,15 @@ class CIMI::Model::Schema
     @attributes.freeze
     @attributes.each { |attr| attr.to_xml(model, xml) }
     xml
+  end
+
+  #For MachineCollection, copy over the schema of Machine to hold
+  #each member of the collection - avoid duplicating the schemas
+  def add_collection_member_array(model)
+    member_symbol = model.name.split("::").last.underscore.pluralize.to_sym
+    members = CIMI::Model::Schema::Array.new(member_symbol)
+    members.struct.schema.attributes = model.schema.attributes
+    self.attributes << members
   end
 
   def to_json(model, json = {})

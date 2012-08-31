@@ -17,17 +17,19 @@ class CIMI::Model::VolumeTemplateCollection < CIMI::Model::Base
 
   act_as_root_entity :volume_template
 
-  array :volume_templates do
-    scalar :href
-  end
+  text :count
+
+  self.schema.add_collection_member_array(CIMI::Model::VolumeTemplate)
 
   def self.default(context)
+    volume_templates = CIMI::Model::VolumeTemplate.all(context)
     self.new(
       :id => context.volume_template_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} VolumeTemplateCollection",
-      :volume_templates => CIMI::Model::VolumeTemplate.all_uri(context)
+      :count => volume_templates.size,
+      :volume_templates => volume_templates
     )
   end
 

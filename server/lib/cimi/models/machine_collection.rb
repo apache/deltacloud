@@ -17,17 +17,20 @@ class CIMI::Model::MachineCollection < CIMI::Model::Base
 
   act_as_root_entity :machine
 
-  array :machines do
-    scalar :href
-  end
+  text :count
+
+  #add machines array:
+  self.schema.add_collection_member_array(CIMI::Model::Machine)
 
   def self.default(context)
+    machines = CIMI::Model::Machine.all(context)
     self.new(
       :id => context.machines_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineCollection",
-      :machines => CIMI::Model::Machine.all_uri(context)
+      :count => machines.size,
+      :machines => machines
     )
   end
 

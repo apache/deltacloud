@@ -12,22 +12,23 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
 class CIMI::Model::NetworkCollection < CIMI::Model::Base
 
   act_as_root_entity :network
+  text :count
 
-  array :networks do
-    scalar :href
-  end
+#add networks Array:
+  self.schema.add_collection_member_array(CIMI::Model::Network)
 
   def self.default(context)
+    networks = CIMI::Model::Network.all(context)
     self.new(
       :id => context.networks_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} NetworkCollection",
-      :networks => CIMI::Model::Network.all(context).map { |c| { :href => c.id } }
+      :count => networks.size,
+      :networks => networks
     )
   end
 

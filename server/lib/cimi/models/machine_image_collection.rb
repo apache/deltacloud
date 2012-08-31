@@ -17,17 +17,19 @@ class CIMI::Model::MachineImageCollection < CIMI::Model::Base
 
   act_as_root_entity :machine_image
 
-  array :machine_images do
-    scalar :href
-  end
+  text :count
+
+  self.schema.add_collection_member_array(CIMI::Model::MachineImage)
 
   def self.default(context)
+    machine_images = CIMI::Model::MachineImage.all(context)
     self.new(
       :id => context.machine_images_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineImageCollection",
-      :machine_images => CIMI::Model::MachineImage.all_uri(context)
+      :count => machine_images.count,
+      :machine_images => machine_images
     )
   end
 

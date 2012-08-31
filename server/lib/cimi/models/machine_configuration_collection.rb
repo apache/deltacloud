@@ -17,17 +17,19 @@ class CIMI::Model::MachineConfigurationCollection < CIMI::Model::Base
 
   act_as_root_entity :machine_configuration
 
-  array :machine_configurations do
-    scalar :href
-  end
+  text :count
+
+  self.schema.add_collection_member_array(CIMI::Model::MachineConfiguration)
 
   def self.default(context)
+    machine_configurations = CIMI::Model::MachineConfiguration.all(context)
     self.new(
       :id => context.machine_configurations_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} MachineConfigurationCollection",
-      :machine_configurations => CIMI::Model::MachineConfiguration.all_uri(context)
+      :count => machine_configurations.count,
+      :machine_configurations => machine_configurations
     )
   end
 
