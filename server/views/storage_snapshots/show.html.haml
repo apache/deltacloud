@@ -19,4 +19,4 @@
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
         - if driver.respond_to?(:destroy_storage_snapshot)
-          =link_to_action "Delete", api_url_for("storage_snapshots/#{@storage_snapshot.id}"), :delete
+          =link_to_action "Delete", url_for("storage_snapshots/#{@storage_snapshot.id}"), :delete

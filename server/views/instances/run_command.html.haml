@@ -2,7 +2,7 @@
 =subheader "#{@instance.id}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => api_url_for('/instances/%s/run' % @instance.id), :method => :post }
+  %form{ :action => url_for('/instances/%s/run' % @instance.id), :method => :post }
     %p
       %label{ :for => :cmd } Desired command:
       %input{ :name => :cmd, :value => "", :type => :text}

@@ -13,7 +13,7 @@
       %h3 Operations:
     - @operations.keys.sort_by { |k| k.to_s }.each do |operation|
       %li{ :'data-role' => 'list-divider'}
-        %a{:href => api_url_for("docs/#{@collection.name.to_s}/#{operation}"), :'data-ajax' => 'false'} #{operation}
+        %a{:href => url_for("docs/#{@collection.name.to_s}/#{operation}"), :'data-ajax' => 'false'} #{operation}
       %li
         %br
         %p=@operations[operation].description

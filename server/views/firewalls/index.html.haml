@@ -1,5 +1,5 @@
 =header "Firewalls" do
-  %a{ :href => api_url_for('firewalls/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new firewall
+  %a{ :href => url_for('firewalls/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new firewall
 =subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}

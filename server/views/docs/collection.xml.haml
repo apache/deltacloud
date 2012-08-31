@@ -1,9 +1,9 @@
 %docs{:status => "unsupported"}
-  %collection{:url => api_url_for("docs/#{@collection.name}"), :name => "#{@collection.name}"}
+  %collection{:url => url_for("docs/#{@collection.name}"), :name => "#{@collection.name}"}
     %description #{@collection.description}
     %operations
       - @operations.keys.sort_by { |k| k.to_s }.each do |operation|
-        %operation{:url => api_url_for("#{@collection.name.to_s}"), :name => "#{operation}", :href => api_url_for("#{@operations[operation].path}"), :method => "#{@operations[operation].method}"}
+        %operation{:url => url_for("#{@collection.name.to_s}"), :name => "#{operation}", :href => url_for("#{@operations[operation].path}"), :method => "#{@operations[operation].method}"}
           %description #{@operations[operation].description}
           - @operations[operation].each_param do |param|
             %parameter{:name => "#{param.name}", :type => "#{param.type}"}

@@ -1,5 +1,5 @@
 =header "Load balancers" do
-  %a{ :href => api_url_for('load_balancers/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new load balancer
+  %a{ :href => url_for('load_balancers/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new load balancer
 =subheader "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}

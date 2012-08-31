@@ -2,7 +2,7 @@
 - new_name = new_name.gsub(/[A-Z]/, ' \0')
 %h1 #{new_name.capitalize}
 
-%form{ :action => api_url_for("/collection/" + @dmtfitem["uri"]) }
+%form{ :action => url_for("/collection/" + @dmtfitem["uri"]) }
   %input{ :name => :id, :type => :hidden, :value => @dmtfitem["uri"] }/
   %input{ :name => :xmlRootNode, :type => :hidden, :value => @xml_root_node }/
   %p
@@ -28,7 +28,7 @@
         - iter += 1
         %br
         %label
-          = operation["rel"].capitalize + ":&nbsp;" + api_url_for(operation["href"])
+          = operation["rel"].capitalize + ":&nbsp;" + url_for(operation["href"])
           %input{ :name => "operation_"+iter.to_s, :oper_type => operation["rel"], :type => :hidden, :value => operation["href"] }
   %br
 %p

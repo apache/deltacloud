@@ -5,7 +5,7 @@
   %ul{ :'data-role' => :listview, :'data-inset' => 'true'}
     - supported_collections do |c|
       %li
-        %a{ :href => api_url_for(c.collection_name),  :'data-icon' => "arrow-r"}=c.collection_name.to_s.gsub('_', ' ').titlecase
+        %a{ :href => url_for(c.collection_name),  :'data-icon' => "arrow-r"}=c.collection_name.to_s.gsub('_', ' ').titlecase
 
 
 - unless Deltacloud::Drivers.driver_config.nil?

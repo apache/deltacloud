@@ -18,7 +18,7 @@
         =link_to_action "Destroy", destroy_firewall_url(@firewall.id), :delete
 
 =header "Rules", :back => 'false' do
-  %a{ :href => api_url_for("firewalls/#{@firewall.id}/new_rule"), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => 'false'} Add new rule
+  %a{ :href => url_for("firewalls/#{@firewall.id}/new_rule"), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => 'false'} Add new rule
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   - @firewall.rules.each do |rule|

@@ -1,5 +1,5 @@
 %docs{:status => "unsupported"}
   - collections.keys.sort_by { |k| k.to_s }.each do |collection|
-    %collection{:url => api_url_for("docs/#{collection}")}
+    %collection{:url => url_for("docs/#{collection}")}
       %name #{collection}
       %description  #{collections[collection].description}

@@ -25,9 +25,9 @@
       %li
         %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
           - @image.hardware_profiles.each do |hwp|
-            %a{ :href => api_url_for("hardware_profiles/#{hwp.name}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
+            %a{ :href => url_for("hardware_profiles/#{hwp.name}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        %a{ :href => api_url_for("instances/new?image_id=#{@image.id}"), :'data-role' => "button", :'data-ajax' => 'false'} Launch
+        %a{ :href => url_for("instances/new?image_id=#{@image.id}"), :'data-role' => "button", :'data-ajax' => 'false'} Launch
         = link_to_action 'Destroy', destroy_image_url(@image.id), :delete
