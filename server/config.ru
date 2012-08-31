@@ -39,7 +39,7 @@ Deltacloud::configure(:cimi) do |server|
 end
 
 Deltacloud::configure(:ec2) do |server|
-  server.root_url '/'
+  server.root_url '/ec2'
   server.version '2012-04-01'
   server.klass 'Deltacloud::EC2::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])

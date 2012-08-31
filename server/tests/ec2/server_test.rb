@@ -17,7 +17,8 @@ describe Deltacloud::EC2::API do
   it 'must do a redirection when no Action parameter' do
     get root_url
     status.must_equal 301
-    headers['Location'].must_equal 'http://example.org/'
+    headers['Location'].wont_be_empty
+    headers['Location'].must_equal 'http://example.org' + root_url
   end
 
   it 'must set the Connection header to close' do

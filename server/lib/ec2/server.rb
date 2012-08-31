@@ -55,7 +55,7 @@ module Deltacloud::EC2
       headers 'Server' => 'Apache-Deltacloud-EC2/' + settings.version
     end
 
-    get '/' do
+    get Deltacloud[:ec2].root_url do
       headers 'Connection' => 'close'
       unless params['Action']
         redirect settings.root_url, 301

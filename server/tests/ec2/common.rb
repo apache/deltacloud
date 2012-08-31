@@ -9,14 +9,12 @@ require_relative '../test_helper.rb'
 #
 
 Deltacloud::configure(:ec2) do |server|
-  server.root_url '/'
+  server.root_url '/ec2'
   server.version '2012-04-01'
   server.klass 'Deltacloud::EC2::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
   server.default_driver :mock
 end
-
-Deltacloud.require_frontend! :ec2
 
 Deltacloud[:ec2].require!
 Deltacloud[:ec2].default_frontend!
