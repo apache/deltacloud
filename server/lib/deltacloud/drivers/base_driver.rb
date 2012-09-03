@@ -19,7 +19,6 @@ module Deltacloud
   require_relative '../core_ext.rb'
   require_relative './exceptions.rb'
   require_relative './features.rb'
-  require_relative '../models/hardware_profile.rb'
   require_relative '../models/state_machine.rb'
 
   class BaseDriver
