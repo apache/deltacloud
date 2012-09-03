@@ -90,6 +90,10 @@ class FgcpClient
     request('GetVSYSConfiguration', {'vsysId' => vsys_id})
   end
 
+  def list_vsys_descriptor
+    request('ListVSYSDescriptor')
+  end
+
   def list_vservers(vsys_id)
     request('ListVServer', {'vsysId' => vsys_id})
   end

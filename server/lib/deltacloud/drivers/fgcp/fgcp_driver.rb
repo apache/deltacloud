@@ -845,6 +845,7 @@ eofwpxml
         fw = client.get_efm_configuration(opts[:id], 'FW_POLICY', configuration_xml)
         fw_name = fw['efm'][0]['efmName'][0] # currently always 'Firewall'
         fw_owner_id = fw['efm'][0]['creator'][0]
+        rule50000_log = true
 
         fw['efm'][0]['firewall'][0]['directions'][0]['direction'].each do |direction|
 
@@ -874,14 +875,32 @@ eofwpxml
 
             rules << FirewallRule.new({
               :id             => policy['id'][0],
+              :rule_action    => policy['action'][0].downcase,
+              :log_rule       => policy['log'][0] == 'On',
               :allow_protocol => policy['protocol'][0],
               :port_from      => policy['srcPort'] ? policy['srcPort'][0] : nil, # not set for e.g. ICMP
               :port_to        => policy['dstPort'] ? policy['dstPort'][0] : nil, # not set for e.g. ICMP
               :direction      => ingress,
               :sources        => sources
-              }) unless policy['action'][0] == 'Deny' or policy['id'][0] == '50000' # exclude special case
+            }) unless policy['id'][0] == '50000' # special case added later
+
+            rule50000_log = (policy['log'][0] == 'On') if policy['id'][0] == '50000'
           end
         end
+
+        # add "all deny" rule 50000
+        source_any = {
+          :type    => 'address',
+          :family  => 'ipv4',
+          :address => '0.0.0.0',
+          :prefix  => '0'
+        }
+        rules << FirewallRule.new({
+          :id             => '50000',
+          :rule_action    => 'deny',
+          :log_rule       => rule50000_log,
+          :sources        => [source_any]
+        })
 
         vsys = client.get_vsys_attributes(client.extract_vsys_id(opts[:id]))['vsys'][0]
         firewalls << Firewall.new({
@@ -914,8 +933,14 @@ eofwpxml
   def create_firewall(credentials, opts={})
     safely do
       client = new_client(credentials)
-      # using 'description' as vsysDescriptor
-      vsys_id = client.create_vsys(opts['description'], opts['name'])['vsysId'][0]
+      begin
+        # using 'description' as vsysDescriptor
+        vsys_id = client.create_vsys(opts['description'], opts['name'])['vsysId'][0]
+      rescue Exception => ex
+        raise ex unless ex.message =~ /Template does not exist.*/
+        descriptors = client.list_vsys_descriptor['vsysdescriptors'][0]['vsysdescriptor'].collect { |desc| desc['vsysdescriptorId'][0] }
+        raise "Descriptor [#{opts['name']}] does not exist. Specify one of [#{descriptors.join(', ')}] as firewall description"
+      end
       fw_id = vsys_id + '-S-0001'
       Firewall.new({
         :id           => fw_id,
@@ -934,7 +959,13 @@ eofwpxml
     end
   end
 
-#TODO
+# FW rule creation not supported:
+# fgcp backend requires a mandatory rule id to create (insert) a new rule
+# into the existing accept/deny rules. Also, the first two digits of the
+# five digit rule identify what from and to network segment (e.g. Internet
+# to DMZ, or Secure2 to Secure1) the rule applies to.
+# The current Deltacloud firewall collection API does not cover such
+# functionality so it was deemed not suitable to implement.
 #  def create_firewall_rule(credentials, opts={})
 #    p opts
 #  end
@@ -1285,6 +1316,11 @@ eofwopxml
 
     # wrong vdiskId, etc.
     on /RESOURCE_NOT_FOUND/ do
+      status 404
+    end
+
+    # wrong FW description (vsys descriptor)
+    on / does not exist. Specify one of / do
       status 404
     end
 
