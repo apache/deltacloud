@@ -20,4 +20,6 @@ class FirewallRule < BaseModel
   attr_accessor :port_to
   attr_accessor :sources
   attr_accessor :direction #ingress egress
+  attr_accessor :rule_action #Accept/Deny - initially added for FGCP
+  attr_accessor :log_rule #log when rule triggered true/false - added for FGCP
 end

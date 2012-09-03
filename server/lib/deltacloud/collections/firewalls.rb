@@ -16,6 +16,8 @@
 module Deltacloud::Collections
   class Firewalls < Base
 
+    include Deltacloud::Features
+
     set :capability, lambda { |m| driver.respond_to? m }
 
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
