@@ -38,13 +38,14 @@ module Deltacloud::EC2
     enable :xhtml
     enable :dump_errors
     enable :show_errors
-    enable :method_override
     disable :show_exceptions
 
-    set :version, Deltacloud[:ec2].version
-    set :root_url, Deltacloud[:ec2].root_url
+    set :config, Deltacloud[:ec2]
+    set :root_url, config.root_url
+    set :root_path, config.root_url
+    set :version, config.version
     set :root, File.join(File.dirname(__FILE__), '..', '..')
-    set :views, File.join(File.dirname(__FILE__), 'views')
+    set :public_folder, root + '/public'
 
     error Deltacloud::EC2::QueryParser::InvalidAction do
       status 400
@@ -55,7 +56,7 @@ module Deltacloud::EC2
       headers 'Server' => 'Apache-Deltacloud-EC2/' + settings.version
     end
 
-    get Deltacloud[:ec2].root_url do
+    get '/' do
       headers 'Connection' => 'close'
       unless params['Action']
         redirect settings.root_url, 301
