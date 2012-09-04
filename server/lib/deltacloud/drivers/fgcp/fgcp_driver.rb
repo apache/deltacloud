@@ -1320,7 +1320,7 @@ eofwopxml
     end
 
     # wrong FW description (vsys descriptor)
-    on / does not exist. Specify one of / do
+    on /does not exist. Specify one of / do
       status 404
     end
 
