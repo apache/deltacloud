@@ -79,15 +79,9 @@ module Rack
       #         does not trip over them
 
       # (1) Rewrite current path by stripping all matrix params from it
-      if env['REQUEST_PATH'] == '/'
-        env['REQUEST_URI'] = env['REQUEST_PATH']
-        env['REQUEST_PATH'] = env['PATH_INFO']
-      end
-
-      # This is needed for OpenShift deployment / Passenger
-      if env['REQUEST_PATH']
-        env['REQUEST_PATH'] = env['REQUEST_PATH'].remove_matrix_params
-        env['PATH_INFO'] = env['PATH_INFO'].remove_matrix_params
+      ['REQUEST_PATH', 'REQUEST_URI', 'PATH_INFO'].select { |k|
+        env[k] }.each do |k|
+        env[k] = env[k].remove_matrix_params
       end
 
       # (2) Append the matrix params to the 'normal' request params
