@@ -94,6 +94,20 @@ class CIMI::Model::Base
   # attribute, we also define a getter and a setter to access/change the
   # value for that attribute
   class << self
+
+    def <<(model)
+      clone_base_schema unless base_schema_cloned?
+      member_name = model.name.split("::").last
+      if ::Struct.const_defined?("CIMI_#{member_name}")
+        puts "Removing struct"
+        ::Struct.send(:remove_const, "CIMI_#{member_name}")
+      end
+      member_symbol = member_name.underscore.pluralize.to_sym
+      members = CIMI::Model::Schema::Array.new(member_symbol)
+      members.struct.schema.attributes = model.schema.attributes
+      base_schema.attributes << members
+    end
+
     def base_schema
       @schema ||= CIMI::Model::Schema.new
     end

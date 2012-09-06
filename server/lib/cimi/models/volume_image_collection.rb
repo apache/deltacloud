@@ -17,9 +17,9 @@ class CIMI::Model::VolumeImageCollection < CIMI::Model::Base
 
   act_as_root_entity :volume_image
 
-  text :count 
+  text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::VolumeImage)
+  self << CIMI::Model::VolumeImage
 
   def self.default(context)
       volume_images = CIMI::Model::VolumeImage.all(context)

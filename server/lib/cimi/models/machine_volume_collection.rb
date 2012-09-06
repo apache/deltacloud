@@ -16,7 +16,7 @@ class CIMI::Model::MachineVolumeCollection < CIMI::Model::Base
 
   text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::MachineVolume)
+  self << CIMI::Model::MachineVolume
 
   array :operations do
     scalar :rel, :href

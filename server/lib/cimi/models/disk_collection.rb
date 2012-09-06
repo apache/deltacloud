@@ -16,7 +16,7 @@ class CIMI::Model::DiskCollection < CIMI::Model::Base
   text :count
 
   #add disks array:
-  self.schema.add_collection_member_array(CIMI::Model::Disk)
+  self << CIMI::Model::Disk
 
   array :operations do
     scalar :rel, :href
@@ -26,7 +26,6 @@ class CIMI::Model::DiskCollection < CIMI::Model::Base
     instance = context.driver.instance(context.credentials, :id=>instance_id)
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
     disks = CIMI::Model::Disk.find(instance, machine_conf, context, :all)
-    storage_override = instance.instance_profile.overrides.find { |p, v| p == :storage }
     self.new(
       :id => context.machine_url(instance_id)+"/disks",
       :description => "DiskCollection for Machine #{instance_id}",

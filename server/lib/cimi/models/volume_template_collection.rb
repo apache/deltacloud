@@ -19,7 +19,7 @@ class CIMI::Model::VolumeTemplateCollection < CIMI::Model::Base
 
   text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::VolumeTemplate)
+  self << CIMI::Model::VolumeTemplate
 
   def self.default(context)
     volume_templates = CIMI::Model::VolumeTemplate.all(context)

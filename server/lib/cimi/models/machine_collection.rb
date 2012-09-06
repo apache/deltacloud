@@ -20,7 +20,7 @@ class CIMI::Model::MachineCollection < CIMI::Model::Base
   text :count
 
   #add machines array:
-  self.schema.add_collection_member_array(CIMI::Model::Machine)
+  self << CIMI::Model::Machine
 
   def self.default(context)
     machines = CIMI::Model::Machine.all(context)

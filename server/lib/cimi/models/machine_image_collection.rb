@@ -19,7 +19,7 @@ class CIMI::Model::MachineImageCollection < CIMI::Model::Base
 
   text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::MachineImage)
+  self << CIMI::Model::MachineImage
 
   def self.default(context)
     machine_images = CIMI::Model::MachineImage.all(context)

@@ -138,9 +138,7 @@ class CIMI::Model::Schema
 
     private
     def struct
-      cname = "CIMI_#{json_name.upcase_first}"
-      ::Struct.send(:remove_const, cname) if ::Struct.const_defined?(cname)
-      @struct_class ||= ::Struct.new(cname, *@schema.attribute_names)
+      @struct_class ||= ::Struct.new(nil, *@schema.attribute_names)
     end
   end
 

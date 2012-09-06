@@ -17,8 +17,8 @@ class CIMI::Model::NetworkCollection < CIMI::Model::Base
   act_as_root_entity :network
   text :count
 
-#add networks Array:
-  self.schema.add_collection_member_array(CIMI::Model::Network)
+  #add networks Array:
+  self << CIMI::Model::Network
 
   def self.default(context)
     networks = CIMI::Model::Network.all(context)

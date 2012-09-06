@@ -15,11 +15,9 @@
 
 class CIMI::Model::MachineTemplateCollection < CIMI::Model::Base
 
-  act_as_root_entity :machine_template
-
   text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::MachineTemplate)
+  self << CIMI::Model::MachineTemplate
 
   def self.default(context)
     machine_templates = CIMI::Model::MachineTemplate.all(context)

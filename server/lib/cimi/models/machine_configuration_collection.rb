@@ -15,11 +15,9 @@
 
 class CIMI::Model::MachineConfigurationCollection < CIMI::Model::Base
 
-  act_as_root_entity :machine_configuration
-
   text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::MachineConfiguration)
+  self << CIMI::Model::MachineConfiguration
 
   def self.default(context)
     machine_configurations = CIMI::Model::MachineConfiguration.all(context)

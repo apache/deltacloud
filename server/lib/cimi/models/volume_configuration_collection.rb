@@ -19,7 +19,7 @@ class CIMI::Model::VolumeConfigurationCollection < CIMI::Model::Base
 
   text :count
 
-  self.schema.add_collection_member_array(CIMI::Model::VolumeConfiguration)
+  self << CIMI::Model::VolumeConfiguration
 
   def self.default(context)
     volume_configurations = CIMI::Model::VolumeConfiguration.all(context)
