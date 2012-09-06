@@ -36,15 +36,21 @@ module Rack
     #
     # All HTTP methods are supported, in case of POST they will be passed as a
     # regular <form> parameters.
-
     def call(env)
-      # Copy PATH_INFO to REQUEST_URI if Rack::Test
-      env['REQUEST_URI'] = env['PATH_INFO'] if env['rack.test']
-      env['REQUEST_PATH'] = env['PATH_INFO'] if env['rack.test']
+
+      # This ugly hack should fix the issue with Rack::Test where
+      # these two variables are empty and Rack::Test will always
+      # return 404.
+      #
+      if env['rack.test']
+        env['REQUEST_URI'] = env['PATH_INFO']
+        env['REQUEST_PATH'] = env['PATH_INFO']
+      end
 
       # Split URI to components and then extract ;var=value pairs
-      uri_components = env['REQUEST_URI'].split('/')
       matrix_params = {}
+      uri_components = (env['rack.test'] ? env['PATH_INFO'] : env['REQUEST_URI']).split('/')
+
       uri_components.each do |component|
         sub_components, value = component.split(/\;(\w+)\=/), nil
         next unless sub_components.first  # Skip subcomponent if it's empty (usually /)
@@ -80,8 +86,8 @@ module Rack
 
       # This is needed for OpenShift deployment / Passenger
       if env['REQUEST_PATH']
-        env['REQUEST_PATH'] = env['REQUEST_PATH'].gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
-        env['PATH_INFO'] = env['REQUEST_PATH']
+        env['REQUEST_PATH'] = env['REQUEST_PATH'].remove_matrix_params
+        env['PATH_INFO'] = env['PATH_INFO'].remove_matrix_params
       end
 
       # (2) Append the matrix params to the 'normal' request params

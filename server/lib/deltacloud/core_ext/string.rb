@@ -73,6 +73,10 @@ class String
     "#{self[0..(length/2)]}#{end_string}"
   end
 
+  def remove_matrix_params
+    self.gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
+  end
+
   unless "".respond_to? :each
     alias :each :each_line
   end
