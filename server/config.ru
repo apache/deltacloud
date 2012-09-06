@@ -26,24 +26,18 @@ Deltacloud::configure do |server|
   server.root_url '/api'
   server.version Deltacloud::API_VERSION
   server.klass 'Deltacloud::API'
-  server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
-  server.default_driver ENV['API_DRIVER']
 end
 
 Deltacloud::configure(:cimi) do |server|
   server.root_url '/cimi'
   server.version Deltacloud::API_VERSION
   server.klass 'CIMI::API'
-  server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
-  server.default_driver ENV['API_DRIVER']
 end
 
 Deltacloud::configure(:ec2) do |server|
   server.root_url '/ec2'
   server.version '2012-04-01'
   server.klass 'Deltacloud::EC2::API'
-  server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
-  server.default_driver ENV['API_DRIVER']
 end
 
 routes = {}
@@ -66,25 +60,19 @@ if ENV['API_FRONTEND'].split(',').size > 1
 else
   Deltacloud[ENV['API_FRONTEND'].to_sym].require!
   Deltacloud[ENV['API_FRONTEND'].to_sym].default_frontend!
-  class IndexEntrypoint < Sinatra::Base
-    get "/" do
-      redirect Deltacloud.default_frontend.root_url, 301
-    end
-  end
-  routes['/'] = IndexEntrypoint.new
-  routes[Deltacloud.default_frontend.root_url] = Deltacloud.default_frontend.klass
+  routes.merge!({
+    Deltacloud.default_frontend.root_url => Deltacloud.default_frontend.klass
+  })
 end
 
+# Mount static assets directory
+#
+routes.merge!({
+  "/stylesheets" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "stylesheets") ),
+  "/javascripts" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "javascripts") )
+})
 
 run Rack::Builder.new {
   use Rack::MatrixParams
-  use Rack::DriverSelect
-
-  routes.merge!({
-    "/stylesheets" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "stylesheets") ),
-    "/javascripts" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "javascripts") )
-  })
-
   run Rack::URLMap.new(routes)
-
-} if respond_to? :run
+}

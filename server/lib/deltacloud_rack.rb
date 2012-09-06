@@ -66,8 +66,8 @@ module Deltacloud
       @root_url = opts[:root_url]
       @version = opts[:version]
       @klass = opts[:klass]
-      @logger = opts[:logger] || Rack::DeltacloudLogger
-      @default_driver = opts[:default_driver] || :mock
+      @logger = opts[:logger] || Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
+      @default_driver = opts[:default_driver] || ENV['API_DRIVER'] || :mock
       instance_eval(&block)
     end
 
