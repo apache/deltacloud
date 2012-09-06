@@ -32,6 +32,16 @@ end
 
 include Rack::Test::Methods
 
+def run_frontend(frontend=:deltacloud)
+  Rack::Builder.new {
+    use Rack::MatrixParams
+    map Deltacloud[frontend].root_url do
+      use Rack::MatrixParams
+      run Deltacloud[frontend].klass
+    end
+  }.to_app
+end
+
 def status; last_response.status; end
 def headers; last_response.headers; end
 def response_body; last_response.body; end

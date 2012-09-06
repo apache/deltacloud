@@ -6,7 +6,7 @@ require_relative './common.rb'
 describe CIMI::Collections::MachineImages do
 
   before do
-    def app; CIMI::API; end
+    def app; run_frontend(:cimi) end
     authorize 'mockuser', 'mockpassword'
     @collection = CIMI::Collections.collection(:machine_images)
   end

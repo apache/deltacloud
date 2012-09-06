@@ -6,7 +6,7 @@ require_relative File.join('..', 'common.rb')
 describe Deltacloud::Collections::InstanceStates do
 
   before do
-    def app; Deltacloud::API; end
+    def app; run_frontend; end
     authorize 'mockuser', 'mockpassword'
     @collection = Deltacloud::Collections.collection(:instance_states)
   end

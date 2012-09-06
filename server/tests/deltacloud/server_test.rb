@@ -6,7 +6,7 @@ require_relative 'common.rb'
 describe Deltacloud::API do
 
   before do
-    def app; Deltacloud::API; end
+    def app; run_frontend; end
   end
 
   it 'has the config set property' do

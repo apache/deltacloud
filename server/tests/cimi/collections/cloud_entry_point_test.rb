@@ -7,7 +7,7 @@ require_relative './common.rb'
 describe CIMI::Collections::CloudEntryPoint do
 
   before do
-    def app; CIMI::API; end
+    def app; run_frontend(:cimi) end
     @collection = CIMI::Collections.collection(:cloudEntryPoint)
   end
 

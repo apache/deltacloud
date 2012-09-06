@@ -22,9 +22,4 @@ describe Deltacloud::Collections::Base do
     @base.version.must_equal  Deltacloud.config[:deltacloud].version
   end
 
-  it 'provides helper for routes' do
-    @base.must_respond_to :route_for
-    @base.route_for('/hardware_profiles').must_equal "#{Deltacloud.config[:deltacloud].root_url}/hardware_profiles"
-  end
-
 end

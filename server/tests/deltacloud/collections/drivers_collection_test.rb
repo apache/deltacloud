@@ -6,7 +6,7 @@ require_relative File.join('..', 'common.rb')
 describe Deltacloud::Collections::Drivers do
 
   before do
-    def app; Deltacloud::API; end
+    def app; run_frontend; end
     @collection = Deltacloud::Collections.collection(:drivers)
   end
 
