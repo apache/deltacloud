@@ -48,7 +48,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"storage_volumes/show" }
             format.html { haml :"storage_volumes/show" }
-            format.json { convert_to_json(:storage_volume, @storage_volume) }
+            format.json { xml_to_json("storage_volumes/show") }
           end
         end
       end
@@ -62,7 +62,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.html { redirect(storage_volume_url(params[:id]))}
             format.xml  { haml :"storage_volumes/show" }
-            format.json { convert_to_json(:storage_volume, @storage_volume) }
+            format.json { xml_to_json("storage_volumes/show")}
           end
         end
       end
@@ -70,14 +70,14 @@ module Deltacloud::Collections
       action :detach, :with_capability => :detach_storage_volume do
         control do
           volume = driver.storage_volume(credentials, :id => params[:id])
-          @storage_volume =  driver.detach_storage_volume(credentials, :id => volume.id, 
+          @storage_volume =  driver.detach_storage_volume(credentials, :id => volume.id,
                                                           :instance_id => volume.instance_id,
                                                           :device => volume.device)
           status 202
           respond_to do |format|
             format.html { redirect(storage_volume_url(params[:id]))}
             format.xml  { haml :"storage_volumes/show" }
-            format.json { convert_to_json(:storage_volume, @storage_volume) }
+            format.json {  xml_to_json("storage_volumes/show") }
           end
         end
       end

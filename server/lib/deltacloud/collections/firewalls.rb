@@ -66,7 +66,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"firewalls/show" }
             format.html { haml :"firewalls/show" }
-            format.json { convert_to_json(:firewall, @firewall) }
+            format.json { xml_to_json("firewalls/show") }
           end
         end
       end
@@ -109,7 +109,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"firewalls/show" }
             format.html { haml :"firewalls/show" }
-            format.json { convert_to_json(:firewall, @firewall) }
+            format.json { xml_to_json("firewalls/show") }
           end
         end
       end

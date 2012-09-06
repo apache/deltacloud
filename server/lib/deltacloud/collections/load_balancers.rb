@@ -53,7 +53,7 @@ module Deltacloud::Collections
           response['Location'] = load_balancer_url(@load_balancer.id)
           respond_to do |format|
             format.xml  { haml :"load_balancers/show" }
-            format.json { convert_to_json(:load_balancer, @load_balancer) }
+            format.json { xml_to_json("load_balancers/show")}
             format.html { redirect load_balancer_url(@load_balancer.id)}
           end
         end

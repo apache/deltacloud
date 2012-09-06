@@ -41,7 +41,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"addresses/show", :ugly => true }
             format.html { haml :"addresses/_address", :layout => false }
-            format.json { convert_to_json(:address, @address) }
+            format.json { xml_to_json("addresses/show") }
           end
         end
       end

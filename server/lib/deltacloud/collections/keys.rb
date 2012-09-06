@@ -42,7 +42,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"keys/show", :ugly => true }
             format.html { haml :"keys/show" }
-            format.json { convert_to_json(:key, @key)}
+            format.json { xml_to_json("keys/show")}
           end
         end
       end
