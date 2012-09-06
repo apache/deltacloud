@@ -31,7 +31,7 @@ module Deltacloud::Collections
       @keys = driver.keys(credentials) if driver.class.has_feature? :instances, :authentication_key
     end
 
-    get route_for('/instances/:id/run') do
+    get '/instances/:id/run' do
       respond_to do |format|
         @instance = driver.instances(credentials, :id => params[:id]).first
         format.html {haml :"instances/run_command" }

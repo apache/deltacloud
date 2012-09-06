@@ -24,7 +24,7 @@ module Deltacloud::Collections
 
     new_route_for :buckets
 
-    get route_for('/buckets/:bucket/%s' % NEW_BLOB_FORM_ID) do
+    get '/buckets/:bucket/%s' % NEW_BLOB_FORM_ID do
       @bucket_id = params[:bucket]
       respond_to do |format|
         format.html {haml :"blobs/new"}
@@ -32,7 +32,7 @@ module Deltacloud::Collections
     end
 
 
-    head route_for('/buckets/:bucket/:blob') do
+    head '/buckets/:bucket/:blob' do
       @blob_id = params[:blob]
       @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob], 'bucket' => params[:bucket]})
       if @blob_metadata
@@ -49,7 +49,7 @@ module Deltacloud::Collections
       end
     end
 
-    put route_for("/buckets/:bucket/:blob") do
+    put "/buckets/:bucket/:blob" do
       if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
         content_type = env["CONTENT_TYPE"]
         content_type ||=  ""

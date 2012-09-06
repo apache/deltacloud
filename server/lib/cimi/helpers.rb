@@ -70,8 +70,6 @@ module CIMI::Collections
     set :views, root + '/views/cimi'
     set :public_folder, root + '/public'
 
-    Sinatra::Rabbit.set :root_path, "#{config.root_url}/"
-
     error do
       report_error
     end

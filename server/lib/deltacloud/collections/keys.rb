@@ -21,7 +21,7 @@ module Deltacloud::Collections
     set :capability, lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
-    get route_for('/keys/new') do
+    get '/keys/new' do
       respond_to do |format|
         format.html { haml :"keys/new" }
       end

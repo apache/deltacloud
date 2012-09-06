@@ -49,8 +49,6 @@ module Deltacloud::Collections
     set :views, root + '/views'
     set :public_folder, root + '/public'
 
-    Sinatra::Rabbit.set :root_path, "#{config.root_url}/"
-
     error do
       report_error
     end
@@ -73,7 +71,7 @@ module Deltacloud::Collections
     end
 
     def self.new_route_for(route, &block)
-      get route_for('/' + route.to_s + '/new') do
+      get '/' + route.to_s + '/new' do
         instance_eval(&block) if block_given?
         respond_to do |format|
           format.html do
@@ -85,10 +83,6 @@ module Deltacloud::Collections
 
     def self.check_features(opts={})
       Sinatra::Rabbit.set :check_features, opts[:for]
-    end
-
-    def self.route_for(url)
-      "#{settings.root_url}#{url}"
     end
 
   end

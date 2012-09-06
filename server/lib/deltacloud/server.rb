@@ -36,7 +36,6 @@ module Deltacloud
     use Deltacloud[:deltacloud].logger unless RUBY_PLATFORM == 'java'
     use Rack::Date
     use Rack::ETag
-    use Rack::MatrixParams
     use Rack::DriverSelect
     use Rack::Accept
     use Rack::MediaType
@@ -46,7 +45,7 @@ module Deltacloud
 
     set :config, Deltacloud[:deltacloud]
 
-    get Deltacloud.config[:deltacloud].root_url + '/?' do
+    get '/' do
       if params[:force_auth]
         return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
       end
@@ -57,24 +56,22 @@ module Deltacloud
       end
     end
 
-    options Deltacloud.config[:deltacloud].root_url + '/?' do
+    options '/' do
       headers 'Allow' => supported_collections { |c| c.collection_name }.join(',')
     end
 
-    post Deltacloud.config[:deltacloud].root_url + '/?' do
+    post '/' do
       param_driver, param_provider = params["driver"], params["provider"]
       if param_driver
-        redirect "#{Deltacloud.config[:deltacloud].root_url}\;driver=#{param_driver}", 301
+        redirect "#{root_url};driver=#{param_driver}", 301
       elsif param_provider && param_provider != "default"
-#FIXME NEEDS A BETTER WAY OF GRABBING CURRENT DRIVER FROM MATRIX PARAMS...
-        current_matrix_driver = env['HTTP_REFERER'] ? env["HTTP_REFERER"].match(/\;(driver)=(\w*).*$/i) : nil
-        if current_matrix_driver
-          redirect "#{Deltacloud.config[:deltacloud].root_url}\;driver=#{$2}\;provider=#{param_provider}", 301
+        if request.referrer and request.referrer[/\;(driver)=(\w*).*$/i]
+          redirect "#{root_url};driver=#{$2}\;provider=#{param_provider}", 301
         else
-          redirect "#{Deltacloud.config[:deltacloud].root_url}\;provider=#{param_provider}", 301
+          redirect "#{root_url};provider=#{param_provider}", 301
         end
       else
-        redirect "#{Deltacloud.config[:deltacloud].root_url}", 301
+        redirect url('/'), 301
       end
     end
 

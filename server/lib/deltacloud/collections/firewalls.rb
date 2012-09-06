@@ -22,7 +22,7 @@ module Deltacloud::Collections
 
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
-    get route_for('/firewalls/:id/new_rule') do
+    get '/firewalls/:id/new_rule' do
       @firewall_name = params[:id]
       respond_to do |format|
         format.html {haml :"firewalls/new_rule" }

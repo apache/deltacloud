@@ -18,7 +18,7 @@ module Deltacloud::Collections
 
     set :capability, lambda { |m| driver.respond_to? m }
 
-    get route_for('/addresses/:id/associate') do
+    get '/addresses/:id/associate' do
       @address = driver.address(credentials, params )
       @instances = driver.instances(credentials)
       respond_to do |format|
