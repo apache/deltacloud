@@ -11,14 +11,14 @@ describe Deltacloud::EC2::API do
 
   it 'has the config set property' do
     Deltacloud::config[:ec2].must_be_kind_of Deltacloud::Server
-    root_url.must_equal Deltacloud[:ec2].root_url
+    Deltacloud[:ec2].root_url.must_equal '/ec2'
   end
 
   it 'must do a redirection when no Action parameter' do
     get root_url
     status.must_equal 301
     headers['Location'].wont_be_empty
-    headers['Location'].must_equal 'http://example.org' + root_url
+    headers['Location'].must_equal 'http://example.org/ec2'
   end
 
   it 'must set the Connection header to close' do

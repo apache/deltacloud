@@ -19,4 +19,7 @@ end
 Deltacloud[:ec2].require!
 Deltacloud[:ec2].default_frontend!
 
-def root_url; Deltacloud.config[:ec2].root_url; end
+# The root_url here is '/' because the application is not
+# mounted and so by default Sinatra mounts it on '/'
+
+def root_url; '/'; end

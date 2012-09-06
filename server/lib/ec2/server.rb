@@ -46,6 +46,7 @@ module Deltacloud::EC2
     set :version, config.version
     set :root, File.join(File.dirname(__FILE__), '..', '..')
     set :public_folder, root + '/public'
+    set :views, File.join(File.dirname(__FILE__), 'views')
 
     error Deltacloud::EC2::QueryParser::InvalidAction do
       status 400
