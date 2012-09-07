@@ -1,3 +1,31 @@
+1.0.3 - 2012-09-07
+  * change the format of ~/.deltacloud/config: keys are now strings, not
+    symbols - requires manual fixup
+  * server/tests/
+    - simplify how individual tests are run
+    - read credentials from a config file, rather than hardcoding them
+      in the tests (GoGrid and EC2 tests)
+    - simplify how VCR data is recorded, speed up playback
+    - more coverage (e.g., Rack extensions, OpenStack driver)
+  * server: remove extraneous quotes around ETag header value
+  * Drivers
+    + EC2
+      - list subnets in a VPC as realms
+      - allow launching of instances into a subnet in a VPC by specifying
+        the corresponding subnet realm
+    + OpenStack
+      - pass server ID as string (JIRA 306)
+      - require openstack gem >= 1.0.4
+    + RHEV-M
+      - allow force stop of instance (JIRA 308)
+  * CIMI frontend:
+    - update handling of collections
+    - add disks and machine_volumes subcollections to Machine
+  * EC2 frontend: mount at ec2/ instead of /, i.e. you need to go to
+    http://localhost:3001/ec2 to use the frontend
+  * tests/cimi/: scaffolding for running the same test using JSON and XML
+    output
+
 1.0.2 - 2012-08-20
   * code works with MRI Ruby 1.9.x, MRI 1.8.7, and jRuby
   * deltacloudd: accept -L/--log option to send log to a file; -V option to

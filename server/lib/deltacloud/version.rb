@@ -15,5 +15,5 @@
 # under the License.
 
 module Deltacloud
-  API_VERSION = '1.0.2' unless defined?(API_VERSION)
+  API_VERSION = '1.0.3' unless defined?(API_VERSION)
 end
