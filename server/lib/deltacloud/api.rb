@@ -22,6 +22,7 @@ require_relative 'core_ext'
 require_relative 'models'
 require_relative 'drivers'
 require_relative 'helpers/driver_helper'
+require_relative 'version'
 
 module TestPoller
   # This method will pool the resource until condition is true
@@ -66,8 +67,6 @@ class Image; include TestPoller; end
 class StorageSnapshot; include TestPoller; end
 
 module Deltacloud
-
-  API_VERSION = '1.0.2'
 
   def self.drivers
     Drivers.driver_config

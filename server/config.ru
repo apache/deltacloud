@@ -24,7 +24,7 @@ load File.join(File.dirname(__FILE__), 'lib', 'deltacloud_rack.rb')
 
 Deltacloud::configure do |server|
   server.root_url '/api'
-  server.version '1.0.2'
+  server.version Deltacloud::API_VERSION
   server.klass 'Deltacloud::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
   server.default_driver ENV['API_DRIVER']
@@ -32,7 +32,7 @@ end
 
 Deltacloud::configure(:cimi) do |server|
   server.root_url '/cimi'
-  server.version '1.0.2'
+  server.version Deltacloud::API_VERSION
   server.klass 'CIMI::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
   server.default_driver ENV['API_DRIVER']

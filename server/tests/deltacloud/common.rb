@@ -5,7 +5,7 @@ require_relative File.join('..', '..', 'lib', 'deltacloud_rack.rb')
 
 Deltacloud::configure do |server|
   server.root_url '/api'
-  server.version '1.0.2'
+  server.version Deltacloud::API_VERSION
   server.klass 'Deltacloud::API'
   server.logger Rack::DeltacloudLogger.setup(ENV['API_LOG'], ENV['API_VERBOSE'])
   server.default_driver :mock

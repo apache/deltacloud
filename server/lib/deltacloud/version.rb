@@ -1,6 +1,4 @@
 #
-# Copyright (C) 2009  Red Hat, Inc.
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -16,21 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-Kernel::load File::join(File::dirname(__FILE__), '../server/lib/deltacloud/version.rb')
-
-Gem::Specification.new do |s|
-  s.author = 'The Apache Software Foundation'
-  s.homepage = "http://www.deltacloud.org"
-  s.email = 'dev@deltacloud.apache.org'
-  s.name = 'deltacloud-client'
-  s.description = %q{Deltacloud REST Client for API}
-  s.version = Deltacloud::API_VERSION
-  s.summary = %q{Deltacloud REST Client}
-  s.files = Dir['Rakefile', 'lib/**/*.rb']
-  s.test_files= Dir.glob("specs/**/**")
-  s.extra_rdoc_files = Dir["LICENSE", "NOTICE", "DISCLAIMER"]
-
-  s.add_dependency('rest-client', '>= 1.6.1')
-  s.add_dependency('nokogiri', '>= 1.4.3')
-  s.add_development_dependency('rspec', '>= 2.0.0')
+module Deltacloud
+  API_VERSION = '1.0.2' unless defined?(API_VERSION)
 end

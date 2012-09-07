@@ -14,6 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+Kernel::load File::join(File::dirname(__FILE__), './lib/deltacloud/version.rb')
+
 Gem::Specification.new do |s|
   s.author = 'The Apache Software Foundation'
   s.homepage = "http://www.deltacloud.org"
@@ -27,7 +29,7 @@ Gem::Specification.new do |s|
     which implements the REST interface.
   EOF
 
-  s.version = '1.0.2'
+  s.version = Deltacloud::API_VERSION
   s.date = Time.now
   s.summary = %q{Deltacloud REST API}
   s.files = [

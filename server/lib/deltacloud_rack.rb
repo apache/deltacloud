@@ -17,6 +17,7 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative './deltacloud/core_ext'
 require_relative './sinatra/rack_logger'
+require_relative './deltacloud/version'
 
 module Deltacloud
 
