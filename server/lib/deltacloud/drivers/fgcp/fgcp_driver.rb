@@ -404,7 +404,12 @@ class FgcpDriver < Deltacloud::BaseDriver
     safely do
       client = new_client(credentials)
       if opts and opts[:id]
-        vdisk = client.get_vdisk_attributes(opts[:id])['vdisk'][0]
+        begin
+          vdisk = client.get_vdisk_attributes(opts[:id])['vdisk'][0]
+        rescue Exception => ex
+          return [] if ex.message =~ /VALIDATION_ERROR.*t exist./
+          raise
+        end
         state = client.get_vdisk_status(opts[:id])['vdiskStatus'][0]
         actions = []
         if state == 'NORMAL'
@@ -528,18 +533,24 @@ class FgcpDriver < Deltacloud::BaseDriver
       if opts and opts[:id]
         vdisk_id, backup_id = split_snapshot_id(opts[:id])
 
-        if backups = client.list_vdisk_backup(vdisk_id)['backups']
+        begin
+          if backups = client.list_vdisk_backup(vdisk_id)['backups']
 
-          backups[0]['backup'].each do |backup|
+            backups[0]['backup'].each do |backup|
 
-            snapshots << StorageSnapshot.new(
-              :id => opts[:id],
-              #:state => ?,
-              :storage_volume_id => vdisk_id,
-              :created => backup['backupTime'][0]
-            ) if backup_id = backup['backupId'][0]
+              snapshots << StorageSnapshot.new(
+                :id => opts[:id],
+                #:state => ?,
+                :storage_volume_id => vdisk_id,
+                :created => backup['backupTime'][0]
+              ) if backup_id = backup['backupId'][0]
+            end
           end
+        rescue Exception => ex
+          return [] if ex.message =~ /RESOURCE_NOT_FOUND/
+          raise
         end
+
       elsif xml = client.list_vsys['vsyss']
 
         return [] if xml.nil?
@@ -834,7 +845,12 @@ class FgcpDriver < Deltacloud::BaseDriver
 </Request>
 eofwpxml
 
-        fw = client.get_efm_configuration(opts[:id], 'FW_POLICY', configuration_xml)
+        begin
+          fw = client.get_efm_configuration(opts[:id], 'FW_POLICY', configuration_xml)
+        rescue Exception => ex
+          return [] if ex.message =~ /RESOURCE_NOT_FOUND/
+          raise
+        end
         fw_name = fw['efm'][0]['efmName'][0] # currently always 'Firewall'
         fw_owner_id = fw['efm'][0]['creator'][0]
         rule50000_log = true
@@ -1214,7 +1230,12 @@ eofwopxml
   def metric(credentials, opts={})
     safely do
       client = new_client(credentials)
-      perf = client.get_performance_information(opts[:id], 'hour')
+      begin
+        perf = client.get_performance_information(opts[:id], 'hour')
+      rescue Exception => ex
+        return nil if ex.message =~ /RESOURCE_NOT_FOUND/
+        raise
+      end
 
       metric = Metric.new(
         :id         => opts[:id],
