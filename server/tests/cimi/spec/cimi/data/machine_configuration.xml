@@ -5,9 +5,9 @@
   <created>2011-11-14</created>
   <property name="architecture">i386</property>
   <cpu>2</cpu>
-  <memory quantity="1" units="gigabyte"/>
+  <memory>1048576</memory>
   <disk>
-    <capacity quantity="1" units="terabyte"/>
+    <capacity>1073741824</capacity>
   </disk>
   <operation rel="edit" href="http://cimi.example.org/machine_configurations/1/edit"/>
   <operation rel="delete" href="http://cimi.example.org/machine_configurations/1/delete"/>

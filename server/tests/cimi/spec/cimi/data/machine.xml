@@ -5,25 +5,11 @@
   <created>2011-11-21</created>
   <property name="owner_id">mockuser</property>
   <cpu>4</cpu>
-  <memory quantity="1" units="gibibyte"/>
+  <memory>12582912</memory>
+  <disks href="http://cimi.example.org/cimi/machines/1/disks" />
+  <volumes href="http://cimi.example.org/cimi/machines/1/volumes" />
+  <networkInterfaces href="http://cimi.example.org/cimi/machines/1/network_interfaces" />
   <state>STARTED</state>
-  <disk>
-    <capacity quantity="1" units="terabyte"/>
-  </disk>
-  <volume href="http://cimi.example.org/volumes/1"
-          attachmentPoint="/dev/sda" protocol="nfs" />
-  <networkInterface>
-    <vsp href="http://cimi.example.org/vsps/2"/>
-    <hostname>machine1.cimi.example.org</hostname>
-    <macAddress>00:11:22:33:44:56</macAddress>
-    <state>UP</state>
-    <protocol>TCP</protocol>
-    <allocation>static</allocation>
-    <address>192.168.0.18</address>
-    <defaultGateway>192.168.0.1</defaultGateway>
-    <dns>192.168.0.1</dns>
-    <maxTransmissionUnit>1500</maxTransmissionUnit>
-  </networkInterface>
   <meter href="http://cimi.example.org/meters/1"/>
   <eventLog href="http://cimi.example.org/event_logs/1"/>
   <operation rel="edit" href="http://cimi.example.org/machines/1/edit"/>

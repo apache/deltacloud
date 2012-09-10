@@ -4,9 +4,9 @@
   "description": "Example MachineConfiguration One",
   "created": "2011-11-14",
   "cpu": "2",
-  "memory" : { "quantity": "1", "units": "gigabyte" },
-  "disks" : [
-    { "capacity": { "quantity": "1", "units": "terabyte" } }
+  "memory":1048576,
+  "disks": [
+    {"capacity":1073741824}
   ],
   "properties": { "architecture": "i386" },
   "operations": [

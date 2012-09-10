@@ -5,27 +5,10 @@
   "properties": { "owner_id": "mockuser" },
   "state": "STARTED",
   "cpu": "4",
-  "memory": { "quantity": "1", "units": "gibibyte" },
-  "disks" : [
-    { "capacity": { "quantity": "1", "units": "terabyte" } }
-  ],
-  "volumes": [{
-    "href": "http://cimi.example.org/volumes/1",
-    "attachmentPoint": "/dev/sda",
-    "protocol": "nfs"
-  }],
-  "networkInterfaces": [{
-    "vsp": { "href": "http://cimi.example.org/vsps/2" },
-    "hostname": "machine1.cimi.example.org",
-    "macAddress": "00:11:22:33:44:56",
-    "state": "UP",
-    "protocol": "TCP",
-    "allocation": "static",
-    "address": "192.168.0.18",
-    "defaultGateway": "192.168.0.1",
-    "dns": "192.168.0.1",
-    "maxTransmissionUnit": "1500"
-  }],
+  "memory":12582912,
+  "disks":{"href":"http://cimi.example.org/cimi/machines/1/disks"},
+  "volumes":{"href":"http://cimi.example.org/cimi/machines/1/volumes"},
+  "networkInterfaces":{"href":"http://cimi.example.org/cimi/machines/1/network_interfaces"},
   "meters": [
     { "href": "http://cimi.example.org/meters/1" }
   ],
