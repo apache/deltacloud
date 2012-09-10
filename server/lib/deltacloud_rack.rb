@@ -42,6 +42,10 @@ module Deltacloud
     Deltacloud[frontend].klass eval('::'+Deltacloud[frontend].klass)
   end
 
+  def self.enabled_frontends
+    @config.keys.select { |k| frontend_required?(k) }.map { |f| Deltacloud[f] }
+  end
+
   def self.frontend_required?(frontend)
     true unless Deltacloud[frontend].klass.kind_of? String
   end
@@ -50,6 +54,26 @@ module Deltacloud
     @default_frontend = frontend unless frontend.nil?
     raise "Could not determine default API frontend" if @default_frontend.nil? and !config[:deltacloud]
     @default_frontend || config[:deltacloud]
+  end
+
+  require 'sinatra/base'
+  require_relative './deltacloud/helpers/deltacloud_helper'
+  require_relative './sinatra/rack_accept'
+
+  class IndexApp < Sinatra::Base
+
+    helpers Deltacloud::Helpers::Application
+    register Rack::RespondTo
+
+    set :views, File.join(File.dirname(__FILE__), '..', 'views')
+
+    get '/' do
+      respond_to do |format|
+        format.xml { haml :'index', :layout => false }
+        format.html { haml :'index', :layout => false }
+        format.json { xml_to_json "index" }
+      end
+    end
   end
 
   class Server

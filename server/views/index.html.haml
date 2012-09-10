@@ -1,0 +1,9 @@
+%html
+  %head
+  %body
+    %h1 Deltacloud API
+    %h2 Enabled Frontends:
+    %ul
+      - Deltacloud.enabled_frontends.each do |f|
+        %li
+          %a{ :href => f.root_url}=f.name

@@ -42,34 +42,35 @@ end
 
 routes = {}
 
+def frontends
+  ENV['API_FRONTEND'].split(',').size > 1 ?
+    ENV['API_FRONTEND'].split(',') : [ENV['API_FRONTEND']]
+end
+
 # If user wants to launch multiple frontends withing a single instance of DC API
 # then require them and prepare the routes for Rack
 #
 # NOTE: The '/' will not be generated, since multiple frontends could have
 #       different root_url's
 #
-if ENV['API_FRONTEND'].split(',').size > 1
-
-  ENV['API_FRONTEND'].split(',').each do |frontend|
-    Deltacloud[frontend.to_sym].require!
-    routes.merge!({
-      Deltacloud[frontend].root_url => Deltacloud[frontend].klass
-    })
-  end
-
-else
-  Deltacloud[ENV['API_FRONTEND'].to_sym].require!
-  Deltacloud[ENV['API_FRONTEND'].to_sym].default_frontend!
+frontends.each do |frontend|
+  Deltacloud[frontend.to_sym].require!
   routes.merge!({
-    Deltacloud.default_frontend.root_url => Deltacloud.default_frontend.klass
+    Deltacloud[frontend].root_url => Deltacloud[frontend].klass
   })
 end
 
-# Mount static assets directory
+def static_dir_for(name)
+  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", name))
+end
+
+# Mount static assets directories and index entrypoint
 #
 routes.merge!({
-  "/stylesheets" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "stylesheets") ),
-  "/javascripts" =>  Rack::Directory.new( File.join(File.dirname(__FILE__), "public", "javascripts") )
+  '/' => Deltacloud::IndexApp,
+  '/stylesheets' =>  static_dir_for('stylesheets'),
+  '/javascripts' =>  static_dir_for('javascripts'),
+  '/images' =>  static_dir_for('images')
 })
 
 run Rack::Builder.new {
