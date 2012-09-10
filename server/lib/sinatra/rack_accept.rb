@@ -23,6 +23,9 @@ module Rack
     # We need to overide the default render method to supply correct path to the
     # template, since Sinatra is by default looking in the current __FILE__ path
     def self.registered(app)
+      app.use Rack::Accept
+      app.use Rack::MediaType
+      app.helpers Rack::RespondTo::Helpers
       app.class_eval do
         alias :render_without_format :render
         def render(*args, &block)
@@ -48,12 +51,14 @@ module Rack
       # rack-accept middleware.
       def self.included(klass)
         klass.class_eval do
-          alias :content_type_without_save :content_type
+          alias_method :original_content_type, :content_type
+
           def content_type(*args)
-            content_type_without_save(*args)
+            original_content_type(*args)
             request.env['rack-accept.formats'] = { args.first.to_sym => 1 }
             response['Content-Type']
           end
+
         end
       end
 

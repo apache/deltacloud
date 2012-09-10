@@ -37,8 +37,6 @@ module Deltacloud
     use Rack::Date
     use Rack::ETag
     use Rack::DriverSelect
-    use Rack::Accept
-    use Rack::MediaType
 
     include Deltacloud::Helpers
     include Deltacloud::Collections

@@ -30,7 +30,6 @@ module Deltacloud::Collections
     helpers Deltacloud::Helpers::Drivers
     helpers Sinatra::AuthHelper
     helpers Sinatra::UrlForHelper
-    helpers Rack::RespondTo::Helpers
     helpers Deltacloud::Helpers::Application
 
     register Rack::RespondTo

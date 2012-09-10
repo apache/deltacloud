@@ -36,8 +36,6 @@ module CIMI
     use Rack::ETag
     use Rack::MatrixParams
     use Rack::DriverSelect
-    use Rack::Accept
-    use Rack::MediaType
 
     helpers CIMIHelper
 
