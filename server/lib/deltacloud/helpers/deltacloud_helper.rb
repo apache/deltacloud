@@ -286,6 +286,29 @@ module Deltacloud::Helpers
       not features_arr.empty?
     end
 
+    module SinatraHelper
+
+      def new_route_for(route, &block)
+        get '/%s/new' % route.to_s do
+          instance_eval(&block) if block_given?
+          respond_to do |format|
+            format.html do
+              haml :"#{route}/new"
+            end
+          end
+        end
+      end
+
+      def check_features(opts={})
+        Sinatra::Rabbit.set :check_features, opts[:for]
+      end
+
+    end
+
+    def Application.included(klass)
+      klass.extend SinatraHelper
+    end
+
     private
     def hardware_property_unit(prop)
       u = ::Deltacloud::HardwareProfile::unit(prop)

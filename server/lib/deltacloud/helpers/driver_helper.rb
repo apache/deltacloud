@@ -17,6 +17,13 @@ module Deltacloud::Helpers
 
   module Drivers
 
+    # This will make the Driver helpers, like 'driver'
+    # accessible on class level
+    #
+    def Drivers.included(klass)
+      klass.extend Deltacloud::Helpers::Drivers
+    end
+
     def driver_symbol
       driver_name.to_sym
     end

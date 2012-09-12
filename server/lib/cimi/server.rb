@@ -37,7 +37,7 @@ module CIMI
     use Rack::MatrixParams
     use Rack::DriverSelect
 
-    helpers CIMIHelper
+    helpers CIMI::Helper
 
     include Deltacloud::Helpers
     include CIMI::Collections

@@ -16,7 +16,7 @@
 module CIMI::Collections
   class MachineConfigurations < Base
 
-    check_capability :for => lambda { |m| driver.respond_to? m }
+    set :capability => lambda { |m| driver.respond_to? m }
 
     collection :machine_configurations do
       description 'List all machine configurations'

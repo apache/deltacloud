@@ -25,7 +25,7 @@ module Deltacloud::Collections
             format.xml { haml :"drivers/index" }
             format.json { @drivers.to_json }
             format.html { haml :"drivers/index" }
-          end 
+          end
         end
       end
 

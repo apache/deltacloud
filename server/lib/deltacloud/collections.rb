@@ -14,6 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require_relative './collections/base'
+
 module Deltacloud
 
   def self.collection_names
@@ -35,8 +37,9 @@ module Deltacloud
     end
 
     Dir[File.join(File::dirname(__FILE__), "collections", "*.rb")].each do |collection|
-      require collection
       base_collection_name = File.basename(collection).gsub('.rb', '')
+      next if base_collection_name == 'base'
+      require collection
       deltacloud_module_class = Deltacloud::Collections.const_get(base_collection_name.camelize)
       deltacloud_modules << deltacloud_module_class
       deltacloud_module_class.collections.each do |c|

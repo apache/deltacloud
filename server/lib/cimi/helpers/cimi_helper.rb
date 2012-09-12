@@ -13,29 +13,31 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMIHelper
+module CIMI
+  module Helper
 
-  def no_content_with_status(code=200)
-    body ''
-    status code
-  end
+    def no_content_with_status(code=200)
+      body ''
+      status code
+    end
 
-  def href_id(href, entity)
-    split_on = self.send(:"#{entity.to_s}_url")
-    href.split("#{split_on}/").last
-  end
+    def href_id(href, entity)
+      split_on = self.send(:"#{entity.to_s}_url")
+      href.split("#{split_on}/").last
+    end
 
-  def to_kibibyte(value, unit)
-    case unit
+    def to_kibibyte(value, unit)
+      case unit
       when "GB"
         value*1024*1024
       when "MB"
         value*1024
       else
         nil # should probably be exploding something here...
+      end
     end
-  end
 
+  end
 end
 
 class Array
@@ -61,4 +63,3 @@ class Array
   end
 
 end
-
