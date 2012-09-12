@@ -35,4 +35,12 @@ class Hash
     self
   end
 
+  def to_query_params
+    return '' if empty?
+    '?' + self.map do |k,v|
+      next if k.nil?
+      "#{k}=#{URI.escape(v.to_s.strip, /[^#{URI::PATTERN::UNRESERVED}]/)}"
+    end.compact.join('&')
+  end
+
 end

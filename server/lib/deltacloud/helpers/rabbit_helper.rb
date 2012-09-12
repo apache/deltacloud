@@ -32,3 +32,50 @@ Sinatra::Rabbit::Collection.class_eval do
 
 end
 
+module Sinatra::Rabbit
+
+  module URLHelper
+    def url_for(path); url(path); end
+    def root_url; settings.root_url; end
+    def base_uri; url_for('/').gsub(/\/$/,''); end
+  end
+
+  def self.URLFor(collections)
+    collections.each do |c|
+      c.operations.each do |operation|
+        URLHelper.instance_eval(&generate_url_helper_for(c, operation)[0])
+      end
+    end
+    URLHelper
+  end
+
+  def self.generate_url_helper_for(collection, operation)
+    operation_name = operation.operation_name.to_s
+    collection_name = collection.collection_name.to_s
+
+    # Construct OPERATION_COLLECTION_URL helper
+    # The :index and :create operation does not get any prefix
+    #
+    helper_method_name = case operation_name
+                         when 'index' then collection_name
+                         when 'show' then collection_name.singularize
+                         else operation_name + '_' + collection_name.singularize
+                         end
+
+    helper_method_name += '_url'
+    [Proc.new do
+      define_method helper_method_name do |*args|
+        if (opts = args.first).kind_of? Hash
+          path = operation.full_path.convert_query_params(opts)
+        elsif !args.empty? and (obj_id = args.first)
+          path = operation.full_path.convert_query_params(:id => obj_id)
+        else
+          path = operation.full_path
+        end
+        path.slice!(root_url)
+        url(path)
+      end unless respond_to?(helper_method_name)
+    end, helper_method_name]
+  end
+
+end

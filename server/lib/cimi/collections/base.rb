@@ -24,7 +24,7 @@ module CIMI::Collections
 
     helpers Deltacloud::Helpers::Drivers
     helpers Sinatra::AuthHelper
-    helpers Sinatra::UrlForHelper
+    helpers Sinatra::Rabbit::URLHelper
     helpers Deltacloud::Helpers::Application
     helpers CIMI::Helper
 

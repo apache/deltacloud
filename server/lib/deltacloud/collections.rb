@@ -49,7 +49,9 @@ module Deltacloud
 
     def self.included(klass)
       klass.class_eval do
-        Deltacloud::Collections.deltacloud_modules.each { |c| use c }
+        Deltacloud::Collections.deltacloud_modules.each do |collection_class|
+          use collection_class
+        end
       end
     end
 

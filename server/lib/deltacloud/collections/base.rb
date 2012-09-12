@@ -21,9 +21,8 @@ module Deltacloud::Collections
 
     helpers Deltacloud::Helpers::Drivers
     helpers Sinatra::AuthHelper
-    helpers Sinatra::UrlForHelper
     helpers Deltacloud::Helpers::Application
-
+    helpers Sinatra::Rabbit::URLHelper
     register Rack::RespondTo
 
     enable :xhtml

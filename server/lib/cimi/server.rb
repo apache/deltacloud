@@ -43,6 +43,8 @@ module CIMI
     include CIMI::Collections
     include CIMI::Model
 
+    helpers Sinatra::Rabbit::URLFor(CIMI.collections)
+
     get '/' do
       redirect url('/cloudEntryPoint'), 301
     end

@@ -86,34 +86,46 @@ namespace :mock do
 end
 
 desc "List the routes defined by Rabbit"
-task :routes do
-  load File.join(File.dirname(__FILE__), 'config.ru')
-  Deltacloud.collections.each do |c|
-    puts "\033[1;32;m#{c.name}\33[0m"
-    c.operations.each do |o|
-      puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
-        o.http_method.to_s.upcase,
-        o.operation_name,
-        o.full_path,
-        o.description[0..100]
-      ]
-    end
-    unless c.collections.empty?
-      puts
-      c.collections.each do |s|
-        puts "\033[1;32;m#{s.name}\33[0m"
-        s.operations.each do |o|
-          puts "\033[1;37m%6s\033[0m :%-10s %-30s (%s)" % [
+[:cimi, :deltacloud].each do |frontend|
+  namespace frontend do
+    desc "Print all routes defined for #{frontend.to_s.capitalize}"
+    task :routes do
+      ENV['API_FRONTEND'] = frontend.to_s
+      load File.join(File.dirname(__FILE__), 'config.ru')
+      f_class = (frontend == :cimi) ? CIMI : Deltacloud
+      f_class.collections.each do |c|
+        puts "\033[1;32;m#{c.name}\33[0m"
+        c.operations.each do |o|
+          puts "\033[1;37m%6s\033[0m :%-10s %-35s (%s)" % [
             o.http_method.to_s.upcase,
             o.operation_name,
             o.full_path,
-            o.description[0..100]
+            Sinatra::Rabbit.generate_url_helper_for(c, o)[1]
           ]
         end
+        unless c.collections.empty?
+          puts
+          c.collections.each do |s|
+            puts "\033[1;32;m#{s.name}\33[0m"
+            s.operations.each do |o|
+              puts "\033[1;37m%6s\033[0m :%-10s %-35s (%s)" % [
+                o.http_method.to_s.upcase,
+                o.operation_name,
+                o.full_path,
+                o.description[0..100]
+              ]
+            end
+          end
+        end
+        puts
       end
     end
-    puts
   end
+end
+
+desc 'List Deltacloud routes'
+task :routes do
+  Rake::Task['deltacloud:routes'].invoke
 end
 
 DRIVERS = [:mock, :ec2, :rhevm, :google, :gogrid, :openstack]

@@ -15,7 +15,6 @@
 
 require_relative 'helpers/driver_helper'
 require_relative 'helpers/auth_helper'
-require_relative 'helpers/url_helper'
 require_relative 'helpers/deltacloud_helper'
 require_relative 'helpers/rabbit_helper'
 require_relative 'helpers/blob_stream_helper'

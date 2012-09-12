@@ -41,6 +41,8 @@ module Deltacloud
     include Deltacloud::Helpers
     include Deltacloud::Collections
 
+    helpers Sinatra::Rabbit::URLFor(Deltacloud.collections)
+
     set :config, Deltacloud[:deltacloud]
 
     get '/' do

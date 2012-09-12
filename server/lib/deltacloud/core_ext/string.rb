@@ -77,6 +77,11 @@ class String
     self.gsub(/;([^\/]*)/, '').gsub(/\?(.*)$/, '')
   end
 
+  def convert_query_params(params={})
+    gsub(/:(\w+)/) { |p| params.delete(p[1..-1].to_sym) } +
+      params.to_query_params
+  end
+
   unless "".respond_to? :each
     alias :each :each_line
   end

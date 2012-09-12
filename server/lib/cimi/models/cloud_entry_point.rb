@@ -26,7 +26,7 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
       :name => context.driver.name,
       :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
       :id => context.cloudEntryPoint_url,
-      :base_uri => context.root_url,
+      :base_uri => context.base_uri,
       :created => Time.now,
       :entity_metadata => CIMI::Model::EntityMetadata.all_uri(context)
     }))
