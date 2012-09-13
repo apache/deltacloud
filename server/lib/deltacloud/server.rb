@@ -44,8 +44,12 @@ module Deltacloud
     set :config, Deltacloud[:deltacloud]
 
     get '/' do
-      if params[:force_auth]
+      if driver.name == "openstack" or params[:force_auth]
         return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
+        if driver.name == "openstack"
+          Deltacloud.config["openstack_creds"] = credentials
+          #or here also works: Thread.current["openstack_creds"] = credentials
+        end
       end
       respond_to do |format|
         format.xml { haml :"api/show" }

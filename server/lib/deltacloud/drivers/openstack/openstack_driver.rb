@@ -40,6 +40,19 @@ module Deltacloud
 
         define_hardware_profile('default')
 
+        def respond_to?(capability)#, credentials)
+          if capability == :buckets
+            begin
+              client = new_client(Deltacloud.config["openstack_creds"], capability)
+            rescue Deltacloud::ExceptionHandler::NotImplemented #OpenStack::Exception::NotImplemented...
+              return false
+            end
+            return true
+          else
+            super(capability)
+          end
+        end
+
         def hardware_profiles(credentials, opts = {})
           os = new_client(credentials)
           results = []
@@ -348,12 +361,6 @@ private
                   raise ValidationFailure.new(Exception.new("Error: tried to initialise Openstack connection using" +
                     " an unknown service_type: #{type}"))
               end
-          end
-        end
-
-        def cloudfiles_client(credentials)
-          safely do
-            CloudFiles::Connection.new(:username => credentials.user, :api_key => credentials.password)
           end
         end
 
