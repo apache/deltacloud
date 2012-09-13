@@ -24,7 +24,7 @@ module CIMI::Collections
         description 'List all Network Templates in the NetworkTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
-          network_templates = NetworkTemplateCollection.default(self).filter_by(params[:CIMISelect])
+          network_templates = NetworkTemplate.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml {network_templates.to_xml}
             format.json {network_templates.to_json}

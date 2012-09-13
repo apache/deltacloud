@@ -15,6 +15,8 @@
 
 class CIMI::Model::RoutingGroup < CIMI::Model::Base
 
+  acts_as_root_entity
+
   array :networks do
     scalar :href
   end

@@ -15,6 +15,8 @@
 
 class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
+  acts_as_root_entity
+
   text :format
   struct :capacity do
     scalar :quantity

@@ -24,7 +24,7 @@ module CIMI::Collections
         description 'List all NetworkPortConfigurations in the NetworkPortConfigurationCollection'
         param :CIMISelect, :string, :optional
         control do
-          net_port_configs = NetworkPortConfigurationCollection.default(self).filter_by(params[:CIMISelect])
+          net_port_configs = NetworkPortConfiguration.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml {net_port_configs.to_xml}
             format.json {net_port_configs.to_json}

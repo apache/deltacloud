@@ -24,7 +24,7 @@ module CIMI::Collections
         description 'List all RoutingGroups in the RoutingGroupsCollection'
         param :CIMISelect, :string, :optional
         control do
-          routing_groups = RoutingGroupCollection.default(self).filter_by(params[:CIMISelect])
+          routing_groups = RoutingGroup.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml {routing_groups.to_xml}
             format.json {routing_groups.to_json}

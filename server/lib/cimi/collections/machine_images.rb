@@ -25,7 +25,7 @@ module CIMI::Collections
         description "List all machine configurations"
         param :CIMISelect,  :string,  :optional
         control do
-          machine_images = MachineImageCollection.default(self).filter_by(params[:CIMISelect])
+          machine_images = MachineImage.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { machine_images.to_xml }
             format.json { machine_images.to_json }

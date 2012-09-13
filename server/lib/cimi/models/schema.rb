@@ -87,9 +87,16 @@ class CIMI::Model::Schema
     def initialize(name, opts, &block)
       content = opts[:content]
       super(name, opts)
-      @schema = CIMI::Model::Schema.new
-      @schema.instance_eval(&block) if block_given?
-      @schema.scalar(content, :text => :direct) if content
+      if opts[:schema]
+        if block_given?
+          raise "Cannot provide :schema option and a block"
+        end
+        @schema = opts[:schema]
+      else
+        @schema = CIMI::Model::Schema.new
+        @schema.instance_eval(&block) if block_given?
+        @schema.scalar(content, :text => :direct) if content
+      end
     end
 
     def from_xml(xml, model)
@@ -281,6 +288,14 @@ class CIMI::Model::Schema
 
     def hash(name)
       add_attributes!([name, {}], Hash)
+    end
+
+    def collection(name, opts={})
+      text :count
+
+      array :operations do
+        scalar :rel, :href
+      end
     end
   end
 

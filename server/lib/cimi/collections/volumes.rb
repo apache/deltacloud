@@ -24,7 +24,7 @@ module CIMI::Collections
         description "List all volumes"
         param :CIMISelect,  :string,  :optional
         control do
-          volumes = VolumeCollection.default(self).filter_by(params[:CIMISelect])
+          volumes = Volume.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { volumes.to_xml }
             format.json { volumes.to_json }

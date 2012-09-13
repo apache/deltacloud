@@ -25,7 +25,7 @@ module CIMI::Collections
         param :CIMISelect,  :string,  :optional
         description "List all machines"
         control do
-          machines = MachineCollection.default(self).filter_by(params[:CIMISelect])
+          machines = Machine.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { machines.to_xml }
             format.json { machines.to_json }

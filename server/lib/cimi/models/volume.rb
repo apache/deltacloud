@@ -15,6 +15,8 @@
 
 class CIMI::Model::Volume < CIMI::Model::Base
 
+  acts_as_root_entity
+
   struct :capacity do
     scalar :quantity
     scalar :units

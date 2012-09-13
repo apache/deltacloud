@@ -225,7 +225,7 @@ class CIMI::Model::Base
 
   hash :property
 
-  def self.act_as_root_entity(name=nil)
+  def self.acts_as_root_entity(name=nil)
     if name
       name = name.to_s.camelize.pluralize
     else

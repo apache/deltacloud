@@ -26,7 +26,7 @@ module CIMI::Collections
         description 'List all NetworkPorts in the NetworkPortCollection'
         param :CIMISelect, :string, :optional
         control do
-          network_ports = NetworkPortCollection.default(self).filter_by(params[:CIMISelect])
+          network_ports = NetworkPort.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml {network_ports.to_xml}
             format.json {network_ports.to_json}

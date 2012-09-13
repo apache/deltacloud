@@ -15,6 +15,8 @@
 
 class CIMI::Model::MachineImage < CIMI::Model::Base
 
+  acts_as_root_entity
+
   href :image_location
   text :image_data
 

@@ -15,6 +15,8 @@
 
 class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
+  acts_as_root_entity
+
   href :machine_config
   href :machine_image
   href :machine_admin

@@ -15,6 +15,8 @@
 
 class CIMI::Model::NetworkPortConfiguration < CIMI::Model::Base
 
+  acts_as_root_entity
+
   text :class_of_service
 
   text :port_type

@@ -15,6 +15,8 @@
 
 class CIMI::Model::NetworkConfiguration < CIMI::Model::Base
 
+  acts_as_root_entity
+
   text :network_type
 
   text :mtu

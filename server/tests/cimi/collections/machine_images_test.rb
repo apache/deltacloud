@@ -36,7 +36,7 @@ describe CIMI::Collections::MachineImages do
   it 'should allow to filter using CIMISelect' do
     get root_url '/machine_images?CIMISelect=description'
     status.must_equal 200
-    xml.root.name.must_equal 'MachineImageCollection'
+    xml.root.name.must_equal 'Collection'
     (xml/'description').wont_be_empty
     (xml/'id').must_be_empty
   end

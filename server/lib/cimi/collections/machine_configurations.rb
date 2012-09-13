@@ -25,7 +25,7 @@ module CIMI::Collections
         param :CIMISelect,  :string,  :optional
         description "List all machine configurations"
         control do
-          machine_configs = MachineConfigurationCollection.default(self).filter_by(params[:CIMISelect])
+          machine_configs = MachineConfiguration.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { machine_configs.to_xml }
             format.json { machine_configs.to_json }

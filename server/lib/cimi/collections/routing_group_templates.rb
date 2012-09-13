@@ -24,7 +24,7 @@ module CIMI::Collections
         description 'List all RoutingGroupTemplates in the RoutingGroupTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
-          routing_group_templates = RoutingGroupTemplateCollection.default(self).filter_by(params[:CIMISelect])
+          routing_group_templates = RoutingGroupTemplate.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml {routing_group_templates.to_xml}
             format.json {routing_group_templates.to_json}

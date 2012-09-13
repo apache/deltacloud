@@ -24,7 +24,7 @@ module CIMI::Collections
         description 'List all NetworkConfigurations'
         param :CIMISelect, :string, :optional
         control do
-          network_configurations = NetworkConfigurationCollection.default(self).filter_by(params[:CIMISelect])
+          network_configurations = NetworkConfiguration.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { network_configurations.to_xml  }
             format.json { network_configurations.to_json }

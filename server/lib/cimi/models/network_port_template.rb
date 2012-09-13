@@ -15,6 +15,8 @@
 
 class CIMI::Model::NetworkPortTemplate < CIMI::Model::Base
 
+  acts_as_root_entity
+
   href :network
 
   href :network_port_config

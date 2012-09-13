@@ -26,7 +26,7 @@ module CIMI::Collections
         description 'List all NetworkPortTemplates in the NetworkPortTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
-          network_port_templates = NetworkPortTemplateCollection.default(self).filter_by(params[:CIMISelect])
+          network_port_templates = NetworkPortTemplate.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml {network_port_templates.to_xml}
             format.json {network_port_templates.to_json}

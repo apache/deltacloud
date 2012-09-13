@@ -25,7 +25,7 @@ module CIMI::Collections
         description "List all volumes images"
         param :CIMISelect,  :string,  :optional
         control do
-          volume_images = VolumeImageCollection.default(self).filter_by(params[:CIMISelect])
+          volume_images = VolumeImage.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { volume_images.to_xml }
             format.json { volume_images.to_json }

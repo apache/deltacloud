@@ -15,6 +15,8 @@
 
 class CIMI::Model::NetworkTemplate < CIMI::Model::Base
 
+  acts_as_root_entity
+
   href :network_config
 
   href :forwarding_group

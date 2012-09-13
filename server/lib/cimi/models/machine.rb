@@ -15,6 +15,8 @@
 
 class CIMI::Model::Machine < CIMI::Model::Base
 
+  acts_as_root_entity
+
   text :state
   text :cpu
 

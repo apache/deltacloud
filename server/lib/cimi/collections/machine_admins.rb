@@ -25,7 +25,7 @@ module CIMI::Collections
         description "List all machine admins"
         param :CIMISelect,  :string,  :optional
         control do
-          machine_admins = MachineAdminCollection.default(self).filter_by(params[:CIMISelect])
+          machine_admins = MachineAdmin.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
             format.xml { machine_admins.to_xml }
             format.json { machine_admins.to_json }
