@@ -104,7 +104,7 @@ Gem::Specification.new do |s|
   s.add_dependency('uuidtools', '>= 2.1.1')
 
   # Openstack Compute and Object-Storage
-  s.add_dependency('openstack', '>= 1.0.4')
+  s.add_dependency('openstack', '>= 1.0.6')
 
   # Aruba Cloud
   s.add_dependency('savon', '>= 1.0.0')
