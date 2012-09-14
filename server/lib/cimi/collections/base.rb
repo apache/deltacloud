@@ -42,6 +42,7 @@ module CIMI::Collections
     set :root, File.join(File.dirname(__FILE__), '..', '..', '..')
     set :views, root + '/views/cimi'
     set :public_folder, root + '/public'
+    set :documentation_class, CIMI
 
     error do
       report_error

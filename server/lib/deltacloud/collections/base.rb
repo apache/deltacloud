@@ -38,6 +38,8 @@ module Deltacloud::Collections
     set :root, File.join(File.dirname(__FILE__), '..', '..', '..')
     set :views, File.join(settings.root, 'views')
     set :public_folder, root + '/public'
+    # A class where the Rabbit will look up for 'collections'
+    set :documentation_class, Deltacloud
 
     error do
       report_error
