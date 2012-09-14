@@ -1,0 +1,13 @@
+{ "id": "http://cimi.example.org/network_ports/network_port1",
+  "name": "network_port1",
+  "description": "a mock switchport",
+  "created": "Fri Mar 16 17:06:41 EET 2012",
+  "state": "STARTED",
+  "network": {"href": "http://cimi.example.org/networks/network1"},
+  "portType": "ACCESS",
+  "classOfService": "GOLD",
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/network_ports/network_port1" },
+    { "rel": "delete", "href": "http://cimi.example.org/network_ports/network_port1" }
+  ]
+}
