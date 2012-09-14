@@ -119,6 +119,18 @@ module CIMI::Collections
         end
       end
 
+      operation :network_ports, :with_capability => :network_ports do
+        description "Retrieve the Network's NetworkPortCollection"
+        control do
+          network_ports = NetworkPortCollection.for_network(params[:id], self)
+          respond_to do |format|
+            format.json {network_ports.to_json}
+            format.xml  {network_ports.to_xml}
+          end
+        end
+      end
+
+
     end
 
   end

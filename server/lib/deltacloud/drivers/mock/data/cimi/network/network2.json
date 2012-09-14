@@ -6,7 +6,7 @@
   "networkType": "PUBLIC",
   "classOfService": "SILVER",
   "mtu": 1500,
-  "networkPorts": { "href": "http://cimi.example.org/networks/network2/networkports"},
+  "networkPorts": { "href": "http://cimi.example.org/networks/network2/network_ports"},
   "forwardingGroup": { "href": "http://cimi.example.org/forwarding_groups/group1" },
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/networks/network2" },
