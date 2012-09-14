@@ -1,0 +1,11 @@
+{ "id": "http://cimi.example.org/network_port_configurations/portconfig1",
+  "name": "portconfig1",
+  "description": "a mock network_port configuration",
+  "created": "Fri Mar 16 18:39:41 EET 2012",
+  "portType": "ACCESS",
+  "classOfService": "GOLD",
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/network_port_configurations/portconfig1" },
+    { "rel": "delete", "href": "http://cimi.example.org/network_port_configurations/portconfig1" }
+  ]
+}
