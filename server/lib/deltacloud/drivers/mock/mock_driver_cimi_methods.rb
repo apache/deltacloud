@@ -20,7 +20,6 @@
 module Deltacloud::Drivers::Mock
 
   class MockDriver < Deltacloud::BaseDriver
-
     def networks(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
@@ -76,36 +75,36 @@ module Deltacloud::Drivers::Mock
       end
     end
 
-    def vsps(credentials, opts={})
+    def network_ports(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        vsps = @client.load_all_cimi(:vsp).map{|vsp| CIMI::Model::VSP.from_json(vsp)}
-        vsps.map{|vsp|convert_cimi_mock_urls(:vsp, vsp, opts[:env])}.flatten
+        ports = @client.load_all_cimi(:network_port).map{|net_port| CIMI::Model::NetworkPort.from_json(net_port)}
+        ports.map{|net_port|convert_cimi_mock_urls(:network_port, net_port, opts[:env])}.flatten
       else
-        vsp = CIMI::Model::VSP.from_json(@client.load_cimi(:vsp, opts[:id]))
-        convert_cimi_mock_urls(:vsp, vsp, opts[:env])
+        port = CIMI::Model::NetworkPort.from_json(@client.load_cimi(:network_port, opts[:id]))
+        convert_cimi_mock_urls(:network_port, port, opts[:env])
       end
     end
 
-    def vsp_configurations(credentials, opts={})
+    def network_port_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        vsp_configurations = @client.load_all_cimi(:vsp_configuration).map{|vsp_config| CIMI::Model::VSPConfiguration.from_json(vsp_config)}
-        vsp_configurations.map{|vsp_config|convert_cimi_mock_urls(:vsp_configuration, vsp_config, opts[:env])}.flatten
+        network_port_configurations = @client.load_all_cimi(:network_port_configuration).map{|network_port_config| CIMI::Model::NetworkPortConfiguration.from_json(network_port_config)}
+        network_port_configurations.map{|network_port_config|convert_cimi_mock_urls(:network_port_configuration, network_port_config, opts[:env])}.flatten
       else
-        vsp_configuration = CIMI::Model::VSPConfiguration.from_json(@client.load_cimi(:vsp_configuration, opts[:id]))
-        convert_cimi_mock_urls(:vsp_configuration, vsp_configuration, opts[:env])
+        network_port_configuration = CIMI::Model::NetworkPortConfiguration.from_json(@client.load_cimi(:network_port_configuration, opts[:id]))
+        convert_cimi_mock_urls(:network_port_configuration, network_port_configuration, opts[:env])
       end
     end
 
-    def vsp_templates(credentials, opts={})
+    def network_port_templates(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        vsp_templates = @client.load_all_cimi(:vsp_template).map{|vsp_templ| CIMI::Model::VSPTemplate.from_json(vsp_templ)}
-        vsp_templates.map{|vsp_templ|convert_cimi_mock_urls(:vsp_template, vsp_templ, opts[:env])}.flatten
+        network_port_templates = @client.load_all_cimi(:network_port_template).map{|net_port_templ| CIMI::Model::NetworkPortTemplate.from_json(net_port_templ)}
+        network_port_templates.map{|net_port_templ|convert_cimi_mock_urls(:network_port_template, net_port_templ, opts[:env])}.flatten
       else
-        vsp_template = CIMI::Model::VSPTemplate.from_json(@client.load_cimi(:vsp_template, opts[:id]))
-        convert_cimi_mock_urls(:vsp_template, vsp_template, opts[:env])
+        network_port_template = CIMI::Model::NetworkPortTemplate.from_json(@client.load_cimi(:network_port_template, opts[:id]))
+        convert_cimi_mock_urls(:network_port_template, network_port_template, opts[:env])
       end
     end
 
@@ -120,7 +119,11 @@ module Deltacloud::Drivers::Mock
                 convert_struct_urls(item, k.to_s.singularize.to_sym, context)
               end
             else
-              convert_struct_urls(v, k, context)
+              opts = nil
+              if is_subcollection?(v, cimi_object.id)
+                opts = {:parent_model_name => model_name, :parent_item_name => cimi_object.name}
+              end
+              convert_struct_urls(v, k, context, opts)
             end
         end
       end
@@ -130,13 +133,22 @@ module Deltacloud::Drivers::Mock
       cimi_object
     end
 
-    def convert_struct_urls(struct, cimi_name, context)
+    def is_subcollection?(struct, cimi_object_id)
+      return false if struct.href.nil?
+      struct.href.include?(cimi_object_id)
+    end
+
+    def convert_struct_urls(struct, cimi_name, context, opts = nil)
       return unless (struct.respond_to?(:href) && (not struct.href.nil?) && (not cimi_name == :operation ))
-      obj_name = struct.href.split("/").last
-      if cimi_name.to_s.end_with?("config")
-        struct.href = context.send(:"#{cimi_name}uration_url", obj_name)
+      if opts
+        struct.href = context.send(:"#{opts[:parent_model_name]}_url", opts[:parent_item_name]) + "/#{cimi_name}"
       else
-        struct.href = context.send(:"#{cimi_name}_url", obj_name)
+        obj_name = struct.href.split("/").last
+        if cimi_name.to_s.end_with?("config")
+          struct.href = context.send(:"#{cimi_name}uration_url", obj_name)
+        else
+          struct.href = context.send(:"#{cimi_name}_url", obj_name)
+        end
       end
     end
 
