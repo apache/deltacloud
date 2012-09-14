@@ -17,7 +17,7 @@ class CIMI::Model::NetworkTemplate < CIMI::Model::Base
 
   href :network_config
 
-  href :routing_group
+  href :forwarding_group
 
   array :operations do
     scalar :rel, :href

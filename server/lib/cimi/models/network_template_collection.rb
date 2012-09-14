@@ -18,17 +18,20 @@ class CIMI::Model::NetworkTemplateCollection < CIMI::Model::Base
 
   act_as_root_entity :network_template
 
-  array :network_templates do
-    scalar :href
-  end
+  text :count
+
+  #add member array:
+  self << CIMI::Model::NetworkTemplate
 
   def self.default(context)
+    network_templates = CIMI::Model::NetworkTemplate.all(context)
     self.new(
       :id => context.network_templates_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} NetworkTemplateCollection",
-      :network_templates => CIMI::Model::NetworkTemplate.all_uri(context)
+      :count => network_templates.size,
+      :network_templates => network_templates
     )
   end
 

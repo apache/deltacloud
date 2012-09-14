@@ -32,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show, :with_capability => :network_template do
+      operation :show, :with_capability => :network_templates do
         description 'Show a specific Network Template'
         control do
           network_template = NetworkTemplate.find(params[:id], self)

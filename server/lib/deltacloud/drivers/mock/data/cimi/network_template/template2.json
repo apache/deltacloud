@@ -3,7 +3,7 @@
   "description": "Another mock network template",
   "created": "Thu Mar 15 13:51:12 EET 2012",
   "networkConfig": {"href": "http://cimi.example.org/network_configurations/network_config2"},
-  "routingGroup": {"href": "http://cimi.example.org/routing_groups/group1"},
+  "forwardingGroup": {"href": "http://cimi.example.org/forwarding_groups/group1"},
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/network_templates/template2" },
     { "rel": "delete", "href": "http://cimi.example.org/network_templates/template2" }]
