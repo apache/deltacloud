@@ -15,17 +15,11 @@
 
 class CIMI::Model::NetworkConfiguration < CIMI::Model::Base
 
-  text :access
+  text :network_type
 
-  text :bandwidth_limit
+  text :mtu
 
-  text :traffic_priority
-
-  text :max_traffic_delay
-
-  text :max_traffic_loss
-
-  text :max_traffic_jitter
+  text :class_of_service
 
   array :operations do
     scalar :rel, :href

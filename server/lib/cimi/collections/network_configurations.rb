@@ -32,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show, :with_capability => :network_configuration do
+      operation :show, :with_capability => :network_configurations do
         description 'Show a specific NetworkConfiguration'
         control do
           network_config = NetworkConfiguration.find(params[:id], self)

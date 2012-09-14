@@ -17,17 +17,21 @@ class CIMI::Model::NetworkConfigurationCollection < CIMI::Model::Base
 
   act_as_root_entity :network_configuration
 
-  array :network_configurations do
-    scalar :href
-  end
+  text :count
+
+#add members Array:
+  self << CIMI::Model::NetworkConfiguration
+
 
   def self.default(context)
+    network_configurations = CIMI::Model::NetworkConfiguration.all(context)
     self.new(
       :id => context.network_configurations_url,
       :name => 'default',
       :created => Time.now,
       :description => "#{context.driver.name.capitalize} NetworkConfigurationCollection",
-      :network_configurations => CIMI::Model::NetworkConfiguration.all(context).map { |c| { :href => c.id } }
+      :count => network_configurations.size,
+      :network_configurations => network_configurations
     )
   end
 

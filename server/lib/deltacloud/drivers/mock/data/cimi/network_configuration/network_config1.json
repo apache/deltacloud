@@ -1,13 +1,10 @@
 { "id": "http://cimi.example.org/network_configurations/network_config1",
   "name": "network_config1",
-  "description": "a network configuration",
+  "description": "another network configuration",
   "created": "Fri Mar 9 11:57:39 EET 2012",
-  "access": "Public",
-  "bandwidthLimit": 2,
-  "trafficPriority": 1,
-  "maxTrafficDelay": 500000,
-  "maxTrafficLoss": 100,
-  "maxTrafficJitter": 100000,
+  "networkType": "Public",
+  "mtu": 1500,
+  "classOfService": "SILVER",
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/network_configurations/network_config1" },
     { "rel": "delete", "href": "http://cimi.example.org/network_configurations/network_config1" }

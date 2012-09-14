@@ -2,12 +2,9 @@
   "name": "network_config2",
   "description": "a network configuration",
   "created": "Fri Mar 9 12:01:53 EET 2012",
-  "access": "Public",
-  "bandwidthLimit": 3,
-  "trafficPriority": 2,
-  "maxTrafficDelay": 600000,
-  "maxTrafficLoss": 100,
-  "maxTrafficJitter": 200000,
+  "networkType": "PUBLIC",
+  "mtu": 1500,
+  "classOfService": "GOLD",
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/network_configurations/network_config2" },
     { "rel": "delete", "href": "http://cimi.example.org/network_configurations/network_config2" }
