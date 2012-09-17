@@ -46,13 +46,10 @@ module Deltacloud
     set :config, Deltacloud[:deltacloud]
 
     get '/' do
-      if driver.name == "openstack" or params[:force_auth]
+      if params[:force_auth]
         return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
-        if driver.name == "openstack"
-          Deltacloud.config["openstack_creds"] = credentials
-          #or here also works: Thread.current["openstack_creds"] = credentials
-        end
       end
+      @collections = driver.supported_collections(credentials)
       respond_to do |format|
         format.xml { haml :"api/show" }
         format.json { xml_to_json :"api/show" }
@@ -61,7 +58,7 @@ module Deltacloud
     end
 
     options '/' do
-      headers 'Allow' => supported_collections { |c| c.collection_name }.join(',')
+      headers 'Allow' => driver.supported_collections(credentials) { |c| c.collection_name }.join(',')
     end
 
     post '/' do

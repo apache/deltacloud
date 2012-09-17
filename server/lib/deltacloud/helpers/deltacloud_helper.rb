@@ -18,22 +18,6 @@ module Deltacloud::Helpers
 
     require 'benchmark'
 
-    def supported_collections
-      collection_arr = []
-      Deltacloud::Collections.deltacloud_modules.each do |m|
-        m.collections.each do |c|
-          # Get the required capability for the :index operation (like 'realms' or 'instance_state_machine')
-          index_operation_capability = c.operation(:index).required_capability
-          # Then use this capability to check if the 'capability' lambda defined
-          # for the Sinatra::Base class evaluate to 'true'
-          next if m.settings.respond_to?(:capability) and !m.settings.capability(index_operation_capability)
-          yield c if block_given?
-          collection_arr << c
-        end
-      end
-      collection_arr
-    end
-
     def auth_feature_name
       return 'key' if driver.class.has_feature?(:instances, :authentication_key)
       return 'password' if driver.class.has_feature?(:instances, :authentication_password)

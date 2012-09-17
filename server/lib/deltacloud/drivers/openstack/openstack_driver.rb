@@ -40,17 +40,15 @@ module Deltacloud
 
         define_hardware_profile('default')
 
-        def respond_to?(capability)#, credentials)
-          if capability == :buckets
-            begin
-              client = new_client(Deltacloud.config["openstack_creds"], capability)
-            rescue Deltacloud::ExceptionHandler::NotImplemented #OpenStack::Exception::NotImplemented...
-              return false
-            end
-            return true
-          else
-            super(capability)
+        def supported_collections(credentials)
+          #get the collections as defined by 'capability' and 'respond_to?' blocks
+          super_collections = super
+          begin
+             client = new_client(credentials, :buckets)
+          rescue Deltacloud::ExceptionHandler::NotImplemented #OpenStack::Exception::NotImplemented...
+             return super_collections - [Sinatra::Rabbit::BucketsCollection]
           end
+          super_collections
         end
 
         def hardware_profiles(credentials, opts = {})
