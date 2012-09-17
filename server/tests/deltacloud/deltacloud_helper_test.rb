@@ -13,15 +13,6 @@ describe Deltacloud::Helpers::Application do
     @helper = ApplicationHelper.new
   end
 
-  it 'provides list of supported collections for the current driver' do
-    @helper.supported_collections.wont_be_empty
-    @helper.supported_collections.must_include Sinatra::Rabbit::InstancesCollection
-    @helper.supported_collections.wont_include Sinatra::Rabbit::LoadBalancersCollection
-    Thread.current[:driver] = 'ec2'
-    @helper.supported_collections.must_include Sinatra::Rabbit::LoadBalancersCollection
-    Thread.current[:driver] = 'mock'
-  end
-
   it 'provides name for the authentication feature' do
     @helper.auth_feature_name.wont_be_nil
     @helper.auth_feature_name.must_equal 'key'

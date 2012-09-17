@@ -8,6 +8,7 @@ require_relative '../../../lib/deltacloud/drivers/base_driver'
 describe Deltacloud::BaseDriver do
 
   before do
+
     class TestDriver < Deltacloud::BaseDriver
 
       define_hardware_profile('t1.micro') do
@@ -36,8 +37,37 @@ describe Deltacloud::BaseDriver do
       end
 
       def realms(credentials, opts={}); end
+
+      def supported_collections(credentials)
+        collections = super
+        #lets add images/instances just for testing of method override from base
+        collections + [Sinatra::Rabbit::ImagesCollection, Sinatra::Rabbit::InstancesCollection]
+      end
     end
+
     @driver = TestDriver.new
+
+  end
+
+  describe 'supported driver collections' do
+
+    it 'provides list of supported collections' do
+      current_driver = Thread.current[:driver]
+      #change to test driver, mock defined in common.rb
+      Thread.current[:driver] = 'test'
+      credentials = OpenStruct.new(:user => 'unkown', :password => 'wrong')
+      @driver.supported_collections(credentials).wont_be_empty
+      @driver.supported_collections(credentials).must_include Sinatra::Rabbit::InstancesCollection
+      #check override of supported_collections, we added Images above
+      @driver.supported_collections(credentials).must_include Sinatra::Rabbit::ImagesCollection
+      @driver.supported_collections(credentials).wont_include Sinatra::Rabbit::KeysCollection
+      #switch driver, check supported_collections
+      Thread.current[:driver] = 'mock'
+      @driver.supported_collections(credentials).must_include Sinatra::Rabbit::KeysCollection
+      #restore driver to not impact other tests
+      Thread.current[:driver] = current_driver
+    end
+
   end
 
   describe 'when creating a new driver' do
