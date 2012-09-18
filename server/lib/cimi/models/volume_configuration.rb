@@ -15,7 +15,7 @@
 
 class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
-  acts_as_root_entity
+  acts_as_root_entity :as => "volumeConfigs"
 
   text :format
   struct :capacity do

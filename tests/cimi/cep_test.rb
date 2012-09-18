@@ -19,6 +19,17 @@ $:.unshift File.join(File.dirname(__FILE__))
 require "test_helper.rb"
 
 describe "CIMI Entry Point Behavior" do
+  ROOTS = [ "resourceMetadata", "systems", "systemTemplates",
+            "machines" , "machineTemplates", "machineConfigs",
+            "machineImages", "credentials", "credentialTemplates",
+            "volumes", "volumeTemplates", "volumeConfigs", "volumeImages",
+            "networks", "networkTemplates", "networkConfigs", "networkPorts",
+            "networkPortTemplates", "networkPortConfigs",
+            "addresses", "addressTemplates", "forwardingGroups",
+            "forwardingGroupTemplates",
+            "jobs", "meters", "meterTemplates", "meterConfigs",
+            "eventLogs", "eventLogTemplates" ]
+
   # We'd like to call this :cep, but there's already a method by that name
   model :subject, CIMI::Model::CloudEntryPoint, :cache => true do |fmt|
     cep(:accept => fmt)
@@ -34,5 +45,18 @@ describe "CIMI Entry Point Behavior" do
 
   it "should have a name" do
     subject.name.wont_be_empty
+  end
+
+  it "should have root collections" do
+    ROOTS.each do |root|
+      r = root.underscore.to_sym
+      if subject.respond_to?(r)
+        coll = subject.send(r)
+        coll.must_respond_to :href, "#{root} collection"
+        unless coll.href.nil?
+          coll.href.must_be_uri "#{root} collection"
+        end
+      end
+    end
   end
 end

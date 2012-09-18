@@ -15,7 +15,7 @@
 
 class CIMI::Model::MachineConfiguration < CIMI::Model::Base
 
-  acts_as_root_entity
+  acts_as_root_entity :as => "machineConfigs"
 
   text :memory
   text :cpu
