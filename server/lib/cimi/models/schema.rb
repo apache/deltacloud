@@ -266,7 +266,8 @@ class CIMI::Model::Schema
   # +add_attributes!+ method
   module DSL
     def href(*args)
-      args.each { |arg| struct(arg) { scalar :href } }
+      opts = args.extract_opts!
+      args.each { |arg| struct(arg, opts) { scalar :href } }
     end
 
     def text(*args)
