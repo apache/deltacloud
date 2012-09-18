@@ -17,6 +17,7 @@
 require 'yaml'
 require 'base64'
 require 'etc'
+require 'ipaddr'
 
 require_relative 'mock_client'
 require_relative 'mock_driver_cimi_methods'
@@ -333,6 +334,48 @@ module Deltacloud::Drivers::Mock
       @client.destroy(:keys, key.id)
     end
 
+    def addresses(credentials, opts={})
+      check_credentials(credentials)
+      addresses = @client.build_all(Address)
+      addresses = filter_on( addresses, :id, opts )
+    end
+
+    def create_address(credentials, opts={})
+      check_credentials(credentials)
+      address = {:id => allocate_mock_address.to_s, :instance_id=>nil}
+      @client.store(:addresses, address)
+      Address.new(address)
+    end
+
+    def destroy_address(credentials, opts={})
+      check_credentials(credentials)
+      address = @client.load(:addresses, opts[:id])
+      raise "AddressInUse" unless address[:instance_id].nil?
+      @client.destroy(:addresses, opts[:id])
+    end
+
+    def associate_address(credentials, opts={})
+      check_credentials(credentials)
+      address = @client.load(:addresses, opts[:id])
+      raise "AddressInUse" unless address[:instance_id].nil?
+      instance = @client.load(:instances, opts[:instance_id])
+      address[:instance_id] = instance[:id]
+      instance[:public_addresses] = [InstanceAddress.new(address[:id])]
+      @client.store(:addresses, address)
+      @client.store(:instances, instance)
+    end
+
+    def disassociate_address(credentials, opts={})
+      check_credentials(credentials)
+      address = @client.load(:addresses, opts[:id])
+      raise "AddressNotInUse" unless address[:instance_id]
+      instance = @client.load(:instances, address[:instance_id])
+      address[:instance_id] = nil
+      instance[:public_addresses] = [InstanceAddress.new("#{instance[:image_id]}.#{instance[:id]}.public.com", :type => :hostname)]
+      @client.store(:addresses, address)
+      @client.store(:instances, instance)
+    end
+
     #--
     # Buckets
     #--
@@ -530,6 +573,17 @@ module Deltacloud::Drivers::Mock
       end
     end
 
+    #Mock allocation of 'new' address
+    #There is a synchronization problem (but it's the mock driver,
+    #mutex seemed overkill)
+    def allocate_mock_address
+      addresses = []
+      @client.members(:addresses).each do |addr|
+        addresses << IPAddr.new("#{addr}").to_i
+      end
+      IPAddr.new(addresses.sort.pop+1, Socket::AF_INET)
+    end
+
     def attach_volume_instance(volume_id, device, instance_id)
       volume = @client.load(:storage_volumes, volume_id)
       instance = @client.load(:instances, instance_id)
@@ -595,6 +649,14 @@ module Deltacloud::Drivers::Mock
       on /KeyExist/ do
         status 403
         message "Key with same name already exists"
+      end
+
+      on /AddressInUse/ do
+        status 403
+      end
+
+      on /AddressNotInUse/ do
+        status 403
       end
 
       on /BucketNotExist/ do
