@@ -21,15 +21,15 @@ if require 'minitest/autorun'
   require_relative '../../spec_helper.rb'
 end
 
-describe "MachineAdmin model" do
+describe "Credential model" do
 
   before do
-    @xml = IO::read(File::join(DATA_DIR, "machine_admin.xml"))
-    @json = IO::read(File::join(DATA_DIR, "machine_admin.json"))
+    @xml = IO::read(File::join(DATA_DIR, "credential.xml"))
+    @json = IO::read(File::join(DATA_DIR, "credential.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::MachineAdmin, @xml, @json
+    should_properly_serialize_model CIMI::Model::Credential, @xml, @json
   end
 
 end

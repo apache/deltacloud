@@ -65,8 +65,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
     image_id = machine_template['machineImage'][0]["href"].split('/').last
     additional_params = {}
     additional_params[:name] =xml['name'][0] if xml['name']
-    if machine_template.has_key? 'machineAdmin'
-      additional_params[:keyname] = machine_template['machineAdmin'][0]["href"].split('/').last
+    if machine_template.has_key? 'credential'
+      additional_params[:keyname] = machine_template['credential'][0]["href"].split('/').last
     end
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
@@ -145,7 +145,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     properties = {}
     properties["machine_image"] = context.machine_image_url(instance.image_id)
     if instance.respond_to? :keyname
-      properties["machine_admin"] = context.machine_admin_url(instance.keyname)
+      properties["credential"] = context.credential_url(instance.keyname)
     end
     properties
   end

@@ -19,7 +19,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
   href :machine_config
   href :machine_image
-  href :machine_admin
+  href :credential
 
   array :volumes do
     scalar :href

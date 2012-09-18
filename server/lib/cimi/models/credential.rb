@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::MachineAdmin < CIMI::Model::Base
+class CIMI::Model::Credential < CIMI::Model::Base
 
   acts_as_root_entity
 
@@ -37,8 +37,8 @@ class CIMI::Model::MachineAdmin < CIMI::Model::Base
   end
 
   def self.create_from_xml(body, context)
-    machine_admin = MachineAdmin.from_xml(body)
-    key = context.driver.create_key(context.credentials, :key_name => machine_admin.name)
+    credential = Credential.from_xml(body)
+    key = context.driver.create_key(context.credentials, :key_name => credential.name)
     from_key(key, context)
   end
 
@@ -54,7 +54,7 @@ class CIMI::Model::MachineAdmin < CIMI::Model::Base
       :username => key.username,
       :password => key.is_password? ? key.password : key.fingerprint,
       :key => key.is_key? ? key.pem_rsa_key : nil,
-      :id => context.machine_admin_url(key.id),
+      :id => context.credential_url(key.id),
       :created => Time.now
     )
   end

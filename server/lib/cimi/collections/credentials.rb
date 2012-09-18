@@ -14,21 +14,21 @@
 # under the License.
 
 module CIMI::Collections
-  class MachineAdmins < Base
+  class Credentials < Base
 
     set :capability, lambda { |m| driver.respond_to? m }
 
-    collection :machine_admins do
+    collection :credentials do
       description 'Machine Admin entity'
 
       operation :index, :with_capability => :keys do
         description "List all machine admins"
         param :CIMISelect,  :string,  :optional
         control do
-          machine_admins = MachineAdmin.list(self).filter_by(params[:CIMISelect])
+          credentials = Credential.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
-            format.xml { machine_admins.to_xml }
-            format.json { machine_admins.to_json }
+            format.xml { credentials.to_xml }
+            format.json { credentials.to_json }
           end
         end
       end
@@ -36,10 +36,10 @@ module CIMI::Collections
       operation :show, :with_capability => :key do
         description "Show specific machine admin"
         control do
-          machine_admin = MachineAdmin.find(params[:id], self)
+          credential = Credential.find(params[:id], self)
           respond_to do |format|
-            format.xml { machine_admin.to_xml }
-            format.json { machine_admin.to_json }
+            format.xml { credential.to_xml }
+            format.json { credential.to_json }
           end
         end
       end
@@ -48,9 +48,9 @@ module CIMI::Collections
         description "Show specific machine admin"
         control do
           if request.content_type.end_with?("+json")
-            new_admin = MachineAdmin.create_from_json(request.body.read, self)
+            new_admin = Credential.create_from_json(request.body.read, self)
           else
-            new_admin = MachineAdmin.create_from_xml(request.body.read, self)
+            new_admin = Credential.create_from_xml(request.body.read, self)
           end
           status 201 # Created
           respond_to do |format|
@@ -61,9 +61,9 @@ module CIMI::Collections
       end
 
       operation :delete, :with_capability => :destroy_key do
-        description "Delete specified MachineAdmin entity"
+        description "Delete specified Credential entity"
         control do
-          MachineAdmin.delete!(params[:id], self)
+          Credential.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end
