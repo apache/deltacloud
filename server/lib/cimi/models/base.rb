@@ -69,11 +69,16 @@ require 'json'
 
 module CIMI::Model
 
-  def self.register_as_root_entity!(name)
+  def self.register_as_root_entity!(klass, opts = {})
     @root_entities ||= []
-    @root_entities << name
+    @root_entities << klass
+    name = klass.name.split("::").last.pluralize
     unless CIMI::Model::CloudEntryPoint.href_defined?(name)
-      CIMI::Model::CloudEntryPoint.send(:href, name.underscore)
+      params = {}
+      if opts[:as]
+        params[:xml_name] = params[:json_name] = opts[:as]
+      end
+      CIMI::Model::CloudEntryPoint.send(:href, name.underscore, params)
     end
   end
 

@@ -77,9 +77,9 @@ module CIMI::Model
 
       attr_accessor :collection_class
 
-      def acts_as_root_entity
+      def acts_as_root_entity(opts = {})
         self.collection_class = Collection.generate(self)
-        CIMI::Model.register_as_root_entity! collection_class.entry_name.to_s.camelize
+        CIMI::Model.register_as_root_entity! self, opts
       end
 
       # Return a collection of entities

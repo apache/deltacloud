@@ -38,8 +38,7 @@ class CIMI::Model::EntityMetadata < CIMI::Model::Base
   def self.find(id, context)
     entity_metadata = []
     if id == :all
-      CIMI::Model.root_entities.each do |entity|
-        entity_class = CIMI::Model.const_get("#{entity.singularize}")
+      CIMI::Model.root_entities.each do |entity_class|
         entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?(:create_entity_metadata)
       end
       return entity_metadata
