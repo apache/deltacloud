@@ -255,6 +255,11 @@ module Deltacloud
       firewalls(credentials, opts).first if has_capability?(:firewalls)
     end
 
+    def address(credentials, opts={})
+      addresses(credentials, opts).first if has_capability?(:addresses)
+    end
+
+
     MEMBER_SHOW_METHODS = [ :realm, :image, :instance, :storage_volume, :bucket, :blob,
                             :key, :firewall ] unless defined?(MEMBER_SHOW_METHODS)
 

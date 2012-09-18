@@ -248,11 +248,6 @@ class ArubaDriver < Deltacloud::BaseDriver
     end
   end
 
-  def address(credentials, opts={})
-    addrs = addresses(credentials, opts)
-    filter_on(addrs, :id, opts).first
-  end
-
   def create_address(credentials, opts={})
     client = new_client(credentials)
     safely do

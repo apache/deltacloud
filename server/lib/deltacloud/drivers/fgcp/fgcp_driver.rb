@@ -678,10 +678,6 @@ class FgcpDriver < Deltacloud::BaseDriver
     addresses
   end
 
-  def address(credentials, opts={})
-    addresses(credentials, opts).first
-  end
-
   def create_address(credentials, opts={})
     safely do
       client = new_client(credentials)

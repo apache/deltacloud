@@ -697,10 +697,6 @@ module Deltacloud
           end
         end
 
-        def address(credentials, opts={})
-          addresses(credentials, :id => opts[:id]).first
-        end
-
         def create_address(credentials, opts={})
           ec2 = new_client(credentials)
           safely do
