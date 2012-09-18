@@ -234,7 +234,8 @@ class CIMI::Model::Schema
     model
   end
 
-  def to_xml(model, xml = {})
+  def to_xml(model, xml = nil)
+    xml ||= OrderedHash.new
     @attributes.freeze
     @attributes.each { |attr| attr.to_xml(model, xml) }
     xml
