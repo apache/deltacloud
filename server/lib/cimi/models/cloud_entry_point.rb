@@ -17,18 +17,13 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
   text  :base_uri, :xml_name => "baseURI", :json_name => "baseURI"
 
-  array :entity_metadata do
-    scalar :href
-  end
-
   def self.create(context)
     self.new(entities(context).merge({
       :name => context.driver.name,
       :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
       :id => context.cloudEntryPoint_url,
       :base_uri => context.base_uri,
-      :created => Time.now,
-      :entity_metadata => CIMI::Model::EntityMetadata.all_uri(context)
+      :created => Time.now
     }))
   end
 
@@ -46,8 +41,8 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
   private
 
-  def self.href_defined?(entity)
-    true if schema.attribute_names.include? entity.underscore
+  def self.href_defined?(resource)
+    true if schema.attribute_names.include? resource.underscore
   end
 
 end

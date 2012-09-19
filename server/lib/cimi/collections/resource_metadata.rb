@@ -14,28 +14,28 @@
 # under the License.
 
 module CIMI::Collections
-  class EntityMetadata < Base
+  class ResourceMetadata < Base
 
-    collection :entity_metadata do
+    collection :resource_metadata do
 
       operation :index do
-        description "List all entity metadata defined for this provider"
+        description "List all resource metadata defined for this provider"
         control do
-          entity_metadata = CIMI::Model::EntityMetadataCollection.default(self)
+          resource_metadata = CIMI::Model::ResourceMetadataCollection.default(self)
           respond_to do |format|
-            format.xml{entity_metadata.to_xml}
-            format.json{entity_metadata.to_json}
+            format.xml{resource_metadata.to_xml}
+            format.json{resource_metadata.to_json}
           end
         end
       end
 
       operation :show do
-        description "Get the entity metadata for a specific collection"
+        description "Get the resource metadata for a specific collection"
         control do
-          entity_metadata = EntityMetadata.find(params[:id], self)
+          resource_metadata = ResourceMetadata.find(params[:id], self)
           respond_to do |format|
-            format.xml{entity_metadata.to_xml}
-            format.json{entity_metadata.to_json}
+            format.xml{resource_metadata.to_xml}
+            format.json{resource_metadata.to_json}
           end
         end
       end

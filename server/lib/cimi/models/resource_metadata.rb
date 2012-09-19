@@ -14,7 +14,9 @@
 # under the License.
 
 
-class CIMI::Model::EntityMetadata < CIMI::Model::Base
+class CIMI::Model::ResourceMetadata < CIMI::Model::Base
+
+  acts_as_root_entity
 
   text :type_uri
 
@@ -36,24 +38,24 @@ class CIMI::Model::EntityMetadata < CIMI::Model::Base
   end
 
   def self.find(id, context)
-    entity_metadata = []
+    resource_metadata = []
     if id == :all
-      CIMI::Model.root_entities.each do |entity_class|
-        entity_metadata << entity_class.create_entity_metadata(context) if entity_class.respond_to?(:create_entity_metadata)
+      CIMI::Model.root_entities.each do |resource_class|
+        resource_metadata << resource_class.create_resource_metadata(context) if resource_class.respond_to?(:create_resource_metadata)
       end
-      return entity_metadata
+      return resource_metadata
     else
-      entity_class = CIMI::Model.const_get("#{id.camelize}")
-      if entity_class.respond_to?(:create_entity_metadata)
-        entity_class.create_entity_metadata(context)
+      resource_class = CIMI::Model.const_get("#{id.camelize}")
+      if resource_class.respond_to?(:create_resource_metadata)
+        resource_class.create_resource_metadata(context)
       end
     end
   end
 
-  def self.metadata_from_deltacloud_features(cimi_entity, dcloud_entity, context)
-    deltacloud_features = context.driver.class.features[dcloud_entity]
+  def self.metadata_from_deltacloud_features(cimi_resource, dcloud_resource, context)
+    deltacloud_features = context.driver.class.features[dcloud_resource]
     metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
-    from_feature(cimi_entity, context, metadata_attributes.flatten!)
+    from_feature(cimi_resource, context, metadata_attributes.flatten!)
   end
 
   def includes_attribute?(attribute)
@@ -74,9 +76,9 @@ class CIMI::Model::EntityMetadata < CIMI::Model::Base
     end
   end
 
-  def self.from_feature(cimi_entity, context, metadata_attributes)
-    self.new(:name => cimi_entity, :uri=>"#{context.entity_metadata_url}/#{cimi_entity.underscore}",
-             :type_uri=> context.send("#{cimi_entity.pluralize.underscore}_url"),
+  def self.from_feature(cimi_resource, context, metadata_attributes)
+    self.new(:name => cimi_resource, :uri=>"#{context.resource_metadata_url}/#{cimi_resource.underscore}",
+             :type_uri=> context.send("#{cimi_resource.pluralize.underscore}_url"),
              :attributes => metadata_attributes)
   end
 

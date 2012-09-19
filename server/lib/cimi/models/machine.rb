@@ -90,9 +90,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
     context.driver.destroy_instance(context.credentials, id)
   end
 
-  def self.create_entity_metadata(context)
-    cimi_entity = self.name.split("::").last
-    metadata = CIMI::Model::EntityMetadata.metadata_from_deltacloud_features(cimi_entity, :instances, context)
+  def self.create_resource_metadata(context)
+    cimi_resource = self.name.split("::").last
+    metadata = CIMI::Model::ResourceMetadata.metadata_from_deltacloud_features(cimi_resource, :instances, context)
     unless metadata.includes_attribute?(:name)
       metadata.attributes << {:name=>"name", :required=>"false",
                    :constraints=>"Determined by the cloud provider", :type=>"xs:string"}

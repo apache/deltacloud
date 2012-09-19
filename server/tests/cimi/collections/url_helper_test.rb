@@ -22,10 +22,10 @@ describe CIMI do
     @api.machines_url(:format => 'json').must_equal '/cimi/machines?format=json'
   end
 
-  it 'generate proper url for EntityMetadata' do
-    @api.entity_metadata_url.must_equal '/cimi/entity_metadata'
-    @api.entity_metadata_url('123').must_equal '/cimi/entity_metadata/123'
-    @api.entity_metadata_url(:format => 'json').must_equal '/cimi/entity_metadata/?format=json'
+  it 'generate proper url for ResourceMetadata' do
+    @api.resource_metadata_url.must_equal '/cimi/resource_metadata'
+    @api.resource_metadata_url('123').must_equal '/cimi/resource_metadata/123'
+    @api.resource_metadata_url(:format => 'json').must_equal '/cimi/resource_metadata/?format=json'
   end
 
 end
