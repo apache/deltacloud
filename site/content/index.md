@@ -18,6 +18,7 @@ title: Deltacloud API
         <li>three frontends: 'classic' Deltacloud, DMTF CIMI, and EC2</li>
         <li>support for all major <a class="providers" href="/drivers.html#drivers" title="Supported providers">cloud service providers</a></li>
         <li>makes it easy for cloud providers to <a href="/how-to-contribute.html">add their cloud</a></li>
+        <li>lets you use your RHEV-M and vSphere installations as a cloud</li>
       </ul>
 
       <a class="btn btn-large btn-primary" style="float:right" href="/about.html">Learn more</a>
