@@ -56,6 +56,7 @@ module Sinatra::Rabbit
     # Construct OPERATION_COLLECTION_URL helper
     # The :index and :create operation does not get any prefix
     #
+
     helper_method_name = case operation_name
                          when 'index' then collection_name
                          when 'show' then collection_name.singularize
@@ -63,12 +64,15 @@ module Sinatra::Rabbit
                          end
 
     helper_method_name += '_url'
+
     [Proc.new do
       define_method helper_method_name do |*args|
         if (opts = args.first).kind_of? Hash
           path = operation.full_path.convert_query_params(opts)
         elsif !args.empty? and (obj_id = args.first)
           path = operation.full_path.convert_query_params(:id => obj_id)
+        elsif operation_name == 'show'
+          path = collection.operation(:index).full_path
         else
           path = operation.full_path
         end
