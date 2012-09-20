@@ -209,6 +209,20 @@ title: Supported Providers
       <td>yes</td>
       <td>yes</td>
     </tr>
+    <tr>
+      <td class='provider'>
+        <strong>Aruba cloud.it</strong>
+      </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>yes</td>
+    </tr>
   </tbody>
 </table>
 <br/>
@@ -426,6 +440,15 @@ title: Supported Providers
       <td style="text-align:left">OpenStack user</td>
       <td style="text-align:left">OpenStack user password</td>
       <td style="text-align:left">Set environment variable API_PROVIDER to the URL of OpenStack API entrypoint.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">
+        <strong>Aruba cloud.it</strong>
+      </td>
+      <td style="text-align:left"><span style="font-size:x-small">aruba</span></td>
+      <td style="text-align:left">Username</td>
+      <td style="text-align:left">Password</td>
+      <td style="text-align:left"></td>
     </tr>
   </tbody>
 </table>
