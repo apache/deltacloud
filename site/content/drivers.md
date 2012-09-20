@@ -137,7 +137,7 @@ The driver and provider can be selected through the request headers <strong> X-D
     </tr>
     <tr>
       <td class='provider'>
-        <strong>IBM SBC</strong>
+        <strong>IBM SmartCloud</strong>
       </td>
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
@@ -433,7 +433,7 @@ The following table gives details about the credentials that must be provided fo
     </tr>
     <tr>
       <td>
-        <strong>IBM SBC</strong>
+        <strong>IBM SmartCloud</strong>
       </td>
       <td>sbc</td>
       <td>Username</td>

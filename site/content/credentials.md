@@ -53,7 +53,7 @@ title: Credentials
     </tr>
     <tr>
       <td style="text-align:left">
-        <strong>IBM SBC</strong>
+        <strong>IBM SmartCloud</strong>
       </td>
       <td style="text-align:left"><span style="font-size:x-small">sbc</span></td>
       <td style="text-align:left">Username</td>
