@@ -91,6 +91,7 @@ module Deltacloud::Helpers
       response.status = @code || @error.code
       respond_to do |format|
         format.xml {  haml :"errors/#{@code || @error.code}", :layout => false }
+        format.json { xml_to_json("errors/#{@code || @error.code}") }
         format.html { haml :"errors/#{@code || @error.code}", :layout => :error }
       end
     end
