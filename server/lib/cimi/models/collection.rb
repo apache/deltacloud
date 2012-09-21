@@ -86,7 +86,9 @@ module CIMI::Model
       def list(context)
         entries = find(:all, context)
         desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
-        collection_class.new(:count => entries.size,
+        id = context.send("#{collection_class.entry_name}_url")
+        collection_class.new(:id => id, :name => 'default',
+                             :count => entries.size,
                              :entries => entries,
                              :description => desc)
       end
