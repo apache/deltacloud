@@ -21,7 +21,7 @@ module CIMI::Collections
       operation :index do
         description "List all resource metadata defined for this provider"
         control do
-          resource_metadata = CIMI::Model::ResourceMetadataCollection.default(self)
+          resource_metadata = CIMI::Model::ResourceMetadata.list(self)
           respond_to do |format|
             format.xml{resource_metadata.to_xml}
             format.json{resource_metadata.to_json}
