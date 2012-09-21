@@ -48,9 +48,6 @@ describe Deltacloud::Collections::Keys do
     xml.root.name.must_equal 'key'
     xml.root[:id].must_equal 'unit-test1'
     (xml/'key/pem').wont_be_empty
-    Proc.new {
-      post root_url + '/keys', { :name => 'unit-test1' }
-    }.must_raise Deltacloud::ExceptionHandler::ProviderError, 'keyExist'
     delete root_url + '/keys/unit-test1'
     status.must_equal 204
   end
