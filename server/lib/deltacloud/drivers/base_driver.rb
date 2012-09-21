@@ -64,10 +64,6 @@ module Deltacloud
       self.class.name.split('::').last.gsub('Driver', '').downcase
     end
 
-    def self.exceptions(&block)
-      ExceptionHandler::exceptions(&block)
-    end
-
     def self.define_hardware_profile(profile_id, &block)
       @hardware_profiles ||= []
       hw_profile = @hardware_profiles.find{|e| e.id == profile_id }

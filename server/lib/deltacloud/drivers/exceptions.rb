@@ -177,12 +177,23 @@ module Deltacloud
       @definitions
     end
 
+    module DSL
+      def exceptions(&block)
+        @definitions = Exceptions.new(&block).exception_definitions if block_given?
+        @definitions
+      end
+    end
+
+    def self.included(klass)
+      klass.extend(DSL)
+    end
+
     def safely(&block)
       begin
         block.call
       rescue
         report_method = $stderr.respond_to?(:err) ? :err : :puts
-        Deltacloud::ExceptionHandler::exceptions.each do |exdef|
+        self.class.exceptions.each do |exdef|
           if exdef.match?($!)
             new_exception = exdef.handler($!)
             m = (new_exception && !new_exception.message.nil?) ? new_exception.message : $!.message
@@ -192,7 +203,9 @@ module Deltacloud
             raise exdef.handler($!) unless new_exception.nil?
           end
         end
-        $stderr.send(report_method, "[NO HANDLED] #{[$!.class.to_s, $!.message].join(': ')}\n#{$!.backtrace.join("\n")}")
+        unless ENV['RACK_ENV'] == 'test'
+          $stderr.send(report_method, "[NO HANDLED] #{[$!.class.to_s, $!.message].join(': ')}\n#{$!.backtrace.join("\n")}")
+        end
         raise Deltacloud::ExceptionHandler::BackendError.new($!, "Unhandled exception or status code (#{$!.message})")
       end
     end
