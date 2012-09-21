@@ -131,7 +131,7 @@ module Deltacloud
 
       # Condition can be class or regexp
       #
-      def match?(e)
+      def any?(e)
         @conditions.each do |c|
           return true if c.class == Class && e.class == c
           return true if c.class == Regexp && (e.class.name =~ c or e.message =~ c)
@@ -180,8 +180,14 @@ module Deltacloud
     module DSL
       def exceptions(&block)
         @definitions = Exceptions.new(&block).exception_definitions if block_given?
+        @definitions ||= []
         @definitions
       end
+    end
+
+    def self.logger(logger=nil)
+      @logger = logger
+      @logger ||= ::Logger.new($stderr)
     end
 
     def self.included(klass)
@@ -191,22 +197,19 @@ module Deltacloud
     def safely(&block)
       begin
         block.call
-      rescue
-        report_method = $stderr.respond_to?(:err) ? :err : :puts
-        self.class.exceptions.each do |exdef|
-          if exdef.match?($!)
-            new_exception = exdef.handler($!)
-            m = (new_exception && !new_exception.message.nil?) ? new_exception.message : $!.message
-            unless ENV['RACK_ENV'] == 'test'
-              $stderr.send(report_method, "#{[$!.class.to_s, m].join(':')}\n#{$!.backtrace[0..10].join("\n")}")
-            end
-            raise exdef.handler($!) unless new_exception.nil?
+      rescue => e
+        log = ExceptionHandler.logger
+        self.class.exceptions.each do |definitions|
+          next unless definitions.any? e
+          if (new_exception = definitions.handler(e)) and new_exception.message
+            message = new_exception.message
           end
+          message ||= e.message
+          log.error "#{[e.class.to_s, message].join(':')}\n#{e.backtrace[0..10].join("\n")}" unless ENV['RACK_ENV'] == 'test'
+          raise definitions.handler(e) unless new_exception.nil?
         end
-        unless ENV['RACK_ENV'] == 'test'
-          $stderr.send(report_method, "[NO HANDLED] #{[$!.class.to_s, $!.message].join(': ')}\n#{$!.backtrace.join("\n")}")
-        end
-        raise Deltacloud::ExceptionHandler::BackendError.new($!, "Unhandled exception or status code (#{$!.message})")
+        log.error "[NO HANDLED] #{[e.class.to_s, e.message].join(': ')}\n#{e.backtrace.join("\n")}" unless ENV['RACK_ENV'] == 'test'
+        raise BackendError.new(e, "Unhandled exception or status code (#{e.message})")
       end
     end
 
