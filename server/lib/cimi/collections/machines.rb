@@ -62,7 +62,6 @@ module CIMI::Collections
 
       operation :destroy, :with_capability => :destroy_instance do
         description "Delete a specified machine."
-        param :id,          :string,    :required
         control do
           Machine.delete!(params[:id], self)
           no_content_with_status(200)
@@ -71,6 +70,7 @@ module CIMI::Collections
 
       action :stop, :with_capability => :stop_instance do
         description "Stop specific machine."
+        param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
           if request.content_type.end_with?("+json")
@@ -87,6 +87,7 @@ module CIMI::Collections
 
       action :restart, :with_capability => :restart_instance do
         description "Start specific machine."
+        param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
           if request.content_type.end_with?("+json")
@@ -103,6 +104,7 @@ module CIMI::Collections
 
       action :start, :with_capability => :start_instance do
         description "Start specific machine."
+        param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
           if request.content_type.end_with?("+json")
@@ -119,6 +121,7 @@ module CIMI::Collections
 
       operation :disks, :with_capability => :hardware_profiles do
         description "Retrieve the Machine's DiskCollection"
+        param :id,          :string,    :required
         control do
           disks = DiskCollection.default(params[:id], self)
           respond_to do |format|
@@ -130,6 +133,7 @@ module CIMI::Collections
 
       operation :volumes, :with_capability => :storage_volumes do
         description "Retrieve the Machine's MachineVolumeCollection"
+        param :id,          :string,    :required
         control do
           volumes = MachineVolumeCollection.default(params[:id], self)
           respond_to do |format|
@@ -144,6 +148,7 @@ module CIMI::Collections
       #with inclusion/ommission of the volumes you want [att|det]ached
       action :attach_volume, :http_method => :put, :with_capability => :attach_storage_volume do
         description "Attach CIMI Volume(s) to a machine."
+        param :id,          :string,    :required
         control do
           if request.content_type.end_with?("+json")
             volumes_to_attach = Volume.find_to_attach_from_json(request.body.read, self)
@@ -160,6 +165,7 @@ module CIMI::Collections
 
       action :detach_volume, :http_method => :put, :with_capability => :detach_storage_volume do
         description "Detach CIMI Volume(s) from a machine."
+        param :id,          :string,    :required
         control do
           if request.content_type.end_with?("+json")
             volumes_to_detach = Volume.find_to_attach_from_json(request.body.read, self)

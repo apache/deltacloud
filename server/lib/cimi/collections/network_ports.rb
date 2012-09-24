@@ -88,6 +88,7 @@ module CIMI::Collections
 
       action :stop, :with_capability => :stop_network_port do
         description "Stop specific NetworkPort."
+        param :id,          :string,    :required
         control do
           network_port = NetworkPort.find(params[:id], self)
           report_error(404) unless network_port

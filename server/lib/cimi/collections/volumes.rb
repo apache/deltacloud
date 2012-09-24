@@ -67,7 +67,6 @@ module CIMI::Collections
 
       operation :destroy do
         description "Delete a specified Volume"
-        param :id, :string, :required
         control do
           Volume.delete!(params[:id], self)
           no_content_with_status(200)

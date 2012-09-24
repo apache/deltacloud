@@ -61,7 +61,6 @@ module CIMI::Collections
 
       operation :destroy, :with_capability => :delete_network do
         description "Delete a specified Network"
-        param :id, :string, :required
         control do
           Network.delete!(params[:id], self)
           no_content_with_status(200)
@@ -70,6 +69,7 @@ module CIMI::Collections
 
       action :start, :with_capability => :start_network do
         description "Start specific network."
+        param :id, :string, :required
         control do
           network = Network.find(params[:id], self)
           report_error(404) unless network
@@ -87,6 +87,7 @@ module CIMI::Collections
 
       action :stop, :with_capability => :stop_network do
         description "Stop specific network."
+        param :id, :string, :required
         control do
           network = Network.find(params[:id], self)
           report_error(404) unless network
@@ -104,6 +105,7 @@ module CIMI::Collections
 
       action :suspend, :with_capability => :suspend_network do
         description "Suspend specific network."
+        param :id, :string, :required
         control do
           network = Network.find(params[:id], self)
           report_error(404) unless network
@@ -121,6 +123,7 @@ module CIMI::Collections
 
       operation :network_ports, :with_capability => :network_ports do
         description "Retrieve the Network's NetworkPortCollection"
+        param :id, :string, :required
         control do
           network_ports = NetworkPortCollection.for_network(params[:id], self)
           respond_to do |format|
