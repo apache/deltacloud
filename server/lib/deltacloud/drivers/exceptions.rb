@@ -172,6 +172,7 @@ module Deltacloud
     end
 
     def self.exceptions(&block)
+      @definitions ||= []
       @definitions = Exceptions.new(&block).exception_definitions if block_given?
       @definitions
     end
