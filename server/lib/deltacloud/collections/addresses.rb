@@ -60,6 +60,7 @@ module Deltacloud::Collections
 
       action :associate, :with_capability => :associate_address do
         description "Associate an IP address to an instance"
+        param :id, :string, :required
         param :instance_id, :string, :required
         control do
           driver.associate_address(credentials, { :id => params[:id], :instance_id => params[:instance_id]})
@@ -74,6 +75,7 @@ module Deltacloud::Collections
 
       action :disassociate, :with_capability => :associate_address do
         description "Disassociate an IP address from an instance"
+        param :id, :string, :required
         control do
           driver.disassociate_address(credentials, { :id => params[:id] })
           status 202   # Accepted

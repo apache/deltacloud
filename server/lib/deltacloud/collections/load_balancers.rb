@@ -60,6 +60,7 @@ module Deltacloud::Collections
       end
 
       action :register, :with_capability => :lb_register_instance do
+        param :id, :string, :required
         param :instance_id, :string,  :required
         control do
           driver.lb_register_instance(credentials, params)
@@ -73,6 +74,7 @@ module Deltacloud::Collections
       end
 
       action :unregister, :with_capability => :lb_unregister_instance do
+        param :id, :string, :required
         param :instance_id, :string,  :required
         control do
           driver.lb_unregister_instance(credentials, params)

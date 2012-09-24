@@ -120,6 +120,7 @@ module Deltacloud::Collections
       collection :blobs, :with_id => :blob_id, :no_member => true do
 
         operation :show, :with_capability => :blob do
+          param :blob_id, :string, :required
           control do
             @blob = driver.blob(credentials, { :id => params[:blob_id], 'bucket' => params[:id]} )
             if @blob
@@ -137,6 +138,7 @@ module Deltacloud::Collections
 
         operation :create, :with_capability => :create_blob do
           description "Create new blob"
+          param :id, :string, :required, 'The bucket ID'
           param :blob_id,  :string,  :required
           param :blob_data, :hash, :required
           control do
@@ -165,6 +167,7 @@ module Deltacloud::Collections
         end
 
         operation :destroy, :with_capability => :delete_blob do
+          param :blob_id, :string, :required, 'The id of the blob to destroy'
           control do
             bucket_id = params[:id]
             blob_id = params[:blob_id]
@@ -180,6 +183,8 @@ module Deltacloud::Collections
 
         action :stream, :http_method => :put, :with_capability => :create_blob do
           description "Stream new blob data into the blob"
+          param :id, :string, :required
+          param :blob_id, :string, :required
           control do
             if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
               content_type = env["CONTENT_TYPE"]
@@ -215,6 +220,8 @@ module Deltacloud::Collections
         end
 
         action :metadata, :http_method => :head, :with_capability => :blob_metadata do
+          param :id, :string, :required
+          param :blob_id, :string, :required
           control do
             @blob_id = params[:blob_id]
             @blob_metadata = driver.blob_metadata(credentials, {:id => params[:blob_id], 'bucket' => params[:id]})
@@ -234,10 +241,11 @@ module Deltacloud::Collections
         end
 
         action :update, :http_method => :post, :with_capability => :update_blob_metadata do
+          param :blob_id, :string, :required
           control do
             meta_hash = BlobHelper::extract_blob_metadata_hash(request.env)
             success = driver.update_blob_metadata(credentials, {'bucket'=>params[:id], :id =>params[:blob_id], 'meta_hash' => meta_hash})
-           if(success)
+            if(success)
               meta_hash.each do |k,v|
                 headers["X-Deltacloud-Blobmeta-#{k}"] = v
               end
@@ -254,6 +262,8 @@ module Deltacloud::Collections
 
         action :content, :http_method => :get, :with_capability => :blob do
           description "Download blob content"
+          param :id, :string, :required
+          param :blob_id, :string, :required
           control do
             @blob = driver.blob(credentials, { :id => params[:blob_id], 'bucket' => params[:id]})
             if @blob

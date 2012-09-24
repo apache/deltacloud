@@ -33,10 +33,6 @@ module Deltacloud::Collections
       standard_index_operation
       standard_show_operation
 
-      operation :show, :with_capability => :storage_volume do
-        control { show(:storage_volume) }
-      end
-
       operation :create, :with_capability => :create_storage_volume do
         param :snapshot_id, :string,  :optional
         param :capacity,    :string,  :optional
@@ -54,6 +50,7 @@ module Deltacloud::Collections
       end
 
       action :attach, :with_capability => :attach_storage_volume do
+        param :id, :string, :required
         param :instance_id,:string,  :required
         param :device,     :string,  :required
         control do
@@ -68,6 +65,7 @@ module Deltacloud::Collections
       end
 
       action :detach, :with_capability => :detach_storage_volume do
+        param :id, :string, :required
         control do
           volume = driver.storage_volume(credentials, :id => params[:id])
           @storage_volume =  driver.detach_storage_volume(credentials, :id => volume.id,

@@ -77,16 +77,19 @@ module Deltacloud::Collections
 
       action :reboot, :with_capability => :reboot_instance do
         description "Reboot a running instance."
+        param :id, :string, :required
         control { instance_action(:reboot) }
       end
 
       action :start, :with_capability => :start_instance do
         description "Start an instance."
+        param :id, :string, :required
         control { instance_action(:start) }
       end
 
       action :stop, :with_capability => :stop_instance do
         description "Stop a running instance."
+        param :id, :string, :required
         control { instance_action(:stop) }
       end
 
@@ -95,6 +98,7 @@ module Deltacloud::Collections
       end
 
       action :run, :with_capability => :run_on_instance do
+        param :id,          :string,  :required
         param :cmd,         :string,  :required, [], "Shell command to run on instance"
         param :private_key, :string,  :optional, [], "Private key in PEM format for authentication"
         param :password,    :string,  :optional, [], "Password used for authentication"
