@@ -342,6 +342,20 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
+<tr>
+<td class="provider">
+        <strong>Aruba cloud.it</strong>
+      </td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+    </tr>
 </tbody>
 </table><p><br></p>
 
@@ -482,12 +496,12 @@ The following table gives details about the credentials that must be provided fo
       <td>User certificate's folder name</td>
       <td>User certificate's passphrase</td>
       <td>
-      <p>Set the environment variable FGCP_CERT_DIR to a folder where the folder with UserCert.p12 is stored or place UserCert.p12 in</p> 
+      <p>Set the environment variable FGCP_CERT_DIR to a folder where the folder with UserCert.p12 is stored or place UserCert.p12 in</p>
 <p><code style="font-size:small; color:#606060">
 ~/.deltacloud/config/fgcp/&lt;Username&gt;/
 </code>  or</p>
 <p><code style="font-size:small; color:#606060">
-%USERPROFILE%\.deltacloud\config\fgcp\&lt;Username&gt;\ 
+%USERPROFILE%\.deltacloud\config\fgcp\&lt;Username&gt;\
 </code></p>
       <p style="margin-bottom:0px">in Windows. Then use Username to authenticate.</p>
       </td>
@@ -588,6 +602,15 @@ The following table gives details about the credentials that must be provided fo
       <td>vSphere user password</td>
       <td>Set the environment variable API_PROVIDER to the hostname of the vSphere server and the Datastore.</td>
     </tr>
+<tr>
+<td>
+        <strong>Aruba cloud.it</strong>
+      </td>
+      <td>aruba</td>
+      <td>Username</td>
+      <td>Password</td>
+      <td></td>
+    </tr>
 </tbody>
 </table><p><br></p>
 
@@ -676,7 +699,7 @@ The OpenNebula driver has been updated to support v3.x of the OpenNebula API. Th
     <div id="fgcp" class="accordion-body collapse">
       <div class="accordion-inner">
       <p>
-      When you use the Fujitsu FGCP driver, do not authenticate with your FGCP Portal username. Use the name of the folder in which your UserCert.p12 is stored. UserCert.p12 can be issued from the Portal and it is the same as you use to access MyPortal. 
+      When you use the Fujitsu FGCP driver, do not authenticate with your FGCP Portal username. Use the name of the folder in which your UserCert.p12 is stored. UserCert.p12 can be issued from the Portal and it is the same as you use to access MyPortal.
       </p>
       <p>
       Set the enviroment variable FGCP_CERT_DIR to override the default path <strong>~/.deltacloud/config/fgcp/</strong> to locate the Username folder with the UserCert.p12 file.
@@ -721,7 +744,7 @@ The RHEV-M driver supports latest release of Red Hat Enterprise Virtualization M
 </p>
 
 <pre>
-API_PROVIDER="https://rhevm.hostname.com:8443/api;645e425e-66fe-4ac9-8874-537bd10ef08d" 
+API_PROVIDER="https://rhevm.hostname.com:8443/api;645e425e-66fe-4ac9-8874-537bd10ef08d"
 </pre>
 
 <p>
