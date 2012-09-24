@@ -10,10 +10,12 @@ group :development do
   gem "rack-test"
   gem "minitest"
   gem "simplecov"
-  gem 'turn'
-  gem 'minitest-reporters'
   gem "webmock"
   gem "vcr"
   gem "aws"
 end
 
+group :jenkins do
+  gem 'turn', :platform => "ruby_19"
+  gem 'minitest-reporters', :platform => "ruby_19"
+end

@@ -29,12 +29,14 @@ begin
     c.trace   = true
     c.natural = true
   end
-rescue; end
+rescue LoadError
+end
 
 begin
   require "minitest/reporters"
   MiniTest::Reporters.use!(MiniTest::Reporters::JUnitReporter.new) if !ENV['BUILD_NUMBER'].nil?
-rescue;end
+rescue LoadError
+end
 
 def record_retries(name='', opts = {})
   opts[:before] = Proc.new { |r, &block|
