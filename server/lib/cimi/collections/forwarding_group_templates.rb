@@ -12,37 +12,35 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
 module CIMI::Collections
-  class RoutingGroups < Base
+  class ForwardingGroupTemplates < Base
 
     set :capability, lambda { |m| driver.respond_to? m }
 
-    collection :routing_groups do
+    collection :forwarding_group_templates do
 
-      operation :index, :with_capability => :routing_groups do
-        description 'List all RoutingGroups in the RoutingGroupsCollection'
+      operation :index, :with_capability => :forwarding_groups do
+        description 'List all ForwardingGroupTemplates in the ForwardingGroupTemplateCollection'
         param :CIMISelect, :string, :optional
         control do
-          routing_groups = RoutingGroup.list(self).filter_by(params[:CIMISelect])
+          forwarding_group_templates = ForwardingGroupTemplate.list(self).filter_by(params[:CIMISelect])
           respond_to do |format|
-            format.xml {routing_groups.to_xml}
-            format.json {routing_groups.to_json}
+            format.xml {forwarding_group_templates.to_xml}
+            format.json {forwarding_group_templates.to_json}
           end
         end
       end
 
-      operation :show, :with_capability => :routing_group do
-        description 'Show a specific RoutingGroup'
+      operation :show, :with_capability => :forwarding_groups do
+        description 'Show a specific ForwardingGroupTemplate'
         control do
-          routing_group = RoutingGroup.find(params[:id], self)
+          forwarding_group_template = ForwardingGroupTemplate.find(params[:id], self)
           respond_to do |format|
-            format.xml {routing_group.to_xml}
-            format.json {routing_group.to_json}
+            format.xml {forwarding_group_template.to_xml}
+            format.json {forwarding_group_template.to_json}
           end
         end
       end
-
     end
 
   end

@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::RoutingGroupTemplate < CIMI::Model::Base
+class CIMI::Model::ForwardingGroup < CIMI::Model::Base
 
   acts_as_root_entity
 
@@ -27,9 +27,9 @@ class CIMI::Model::RoutingGroupTemplate < CIMI::Model::Base
 
   def self.find(id, context)
     if id==:all
-      context.driver.routing_group_templates(context.credentials, {:env=>context})
+      context.driver.forwarding_groups(context.credentials, {:env=>context})
     else
-      context.driver.routing_group_templates(context.credentials, {:env=>context, :id=>id})
+      context.driver.forwarding_groups(context.credentials, {:env=>context, :id=>id})
     end
   end
 

@@ -53,25 +53,25 @@ module Deltacloud::Drivers::Mock
       end
     end
 
-    def routing_groups(credentials, opts={})
+    def forwarding_groups(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        routing_groups = @client.load_all_cimi(:routing_group).map{|rg| CIMI::Model::RoutingGroup.from_json(rg)}
-        routing_groups.map{|rg|convert_cimi_mock_urls(:routing_group, rg, opts[:env])}.flatten
+        forwarding_groups = @client.load_all_cimi(:forwarding_group).map{|fg| CIMI::Model::ForwardingGroup.from_json(fg)}
+        forwarding_groups.map{|fg|convert_cimi_mock_urls(:forwarding_group, fg, opts[:env])}.flatten
       else
-        routing_group = CIMI::Model::RoutingGroup.from_json(@client.load_cimi(:routing_group, opts[:id]))
-        convert_cimi_mock_urls(:routing_group, routing_group, opts[:env])
+        forwarding_group = CIMI::Model::ForwardingGroup.from_json(@client.load_cimi(:forwarding_group, opts[:id]))
+        convert_cimi_mock_urls(:forwarding_group, forwarding_group, opts[:env])
       end
     end
 
-    def routing_group_templates(credentials, opts={})
+    def forwarding_group_templates(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        routing_group_templates = @client.load_all_cimi(:routing_group_template).map{|rg_templ| CIMI::Model::RoutingGroupTemplate.from_json(rg_templ)}
-        routing_group_templates.map{|rg_templ|convert_cimi_mock_urls(:routing_group_template, rg_templ, opts[:env])}.flatten
+        forwarding_group_templates = @client.load_all_cimi(:forwarding_group_template).map{|fg_templ| CIMI::Model::ForwardingGroupTemplate.from_json(fg_templ)}
+        forwarding_group_templates.map{|fg_templ|convert_cimi_mock_urls(:forwarding_group_template, fg_templ, opts[:env])}.flatten
       else
-        routing_group_template = CIMI::Model::RoutingGroupTemplate.from_json(@client.load_cimi(:routing_group_template, opts[:id]))
-        convert_cimi_mock_urls(:routing_group_template, routing_group_template, opts[:env])
+        forwarding_group_template = CIMI::Model::ForwardingGroupTemplate.from_json(@client.load_cimi(:forwarding_group_template, opts[:id]))
+        convert_cimi_mock_urls(:forwarding_group_template, forwarding_group_template, opts[:env])
       end
     end
 
@@ -105,6 +105,17 @@ module Deltacloud::Drivers::Mock
       else
         network_port_template = CIMI::Model::NetworkPortTemplate.from_json(@client.load_cimi(:network_port_template, opts[:id]))
         convert_cimi_mock_urls(:network_port_template, network_port_template, opts[:env])
+      end
+    end
+
+    def address_templates(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        address_templates = @client.load_all_cimi(:address_template).map{|addr_templ| CIMI::Model::AddressTemplate.from_json(addr_templ)}
+        address_templates.map{|addr_templ|convert_cimi_mock_urls(:address_template, addr_templ, opts[:env])}.flatten
+      else
+        address_template = CIMI::Model::AddressTemplate.from_json(@client.load_cimi(:address_template, opts[:id]))
+        convert_cimi_mock_urls(:address_template, address_template, opts[:env])
       end
     end
 
