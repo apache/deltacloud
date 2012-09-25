@@ -32,7 +32,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show, :with_capability => :address_template do
+      operation :show, :with_capability => :address_templates do
         description 'Show a specific AddressTemplate'
         control do
           address_template = CIMI::Model::AddressTemplate.find(params[:id], self)

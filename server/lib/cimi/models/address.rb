@@ -27,8 +27,6 @@ class CIMI::Model::Address < CIMI::Model::Base
 
   text :dns
 
-  text :mac_address
-
   text :protocol
 
   text :mask
@@ -43,9 +41,11 @@ class CIMI::Model::Address < CIMI::Model::Base
 
   def self.find(id, context)
     if id==:all
-      context.driver.addresses(context.credentials, {:env=>context})
+      addresses = context.driver.addresses(context.credentials)
+      addresses.map{|addr| from_address(addr, context)}
     else
-      context.driver.addresses(context.credentials, {:id=>id, :env=>context})
+      address = context.driver.address(context.credentials, {:id=>id})
+      from_address(address, context)
     end
   end
 
@@ -69,6 +69,32 @@ class CIMI::Model::Address < CIMI::Model::Base
 
   def self.delete!(id, context)
     context.driver.delete_address(context.credentials, id)
+  end
+
+  private
+
+  def self.from_address(address, context)
+    self.new(
+      :name => address.id,
+      :id => context.address_url(address.id),
+      :description => "Address #{address.id}",
+      :ip => address.id,
+      :allocation => "dynamic", #or "static"
+      :default_gateway => "unkown", #wtf
+      :dns => "unknown", #wtf
+      :protocol => protocol_from_address(address.id),
+      :mask => "unknown",
+      :resource => (address.instance_id) ? {:href=> context.machine_url(address.instance_id)} : nil,
+      :network => nil #unknown
+      #optional:
+      #:hostname =>
+      #:
+    )
+  end
+
+  def self.protocol_from_address(address)
+    addr = IPAddr.new(address)
+    addr.ipv4? ? "ipv4" : "ipv6"
   end
 
 end

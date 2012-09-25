@@ -27,8 +27,6 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
 
   text :dns
 
-  text :mac_address
-
   text :protocol
 
   text :mask
