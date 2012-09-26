@@ -202,6 +202,19 @@ class GoogleDriver < Deltacloud::BaseDriver
     return true
   end
 
+  exceptions do
+
+    on /(InvalidAccessKeyId|InvalidSecurity)/ do
+      status 401
+    end
+
+    on /BucketNameUnavailable/ do
+      message "Bucket name already taken"
+      status 409
+    end
+
+  end
+
   private
 
   def new_client(credentials)
