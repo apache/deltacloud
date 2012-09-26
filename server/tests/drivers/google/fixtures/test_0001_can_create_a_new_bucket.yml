@@ -1,36 +1,40 @@
---- 
-http_interactions: 
-- request: 
+---
+http_interactions:
+- request:
     method: put
-    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/
-    body: 
-      string: ""
-    headers: 
-      Authorization: 
-      - GOOG1 GOOGXKQLYTEOZTILUBZ5:M4K9MWPskNvOyouLnfg2TrwVW4M=
-      Date: 
-      - Thu, 28 Jun 2012 13:51:51 +0000
-  response: 
-    status: 
+    uri: https://testbucki2rpux3wdelmegoogel.storage.googleapis.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Sep 2012 11:05:31 +0000
+      Authorization:
+      - GOOG1 GOOG4PBMMHEB2BTY6Q7U:oBN2uaQdWyuXXVBPD9qpBOXIXtI=
+  response:
+    status:
       code: 200
       message: 
-    headers: 
-      Content-Length: 
-      - "0"
-      Server: 
-      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
-      Expires: 
-      - Fri, 01 Jan 1990 00:00:00 GMT
-      Content-Type: 
-      - text/html; charset=UTF-8
-      Pragma: 
+    headers:
+      Server:
+      - HTTP Upload Server Built on Sep 5 2012 17:14:59 (1346890499)
+      Vary:
+      - Origin
+      Date:
+      - Wed, 26 Sep 2012 11:04:43 GMT
+      Pragma:
       - no-cache
-      Date: 
-      - Thu, 28 Jun 2012 13:51:52 GMT
-      Cache-Control: 
+      Expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      Cache-Control:
       - no-cache, no-store, must-revalidate
-    body: 
-      string: ""
+      Content-Length:
+      - '0'
+      Content-Type:
+      - text/html; charset=UTF-8
+    body:
+      encoding: US-ASCII
+      string: ''
     http_version: 
-  recorded_at: Thu, 28 Jun 2012 13:51:52 GMT
-recorded_with: VCR 2.2.2
+  recorded_at: Wed, 26 Sep 2012 11:05:34 GMT
+recorded_with: VCR 2.2.5

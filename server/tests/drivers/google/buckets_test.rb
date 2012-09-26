@@ -74,13 +74,13 @@ describe 'Deltacloud API' do
     blob.id.must_equal blob_name_google
     blob.content_length.to_i.must_be :'>',0
     blob.last_modified.wont_be_empty
-    blob.content_type.must_equal 'text/html'
+    blob.content_type.must_equal 'image/png'
     blob.user_metadata.keys.wont_be_empty
   end
 
   it 'can retrieve named blob metadata' do
     blob_metadata = @driver.blob_metadata({:id => blob_name_google, 'bucket' => bucket_name_google})
-    {"author"=>"deltacloud", "foo"=>"bar"}.must_equal blob_metadata
+    {"name1"=>"Author", "value1"=>"deltacloud", "name2"=>"foo", "value2"=>"bar"}.must_equal blob_metadata
   end
 
   it 'can update blob metadata' do

@@ -4,8 +4,8 @@ require_relative '../../test_helper'
 
 def credentials
   {
-    :user => 'GOOGXKQLYTEOZTILUBZ5',
-    :password => 'M3pvZUy2ivT78ipQ+u1xv6TkY83q9DUnGXkov3tA'
+    :user => 'GOOG4PBMMHEB2BTY6Q7U',
+    :password => '7NxqwXy85xmaWB6o1RZ66IxqP+Rmbu8UFiFdpcSw'
   }
 end
 
@@ -16,5 +16,5 @@ end
 VCR.configure do |c|
   c.cassette_library_dir = "#{File.dirname(__FILE__)}/fixtures/"
   c.hook_into :excon
-  c.default_cassette_options = { :record => :none }
+  c.default_cassette_options = { :record => :new_episodes }
 end

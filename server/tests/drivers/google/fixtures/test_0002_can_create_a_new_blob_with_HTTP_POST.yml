@@ -1,10 +1,11 @@
---- 
-http_interactions: 
-- request: 
+---
+http_interactions:
+- request:
     method: put
-    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/testblobk1ds91kVdelmegoogel
-    body: 
-      string: !binary |
+    uri: https://testbucki2rpux3wdelmegoogel.storage.googleapis.com/testblobk1ds91kVdelmegoogel
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
         iVBORw0KGgoAAAANSUhEUgAAAmwAAAEJCAYAAAApRHtRAAAAGXRFWHRTb2Z0
         d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAXxZJREFUeNrsvQmUJNV57/lF
         RG61d1XvTW800NBAswsEAiRsNkugsS2BZDDyom10xnrHSBoLjeeMOF6O0Jsn
@@ -549,45 +550,55 @@ http_interactions:
         IWT+cV33iJK1+5Sr3Y2wWkItcYicvxBCCCGEkCZwNn/JxtT/5f2NDoWNEEII
         IaSphA2eljdRNUbXCCGEEEKaU9rc/1+AAQDHmixwNhp67QAAAABJRU5ErkJg
         gg==
-
-    headers: 
-      Content-Length: 
+    headers:
+      Content-Length:
       - 24436
-      x-goog-meta-foo: 
-      - bar
-      Authorization: 
-      - GOOG1 GOOGXKQLYTEOZTILUBZ5:0yoO46mDSvQuaeJTOjWuFXQC1hc=
-      x-goog-meta-author: 
+      Content-Type:
+      - image/png
+      x-goog-meta-name1:
+      - Author
+      x-goog-meta-value1:
       - deltacloud
-      Content-Type: 
-      - text/html
-      Date: 
-      - Thu, 28 Jun 2012 13:51:52 +0000
-  response: 
-    status: 
+      x-goog-meta-name2:
+      - foo
+      x-goog-meta-value2:
+      - bar
+      Date:
+      - Wed, 26 Sep 2012 11:05:34 +0000
+      Authorization:
+      - GOOG1 GOOG4PBMMHEB2BTY6Q7U:/tzJsIn6qzEmRCSh4j9gla9hVT0=
+  response:
+    status:
       code: 200
       message: 
-    headers: 
-      Content-Length: 
-      - "0"
-      Server: 
-      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
-      Expires: 
-      - Fri, 01 Jan 1990 00:00:00 GMT
-      Content-Type: 
-      - text/html; charset=UTF-8
-      Pragma: 
+    headers:
+      Server:
+      - HTTP Upload Server Built on Sep 5 2012 17:14:59 (1346890499)
+      ETag:
+      - ! '"6051b502c4281855ff32dc3e924fe3b0"'
+      x-goog-sequence-number:
+      - '1'
+      x-goog-generation:
+      - '1348657487201001'
+      x-goog-metageneration:
+      - '1'
+      Vary:
+      - Origin
+      Date:
+      - Wed, 26 Sep 2012 11:04:47 GMT
+      Pragma:
       - no-cache
-      Date: 
-      - Thu, 28 Jun 2012 13:51:55 GMT
-      ETag: 
-      - "\"6051b502c4281855ff32dc3e924fe3b0\""
-      x-goog-sequence-number: 
-      - "1"
-      Cache-Control: 
+      Expires:
+      - Fri, 01 Jan 1990 00:00:00 GMT
+      Cache-Control:
       - no-cache, no-store, must-revalidate
-    body: 
-      string: ""
+      Content-Length:
+      - '0'
+      Content-Type:
+      - text/html; charset=UTF-8
+    body:
+      encoding: US-ASCII
+      string: ''
     http_version: 
-  recorded_at: Thu, 28 Jun 2012 13:51:55 GMT
-recorded_with: VCR 2.2.2
+  recorded_at: Wed, 26 Sep 2012 11:05:37 GMT
+recorded_with: VCR 2.2.5

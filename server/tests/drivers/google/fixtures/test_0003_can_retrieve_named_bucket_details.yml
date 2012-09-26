@@ -1,34 +1,39 @@
---- 
-http_interactions: 
-- request: 
+---
+http_interactions:
+- request:
     method: get
-    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/
-    body: 
-      string: ""
-    headers: 
-      Authorization: 
-      - GOOG1 GOOGXKQLYTEOZTILUBZ5:rGTQT5CB3yfeXWfHMO2PPfRS+nU=
-      Date: 
-      - Thu, 28 Jun 2012 13:51:55 +0000
-  response: 
-    status: 
+    uri: https://testbucki2rpux3wdelmegoogel.storage.googleapis.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Sep 2012 11:05:37 +0000
+      Authorization:
+      - GOOG1 GOOG4PBMMHEB2BTY6Q7U:KJdF+x7gNJiXVyDGHrNeQ9rnZEo=
+  response:
+    status:
       code: 200
       message: 
-    headers: 
-      Content-Length: 
-      - "530"
-      Server: 
-      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
-      Expires: 
-      - Thu, 28 Jun 2012 13:51:56 GMT
-      Content-Type: 
+    headers:
+      Server:
+      - HTTP Upload Server Built on Sep 5 2012 17:14:59 (1346890499)
+      Content-Type:
       - application/xml; charset=UTF-8
-      Date: 
-      - Thu, 28 Jun 2012 13:51:56 GMT
-      Cache-Control: 
+      Content-Length:
+      - '608'
+      Vary:
+      - Origin
+      Date:
+      - Wed, 26 Sep 2012 11:04:48 GMT
+      Expires:
+      - Wed, 26 Sep 2012 11:04:48 GMT
+      Cache-Control:
       - private, max-age=0
-    body: 
-      string: <?xml version='1.0' encoding='UTF-8'?><ListBucketResult xmlns='http://doc.s3.amazonaws.com/2006-03-01'><Name>testbucki2rpux3wdelmegoogel</Name><Prefix></Prefix><Marker></Marker><IsTruncated>false</IsTruncated><Contents><Key>testblobk1ds91kVdelmegoogel</Key><LastModified>2012-06-28T13:51:55.477Z</LastModified><ETag>"6051b502c4281855ff32dc3e924fe3b0"</ETag><Size>24436</Size><StorageClass>STANDARD</StorageClass><Owner><ID>00b4903a9772c5a80c691066edef0ac07b267f576a2d11bbfc5bf1d2c7a2b8fd</ID></Owner></Contents></ListBucketResult>
+    body:
+      encoding: US-ASCII
+      string: <?xml version='1.0' encoding='UTF-8'?><ListBucketResult xmlns='http://doc.s3.amazonaws.com/2006-03-01'><Name>testbucki2rpux3wdelmegoogel</Name><Prefix></Prefix><Marker></Marker><IsTruncated>false</IsTruncated><Contents><Key>testblobk1ds91kVdelmegoogel</Key><Generation>1348657487201001</Generation><MetaGeneration>1</MetaGeneration><LastModified>2012-09-26T11:04:47.196Z</LastModified><ETag>"6051b502c4281855ff32dc3e924fe3b0"</ETag><Size>24436</Size><Owner><ID>00b4903a97efc6d73ef1dfe92e24dc7a438e44626a28441ff80b24096638b099</ID><DisplayName>Michal
+        Fojtik</DisplayName></Owner></Contents></ListBucketResult>
     http_version: 
-  recorded_at: Thu, 28 Jun 2012 13:51:56 GMT
-recorded_with: VCR 2.2.2
+  recorded_at: Wed, 26 Sep 2012 11:05:38 GMT
+recorded_with: VCR 2.2.5

@@ -1,46 +1,58 @@
---- 
-http_interactions: 
-- request: 
+---
+http_interactions:
+- request:
     method: head
-    uri: https://testbucki2rpux3wdelmegoogel.commondatastorage.googleapis.com/testblobk1ds91kVdelmegoogel
-    body: 
-      string: ""
-    headers: 
-      Authorization: 
-      - GOOG1 GOOGXKQLYTEOZTILUBZ5:7kE7uJL9uDHqE9qOLvC1UYX2bq0=
-      Date: 
-      - Thu, 28 Jun 2012 13:51:56 +0000
-  response: 
-    status: 
+    uri: https://testbucki2rpux3wdelmegoogel.storage.googleapis.com/testblobk1ds91kVdelmegoogel
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Date:
+      - Wed, 26 Sep 2012 11:05:38 +0000
+      Authorization:
+      - GOOG1 GOOG4PBMMHEB2BTY6Q7U:tPHjHS1GHlNn3Rr3IkcBmoG7AaE=
+  response:
+    status:
       code: 200
       message: 
-    headers: 
-      Content-Length: 
-      - "24436"
-      Accept-Ranges: 
-      - bytes
-      Server: 
-      - HTTP Upload Server Built on Jun 14 2012 02:12:09 (1339665129)
-      x-goog-meta-foo: 
-      - bar
-      Expires: 
-      - Thu, 28 Jun 2012 13:51:57 GMT
-      x-goog-meta-author: 
+    headers:
+      Server:
+      - HTTP Upload Server Built on Sep 5 2012 17:14:59 (1346890499)
+      Expires:
+      - Wed, 26 Sep 2012 11:04:48 GMT
+      Date:
+      - Wed, 26 Sep 2012 11:04:48 GMT
+      Cache-Control:
+      - private, max-age=0, no-transform
+      Last-Modified:
+      - Wed, 26 Sep 2012 11:04:47 GMT
+      ETag:
+      - ! '"6051b502c4281855ff32dc3e924fe3b0"'
+      x-goog-sequence-number:
+      - '1'
+      x-goog-generation:
+      - '1348657487201001'
+      x-goog-metageneration:
+      - '1'
+      x-goog-meta-name1:
+      - Author
+      x-goog-meta-value1:
       - deltacloud
-      Content-Type: 
-      - text/html
-      Last-Modified: 
-      - Thu, 28 Jun 2012 13:51:55 GMT
-      Date: 
-      - Thu, 28 Jun 2012 13:51:57 GMT
-      Cache-Control: 
-      - private, max-age=0
-      ETag: 
-      - "\"6051b502c4281855ff32dc3e924fe3b0\""
-      x-goog-sequence-number: 
-      - "1"
-    body: 
-      string: ""
+      x-goog-meta-name2:
+      - foo
+      x-goog-meta-value2:
+      - bar
+      Content-Type:
+      - image/png
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '24436'
+      Vary:
+      - Origin
+    body:
+      encoding: US-ASCII
+      string: ''
     http_version: 
-  recorded_at: Thu, 28 Jun 2012 13:51:57 GMT
-recorded_with: VCR 2.2.2
+  recorded_at: Wed, 26 Sep 2012 11:05:38 GMT
+recorded_with: VCR 2.2.5
