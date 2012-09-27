@@ -330,8 +330,9 @@ module DeltaCloud
 
     def use_driver(driver, opts={})
       if driver
-        @api_driver = driver 
+        @api_driver = driver
         @driver_name = driver
+        @api_provider = opts[:provider] if opts[:provider]
         @features, @entry_points = {}, {}
         discover_entry_points
       end
