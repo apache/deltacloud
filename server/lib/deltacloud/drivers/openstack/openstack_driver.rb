@@ -344,6 +344,9 @@ private
         #for v2 authentication credentials.name == "username+tenant_name"
         def new_client(credentials, type = :compute)
           tokens = credentials.user.split("+")
+          if credentials.user.empty?
+            raise AuthenticationFailure.new(Exception.new("Error: you must supply the username"))
+          end
           if (tokens.size != 2 && api_v2)
             raise ValidationFailure.new(Exception.new("Error: expected \"username+tenantname\" as username, you provided: #{credentials.user}"))
           else
@@ -503,6 +506,10 @@ private
 
           on /(Exception::BadRequest|PersonalityFilePathTooLong|PersonalityFileTooLarge|TooManyPersonalityItems)/ do
             status 400
+          end
+
+          on /Must supply a :username/ do
+            status 401
           end
 
           on /OpenStack::Exception::Authentication/ do
