@@ -54,6 +54,10 @@ end
 #       different root_url's
 #
 frontends.each do |frontend|
+  if Deltacloud[frontend.to_sym].nil?
+    puts "ERROR: Unknown frontend (#{frontend}). Valid values are 'deltacloud,cimi,ec2'"
+    exit(1)
+  end
   Deltacloud[frontend.to_sym].require!
   routes.merge!({
     Deltacloud[frontend].root_url => Deltacloud[frontend].klass
