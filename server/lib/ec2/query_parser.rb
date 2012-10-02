@@ -20,7 +20,7 @@ module Deltacloud::EC2
     MAPPINGS = {
       :describe_availability_zones => { :method => :realms, :params => { 'ZoneName.1' => :id } },
       :describe_images => { :method => :images, :params => { 'ImageId.1' => :id }},
-      :describe_instances => { :method => :instances, :params => {} },
+      :describe_instances => { :method => :instances, :params => {'InstanceId.1' => :id } },
       :describe_key_pairs => { :method => :keys, :params => {} },
       :create_key_pair => { :method => :create_key, :params => { 'KeyName' => :key_name }},
       :delete_key_pair => { :method => :destroy_key, :params => { 'KeyName' => :id }},
