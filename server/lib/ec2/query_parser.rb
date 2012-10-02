@@ -56,11 +56,26 @@ module Deltacloud::EC2
     def perform!(credentials, driver)
       @result = case deltacloud_method
         when :create_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:image_id), deltacloud_method_params)
-        when :stop_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
-        when :start_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
+        when :stop_instance then instance_action(driver, deltacloud_method, credentials, deltacloud_method_params.delete(:id))
+        when :start_instance then instance_action(driver, deltacloud_method, credentials, deltacloud_method_params.delete(:id))
         when :destroy_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
         when :reboot_instance then driver.send(deltacloud_method, credentials, deltacloud_method_params.delete(:id))
         else driver.send(deltacloud_method, credentials, deltacloud_method_params)
+      end
+    end
+
+    # Some drivers, like RHEV-M does not return the instance object
+    # but just notify client that the action was executed successfully.
+    #
+    # If we not received an Instance object, then we need to do additional
+    # query.
+    #
+    def instance_action(driver, action, credentials, id)
+      instance = driver.send(action, credentials, id)
+      if instance.kind_of? Instance
+        instance
+      else
+        driver.instance(credentials, :id => id)
       end
     end
 
