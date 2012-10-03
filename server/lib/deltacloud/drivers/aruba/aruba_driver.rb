@@ -197,10 +197,6 @@ class ArubaDriver < Deltacloud::BaseDriver
     end
   end
 
-  def supported_collections
-    DEFAULT_COLLECTIONS + [ :addresses ]
-  end
-
   def configured_providers
     Deltacloud::Drivers::driver_config[:aruba][:entrypoints]["compute"].keys
   end
