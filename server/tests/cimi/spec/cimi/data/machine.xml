@@ -10,7 +10,6 @@
   <volumes href="http://cimi.example.org/cimi/machines/1/volumes" />
   <state>STARTED</state>
   <meter href="http://cimi.example.org/meters/1"/>
-  <eventLog href="http://cimi.example.org/event_logs/1"/>
   <operation rel="edit" href="http://cimi.example.org/machines/1/edit"/>
   <operation rel="delete" href="http://cimi.example.org/machines/1/delete"/>
   <operation rel="http://schemas.dmtf.org/cimi/1/action/stop" href="http://cimi.example.org/machines/1/stop"/>

@@ -25,8 +25,6 @@ class CIMI::Model::NetworkPort < CIMI::Model::Base
 
   text :class_of_service
 
-  href :event_log
-
   array :meters do
     scalar :href
   end

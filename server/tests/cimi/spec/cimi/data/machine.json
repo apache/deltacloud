@@ -13,7 +13,6 @@
   "meters": [
     { "href": "http://cimi.example.org/meters/1" }
   ],
-  "eventLog": { "href": "http://cimi.example.org/event_logs/1" },
   "operations": [
     { "rel": "edit",
       "href": "http://cimi.example.org/machines/1/edit" },

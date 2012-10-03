@@ -22,8 +22,6 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   text :memory
 
-  href :event_log
-
   collection :disks, :class => CIMI::Model::Disk
   collection :volumes, :class => CIMI::Model::MachineVolume
 

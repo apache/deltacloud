@@ -29,8 +29,6 @@ class CIMI::Model::Network < CIMI::Model::Base
 
   href :forwarding_group
 
-  href :event_log
-
   array :meters do
     scalar :href
   end

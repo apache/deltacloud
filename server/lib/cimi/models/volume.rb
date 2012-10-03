@@ -30,7 +30,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
   array :meters do
     scalar :ref
   end
-  href :eventlog
+
   array :operations do
     scalar :rel, :href
   end
@@ -68,14 +68,14 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   def self.find_to_attach_from_json(json_in, context)
     json = JSON.parse(json_in)
-    volumes = json["volumes"].map{|v| {:volume=>self.find(v["volume"]["href"].split("/volumes/").last, context),
-                                       :attachment_point=>v["attachmentPoint"]  }}
+    json["volumes"].map{|v| {:volume=>self.find(v["volume"]["href"].split("/volumes/").last, context),
+                             :attachment_point=>v["attachmentPoint"]  }}
   end
 
   def self.find_to_attach_from_xml(xml_in, context)
     xml = XmlSimple.xml_in(xml_in)
-    volumes = xml["volume"].map{|v| {:volume => self.find(v["href"].split("/volumes/").last, context),
-                                      :attachment_point=>v["attachmentPoint"] }}
+    xml["volume"].map{|v| {:volume => self.find(v["href"].split("/volumes/").last, context),
+                           :attachment_point=>v["attachmentPoint"] }}
   end
 
   private
@@ -97,7 +97,6 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :supports_snapshots => "true", #fixme, will vary (true for ec2)
                 :snapshots => [], #fixme...
                 :guest_interface => "",
-                :eventlog => {:href=> "http://eventlogs"},#FIXME
                 :meters => []
             } )
   end
