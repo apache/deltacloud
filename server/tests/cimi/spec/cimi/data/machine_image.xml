@@ -1,4 +1,4 @@
-<MachineImage xmlns="http://www.dmtf.org/cimi">
+<MachineImage xmlns="http://schemas.dmtf.org/cimi/1">
   <id>http://cimi.example.org/machine_images/1</id>
   <name>img1</name>
   <description>Machine Image One</description>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<VolumeCollection xmlns="http://www.dmtf.org/cimi">
+<VolumeCollection xmlns="http://schemas.dmtf.org/cimi/1">
  <uri>volume</uri>
  <name>Volume collection </name>
  <description>The volume collection</description>

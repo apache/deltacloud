@@ -182,7 +182,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     instance.actions.collect do |action|
       action = :destroy if action == :delete # In CIMI destroy operation become delete
       action = :restart if action == :reboot  # In CIMI reboot operation become restart
-      { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://www.dmtf.org/cimi/action/#{action}" }
+      { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://schemas.dmtf.org/cimi/1/action/#{action}" }
     end
   end
 

@@ -52,7 +52,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
   post '/cimi/machines/:id/stop' do
     action_xml = Nokogiri::XML::Builder.new do |xml|
       xml.Action(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
-        xml.action "http://www.dmtf.org/cimi/action/stop"
+        xml.action "http://schemas.dmtf.org/cimi/1/action/stop"
       }
     end.to_xml
     result = entity_action(:machines, :stop, params[:id], action_xml, credentials)
@@ -63,7 +63,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
   post '/cimi/machines/:id/start' do
     action_xml = Nokogiri::XML::Builder.new do |xml|
       xml.Action(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
-        xml.action "http://www.dmtf.org/cimi/action/start"
+        xml.action "http://schemas.dmtf.org/cimi/1/action/start"
       }
     end.to_xml
     result = entity_action(:machines, :start, params[:id], action_xml, credentials)
@@ -74,7 +74,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
   post '/cimi/machines/:id/restart' do
     action_xml = Nokogiri::XML::Builder.new do |xml|
       xml.Action(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
-        xml.action "http://www.dmtf.org/cimi/action/restart"
+        xml.action "http://schemas.dmtf.org/cimi/1/action/restart"
       }
     end.to_xml
     result = entity_action(:machines, :restart, params[:id], action_xml, credentials)

@@ -1,4 +1,4 @@
-<MachineConfiguration xmlns="http://www.dmtf.org/cimi">
+<MachineConfiguration xmlns="http://schemas.dmtf.org/cimi/1">
   <id>http://cimi.example.org/machine_configurations/1</id>
   <name>MachineConfiguration1</name>
   <description>Example MachineConfiguration One</description>

@@ -54,7 +54,7 @@
 :javascript
   function fixupXml(theNode) {
     var xmlData = "<?xml version='1.0' encoding='utf-8' ?>";
-    xmlData += "<" + $(theNode.form).attr("xmlRootNode").value + " xmlns='http://www.dmtf.org/cimi'>";
+    xmlData += "<" + $(theNode.form).attr("xmlRootNode").value + " xmlns='http://schemas.dmtf.org/cimi/1'>";
     xmlData += getStandardData(theNode);
     xmlData += "<cpu>" + $(theNode.form).attr("cpu").value + "</cpu>";
     xmlData += "<memory quantity='" + $(theNode.form).attr("memory_quantity").value + "' units='";

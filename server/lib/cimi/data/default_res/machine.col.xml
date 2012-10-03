@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<Machine xmlns="http://www.dmtf.org/cimi">
+<Machine xmlns="http://schemas.dmtf.org/cimi/1">
   <uri>machine</uri>
   <name>Default machine name </name>
   <description>Default machine description</description>
@@ -31,5 +31,5 @@
   <eventLog href="eventLog" />
   <operation rel="edit" href="/machine"/>
   <operation rel="delete" href="/machine"/>
-  <operation rel="http://www.dmtf.org/cimi/stop" href="/machine/stop"/>
+  <operation rel="http://schemas.dmtf.org/cimi/1/stop" href="/machine/stop"/>
 </Machine>

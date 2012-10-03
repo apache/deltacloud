@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<MachineConfigurationCollection xmlns="http://www.dmtf.org/cimi">
+<MachineConfigurationCollection xmlns="http://schemas.dmtf.org/cimi/1">
  <uri>machineConfiguration</uri>
  <name>Machine Configuration collection </name>
  <description>That is jsut a test</description>

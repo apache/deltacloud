@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<MachineImageCollection xmlns="http://www.dmtf.org/cimi">
+<MachineImageCollection xmlns="http://schemas.dmtf.org/cimi/1">
  <uri>machineImage</uri>
  <name>Machine Image collection </name>
  <description>The machine image collection</description>

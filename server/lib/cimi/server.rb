@@ -25,7 +25,7 @@ require_relative '../sinatra'
 require_relative './helpers'
 require_relative './collections'
 
-CMWG_NAMESPACE = "http://www.dmtf.org/cimi"
+CMWG_NAMESPACE = "http://schemas.dmtf.org/cimi/1"
 
 module CIMI
   class API < Collections::Base

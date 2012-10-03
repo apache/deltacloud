@@ -1,4 +1,4 @@
-<Machine xmlns="http://www.dmtf.org/cimi">
+<Machine xmlns="http://schemas.dmtf.org/cimi/1">
   <id>http://cimi.example.org/machines/1</id>
   <name>machine1</name>
   <description>Machine one description</description>
@@ -14,6 +14,6 @@
   <eventLog href="http://cimi.example.org/event_logs/1"/>
   <operation rel="edit" href="http://cimi.example.org/machines/1/edit"/>
   <operation rel="delete" href="http://cimi.example.org/machines/1/delete"/>
-  <operation rel="http://www.dmtf.org/cimi/action/stop" href="http://cimi.example.org/machines/1/stop"/>
-  <operation rel="http://www.dmtf.org/cimi/action/restart" href="http://cimi.example.org/machines/1/restart"/>
+  <operation rel="http://schemas.dmtf.org/cimi/1/action/stop" href="http://cimi.example.org/machines/1/stop"/>
+  <operation rel="http://schemas.dmtf.org/cimi/1/action/restart" href="http://cimi.example.org/machines/1/restart"/>
 </Machine>

@@ -18,9 +18,9 @@
       "href": "http://cimi.example.org/machines/1/edit" },
     { "rel": "delete",
       "href": "http://cimi.example.org/machines/1/delete" },
-    { "rel": "http://www.dmtf.org/cimi/action/stop",
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
       "href": "http://cimi.example.org/machines/1/stop" },
-    { "rel": "http://www.dmtf.org/cimi/action/restart",
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/restart",
       "href": "http://cimi.example.org/machines/1/restart" }
   ]
 }

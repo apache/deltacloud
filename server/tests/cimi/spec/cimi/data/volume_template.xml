@@ -1,4 +1,4 @@
-<VolumeTemplate xmlns="http://www.dmtf.org/cimi">
+<VolumeTemplate xmlns="http://schemas.dmtf.org/cimi/1">
   <id>http://cimi.example.org/volume_templates/1</id>
   <name>volume_template_1</name>
   <description>Volume Template One</description>

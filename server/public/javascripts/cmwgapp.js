@@ -29,7 +29,7 @@ function doXmlPut(theNode, addId, func)
   }
   else {
     xmlData = "<?xml version='1.0' encoding='utf-8' ?>";
-    xmlData += "<" + $(theNode.form).attr("xmlRootNode").value + " xmlns='http://www.dmtf.org/cimi'>";
+    xmlData += "<" + $(theNode.form).attr("xmlRootNode").value + " xmlns='http://schemas.dmtf.org/cimi/1'>";
     xmlData += getStandardData(theNode);
     xmlData += "</" + $(theNode.form).attr("xmlRootNode").value + ">";
   }
@@ -72,7 +72,7 @@ function doXmlPost(theNode, func)
   }
   else {
     xmlData = "<?xml version='1.0' encoding='utf-8' ?>";
-    xmlData += "<" + $(theNode.form).attr("xmlRootNode").value + " xmlns='http://www.dmtf.org/cimi'>";
+    xmlData += "<" + $(theNode.form).attr("xmlRootNode").value + " xmlns='http://schemas.dmtf.org/cimi/1'>";
     xmlData += getStandardData(theNode)
     xmlData += "</" + $(theNode.form).attr("xmlRootNode").value + ">";
   }

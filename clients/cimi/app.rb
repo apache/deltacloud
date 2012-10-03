@@ -15,7 +15,7 @@
 
 module CIMI::Frontend
 
-  CMWG_NAMESPACE = "http://www.dmtf.org/cimi"
+  CMWG_NAMESPACE = "http://schemas.dmtf.org/cimi/1"
 
   class Application < Sinatra::Base
 

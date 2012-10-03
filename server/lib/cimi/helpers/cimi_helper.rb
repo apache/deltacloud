@@ -44,7 +44,7 @@ class Array
   def to_xml_cimi_collection(_self)
     model_name = first.class.xml_tag_name
     XmlSimple.xml_out({
-      "xmlns" => "http://www.dmtf.org/cimi",
+      "xmlns" => "http://schemas.dmtf.org/cimi/1",
       "uri" => [ _self.send(:"#{model_name.underscore.pluralize}_url") ],
       "name" => [ "default" ],
       "created" => [ Time.now.to_s ],

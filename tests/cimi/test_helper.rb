@@ -46,7 +46,7 @@ module CIMI
       end
 
       def ns
-        { "c" => "http://www.dmtf.org/cimi" }
+        { "c" => "http://schemas.dmtf.org/cimi/1" }
       end
 
       private

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<MachineConfiguration xmlns="http://www.dmtf.org/cimi">
+<MachineConfiguration xmlns="http://schemas.dmtf.org/cimi/1">
   <uri>machineConfiguration</uri>
   <name>Default machine configuration name </name>
   <description>Default description</description>

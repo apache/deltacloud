@@ -211,7 +211,7 @@ class CIMI::Model::Base
 
   def self.to_xml(model)
     xml = @schema.to_xml(model)
-    xml["xmlns"] = "http://www.dmtf.org/cimi"
+    xml["xmlns"] = "http://schemas.dmtf.org/cimi/1"
     XmlSimple.xml_out(xml, :root_name => xml_tag_name)
   end
 

@@ -1,4 +1,4 @@
-<VolumeImage xmlns="http://www.dmtf.org/cimi">
+<VolumeImage xmlns="http://schemas.dmtf.org/cimi/1">
   <id>http://cimi.example.org/volume_images/1</id>
   <name>volume_image_1</name>
   <description>Volume Image One</description>
