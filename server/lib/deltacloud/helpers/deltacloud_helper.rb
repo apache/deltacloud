@@ -89,10 +89,24 @@ module Deltacloud::Helpers
       @error, @code = (request.env['sinatra.error'] || @exception), code
       @code = 500 if not @code and not @error.class.method_defined? :code
       response.status = @code || @error.code
+      log = Deltacloud::ExceptionHandler.logger
+      message = @error.respond_to?(:message) ? @error.message : translate_error_code(@code)
+      backtrace = (@error.respond_to?(:backtrace) and !@error.backtrace.nil?) ?
+        "\n\n#{@error.backtrace[0..10].join("\n")}\n\n" : ''
+      log.error "[#{@code}] #{[@error.class.to_s, message].join(':')}#{backtrace}"
       respond_to do |format|
         format.xml {  haml :"errors/#{@code || @error.code}", :layout => false }
         format.json { xml_to_json("errors/#{@code || @error.code}") }
-        format.html { haml :"errors/#{@code || @error.code}", :layout => :error }
+        format.html {
+          begin
+            haml :"errors/#{@code || @error.code}", :layout => :error
+          rescue RuntimeError
+            # If the HTML representation of error is missing, then try to report
+            # it through XML
+            @media_type=:xml
+            haml :"errors/#{@code || @error.code}", :layout => false
+          end
+        }
       end
     end
 

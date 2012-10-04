@@ -25,11 +25,9 @@ module Deltacloud::Collections
     helpers Sinatra::Rabbit::URLHelper
     register Rack::RespondTo
 
-    enable :xhtml
-    enable :dump_errors
-    enable :show_errors
     enable :method_override
     disable :show_exceptions
+    disable :dump_errors
 
     set :config, Deltacloud[:deltacloud]
     set :root_url, config.root_url

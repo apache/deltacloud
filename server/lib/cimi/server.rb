@@ -43,6 +43,10 @@ module CIMI
     include CIMI::Collections
     include CIMI::Model
 
+    enable :method_override
+    disable :show_exceptions
+    disable :dump_errors
+
     helpers Sinatra::Rabbit::URLFor(CIMI.collections)
 
     get '/' do

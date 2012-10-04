@@ -30,10 +30,9 @@ module CIMI::Collections
 
     register Rack::RespondTo
 
-    enable :xhtml
-    enable :dump_errors
-    enable :show_errors
+    enable :method_override
     disable :show_exceptions
+    disable :dump_errors
 
     set :config, Deltacloud[:cimi]
     set :root_url, config.root_url
