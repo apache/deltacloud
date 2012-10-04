@@ -3,7 +3,7 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'common.rb'
 
-describe 'Ec2Driver Instances' do
+describe 'Ec2Driver Keys' do
 
   before do
     @driver = Deltacloud::new(:ec2, credentials)

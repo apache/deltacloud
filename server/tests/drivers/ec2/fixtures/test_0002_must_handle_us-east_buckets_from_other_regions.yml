@@ -1,0 +1,241 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://deltacloud-unit-test-bucket-2012-08-20-1704.s3.amazonaws.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+      Content-Type:
+      - ''
+      Date:
+      - Mon, 20 Aug 2012 14:06:08 GMT
+      Authorization:
+      - AWS AKIAJATNOR5HKG3FK27Q:pZyM6A8WVe0/+yLg95Eb0S2atoU=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - 3WmPGTXyN1qVuZtEUuGPBGsG3fBRFdmgeWle4UawtBKKtsxbv9mFD5f9OiDhuQVR
+      X-Amz-Request-Id:
+      - EE4EFF4E050A0F73
+      Date:
+      - Mon, 20 Aug 2012 14:06:33 GMT
+      Location:
+      - /deltacloud-unit-test-bucket-2012-08-20-1704
+      Content-Length:
+      - '0'
+      Server:
+      - AmazonS3
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Mon, 20 Aug 2012 14:06:08 GMT
+- request:
+    method: get
+    uri: https://deltacloud-unit-test-bucket-2012-08-20-1704.s3.amazonaws.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+      Content-Type:
+      - ''
+      Date:
+      - Mon, 20 Aug 2012 14:06:08 GMT
+      Authorization:
+      - AWS AKIAJATNOR5HKG3FK27Q:diWaoSnrqX5+KMsYW37szZNyAjk=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - FWZg1qYxzENl3WZy1xfmcy/ZLnfncCRGp0l8guPbvkARlsFiExGWTKLGFFztlF21
+      X-Amz-Request-Id:
+      - 9808A15AB1C16636
+      Date:
+      - Mon, 20 Aug 2012 14:06:34 GMT
+      Content-Type:
+      - application/xml
+      Transfer-Encoding:
+      - chunked
+      Server:
+      - AmazonS3
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>deltacloud-unit-test-bucket-2012-08-20-1704</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><IsTruncated>false</IsTruncated></ListBucketResult>'
+    http_version: 
+  recorded_at: Mon, 20 Aug 2012 14:06:08 GMT
+- request:
+    method: get
+    uri: https://deltacloud-unit-test-bucket-2012-08-20-1704.s3-eu-west-1.amazonaws.com/?location
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+      Content-Type:
+      - ''
+      Date:
+      - Mon, 20 Aug 2012 14:06:08 GMT
+      Authorization:
+      - AWS AKIAJATNOR5HKG3FK27Q:soqKXfjSbvSgMDEKDboLJyA2S7c=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - 482vVm6hy7nrd30vvmmgjO97UtTo+w3IoB5aKwNIbKSJ26VYtZOBgE/oGlHiC6kb
+      X-Amz-Request-Id:
+      - A43716F84533C587
+      Date:
+      - Mon, 20 Aug 2012 14:06:35 GMT
+      Content-Type:
+      - application/xml
+      Transfer-Encoding:
+      - chunked
+      Server:
+      - AmazonS3
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <LocationConstraint xmlns="http://s3.amazonaws.com/doc/2006-03-01/"/>'
+    http_version: 
+  recorded_at: Mon, 20 Aug 2012 14:06:08 GMT
+- request:
+    method: get
+    uri: https://deltacloud-unit-test-bucket-2012-08-20-1704.s3.amazonaws.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+      Content-Type:
+      - ''
+      Date:
+      - Mon, 20 Aug 2012 14:06:08 GMT
+      Authorization:
+      - AWS AKIAJATNOR5HKG3FK27Q:diWaoSnrqX5+KMsYW37szZNyAjk=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - YYuAnkUgGeuv1HL9nnowa1HuyLhPCdipX9pwAwVWP38MNqqkaIt35SHFlCJcrvhk
+      X-Amz-Request-Id:
+      - CD2B4328F5D2DFE7
+      Date:
+      - Mon, 20 Aug 2012 14:06:36 GMT
+      Content-Type:
+      - application/xml
+      Transfer-Encoding:
+      - chunked
+      Server:
+      - AmazonS3
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>deltacloud-unit-test-bucket-2012-08-20-1704</Name><Prefix></Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><IsTruncated>false</IsTruncated></ListBucketResult>'
+    http_version: 
+  recorded_at: Mon, 20 Aug 2012 14:06:08 GMT
+- request:
+    method: get
+    uri: https://deltacloud-unit-test-bucket-2012-08-20-1704.s3-eu-west-1.amazonaws.com/?location
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+      Content-Type:
+      - ''
+      Date:
+      - Mon, 20 Aug 2012 14:06:08 GMT
+      Authorization:
+      - AWS AKIAJATNOR5HKG3FK27Q:soqKXfjSbvSgMDEKDboLJyA2S7c=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Amz-Id-2:
+      - /WQCyNf2yLrqpDraMM+xRaDlR3es8AZgr1ZD8pZCj8Hdxcsrm9RrIdxbcIgilG1K
+      X-Amz-Request-Id:
+      - 6FFE9B2B10AEC796
+      Date:
+      - Mon, 20 Aug 2012 14:06:37 GMT
+      Content-Type:
+      - application/xml
+      Transfer-Encoding:
+      - chunked
+      Server:
+      - AmazonS3
+    body:
+      encoding: US-ASCII
+      string: ! '<?xml version="1.0" encoding="UTF-8"?>
+
+        <LocationConstraint xmlns="http://s3.amazonaws.com/doc/2006-03-01/"/>'
+    http_version: 
+  recorded_at: Mon, 20 Aug 2012 14:06:08 GMT
+- request:
+    method: delete
+    uri: https://deltacloud-unit-test-bucket-2012-08-20-1704.s3.amazonaws.com/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - ''
+      Content-Type:
+      - ''
+      Date:
+      - Mon, 20 Aug 2012 14:06:08 GMT
+      Authorization:
+      - AWS AKIAJATNOR5HKG3FK27Q:SDWagYCEvCteLf3g7e5ACMf4/D8=
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      X-Amz-Id-2:
+      - OONqTQzrZaFbzejOys6I/QpCZR3UOhUS6GADBU2Y4XIm2WTTXXQ9i1aMqxgEDmVX
+      X-Amz-Request-Id:
+      - D731A368D9C9D744
+      Date:
+      - Mon, 20 Aug 2012 14:06:38 GMT
+      Server:
+      - AmazonS3
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Mon, 20 Aug 2012 14:06:08 GMT
+recorded_with: VCR 2.2.4
