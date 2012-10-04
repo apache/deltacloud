@@ -27,10 +27,6 @@ class FgcpDriver < Deltacloud::BaseDriver
 
   CERT_DIR = ENV['FGCP_CERT_DIR'] || File::expand_path('~/.deltacloud/drivers/fgcp')
 
-  def supported_collections
-    DEFAULT_COLLECTIONS + [ :addresses, :load_balancers, :firewalls ]
-  end
-
   feature :instances, :user_name
   feature :instances, :metrics
   feature :images, :user_name
