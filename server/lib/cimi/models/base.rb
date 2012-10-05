@@ -143,8 +143,8 @@ class CIMI::Model::Base
         base_schema.add_attributes!(names, attr_klass, &block)
       end
       names.each do |name|
-        define_method(name) { @attribute_values[name] }
-        define_method(:"#{name}=") { |newval| @attribute_values[name] = newval }
+        define_method(name) { self[name] }
+        define_method(:"#{name}=") { |newval| self[name] = newval }
       end
     end
 
