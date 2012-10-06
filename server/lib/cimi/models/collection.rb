@@ -31,7 +31,8 @@ module CIMI::Model
     end
 
     def entries
-      self[entry_name]
+      self[self.class.entry_name]
+    end
     end
 
     def [](a)
