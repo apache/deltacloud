@@ -235,17 +235,6 @@ class CIMI::Model::Base
 
   hash :property
 
-  def self.acts_as_root_entity(name=nil)
-    if name
-      name = name.to_s.camelize.pluralize
-    else
-      name = xml_tag_name.pluralize.uncapitalize
-    end
-    CIMI::Model.register_as_root_entity! name
-  end
-
-  def self.all(_self); find(:all, _self); end
-
   def filter_by(filter_opts)
     return self if filter_opts.nil?
     return filter_attributes(filter_opts.split(',').map{ |a| a.intern }) if filter_opts.include? ','
