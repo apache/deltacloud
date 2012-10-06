@@ -46,6 +46,10 @@ class CIMI::Model::Schema
     def to_json(model, json)
       json[@json_name] = model[@name] if model and model[@name]
     end
+
+    def convert(value)
+      value
+    end
   end
 
   class Scalar < Attribute
@@ -220,6 +224,12 @@ class CIMI::Model::Schema
 
   def initialize
     @attributes = []
+  end
+
+  def convert(name, value)
+    attr = @attributes.find { |a| a.name == name }
+    raise "Unknown attribute #{name}" unless attr
+    attr.convert(value)
   end
 
   def from_xml(xml, model = {})

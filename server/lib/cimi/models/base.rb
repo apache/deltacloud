@@ -161,14 +161,19 @@ class CIMI::Model::Base
   end
 
   def []=(a, v)
-    @attribute_values[a] = v
+    @attribute_values[a] = self.class.schema.convert(a, v)
+  end
   end
 
   #
   # Factory methods
   #
   def initialize(values = {})
-    @attribute_values = values
+    names = self.class.schema.attribute_names
+    @attribute_values = names.inject({}) do |hash, name|
+      hash[name] = self.class.schema.convert(name, values[name])
+      hash
+    end
   end
 
   # Construct a new object from the XML representation +xml+
