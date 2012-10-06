@@ -66,6 +66,9 @@ require 'json'
 #   [array(name, opts, &block)]
 #     An array of structured subobjects; the block defines the schema of
 #     the subobjects.
+#   [collection(name, opts)]
+#     A collection of associated objects; use the +:class+ option to
+#     specify the type of the collection entries
 
 module CIMI::Model
 

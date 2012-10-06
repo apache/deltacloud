@@ -216,6 +216,49 @@ class CIMI::Model::Schema
     end
   end
 
+  class Collection < Attribute
+    def initialize(name, opts = {})
+      super(name, opts)
+      unless opts[:class]
+        raise "Specify the class of collection entries using :class"
+      end
+      @collection_class = CIMI::Model::Collection.generate(opts[:class], :embedded => true)
+    end
+
+    def from_xml(xml, model)
+      model[name] = @collection_class.schema.from_xml(xml[xml_name].first, {})
+    end
+
+    def from_json(json, model)
+      model[name] = @collection_class.schema.from_json(json[json_name], {})
+    end
+
+    def to_xml(model, xml)
+      if model[name].count.nil?
+        xml[xml_name] = { "href" => model[name].href }
+      else
+        xml[xml_name] = @collection_class.schema.to_xml(model[name])
+      end
+    end
+
+    def to_json(model, json)
+      if model[name].count.nil?
+        json[json_name] = { "href" => model[name].href }
+      else
+        json[json_name] = @collection_class.schema.to_json(model[name])
+      end
+    end
+
+    # Convert a Hash or Array to an instance of the collection class
+    def convert(value)
+      if value.is_a?(::Array)
+        @collection_class.new(:entries => value)
+      else
+        @collection_class.new(value || {})
+      end
+    end
+  end
+
   #
   # The actual Schema class
   #
@@ -224,6 +267,10 @@ class CIMI::Model::Schema
 
   def initialize
     @attributes = []
+  end
+
+  def collections
+    @attributes.select { |a| a.is_a?(Collection) }
   end
 
   def convert(name, value)
@@ -303,11 +350,7 @@ class CIMI::Model::Schema
     end
 
     def collection(name, opts={})
-      text :count
-
-      array :operations do
-        scalar :rel, :href
-      end
+      add_attributes!([name, opts], Collection)
     end
   end
 

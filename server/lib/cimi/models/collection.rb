@@ -17,7 +17,7 @@ module CIMI::Model
   class Collection < Base
 
     class << self
-      attr_accessor :entry_name
+      attr_accessor :entry_name, :embedded
     end
 
     # Make sure the base schema gets cloned
@@ -49,14 +49,16 @@ module CIMI::Model
       "Collection"
     end
 
-    def self.generate(model_class)
+    def self.generate(model_class, opts = {})
       model_name = model_class.name.split("::").last
       coll_class = Class.new(CIMI::Model::Collection)
       CIMI::Model.const_set(:"#{model_name}Collection", coll_class)
       coll_class.entry_name = model_name.underscore.pluralize.to_sym
+      coll_class.embedded = opts[:embedded]
       entry_schema = model_class.schema
       coll_class.instance_eval do
         text :count
+        scalar :href if opts[:embedded]
         array self.entry_name, :schema => entry_schema, :xml_name => model_name
         array :operations do
           scalar :rel, :href
