@@ -24,11 +24,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   href :event_log
 
-  href :disks
-
-  href :volumes
-
-  href :network_interfaces
+  collection :disks, :class => CIMI::Model::Disk
+  collection :volumes, :class => CIMI::Model::MachineVolume
 
   array :meters do
     scalar :href
@@ -118,6 +115,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   private
   def self.from_instance(instance, context)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
+    machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
     self.new(
       :name => instance.id,
       :description => instance.name,
@@ -126,10 +124,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
       :memory => memory || convert_instance_memory(instance.instance_profile, context),
-      :disks => {:href => context.machine_url(instance.id)+"/disks"},
-      :network_interfaces => {:href => context.machine_url(instance.id+"/network_interfaces")},
+      :disks => CIMI::Model::Disk.find(instance, machine_conf, context, :all),
       :operations => convert_instance_actions(instance, context),
-      :volumes=>{:href=>context.machine_url(instance.id)+"/volumes"},
+      :volumes => CIMI::Model::MachineVolume.find(instance.id, context, :all),
       :property => convert_instance_properties(instance, context)
     )
   end

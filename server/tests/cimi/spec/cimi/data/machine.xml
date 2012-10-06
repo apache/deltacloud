@@ -8,7 +8,6 @@
   <memory>12582912</memory>
   <disks href="http://cimi.example.org/cimi/machines/1/disks" />
   <volumes href="http://cimi.example.org/cimi/machines/1/volumes" />
-  <networkInterfaces href="http://cimi.example.org/cimi/machines/1/network_interfaces" />
   <state>STARTED</state>
   <meter href="http://cimi.example.org/meters/1"/>
   <eventLog href="http://cimi.example.org/event_logs/1"/>

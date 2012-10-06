@@ -8,7 +8,6 @@
   "memory":12582912,
   "disks":{"href":"http://cimi.example.org/cimi/machines/1/disks"},
   "volumes":{"href":"http://cimi.example.org/cimi/machines/1/volumes"},
-  "networkInterfaces":{"href":"http://cimi.example.org/cimi/machines/1/network_interfaces"},
   "meters": [
     { "href": "http://cimi.example.org/meters/1" }
   ],
