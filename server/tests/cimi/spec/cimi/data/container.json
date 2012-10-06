@@ -1,0 +1,8 @@
+{ "id": "http://example.com/cimi",
+  "models": {
+    "href": "http://example.com/cimi/models",
+    "count": 2,
+    "id": "http://example.com/cimi/models",
+    "models": [ {"text":"m1"}, {"text":"m2"} ]
+  }
+}

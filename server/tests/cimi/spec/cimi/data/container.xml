@@ -1,0 +1,9 @@
+<Container xmlns="http://schemas.dmtf.org/cimi/1">
+  <id>http://example.com/cimi</id>
+  <models href="http://example.com/cimi/models">
+    <id>http://example.com/cimi/models</id>
+    <count>2</count>
+    <Model text="m1" />
+    <Model text="m2" />
+  </models>
+</Container>

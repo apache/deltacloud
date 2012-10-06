@@ -166,6 +166,12 @@ class CIMI::Model::Base
   def []=(a, v)
     @attribute_values[a] = self.class.schema.convert(a, v)
   end
+
+  # Prepare to serialize
+  def prepare
+    self.class.schema.collections.map { |coll| coll.name }.each do |n|
+      self[n].href = "#{self.id}/#{n}" unless self[n].href
+    end
   end
 
   #

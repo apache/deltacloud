@@ -27,12 +27,30 @@ module CIMI::Model
       if values[:entries]
         values[self.class.entry_name] = values.delete(:entries)
       end
+      values[self.class.entry_name] ||= []
       super(values)
     end
 
     def entries
       self[self.class.entry_name]
     end
+
+    # Prepare to serialize
+    def prepare
+      self.count = self.entries.size
+      self.count = nil if self.count == 0
+      if self.class.embedded
+        ["id", "href"].each { |a| self[a] = nil if self[a] == "" }
+        # Handle href and id, which are really just aliases of one another
+        unless self.href || self.id
+          raise "Collection #{self.class.name} must have one of id and href set"
+        end
+        if self.href && self.id && self.href != self.id
+          raise "id and href must be identical for collection #{self.class.name}, id = #{id.inspect}, href = #{href.inspect}"
+        end
+        self.href ||= self.id
+        self.id ||= self.href
+      end
     end
 
     def [](a)

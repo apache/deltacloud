@@ -234,6 +234,7 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
+      model[name].prepare
       if model[name].count.nil?
         xml[xml_name] = { "href" => model[name].href }
       else
@@ -242,6 +243,7 @@ class CIMI::Model::Schema
     end
 
     def to_json(model, json)
+      model[name].prepare
       if model[name].count.nil?
         json[json_name] = { "href" => model[name].href }
       else
@@ -294,6 +296,7 @@ class CIMI::Model::Schema
   def to_xml(model, xml = nil)
     xml ||= OrderedHash.new
     @attributes.freeze
+    model.prepare if model.respond_to?(:prepare)
     @attributes.each { |attr| attr.to_xml(model, xml) }
     xml
   end
@@ -309,6 +312,7 @@ class CIMI::Model::Schema
 
   def to_json(model, json = {})
     @attributes.freeze
+    model.prepare if model.respond_to?(:prepare)
     @attributes.each { |attr| attr.to_json(model, json) }
     json
   end
