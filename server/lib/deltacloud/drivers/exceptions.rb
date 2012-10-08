@@ -115,6 +115,7 @@ module Deltacloud
       def initialize(conditions, &block)
         @conditions = conditions
         instance_eval(&block) if block_given?
+        self
       end
 
       def status(code)
@@ -155,6 +156,10 @@ module Deltacloud
         end
       end
 
+    end
+
+    def self.exception_from_status(code, message)
+      ExceptionDef.new(nil) { status code}.handler(StandardError.new(message))
     end
 
     class Exceptions
@@ -198,17 +203,14 @@ module Deltacloud
       begin
         block.call
       rescue => e
-        log = ExceptionHandler.logger
         self.class.exceptions.each do |definitions|
           next unless definitions.any? e
           if (new_exception = definitions.handler(e)) and new_exception.message
             message = new_exception.message
           end
           message ||= e.message
-          log.error "#{[e.class.to_s, message].join(':')}\n#{e.backtrace[0..10].join("\n")}" unless ENV['RACK_ENV'] == 'test'
           raise definitions.handler(e) unless new_exception.nil?
         end
-        log.error "[NO HANDLED] #{[e.class.to_s, e.message].join(': ')}\n#{e.backtrace.join("\n")}" unless ENV['RACK_ENV'] == 'test'
         raise BackendError.new(e, "Unhandled exception or status code (#{e.message})")
       end
     end

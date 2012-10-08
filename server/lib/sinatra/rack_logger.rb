@@ -50,6 +50,11 @@ module Rack
       self
     end
 
+    def self.error(code, &block)
+      @logger ||= ::Logger.new(log_path || $stdout)
+      @logger.error(code, &block)
+    end
+
     # Common Log Format: http://httpd.apache.org/docs/1.3/logs.html#common
     # lilith.local - - [07/Aug/2006 23:58:02] "GET / HTTP/1.1" 500 -
     #             %{%s - %s [%s] "%s %s%s %s" %d %s\n} %

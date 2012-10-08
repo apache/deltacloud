@@ -19,11 +19,10 @@
         %li
           %span{:style => 'font-weight:normal;'}=value.inspect
 
-
   %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-    %h3 Request details
+    %h3 Request Headers
     %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
-      - request.env.each do |key, value|
+      - request_headers.each do |key, value|
         %li{ :'data-role' => 'list-divider'}=key
         %li
           %span{:style => 'font-weight:normal;'}=value.inspect

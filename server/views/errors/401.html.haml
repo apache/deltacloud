@@ -15,13 +15,6 @@
       - else
         %em No details
 
-  - if @error.class.method_defined? :backtrace
-    %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-      %h3 Backtrace
-      %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
-        %li
-          %pre=@error.backtrace.join("\n")
-
   %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
     %h3 Parameters
     %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
@@ -31,12 +24,3 @@
         %li{ :'data-role' => 'list-divider'}=key
         %li
           %span{:style => 'font-weight:normal;'}=value.inspect
-
-
-  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-    %h3 Request details
-    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
-      - request.env.each do |key, value|
-        %li{ :'data-role' => 'list-divider'}=key
-        %li
-          %span{:style => 'font-weight:normal;'}=value.to_s

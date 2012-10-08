@@ -18,6 +18,10 @@ module Deltacloud::Helpers
 
     require 'benchmark'
 
+    def request_headers
+      env.inject({}){|acc, (k,v)| acc[$1.downcase] = v if k =~ /^http_(.*)/i; acc}
+    end
+
     def auth_feature_name
       return 'key' if driver.class.has_feature?(:instances, :authentication_key)
       return 'password' if driver.class.has_feature?(:instances, :authentication_password)
@@ -77,15 +81,32 @@ module Deltacloud::Helpers
       end
     end
 
+    def log
+      Deltacloud::ExceptionHandler.logger(Deltacloud.default_frontend.logger)
+    end
+
     def report_error(code=nil)
-      @error, @code = (request.env['sinatra.error'] || @exception), code
-      @code = 500 if not @code and not @error.class.method_defined? :code
-      response.status = @code || @error.code
-      log = Deltacloud::ExceptionHandler.logger
-      message = @error.respond_to?(:message) ? @error.message : translate_error_code(@code)
+      handler = Deltacloud::ExceptionHandler
+
+      if !code.nil?
+        @error = handler.exception_from_status(code, translate_error_code(code)[:message])
+        @code = code
+        message = @error.message
+      else
+        @error = request.env['sinatra.error'] || @exception
+        @code = @error.respond_to?(:code) ? @error.code : 500
+        message = @error.respond_to?(:message) ? @error.message : translate_error_code(code)[:message]
+      end
+
+      response.status = @code
+
       backtrace = (@error.respond_to?(:backtrace) and !@error.backtrace.nil?) ?
         "\n\n#{@error.backtrace[0..10].join("\n")}\n\n" : ''
-      log.error "[#{@code}] #{[@error.class.to_s, message].join(':')}#{backtrace}"
+
+      if @code.to_s =~ /5(\d+)/
+        log.error(@code.to_s) { "[#{@error.class.to_s}] #{message}#{backtrace}" }
+      end
+
       respond_to do |format|
         format.xml {  haml :"errors/#{@code || @error.code}", :layout => false }
         format.json { xml_to_json("errors/#{@code || @error.code}") }
@@ -307,11 +328,11 @@ module Deltacloud::Helpers
     end
 
     def bt(trace)
+      return [] unless trace
       return trace.join("\n") if params['fulltrace']
       app_path = File::expand_path("../../..", __FILE__)
       dots = false
-
-        trace = trace.map { |t| t.match(%r{^#{app_path}(.*)$}) ? "$app#{$1}" : "..." }.select do |t|
+      trace = trace.map { |t| t.match(%r{^#{app_path}(.*)$}) ? "$app#{$1}" : "..." }.select do |t|
         if t == "..."
           keep = ! dots
           dots = true
