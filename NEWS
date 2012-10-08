@@ -1,3 +1,31 @@
+1.0.4 - 2012-10-08
+  * server: shorten backtraces in logs to make them readable
+  * server: report unknown frontend cleanly when starting server (JIRA 331)
+  * server: generate docs at /api/docs resp. /cimi/docs
+  * server: clean up how we map the various frontends into the server URL space
+  * tests: produce nicer output and improve Jenkins integration
+  * Drivers
+    + Google
+      - capture 401 and 409 errors from backend
+    + Openstack
+      - report 401 when no username is given (JIRA 330)
+      - query supported collections from backend; this implies that
+        credentials are needed to access /api (JIRA 316)
+  * EC2 frontend:
+    - accept InstanceId as parameter for DescribeInstances (Oved Ourfali)
+    - Start/StopInstance: ensure instance details are returned from all
+      drivers, especially RHEV-M (Oved Ourfali)
+  * CIMI frontend:
+    - use correct CIMI v1.0 namespace in XML (Carlos Goncalves)
+    - rename entities to match CIMI v1.0 (e.g. RoutingGroup -> ForwardingGroup)
+    - various fixes/enhancements for networking entities (only for mock
+      driver so far)
+    - fix ordering of attributes in XML responses
+    - frontend still not entirely compliant with CIMI 1.0, especially
+      embedded collections are not yet handled correctly
+  * client
+    - make sure we send provider when changing drivers
+
 1.0.3 - 2012-09-07
   * change the format of ~/.deltacloud/config: keys are now strings, not
     symbols - requires manual fixup
