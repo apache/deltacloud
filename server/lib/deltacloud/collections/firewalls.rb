@@ -99,8 +99,8 @@ module Deltacloud::Collections
           params['addresses'] = addresses
           params['groups'] = groups
           if addresses.empty? && groups.empty?
-            raise Deltacloud::ExceptionHandler::ValidationFailure.new(
-              StandardError.new("No sources. Specify at least one source ip_address or group")
+            raise Deltacloud::Exceptions.exception_from_status(
+              400, 'No sources. Specify at least one source ip address or group.'
             )
           end
           driver.create_firewall_rule(credentials, params)

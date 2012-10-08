@@ -43,7 +43,7 @@ module Deltacloud::Collections
       report_error
     end
 
-    error Deltacloud::ExceptionHandler::ValidationFailure do
+    error Deltacloud::Exceptions::ValidationFailure do
       report_error
     end
 

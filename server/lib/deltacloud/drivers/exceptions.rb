@@ -15,7 +15,7 @@
 #
 
 module Deltacloud
-  module ExceptionHandler
+  module Exceptions
 
     class DeltacloudException < StandardError
 
@@ -143,16 +143,16 @@ module Deltacloud
       def handler(e)
         return @handler if @handler
         case @status
-          when 401 then Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, @message)
-          when 403 then Deltacloud::ExceptionHandler::ForbiddenError.new(e, @message)
-          when 404 then Deltacloud::ExceptionHandler::ObjectNotFound.new(e, @message)
-          when 406 then Deltacloud::ExceptionHandler::UnknownMediaTypeError.new(e, @message)
-          when 405 then Deltacloud::ExceptionHandler::MethodNotAllowed.new(e, @message)
-          when 400 then Deltacloud::ExceptionHandler::ValidationFailure.new(e, @message)
-          when 500 then Deltacloud::ExceptionHandler::BackendError.new(e, @message)
-          when 501 then Deltacloud::ExceptionHandler::NotImplemented.new(e, @message)
-          when 502 then Deltacloud::ExceptionHandler::ProviderError.new(e, @message)
-          when 504 then Deltacloud::ExceptionHandler::ProviderTimeout.new(e, @message)
+          when 401 then AuthenticationFailure.new(e, @message)
+          when 403 then ForbiddenError.new(e, @message)
+          when 404 then ObjectNotFound.new(e, @message)
+          when 406 then UnknownMediaTypeError.new(e, @message)
+          when 405 then MethodNotAllowed.new(e, @message)
+          when 400 then ValidationFailure.new(e, @message)
+          when 500 then BackendError.new(e, @message)
+          when 501 then NotImplemented.new(e, @message)
+          when 502 then ProviderError.new(e, @message)
+          when 504 then ProviderTimeout.new(e, @message)
         end
       end
 

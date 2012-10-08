@@ -192,7 +192,7 @@ module Deltacloud
 
         def new_client(credentials)
           if ( credentials.user != 'condor' ) or ( credentials.password != 'deltacloud' )
-            raise Deltacloud::ExceptionHandler::AuthenticationFailure.new
+            raise Deltacloud::Exceptions::AuthenticationFailure.new
           end
           safely do
             yield CondorCloud::DefaultExecutor.new

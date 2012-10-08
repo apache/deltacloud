@@ -24,7 +24,7 @@ describe 'Ec2Driver Buckets' do
   it 'must throw error when wrong credentials for buckets' do
     Proc.new do
       @driver.backend.buckets(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
 

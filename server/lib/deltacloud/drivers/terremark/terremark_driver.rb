@@ -139,7 +139,7 @@ VAPP_STATE_MAP = { "0" =>  "PENDING", "1" =>  "PENDING", "2" =>  "STOPPED", "4" 
     end
     unless ( (terremark_hwp.include?(:cpu, opts[:hwp_cpu].to_i)) &&
               (terremark_hwp.include?(:memory, opts[:hwp_memory].to_i)) ) then
-        raise Deltacloud::ExceptionHandler::ValidationFailure.new(
+        raise Deltacloud::Exceptions::ValidationFailure.new(
           StandardError.new("Error with cpu and/or memory values. you said cpu->#{opts[:hwp_cpu]} and mem->#{opts[:hwp_memory]}")
         )
     end

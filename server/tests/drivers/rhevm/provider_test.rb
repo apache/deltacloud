@@ -18,7 +18,7 @@ describe 'RHEV-M provider test' do
     wrong_driver = Deltacloud::new(:rhevm, credentials.merge(:provider => 'unknown'))
     Proc.new {
       wrong_driver.realms
-    }.must_raise Deltacloud::ExceptionHandler::BackendError
+    }.must_raise Deltacloud::Exceptions::BackendError
   end
 
   it 'must support listing of available providers' do

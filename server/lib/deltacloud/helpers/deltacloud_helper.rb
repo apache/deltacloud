@@ -81,15 +81,15 @@ module Deltacloud::Helpers
       end
     end
 
+    # Log errors to the same logger as we use for logging requests
     def log
-      Deltacloud::ExceptionHandler.logger(Deltacloud.default_frontend.logger)
+      Deltacloud::Exceptions.logger(Deltacloud.default_frontend.logger)
     end
 
     def report_error(code=nil)
-      handler = Deltacloud::ExceptionHandler
 
       if !code.nil?
-        @error = handler.exception_from_status(code, translate_error_code(code)[:message])
+        @error = Deltacloud::Exceptions.exception_from_status(code, translate_error_code(code)[:message])
         @code = code
         message = @error.message
       else

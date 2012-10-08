@@ -17,7 +17,7 @@ describe 'RhevmDriver Images' do
   it 'must throw error when wrong credentials' do
     Proc.new do
       @driver.backend.images(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
   it 'must return list of images' do
@@ -57,7 +57,7 @@ describe 'RhevmDriver Images' do
       image.state.must_equal 'OK'
       Proc.new {
         @driver.destroy_image(image.id)
-      }.must_raise Deltacloud::ExceptionHandler::BackendError, 'Cannot delete Template. Template is being used by the following VMs: test1.'
+      }.must_raise Deltacloud::Exceptions::BackendError, 'Cannot delete Template. Template is being used by the following VMs: test1.'
     end
   end
 

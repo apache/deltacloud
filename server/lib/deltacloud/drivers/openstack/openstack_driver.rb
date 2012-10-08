@@ -44,8 +44,8 @@ module Deltacloud
           #get the collections as defined by 'capability' and 'respond_to?' blocks
           super_collections = super
           begin
-             client = new_client(credentials, :buckets)
-          rescue Deltacloud::ExceptionHandler::NotImplemented #OpenStack::Exception::NotImplemented...
+             new_client(credentials, :buckets)
+          rescue Deltacloud::Exceptions::NotImplemented #OpenStack::Exception::NotImplemented...
              return super_collections - [Sinatra::Rabbit::BucketsCollection]
           end
           super_collections
@@ -110,8 +110,8 @@ module Deltacloud
           begin
             image = os.get_image(image_id)
             image.delete!
-          rescue => e
-            raise Deltacloud::ExceptionHandler::BackendError.new(e, "ERROR: Cannot delete image with ID:#{image_id}.")
+          rescue
+            raise Deltacloud::Exceptions.exception_from_status(500, "Cannot delete image with id #{image_id}")
           end
         end
 

@@ -17,7 +17,7 @@ describe 'RhevmDriver Instances' do
   it 'must throw error when wrong credentials' do
     Proc.new do
       @driver.backend.images(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
   it 'must return list of instances' do
@@ -93,7 +93,7 @@ describe 'RhevmDriver Instances' do
     @driver.start_instance(instance.id)
     instance = instance.wait_for!(@driver, record_retries('start')) { |i| i.is_running? }
     @driver.instance(:id => instance.id).state.must_equal 'RUNNING'
-    Proc.new { @driver.destroy_instance(instance.id) }.must_raise Deltacloud::ExceptionHandler::BackendError, 'Cannot remove VM. VM is running.'
+    Proc.new { @driver.destroy_instance(instance.id) }.must_raise Deltacloud::Exceptions::BackendError, 'Cannot remove VM. VM is running.'
     @driver.stop_instance(instance.id)
     instance = instance.wait_for!(@driver, record_retries('stop')) { |i| i.is_stopped? }
     @driver.instance(:id => instance.id).state.must_equal 'STOPPED'

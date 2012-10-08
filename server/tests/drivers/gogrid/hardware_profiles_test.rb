@@ -17,7 +17,7 @@ describe 'GoGrid Hardware Profiles' do
   it 'must throw error when wrong credentials' do
     Proc.new do
       @driver.backend.realms(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
   it 'must return list of hardware profiles' do

@@ -17,7 +17,7 @@ describe 'Ec2Driver Keys' do
   it 'must throw error when wrong credentials' do
     Proc.new do
       @driver.backend.images(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
   it 'must return list of keys' do
@@ -44,7 +44,7 @@ describe 'Ec2Driver Keys' do
     key = @driver.create_key(:key_name => 'test-key-1')
     key.wont_be_nil
     key.must_be_kind_of Key
-    Proc.new { @driver.create_key(:key_name => 'test-key-1') }.must_raise Deltacloud::ExceptionHandler::ProviderError, 'KeyExist'
+    Proc.new { @driver.create_key(:key_name => 'test-key-1') }.must_raise Deltacloud::Exceptions::ProviderError, 'KeyExist'
     @driver.destroy_key :id => key.id
     @driver.key(:id => key.id).must_be_nil
   end

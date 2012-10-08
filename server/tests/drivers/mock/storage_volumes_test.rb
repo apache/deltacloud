@@ -12,7 +12,7 @@ describe 'MockDriver StorageVolumes' do
   it 'must throw error when wrong credentials' do
     Proc.new do
       @driver.backend.storage_volumes(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
   it 'must return list of storage_volumes' do

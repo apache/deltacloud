@@ -12,7 +12,7 @@ describe 'MockDriver Images' do
   it 'must throw error when wrong credentials' do
     Proc.new do
       @driver.backend.images(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
-    end.must_raise Deltacloud::ExceptionHandler::AuthenticationFailure, 'Authentication Failure'
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
   it 'must return list of images' do
@@ -43,7 +43,7 @@ describe 'MockDriver Images' do
     @driver.image(:id => 'img1-test').id.must_equal 'img1-test'
     @driver.image(:id => 'img1-test').name.must_equal 'img1-test'
     @driver.image(:id => 'img1-test').description.must_equal 'Test1'
-    Proc.new { @driver.create_image(:id => 'unknown-instance', :name => 'test') }.must_raise Deltacloud::ExceptionHandler::BackendError, 'CreateImageNotSupported'
+    Proc.new { @driver.create_image(:id => 'unknown-instance', :name => 'test') }.must_raise Deltacloud::Exceptions::BackendError, 'CreateImageNotSupported'
     @driver.image(:id => 'test').must_be_nil
   end
 

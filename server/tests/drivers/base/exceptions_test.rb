@@ -6,7 +6,7 @@ require_relative '../../../lib/deltacloud/drivers/exceptions'
 class TestException < StandardError; end
 
 class ExceptionTestClass
-  include Deltacloud::ExceptionHandler
+  include Deltacloud::Exceptions
 
   def raise_exception(id)
     case id
@@ -30,12 +30,12 @@ end
 
 def raise_error(id); ExceptionTestClass.new.raise_exception(id); end
 
-describe Deltacloud::ExceptionHandler do
+describe Deltacloud::Exceptions do
 
   it 'should capture exception when match the exception message' do
-    lambda { raise_error 1 }.must_raise Deltacloud::ExceptionHandler::BackendError
+    lambda { raise_error 1 }.must_raise Deltacloud::Exceptions::BackendError
 
-    begin raise_error(1); rescue Deltacloud::ExceptionHandler::BackendError => e
+    begin raise_error(1); rescue Deltacloud::Exceptions::BackendError => e
       e.code.must_equal 500
       e.message.must_equal 'Test1ErrorMessage'
       e.backtrace.wont_be_empty
@@ -44,8 +44,8 @@ describe Deltacloud::ExceptionHandler do
   end
 
   it 'should capture exception when match the exception class' do
-    lambda { raise_error 2 }.must_raise Deltacloud::ExceptionHandler::ValidationFailure
-    begin raise_error(2); rescue Deltacloud::ExceptionHandler::ValidationFailure => e
+    lambda { raise_error 2 }.must_raise Deltacloud::Exceptions::ValidationFailure
+    begin raise_error(2); rescue Deltacloud::Exceptions::ValidationFailure => e
       e.code.must_equal 400
       e.message.must_equal 'StandardErrorTest'
       e.backtrace.wont_be_empty
@@ -53,8 +53,8 @@ describe Deltacloud::ExceptionHandler do
   end
 
   it 'should capture exception when no match found' do
-    lambda { raise_error 3 }.must_raise Deltacloud::ExceptionHandler::BackendError
-    begin raise_error(3); rescue Deltacloud::ExceptionHandler::BackendError => e
+    lambda { raise_error 3 }.must_raise Deltacloud::Exceptions::BackendError
+    begin raise_error(3); rescue Deltacloud::Exceptions::BackendError => e
       e.code.must_equal 500
       e.message.must_equal 'Unhandled exception or status code (not captured)'
       e.backtrace.wont_be_empty
