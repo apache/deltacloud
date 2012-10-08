@@ -23,7 +23,7 @@ module Deltacloud::Collections
     end
 
     collection :load_balancers do
-      description "Load balancers are used distribute workload across multiple instances"
+      description "Load balancers are used to distribute workload across multiple instances"
 
       standard_index_operation
 
@@ -32,7 +32,13 @@ module Deltacloud::Collections
         control do
           @load_balancer = driver.load_balancer(credentials, params)
           @registered_instances = @load_balancer.instances.collect{|i| {:id => i.id, :name=> i.name}}
-          @unregistered_instances = driver.instances(credentials).collect{|i| {:id => i.id, :name => i.name}} - @registered_instances
+          # if provider supports realm_filter and load balancer has only one realm (which is mostly the case), use optimization:
+          if @load_balancer.realms.size == 1 and driver.class.has_feature?(:instances, :realm_filter)
+            all_instances = driver.instances(credentials, :realm_id => @load_balancer.realms.first.id).collect{|i| {:id => i.id, :name => i.name}}
+          elsif
+            all_instances = driver.instances(credentials).collect{|i| {:id => i.id, :name => i.name} }
+          end
+          @unregistered_instances = all_instances - @registered_instances
           respond_to do |format|
             format.xml { haml :'load_balancers/show' }
             format.json { xml_to_json('load_balancers/show') }

@@ -135,14 +135,14 @@ module Deltacloud
       end
 
       feature :instance_count, :for => :instances do
-        description "Number of instances to be launch with at once"
+        description "Number of instances to launch at once"
         operation :create do
           param :instance_count,  :string,  :optional
         end
       end
 
       feature :attach_snapshot, :for => :instances do
-        description "Attach an snapshot to instance on create"
+        description "Attach a snapshot to instance on create"
         operation :create do
           param :snapshot_id,  :string,  :optional
           param :device_name,  :string,  :optional
@@ -150,7 +150,7 @@ module Deltacloud
       end
 
       feature :sandboxing, :for => :instances do
-        description "Allow lanuching sandbox images"
+        description "Allow launching sandbox images"
         operation :create do
           param :sandbox, :string,  :optional
         end

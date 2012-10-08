@@ -29,6 +29,7 @@ class FgcpDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_name
   feature :instances, :metrics
+  feature :instances, :realm_filter
   feature :images, :user_name
   feature :images, :user_description
 
@@ -168,19 +169,18 @@ class FgcpDriver < Deltacloud::BaseDriver
     realms = []
     safely do
       client = new_client(credentials)
-  # opts may include scope: system, network
-  # first retrieve list of VSYS ids (and add if scope is not only filtering for network)
+
       if opts and opts[:id]
 
-        # determine id belongs to vsys or network
+        # determine id belongs to system or network
         vsys_id = client.extract_vsys_id(opts[:id])
         vsys = client.get_vsys_attributes(vsys_id)['vsys'][0]
         realm_name = vsys['vsysName'][0]
-        limit = '[VSYS]'
+        limit = '[System]'
         if opts[:id] != vsys_id # network id specified
           opts[:id] =~ /^.*\b(\w+)$/
-          realm_name += ' [' + $1 + ']' # vsys name or vsys name + network [DMZ/SECURE1/SECURE2]
-          limit = '[Network segment]'
+          realm_name += ' [' + $1 + ']' # system name or system name + network [DMZ/SECURE1/SECURE2]
+          limit = '[Network]'
         end
         realms << Realm::new(
                     :id => opts[:id],
@@ -188,7 +188,6 @@ class FgcpDriver < Deltacloud::BaseDriver
                     #:limit => :unlimited,
                     :limit => limit,
                     :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
-                   # :scope => 'system'
                   )
       elsif xml = client.list_vsys['vsyss']
 
@@ -197,11 +196,10 @@ class FgcpDriver < Deltacloud::BaseDriver
 
           realms << Realm::new(
                       :id => vsys['vsysId'][0], # vsysId or networkId
-                      :name => vsys['vsysName'][0], # vsys name or vsys name + network (DMZ/SECURE1/SECURE2)
+                      :name => vsys['vsysName'][0], # system name or system name + network (DMZ/SECURE1/SECURE2)
                       #:limit => :unlimited,
-                      :limit => '[VSYS]',
+                      :limit => '[System]',
                       :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
-                     # :scope => 'system'
                     )
           # then retrieve and add list of network segments
           client.get_vsys_configuration(vsys['vsysId'][0])['vsys'][0]['vnets'][0]['vnet'].each do |vnet|
@@ -212,9 +210,8 @@ class FgcpDriver < Deltacloud::BaseDriver
                         :id => vnet['networkId'][0], # vsysId or networkId
                         :name => realm_name,
                         #:limit => :unlimited,
-                        :limit => '[Network segment]',
+                        :limit => '[Network]',
                         :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
-                      #  :scope => 'network'
                       )
           end
         end
@@ -232,11 +229,13 @@ class FgcpDriver < Deltacloud::BaseDriver
     safely do
       client = new_client(credentials)
 
-      if opts and opts[:id]
-        vsys_id = client.extract_vsys_id(opts[:id])
+      if opts and opts[:id] or opts[:realm_id]
+        vsys_id = client.extract_vsys_id(opts[:id] || opts[:realm_id])
         vsys_config = client.get_vsys_configuration(vsys_id)
         vsys_config['vsys'][0]['vservers'][0]['vserver'].each do |vserver|
-          if vserver['vserverId'][0] == opts[:id]
+          network_id = vserver['vnics'][0]['vnic'][0]['networkId'][0]
+          # :realm_id can point to system or network
+          if vsys_id == opts[:realm_id] or vserver['vserverId'][0] == opts[:id] or network_id == opts[:realm_id]
 
             # check state first as it may be filtered on
             state_data = instance_state_data(vserver, client)
@@ -1066,7 +1065,7 @@ eofwopxml
             realm = Realm::new(
               :id => vserver['vnics'][0]['vnic'][0]['networkId'][0],
               :name => realm_name,
-              :limit => '[Network segment]',
+              :limit => '[Network]',
               :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
             )
             balancer = LoadBalancer.new({
@@ -1101,7 +1100,7 @@ eofwopxml
           realm = Realm::new(
             :id => vserver['vnics'][0]['vnic'][0]['networkId'][0],
             :name => realm_name,
-            :limit => '[Network segment]',
+            :limit => '[Network]',
             :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
           )
           balancer = LoadBalancer.new({
