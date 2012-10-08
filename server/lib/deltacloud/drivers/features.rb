@@ -65,6 +65,13 @@ module Deltacloud
         end
       end
 
+      feature :realm_filter, :for => :instances do
+        description "Filter instances by realm"
+        operation :index do
+          param :realm_id, :string, :optional
+        end
+      end
+
       feature :user_name, :for => :instances do
         description "Allow to set user-defined name for the instance"
         operation :create do

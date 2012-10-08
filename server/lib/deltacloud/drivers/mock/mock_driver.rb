@@ -80,6 +80,7 @@ module Deltacloud::Drivers::Mock
     feature :instances, :user_data
     feature :instances, :authentication_key
     feature :instances, :metrics
+    feature :instances, :realm_filter
     feature :images, :user_name
     feature :images, :user_description
 
@@ -162,12 +163,13 @@ module Deltacloud::Drivers::Mock
       end
     end
 
-    def instances(credentials, opts=nil)
+    def instances(credentials, opts={})
       check_credentials( credentials )
       instances = @client.build_all(Instance)
       instances = filter_on( instances, :owner_id, :owner_id => credentials.user )
       instances = filter_on( instances, :id, opts )
       instances = filter_on( instances, :state, opts )
+      instances = filter_on( instances, :realm_id, opts)
       instances
     end
 

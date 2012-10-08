@@ -33,18 +33,10 @@ module Deltacloud::Helpers
     end
 
     def filter_all(model)
-      filter = {}
-      filter.merge!(:id => params[:id]) if params[:id]
-      filter.merge!(:architecture => params[:architecture]) if params[:architecture]
-      filter.merge!(:owner_id => params[:owner_id]) if params[:owner_id]
-      filter.merge!(:state => params[:state]) if params[:state]
-      filter = {} if filter.keys.size.eql?(0)
       begin
-        @benchmark = Benchmark.measure do
-          @elements = driver.send(model.to_sym, credentials, filter)
-        end
-      rescue
-        @exception = $!
+        @benchmark = Benchmark.measure { @elements = driver.send(model.to_sym, credentials, params) }
+      rescue => e
+        @exception = e
       end
       if @elements
         headers['X-Backend-Runtime'] = @benchmark.real.to_s
