@@ -13,17 +13,11 @@
     %a{ :href => "#{@volumes.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@volumes.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Volume Collection entity represents the collection of Volume
-    entities within a Provider. This entity can be used to locate and create
-    volumes.
-
 %h3 VolumesCollection
 %ul
   - @volumes.volumes.each do |volume|
     %li
-      %a{ :href => "/cimi/volumes/#{volume.href.split('/').last}"}=volume.href.split('/').last
+      %a{ :href => "/cimi/volumes/#{href_to_id(volume.id)}"}=href_to_id(volume.id)
 
 - details 'VolumeCollection details' do
   - row 'ID', @volumes.id

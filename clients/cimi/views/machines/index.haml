@@ -29,34 +29,26 @@
             .controls
               %select{ :name => 'machine[machine_image]' }
                 - @machine_images.machine_images.each do |image|
-                  %option{ :value => image.href }=href_to_id(image.href)
+                  %option{ :value => image.id }=href_to_id(image.id)
             %label.control-label{ :for => 'machine[machine_configuration]' } Machine Configuration
             .controls
               %select{ :name => 'machine[machine_configuration]' }
                 - @machine_configurations.machine_configurations.each do |configuration|
-                  %option{ :value => configuration.href }=href_to_id(configuration.href)
+                  %option{ :value => configuration.id }=href_to_id(configuration.id)
             - unless @machine_admins.kind_of?(Array)
               %label.control-label{ :for => 'machine[machine_admin]' } Machine Admin
               .controls
                 %select{ :name => 'machine[machine_admin]' }
                   - @machine_admins.machine_admins.each do |admin|
-                    %option{ :value => admin.href }=href_to_id(admin.href)
+                    %option{ :value => admin.id }=href_to_id(admin.id)
     .modal-footer
       %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating MachineAdmin...', :onclick => "postModalForm(this, 'machineModal')"} Continue
       %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
 
-
-
-%blockquote
-  %p
-    A Machine Collection entity represents the collection of Machine
-    entities within a Provider. This entity can be used to locate and create
-    Machines.
-
 %ul
   - @machines.machines.each do |machine|
     %li
-      %a{ :href => "/cimi/machines/#{machine.href.split('/').last}"}=machine.href.split('/').last
+      %a{ :href => "/cimi/machines/#{href_to_id(machine.id)}"}=href_to_id(machine.id)
 
 - if @machines.machines.empty?
   .alert-message.block-message.warning
@@ -66,7 +58,7 @@
       %a{ :href => '/cimi/machine/new', :class => 'btn'} Create new
 
 
-- details('Collection details') do
+- details do
   - row 'ID', @machines.id
   - row 'Description', @machines.description
   - row 'Created', @machines.created

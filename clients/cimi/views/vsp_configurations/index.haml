@@ -13,17 +13,11 @@
     %a{ :href => "#{@vsp_configs.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@vsp_configs.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A VSP Configuration Collection entity represents the collection of VSP Configurations within a Provider.
-    This entity can be used to locate and create VSP Configurations
-
-
 %h3 VSPConfigurationCollection
 %ul
   - @vsp_configs.vsp_configurations.each do |vsp_config|
     %li
-      %a{ :href => "/cimi/vsp_configurations/#{vsp_config.href.split('/').last}"}=vsp_config.href.split('/').last
+      %a{ :href => "/cimi/vsp_configurations/#{href_to_id(vsp_config.id)}"}=href_to_id(vsp_config.id)
 
 -details 'VSPConfigurationCollection details' do
   -row 'ID', @vsp_configs.id

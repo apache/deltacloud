@@ -34,7 +34,7 @@ module CIMI
       end
 
       def destroy_entity(entity_type, id, credentials)
-        client["%s/%s/delete" % [entity_type, id]].delete(auth_header(credentials))
+        client["%s/%s" % [entity_type, id]].delete(auth_header(credentials))
       end
 
       def entity_action(entity_type, action, id, body, credentials)

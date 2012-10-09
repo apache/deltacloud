@@ -1,4 +1,4 @@
-- @title=@entry_point.name
+- @title=entry_point.name
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -7,24 +7,16 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{@entry_point.id}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@entry_point.id}?format=json", :class => 'label warning' } JSON
-
-%blockquote
-  %p
-    The Cloud Entry Point represents the entry point into the cloud defined by
-    the CIMI Model. The Cloud Entry Point implements a catalog of entities such
-    as Systems, System Templates, Machines, Machine Templates, etc. that can be
-    queried and browsed by the Consumer
+    %a{ :href => "#{entry_point.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{entry_point.id}?format=json", :class => 'label warning' } JSON
 
 %ul
-  - @entities.each do |entity|
+  - entry_point.entities.each do |name, struct|
     %li
-      - if @entry_point.respond_to? entity
-        %a{ :href => "/cimi/#{entity}"}=struct_to_name @entry_point.send(entity.intern)
-        =not_implemented(entity)
+      %a{ :href => '/cimi/'+href_to_id(struct.href) }=name.to_s.camelize
 
-- details('Collection details') do
-  - row 'ID', @entry_point.id
-  - row 'Description', @entry_point.description
-  - row 'Created', @entry_point.created
+- details do
+  - row 'ID', entry_point.id
+  - row 'Base URI', entry_point.base_uri
+  - row 'Description', entry_point.description
+  - row 'Created', entry_point.created

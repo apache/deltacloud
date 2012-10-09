@@ -23,7 +23,7 @@
 %ul
   - @machine_configurations.machine_configurations.each do |conf|
     %li
-      %a{ :href => "/cimi/machine_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
+      %a{ :href => "/cimi/machine_configurations/#{href_to_id(conf.id)}"}=href_to_id(conf.id)
 
 - details('Collection details') do
   - row 'ID', @machine_configurations.id

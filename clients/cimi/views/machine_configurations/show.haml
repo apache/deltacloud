@@ -28,6 +28,6 @@
   - row 'Description', @machine_configuration.description
   - row 'Created', @machine_configuration.created
   - row '# of CPU', @machine_configuration.cpu
-  - row 'Memory (RAM)', [@machine_configuration.memory[:quantity], @machine_configuration.memory[:units]].join('&nbsp;')
-  - row 'Storage (disks)', @machine_configuration.disks.map { |d| [ d.capacity.quantity, d.capacity.units ].join('&nbsp;') }.join(',')
+  - row 'Memory (RAM)', @machine_configuration.memory
+  - row 'Storage (disks)', @machine_configuration.disks.map { |d| d.capacity }.join(',')
 

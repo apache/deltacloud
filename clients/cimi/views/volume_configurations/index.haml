@@ -7,22 +7,17 @@
       %span.divider="/"
     %li.active
       VolumeConfigurationCollection
+
 - content_for :actions do
   %p
     %a{ :href => "#{@volume_configurations.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@volume_configurations.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Volume Configuration Collection entity represents the collection of
-    Volume Configuration entities within a Provider. This entity can be used to
-    locate and create Volume Configurations.
-
 %h3 VolumeConfigurationsCollection
 %ul
   - @volume_configurations.volume_configurations.each do |conf|
     %li
-      %a{ :href => "/cimi/volume_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
+      %a{ :href => "/cimi/volume_configurations/#{href_to_id(conf.id)}"}=href_to_id(conf.id)
 
 - details 'VolumeConfigurationCollection details' do
   -row 'ID', @volume_configurations.id

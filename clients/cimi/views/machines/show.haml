@@ -28,19 +28,17 @@
       %input{ :type => :hidden, :name => '_method', :value => 'delete'}
       %button{ :class => 'btn danger'} Destroy
 
-%blockquote
-  %p
-    This entity represents an instantiated compute resource
-
-
 -details 'Machine details' do
   -row 'ID', @machine.id
   -row 'Description',@machine.description
   -row 'Created', @machine.created
   -row 'State',state_span_for(@machine.state)
   -row 'CPU', boolean_span_for(@machine.cpu)
-  -row 'RAM',(@machine.memory.quantity.nil? ? "Not specified" : ([@machine.memory.quantity, @machine.memory.units].join("&nbsp;")))
+  -row 'RAM', @machine.memory
   -row 'Meters', (@machine.meters.empty? ? "No meters" : ( @machine.meters.each{|meter| meters.id}))
+  -row 'Network Interfaces', @machine.network_interfaces.href
+  -row 'Volumes', @machine.volumes.machine_volumes.first['href']
+  -row 'Disks', @machine.disks.disks.first['href']
 
 
 %h3 Properties
@@ -50,70 +48,8 @@
       %th Name
       %th Value
   %tbody
-    - @machine.property.each do |property|
+    - @machine.property.each do |name, value|
       %tr
-        %td=property.name
-        %td=convert_urls property.value
+        %td=name
+        %td=convert_urls value
 
-%h3 Network Interfaces
-
-%table{ :class => 'table table-bordered table-striped' }
-  %thead
-    %tr
-      %th Address
-      %th State
-      %th Protocol
-  %tbody
-    - @machine.network_interfaces.each do |interface|
-      %tr
-        %td=interface.address || interface.hostname
-        %td
-          %span.label.success=interface.state
-        %td=interface.protocol
-    - if @machine.network_interfaces.empty?
-      %tr
-        %td{ :colspan => 3 }
-          %strong
-            There are no network interfaces defined for this Machine.
-
-%h3 Volumes
-
-%table{ :class => 'table table-bordered table-striped' }
-  %thead
-    %tr
-      %th ID
-      %th Attachment Point
-      %th Protocol
-  %tbody
-    - @machine.volumes.each do |volume|
-      %tr
-        %td
-          %a{:href => "/cimi/volumes/#{href_to_id(volume.href)}" }=href_to_id(volume.href)
-        %td=volume.attachment_point
-        %td=volume.protocol
-    - if @machine.volumes.empty?
-      %tr
-        %td{ :colspan => 3 }
-          %strong
-            There are no Volume entities defined for this Machine.
-
-
-%h3 Disks
-
-%table{ :class => 'table table-bordered table-striped' }
-  %thead
-    %tr
-      %th Capacity
-      %th Format
-      %th Attachment point
-  %tbody
-    - @machine.disks.each do |disk|
-      %tr
-        %td=[boolean_span_for(disk.capacity.quantity), disk.capacity.units].join("&nbsp;")
-        %td=boolean_span_for disk.format
-        %td=boolean_span_for disk.attachment_point
-    - if @machine.disks.empty?
-      %tr
-        %td{ :colspan => 3 }
-          %strong
-            There are no disks defined for this Machine.

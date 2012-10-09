@@ -13,16 +13,10 @@
     %a{ :href => "#{@volume_images.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@volume_images.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Volume Image Collection entity represents the collection of Volume Image
-    entities within a Provider. This entity can be used to locate and create
-    Volume Images.
-
 %ul
   - @volume_images.volume_images.each do |image|
     %li
-      %a{ :href => "/cimi/volume_images/#{image.href.split('/').last}"}=image.href.split('/').last
+      %a{ :href => "/cimi/volume_images/#{href_to_id(image.id)}"}=href_to_id(image.id)
 
 - details 'VolumeImageCollection details' do
   - row 'ID', @volume_images.id

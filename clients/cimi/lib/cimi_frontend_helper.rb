@@ -19,7 +19,19 @@ module CIMI
 
       require 'uri'
 
-      def href_to_id(href) 
+      def content_for(key, &block)
+        @content ||= {}
+        @content[key] = capture_haml(&block)
+      end
+
+      def content(key)
+        @content && @content[key]
+      end
+
+      alias_method :yield_content, :content
+
+      def href_to_id(href)
+        return '' unless href
         href.split('/').last
       end
 
@@ -68,7 +80,7 @@ module CIMI
       end
 
       def convert_urls(value)
-        value.gsub( %r{http(s?)://[^\s<]+} ) { |url| "<a href='#{relativize_url(url)}'>#{href_to_id(url)}</a>" }
+        value.gsub( %r{http(s?)://[^\s<]+} ) { |url| "<a href='#{relativize_url(url)}'>#{url}</a>" }
       end
 
       def not_implemented(collection_name)
@@ -80,17 +92,13 @@ module CIMI
         end
       end
 
-      def struct_to_name(struct_name)
-        struct_name.class.name.split('_').last
-      end
-
       def row(label, value)
         haml_tag :tr do
           haml_tag :th do
             haml_concat label
           end
           haml_tag :td do
-            haml_concat value.nil? ? '' : convert_urls(value)
+            haml_concat value.nil? ? 'N/A' : convert_urls(value)
           end
         end
       end

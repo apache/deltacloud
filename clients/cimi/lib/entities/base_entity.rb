@@ -20,7 +20,6 @@ class CIMI::Frontend::Entity < Sinatra::Base
   helpers CIMI::Frontend::Client
   helpers CIMI::Frontend::Helper
   helpers Sinatra::LazyAuth
-  helpers Sinatra::ContentFor
 
   set :views, Proc.new { File.join(File::dirname(__FILE__), "..", "..", "views") }
 

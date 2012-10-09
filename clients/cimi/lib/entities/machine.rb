@@ -31,7 +31,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
       machine_admins_xml = get_entity_collection('machine_admins', credentials)
       @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admins_xml)
       # In case backend does not support MachineAdmin collection
-    rescue RestClient::InternalServerError
+    rescue RestClient::ResourceNotFound
       @machine_admins = []
     end
     machine_xml = get_entity_collection('machines', credentials)
@@ -55,7 +55,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         xml.action "http://schemas.dmtf.org/cimi/1/action/stop"
       }
     end.to_xml
-    result = entity_action(:machines, :stop, params[:id], action_xml, credentials)
+    entity_action 'machines', 'stop', params[:id], action_xml, credentials
     flash[:success] = "Machine successfully stopped."
     redirect '/cimi/machines/%s' % params[:id]
   end
@@ -66,7 +66,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         xml.action "http://schemas.dmtf.org/cimi/1/action/start"
       }
     end.to_xml
-    result = entity_action(:machines, :start, params[:id], action_xml, credentials)
+    entity_action 'machines', 'start', params[:id], action_xml, credentials
     flash[:success] = "Machine successfully started."
     redirect '/cimi/machines/%s' % params[:id]
   end
@@ -77,7 +77,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         xml.action "http://schemas.dmtf.org/cimi/1/action/restart"
       }
     end.to_xml
-    result = entity_action(:machines, :restart, params[:id], action_xml, credentials)
+    entity_action 'machines', 'restart', params[:id], action_xml, credentials
     flash[:success] = "Machine successfully restarted."
     redirect '/cimi/machines/%s' % params[:id]
   end

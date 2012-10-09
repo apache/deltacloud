@@ -15,7 +15,6 @@
 
 require 'rubygems'
 require 'sinatra/base'
-require 'sinatra/content_for'
 require 'rack/accept'
 require 'haml'
 require 'rest-client'
