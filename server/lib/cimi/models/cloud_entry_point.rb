@@ -39,6 +39,10 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     end
   end
 
+  def entities
+    @attribute_values.clone.delete_if { |key, value| !value.respond_to? :href }
+  end
+
   private
 
   def self.href_defined?(resource)
