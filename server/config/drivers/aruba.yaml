@@ -2,7 +2,7 @@
 :aruba:
   :entrypoints:
     compute:
-      dc1: https://api.dc1.computing.cloud.it/WsEndUser/v1.7/WsEndUser.svc?wsdl
-      dc2: https://api.dc2.computing.cloud.it/WsEndUser/v1.7/WsEndUser.svc?wsdl
-      dc3: https://api.dc3.computing.cloud.it/WsEndUser/v1.7/WsEndUser.svc?wsdl
+      dc1: https://api.dc1.computing.cloud.it/WsEndUser/v2.0/WsEndUser.svc?wsdl
+      dc2: https://api.dc2.computing.cloud.it/WsEndUser/v2.0/WsEndUser.svc?wsdl
+      dc3: https://api.dc3.computing.cloud.it/WsEndUser/v2.0/WsEndUser.svc?wsdl
   :name: Aruba
