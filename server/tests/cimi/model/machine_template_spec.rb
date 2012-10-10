@@ -1,4 +1,3 @@
-
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -17,18 +16,17 @@
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-require_relative '../../spec_helper.rb' if require 'minitest/autorun'
+require_relative '../spec_helper.rb' if require 'minitest/autorun'
 
-describe "Volume Configuration model" do
+describe "MachineTemplate model" do
 
   before do
-    @xml = IO::read(File::join(DATA_DIR, "volume_configuration.xml"))
-    @json = IO::read(File::join(DATA_DIR, "volume_configuration.json"))
+    @xml = IO::read(File::join(DATA_DIR, "machine_template.xml"))
+    @json = IO::read(File::join(DATA_DIR, "machine_template.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::VolumeConfiguration, @xml, @json
+    should_properly_serialize_model CIMI::Model::MachineTemplate, @xml, @json
   end
-
 
 end

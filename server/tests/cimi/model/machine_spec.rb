@@ -16,17 +16,17 @@
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-require_relative '../../spec_helper.rb' if require 'minitest/autorun'
+require_relative '../spec_helper.rb' if require 'minitest/autorun'
 
-describe "Volume model" do
+describe "Machine model" do
 
   before do
-    @xml = IO::read(File::join(DATA_DIR, "volume.xml"))
-    @json = IO::read(File::join(DATA_DIR, "volume.json"))
+    @xml = IO::read(File::join(DATA_DIR, "machine.xml"))
+    @json = IO::read(File::join(DATA_DIR, "machine.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::Volume, @xml, @json
+    should_properly_serialize_model CIMI::Model::Machine, @xml, @json
   end
 
 end

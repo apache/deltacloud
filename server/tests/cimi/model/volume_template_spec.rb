@@ -13,23 +13,20 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
-
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-if require 'minitest/autorun'
-  require_relative '../../spec_helper.rb'
-end
+require_relative '../spec_helper.rb' if require 'minitest/autorun'
 
-describe "Credential model" do
+describe "Volume Template model" do
 
   before do
-    @xml = IO::read(File::join(DATA_DIR, "credential.xml"))
-    @json = IO::read(File::join(DATA_DIR, "credential.json"))
+    @xml = IO::read(File::join(DATA_DIR, "volume_template.xml"))
+    @json = IO::read(File::join(DATA_DIR, "volume_template.json"))
   end
 
   it "can be constructed from XML and JSON" do
-    should_properly_serialize_model CIMI::Model::Credential, @xml, @json
+    should_properly_serialize_model CIMI::Model::VolumeTemplate, @xml, @json
   end
 
 end

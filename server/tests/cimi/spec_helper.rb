@@ -20,10 +20,10 @@ require 'minitest/spec'
 require 'xmlsimple'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-require_relative '../../../lib/deltacloud/core_ext.rb'
-require_relative '../../../lib/cimi/models.rb'
+require_relative '../../lib/deltacloud/core_ext.rb'
+require_relative '../../lib/cimi/models.rb'
 
-DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'cimi', 'data')
+DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'data')
 
 def parse_xml(xml, opts = {})
   opts[:force_content] = true

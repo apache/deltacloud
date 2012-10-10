@@ -16,7 +16,7 @@
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-require_relative '../../spec_helper.rb' if require 'minitest/autorun'
+require_relative '../spec_helper.rb' if require 'minitest/autorun'
 
 describe "Schema" do
   before do
