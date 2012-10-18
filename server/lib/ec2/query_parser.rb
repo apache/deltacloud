@@ -24,7 +24,7 @@ module Deltacloud::EC2
       :describe_key_pairs => { :method => :keys, :params => {} },
       :create_key_pair => { :method => :create_key, :params => { 'KeyName' => :key_name }},
       :delete_key_pair => { :method => :destroy_key, :params => { 'KeyName' => :id }},
-      :run_instances => { :method => :create_instance, :params => { 'ImageId' => :image_id, 'InstanceType' => :hwp_id, 'Placement.AvailabilityZone' => :realm_id }},
+      :run_instances => { :method => :create_instance, :params => { 'ImageId' => :image_id, 'InstanceType' => :hwp_id, 'Placement.AvailabilityZone' => :realm_id, 'UserData' => :user_data }},
       :stop_instances => { :method => :stop_instance, :params => { 'InstanceId.1' => :id }},
       :start_instances => { :method => :start_instance, :params => { 'InstanceId.1' => :id }},
       :reboot_instances => { :method => :reboot_instance, :params => { 'InstanceId.1' => :id }},
