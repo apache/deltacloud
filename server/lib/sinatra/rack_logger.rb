@@ -89,7 +89,8 @@ module Rack
       params = env['rack.request.form_hash'].nil? ? '' : ' '+env['rack.request.form_hash'].to_json
 
       logger = @logger || env['rack.errors']
-      logger << VERBOSE_FORMAT % [
+      logger_method = logger.respond_to?(:info) ? :info : :puts
+      logger.send logger_method, VERBOSE_FORMAT % [
         env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"] || "-",
         env["REMOTE_USER"] || "-",
         now.strftime("%d/%b/%Y %H:%M:%S"),
@@ -110,7 +111,8 @@ module Rack
       length = extract_content_length(header)
 
       logger = @logger || env['rack.errors']
-      logger << FORMAT % [
+      logger_method = logger.respond_to?(:info) ? :info : :puts
+      logger.send logger_method, FORMAT % [
         env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"] || "-",
         env["REMOTE_USER"] || "-",
         now.strftime("%d/%b/%Y %H:%M:%S"),
