@@ -56,10 +56,10 @@ module Deltacloud::Drivers::Mock
       files(collection).map { |f| File::basename(f, ".yml") }
     end
 
-    def load(collection, id)
+    def load_collection(collection, id)
       fname = file(collection, id)
       begin
-        YAML.load(File.read(fname))
+        YAML.load_file(fname)
       rescue Errno::ENOENT
         nil
       end
@@ -73,12 +73,12 @@ module Deltacloud::Drivers::Mock
     # Return the object with id +id+ of class +klass+ from the collection
     # derived from the classes name
     def build(klass, id)
-      klass.new(load(collection_name(klass), id))
+      klass.new(load_collection(collection_name(klass), id))
     end
 
     # Return an array of hashes of all the resources in the collection
     def load_all(collection)
-      members(collection).map { |id| load(collection, id) }
+      members(collection).map { |id| load_collection(collection, id) }
     end
 
     # Return an array of model objects of the resources in the collection

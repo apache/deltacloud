@@ -26,7 +26,7 @@ module Deltacloud
         Thread::current[:drivers] = {}
         top_srcdir = File.join(File.dirname(__FILE__), '..', '..')
         Dir[File.join(top_srcdir, 'config', 'drivers', '*.yaml')].each do |driver_file|
-          Thread::current[:drivers].merge!(YAML::load(File::read(driver_file)))
+          Thread::current[:drivers].merge!(YAML::load_file(driver_file))
         end
       end
       Thread::current[:drivers]
