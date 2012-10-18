@@ -40,7 +40,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
     opts = ( id == :all ) ? {} : { :id => id }
     volumes = context.driver.storage_volumes(context.credentials, opts)
     volumes.collect!{ |volume| from_storage_volume(volume, context) }
-    return volumes.first unless volumes.length > 1
+    return volumes.first unless volumes.length > 1 || volumes.length == 0
     return volumes
   end
 
