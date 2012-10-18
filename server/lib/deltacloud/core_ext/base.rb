@@ -12,14 +12,19 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
-#
 
-require 'require_relative' if RUBY_VERSION < '1.9'
+def get_current_memory_usage
+  `ps -o rss= -p #{Process.pid}`.to_i
+end
 
-require_relative './core_ext/array'
-require_relative './core_ext/hash'
-require_relative './core_ext/integer'
-require_relative './core_ext/ordered_hash'
-require_relative './core_ext/proc'
-require_relative './core_ext/string'
-require_relative './core_ext/base'
+def profile_memory(&block)
+  before = get_current_memory_usage
+  file, line, _ = caller[0].split(':')
+  if block_given?
+    instance_eval(&block)
+    puts "[#{file}:#{line}: #{(get_current_memory_usage - before) / 1024} MB (consumed)]"
+  else
+    before = 0
+    puts "[#{file}:#{line}: #{(get_current_memory_usage - before) / 1024} MB (all)]"
+  end
+end
