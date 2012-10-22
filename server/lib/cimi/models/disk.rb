@@ -46,7 +46,7 @@ class CIMI::Model::Disk < CIMI::Model::Base
           :id => context.machine_url(instance.id)+"/disks/#{name}",
           :name => name,
           :description => "Disk for Machine #{instance.id}",
-          :created => instance.launch_time,
+          :created => instance.launch_time.nil? ? DateTime.now.xmlschema : DateTime.parse(instance.launch_time).xmlschema,
           :capacity => capacity
         )]
       end

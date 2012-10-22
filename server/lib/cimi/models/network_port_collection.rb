@@ -27,7 +27,7 @@ class CIMI::Model::NetworkPortCollection < CIMI::Model::Base
     self.new(
       :id => context.network_ports_url,
       :name => 'default',
-      :created => Time.now,
+      :created => DateTime.now.xmlschema,
       :description => "#{context.driver.name.capitalize} NetworkPortCollection",
       :count => network_ports.size,
       :network_ports => network_ports
@@ -41,7 +41,7 @@ class CIMI::Model::NetworkPortCollection < CIMI::Model::Base
     self.new(
       :id => net_url+"/network_ports",
       :name => 'default',
-      :created => Time.now,
+      :created => DateTime.now.xmlschema,
       :description => "#{context.driver.name.capitalize} NetworkPortCollection",
       :count => ports_collection.size,
       :network_ports => ports_collection

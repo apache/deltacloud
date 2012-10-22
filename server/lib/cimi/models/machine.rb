@@ -119,7 +119,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     self.new(
       :name => instance.id,
       :description => instance.name,
-      :created => instance.launch_time,
+      :created => instance.launch_time.nil? ? DateTime.now.xmlschema : DateTime.parse(instance.launch_time).xmlschema,
       :id => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
