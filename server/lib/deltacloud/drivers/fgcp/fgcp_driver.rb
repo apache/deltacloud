@@ -237,14 +237,17 @@ class FgcpDriver < Deltacloud::BaseDriver
           # :realm_id can point to system or network
           if vsys_id == opts[:realm_id] or vserver['vserverId'][0] == opts[:id] or network_id == opts[:realm_id]
 
-            # check state first as it may be filtered on
-            state_data = instance_state_data(vserver, client)
-            if opts[:state].nil? or opts[:state] == state_data[:state]
+            # skip firewall if filtering by realm
+            unless opts[:realm_id] and determine_server_type(vserver) == 'FW'
+              # check state first as it may be filtered on
+              state_data = instance_state_data(vserver, client)
+              if opts[:state].nil? or opts[:state] == state_data[:state]
 
-              instance = convert_to_instance(client, vserver, state_data)
-              add_instance_details(instance, client, vserver)
+                instance = convert_to_instance(client, vserver, state_data)
+                add_instance_details(instance, client, vserver)
 
-              instances << instance
+                instances << instance
+              end
             end
           end
         end
@@ -257,12 +260,16 @@ class FgcpDriver < Deltacloud::BaseDriver
           vsys_config = client.get_vsys_configuration(vsys['vsysId'][0])
           vsys_config['vsys'][0]['vservers'][0]['vserver'].each do |vserver|
 
-            # to keep the response time of this method acceptable, retrieve state
-            # only if required because state is filtered on
-            state_data = opts[:state] ? instance_state_data(vserver, client) : nil
-            # filter on state
-            if opts[:state].nil? or opts[:state] == state_data[:state]
-              instances << convert_to_instance(client, vserver, state_data)
+            # skip firewalls - they probably don't belong here and their new type ('firewall' instead of 
+            # 'economy') causes errors when trying to map to available profiles)
+            unless determine_server_type(vserver) == 'FW'
+              # to keep the response time of this method acceptable, retrieve state
+              # only if required because state is filtered on
+              state_data = opts[:state] ? instance_state_data(vserver, client) : nil
+              # filter on state
+              if opts[:state].nil? or opts[:state] == state_data[:state]
+                instances << convert_to_instance(client, vserver, state_data)
+              end
             end
           end
         end
@@ -854,44 +861,46 @@ eofwpxml
         fw_owner_id = fw['efm'][0]['creator'][0]
         rule50000_log = true
 
-        fw['efm'][0]['firewall'][0]['directions'][0]['direction'].each do |direction|
+        if fw['efm'][0]['firewall'][0]['directions'] and fw['efm'][0]['firewall'][0]['directions'][0]['direction']
+          fw['efm'][0]['firewall'][0]['directions'][0]['direction'].each do |direction|
 
-          direction['policies'][0]['policy'].each do |policy|
+            direction['policies'][0]['policy'].each do |policy|
 
-            sources = []
-            ['src', 'dst'].each do |e|
+              sources = []
+              ['src', 'dst'].each do |e|
 
-              if policy[e] and policy[e][0] and not policy[e][0].empty?
+                if policy[e] and policy[e][0] and not policy[e][0].empty?
 
-                ip_address_type = policy["#{e}Type"][0]
-                address = policy[e][0]
-                address.sub!('any', '0.0.0.0/0') if ip_address_type == 'IP'
-                address += '/32' if ip_address_type == 'IP' and not address =~ /.*\/.*/
+                  ip_address_type = policy["#{e}Type"][0]
+                  address = policy[e][0]
+                  address.sub!('any', '0.0.0.0/0') if ip_address_type == 'IP'
+                  address += '/32' if ip_address_type == 'IP' and not address =~ /.*\/.*/
 
-                sources << {
-                  :type    => 'address',
-                  :family  => 'ipv4',
-                  :address => address.split('/').first,
-                  :prefix  => ip_address_type == 'IP' ? address.split('/').last : nil
-                }
+                  sources << {
+                    :type    => 'address',
+                    :family  => 'ipv4',
+                    :address => address.split('/').first,
+                    :prefix  => ip_address_type == 'IP' ? address.split('/').last : nil
+                  }
+                end
               end
+
+              # defining ingress as access going from Internet/Intranet -> DMZ -> SECURE1 -> SECURE2
+              ingress = policy['id'][0] =~ /[13].*/ ? 'ingress' : 'egress'
+
+              rules << FirewallRule.new({
+                :id             => policy['id'][0],
+                :rule_action    => policy['action'][0].downcase,
+                :log_rule       => policy['log'][0] == 'On',
+                :allow_protocol => policy['protocol'][0],
+                :port_from      => policy['srcPort'] ? policy['srcPort'][0] : nil, # not set for e.g. ICMP
+                :port_to        => policy['dstPort'] ? policy['dstPort'][0] : nil, # not set for e.g. ICMP
+                :direction      => ingress,
+                :sources        => sources
+              }) unless policy['id'][0] == '50000' # special case added later
+
+              rule50000_log = (policy['log'][0] == 'On') if policy['id'][0] == '50000'
             end
-
-            # defining ingress as access going from Internet/Intranet -> DMZ -> SECURE1 -> SECURE2
-            ingress = policy['id'][0] =~ /[13].*/ ? 'ingress' : 'egress'
-
-            rules << FirewallRule.new({
-              :id             => policy['id'][0],
-              :rule_action    => policy['action'][0].downcase,
-              :log_rule       => policy['log'][0] == 'On',
-              :allow_protocol => policy['protocol'][0],
-              :port_from      => policy['srcPort'] ? policy['srcPort'][0] : nil, # not set for e.g. ICMP
-              :port_to        => policy['dstPort'] ? policy['dstPort'][0] : nil, # not set for e.g. ICMP
-              :direction      => ingress,
-              :sources        => sources
-            }) unless policy['id'][0] == '50000' # special case added later
-
-            rule50000_log = (policy['log'][0] == 'On') if policy['id'][0] == '50000'
           end
         end
 
@@ -962,7 +971,31 @@ eofwpxml
   def delete_firewall(credentials, opts={})
     safely do
       client = new_client(credentials)
-      client.destroy_vsys(client.extract_vsys_id(opts[:id]))
+      begin
+        # try to stop FW first
+        opts[:id] =~ /^(.*-S-)\d\d\d\d/
+        fw_id = $1 + '0001'
+        client.stop_efm(fw_id)
+      rescue Exception => ex
+        raise ex if not ex.message =~ /ALREADY_STOPPED.*/
+        client.destroy_vsys(client.extract_vsys_id(opts[:id]))
+        return
+      end
+
+      Thread.new {
+        attempts = 0
+        begin
+          sleep 30
+          # this may fail if the FW is still stopping
+          client.destroy_vsys(client.extract_vsys_id(opts[:id]))
+        rescue Exception => ex
+          raise unless attempts < 20 and ex.message =~ /SERVER_RUNNING.*/
+          # Stopping takes a few minutes, so keep trying for a while
+          attempts += 1
+          retry
+        end
+      }
+      raise 'Firewall will be deleted once it has stopped'
     end
   end
 
@@ -1293,47 +1326,47 @@ eofwopxml
 
   exceptions do
 
+    # FW will be deleted in async polling thread, so can't guarantee successful completion
+    on /Firewall will be deleted once it has stopped/ do
+      status 202 # Accepted
+    end
+
     on /ALREADY_STARTED/ do
-      status 405
+      status 405 # Method Not Allowed
     end
 
     # trying to start a running vserver, etc.
     on /ILLEGAL_STATE/ do
-      status 405
+      status 405 # Method Not Allowed
     end
 
     on /AuthFailure/ do
-      status 401
+      status 401 # Unauthorized
     end
 
     # User not found: using certificate with wrong region
     on /User not found in selectData./ do
-      status 401
+      status 401 # Unauthorized
     end
 
     # if user doesn't have privileges to view or operate a particular resource
     on /User doesn.t have the right of access./ do
-      status 400
-    end
-
-    # time out of sync with ntp
-    on /VALIDATION_ERROR.*synchronized.*API-Server time/ do
-      status 502
+      status 403 # Forbidden
     end
 
     # wrong vserverId, etc.
     on /VALIDATION_ERROR/ do
-      status 404
+      status 404 # Not Found
     end
 
     # wrong vdiskId, etc.
     on /RESOURCE_NOT_FOUND/ do
-      status 404
+      status 404 # Not Found
     end
 
     # wrong FW description (vsys descriptor)
     on /does not exist. Specify one of / do
-      status 404
+      status 404 # Not Found
     end
 
     # trying an operation that is not supported (yet) by the target region
@@ -1341,19 +1374,24 @@ eofwopxml
       status 501 # Not Implemented
     end
 
+    # time out of sync with ntp
+    on /VALIDATION_ERROR.*synchronized.*API-Server time/ do
+      status 502 # Bad Gateway
+    end
+
     # destroying a running SLB, etc.
     on /ALREADY_STARTED/ do
-      status 502 #?
+      status 502 # Bad Gateway?
     end
 
     # trying to start a running vserver, etc.
     on /ILLEGAL_STATE/ do
-      status 502
+      status 502 # Bad Gateway
     end
 
     # endpoint for country of certificate subject not found
     on /API endpoint not found/ do
-      status 502
+      status 502 # Bad Gateway
     end
 
     on /.*/ do

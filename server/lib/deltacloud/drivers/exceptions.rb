@@ -30,6 +30,13 @@ module Deltacloud
 
     end
 
+    class AcceptedButNotCompletedError < DeltacloudException
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(202, e.class.name, message, e.backtrace)
+      end
+    end
+
     class AuthenticationFailure < DeltacloudException
       def initialize(e, message=nil)
         message ||= e.message
@@ -143,6 +150,7 @@ module Deltacloud
       def handler(e)
         return @handler if @handler
         case @status
+          when 202 then AcceptedButNotCompletedError.new(e, @message)
           when 401 then AuthenticationFailure.new(e, @message)
           when 403 then ForbiddenError.new(e, @message)
           when 404 then ObjectNotFound.new(e, @message)

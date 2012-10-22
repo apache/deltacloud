@@ -51,7 +51,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
     storage = profile.storage ? context.to_kibibyte((profile.storage.value || profile.storage.default), profile.storage.unit) :  nil
     machine_hash = {
       :name => profile.name,
-      :description => "Machine Configuration with #{memory} #{profile.memory.unit} "+
+      :description => "Machine Configuration with #{memory} KiB "+
         "of memory and #{cpu} CPU",
       :cpu => ( cpu if cpu ) ,
       :created => Time.now.to_s,  # FIXME: DC hardware_profile has no mention about created_at
