@@ -40,6 +40,10 @@ class InstanceProfile < BaseModel
     name
   end
 
+  def override?(property)
+    overrides.find { |p, v| p == property }
+  end
+
   def overrides
     [:memory, :storage, :architecture, :cpu].inject({}) do |h, p|
       if v = instance_variable_get("@#{p}")

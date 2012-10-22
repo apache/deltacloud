@@ -123,7 +123,7 @@ module CIMI::Collections
         description "Retrieve the Machine's DiskCollection"
         param :id,          :string,    :required
         control do
-          disks = DiskCollection.default(params[:id], self)
+          disks = CIMI::Model::Disk.collection_for_instance(params[:id], self)
           respond_to do |format|
             format.json {disks.to_json}
             format.xml  {disks.to_xml}

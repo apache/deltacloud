@@ -24,17 +24,46 @@ class CIMI::Model::Disk < CIMI::Model::Base
 
   def self.find(instance, machine_config, context, id=:all)
     if id == :all
-      storage_override = instance.instance_profile.overrides.find { |p, v| p == :storage }
-      capacity = storage_override.nil? ? machine_config.disks[0][:capacity] : context.to_kibibyte(storage_override[1].to_i, "MB")
-      name = instance.id+"_disk_#{capacity}" #assuming one disk for now...
-     [ self.new(
-       :id => context.machine_url(instance.id)+"/disks/#{name}",
-       :name => name,
-       :description => "DiskCollection for Machine #{instance.id}",
-       :created => instance.launch_time,
-       :capacity => capacity
-      ) ]
+      return machine_config.disks if machine_config
+
+      capacity = false
+
+      if instance
+        if instance.instance_profile.override? :storage
+          capacity = context.to_kibibyte(instance.instance_profile.storage, 'MB')
+        else
+          hw_profile = context.driver.hardware_profile(context.credentials, :id => instance.instance_profile.name)
+          if hw_profile.storage
+            capacity = context.to_kibibyte(hw_profile.storage.value, 'MB')
+          end
+        end
+
+        return [] unless capacity
+
+        name = instance.id+"_disk_#{capacity}" #assuming one disk for now...
+
+        [self.new(
+          :id => context.machine_url(instance.id)+"/disks/#{name}",
+          :name => name,
+          :description => "Disk for Machine #{instance.id}",
+          :created => instance.launch_time,
+          :capacity => capacity
+        )]
+      end
     else
     end
   end
+
+  def self.collection_for_instance(instance_id, context)
+    instance = context.driver.instance(context.credentials, :id => instance_id)
+    disks = find(instance, nil, context)
+    CIMI::Model::DiskCollection.new(
+      :id => context.url("/machines/#{instance_id}/disks"),
+      :name => 'default',
+      :count => disks.size,
+      :description => "Disk collection for Machine #{instance_id}",
+      :entries => disks
+    )
+  end
+
 end

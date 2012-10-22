@@ -24,8 +24,8 @@ require_relative './models/base'
 require_relative './models/collection'
 require_relative './models/errors'
 require_relative './models/action'
-require_relative './models/disk'
 require_relative './models/machine_volume'
+require_relative './models/disk'
 
 # Toplevel entities; order matters as it determines the order
 # in which the entities appear in the CEP
