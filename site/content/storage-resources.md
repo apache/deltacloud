@@ -180,8 +180,17 @@ Content-Length: 794
 <h4>Create a new storage volume</h4>
 
 <p>
-To create a new storage volume use call <strong>POST /api/storage_volumes</strong>. A client may specify a <strong>snapshot_id</strong> from which the storage volume is instantiated though this is optional. The <strong>capacity</strong> parameter, expressed in Gigabytes, is also optional and its default size is 1 GB. Finally clients may also specify the <strong>realm_id</strong>, as a storage volume can typically only be attached to instances running within the specified realm. If the realm is not specified it will set it at the first realm returned by the cloud provider. A succesful operation will return <strong>HTTP 201 Created</strong> with the details of the new storage volume.
+To create a new storage volume use call <strong>POST /api/storage_volumes</strong>. A client may specify a <strong>snapshot_id</strong> from which the storage volume is instantiated though this is optional. The <strong>capacity</strong> parameter, expressed in Gigabytes, is also optional and its default size is 1 GB. Finally clients may also specify the <strong>realm_id</strong>, as a storage volume can typically only be attached to instances running within the specified realm. If the realm is not specified it will set it at the first realm returned by the cloud provider. A successful operation will return <strong>HTTP 201 Created</strong> with the details of the new storage volume.
 </p>
+
+<div class="alert alert-error">
+  <a class="close" data-dismiss="alert" href="#">×</a>
+  <strong>Note: </strong>
+  <p>
+    Fujitsu GCP requires the size to be a multiple of 10, so the specified capacity is rounded
+    up to the nearest multiple of ten, making the default size 10 GB.
+  </p>
+</div>
 
 <p>
 As with the other POST operations in the Deltacloud API, clients may choose to specify operation parameters as multipart/form-data or as application/x-www-form-urlencoded data.
@@ -225,12 +234,12 @@ Content-Length: 649
 <h4>Delete a storage volume</h4>
 
 <p>
-To delete the specified storage volume use call <strong>DELETE /api/storage_volumes/:id</strong>. The operation will return a <strong>HTTP 204 No Content</strong> after a succesful operation. 
+To delete the specified storage volume use call <strong>DELETE /api/storage_volumes/:id</strong>. The operation will return a <strong>HTTP 204 No Content</strong> after a succesful operation.
 </p>
 
 <div class="alert alert-error">
   <a class="close" data-dismiss="alert" href="#">×</a>
-  <strong>Note:</strong> 
+  <strong>Note:</strong>
   <p> The operation will fail if the given storage_volume is currently attached to an instance. </p>
 </div>
 

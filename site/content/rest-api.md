@@ -1,4 +1,4 @@
---- 
+---
 site_name: Deltacloud API
 title: REST API
 ---
@@ -98,7 +98,7 @@ The following terms describe abstractions used in the Apache Deltacloud API. Eac
   </dd>
   <dt><h4>Metrics</h4></dt>
   <dd>
-  Metrics collection provides useful information about your cloud resources, e.g. CPU utilization or network throughput. It may be helpful for developers for better scaling and monitoring. The collection is currently supported only for Amazon EC2 cloud. It collects information from Amazon CloudWatch service.
+  Metrics collection provides useful information about your cloud resources, e.g. CPU utilization or network throughput. It may be helpful for developers for better scaling and monitoring. The collection is currently supported for Amazon EC2 cloud, collecting information from Amazon CloudWatch service, and Fujitsu GCP.
   </dd>
 </dl>
 

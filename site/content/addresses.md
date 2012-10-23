@@ -11,11 +11,11 @@ title: Addresses
 <h3 id="addresses">Addresses</h3>
 
 <p>
-The addresses collection represents IP addresses and allows <strong>IP address management</strong>. 
+The addresses collection represents IP addresses and allows <strong>IP address management</strong>.
 </p>
 
 <p>
-This collection is currently implemented for the Amazon EC2 cloud driver. For EC2, IP address management corresponds to Amazon's 'Elastic IP' feature. 
+This collection is currently implemented for Amazon EC2 and Fujitsu GCP drivers. For EC2, IP address management corresponds to Amazon's 'Elastic IP' feature.
 </p>
 
 <br/>
@@ -72,7 +72,7 @@ The addresses collection supports these operations:
 
 <div class="tab-content">
   <div class="tab-pane active" id="tab1">
-  
+
 <h4>Get a list of all addresses</h4>
 
 <p>
@@ -220,10 +220,10 @@ Date: Wed, 27 Jul 2011 13:29:00 GMT
   </div>
   <div class="tab-pane" id="tab4">
 
-<h4>Associate an adress with an instance</h4>
+<h4>Associate an address with an instance</h4>
 
 <p>
-To associate a given address with a running instance use call <strong>POST /api/addresses/:id/associate</strong>. The client must specify the <strong>instance_id</strong> as a parameter to this call. For Amazon EC2, the specified address will replace the currently assigned public_address of the instance. A succesful operation results in a <strong>HTTP 202 Accepted</strong> response. The example client request below specifies the required instance_id parameter using the application/x-www-form-urlencoded content-type, however client can also use multipart/form-data.
+To associate a given address with a running instance use call <strong>POST /api/addresses/:id/associate</strong>. The client must specify the <strong>instance_id</strong> as a parameter to this call. For Amazon EC2, the specified address will replace the currently assigned public_address of the instance, while for the Fujitsu GCP it is added. A succesful operation results in a <strong>HTTP 202 Accepted</strong> response. The example client request below specifies the required instance_id parameter using the application/x-www-form-urlencoded content-type, however client can also use multipart/form-data.
 </p>
 
 <p>Example request:</p>

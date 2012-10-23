@@ -95,7 +95,7 @@
 <h3 id="firewalls">Firewalls</h3>
 
 <p>
-Firewalls represent sets of rules that govern the accessibility of a running instance over the public Internet. At present, only the Amazon EC2 cloud supports this collection (Amazon EC2 'Security Groups'). A firewall has these attributes:
+Firewalls represent sets of rules that govern the accessibility of a running instance over the public Internet. At present, only Amazon EC2 cloud (Amazon EC2 'Security Groups') and Fujitsu GCP support this collection. A firewall has these attributes:
 </p>
 
 <ul>
@@ -109,11 +109,11 @@ Firewalls represent sets of rules that govern the accessibility of a running ins
 </li>
 </ul>
 <p>
-An instance is launched into a firewall by specifying the <strong>firewalls1 ... firewallsN</strong> parameters in the <strong>POST /api/instances</strong> operation (see the <a href="instances.html#instance">Create an instance</a> section).
+For Amazon EC2, an instance is launched into a firewall by specifying the <strong>firewalls1 ... firewallsN</strong> parameters in the <strong>POST /api/instances</strong> operation (see the <a href="instances.html#instance">Create an instance</a> section).
 </p>
 
 <p>
-Each <strong>firewall rule</strong> has a number of attributes describing the access granted to clients that want to communicate with the instance over the Internet. Each rule cosists of
+Each <strong>firewall rule</strong> has a number of attributes describing the access granted to clients that want to communicate with the instance over the Internet. Each rule consists of
 </p>
 
 <ul>
@@ -148,7 +148,8 @@ Each <strong>firewall rule</strong> has a number of attributes describing the ac
 </div>
 
 <p>
-Each rule also specifies a <strong>direction</strong>, indicating whether it applies to ingress or egress traffic.
+Each rule also specifies a <strong>direction</strong>, indicating whether it applies to ingress or egress traffic. A rule can also specify a <strong>rule_action</strong> (accept, deny), to indicate whether the firewall should accept or deny access for this traffic, and <strong>log_rule</strong> (true, false), to indicate whether an entry should be added to the log.
+
 </p>
 
 <p>
@@ -362,11 +363,13 @@ Date: Wed, 27 Jul 2011 09:47:43 GMT
 </pre>
 
 <p>
-The rules governing the deletion of a firewall are back-end cloud specific. At present, only the Amazon EC2 cloud supports the firewalls collection, so we describe the firewall deletion rules for EC2 here.
+The rules governing the deletion of a firewall are back-end cloud specific.
 </p>
-
 <p>
-It is permitted to delete a firewall that has rules defined within it, with two exceptions. You cannot delete a firewall if it is referenced by another firewall; for instance <strong>firewall_1</strong> has a rule giving access to <strong>firewall_2</strong>. An attempt to delete firewall_2 will result in the error <strong>InvalidGroup.InUse</strong>, as you can see in the example below. The second exception is that you cannot delete a firewall if there are currently any running instances within that firewall (i.e. instances that specified the given firewall when they were launched). The error message in that case would be <strong>InvalidGroup.InUse: There are active instances using security group</strong>. In both cases the error messages are propagated from the back-end cloud provider to the requesting client.
+For Fujitsu GCP, as this operation destroys the virtual system with it, all instances in the system, including the firewall need to be in the STOPPED state.
+</p>
+<p>
+For Amazon EC2, it is permitted to delete a firewall that has rules defined within it, with two exceptions. You cannot delete a firewall if it is referenced by another firewall; for instance <strong>firewall_1</strong> has a rule giving access to <strong>firewall_2</strong>. An attempt to delete firewall_2 will result in the error <strong>InvalidGroup.InUse</strong>, as you can see in the example below. The second exception is that you cannot delete a firewall if there are currently any running instances within that firewall (i.e. instances that specified the given firewall when they were launched). The error message in that case would be <strong>InvalidGroup.InUse: There are active instances using security group</strong>. In both cases the error messages are propagated from the back-end cloud provider to the requesting client.
 </p>
 
 <p>
@@ -405,7 +408,7 @@ Content-Length: 626
 <h4>Create a firewall rule</h4>
 
 <p>
-To create a new firewall rule within a specified firewall use call <strong>POST /api/firewalls/:id/rules</strong>. A client must supply the <strong>protocol</strong> (one of udp, tcp or icmp), <strong>port_from</strong> and <strong>port_to</strong> as parameters. Of course the client must also specify the <strong>sources</strong> to which the given rule is applied. IP addresses are specified in CIDR format sequentially: ip_address1=192.168.10.10/24, ip_address2=10.1.1.1/16 ... ip_addressN=.... The IP address '0.0.0.0/0' acts as a wildcard to specify any IP address. Source firewalls are also specified sequentially, but the <strong>owner_id</strong> of the firewall prepared for authorization must also be supplied (this is an Amazon EC2 requirement): group1=name1, group1owner=1234567890, group2=name2, group2owner=0987654321, ... groupN=nameN, groupNowner=...
+To create a new firewall rule within a specified firewall use call <strong>POST /api/firewalls/:id/rules</strong>. This operation of the firewalls collection is not supported by Fujitsu GCP. A client must supply the <strong>protocol</strong> (one of udp, tcp or icmp), <strong>port_from</strong> and <strong>port_to</strong> as parameters. Of course the client must also specify the <strong>sources</strong> to which the given rule is applied. IP addresses are specified in CIDR format sequentially: ip_address1=192.168.10.10/24, ip_address2=10.1.1.1/16 ... ip_addressN=.... The IP address '0.0.0.0/0' acts as a wildcard to specify any IP address. Source firewalls are also specified sequentially, but the <strong>owner_id</strong> of the firewall prepared for authorization must also be supplied (this is an Amazon EC2 requirement): group1=name1, group1owner=1234567890, group2=name2, group2owner=0987654321, ... groupN=nameN, groupNowner=...
 </p>
 
 <p>

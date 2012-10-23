@@ -260,14 +260,14 @@ Content-Length: 433
 <h4>Create an image</h4>
 
 <p>
-To create a new image from an existing running instance use call <strong>POST /api/images</strong>. This operation is not available to all cloud providers and for some cloud providers this operation is not possible for all instances. For example, in the Amazon EC2 cloud, you can create a custom image from EBS backed instances but not from root-store instances. 
+To create a new image from an existing running instance use call <strong>POST /api/images</strong>. This operation is not available to all cloud providers and for some cloud providers this operation is not possible for all instances. For example, in the Amazon EC2 cloud, you can create a custom image from EBS backed instances but not from root-store instances.
 </p>
 
 <div class="alert alert-error">
   <a class="close" data-dismiss="alert" href="#">×</a>
-  <strong>Note: </strong> 
+  <strong>Note: </strong>
   <p>
-  RHVE-M and vSphere providers allow you to create an image only from a stopped instance, not from a running instance.
+  RHVE-M, vSphere and Fujitsu GCP providers allow you to create an image only from a stopped instance, not from a running instance.
   </p>
 </div>
 
@@ -331,10 +331,15 @@ Content-Length: 427
 
 <div class="alert alert-error">
   <a class="close" data-dismiss="alert" href="#">×</a>
-  <strong>Note: </strong> 
+  <strong>Note: </strong>
   <p>When you create an image from a stopped instance in <strong>vSphere</strong> cloud, this particular instance is marked as <strong>template</strong> and it is also removed from Instances.</p>
-  
+
   <p>Unlike other providers, vSphere does not support assigning a <strong>name</strong> and a <strong>description</strong> to the image when you create an image from a stopped instance. The image created in vSphere ignores these attributes passed to the API during the creation.</p>
+  <p><strong>Fujitsu GCP</strong> does not return an ID that can be used to track the state of the image
+  creation. Poll the list of all images until your image appears. This will contain the
+  proper image id that can be used in other image actions.
+  </p>
+
 </div>
 
 <h4>Delete an image</h4>

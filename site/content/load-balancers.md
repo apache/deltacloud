@@ -15,7 +15,7 @@ Load balancers allow distribution of ingress network traffic received by a speci
 </p>
 
 <p>
-This collection is not supported by all back-end cloud providers and at present, it is implemented for the Gogrid and Amazon EC2 cloud drivers. A load balancer is launched into a specific realm. Only instances within this specific realm may be attached to the balancer. Each load balancer has
+This collection is not supported by all back-end cloud providers and at present, it is implemented for the Fujitsu GCP, Gogrid and Amazon EC2 cloud drivers. A load balancer is launched into a specific realm. Only instances within this specific realm may be attached to the balancer. Each load balancer has
 </p>
 
 <ul>
@@ -69,7 +69,7 @@ Each <strong>listener</strong> has a <strong>protocol</strong> (e.g. TCP), a <st
 
 <div class="tab-content">
   <div class="tab-pane active" id="tab1">
-  
+
 
 <h4>Get the details of all load balancers</h4>
 
