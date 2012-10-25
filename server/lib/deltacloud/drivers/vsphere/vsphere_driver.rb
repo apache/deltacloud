@@ -182,6 +182,7 @@ module Deltacloud::Drivers::Vsphere
           else
             public_addresses = [InstanceAddress.new(vm.guest[:net].first[:ipAddress].first)]
           end
+          p vm.runtime[:bootTime]
           Instance.new(
             :id => properties[:name],
             :name => properties[:name],
@@ -194,6 +195,7 @@ module Deltacloud::Drivers::Vsphere
             :private_addresses => [],
             :instance_profile => instance_profile,
             :actions => instance_actions_for( instance_state ),
+            :launch_time => vm.runtime.props[:bootTime],
             :create_image => true
           )
         end

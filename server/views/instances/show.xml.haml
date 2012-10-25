@@ -26,7 +26,7 @@
         %link{:rel => 'run', :method => :post, :href => "#{run_instance_url(@instance.id)};id=#{@instance.id}"}
       - if @instance.can_create_image?
         %link{:rel => 'create_image', :method => :post, :href => "#{create_image_url};instance_id=#{@instance.id}"}
-  - if @instance.instance_variables.include?("@launch_time")
+  - if @instance.launch_time
     %launch_time<
       =@instance.launch_time
   - if @instance.public_addresses
