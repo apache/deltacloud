@@ -23,5 +23,6 @@ class Image < BaseModel
   attr_accessor :architecture
   attr_accessor :state
   attr_accessor :hardware_profiles
+  attr_accessor :creation_time
 
 end

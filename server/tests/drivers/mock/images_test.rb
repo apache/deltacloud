@@ -53,4 +53,9 @@ describe 'MockDriver Images' do
     @driver.image(:id => 'img1-test-destroy').must_be_nil
   end
 
+  it 'must report image creation time' do
+    @driver.image(:id => 'img1').wont_be_nil
+    @driver.image(:id => 'img1').creation_time.wont_be_nil
+  end
+
 end

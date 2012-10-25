@@ -402,7 +402,8 @@ private
                     :description => image.send(op, :name),
                     :owner_id => owner,
                     :state => image.send(op, :status),
-                    :architecture => 'x86_64'
+                    :architecture => 'x86_64',
+                    :creation_time => image.send(op, :created)
                     })
         end
 
