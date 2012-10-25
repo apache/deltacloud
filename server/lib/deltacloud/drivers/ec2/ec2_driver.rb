@@ -507,31 +507,49 @@ module Deltacloud
         #--
         # Create Blob - NON Streaming way (i.e. was called with POST html multipart form data)
         #--
+        #also called for segmented blobs - as final call with blob manifest
         def create_blob(credentials, bucket_id, blob_id, data = nil, opts = {})
           s3_client = new_client(credentials, :s3)
           #data is a construct with the temporary file created by server @.tempfile
           #also file[:type] will give us the content-type
-          res = nil
-          # File stream needs to be reopened in binary mode for whatever reason
-          file = File::open(data[:tempfile].path, 'rb')
-          #insert ec2-specific header for user metadata ... x-amz-meta-KEY = VALUE
-          BlobHelper::rename_metadata_headers(opts, 'x-amz-meta-')
-          opts["Content-Type"] = data[:type]
-          safely do
-            res = s3_client.interface.put(bucket_id,
-                                        blob_id,
-                                        file,
-                                        opts)
+          if(opts[:segment_manifest])
+            safely do
+              s3_client.interface.complete_multipart(bucket_id, blob_id, opts[:segmented_blob_id], opts[:segment_manifest])
+            end
+          else
+            # File stream needs to be reopened in binary mode
+            file = File::open(data[:tempfile].path, 'rb')
+            #insert ec2-specific header for user metadata ... x-amz-meta-KEY = VALUE
+            BlobHelper::rename_metadata_headers(opts, 'x-amz-meta-')
+            opts["Content-Type"] = data[:type]
+            safely do
+              s3_client.interface.put(bucket_id,
+                                          blob_id,
+                                          file,
+                                          opts)
+            end
           end
           #create a new Blob object and return that
           Blob.new( { :id => blob_id,
                       :bucket => bucket_id,
-                      :content_length => data[:tempfile].length,
-                      :content_type => data[:type],
+                      :content_length => ((data && data[:tempfile]) ? data[:tempfile].length : nil),
+                      :content_type => ((data && data[:type]) ? data[:type] : nil),
                       :last_modified => '',
                       :user_metadata => opts.select{|k,v| k.match(/^x-amz-meta-/i)}
                     }
                   )
+        end
+
+        def init_segmented_blob(credentials, opts={})
+          s3_client = new_client(credentials, :s3)
+          safely do
+            s3_client.interface.initiate_multipart(opts[:bucket],opts[:id])
+          end
+
+        end
+
+        def blob_segment_id(request, response)
+          response["etag"].gsub("\"", "")
         end
 
         #--
@@ -591,8 +609,16 @@ module Deltacloud
           timestamp = Time.now.httpdate
           string_to_sign =
             "PUT\n\n#{params[:content_type]}\n#{timestamp}\n#{signature_meta_string}/#{params[:bucket]}/#{params[:blob]}"
+          if BlobHelper.segmented_blob_op_type(params[:context]) == "segment"
+            partNumber = BlobHelper.segment_order(params[:context])
+            uploadId = BlobHelper.segmented_blob_id(params[:context])
+            segment_string = "?partNumber=#{partNumber}&uploadId=#{uploadId}"
+            string_to_sign << segment_string
+            request = Net::HTTP::Put.new("/#{params[:blob]}#{segment_string}")
+          else
+            request = Net::HTTP::Put.new("/#{params[:blob]}")
+          end
           auth_string = Aws::Utils::sign(params[:password], string_to_sign)
-          request = Net::HTTP::Put.new("/#{params[:blob]}")
           request['Host'] = "#{params[:bucket]}.#{uri.host}"
           request['Date'] = timestamp
           request['Content-Type'] = params[:content_type]

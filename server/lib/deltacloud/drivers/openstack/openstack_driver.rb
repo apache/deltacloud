@@ -276,8 +276,12 @@ module Deltacloud
         def create_blob(credentials, bucket, blob, data, opts={})
           os = new_client(credentials, :buckets)
           safely do
-            BlobHelper.rename_metadata_headers(opts, "X-Object-Meta-")
-            os_blob = os.container(bucket).create_object(blob, {:content_type=> data[:type], :metadata=>opts}, data[:tempfile])
+            if(opts[:segment_manifest]) # finalize a segmented blob upload
+              os_blob = os.container(bucket).create_object(blob, {:manifest=>"#{bucket}/#{opts[:segmented_blob_id]}"})
+            else
+              BlobHelper.rename_metadata_headers(opts, "X-Object-Meta-")
+              os_blob = os.container(bucket).create_object(blob, {:content_type=> data[:type], :metadata=>opts}, data[:tempfile])
+            end
             convert_blob(os_blob, bucket)
           end
         end
@@ -305,8 +309,23 @@ module Deltacloud
           end
         end
 
+        def init_segmented_blob(credentials, opts={})
+          opts[:id]
+        end
+
+        def blob_segment_id(request, response)
+          #could be in http header OR query string:
+          segment_order = BlobHelper.segment_order(request)
+          blob_name = request.env["PATH_INFO"].gsub(/(&\w*=\w*)*$/, "").split("/").pop
+          "#{blob_name}#{segment_order}"
+        end
+
         #params: {:user,:password,:bucket,:blob,:content_type,:content_length,:metadata}
+        #params[:context] holds the request object - for getting to blob segment params
         def blob_stream_connection(params)
+          if BlobHelper.segmented_blob_op_type(params[:context]) == "segment"
+            params[:blob] = "#{params[:blob]}#{BlobHelper.segment_order(params[:context])}"
+          end
           tokens = params[:user].split("+")
           user_name, tenant_name = tokens.first, tokens.last
           #need a client for the auth_token and endpoints
