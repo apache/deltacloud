@@ -17,6 +17,10 @@
     %li{ :'data-role' => 'list-divider'} State
     %li
       %p{ :'data-role' => 'fieldcontain'}=@image.state
+    - if @image.creation_time
+      %li{ :'data-role' => 'list-divider'} Creation Time
+      %li
+        %p{ :'data-role' => 'fieldcontain'}=@image.creation_time
     %li{ :'data-role' => 'list-divider'} Architecture
     %li
       %p{ :'data-role' => 'fieldcontain'}=@image.architecture
