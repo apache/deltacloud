@@ -18,11 +18,12 @@
     %li
       %pre= bt @error.backtrace
 
-  %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
-    %h3 Backtrace
-    %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
-      %li
-        %pre= h @error.backtrace.join("\n")
+  - if @error.backtrace
+    %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
+      %h3 Backtrace
+      %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
+        %li
+          %pre= h @error.backtrace.join("\n")
 
   %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
     %h3 Parameters
