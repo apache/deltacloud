@@ -49,8 +49,41 @@ module Deltacloud::Collections
       end
     end
 
+    put "/segmented_blob_operation/:bucket/:blob" do
+      case BlobHelper.segmented_blob_op_type(request)
+        when "init" then
+          segmented_blob_id = driver.init_segmented_blob(credentials, {:id => params[:blob],
+                                            :bucket => params[:bucket]})
+          headers["X-Deltacloud-SegmentedBlob"] = segmented_blob_id
+          status 204
+        when "segment" then
+          if env["BLOB_SUCCESS"] # set by blob_stream_helper after succesful stream PUT
+            #segment already uploaded by blob_streaming_patch - setting blob_segment-id from the response
+            headers["X-Deltacloud-BlobSegmentId"] = request.env["BLOB_SEGMENT_ID"] # set in blob_stream_helper: 203
+            status 204
+          else
+            report_error(400) # likely blob size < 112 KB (didn't hit streaming patch)
+          end
+        when "finalize" then
+          bucket_id = params[:bucket]
+          blob_id = params[:blob]
+          segmented_blob_manifest = BlobHelper.extract_segmented_blob_manifest(request)
+          segmented_blob_id = BlobHelper.segmented_blob_id(request)
+          @blob = driver.create_blob(credentials, params[:bucket], params[:blob], nil, {:segment_manifest=>segmented_blob_manifest, :segmented_blob_id=>segmented_blob_id})
+          respond_to do |format|
+            format.xml { haml :"blobs/show" }
+            format.html { haml :"blobs/show" }
+            format.json { xml_to_json 'blobs/show' }
+          end
+        else
+          report_error(500)
+      end
+    end
+
     put "/buckets/:bucket/:blob" do
-      if(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
+      if BlobHelper.segmented_blob(request)
+        status, headers, body = call!(env.merge("PATH_INFO" => "/segmented_blob_operation/#{params[:bucket]}/#{params[:blob]}"))
+      elsif(env["BLOB_SUCCESS"]) #ie got a 200ok after putting blob
         content_type = env["CONTENT_TYPE"]
         content_type ||=  ""
         @blob = driver.blob(credentials, {:id => params[:blob],

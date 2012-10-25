@@ -77,6 +77,43 @@ DELTACLOUD_BLOBMETA_HEADER = /HTTP[-_]X[-_]Deltacloud[-_]Blobmeta[-_]/i
     metadata.gsub_keys(DELTACLOUD_BLOBMETA_HEADER, rename_to)
   end
 
+  #in the following segment* methods, using context.env["QUERY_STRING"] rather than context.params so it works for both Thin and Sinatra request objects (streaming)
+  def self.segmented_blob(request_context)
+    return true if (request_context.env["HTTP_X_DELTACLOUD_BLOBTYPE"] == 'segmented' || request_context.env["QUERY_STRING"].match(/blob_type=segmented/))
+    false
+  end
+
+  def self.segment_order(request_context)
+    (request_context.env["HTTP_X_DELTACLOUD_SEGMENTORDER"] || request_context.env["QUERY_STRING"].match(/segment_order=(\w)*/){|m| m[0].split("=").pop})
+  end
+
+  def self.segmented_blob_id(request_context)
+    (request_context.env["HTTP_X_DELTACLOUD_SEGMENTEDBLOB"] || request_context.env["QUERY_STRING"].match(/segmented_blob=(\w)*/){|m| m[0].split("=").pop})
+  end
+
+  def self.segmented_blob_op_type(request_context)
+    is_segmented = segmented_blob(request_context)
+    blob_id = segmented_blob_id(request_context)
+    segment_order = segment_order(request_context)
+    #if blob_type=segmented AND segmented_blob_id AND segment_order then it is a "SEGMENT"
+    #if blob_type=segmented AND segmented_blob_id then it is a "FINALIZE"
+    #if blob_type=segmented then it is "INIT"
+    return "segment" if (is_segmented && blob_id && segment_order)
+    return "finalize" if (is_segmented && blob_id)
+    return "init" if is_segmented
+    nil # should explode something instead
+  end
+
+  #in "1=abc , 2=def , 3=ghi"
+  #out {"1"=>"abc", "2"=>"def", "3"=>"ghi"}
+  def self.extract_segmented_blob_manifest(request)
+    manifest_hash = request.body.read.split(",").inject({}) do |res,current|
+      k,v=current.strip.split("=")
+      res[k]=v
+      res
+    end
+  end
+
 end
 
 #Monkey patch for streaming blobs:
@@ -158,11 +195,10 @@ class BlobStreamIO
     @content_length = request.env['CONTENT_LENGTH']
     @http, provider_request = Deltacloud::API.driver.blob_stream_connection({:user=>user,
        :password=>password, :bucket=>bucket, :blob=>blob, :metadata=> user_meta,
-       :content_type=>content_type, :content_length=>@content_length })
+       :content_type=>content_type, :content_length=>@content_length, :context=>request })
     @content_length = @content_length.to_i #for comparison of size in '<< (data)'
     @sock = @http.request(provider_request, nil, true)
   end
-
   def << (data)
     @sock.write(data)
     @size += data.length
@@ -170,6 +206,9 @@ class BlobStreamIO
       result = @http.end_request
       if result.is_a?(Net::HTTPSuccess)
         @client_request.env["BLOB_SUCCESS"] = "true"
+        if BlobHelper.segmented_blob_op_type(@client_request) == "segment"
+          @client_request.env["BLOB_SEGMENT_ID"] = Deltacloud::API.driver.blob_segment_id(@client_request, result)
+        end
       else
         @client_request.env["BLOB_FAIL"] = result.body
       end
@@ -195,7 +234,7 @@ class BlobStreamIO
   private
 
   def parse_bucket_blob(request_string)
-    array = request_string.split("/")
+    array = request_string.gsub(/(&\w*=\w*)*$/, "").split("/")
     blob = array.pop
     bucket = array.pop
     return bucket, blob
