@@ -127,6 +127,12 @@ $ sudo apt-get install make
 
 <br/>
 
+<h3>OS X</h3>
+
+Instructions on setting up Deltacloud on Apple's OS X can be found <a
+href="https://cwiki.apache.org/confluence/display/DTACLOUD/Deltacloud+API+development+setup+on+OSX">on
+the Wiki</a>. Note that they require using homebrew.
+
 <h3>Installation of Deltacloud itself</h3>
 <p>Once you've setup all the dependencies listed above, installing Deltacloud is as easy. Type:</p>
 
