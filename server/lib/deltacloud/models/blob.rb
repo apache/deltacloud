@@ -24,4 +24,16 @@ class Blob < BaseModel
   attr_accessor :content
   attr_accessor :user_metadata
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :bucket => { :rel => :bucket, :href => context.bucket_url(bucket), :id => bucket },
+      :content_length => content_length,
+      :content_type => content_type,
+      :last_modified => last_modified,
+      :content => content,
+      :user_metadata => user_metadata
+    }
+  end
+
 end

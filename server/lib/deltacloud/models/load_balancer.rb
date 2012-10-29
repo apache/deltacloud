@@ -27,10 +27,30 @@ class LoadBalancer < BaseModel
     @listeners << Listener.new(opts)
   end
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :realms => realms,
+      :listeners => listeners.map { |l| l.to_hash(context) },
+      :instances => instances.map { |i| i.to_hash(context) },
+      :public_addresses => public_addresses,
+      :created_at => created_at
+    }
+  end
+
   class Listener < BaseModel
     attr_accessor :protocol
     attr_accessor :load_balancer_port
     attr_accessor :instance_port
+
+    def to_hash(context)
+      {
+        :id => self.id,
+        :protocol => protocol,
+        :load_balancer_port => load_balancer_port,
+        :instance_port => instance_port
+      }
+    end
   end
 
 end

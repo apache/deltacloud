@@ -22,4 +22,18 @@ class FirewallRule < BaseModel
   attr_accessor :direction #ingress egress
   attr_accessor :rule_action #Accept/Deny - initially added for FGCP
   attr_accessor :log_rule #log when rule triggered true/false - added for FGCP
+
+  def to_hash(context)
+    {
+      :id => self.id,
+      :allow_protocol => allow_protocol,
+      :port_from => port_from,
+      :port_to => port_to,
+      :sources => sources,
+      :direction => direction,
+      :rule_action => rule_action,
+      :log_rule => log_rule
+    }.delete_if { |k, v| v.nil? }
+  end
+
 end

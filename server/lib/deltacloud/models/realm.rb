@@ -21,4 +21,12 @@ class Realm < BaseModel
   attr_accessor :limit
   attr_accessor :state
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :name => name,
+      :state => state
+    }
+  end
+
 end

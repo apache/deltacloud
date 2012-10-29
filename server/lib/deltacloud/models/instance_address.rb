@@ -37,6 +37,15 @@ class InstanceAddress
     address
   end
 
+  def to_hash(context)
+    r = {
+      :address => address,
+      :type => address_type
+    }
+    r.merge!(:port => port) if !port.nil?
+    r
+  end
+
   def is_mac?
     address_type == :mac
   end

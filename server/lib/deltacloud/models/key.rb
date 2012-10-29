@@ -51,4 +51,19 @@ class Key < BaseModel
     "-----BEGIN RSA PRIVATE KEY-----\n"+pem_material+"-----END RSA PRIVATE KEY-----"
   end
 
+  def to_hash(context)
+    r = {
+      :id => self.id,
+      :credential_type => credential_type,
+      :username => username,
+      :password => password,
+      :state => state
+    }
+    r[:pem_rsa_key] = pem_rsa_key if pem_rsa_key
+    r[:fingerprint] = fingerprint if fingerprint
+    r[:username] = username if username
+    r[:password] = password if password
+    r
+  end
+
 end

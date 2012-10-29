@@ -28,4 +28,22 @@ class StorageVolume < BaseModel
   attr_accessor :kind
   attr_accessor :description # openstack volumes have a display_description attr
 
+  def to_hash(context)
+    r = {
+      :id => self.id,
+      :name => name,
+      :state => state,
+      :created => created,
+      :realm => { :id => realm_id, :href => context.realm_url(realm_id), :rel => :realm },
+      :device => device,
+      :kind => kind,
+    }
+    r[:actions] = actions.map { |a|
+      { :href => context.send("#{a}_storage_volume", self.id), :rel => a }
+    } if actions
+    r[:instance] = { :id => instance_id, :href => context.instance_url(instance_id), :rel => :instance } if instance_id
+    r.delete_if { |k, v| v.nil? }
+    r
+  end
+
 end

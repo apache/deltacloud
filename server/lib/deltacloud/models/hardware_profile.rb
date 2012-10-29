@@ -84,6 +84,15 @@ module Deltacloud
       }.compact
     end
 
+    def to_hash(context)
+      r = {
+        :id => self.id,
+        :name => name,
+      }
+      r.merge!({:properties => @properties}) if !@properties.empty?
+      r
+    end
+
     class Property
       attr_reader :name, :kind, :default
       # kind == :range
@@ -110,6 +119,10 @@ module Deltacloud
           @default = @value
         end
         @default = opts[:default] if opts[:default]
+      end
+
+      def to_s
+        "#{@default}"
       end
 
       def unit

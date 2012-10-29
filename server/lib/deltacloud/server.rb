@@ -14,7 +14,6 @@
 # under the License.
 
 require 'rubygems'
-require 'crack'
 require 'yaml'
 require 'haml'
 require 'sinatra/base'
@@ -51,7 +50,7 @@ module Deltacloud
       @collections = driver.supported_collections(credentials)
       respond_to do |format|
         format.xml { haml :"api/show" }
-        format.json { xml_to_json :"api/show" }
+        format.json { collections_to_json(@collections) }
         format.html { haml :"api/show" }
       end
     end

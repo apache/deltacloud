@@ -48,7 +48,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"storage_volumes/show" }
             format.html { haml :"storage_volumes/show" }
-            format.json { xml_to_json("storage_volumes/show") }
+            format.json { JSON::dump(:storage_volume => @storage_volume.to_hash(self)) }
           end
         end
       end
@@ -63,7 +63,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.html { redirect(storage_volume_url(params[:id]))}
             format.xml  { haml :"storage_volumes/show" }
-            format.json { xml_to_json("storage_volumes/show")}
+            format.json { JSON::dump(:storage_volume => @storage_volume.to_hash(self)) }
           end
         end
       end
@@ -79,7 +79,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.html { redirect(storage_volume_url(params[:id]))}
             format.xml  { haml :"storage_volumes/show" }
-            format.json {  xml_to_json("storage_volumes/show") }
+            format.json { JSON::dump(:storage_volume => @storage_volume.to_hash(self)) }
           end
         end
       end

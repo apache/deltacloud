@@ -14,7 +14,6 @@
 # under the License.
 
 require 'rubygems'
-require 'crack'
 require 'yaml'
 require 'haml'
 require 'sinatra/base'

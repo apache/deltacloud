@@ -72,7 +72,6 @@ module Deltacloud
       respond_to do |format|
         format.xml { haml :'index', :layout => false }
         format.html { haml :'index', :layout => false }
-        format.json { xml_to_json "index" }
       end
     end
   end

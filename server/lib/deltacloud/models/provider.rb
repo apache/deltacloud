@@ -24,4 +24,12 @@ class Provider < BaseModel
     super(opts)
   end
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :name => name,
+      :url => url
+    }
+  end
+
 end

@@ -91,7 +91,7 @@ module Deltacloud::Collections
         respond_to do |format|
           format.xml { haml :"blobs/show" }
           format.html { haml :"blobs/show" }
-          format.json { xml_to_json 'blobs/show' }
+          format.json { JSON::dump(:blob => @blob.to_hash(self) ) }
         end
       elsif(env["BLOB_FAIL"])
         report_error(500) #OK?
@@ -110,7 +110,7 @@ module Deltacloud::Collections
         respond_to do |format|
           format.xml { haml :"blobs/show" }
           format.html { haml :"blobs/show" }
-          format.json { xml_to_json 'blobs/show' }
+          format.json { JSON::dump(:blob => @blob.to_hash(self)) }
         end
       end
     end
@@ -129,7 +129,7 @@ module Deltacloud::Collections
           response['Location'] = bucket_url(@bucket.id)
           respond_to do |format|
             format.xml  { haml :"buckets/show" }
-            format.json { xml_to_json('buckets/show') }
+            format.json { JSON::dump(:bucket => @bucket.to_hash(self)) }
             format.html do
               redirect bucket_url(@bucket.id) if @bucket and @bucket.id
               redirect buckets_url
@@ -160,7 +160,7 @@ module Deltacloud::Collections
               respond_to do |format|
                 format.xml { haml :"blobs/show" }
                 format.html { haml :"blobs/show" }
-                format.json { xml_to_json 'blobs/show' }
+                format.json { JSON::dump(:blob => @blob.to_hash(self)) }
               end
             else
               report_error(404)
@@ -194,7 +194,7 @@ module Deltacloud::Collections
             respond_to do |format|
               format.xml { haml :"blobs/show" }
               format.html { haml :"blobs/show"}
-              format.json { xml_to_json 'blobs/show' }
+              format.json { JSON::dump(:blob => @blob.to_hash(self)) }
             end
           end
         end
@@ -227,7 +227,7 @@ module Deltacloud::Collections
               respond_to do |format|
                 format.xml { haml :"blobs/show" }
                 format.html { haml :"blobs/show" }
-                format.json { xml_to_json 'blobs/show' }
+                format.json { JSON::dump(@blob.to_hash(self)) }
               end
             elsif(env["BLOB_FAIL"])
               report_error(500) #OK?
@@ -246,7 +246,7 @@ module Deltacloud::Collections
               respond_to do |format|
                 format.xml { haml :"blobs/show" }
                 format.html { haml :"blobs/show" }
-                format.json { xml_to_json 'blobs/show' }
+                format.json { JSON::dump(@blob.to_hash(self)) }
               end
             end
           end

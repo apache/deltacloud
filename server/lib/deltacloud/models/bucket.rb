@@ -24,4 +24,13 @@ class Bucket < BaseModel
     @blob_list || []
   end
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :name => name,
+      :size => size,
+      :blob_list => blob_list.map { |b| { :rel => :blob, :href => context.url("/buckets/#{self.id}/#{b}"), :id => b }}
+    }
+  end
+
 end

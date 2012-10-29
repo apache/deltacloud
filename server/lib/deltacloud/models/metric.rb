@@ -29,11 +29,26 @@ class Metric < BaseModel
     self
   end
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :entity => entity,
+      :properties => properties.map { |p| p.to_hash(context) }
+    }
+  end
+
   class Property
     attr_accessor :name, :values
 
     def initialize(name, values=nil)
       @name, @values = name, values
+    end
+
+    def to_hash(context)
+      {
+        :name => name,
+        :values => values
+      }
     end
   end
 

@@ -60,7 +60,13 @@ module Deltacloud::Collections
           status 201  # Created
           respond_to do |format|
             format.xml  { haml :"instances/#{action_handler}" }
-            format.json { xml_to_json("instances/#{action_handler}") }
+            format.json do
+              if @elements
+                JSON::dump(:instances => @elements.map { |i| i.to_hash(self) })
+              elsif @instance and @instance.id
+                JSON::dump(:instance => @instance.to_hash(self))
+              end
+            end
             format.html do
               if @elements
                 haml :"instances/index"

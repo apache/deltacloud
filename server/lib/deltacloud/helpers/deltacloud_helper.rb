@@ -18,6 +18,27 @@ module Deltacloud::Helpers
 
     require 'benchmark'
 
+    def collections_to_json(collections)
+      r = {
+        :version => settings.version,
+        :driver => driver_symbol,
+        :provider => Thread.current[:provider] || ENV['API_PROVIDER'],
+        :links => collections.map { |c|
+          {
+            :rel => c.collection_name,
+            :href => self.send(:"#{c.collection_name}_url"),
+            :features => c.features.select { |f| driver.class.has_feature?(c.collection_name, f.name) }.map { |f|
+              f.operations.map { |o|
+                { :name => f.name, :rel => o.name, :params => o.params_array }
+              }
+            }
+          }
+        }
+      }
+      r[:provider] ||= 'default'
+      JSON::dump(:api => r)
+    end
+
     def request_headers
       env.inject({}){|acc, (k,v)| acc[$1.downcase] = v if k =~ /^http_(.*)/i; acc}
     end
@@ -48,20 +69,11 @@ module Deltacloud::Helpers
         respond_to do |format|
           format.html { haml :"#{model}/index" }
           format.xml { haml :"#{model}/index" }
-          format.json { @media_type=:xml; to_json(haml(:"#{model}/index")) }
+          format.json { JSON::dump({ model => @elements.map { |el| el.to_hash(self) }}) }
         end
       else
         report_error(@exception.respond_to?(:code) ? @exception.code : 500)
       end
-    end
-
-    def xml_to_json(model)
-      @media_type = :xml
-      to_json(haml(:"#{model}"))
-    end
-
-    def to_json(xml)
-      Crack::XML.parse(xml).to_json
     end
 
     def show(model)
@@ -74,7 +86,7 @@ module Deltacloud::Helpers
         respond_to do |format|
           format.html { haml :"#{model.to_s.pluralize}/show" }
           format.xml { haml :"#{model.to_s.pluralize}/show" }
-          format.json { @media_type=:xml; to_json(haml(:"#{model.to_s.pluralize}/show")) }
+          format.json { JSON::dump(model => @element.to_hash(self)) }
         end
       else
         report_error(404)
@@ -109,7 +121,7 @@ module Deltacloud::Helpers
 
       respond_to do |format|
         format.xml {  haml :"errors/#{@code || @error.code}", :layout => false }
-        format.json { xml_to_json("errors/#{@code || @error.code}") }
+        format.json { JSON::dump({ :code => @code || @error.code, :message => message, :error => @error.class.name }) }
         format.html {
           begin
             haml :"errors/#{@code || @error.code}", :layout => :error
@@ -151,7 +163,7 @@ module Deltacloud::Helpers
         response = respond_to do |format|
           format.xml { haml :"instances/show" }
           format.html { haml :"instances/show" }
-          format.json { xml_to_json("instances/show") }
+          format.json { JSON::dump(@instance.to_hash(self)) }
         end
         halt 202, response
       end

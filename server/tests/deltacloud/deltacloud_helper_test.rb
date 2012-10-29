@@ -27,10 +27,6 @@ describe Deltacloud::Helpers::Application do
     @helper.instance_action_method(:destroy).must_equal :delete
   end
 
-  it 'provide helper to parse from XML to JSON' do
-    @helper.to_json('<xml>1</xml>').must_equal '{"xml":"1"}'
-  end
-
   it 'provide helper for wrapping text nodes with CDATA' do
     @helper.render_cdata('test').must_equal '<![CDATA[test]]>'
     @helper.render_cdata('').must_equal '<![CDATA[]]>'

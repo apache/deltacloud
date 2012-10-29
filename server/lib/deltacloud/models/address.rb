@@ -25,4 +25,13 @@ class Address < BaseModel
     !self.instance_id.nil?
   end
 
+  def to_hash(context)
+    r = {
+      :id => self.id,
+      :associated => associated?
+    }
+    r[:instance_id] = instance_id if associated?
+    r
+  end
+
 end

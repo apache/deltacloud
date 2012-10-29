@@ -19,4 +19,16 @@ class Firewall < BaseModel
   attr_accessor :description
   attr_accessor :owner_id
   attr_accessor :rules
+
+  def to_hash(context)
+    r = {
+      :id => self.id,
+      :name => name,
+      :description => description,
+      :owner_id => owner_id,
+      :rules => []
+    }
+    r[:rules] = rules.map { |rule| rule.to_hash(context) } if rules and !rules.empty?
+    r
+  end
 end

@@ -25,4 +25,18 @@ class Image < BaseModel
   attr_accessor :hardware_profiles
   attr_accessor :creation_time
 
+  def to_hash(context)
+    {
+      :id => self.id,
+      :name => name,
+      :description => description,
+      :owner_id => owner_id,
+      :architecture => architecture,
+      :state => state,
+      :hardware_profiles => hardware_profiles.map { |p|
+        { :id => p.id, :href => context.hardware_profile_url(p.id), :rel => :hardware_profile }
+      }
+    }
+  end
+
 end

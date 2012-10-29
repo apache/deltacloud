@@ -50,7 +50,7 @@ module Deltacloud::Collections
           response['Location'] = image_url(@image.id)
           respond_to do |format|
             format.xml  { haml :"images/show" }
-            format.json { xml_to_json('images/show') }
+            format.json { JSON::dump(:image => @image.to_hash(self)) }
             format.html { haml :"images/show" }
           end
         end
