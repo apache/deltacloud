@@ -158,7 +158,7 @@ module Deltacloud::Drivers::Mock
 
     def instance(credentials, opts={})
       check_credentials( credentials )
-      if instance = @client.load(:instances, opts[:id])
+      if instance = @client.load_collection(:instances, opts[:id])
         Instance.new(instance)
       end
     end
@@ -217,7 +217,7 @@ module Deltacloud::Drivers::Mock
     end
 
     def update_instance_state(credentials, id, state)
-      instance  = @client.load(:instances, id)
+      instance  = @client.load_collection(:instances, id)
       instance[:state] = state
       instance[:actions] = instance_actions_for( instance[:state] )
       @client.store(:instances, instance)
@@ -325,7 +325,7 @@ module Deltacloud::Drivers::Mock
         :pem_rsa_key => Key::generate_mock_pem
       }
       safely do
-        raise "KeyExist" if @client.load(:keys, key_hash[:id])
+        raise "KeyExist" if @client.load_collection(:keys, key_hash[:id])
         @client.store(:keys, key_hash)
       end
       return Key.new(key_hash)
@@ -351,16 +351,16 @@ module Deltacloud::Drivers::Mock
 
     def destroy_address(credentials, opts={})
       check_credentials(credentials)
-      address = @client.load(:addresses, opts[:id])
+      address = @client.load_collection(:addresses, opts[:id])
       raise "AddressInUse" unless address[:instance_id].nil?
       @client.destroy(:addresses, opts[:id])
     end
 
     def associate_address(credentials, opts={})
       check_credentials(credentials)
-      address = @client.load(:addresses, opts[:id])
+      address = @client.load_collection(:addresses, opts[:id])
       raise "AddressInUse" unless address[:instance_id].nil?
-      instance = @client.load(:instances, opts[:instance_id])
+      instance = @client.load_collection(:instances, opts[:instance_id])
       address[:instance_id] = instance[:id]
       instance[:public_addresses] = [InstanceAddress.new(address[:id])]
       @client.store(:addresses, address)
@@ -369,9 +369,9 @@ module Deltacloud::Drivers::Mock
 
     def disassociate_address(credentials, opts={})
       check_credentials(credentials)
-      address = @client.load(:addresses, opts[:id])
+      address = @client.load_collection(:addresses, opts[:id])
       raise "AddressNotInUse" unless address[:instance_id]
-      instance = @client.load(:instances, address[:instance_id])
+      instance = @client.load_collection(:instances, address[:instance_id])
       address[:instance_id] = nil
       instance[:public_addresses] = [InstanceAddress.new("#{instance[:image_id]}.#{instance[:id]}.public.com", :type => :hostname)]
       @client.store(:addresses, address)
@@ -434,7 +434,7 @@ module Deltacloud::Drivers::Mock
     #--
     def blob_data(credentials, bucket_id, blob_id, opts = {})
       check_credentials(credentials)
-      if blob = @client.load(:blobs, blob_id)
+      if blob = @client.load_collection(:blobs, blob_id)
         #give event machine a chance
         sleep 1
         blob[:content].split('').each {|part| yield part}
@@ -478,7 +478,7 @@ module Deltacloud::Drivers::Mock
     def delete_blob(credentials, bucket_id, blob_id, opts={})
       check_credentials(credentials)
       safely do
-        raise "NotExistentBlob" unless @client.load(:blobs, blob_id)
+        raise "NotExistentBlob" unless @client.load_collection(:blobs, blob_id)
         @client.destroy(:blobs, blob_id)
       end
     end
@@ -488,7 +488,7 @@ module Deltacloud::Drivers::Mock
     #--
     def blob_metadata(credentials, opts={})
       check_credentials(credentials)
-      if blob = @client.load(:blobs, opts[:id])
+      if blob = @client.load_collection(:blobs, opts[:id])
         blob[:user_metadata]
       else
         nil
@@ -501,7 +501,7 @@ module Deltacloud::Drivers::Mock
     def update_blob_metadata(credentials, opts={})
       check_credentials(credentials)
       safely do
-        blob = @client.load(:blobs, opts[:id])
+        blob = @client.load_collection(:blobs, opts[:id])
         return false unless blob
         blob[:user_metadata] = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
         @client.store(:blobs, blob)
@@ -587,8 +587,8 @@ module Deltacloud::Drivers::Mock
     end
 
     def attach_volume_instance(volume_id, device, instance_id)
-      volume = @client.load(:storage_volumes, volume_id)
-      instance = @client.load(:instances, instance_id)
+      volume = @client.load_collection(:storage_volumes, volume_id)
+      instance = @client.load_collection(:instances, instance_id)
       volume[:instance_id] = instance_id
       volume[:device] = device
       volume[:state] = "IN-USE"
@@ -600,8 +600,8 @@ module Deltacloud::Drivers::Mock
     end
 
     def detach_volume_instance(volume_id, instance_id)
-      volume = @client.load(:storage_volumes, volume_id)
-      instance = @client.load(:instances, instance_id)
+      volume = @client.load_collection(:storage_volumes, volume_id)
+      instance = @client.load_collection(:instances, instance_id)
       volume[:instance_id] = nil
       device = volume[:device]
       volume[:device] = nil
