@@ -16,6 +16,7 @@
 
 require 'openstack'
 require 'tempfile'
+require 'base64'
 
 module Deltacloud
   module Drivers
@@ -171,7 +172,10 @@ module Deltacloud
           end
           if opts[:keyname] && opts[:keyname].length > 0
             params[:key_name]=opts[:keyname]
-          end
+	  end
+	  if opts[:user_data] && opts[:user_data].length > 0
+	    params[:user_data]=Base64.encode64(opts[:user_data])
+	  end
           safely do
             server = os.create_server(params)
             result = convert_from_server(server, os.connection.authuser)
