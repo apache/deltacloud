@@ -371,12 +371,14 @@ private
 
         def convert_from_flavor(flavor)
           op = (flavor.class == Hash)? :fetch : :send
-          HardwareProfile.new(flavor.send(op, :id).to_s) do
+          hwp = HardwareProfile.new(flavor.send(op, :id).to_s) do
             architecture 'x86_64'
             memory flavor.send(op, :ram).to_i
             storage flavor.send(op, :disk).to_i
             cpu flavor.send(op, :vcpus).to_i
           end
+	  hwp.name = flavor.send(op, :name)
+	  return hwp
         end
 
         def convert_from_image(image, owner)
