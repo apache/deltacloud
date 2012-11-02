@@ -18,7 +18,8 @@ $:.unshift File.join(File.dirname(__FILE__))
 
 require "test_helper.rb"
 
-describe "CIMI Entry Point Behavior" do
+class CloundEntryPointBehavior < CIMI::Test::Spec
+
   ROOTS = [ "resourceMetadata", "systems", "systemTemplates",
             "machines" , "machineTemplates", "machineConfigs",
             "machineImages", "credentials", "credentialTemplates",
