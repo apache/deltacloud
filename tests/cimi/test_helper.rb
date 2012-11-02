@@ -150,14 +150,16 @@ class CIMI::Test::Spec < MiniTest::Spec
 
   def last_response
     @@_cache ||= {}
-    @@_cache[:last_response]
+    @@_cache[:last_response] ||= {}
+    @@_cache[:last_response][@format]
   end
 
   private
 
   def fetch_model(k, model_class, &block)
     response = instance_exec(@format, &block)
-    @@_cache[:last_response] = response
+    @@_cache[:last_response] ||= {}
+    @@_cache[:last_response][@format] = response
     assert_equal @content_type, response.headers[:content_type]
     # FIXME: for XML check that the correct namespace is set
     model_class.parse(response.body, @content_type)
