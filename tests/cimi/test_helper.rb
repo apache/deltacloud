@@ -121,13 +121,20 @@ class CIMI::Test::Spec < MiniTest::Spec
     @content_type = CONTENT_TYPES[fmt]
   end
 
-  def self.it desc = "anonymous", &block
+  def self.it desc = "anonymous", opts = {}, &block
     block ||= proc { skip "(no tests defined)" }
 
-    CONTENT_TYPES.keys.each do |fmt|
-      super("#{desc} [#{fmt}]") do
-        use_format(fmt)
+    if opts[:only]
+      super("#{desc}") do
+        use_format(opts[:only])
         instance_eval &block
+      end
+    else
+      CONTENT_TYPES.keys.each do |fmt|
+        super("#{desc} [#{fmt}]") do
+          use_format(fmt)
+          instance_eval &block
+        end
       end
     end
   end
