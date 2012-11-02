@@ -219,13 +219,19 @@ class CIMI::Model::Base
     self.name.split("::").last
   end
 
+  def self.resource_uri
+    CMWG_NAMESPACE + "/" + self.name.split("::").last
+  end
+
   def self.to_json(model)
-    JSON::unparse(@schema.to_json(model))
+    json = @schema.to_json(model)
+    json[:resourceURI] = resource_uri
+    JSON::unparse(json)
   end
 
   def self.to_xml(model)
     xml = @schema.to_xml(model)
-    xml["xmlns"] = "http://schemas.dmtf.org/cimi/1"
+    xml["xmlns"] = CMWG_NAMESPACE
     XmlSimple.xml_out(xml, :root_name => xml_tag_name)
   end
 

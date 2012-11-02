@@ -31,6 +31,8 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
             "jobs", "meters", "meterTemplates", "meterConfigs",
             "eventLogs", "eventLogTemplates" ]
 
+  RESOURCE_URI = "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
+
   # We'd like to call this :cep, but there's already a method by that name
   model :subject, CIMI::Model::CloudEntryPoint, :cache => true do |fmt|
     cep(:accept => fmt)
@@ -46,6 +48,11 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
 
   it "should have a name" do
     subject.name.wont_be_empty
+  end
+
+  it "should have the correct resourceURI", :only => :json do
+    subject.wont_be_nil     # Make sure we talk to the server
+    last_response.json["resourceURI"].must_equal RESOURCE_URI
   end
 
   it "should have root collections" do
