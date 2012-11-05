@@ -43,13 +43,6 @@ module CommonCollectionsTest
         proc {  get(test_collection, :noauth => true) }.must_raise RestClient::Request::Unauthorized
       end
 
-      it 'should support the JSON media type' do
-        res = get(test_collection, :accept=>:json)
-        res.code.must_equal 200
-        res.headers[:content_type].must_equal 'application/json'
-        assert_silent {JSON.parse(res)}
-      end
-
       it 'must include the ETag in HTTP headers' do
         res = get(test_collection)
         res.headers[:etag].wont_be_nil
