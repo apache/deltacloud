@@ -165,7 +165,7 @@ module Deltacloud
           params[:name] = (opts[:name] && opts[:name].length>0)? opts[:name] : "server#{Time.now.to_s}"
           params[:imageRef] = image_id
           params[:flavorRef] =  (opts[:hwp_id] && opts[:hwp_id].length>0) ?
-                          opts[:hwp_id] : hardware_profiles(credentials).first.name
+                          opts[:hwp_id] : hardware_profiles(credentials).first.id
           if opts[:password] && opts[:password].length > 0
             params[:adminPass]=opts[:password]
           end
@@ -377,8 +377,8 @@ private
             storage flavor.send(op, :disk).to_i
             cpu flavor.send(op, :vcpus).to_i
           end
-	  hwp.name = flavor.send(op, :name)
-	  return hwp
+          hwp.name = flavor.send(op, :name)
+          return hwp
         end
 
         def convert_from_image(image, owner)
