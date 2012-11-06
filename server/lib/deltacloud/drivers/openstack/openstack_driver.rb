@@ -190,11 +190,19 @@ module Deltacloud
 
         def destroy_instance(credentials, instance_id)
           os = new_client(credentials)
+          server = instance = nil
           safely do
             server = os.get_server(instance_id)
             server.delete!
-            convert_from_server(server, os.connection.authuser)
           end
+          begin
+            server.populate
+            instance = convert_from_server(server, os.connection.authuser)
+          rescue OpenStack::Exception::ItemNotFound
+            instance = convert_from_server(server, os.connection.authuser)
+            instance.state = "STOPPED"
+          end
+          instance
         end
 
         alias_method :stop_instance, :destroy_instance
