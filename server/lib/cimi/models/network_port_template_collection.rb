@@ -27,7 +27,7 @@ class CIMI::Model::NetworkPortTemplateCollection < CIMI::Model::Base
     self.new(
       :id => context.network_port_templates_url,
       :name => 'default',
-      :created => DateTime.now.xmlschema,
+      :created => Time.now.xmlschema,
       :description => "#{context.driver.name.capitalize} NetworkPortTemplateCollection",
       :count => network_port_templates.size,
       :network_port_templates => network_port_templates

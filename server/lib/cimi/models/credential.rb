@@ -55,7 +55,7 @@ class CIMI::Model::Credential < CIMI::Model::Base
       :password => key.is_password? ? key.password : key.fingerprint,
       :key => key.is_key? ? key.pem_rsa_key : nil,
       :id => context.credential_url(key.id),
-      :created => DateTime.now.xmlschema
+      :created => Time.now.xmlschema
     )
   end
 

@@ -25,7 +25,7 @@ class CIMI::Model::NetworkPortConfigurationCollection < CIMI::Model::Base
     self.new(
       :id => context.network_port_configurations_url,
       :name => 'default',
-      :created => DateTime.now.xmlschema,
+      :created => Time.now.xmlschema,
       :description => "#{context.driver.name.capitalize} NetworkPortConfigurationCollection",
       :count => network_port_configurations.size,
       :network_port_configurations => network_port_configurations

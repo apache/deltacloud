@@ -30,7 +30,7 @@ class CIMI::Model::MachineVolume < CIMI::Model::Base
           :id => context.machine_url(instance_id)+"/volumes/#{vol.id}",
           :name => vol.id,
           :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
-          :created => DateTime.parse(vol.created).xmlschema,
+          :created => Time.parse(vol.created).xmlschema,
           :initial_location => vol.device,
           :volume => {:href=>context.volume_url(vol.id)}
           ) if vol.instance_id == instance_id

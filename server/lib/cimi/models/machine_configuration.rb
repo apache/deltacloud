@@ -54,7 +54,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
       :description => "Machine Configuration with #{memory} KiB "+
         "of memory and #{cpu} CPU",
       :cpu => ( cpu if cpu ) ,
-      :created => DateTime.now.xmlschema,  # FIXME: DC hardware_profile has no mention about created_at
+      :created => Time.now.xmlschema,  # FIXME: DC hardware_profile has no mention about created_at
       :memory => (memory if memory),
       :disks => (  [ { :capacity => storage  } ] if storage ),
       :id => context.machine_configuration_url(profile.name)

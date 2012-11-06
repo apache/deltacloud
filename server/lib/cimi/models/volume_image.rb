@@ -41,7 +41,7 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
     self.new( {
                :name => snapshot.id,
                :description => snapshot.id,
-               :created => DateTime.parse(snapshot.created).xmlschema,
+               :created => Time.parse(snapshot.created).xmlschema,
                :id => context.volume_image_url(snapshot.id),
                :image_location => {:href=>context.volume_url(snapshot.storage_volume_id)},
                :bootable => "false"  #FIXME

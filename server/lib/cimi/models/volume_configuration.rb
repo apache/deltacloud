@@ -52,7 +52,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
                 :id => context.volume_configuration_url(size),
                 :name => size,
                 :description => "volume configuration with #{size} GiB",
-                :created => DateTime.now.xmlschema,
+                :created => Time.now.xmlschema,
                 :capacity => {:quantity=>size, :units=>"gibibytes"},
                 :supports_snapshots => "true"
                 # FIXME :guest_interface => "NFS"
