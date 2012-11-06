@@ -30,14 +30,14 @@ describe 'OpenStackDriver HardwareProfiles' do
     hardware_profiles.wont_be_empty
     hardware_profiles.must_be_kind_of Array
     hardware_profiles.size.must_equal 1
-    hardware_profiles.first.name.must_equal '1'
+    hardware_profiles.first.id.must_equal '1'
     @driver.hardware_profiles(:id => 'unknown').must_be_empty
   end
 
   it 'must allow to retrieve single hardware_profile' do
     hardware_profile = @driver.hardware_profile :id => '1'
     hardware_profile.wont_be_nil
-    hardware_profile.name.must_equal '1'
+    hardware_profile.id.must_equal '1'
     hardware_profile.properties.must_be_kind_of Array
     hardware_profile.properties.wont_be_empty
     @driver.hardware_profile(:id => 'unknown').must_be_nil
