@@ -79,7 +79,11 @@ module Rack
         end
         yield wants
 
-        if Deltacloud.default_frontend.name == :cimi
+        if request.env["SCRIPT_NAME"].include?("cimi") || Deltacloud.default_frontend.name == :cimi
+          #when cimi and neither json or xml defined... default to _something_  -  json?
+          if ([:json, :xml] & accepting_formats.keys).empty?
+            request.env['rack-accept.formats'] = {:json=>0}
+          end
           @media_type = (accepting_formats.has_key?(:xml) ? [:xml, accepting_formats[:xml]] : nil)
         end if Deltacloud.respond_to? :default_frontend
 
