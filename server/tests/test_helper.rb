@@ -22,15 +22,7 @@ end
 
 # Make the test output more nice and readable
 #
-begin
-  require 'turn'
-  Turn.config do |c|
-    c.format  = :pretty
-    c.trace   = true
-    c.natural = true
-  end
-rescue LoadError
-end
+require 'turn' rescue nil
 
 begin
   require "minitest/reporters"
