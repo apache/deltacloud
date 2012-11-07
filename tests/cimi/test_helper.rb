@@ -17,7 +17,6 @@
 require 'rubygems'
 require 'require_relative'
 require_relative '../helpers/common.rb'
-
 require 'singleton'
 require_relative "../../server/lib/cimi/models"
 
@@ -119,6 +118,10 @@ class CIMI::Test::Spec < MiniTest::Spec
   def use_format(fmt)
     @format = fmt
     @content_type = CONTENT_TYPES[fmt]
+  end
+
+  def fetch(uri, model_class)
+    fetch_model(uri, model_class) { |fmt| get(uri, :accept => fmt) }
   end
 
   def self.it desc = "anonymous", opts = {}, &block
