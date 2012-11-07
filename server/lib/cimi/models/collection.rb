@@ -115,9 +115,16 @@ module CIMI::Model
         entries = find(:all, context)
         desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
         id = context.send("#{collection_class.entry_name}_url")
+        ops = []
+        create = "create_#{collection_class.entry_name.to_s.singularize}_url"
+        if context.respond_to?(create)
+          url = context.send(create)
+          ops << { :rel => "add", :href => url }
+        end
         collection_class.new(:id => id, :name => 'default',
                              :count => entries.size,
                              :entries => entries,
+                             :operations => ops,
                              :description => desc)
       end
     end
