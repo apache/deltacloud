@@ -49,9 +49,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_json(body, context)
     json = JSON.parse(body)
-    hardware_profile_id = xml['machineTemplate']['machineConfig']["href"].split('/').last
-    image_id = xml['machineTemplate']['machineImage']["href"].split('/').last
-    instance = context.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
+    hardware_profile_id = json['machineTemplate']['machineConfig']["href"].split('/').last
+    image_id = json['machineTemplate']['machineImage']["href"].split('/').last
+    instance = context.driver.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
     from_instance(instance, context)
   end
 
