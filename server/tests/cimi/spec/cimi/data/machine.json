@@ -1,4 +1,6 @@
-{ "id": "http://cimi.example.org/machines/1",
+{
+ "resourceURI": "http://schemas.dmtf.org/cimi/1/Machine",
+ "id": "http://cimi.example.org/machines/1",
   "name": "machine1",
   "description": "Machine one description",
   "created": "2011-11-21",

@@ -98,6 +98,8 @@ class CIMI::Model::Base
   #
   attr_reader :attribute_values
 
+  CMWG_NAMESPACE = "http://schemas.dmtf.org/cimi/1"
+
   # Keep the list of all attributes in an array +attributes+; for each
   # attribute, we also define a getter and a setter to access/change the
   # value for that attribute

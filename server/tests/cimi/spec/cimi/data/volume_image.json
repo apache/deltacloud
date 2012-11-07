@@ -1,4 +1,5 @@
 {
+  "resourceURI": "http://schemas.dmtf.org/cimi/1/VolumeImage",
   "id": "http://cimi.example.org/volume_images/1",
   "name": "volume_image_1",
   "description": "Volume Image One",
