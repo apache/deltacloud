@@ -14,7 +14,7 @@
 # under the License.
 
 module CIMI::Model
-  class Collection < Base
+  class Collection < Resource
 
     class << self
       attr_accessor :entry_name, :embedded
@@ -75,6 +75,7 @@ module CIMI::Model
       coll_class.embedded = opts[:embedded]
       entry_schema = model_class.schema
       coll_class.instance_eval do
+        text :id
         text :count
         scalar :href if opts[:embedded]
         array self.entry_name, :schema => entry_schema, :xml_name => model_name

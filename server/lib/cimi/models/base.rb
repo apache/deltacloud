@@ -91,7 +91,7 @@ module CIMI::Model
 
 end
 
-class CIMI::Model::Base
+class CIMI::Model::Resource
 
   #
   # We keep the values of the attributes in a hash
@@ -245,13 +245,6 @@ class CIMI::Model::Base
     self.class.to_xml(self)
   end
 
-  #
-  # Common attributes for all resources
-  #
-  text :id, :name, :description, :created
-
-  hash :property
-
   def filter_by(filter_opts)
     return self if filter_opts.nil?
     return filter_attributes(filter_opts.split(',').map{ |a| a.intern }) if filter_opts.include? ','
@@ -283,4 +276,13 @@ class CIMI::Model::Base
     filter = filter.split('-').inject { |s,e| s.to_i..e.to_i }
     self.class.new(attr => self.send(attr)[filter])
   end
+end
+
+class CIMI::Model::Base < CIMI::Model::Resource
+  #
+  # Common attributes for all resources
+  #
+  text :id, :name, :description, :created
+
+  hash :property
 end
