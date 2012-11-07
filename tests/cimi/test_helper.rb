@@ -37,7 +37,7 @@ module CIMI
       end
 
       def collections
-        xml.xpath("/c:CloudEntryPoint/c:*[@href]", ns).map { |c| c.name }
+        xml.xpath("/c:CloudEntryPoint/c:*[@href]", ns).map { |c| c.name.to_sym }
       end
 
       def features
