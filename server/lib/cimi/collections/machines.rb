@@ -47,7 +47,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_instance do
         description "Create a new Machine entity."
         control do
-          if request.content_type.end_with?("+json")
+          if request.content_type.end_with?("json")
             new_machine = Machine.create_from_json(request.body.read, self)
           else
             new_machine = Machine.create_from_xml(request.body.read, self)
@@ -73,7 +73,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if request.content_type.end_with?("+json")
+          if request.content_type.end_with?("json")
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -90,7 +90,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if request.content_type.end_with?("+json")
+          if request.content_type.end_with?("json")
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -107,7 +107,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if request.content_type.end_with?("+json")
+          if request.content_type.end_with?("json")
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -150,7 +150,7 @@ module CIMI::Collections
         description "Attach CIMI Volume(s) to a machine."
         param :id,          :string,    :required
         control do
-          if request.content_type.end_with?("+json")
+          if request.content_type.end_with?("json")
             volumes_to_attach = Volume.find_to_attach_from_json(request.body.read, self)
           else
             volumes_to_attach = Volume.find_to_attach_from_xml(request.body.read, self)
@@ -167,7 +167,7 @@ module CIMI::Collections
         description "Detach CIMI Volume(s) from a machine."
         param :id,          :string,    :required
         control do
-          if request.content_type.end_with?("+json")
+          if request.content_type.end_with?("json")
             volumes_to_detach = Volume.find_to_attach_from_json(request.body.read, self)
           else
             volumes_to_detach = Volume.find_to_attach_from_xml(request.body.read, self)

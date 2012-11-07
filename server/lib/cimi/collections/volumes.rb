@@ -50,8 +50,8 @@ module CIMI::Collections
       operation :create do
         description "Create a new Volume."
         control do
-          content_type = (request.content_type.end_with?("+json") ? :json  : :xml)
-          #((request.content_type.end_with?("+xml")) ? :xml : report_error(415) ) FIXME
+          content_type = (request.content_type.end_with?("json") ? :json  : :xml)
+          #((request.content_type.end_with?("xml")) ? :xml : report_error(415) ) FIXME
           case content_type
           when :json
             new_volume = Volume.create_from_json(request.body.read, self)
