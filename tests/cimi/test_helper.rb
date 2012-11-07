@@ -122,6 +122,27 @@ module CIMI::Test::Methods
         end
       end
     end
+
+    # Perform basic collection checks; +model_name+ is the name of the
+    # method returning the collection model; +member_class+ is the class
+    # for the model of individual entries
+    def check_collection(model_name, member_class)
+      it "must have the \"id\" and \"count\" attributes" do
+        coll = self.send(model_name)
+        coll.count.wont_be_nil
+        coll.count.to_i.must_equal coll.entries.size
+        coll.id.must_be_uri
+      end
+
+      it "must have a valid id and name for each member" do
+        self.send(model_name).entries.each do |entry|
+          entry.id.must_be_uri
+          member = fetch(entry.id, member_class)
+          member.id.must_equal entry.id
+          member.name.must_equal entry.name
+        end
+      end
+    end
   end
 
   def self.included(base)

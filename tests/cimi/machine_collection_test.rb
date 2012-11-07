@@ -24,8 +24,10 @@ class MachineCollectionBehavior < CIMI::Test::Spec
 
   model :machines, CIMI::Model::MachineCollection do |fmt|
     mcoll_uri = cep(:accept => :json).json["machines"]["href"]
-    get(mcoll_uri, :accept => :json)
+    get(mcoll_uri, :accept => fmt)
   end
+
+  check_collection :machines, CIMI::Model::Machine
 
   it "should have the correct resourceURI", :only => :json do
     machines.wont_be_nil      # Make sure we talk to the server

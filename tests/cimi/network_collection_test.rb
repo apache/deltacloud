@@ -27,18 +27,5 @@ class NetworkCollectionBehavior < CIMI::Test::Spec
     get(coll_uri, :accept => fmt)
   end
 
-  it "must have the \"id\" and \"count\" attributes" do
-    networks.count.wont_be_nil
-    networks.count.to_i.must_equal networks.entries.size
-    networks.id.must_be_uri
-  end
-
-  it "must have a valid id and name for each member" do
-    networks.entries.each do |entry|
-      entry.id.must_be_uri
-      member = fetch(entry.id, CIMI::Model::Network)
-      member.id.must_equal entry.id
-      member.name.must_equal entry.name
-    end
-  end
+  check_collection :networks, CIMI::Model::Network
 end
