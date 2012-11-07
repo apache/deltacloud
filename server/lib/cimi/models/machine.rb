@@ -157,7 +157,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   def self.convert_instance_memory(profile, context)
     machine_conf = CIMI::Model::MachineConfiguration.find(profile.name, context)
     memory_override = profile.overrides.find { |p, v| p == :memory }
-    memory_override.nil? ? machine_conf.memory : context.to_kibibyte(memory_override[1].to_i,"MB")
+    memory_override.nil? ? machine_conf.memory.to_i : context.to_kibibyte(memory_override[1].to_i,"MB")
   end
 
   def self.convert_instance_addresses(instance)

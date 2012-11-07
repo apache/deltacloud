@@ -33,4 +33,10 @@ class MachineCollectionBehavior < CIMI::Test::Spec
     machines.wont_be_nil      # Make sure we talk to the server
     last_response.json["resourceURI"].must_equal RESOURCE_URI
   end
+
+  it "should report integer values for memory" do
+    machines.entries.each do |machine|
+      machine.memory.to_s.must_match /^[0-9]+$/
+    end
+  end
 end
