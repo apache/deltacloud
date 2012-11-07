@@ -26,16 +26,16 @@ describe 'RhevmDriver Realms' do
   end
 
   it 'must allow to filter realms' do
-    @driver.realms(:id => '3c8af388-cff6-11e0-9267-52540013f702').wont_be_empty
-    @driver.realms(:id => '3c8af388-cff6-11e0-9267-52540013f702').must_be_kind_of Array
-    @driver.realms(:id => '3c8af388-cff6-11e0-9267-52540013f702').size.must_equal 1
-    @driver.realms(:id => '3c8af388-cff6-11e0-9267-52540013f702').first.id.must_equal '3c8af388-cff6-11e0-9267-52540013f702'
+    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').wont_be_empty
+    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').must_be_kind_of Array
+    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').size.must_equal 1
+    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').first.id.must_equal '99408929-82cf-4dc7-a532-9d998063fa95'
     @driver.realms(:id => 'unknown').must_be_empty
   end
 
   it 'must allow to retrieve single realm' do
-    @driver.realm(:id => '3c8af388-cff6-11e0-9267-52540013f702').wont_be_nil
-    @driver.realm(:id => '3c8af388-cff6-11e0-9267-52540013f702').must_be_kind_of Realm
+    @driver.realm(:id => '99408929-82cf-4dc7-a532-9d998063fa95').wont_be_nil
+    @driver.realm(:id => '99408929-82cf-4dc7-a532-9d998063fa95').must_be_kind_of Realm
     @driver.realm(:id => 'unknown').must_be_nil
   end
 

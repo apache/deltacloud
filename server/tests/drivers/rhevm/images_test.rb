@@ -26,12 +26,12 @@ describe 'RhevmDriver Images' do
   end
 
   it 'must allow to filter images' do
-    @driver.images(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').wont_be_empty
-    @driver.images(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').must_be_kind_of Array
-    @driver.images(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').size.must_equal 1
-    @driver.images(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').first.id.must_equal 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872'
-    @driver.images(:owner_id => 'vdcadmin@rhev.lab.eng.brq.redhat.com').each do |img|
-      img.owner_id.must_equal 'vdcadmin@rhev.lab.eng.brq.redhat.com'
+    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').wont_be_empty
+    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').must_be_kind_of Array
+    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').size.must_equal 1
+    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').first.id.must_equal '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5'
+    @driver.images(:owner_id => 'admin@internal').each do |img|
+      img.owner_id.must_equal 'admin@internal'
     end
     @driver.images(:id => 'ami-aaaaaaaa').must_be_empty
     @driver.images(:id => 'unknown').must_be_empty
@@ -42,9 +42,9 @@ describe 'RhevmDriver Images' do
     # of YAML under Ruby 1.8.
     #
     if RUBY_VERSION =~ /^1\.9/
-      @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').wont_be_nil
-      @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').must_be_kind_of Image
-      @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872').id.must_equal 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872'
+      @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').wont_be_nil
+      @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').must_be_kind_of Image
+      @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').id.must_equal '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5'
       @driver.image(:id => 'ami-aaaaaaaa').must_be_nil
       @driver.image(:id => 'unknown').must_be_nil
     end
@@ -52,7 +52,7 @@ describe 'RhevmDriver Images' do
 
   it 'must throw proper exception when destroying used image' do
     if RUBY_VERSION =~ /^1\.9/
-      image = @driver.image(:id => 'dfa924b7-83e8-4a5c-9d5c-1270fd0c0872')
+      image = @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5')
       image.wont_be_nil
       image.state.must_equal 'OK'
       Proc.new {
@@ -62,7 +62,7 @@ describe 'RhevmDriver Images' do
   end
 
   it 'must support destroying images' do
-    image = @driver.image(:id => 'a90de8a2-0619-4625-b72e-db0ff65ef927')
+    image = @driver.image(:id => '6d0285c9-682d-4e0f-8cf8-abd3ac9530be')
     image.wont_be_nil
     image.state.must_equal 'OK'
     @driver.destroy_image(image.id)

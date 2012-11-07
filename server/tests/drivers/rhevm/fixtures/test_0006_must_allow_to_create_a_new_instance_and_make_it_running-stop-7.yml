@@ -21,7 +21,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 07 Nov 2012 15:27:31 GMT
+      - Wed, 07 Nov 2012 15:26:48 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -29,7 +29,7 @@ http_interactions:
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
       Set-Cookie:
-      - JSESSIONID=LinzjH2MH1F+4DEEEwozNv8E; Path=/api; Secure
+      - JSESSIONID=lFebZcL3BJ6cpEAZ0x1B14JQ; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
@@ -49,7 +49,7 @@ http_interactions:
         major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
         \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:27:32 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:49 GMT
 - request:
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms?search=datacenter=Default
@@ -71,7 +71,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 07 Nov 2012 15:27:31 GMT
+      - Wed, 07 Nov 2012 15:26:48 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -79,7 +79,7 @@ http_interactions:
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
       Set-Cookie:
-      - JSESSIONID=GiHLry4kBOoZYf-Du1qQ4N-h; Path=/api; Secure
+      - JSESSIONID=dvge-b5iijhlHBtXYAx6eA1f; Path=/api; Secure
       Content-Type:
       - application/xml
       Connection:
@@ -162,6 +162,44 @@ http_interactions:
         \       <creation_time>2012-09-26T14:54:29.007+02:00</creation_time>\n        <origin>rhev</origin>\n
         \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
         \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1431306240</guaranteed>\n
+        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
+        \   <vm href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712\" id=\"fd15329f-bcf1-4826-bfed-601c352fc712\">\n
+        \       <actions>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/cancelmigration\"
+        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>i-1352301788</name>\n        <link
+        href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/disks\" rel=\"disks\"/>\n
+        \       <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>powering_down</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
+        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
+        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
+        \       </high_availability>\n        <display>\n            <type>spice</type>\n
+        \           <address>10.34.32.183</address>\n            <port>5904</port>\n
+        \           <secure_port>5905</secure_port>\n            <monitors>1</monitors>\n
+        \           <allow_override>false</allow_override>\n        </display>\n        <host
+        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
+        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"
+        id=\"5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"/>\n        <start_time>2012-11-07T16:24:34.885+01:00</start_time>\n
+        \       <creation_time>2012-11-07T16:23:09.149+01:00</creation_time>\n        <origin>rhev</origin>\n
+        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
+        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
         \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
         \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
         \   <vm href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7\" id=\"a841ff8e-1b13-432e-9f37-0df71b6041d7\">\n
@@ -277,7 +315,7 @@ http_interactions:
         \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
         \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n</vms>\n"
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:27:33 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:50 GMT
 - request:
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics
@@ -299,7 +337,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 07 Nov 2012 15:27:32 GMT
+      - Wed, 07 Nov 2012 15:26:49 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -307,7 +345,7 @@ http_interactions:
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
       Set-Cookie:
-      - JSESSIONID=ASRN+EWacSDm2Z5CuoFYJM+x; Path=/api; Secure
+      - JSESSIONID=MIAIdwlH79f2pLiOHSG4Du1v; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
@@ -329,7 +367,59 @@ http_interactions:
         \       <mac address=\"00:1a:4a:22:20:00\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:27:33 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:50 GMT
+- request:
+    method: get
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Nov 2012 15:26:55 GMT
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      Set-Cookie:
+      - JSESSIONID=7BO3F4hX8xQx-stCL2DNC8HP; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1052'
+      Connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
+        \   <nic href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be\"
+        id=\"659f9eff-d2d9-4220-bbb4-a9712fe421be\">\n        <actions>\n            <link
+        href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
+        href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712\"
+        id=\"fd15329f-bcf1-4826-bfed-601c352fc712\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
+        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
+        \       <mac address=\"00:1a:4a:22:20:14\"/>\n        <active>true</active>\n
+        \   </nic>\n</nics>\n"
+    http_version: 
+  recorded_at: Wed, 07 Nov 2012 15:26:56 GMT
 - request:
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics
@@ -351,7 +441,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 07 Nov 2012 15:27:32 GMT
+      - Wed, 07 Nov 2012 15:26:55 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -359,7 +449,7 @@ http_interactions:
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
       Set-Cookie:
-      - JSESSIONID=zKkNxwAKhOCR6hdT2jFJ6tJT; Path=/api; Secure
+      - JSESSIONID=HDYKsYBzxD1MHfgfXY8R2SZS; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
@@ -381,7 +471,7 @@ http_interactions:
         \       <mac address=\"00:1a:4a:22:20:15\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:27:33 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:56 GMT
 - request:
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics
@@ -403,7 +493,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 07 Nov 2012 15:27:33 GMT
+      - Wed, 07 Nov 2012 15:26:55 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -411,7 +501,7 @@ http_interactions:
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
       Set-Cookie:
-      - JSESSIONID=NDf+f8JaZ2UhUmy2CVg-h7tC; Path=/api; Secure
+      - JSESSIONID=Va7aHffOS8w77BPHrDqSkDai; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
@@ -433,5 +523,5 @@ http_interactions:
         \       <mac address=\"00:1a:4a:22:20:19\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:27:34 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:57 GMT
 recorded_with: VCR 2.2.5

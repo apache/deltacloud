@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters?search=
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
     body:
       encoding: US-ASCII
       string: ''
@@ -20,46 +20,139 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:16:52 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=Lx48WcOnTVPxzmjdXse16MHr; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '1496'
+      - '923'
+      Connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: !ruby/string
+        str: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+          \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
+          id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
+          \       <description>The default Data Center</description>\n        <link
+          href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+          rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+          rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+          rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
+          \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+          \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+          \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
+        net_http_res: &34330360 !ruby/object:Net::HTTPOK
+          http_version: '1.0'
+          code: '200'
+          message: OK
+          header:
+            date:
+            - Wed, 07 Nov 2012 15:16:52 GMT
+            pragma:
+            - No-cache
+            cache-control:
+            - no-cache
+            expires:
+            - Thu, 01 Jan 1970 01:00:00 CET
+            set-cookie:
+            - JSESSIONID=Lx48WcOnTVPxzmjdXse16MHr; Path=/api; Secure
+            content-type:
+            - application/xml
+            content-length:
+            - '923'
+            connection:
+            - close
+          body: !ruby/string
+            str: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+              \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
+              id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
+              \       <description>The default Data Center</description>\n        <link
+              href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+              rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+              rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+              rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
+              \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+              \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+              \       <status>\n            <state>up</state>\n        </status>\n
+              \   </data_center>\n</data_centers>\n"
+            net_http_res: *34330360
+            args: &33511140
+              :method: :get
+              :url: https://dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
+              :headers:
+                :content_type: application/xml
+                :accept: application/xml
+                :authorization: Basic YWRtaW5AaW50ZXJuYWw6cmVkaGF0
+            code: 200
+          read: true
+          __read_body_previously_called: true
+        args: *33511140
+        code: 200
+    http_version: 
+  recorded_at: Wed, 07 Nov 2012 15:16:54 GMT
+- request:
+    method: get
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
       Date:
-      - Wed, 25 Jul 2012 11:51:53 GMT
+      - Wed, 07 Nov 2012 15:17:45 GMT
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 01:00:00 CET
+      Set-Cookie:
+      - JSESSIONID=UT2mIQWBMD4K1XEOK5NqrBlB; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '923'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center id=\"aa585157-a098-48c3-8b5b-70a32e88c263\" href=\"/api/datacenters/aa585157-a098-48c3-8b5b-70a32e88c263\">\n
-        \       <name>engops-iscsi</name>\n        <description></description>\n        <link
-        rel=\"storagedomains\" href=\"/api/datacenters/aa585157-a098-48c3-8b5b-70a32e88c263/storagedomains\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/datacenters/aa585157-a098-48c3-8b5b-70a32e88c263/permissions\"/>\n
-        \       <storage_type>iscsi</storage_type>\n        <version minor=\"0\" major=\"3\"/>\n
-        \       <supported_versions>\n            <version minor=\"0\" major=\"3\"/>\n
-        \       </supported_versions>\n        <status>\n            <state>uninitialized</state>\n
-        \       </status>\n    </data_center>\n    <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n        <name>engops-nfs</name>\n
-        \       <description></description>\n        <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \       <storage_type>nfs</storage_type>\n        <storage_format>v1</storage_format>\n
-        \       <version minor=\"0\" major=\"3\"/>\n        <supported_versions>\n
-        \           <version minor=\"0\" major=\"3\"/>\n        </supported_versions>\n
+        \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
+        id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
+        \       <description>The default Data Center</description>\n        <link
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
         \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Wed, 07 Nov 2012 15:17:46 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters?search=
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body:
       encoding: US-ASCII
       string: ''
@@ -77,95 +170,39 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:17:45 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=YJm39BPHvq9evheSgdV3Vb79; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '1496'
-      Date:
-      - Wed, 25 Jul 2012 11:51:53 GMT
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center id=\"aa585157-a098-48c3-8b5b-70a32e88c263\" href=\"/api/datacenters/aa585157-a098-48c3-8b5b-70a32e88c263\">\n
-        \       <name>engops-iscsi</name>\n        <description></description>\n        <link
-        rel=\"storagedomains\" href=\"/api/datacenters/aa585157-a098-48c3-8b5b-70a32e88c263/storagedomains\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/datacenters/aa585157-a098-48c3-8b5b-70a32e88c263/permissions\"/>\n
-        \       <storage_type>iscsi</storage_type>\n        <version minor=\"0\" major=\"3\"/>\n
-        \       <supported_versions>\n            <version minor=\"0\" major=\"3\"/>\n
-        \       </supported_versions>\n        <status>\n            <state>uninitialized</state>\n
-        \       </status>\n    </data_center>\n    <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n        <name>engops-nfs</name>\n
-        \       <description></description>\n        <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \       <storage_type>nfs</storage_type>\n        <storage_format>v1</storage_format>\n
-        \       <version minor=\"0\" major=\"3\"/>\n        <supported_versions>\n
-        \           <version minor=\"0\" major=\"3\"/>\n        </supported_versions>\n
-        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
-    http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-- request:
-    method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - Apache-Coyote/1.1
-      Pragma:
-      - No-cache
-      Cache-Control:
-      - no-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '715'
-      Date:
-      - Wed, 25 Jul 2012 11:51:54 GMT
+      - '828'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
-        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
-        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
-        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
-        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n
+        \   <name>Default</name>\n    <description>The default Data Center</description>\n
+        \   <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>nfs</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
         \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Wed, 07 Nov 2012 15:17:46 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
     body:
       encoding: US-ASCII
       string: ''
@@ -183,40 +220,43 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:17:46 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=9+ND-8on+R3gNKueZTnBEG4u; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '971'
-      Date:
-      - Wed, 25 Jul 2012 11:51:54 GMT
+      - '1232'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
-        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
-        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
-        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
-        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
-        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
-        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
-        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
-        \       </error_handling>\n    </cluster>\n</clusters>\n"
+        \   <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\" id=\"99408929-82cf-4dc7-a532-9d998063fa95\">\n
+        \       <name>Default</name>\n        <description>The default server cluster</description>\n
+        \       <link href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks\"
+        rel=\"networks\"/>\n        <link href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes\"
+        rel=\"glustervolumes\"/>\n        <cpu id=\"Intel Westmere Family\"/>\n        <data_center
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\"/>\n
+        \       <memory_policy>\n            <overcommit percent=\"150\"/>\n            <transparent_hugepages>\n
+        \               <enabled>true</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version major=\"3\"
+        minor=\"1\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n        <virt_service>true</virt_service>\n        <gluster_service>false</gluster_service>\n
+        \   </cluster>\n</clusters>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Wed, 07 Nov 2012 15:17:47 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body:
       encoding: US-ASCII
       string: ''
@@ -234,38 +274,39 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:17:51 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=d52rOHxz1-OottKsf5VgCtek; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '715'
-      Date:
-      - Wed, 25 Jul 2012 11:51:54 GMT
+      - '828'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
-        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
-        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
-        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
-        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n
+        \   <name>Default</name>\n    <description>The default Data Center</description>\n
+        \   <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>nfs</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
         \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Wed, 07 Nov 2012 15:17:52 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body:
       encoding: US-ASCII
       string: ''
@@ -283,38 +324,39 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:17:52 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=Tk+nO+d8IRhRs7ogL3u7XcX1; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '715'
-      Date:
-      - Wed, 25 Jul 2012 11:51:54 GMT
+      - '828'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
-        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
-        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
-        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
-        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n
+        \   <name>Default</name>\n    <description>The default Data Center</description>\n
+        \   <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>nfs</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
         \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Wed, 07 Nov 2012 15:17:53 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/clusters?search=datacenter=engops-nfs
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
     body:
       encoding: US-ASCII
       string: ''
@@ -332,40 +374,43 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:17:52 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=od4zFU3pjWLkRTcsMziDlWJz; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '971'
-      Date:
-      - Wed, 25 Jul 2012 11:51:54 GMT
+      - '1232'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
-        \   <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\">\n
-        \       <name>engops-nfs</name>\n        <link rel=\"networks\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/networks\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702/permissions\"/>\n
-        \       <cpu id=\"Intel Conroe Family\"/>\n        <data_center id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\"/>\n        <memory_policy>\n
-        \           <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
-        \               <enabled>false</enabled>\n            </transparent_hugepages>\n
-        \       </memory_policy>\n        <scheduling_policy/>\n        <version minor=\"0\"
-        major=\"3\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
-        \       </error_handling>\n    </cluster>\n</clusters>\n"
+        \   <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\" id=\"99408929-82cf-4dc7-a532-9d998063fa95\">\n
+        \       <name>Default</name>\n        <description>The default server cluster</description>\n
+        \       <link href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks\"
+        rel=\"networks\"/>\n        <link href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes\"
+        rel=\"glustervolumes\"/>\n        <cpu id=\"Intel Westmere Family\"/>\n        <data_center
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\"/>\n
+        \       <memory_policy>\n            <overcommit percent=\"150\"/>\n            <transparent_hugepages>\n
+        \               <enabled>true</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version major=\"3\"
+        minor=\"1\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n        <virt_service>true</virt_service>\n        <gluster_service>false</gluster_service>\n
+        \   </cluster>\n</clusters>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
+  recorded_at: Wed, 07 Nov 2012 15:17:53 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body:
       encoding: US-ASCII
       string: ''
@@ -383,33 +428,34 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:17:52 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=euRGWEg4ZVOfXxcBiqwBQKit; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '715'
-      Date:
-      - Wed, 25 Jul 2012 11:51:54 GMT
+      - '828'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
-        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
-        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
-        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
-        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n
+        \   <name>Default</name>\n    <description>The default Data Center</description>\n
+        \   <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>nfs</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
         \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Mon, 23 Jul 2012 12:21:00 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Wed, 07 Nov 2012 15:17:54 GMT
+recorded_with: VCR 2.2.5

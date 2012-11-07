@@ -31,11 +31,11 @@ describe 'RHEV-M provider test' do
 
   it 'must switch realms when switching between different clusters' do
 
-    provider1 = @driver.provider(:id => 'aa585157-a098-48c3-8b5b-70a32e88c263')
+    provider1 = @driver.provider(:id => '9df72b84-0234-11e2-9b87-9386d9b09d4a')
     provider1.wont_be_nil
     provider1.url.wont_be_empty
 
-    provider2 = @driver.provider(:id => '645e425e-66fe-4ac9-8874-537bd10ef08d')
+    provider2 = @driver.provider(:id => '9df72b84-0234-11e2-9b87-9386d9b09d4a')
     provider2.wont_be_nil
     provider2.url.wont_be_empty
 

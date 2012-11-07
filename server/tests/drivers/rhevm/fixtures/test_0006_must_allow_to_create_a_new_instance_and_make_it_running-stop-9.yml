@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body:
       encoding: US-ASCII
       string: ''
@@ -20,38 +20,39 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:26:21 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=7UYmhfL+137ygQtV1jVZ4jcC; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '715'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
+      - '828'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
-        id=\"645e425e-66fe-4ac9-8874-537bd10ef08d\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d\">\n
-        \   <name>engops-nfs</name>\n    <description></description>\n    <link rel=\"storagedomains\"
-        href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/storagedomains\"/>\n
-        \   <link rel=\"permissions\" href=\"/api/datacenters/645e425e-66fe-4ac9-8874-537bd10ef08d/permissions\"/>\n
-        \   <storage_type>nfs</storage_type>\n    <storage_format>v1</storage_format>\n
-        \   <version minor=\"0\" major=\"3\"/>\n    <supported_versions>\n        <version
-        minor=\"0\" major=\"3\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n
+        \   <name>Default</name>\n    <description>The default Data Center</description>\n
+        \   <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>nfs</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
         \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:15 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:23 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms?search=datacenter=engops-nfs
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms?search=datacenter=Default
     body:
       encoding: US-ASCII
       string: ''
@@ -69,316 +70,255 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:26:22 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=qJP41wPpucbKIHVge5cAe+Tf; Path=/api; Secure
       Content-Type:
       - application/xml
+      Connection:
+      - close
       Transfer-Encoding:
       - chunked
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<vms>\n
-        \   <vm id=\"c63758d9-3db6-47ca-8412-4f517946910e\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e\">\n
-        \       <name>f17-aeolus</name>\n        <actions>\n            <link rel=\"shutdown\"
-        href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/shutdown\"/>\n            <link
-        rel=\"start\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
-        cores=\"1\" sockets=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
-        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5908</port>\n
-        \           <secure_port>5909</secure_port>\n            <monitors>1</monitors>\n
-        \       </display>\n        <host id=\"104caf44-cff8-11e0-9f1a-52540013f702\"
-        href=\"/api/hosts/104caf44-cff8-11e0-9f1a-52540013f702\"/>\n        <cluster
-        id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n
-        \       <template id=\"00000000-0000-0000-0000-000000000000\" href=\"/api/templates/00000000-0000-0000-0000-000000000000\"/>\n
-        \       <start_time>2012-05-07T14:35:12.289Z</start_time>\n        <creation_time>2012-05-07T16:32:43.954+02:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>536870912</guaranteed>\n
-        \       </memory_policy>\n        <usb>\n            <enabled>true</enabled>\n
-        \       </usb>\n    </vm>\n    <vm id=\"c5981108-72c8-40f5-9b3f-98fa1569e907\"
-        href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907\">\n        <name>fedora-packaging</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/c5981108-72c8-40f5-9b3f-98fa1569e907/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>up</state>\n
+        \   <vm href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190\" id=\"de048029-c4f8-4e90-ac7b-67cf06102190\">\n
+        \       <actions>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/cancelmigration\"
+        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>dc-node01</name>\n        <description>Deltacloud
+        Builder and GIT mirror</description>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
         \       </status>\n        <memory>2147483648</memory>\n        <cpu>\n            <topology
-        cores=\"2\" sockets=\"2\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        sockets=\"4\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
         \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
         \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>true</enabled>\n            <priority>1</priority>\n
+        \           <enabled>true</enabled>\n            <priority>100</priority>\n
         \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5903</port>\n
-        \           <monitors>1</monitors>\n        </display>\n        <host id=\"104caf44-cff8-11e0-9f1a-52540013f702\"
-        href=\"/api/hosts/104caf44-cff8-11e0-9f1a-52540013f702\"/>\n        <cluster
-        id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n
-        \       <template id=\"00000000-0000-0000-0000-000000000000\" href=\"/api/templates/00000000-0000-0000-0000-000000000000\"/>\n
-        \       <start_time>2012-04-05T11:53:28.290Z</start_time>\n        <creation_time>2012-04-05T13:35:05.106+02:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>2147483648</guaranteed>\n
+        \           <address>dell-per610-02.lab.eng.brq.redhat.com</address>\n            <port>5901</port>\n
+        \           <monitors>1</monitors>\n            <allow_override>true</allow_override>\n
+        \       </display>\n        <host href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\"
+        id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
+        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-09-25T11:03:18.519+02:00</start_time>\n
+        \       <creation_time>2012-09-19T15:57:10.513+02:00</creation_time>\n        <origin>rhev</origin>\n
+        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
+        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>2147483648</guaranteed>\n
         \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.37.221\"/>\n            </ips>\n        </guest_info>\n        <usb>\n
-        \           <enabled>false</enabled>\n        </usb>\n    </vm>\n    <vm id=\"e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a\"
-        href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a\">\n        <name>i-1343216513</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>down</state>\n
-        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
-        cores=\"1\" sockets=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
-        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5904</port>\n
-        \           <secure_port>5905</secure_port>\n            <monitors>1</monitors>\n
-        \       </display>\n        <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\"
-        href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n        <template
-        id=\"5f411ae4-a3cf-48a8-8bca-d049ddd51f0b\" href=\"/api/templates/5f411ae4-a3cf-48a8-8bca-d049ddd51f0b\"/>\n
-        \       <start_time>2012-07-25T11:50:11.291Z</start_time>\n        <creation_time>2012-07-25T13:40:49.044+02:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <custom_properties>\n
-        \           <custom_property value=\"deltacloud-user-data.txt:test user data\"
-        name=\"floppyinject\"/>\n        </custom_properties>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
-        \       </memory_policy>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm id=\"58a64491-d523-4d59-8617-68ece1e3c56f\"
-        href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f\">\n        <name>i-1343216961</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>down</state>\n
-        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
-        cores=\"1\" sockets=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
-        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5904</port>\n
-        \           <secure_port>5905</secure_port>\n            <monitors>1</monitors>\n
-        \       </display>\n        <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\"
-        href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n        <template
-        id=\"5f411ae4-a3cf-48a8-8bca-d049ddd51f0b\" href=\"/api/templates/5f411ae4-a3cf-48a8-8bca-d049ddd51f0b\"/>\n
-        \       <start_time>2012-07-25T11:50:11.291Z</start_time>\n        <creation_time>2012-07-25T13:48:16.985+02:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <custom_properties>\n
-        \           <custom_property value=\"deltacloud-user-data.txt:test user data\"
-        name=\"floppyinject\"/>\n        </custom_properties>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
-        \       </memory_policy>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm id=\"445fccf4-9bee-4da5-8155-9ff8d581c4ae\"
-        href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae\">\n        <name>integrity-aeolus</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>3145728000</memory>\n        <cpu>\n            <topology
-        cores=\"3\" sockets=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        address=\"10.34.33.233\"/>\n            </ips>\n        </guest_info>\n        <quota
+        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
+        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b\"
+        id=\"aee171dc-f1c2-4fae-ba62-6f74baef746b\">\n        <actions>\n            <link
+        href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/cancelmigration\" rel=\"cancelmigration\"/>\n
+        \           <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>foreman-node01</name>\n
+        \       <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>down</state>\n
+        \       </status>\n        <memory>2147483648</memory>\n        <cpu>\n            <topology
+        sockets=\"2\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
         \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
         \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
         \           <enabled>false</enabled>\n            <priority>1</priority>\n
         \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5902</port>\n
-        \           <monitors>1</monitors>\n        </display>\n        <host id=\"104caf44-cff8-11e0-9f1a-52540013f702\"
-        href=\"/api/hosts/104caf44-cff8-11e0-9f1a-52540013f702\"/>\n        <cluster
-        id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n
-        \       <template id=\"3e82e2d5-913f-4095-ae72-ebcfa9d0571d\" href=\"/api/templates/3e82e2d5-913f-4095-ae72-ebcfa9d0571d\"/>\n
-        \       <start_time>2012-03-08T13:02:05.292Z</start_time>\n        <creation_time>2011-10-24T16:54:22.748+02:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>3145728000</guaranteed>\n
-        \       </memory_policy>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm id=\"4d8c4996-ea1a-44d5-8540-4582eba76166\"
-        href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166\">\n        <name>mariosinstance</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/statistics\"/>\n
-        \       <type>desktop</type>\n        <status>\n            <state>down</state>\n
-        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
-        cores=\"1\" sockets=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <address>dell-per610-02.lab.eng.brq.redhat.com</address>\n            <port>5902</port>\n
+        \           <monitors>1</monitors>\n            <allow_override>true</allow_override>\n
+        \       </display>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
+        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-09-26T14:55:17.361+02:00</start_time>\n
+        \       <creation_time>2012-09-26T14:54:29.007+02:00</creation_time>\n        <origin>rhev</origin>\n
+        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
+        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1431306240</guaranteed>\n
+        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
+        \   <vm href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712\" id=\"fd15329f-bcf1-4826-bfed-601c352fc712\">\n
+        \       <actions>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/cancelmigration\"
+        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>i-1352301788</name>\n        <link
+        href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/disks\" rel=\"disks\"/>\n
+        \       <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>powering_down</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
         \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
         \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
         \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
+        \       </high_availability>\n        <display>\n            <type>spice</type>\n
+        \           <address>10.34.32.183</address>\n            <port>5904</port>\n
+        \           <secure_port>5905</secure_port>\n            <monitors>1</monitors>\n
+        \           <allow_override>false</allow_override>\n        </display>\n        <host
+        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
+        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"
+        id=\"5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"/>\n        <start_time>2012-11-07T16:24:34.885+01:00</start_time>\n
+        \       <creation_time>2012-11-07T16:23:09.149+01:00</creation_time>\n        <origin>rhev</origin>\n
+        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
+        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
+        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
+        \   <vm href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7\" id=\"a841ff8e-1b13-432e-9f37-0df71b6041d7\">\n
+        \       <actions>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/cancelmigration\"
+        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>JoeV_06112012_01</name>\n
+        \       <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
+        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
+        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
+        \       </high_availability>\n        <display>\n            <type>spice</type>\n
+        \           <address>10.34.32.183</address>\n            <port>5902</port>\n
+        \           <secure_port>5903</secure_port>\n            <monitors>1</monitors>\n
+        \           <allow_override>false</allow_override>\n        </display>\n        <host
+        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
+        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"
+        id=\"5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"/>\n        <start_time>2012-11-06T19:53:43.277+01:00</start_time>\n
+        \       <creation_time>2012-11-06T19:53:08.804+01:00</creation_time>\n        <origin>rhev</origin>\n
+        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
+        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
+        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
+        \   <vm href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1\" id=\"2942d4be-57e4-4751-a5ac-b334567125b1\">\n
+        \       <actions>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/cancelmigration\"
+        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>mfojtik-perses</name>\n
+        \       <description>mfojtik private machine</description>\n        <link
+        href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/disks\" rel=\"disks\"/>\n
+        \       <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
+        \           <enabled>false</enabled>\n            <priority>1</priority>\n
         \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <monitors>1</monitors>\n        </display>\n        <cluster id=\"3c8af388-cff6-11e0-9267-52540013f702\"
-        href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n        <template
-        id=\"5f411ae4-a3cf-48a8-8bca-d049ddd51f0b\" href=\"/api/templates/5f411ae4-a3cf-48a8-8bca-d049ddd51f0b\"/>\n
-        \       <start_time>2012-07-25T11:50:11.293Z</start_time>\n        <creation_time>2012-02-08T12:29:58.870+01:00</creation_time>\n
+        \           <address>dell-per610-02.lab.eng.brq.redhat.com</address>\n            <port>5900</port>\n
+        \           <monitors>1</monitors>\n            <allow_override>true</allow_override>\n
+        \       </display>\n        <host href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\"
+        id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
+        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-09-25T11:03:16.547+02:00</start_time>\n
+        \       <creation_time>2012-09-19T17:35:47.578+02:00</creation_time>\n        <origin>rhev</origin>\n
+        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
+        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
+        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
+        address=\"10.34.32.90\"/>\n            </ips>\n        </guest_info>\n        <quota
+        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
+        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c\"
+        id=\"a921bfe6-9ba6-4761-9e95-42737768ff8c\">\n        <actions>\n            <link
+        href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/cancelmigration\" rel=\"cancelmigration\"/>\n
+        \           <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/migrate\"
+        rel=\"migrate\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/ticket\"
+        rel=\"ticket\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/shutdown\"
+        rel=\"shutdown\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/start\"
+        rel=\"start\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/stop\"
+        rel=\"stop\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/suspend\"
+        rel=\"suspend\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/detach\"
+        rel=\"detach\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/export\"
+        rel=\"export\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/move\"
+        rel=\"move\"/>\n        </actions>\n        <name>rhevm1-jprovazn-09-rhevm1</name>\n
+        \       <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/snapshots\"
+        rel=\"snapshots\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/tags\"
+        rel=\"tags\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/statistics\"
+        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>down</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>0</priority>\n
+        \       </high_availability>\n        <display>\n            <type>spice</type>\n
+        \           <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
+        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505\"
+        id=\"fe9dcb11-a035-4d80-89b4-a4092a892505\"/>\n        <creation_time>2012-10-29T14:06:27.378+01:00</creation_time>\n
         \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
         \           <affinity>migratable</affinity>\n        </placement_policy>\n
         \       <memory_policy>\n            <guaranteed>536870912</guaranteed>\n
-        \       </memory_policy>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm id=\"f43673e3-e3fc-46a8-a82f-a105409b588e\"
-        href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e\">\n        <name>mfojtik-packaging</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/f43673e3-e3fc-46a8-a82f-a105409b588e/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
-        cores=\"4\" sockets=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>false</enabled>\n            <priority>50</priority>\n
-        \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5901</port>\n
-        \           <monitors>1</monitors>\n        </display>\n        <host id=\"104caf44-cff8-11e0-9f1a-52540013f702\"
-        href=\"/api/hosts/104caf44-cff8-11e0-9f1a-52540013f702\"/>\n        <cluster
-        id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n
-        \       <template id=\"dfa924b7-83e8-4a5c-9d5c-1270fd0c0872\" href=\"/api/templates/dfa924b7-83e8-4a5c-9d5c-1270fd0c0872\"/>\n
-        \       <start_time>2012-03-08T12:05:44.294Z</start_time>\n        <creation_time>2011-10-06T13:52:14.250+02:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>2147483648</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.32.90\"/>\n            </ips>\n        </guest_info>\n        <usb>\n
-        \           <enabled>false</enabled>\n        </usb>\n    </vm>\n    <vm id=\"87311041-db59-4a48-afca-d14d126d1ab3\"
-        href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3\">\n        <name>openstack-nova</name>\n
-        \       <actions>\n            <link rel=\"shutdown\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/shutdown\"/>\n
-        \           <link rel=\"start\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/start\"/>\n
-        \           <link rel=\"stop\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/stop\"/>\n
-        \           <link rel=\"suspend\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/suspend\"/>\n
-        \           <link rel=\"detach\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/detach\"/>\n
-        \           <link rel=\"export\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/export\"/>\n
-        \           <link rel=\"move\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/move\"/>\n
-        \           <link rel=\"ticket\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/ticket\"/>\n
-        \           <link rel=\"migrate\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/migrate\"/>\n
-        \       </actions>\n        <link rel=\"disks\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/disks\"/>\n
-        \       <link rel=\"nics\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/nics\"/>\n
-        \       <link rel=\"cdroms\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/cdroms\"/>\n
-        \       <link rel=\"snapshots\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/snapshots\"/>\n
-        \       <link rel=\"tags\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/tags\"/>\n
-        \       <link rel=\"permissions\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/permissions\"/>\n
-        \       <link rel=\"statistics\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/statistics\"/>\n
-        \       <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>4194304000</memory>\n        <cpu>\n            <topology
-        cores=\"1\" sockets=\"4\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>true</enabled>\n            <priority>50</priority>\n
-        \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5900</port>\n
-        \           <monitors>1</monitors>\n        </display>\n        <host id=\"104caf44-cff8-11e0-9f1a-52540013f702\"
-        href=\"/api/hosts/104caf44-cff8-11e0-9f1a-52540013f702\"/>\n        <cluster
-        id=\"3c8af388-cff6-11e0-9267-52540013f702\" href=\"/api/clusters/3c8af388-cff6-11e0-9267-52540013f702\"/>\n
-        \       <template id=\"00000000-0000-0000-0000-000000000000\" href=\"/api/templates/00000000-0000-0000-0000-000000000000\"/>\n
-        \       <start_time>2012-03-08T12:02:01.295Z</start_time>\n        <creation_time>2012-02-22T12:24:56.368+01:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>4194304000</guaranteed>\n
-        \       </memory_policy>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n</vms>\n"
+        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n</vms>\n"
     http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:23 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/nics
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics
     body:
       encoding: US-ASCII
       string: ''
@@ -396,36 +336,41 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:26:22 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=HsRA1ErENSdhyYFN0EDJKkYn; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '703'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
+      - '1052'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic id=\"643940c2-b192-41d1-87c6-b82b238597e5\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/nics/643940c2-b192-41d1-87c6-b82b238597e5\">\n
-        \       <name>nic1</name>\n        <link rel=\"statistics\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e/nics/643940c2-b192-41d1-87c6-b82b238597e5/statistics\"/>\n
-        \       <vm id=\"c63758d9-3db6-47ca-8412-4f517946910e\" href=\"/api/vms/c63758d9-3db6-47ca-8412-4f517946910e\"/>\n
-        \       <network id=\"1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\" href=\"/api/networks/1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\"/>\n
-        \       <interface>virtio</interface>\n        <mac address=\"00:1a:4a:a8:7a:4b\"/>\n
+        \   <nic href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics/6c27ca48-ce87-4490-8ae4-25178a32345d\"
+        id=\"6c27ca48-ce87-4490-8ae4-25178a32345d\">\n        <actions>\n            <link
+        href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics/6c27ca48-ce87-4490-8ae4-25178a32345d/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics/6c27ca48-ce87-4490-8ae4-25178a32345d/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
+        href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b/nics/6c27ca48-ce87-4490-8ae4-25178a32345d/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/aee171dc-f1c2-4fae-ba62-6f74baef746b\"
+        id=\"aee171dc-f1c2-4fae-ba62-6f74baef746b\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
+        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
+        \       <mac address=\"00:1a:4a:22:20:00\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:24 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/nics
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics
     body:
       encoding: US-ASCII
       string: ''
@@ -443,36 +388,41 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:26:23 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=k6Tf0wPgu04ei247DdGYH7vE; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '703'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
+      - '1052'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic id=\"e4344b0e-5cd2-4935-a3a7-fa645b29801c\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/nics/e4344b0e-5cd2-4935-a3a7-fa645b29801c\">\n
-        \       <name>nic1</name>\n        <link rel=\"statistics\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a/nics/e4344b0e-5cd2-4935-a3a7-fa645b29801c/statistics\"/>\n
-        \       <vm id=\"e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a\" href=\"/api/vms/e99de5d0-7ff4-41c9-9e3c-1cf39ebe227a\"/>\n
-        \       <network id=\"1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\" href=\"/api/networks/1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\"/>\n
-        \       <interface>virtio</interface>\n        <mac address=\"00:1a:4a:a8:7a:03\"/>\n
+        \   <nic href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be\"
+        id=\"659f9eff-d2d9-4220-bbb4-a9712fe421be\">\n        <actions>\n            <link
+        href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
+        href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712/nics/659f9eff-d2d9-4220-bbb4-a9712fe421be/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/fd15329f-bcf1-4826-bfed-601c352fc712\"
+        id=\"fd15329f-bcf1-4826-bfed-601c352fc712\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
+        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
+        \       <mac address=\"00:1a:4a:22:20:14\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:24 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/nics
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics
     body:
       encoding: US-ASCII
       string: ''
@@ -490,36 +440,41 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:26:23 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=FDra9JoECTQvZxwR78eFd1aU; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '703'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
+      - '1052'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic id=\"dd445180-105d-44ce-b989-bfe2a8e6dace\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/nics/dd445180-105d-44ce-b989-bfe2a8e6dace\">\n
-        \       <name>nic1</name>\n        <link rel=\"statistics\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f/nics/dd445180-105d-44ce-b989-bfe2a8e6dace/statistics\"/>\n
-        \       <vm id=\"58a64491-d523-4d59-8617-68ece1e3c56f\" href=\"/api/vms/58a64491-d523-4d59-8617-68ece1e3c56f\"/>\n
-        \       <network id=\"1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\" href=\"/api/networks/1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\"/>\n
-        \       <interface>virtio</interface>\n        <mac address=\"00:1a:4a:a8:7a:06\"/>\n
+        \   <nic href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee\"
+        id=\"2463f06a-ec92-411f-8c42-04ea1aaba6ee\">\n        <actions>\n            <link
+        href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
+        href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7\"
+        id=\"a841ff8e-1b13-432e-9f37-0df71b6041d7\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
+        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
+        \       <mac address=\"00:1a:4a:22:20:15\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
+  recorded_at: Wed, 07 Nov 2012 15:26:25 GMT
 - request:
     method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/nics
+    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics
     body:
       encoding: US-ASCII
       string: ''
@@ -537,125 +492,36 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - Apache-Coyote/1.1
+      Date:
+      - Wed, 07 Nov 2012 15:26:24 GMT
       Pragma:
       - No-cache
       Cache-Control:
       - no-cache
       Expires:
       - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
+      Set-Cookie:
+      - JSESSIONID=mjoHrQ1AAaqQrP-hm-YvSXoL; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '703'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
+      - '1052'
+      Connection:
+      - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic id=\"33ce633a-7422-43b6-9095-5e69b66ffaf7\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/nics/33ce633a-7422-43b6-9095-5e69b66ffaf7\">\n
-        \       <name>nic1</name>\n        <link rel=\"statistics\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae/nics/33ce633a-7422-43b6-9095-5e69b66ffaf7/statistics\"/>\n
-        \       <vm id=\"445fccf4-9bee-4da5-8155-9ff8d581c4ae\" href=\"/api/vms/445fccf4-9bee-4da5-8155-9ff8d581c4ae\"/>\n
-        \       <network id=\"1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\" href=\"/api/networks/1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\"/>\n
-        \       <interface>virtio</interface>\n        <mac address=\"00:1a:4a:a8:7a:1c\"/>\n
+        \   <nic href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56\"
+        id=\"25512ddd-4671-4613-9793-88fe3e76cd56\">\n        <actions>\n            <link
+        href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>eth0</name>\n        <link
+        href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c\"
+        id=\"a921bfe6-9ba6-4761-9e95-42737768ff8c\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
+        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
+        \       <mac address=\"00:1a:4a:22:20:19\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
-- request:
-    method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/nics
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - Apache-Coyote/1.1
-      Pragma:
-      - No-cache
-      Cache-Control:
-      - no-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '703'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic id=\"6a2a1768-7f72-4f8c-b472-6a010a9f193a\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/nics/6a2a1768-7f72-4f8c-b472-6a010a9f193a\">\n
-        \       <name>nic1</name>\n        <link rel=\"statistics\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166/nics/6a2a1768-7f72-4f8c-b472-6a010a9f193a/statistics\"/>\n
-        \       <vm id=\"4d8c4996-ea1a-44d5-8540-4582eba76166\" href=\"/api/vms/4d8c4996-ea1a-44d5-8540-4582eba76166\"/>\n
-        \       <network id=\"1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\" href=\"/api/networks/1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\"/>\n
-        \       <interface>virtio</interface>\n        <mac address=\"00:1a:4a:a8:7a:04\"/>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
-- request:
-    method: get
-    uri: https://vdcadmin%40rhev.lab.eng.brq.redhat.com:123456@rhev30-dc.lab.eng.brq.redhat.com:8443/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/nics
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - Apache-Coyote/1.1
-      Pragma:
-      - No-cache
-      Cache-Control:
-      - no-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      X-Powered-By:
-      - Servlet 2.5; JBoss-5.0/JBossWeb-2.1
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '703'
-      Date:
-      - Wed, 25 Jul 2012 11:50:11 GMT
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic id=\"575030ef-3d28-4f92-a330-594b8a3ab1c6\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/nics/575030ef-3d28-4f92-a330-594b8a3ab1c6\">\n
-        \       <name>nic1</name>\n        <link rel=\"statistics\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3/nics/575030ef-3d28-4f92-a330-594b8a3ab1c6/statistics\"/>\n
-        \       <vm id=\"87311041-db59-4a48-afca-d14d126d1ab3\" href=\"/api/vms/87311041-db59-4a48-afca-d14d126d1ab3\"/>\n
-        \       <network id=\"1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\" href=\"/api/networks/1aa64fd0-45ba-4e23-9603-614d1a1b8dbf\"/>\n
-        \       <interface>virtio</interface>\n        <mac address=\"00:1a:4a:a8:7a:90\"/>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Wed, 25 Jul 2012 11:51:16 GMT
-recorded_with: VCR 2.1.1
+  recorded_at: Wed, 07 Nov 2012 15:26:25 GMT
+recorded_with: VCR 2.2.5

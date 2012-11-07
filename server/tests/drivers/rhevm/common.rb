@@ -8,9 +8,9 @@ require_relative '../../test_helper'
 #
 def credentials
   {
-    :user => 'vdcadmin@rhev.lab.eng.brq.redhat.com',
-    :password => '123456',
-    :provider => 'https://rhev30-dc.lab.eng.brq.redhat.com:8443/api;645e425e-66fe-4ac9-8874-537bd10ef08d'
+    :user => 'admin@internal',
+    :password => 'redhat',
+    :provider => 'https://dell-per610-02.lab.eng.brq.redhat.com/api;9df72b84-0234-11e2-9b87-9386d9b09d4a'
   }
 end
 
