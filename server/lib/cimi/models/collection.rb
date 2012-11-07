@@ -38,7 +38,6 @@ module CIMI::Model
     # Prepare to serialize
     def prepare
       self.count = self.entries.size
-      self.count = nil if self.count == 0
       if self.class.embedded
         ["id", "href"].each { |a| self[a] = nil if self[a] == "" }
         # Handle href and id, which are really just aliases of one another

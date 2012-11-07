@@ -235,7 +235,7 @@ class CIMI::Model::Schema
 
     def to_xml(model, xml)
       model[name].prepare
-      if model[name].count.nil?
+      if model[name].entries.empty?
         xml[xml_name] = { "href" => model[name].href }
       else
         xml[xml_name] = @collection_class.schema.to_xml(model[name])
@@ -244,7 +244,7 @@ class CIMI::Model::Schema
 
     def to_json(model, json)
       model[name].prepare
-      if model[name].count.nil?
+      if model[name].entries.empty?
         json[json_name] = { "href" => model[name].href }
       else
         json[json_name] = @collection_class.schema.to_json(model[name])
