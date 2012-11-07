@@ -36,6 +36,16 @@ module CIMI
         @cimi["cep"]
       end
 
+      def base_uri
+        xml.xpath("/c:CloudEntryPoint/c:baseURI", ns).text
+      end
+
+      def basic_auth(u = nil, p = nil)
+        u ||= @cimi["user"]
+        p ||= @cimi["password"]
+        "Basic #{Base64.encode64("#{u}:#{p}")}"
+      end
+
       def collections
         xml.xpath("/c:CloudEntryPoint/c:*[@href]", ns).map { |c| c.name.to_sym }
       end
@@ -75,16 +85,30 @@ module CIMI::Test::Methods
     end
 
     def get(path, params = {})
-      RestClient.get path, headers(params)
+      RestClient.get absolute_url(path), headers(params)
     end
 
     private
+    def absolute_url(path)
+      if path.start_with?("http")
+        path
+      elsif path.start_with?("/")
+        api.base_uri + path
+      else
+        api.base_uri + "/#{path}"
+      end
+    end
+
     def headers(params)
-      headers = {}
+      headers = {
+        'Authorization' => api.basic_auth
+      }
       if params[:accept]
-        headers["Accept"] = "application/#{params.delete(:accept)}" if params[:accept]
-      else #default to xml
-        headers["Accept"] = "application/xml"
+        headers["Accept"] = "application/#{params.delete(:accept)}"
+      else
+        # @content_type is set by the harness below
+        # if it isn't, default to XML
+        headers["Accept"] = @content_type || "application/xml"
       end
       headers
     end
