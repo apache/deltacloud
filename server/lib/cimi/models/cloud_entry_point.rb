@@ -15,7 +15,24 @@
 
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
+  # All possible CIMI collections, in the order in which they should appear
+  # in the CEP
+  COLLECTIONS = [ "resourceMetadata", "systems", "systemTemplates",
+            "machines" , "machineTemplates", "machineConfigs",
+            "machineImages", "credentials", "credentialTemplates",
+            "volumes", "volumeTemplates", "volumeConfigs", "volumeImages",
+            "networks", "networkTemplates", "networkConfigs", "networkPorts",
+            "networkPortTemplates", "networkPortConfigs",
+            "addresses", "addressTemplates", "forwardingGroups",
+            "forwardingGroupTemplates",
+            "jobs", "meters", "meterTemplates", "meterConfigs",
+            "eventLogs", "eventLogTemplates" ]
+
   text  :base_uri, :xml_name => "baseURI", :json_name => "baseURI"
+
+  COLLECTIONS.each do |coll|
+    href coll.underscore
+  end
 
   def self.create(context)
     self.new(entities(context).merge({
