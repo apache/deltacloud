@@ -16,6 +16,11 @@
 module CIMI
   module Helper
 
+    def expand?(collection)
+      params['$expand'] == '*' ||
+        (params['$expand'] || '').split(',').include?(collection.to_s)
+    end
+
     def no_content_with_status(code=200)
       body ''
       status code

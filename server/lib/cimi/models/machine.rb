@@ -114,7 +114,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   def self.from_instance(instance, context)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
-    self.new(
+    machine_spec = {
       :name => instance.id,
       :description => instance.name,
       :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time).xmlschema,
@@ -122,11 +122,19 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
       :memory => memory || convert_instance_memory(instance.instance_profile, context),
-      :disks => CIMI::Model::Disk.find(instance, machine_conf, context, :all),
+      :disks => { :href => context.machine_url(instance.id)+"/disks"},
+      :volumes => { :href=>context.machine_url(instance.id)+"/volumes"},
       :operations => convert_instance_actions(instance, context),
-      :volumes => CIMI::Model::MachineVolume.find(instance.id, context, :all),
       :property => convert_instance_properties(instance, context)
-    )
+    }
+    if context.expand? :disks
+      machine_spec[:disks] = CIMI::Model::Disk.find(instance, machine_conf, context, :all)
+    end
+    if context.expand? :volumes
+      machine_spec[:volumes] = CIMI::Model::MachineVolume.find(instance.id, context, :all)
+    end
+    machine = self.new(machine_spec)
+    machine
   end
 
   # FIXME: This will convert 'RUNNING' state to 'STARTED'

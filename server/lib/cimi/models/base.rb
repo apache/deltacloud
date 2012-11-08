@@ -173,6 +173,7 @@ class CIMI::Model::Resource
   def prepare
     self.class.schema.collections.map { |coll| coll.name }.each do |n|
       self[n].href = "#{self.id}/#{n}" unless self[n].href
+      self[n].id = "#{self.id}/#{n}" if !self[n].entries.empty?
     end
   end
 

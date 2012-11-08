@@ -5,6 +5,8 @@ require_relative './common.rb'
 
 describe CIMI::Collections::Machines do
 
+  NS = { "c" => "http://schemas.dmtf.org/cimi/1" }
+
   before do
     def app; run_frontend(:cimi) end
     authorize 'mockuser', 'mockpassword'
@@ -31,6 +33,43 @@ describe CIMI::Collections::Machines do
     get root_url '/machines/inst1'
     status.must_equal 200
     xml.root.name.must_equal 'Machine'
+  end
+
+  describe "$expand" do
+    def machine(*expand)
+      url = '/machines/inst1'
+      url += "?$expand=#{expand.join(",")}" unless expand.empty?
+      get root_url url
+      status.must_equal 200
+    end
+
+    def ids(coll)
+      xml.xpath("/c:Machine/c:#{coll}/c:id", NS)
+    end
+
+    it "should not expand collections when missing" do
+      machine
+      ids(:disks).must_be_empty
+      ids(:volumes).must_be_empty
+    end
+
+    it "should expand named collections" do
+      machine :disks
+      ids(:disks).size.must_equal 1
+      ids(:volumes).must_be_empty
+    end
+
+    it "should expand multiple named collections" do
+      machine :disks, :volumes
+      ids(:disks).size.must_equal 1
+      ids(:volumes).size.must_equal 1
+    end
+
+    it "should expand all collections with *" do
+      machine "*"
+      ids(:disks).size.must_equal 1
+      ids(:volumes).size.must_equal 1
+    end
   end
 
   it 'should not return non-existing machine' do

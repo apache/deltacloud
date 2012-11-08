@@ -82,6 +82,7 @@ module CIMI::Model
       entry_schema = model_class.schema
       coll_class.instance_eval do
         text :id
+        scalar :href
         text :count
         scalar :href if opts[:embedded]
         array self.entry_name, :schema => entry_schema, :xml_name => model_name
