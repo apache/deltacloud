@@ -22,7 +22,10 @@ end
 
 # Make the test output more nice and readable
 #
-require 'turn' rescue nil
+begin
+  require 'turn'
+rescue LoadError
+end
 
 begin
   require "minitest/reporters"
