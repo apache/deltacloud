@@ -124,7 +124,7 @@ module CIMI::Collections
         description "Retrieve the Network's NetworkPortCollection"
         param :id, :string, :required
         control do
-          network_ports = NetworkPortCollection.for_network(params[:id], self)
+          network_ports = NetworkPort.collection_for_network(params[:id], self)
           respond_to do |format|
             format.json {network_ports.to_json}
             format.xml  {network_ports.to_xml}

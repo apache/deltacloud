@@ -25,7 +25,7 @@ class CIMI::Model::Network < CIMI::Model::Base
 
   text :class_of_service
 
-  href :network_ports
+  collection :network_ports, :class => CIMI::Model::NetworkPort
 
   href :forwarding_group
 
@@ -43,6 +43,11 @@ class CIMI::Model::Network < CIMI::Model::Base
       networks = context.driver.networks(context.credentials, {:env=>context})
     else
       networks = context.driver.networks(context.credentials, {:id=>id, :env=>context})
+    end
+    if context.expand? :networkPorts
+      networks.each do |network|
+        network.network_ports = CIMI::Model::NetworkPort.collection_for_network(network.id, context)
+      end
     end
     networks
   end

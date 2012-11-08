@@ -74,6 +74,19 @@ class CIMI::Model::NetworkPort < CIMI::Model::Base
     end
   end
 
+  def self.collection_for_network(network_id, context)
+    net_url = context.network_url(network_id)
+    network_ports = CIMI::Model::NetworkPort.all(context)
+    ports_collection = network_ports.inject([]){|res, current| res << current if current.network.href == net_url ; res}
+    CIMI::Model::NetworkPortCollection.new(
+      :id => net_url+"/network_ports",
+      :name => 'default',
+      :created => Time.now,
+      :description => "#{context.driver.name.capitalize} NetworkPortCollection",
+      :count => ports_collection.size,
+      :network_ports => ports_collection
+    )
+  end
 
   private
 
