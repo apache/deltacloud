@@ -25,7 +25,7 @@
       %li
         %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
           - @image.hardware_profiles.each do |hwp|
-            %a{ :href => url_for("hardware_profiles/#{hwp.name}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
+            %a{ :href => url_for("hardware_profiles/#{hwp.id}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }

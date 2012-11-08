@@ -89,7 +89,7 @@
         %h3 Instance profile
         %fieldset{ :'data-role' => :fieldcontain}
           - @hardware_profiles.each do |profile|
-            %input{ :type => :radio, :name => 'hwp_id', :value => profile.name, :id => profile.name, :'data-theme' => 'b'}/
+            %input{ :type => :radio, :name => 'hwp_id', :value => profile.id, :id => profile.name, :'data-theme' => 'b'}/
             %label{ :for => profile.name, :onclick => "expandHWP('#{profile.name}');"}=profile.name
             %div{ :'data-role' => :fieldcontain, :id => "property_container_#{profile.name}", :class => 'hwp_properties'}
 
