@@ -27,6 +27,7 @@ module Deltacloud
         feature :instances, :authentication_key
         feature :instances, :authentication_password
         feature :instances, :user_files
+        feature :instances, :user_data
         feature :images, :user_name
         feature :keys, :import_key
 
