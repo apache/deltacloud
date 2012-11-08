@@ -23,9 +23,8 @@ module CIMI::Collections
 
       operation :index, :with_capability => :networks do
         description "List all Networks"
-        param :CIMISelect,  :string,  :optional
         control do
-          networks = Network.list(self).filter_by(params[:CIMISelect])
+          networks = Network.list(self).filter_by(params['$select'])
           respond_to do |format|
             format.xml { networks.to_xml }
             format.json { networks.to_json }

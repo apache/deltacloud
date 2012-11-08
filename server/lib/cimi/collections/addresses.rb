@@ -24,9 +24,8 @@ module CIMI::Collections
 
       operation :index, :with_capability => :addresses do
         description 'List all Addresses in the AddressCollection'
-        param :CIMISelect, :string, :optional
         control do
-          addresses = Address.list(self).filter_by(params[:CIMISelect])
+          addresses = Address.list(self).filter_by(params['$select'])
           respond_to do |format|
             format.xml {addresses.to_xml}
             format.json {addresses.to_json}

@@ -22,9 +22,8 @@ module CIMI::Collections
 
       operation :index, :with_capability => :address_templates do
         description 'List all AddressTemplates in the AddressTemplateCollection'
-        param :CIMISelect, :string, :optional
         control do
-          address_templates = AddressTemplate.list(self).filter_by(params[:CIMISelect])
+          address_templates = AddressTemplate.list(self).filter_by(params['$select'])
           respond_to do |format|
             format.xml {address_templates.to_xml}
             format.json {address_templates.to_json}

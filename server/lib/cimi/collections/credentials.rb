@@ -23,9 +23,8 @@ module CIMI::Collections
 
       operation :index, :with_capability => :keys do
         description "List all machine admins"
-        param :CIMISelect,  :string,  :optional
         control do
-          credentials = Credential.list(self).filter_by(params[:CIMISelect])
+          credentials = Credential.list(self).filter_by(params['$select'])
           respond_to do |format|
             format.xml { credentials.to_xml }
             format.json { credentials.to_json }

@@ -22,9 +22,8 @@ module CIMI::Collections
 
       operation :index, :with_capability => :storage_volumes do
         description "Get list all VolumeConfigurations"
-        param :CIMISelect,  :string,  :optional
         control do
-          volume_configuration = VolumeConfiguration.list(self).filter_by(params[:CIMISelect])
+          volume_configuration = VolumeConfiguration.list(self).filter_by(params['$select'])
           respond_to do |format|
             format.xml { volume_configuration.to_xml }
             format.json { volume_configuration.to_json }

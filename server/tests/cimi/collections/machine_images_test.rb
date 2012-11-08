@@ -33,12 +33,29 @@ describe CIMI::Collections::MachineImages do
     xml.root.name.must_equal 'MachineImage'
   end
 
-  it 'should allow to filter using CIMISelect' do
-    get root_url '/machine_images?CIMISelect=description'
-    status.must_equal 200
-    xml.root.name.must_equal 'Collection'
-    (xml/'description').wont_be_empty
-    (xml/'id').must_be_empty
+  describe "filtering with $select" do
+    def machines(*select)
+      url = "/machine_images"
+      url += "?$select=#{select.join(",")}" unless select.empty?
+      get root_url url
+      status.must_equal 200
+    end
+
+    it 'should filter collection members' do
+      machines :description
+      (xml/'id').wont_be_empty
+      nimages = (xml/'MachineImage').size
+      (xml/'MachineImage/description').size.must_equal nimages
+      (xml/'MachineImage/id').must_be_empty
+    end
+
+    it 'should filter by multiple attributes' do
+      machines :description, :id
+      (xml/'id').wont_be_empty
+      nimages = (xml/'MachineImage').size
+      (xml/'MachineImage/description').size.must_equal nimages
+      (xml/'MachineImage/id').size.must_equal nimages
+    end
   end
 
 end

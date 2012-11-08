@@ -62,6 +62,13 @@ module CIMI::Model
       super(a, v)
     end
 
+    def filter_attributes(attr_list)
+      self[self.class.entry_name] = entries.map do |e|
+        e.filter_attributes(attr_list)
+      end
+      self
+    end
+
     def self.xml_tag_name
       "Collection"
     end

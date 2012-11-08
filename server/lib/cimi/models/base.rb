@@ -256,16 +256,6 @@ class CIMI::Model::Resource
     end
   end
 
-  private
-
-  def filter_attributes(attr_list)
-    attrs = attr_list.inject({}) do |result, attr|
-      result[attr] = self.send(attr) if self.respond_to?(attr)
-      result
-    end
-    self.class.new(attrs)
-  end
-
   def filter_by_arr_index(attr, filter)
     return self unless self.respond_to?(attr)
     self.class.new(attr => [self.send(attr)[filter.to_i]])
@@ -285,4 +275,12 @@ class CIMI::Model::Base < CIMI::Model::Resource
   text :id, :name, :description, :created
 
   hash :property
+
+  def filter_attributes(attr_list)
+    attrs = attr_list.inject({}) do |result, attr|
+      result[attr] = self.send(attr) if self.respond_to?(attr)
+      result
+    end
+    self.class.new(attrs)
+  end
 end
