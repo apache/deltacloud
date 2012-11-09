@@ -63,6 +63,8 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
         coll.must_respond_to :href, "#{root} collection"
         unless coll.href.nil?
           coll.href.must_be_uri "#{root} collection"
+          model = fetch(coll.href)
+          last_response.code.must_equal 200
         end
       end
     end
