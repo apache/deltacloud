@@ -235,6 +235,7 @@ class CIMI::Model::Resource
   def self.to_xml(model)
     xml = @schema.to_xml(model)
     xml["xmlns"] = CMWG_NAMESPACE
+    xml["resourceURI"] = resource_uri
     XmlSimple.xml_out(xml, :root_name => xml_tag_name)
   end
 

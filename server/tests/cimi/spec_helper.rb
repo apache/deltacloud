@@ -32,6 +32,9 @@ def parse_xml(xml, opts = {})
 end
 
 class HashCmp
+
+  IGNORED_KEYS = [ "resourceURI" ]
+
   def initialize(exp, act)
     @exp = exp
     @act = act
@@ -77,7 +80,7 @@ class HashCmp
       unless (missing = exp.keys - act.keys).empty?
         error "Missing key(s) at /#{path.join("/")}: #{missing.inspect}"
       end
-      unless (excess = act.keys - exp.keys).empty?
+      unless (excess = act.keys - exp.keys - IGNORED_KEYS).empty?
         error "Excess key(s) at /#{path.join("/")}: #{excess.inspect}"
       end
       (exp.keys - missing - excess).each do |k|
