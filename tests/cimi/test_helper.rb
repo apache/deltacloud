@@ -23,6 +23,9 @@ require_relative "../../server/lib/cimi/models"
 # Add CIMI specific config stuff
 module CIMI
   module Test
+
+    CIMI_NAMESPACE = "http://schemas.dmtf.org/cimi/1"
+
     class Config
 
       include Singleton
@@ -55,7 +58,7 @@ module CIMI
       end
 
       def ns
-        { "c" => "http://schemas.dmtf.org/cimi/1" }
+        { "c" => CIMI_NAMESPACE }
       end
 
       private
@@ -240,7 +243,9 @@ class CIMI::Test::Spec < MiniTest::Spec
   def retrieve(k, &block)
     response = instance_exec(@format, &block)
     assert_equal @content_type, response.headers[:content_type]
-    # FIXME: for XML check that the correct namespace is set
+    if @format == :xml
+      response.xml.namespaces["xmlns"].must_equal CIMI::Test::CIMI_NAMESPACE
+    end
     response
   end
 end
