@@ -218,11 +218,14 @@ class CIMI::Model::Schema
 
   class Collection < Attribute
     def initialize(name, opts = {})
+      params = {}
+      params[:scope] = opts.delete(:scope)
       super(name, opts)
       unless opts[:class]
         raise "Specify the class of collection entries using :class"
       end
-      @collection_class = CIMI::Model::Collection.generate(opts[:class], :embedded => true)
+      params[:embedded] = true
+      @collection_class = CIMI::Model::Collection.generate(opts[:class], params)
     end
 
     def from_xml(xml, model)
@@ -354,6 +357,7 @@ class CIMI::Model::Schema
     end
 
     def collection(name, opts={})
+      opts[:scope] = self.class
       add_attributes!([name, opts], Collection)
     end
   end

@@ -75,8 +75,9 @@ module CIMI::Model
 
     def self.generate(model_class, opts = {})
       model_name = model_class.name.split("::").last
+      scope = opts[:scope] || CIMI::Model
       coll_class = Class.new(CIMI::Model::Collection)
-      CIMI::Model.const_set(:"#{model_name}Collection", coll_class)
+      scope.const_set(:"#{model_name}Collection", coll_class)
       coll_class.entry_name = model_name.underscore.pluralize.to_sym
       coll_class.embedded = opts[:embedded]
       entry_schema = model_class.schema
