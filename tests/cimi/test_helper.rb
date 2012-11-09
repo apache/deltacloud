@@ -166,7 +166,8 @@ class CIMI::Test::Spec < MiniTest::Spec
   end
 
   def fetch(uri, model_class)
-    fetch_model(uri, model_class) { |fmt| get(uri, :accept => fmt) }
+    resp = retrieve(uri, model_class) { |fmt| get(uri, :accept => fmt) }
+    model_class.parse(resp.body, @content_type)
   end
 
   def self.it desc = "anonymous", opts = {}, &block
@@ -191,15 +192,18 @@ class CIMI::Test::Spec < MiniTest::Spec
     define_method name do
       @_memoized ||= {}
       @@_cache ||= {}
-      @_memoized.fetch("#{name}_#{@format}") do |k|
+      resp = @_memoized.fetch("#{name}_#{@format}") do |k|
         if opts[:cache]
           @_memoized[k] = @@_cache.fetch(k) do |k|
-            @@_cache[k] = fetch_model(k, model_class, &block)
+            @@_cache[k] = retrieve(k, model_class, &block)
           end
         else
-          @_memoized[k] = fetch_model(k, model_class, &block)
+          @_memoized[k] = retrieve(k, model_class, &block)
         end
       end
+      @@_cache[:last_response] ||= {}
+      @@_cache[:last_response][@format] = resp
+      model_class.parse(resp.body, @content_type)
     end
   end
 
@@ -211,13 +215,11 @@ class CIMI::Test::Spec < MiniTest::Spec
 
   private
 
-  def fetch_model(k, model_class, &block)
+  def retrieve(k, model_class, &block)
     response = instance_exec(@format, &block)
-    @@_cache[:last_response] ||= {}
-    @@_cache[:last_response][@format] = response
     assert_equal @content_type, response.headers[:content_type]
     # FIXME: for XML check that the correct namespace is set
-    model_class.parse(response.body, @content_type)
+    response
   end
 end
 
