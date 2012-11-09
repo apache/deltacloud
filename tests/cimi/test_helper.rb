@@ -88,6 +88,25 @@ module CIMI::Test::Methods
       RestClient.get absolute_url(path), headers(params)
     end
 
+    # Find the model class that can process the body of the HTTP response
+    # +resp+
+    def model_class(resp)
+      resource = nil
+      ct = resp.headers[:content_type]
+      if ct == "application/json"
+        resource = resp.json["resourceURI"].split("/").last
+      elsif ct == "application/xml"
+        if resp.xml.root.name == "Collection"
+          resource = resp.xml.root["resourceURI"].split("/").last
+        else
+          resource = resp.xml.root.name
+        end
+      else
+        raise "Unexpected content type #{response.content_type}"
+      end
+      CIMI::Model::const_get(resource)
+    end
+
     private
     def absolute_url(path)
       if path.start_with?("http")
@@ -124,9 +143,8 @@ module CIMI::Test::Methods
     end
 
     # Perform basic collection checks; +model_name+ is the name of the
-    # method returning the collection model; +member_class+ is the class
-    # for the model of individual entries
-    def check_collection(model_name, member_class)
+    # method returning the collection model
+    def check_collection(model_name)
       it "must have the \"id\" and \"count\" attributes" do
         coll = self.send(model_name)
         coll.count.wont_be_nil
@@ -137,7 +155,7 @@ module CIMI::Test::Methods
       it "must have a valid id and name for each member" do
         self.send(model_name).entries.each do |entry|
           entry.id.must_be_uri
-          member = fetch(entry.id, member_class)
+          member = fetch(entry.id)
           member.id.must_equal entry.id
           member.name.must_equal entry.name
         end
@@ -165,9 +183,9 @@ class CIMI::Test::Spec < MiniTest::Spec
     @content_type = CONTENT_TYPES[fmt]
   end
 
-  def fetch(uri, model_class)
-    resp = retrieve(uri, model_class) { |fmt| get(uri, :accept => fmt) }
-    model_class.parse(resp.body, @content_type)
+  def fetch(uri)
+    resp = retrieve(uri) { |fmt| get(uri, :accept => fmt) }
+    parse(resp)
   end
 
   def self.it desc = "anonymous", opts = {}, &block
@@ -188,22 +206,22 @@ class CIMI::Test::Spec < MiniTest::Spec
     end
   end
 
-  def self.model(name, model_class, opts = {}, &block)
+  def self.model(name, opts = {}, &block)
     define_method name do
       @_memoized ||= {}
       @@_cache ||= {}
       resp = @_memoized.fetch("#{name}_#{@format}") do |k|
         if opts[:cache]
           @_memoized[k] = @@_cache.fetch(k) do |k|
-            @@_cache[k] = retrieve(k, model_class, &block)
+            @@_cache[k] = retrieve(k, &block)
           end
         else
-          @_memoized[k] = retrieve(k, model_class, &block)
+          @_memoized[k] = retrieve(k, &block)
         end
       end
       @@_cache[:last_response] ||= {}
       @@_cache[:last_response][@format] = resp
-      model_class.parse(resp.body, @content_type)
+      parse(resp)
     end
   end
 
@@ -215,7 +233,11 @@ class CIMI::Test::Spec < MiniTest::Spec
 
   private
 
-  def retrieve(k, model_class, &block)
+  def parse(response)
+    model_class(response).parse(response.body, @content_type)
+  end
+
+  def retrieve(k, &block)
     response = instance_exec(@format, &block)
     assert_equal @content_type, response.headers[:content_type]
     # FIXME: for XML check that the correct namespace is set

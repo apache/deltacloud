@@ -22,10 +22,10 @@ class NetworkCollectionBehavior < CIMI::Test::Spec
 
   need_collection :networks
 
-  model :networks, CIMI::Model::NetworkCollection do |fmt|
+  model :networks do |fmt|
     coll_uri = cep(:accept => :json).json["networks"]["href"]
     get(coll_uri, :accept => fmt)
   end
 
-  check_collection :networks, CIMI::Model::Network
+  check_collection :networks
 end

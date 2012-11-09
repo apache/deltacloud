@@ -22,7 +22,7 @@ class MachineBehavior < CIMI::Test::Spec
 
   RESOURCE_URI = "http://schemas.dmtf.org/cimi/1/Machine"
 
-  model :machine, CIMI::Model::Machine do |fmt|
+  model :machine do |fmt|
     mcoll_uri = cep(:accept => :json).json["machines"]["href"]
     mcoll = get(mcoll_uri, :accept => :json).json
     m_url = mcoll["machines"][0]["id"]

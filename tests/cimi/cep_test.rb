@@ -34,7 +34,7 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
   RESOURCE_URI = "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
 
   # We'd like to call this :cep, but there's already a method by that name
-  model :subject, CIMI::Model::CloudEntryPoint, :cache => true do |fmt|
+  model :subject, :cache => true do |fmt|
     cep(:accept => fmt)
   end
 
