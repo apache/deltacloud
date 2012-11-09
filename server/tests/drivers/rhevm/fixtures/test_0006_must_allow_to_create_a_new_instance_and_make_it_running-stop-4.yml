@@ -20,7 +20,7 @@ http_interactions:
       Cache-Control: 
       - no-cache
       Date: 
-      - Fri, 09 Nov 2012 09:00:45 GMT
+      - Fri, 09 Nov 2012 09:01:07 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
@@ -32,7 +32,7 @@ http_interactions:
       Content-Type: 
       - application/xml
       Set-Cookie: 
-      - JSESSIONID=kvKIEmnypU3N8r0CdQ6zqh8q; Path=/api; Secure
+      - JSESSIONID=hqgwKjdOLaA+fV5lEh9+0Z7t; Path=/api; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -54,7 +54,7 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 09:00:46 GMT
+  recorded_at: Fri, 09 Nov 2012 09:01:08 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms?search=datacenter=Default
@@ -75,7 +75,7 @@ http_interactions:
       Cache-Control: 
       - no-cache
       Date: 
-      - Fri, 09 Nov 2012 09:00:45 GMT
+      - Fri, 09 Nov 2012 09:01:08 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
@@ -87,7 +87,7 @@ http_interactions:
       Content-Type: 
       - application/xml
       Set-Cookie: 
-      - JSESSIONID=46hcYRkK7zLQJ1ecrxyg66lY; Path=/api; Secure
+      - JSESSIONID=Mk1yQ-Wr-f1gf+QJRh1ZBfnT; Path=/api; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -223,6 +223,11 @@ http_interactions:
                 <memory_policy>
                     <guaranteed>1073741824</guaranteed>
                 </memory_policy>
+                <guest_info>
+                    <ips>
+                        <ip address="10.34.33.163"/>
+                    </ips>
+                </guest_info>
                 <quota id="00000000-0000-0000-0000-000000000000"/>
                 <usb>
                     <enabled>false</enabled>
@@ -500,61 +505,7 @@ http_interactions:
         </vms>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 09:00:46 GMT
-- request: 
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/1fbe1fc8-9814-4af8-955e-915b67f07a9c/nics
-    body: 
-      string: ""
-    headers: 
-      Accept-Encoding: 
-      - gzip, deflate
-      Content-Type: 
-      - application/xml
-      Accept: 
-      - application/xml
-  response: 
-    status: 
-      code: 200
-      message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Date: 
-      - Fri, 09 Nov 2012 09:00:45 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
-      - close
-      Content-Length: 
-      - "1052"
-      Pragma: 
-      - No-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=QykGwpgoneGLx6who6TctmSP; Path=/api; Secure
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <nics>
-            <nic href="/api/vms/1fbe1fc8-9814-4af8-955e-915b67f07a9c/nics/a03e3218-81a5-47c4-9193-aaba4cccfa09" id="a03e3218-81a5-47c4-9193-aaba4cccfa09">
-                <actions>
-                    <link href="/api/vms/1fbe1fc8-9814-4af8-955e-915b67f07a9c/nics/a03e3218-81a5-47c4-9193-aaba4cccfa09/deactivate" rel="deactivate"/>
-                    <link href="/api/vms/1fbe1fc8-9814-4af8-955e-915b67f07a9c/nics/a03e3218-81a5-47c4-9193-aaba4cccfa09/activate" rel="activate"/>
-                </actions>
-                <name>nic1</name>
-                <link href="/api/vms/1fbe1fc8-9814-4af8-955e-915b67f07a9c/nics/a03e3218-81a5-47c4-9193-aaba4cccfa09/statistics" rel="statistics"/>
-                <vm href="/api/vms/1fbe1fc8-9814-4af8-955e-915b67f07a9c" id="1fbe1fc8-9814-4af8-955e-915b67f07a9c"/>
-                <network href="/api/networks/00000000-0000-0000-0000-000000000009" id="00000000-0000-0000-0000-000000000009"/>
-                <interface>virtio</interface>
-                <mac address="00:1a:4a:22:20:00"/>
-                <active>true</active>
-            </nic>
-        </nics>
-
-    http_version: 
-  recorded_at: Fri, 09 Nov 2012 09:00:46 GMT
+  recorded_at: Fri, 09 Nov 2012 09:01:09 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics
@@ -575,7 +526,7 @@ http_interactions:
       Cache-Control: 
       - no-cache
       Date: 
-      - Fri, 09 Nov 2012 09:00:46 GMT
+      - Fri, 09 Nov 2012 09:01:08 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
@@ -587,7 +538,7 @@ http_interactions:
       Content-Type: 
       - application/xml
       Set-Cookie: 
-      - JSESSIONID=882n7HWXIzvPcZmRESz43FdX; Path=/api; Secure
+      - JSESSIONID=WnyZvkvUP44NM7you6I1CidH; Path=/api; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -608,5 +559,5 @@ http_interactions:
         </nics>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 09:00:47 GMT
+  recorded_at: Fri, 09 Nov 2012 09:01:09 GMT
 recorded_with: VCR 2.2.5

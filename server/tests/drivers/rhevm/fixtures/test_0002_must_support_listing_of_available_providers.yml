@@ -1,258 +1,288 @@
----
-http_interactions:
-- request:
+--- 
+http_interactions: 
+- request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
+    body: 
+      string: ""
+    headers: 
+      Accept-Encoding: 
       - gzip, deflate
-      Content-Type:
+      Accept: 
       - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
+      Content-Type: 
+      - application/xml
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Date:
-      - Wed, 07 Nov 2012 15:16:50 GMT
-      Pragma:
-      - No-cache
-      Cache-Control:
+    headers: 
+      Cache-Control: 
       - no-cache
-      Expires:
+      Set-Cookie: 
+      - JSESSIONID=h7f3qnaplTkRKUZ8+W1b-RJv; Path=/api; Secure
+      Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
-      Set-Cookie:
-      - JSESSIONID=gKLjX0BzrcWqpc4IqeUSBMLz; Path=/api; Secure
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '923'
-      Connection:
+      Date: 
+      - Fri, 09 Nov 2012 08:54:59 GMT
+      Connection: 
       - close
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
-        id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
-        \       <description>The default Data Center</description>\n        <link
-        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
-        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
-        rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
-        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
-        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
-        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
+      Content-Length: 
+      - "923"
+      Pragma: 
+      - No-cache
+      Content-Type: 
+      - application/xml
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <data_centers>
+            <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
+                <name>Default</name>
+                <description>The default Data Center</description>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
+                <storage_type>nfs</storage_type>
+                <storage_format>v3</storage_format>
+                <version major="3" minor="1"/>
+                <supported_versions>
+                    <version major="3" minor="1"/>
+                </supported_versions>
+                <status>
+                    <state>up</state>
+                </status>
+            </data_center>
+        </data_centers>
+
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:16:51 GMT
-- request:
+  recorded_at: Fri, 09 Nov 2012 08:55:00 GMT
+- request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
+    body: 
+      string: ""
+    headers: 
+      Accept-Encoding: 
       - gzip, deflate
-      Content-Type:
+      Accept: 
       - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
+      Content-Type: 
+      - application/xml
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Date:
-      - Wed, 07 Nov 2012 15:16:50 GMT
-      Pragma:
-      - No-cache
-      Cache-Control:
+    headers: 
+      Cache-Control: 
       - no-cache
-      Expires:
+      Set-Cookie: 
+      - JSESSIONID=14yc+sUOb1tHQMX+5bUK2RAD; Path=/api; Secure
+      Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
-      Set-Cookie:
-      - JSESSIONID=xrwKmIJXF8olS0AKMPUoCNws; Path=/api; Secure
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '923'
-      Connection:
+      Date: 
+      - Fri, 09 Nov 2012 08:55:00 GMT
+      Connection: 
       - close
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
-        id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
-        \       <description>The default Data Center</description>\n        <link
-        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
-        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
-        rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
-        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
-        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
-        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
+      Content-Length: 
+      - "923"
+      Pragma: 
+      - No-cache
+      Content-Type: 
+      - application/xml
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <data_centers>
+            <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
+                <name>Default</name>
+                <description>The default Data Center</description>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
+                <storage_type>nfs</storage_type>
+                <storage_format>v3</storage_format>
+                <version major="3" minor="1"/>
+                <supported_versions>
+                    <version major="3" minor="1"/>
+                </supported_versions>
+                <status>
+                    <state>up</state>
+                </status>
+            </data_center>
+        </data_centers>
+
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:16:52 GMT
-- request:
+  recorded_at: Fri, 09 Nov 2012 08:55:01 GMT
+- request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
+    body: 
+      string: ""
+    headers: 
+      Accept-Encoding: 
       - gzip, deflate
-      Content-Type:
+      Accept: 
       - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
+      Content-Type: 
+      - application/xml
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Date:
-      - Wed, 07 Nov 2012 15:16:51 GMT
-      Pragma:
-      - No-cache
-      Cache-Control:
+    headers: 
+      Cache-Control: 
       - no-cache
-      Expires:
+      Set-Cookie: 
+      - JSESSIONID=nQmnRxXpMITC9uBeIXhZGQNg; Path=/api; Secure
+      Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
-      Set-Cookie:
-      - JSESSIONID=CdFKHi0h7cIcCW2vasKD2ZcC; Path=/api; Secure
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '923'
-      Connection:
+      Date: 
+      - Fri, 09 Nov 2012 08:55:00 GMT
+      Connection: 
       - close
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
-        id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
-        \       <description>The default Data Center</description>\n        <link
-        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
-        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
-        rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
-        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
-        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
-        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
+      Content-Length: 
+      - "923"
+      Pragma: 
+      - No-cache
+      Content-Type: 
+      - application/xml
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <data_centers>
+            <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
+                <name>Default</name>
+                <description>The default Data Center</description>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
+                <storage_type>nfs</storage_type>
+                <storage_format>v3</storage_format>
+                <version major="3" minor="1"/>
+                <supported_versions>
+                    <version major="3" minor="1"/>
+                </supported_versions>
+                <status>
+                    <state>up</state>
+                </status>
+            </data_center>
+        </data_centers>
+
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:16:52 GMT
-- request:
+  recorded_at: Fri, 09 Nov 2012 08:55:01 GMT
+- request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
+    body: 
+      string: ""
+    headers: 
+      Accept-Encoding: 
       - gzip, deflate
-      Content-Type:
+      Accept: 
       - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
+      Content-Type: 
+      - application/xml
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Date:
-      - Wed, 07 Nov 2012 15:16:51 GMT
-      Pragma:
-      - No-cache
-      Cache-Control:
+    headers: 
+      Cache-Control: 
       - no-cache
-      Expires:
+      Set-Cookie: 
+      - JSESSIONID=7XVt32mkNyDbHxLuHZe2q4DK; Path=/api; Secure
+      Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
-      Set-Cookie:
-      - JSESSIONID=wkNofeEasRUic0FTb29WRM3V; Path=/api; Secure
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '923'
-      Connection:
+      Date: 
+      - Fri, 09 Nov 2012 08:55:00 GMT
+      Connection: 
       - close
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
-        id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
-        \       <description>The default Data Center</description>\n        <link
-        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
-        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
-        rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
-        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
-        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
-        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
+      Content-Length: 
+      - "923"
+      Pragma: 
+      - No-cache
+      Content-Type: 
+      - application/xml
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <data_centers>
+            <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
+                <name>Default</name>
+                <description>The default Data Center</description>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
+                <storage_type>nfs</storage_type>
+                <storage_format>v3</storage_format>
+                <version major="3" minor="1"/>
+                <supported_versions>
+                    <version major="3" minor="1"/>
+                </supported_versions>
+                <status>
+                    <state>up</state>
+                </status>
+            </data_center>
+        </data_centers>
+
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:16:52 GMT
-- request:
+  recorded_at: Fri, 09 Nov 2012 08:55:01 GMT
+- request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters?search=
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
+    body: 
+      string: ""
+    headers: 
+      Accept-Encoding: 
       - gzip, deflate
-      Content-Type:
+      Accept: 
       - application/xml
-      User-Agent:
-      - Ruby
-  response:
-    status:
+      Content-Type: 
+      - application/xml
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Date:
-      - Wed, 07 Nov 2012 15:16:52 GMT
-      Pragma:
-      - No-cache
-      Cache-Control:
+    headers: 
+      Cache-Control: 
       - no-cache
-      Expires:
+      Set-Cookie: 
+      - JSESSIONID=ChiSJjPIp0EOcaIQMLC6QaFL; Path=/api; Secure
+      Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
-      Set-Cookie:
-      - JSESSIONID=s-+u0mGBM6zOGcIdQXBcK0xV; Path=/api; Secure
-      Content-Type:
-      - application/xml
-      Content-Length:
-      - '923'
-      Connection:
+      Date: 
+      - Fri, 09 Nov 2012 08:55:00 GMT
+      Connection: 
       - close
-    body:
-      encoding: US-ASCII
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
-        \   <data_center href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\"
-        id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n        <name>Default</name>\n
-        \       <description>The default Data Center</description>\n        <link
-        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
-        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
-        rel=\"quotas\"/>\n        <storage_type>nfs</storage_type>\n        <storage_format>v3</storage_format>\n
-        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
-        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
-        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
+      Content-Length: 
+      - "923"
+      Pragma: 
+      - No-cache
+      Content-Type: 
+      - application/xml
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <data_centers>
+            <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
+                <name>Default</name>
+                <description>The default Data Center</description>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
+                <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
+                <storage_type>nfs</storage_type>
+                <storage_format>v3</storage_format>
+                <version major="3" minor="1"/>
+                <supported_versions>
+                    <version major="3" minor="1"/>
+                </supported_versions>
+                <status>
+                    <state>up</state>
+                </status>
+            </data_center>
+        </data_centers>
+
     http_version: 
-  recorded_at: Wed, 07 Nov 2012 15:16:53 GMT
+  recorded_at: Fri, 09 Nov 2012 08:55:02 GMT
 recorded_with: VCR 2.2.5

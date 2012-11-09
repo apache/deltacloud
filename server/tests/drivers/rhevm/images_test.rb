@@ -62,7 +62,7 @@ describe 'RhevmDriver Images' do
   end
 
   it 'must support destroying images' do
-    image = @driver.image(:id => '6d0285c9-682d-4e0f-8cf8-abd3ac9530be')
+    image = @driver.image(:id => '5472e759-dee1-4e90-a2bf-79b61a601e80')
     image.wont_be_nil
     image.state.must_equal 'OK'
     @driver.destroy_image(image.id)
