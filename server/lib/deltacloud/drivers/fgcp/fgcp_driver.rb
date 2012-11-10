@@ -349,6 +349,12 @@ class FgcpDriver < Deltacloud::BaseDriver
     network_id = opts[:realm_id]
     safely do
       client = new_client(credentials)
+      if not network_id
+        xml = client.list_vsys['vsyss']
+
+        # use first returned system's DMZ as realm
+        network_id = xml ? xml[0]['vsys'][0]['vsysId'][0] + '-N-DMZ' : nil
+      end
       xml = client.create_vserver(name, hwp, image_id, network_id)
       # returns vserver details
       instances(credentials, {:id => xml['vserverId'][0]}).first
@@ -485,7 +491,7 @@ class FgcpDriver < Deltacloud::BaseDriver
       elsif xml = client.list_vsys['vsyss']
 
         # use first vsys returned as realm
-        opts[:realm_id] = xml[0]['vsys'][0]['vsysId'][0]
+        opts[:realm_id] = xml[0]['vsys'][0]['vsysId'][0] if xml
       end
 
       vdisk_id = client.create_vdisk(opts[:realm_id], opts[:name], opts[:capacity])['vdiskId'][0]
@@ -700,8 +706,8 @@ class FgcpDriver < Deltacloud::BaseDriver
         opts[:realm_id] = client.extract_vsys_id(opts[:realm_id])
       else
         # get first vsys
-        xml = client.list_vsys
-        opts[:realm_id] = xml['vsyss'][0]['vsys'][0]['vsysId'][0] if xml['vsyss']
+        xml = client.list_vsys['vsyss']
+        opts[:realm_id] = xml[0]['vsys'][0]['vsysId'][0] if xml
       end
 
       client.allocate_public_ip(opts[:realm_id])
@@ -1191,6 +1197,12 @@ eofwopxml
       # if opts['realm_id'].nil? network id specified, pick first vsys' DMZ?
       # CreateEFM -vsysId vsysId -efmType SLB -efmName opts['name'] -networkId opts['realm_id']
       network_id = opts[:realm_id]
+      if not network_id
+        xml = client.list_vsys['vsyss']
+
+        # use first returned system's DMZ as realm
+        network_id = xml ? xml[0]['vsys'][0]['vsysId'][0] + '-N-DMZ' : nil
+      end
       efm = client.create_efm('SLB', opts[:name], network_id)
 #        [{:load_balancer_port => opts['listener_balancer_port'],
 #          :instance_port => opts['listener_instance_port'],
@@ -1464,7 +1476,8 @@ eofwopxml
         vsys_id = client.extract_vsys_id(instance.id)
         if slbs = client.list_efm(vsys_id, 'SLB')['efms']
           slbs[0]['efm'].find do |slb|
-            instance.private_addresses << InstanceAddress.new(slb['slbVip'][0], :type => :ipv4) if slb['efmId'][0] == instance.id
+            # note that slbVip may not be set yet (in just created SLBs)
+            instance.private_addresses << InstanceAddress.new(slb['slbVip'][0], :type => :ipv4) if slb['slbVip'] and slb['efmId'][0] == instance.id
           end
         end
       end

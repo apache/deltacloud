@@ -47,9 +47,17 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_json(body, context)
     json = JSON.parse(body)
-    hardware_profile_id = json['machineTemplate']['machineConfig']["href"].split('/').last
-    image_id = json['machineTemplate']['machineImage']["href"].split('/').last
-    instance = context.driver.create_instance(context.credentials, image_id, { :hwp_id => hardware_profile_id })
+    machine_template = json['machineTemplate']
+    hardware_profile_id = machine_template['machineConfig']["href"].split('/').last
+    image_id = machine_template['machineImage']["href"].split('/').last
+    additional_params = {}
+    additional_params[:name] = json['name'] if json['name']
+    if machine_template.has_key? 'credential'
+      additional_params[:keyname] = machine_template['credential']["href"].split('/').last
+    end
+    instance = context.driver.create_instance(context.credentials, image_id, {
+      :hwp_id => hardware_profile_id
+    }.merge(additional_params))
     from_instance(instance, context)
   end
 
@@ -59,7 +67,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     hardware_profile_id = machine_template['machineConfig'][0]["href"].split('/').last
     image_id = machine_template['machineImage'][0]["href"].split('/').last
     additional_params = {}
-    additional_params[:name] =xml['name'][0] if xml['name']
+    additional_params[:name] = xml['name'][0] if xml['name']
     if machine_template.has_key? 'credential'
       additional_params[:keyname] = machine_template['credential'][0]["href"].split('/').last
     end
