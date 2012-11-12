@@ -18,12 +18,9 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
   acts_as_root_entity :as => "volumeConfigs"
 
   text :format
-  struct :capacity do
-    scalar :quantity
-    scalar :units
-  end
-  text :supports_snapshots
-  text :guest_interface
+
+  text :capacity
+
   array :operations do
     scalar :rel, :href
   end
@@ -50,10 +47,10 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
   def self.create(size, context)
     self.new( {
                 :id => context.volume_configuration_url(size),
-                :name => size,
-                :description => "volume configuration with #{size} GiB",
+                :name => "volume-#{size}",
+                :description => "Volume configuration with #{size} kilobytes",
                 :created => Time.now.xmlschema,
-                :capacity => {:quantity=>size, :units=>"gibibytes"},
+                :capacity => context.to_kibibyte(size, "MB"),
                 :supports_snapshots => "true"
                 # FIXME :guest_interface => "NFS"
             } )
