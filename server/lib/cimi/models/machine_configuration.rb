@@ -42,7 +42,6 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
   end
 
   private
-
   def self.from_hardware_profile(profile, context)
     # We accept just profiles with all properties set
     return unless profile.memory or profile.cpu or profile.storage
@@ -56,7 +55,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
       :cpu => ( cpu if cpu ) ,
       :created => Time.now.xmlschema,  # FIXME: DC hardware_profile has no mention about created_at
       :memory => (memory if memory),
-      :disks => (  [ { :capacity => storage  } ] if storage ),
+      :disks => (  [ { :capacity => storage, :format => (profile.storage.respond_to?(:format) ? profile.storage.format : "unknown")  } ] if storage ), #no format attr for hwp - may be added if providers support...,
       :id => context.machine_configuration_url(profile.name)
     }
     self.new(machine_hash)
