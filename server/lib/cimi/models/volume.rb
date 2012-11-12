@@ -17,16 +17,21 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   acts_as_root_entity
 
+  text :state
+
+  href :type
+
   struct :capacity do
     scalar :quantity
     scalar :units
   end
+
   text :bootable
-  text :supports_snapshots
+
   array :snapshots do
     scalar :ref
   end
-  text :guest_interface
+
   array :meters do
     scalar :ref
   end
@@ -94,9 +99,9 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :id => context.volume_url(volume.id),
                 :capacity => { :quantity=>volume.capacity, :units=>"gibibyte"  }, #FIXME... units will vary
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
-                :supports_snapshots => "true", #fixme, will vary (true for ec2)
                 :snapshots => [], #fixme...
-                :guest_interface => "",
+                :type => { :href => 'http://schemas.dmtf.org/cimi/1/mapped' },
+                :state => volume.state,
                 :meters => []
             } )
   end
