@@ -149,7 +149,11 @@ class CIMI::Model::Machine < CIMI::Model::Base
   # which is defined in CIMI (p65)
   #
   def self.convert_instance_state(state)
-    ('RUNNING' == state) ? 'STARTED' : state
+    case state
+      when "RUNNING" then "STARTED"
+      when "PENDING" then "CREATING" #aruba only exception... could be "STARTING" here
+      else state
+    end
   end
 
   def self.convert_instance_properties(instance, context)
@@ -190,11 +194,13 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   def self.convert_instance_actions(instance, context)
-    instance.actions.collect do |action|
+    actions = instance.actions.collect do |action|
       action = :destroy if action == :delete # In CIMI destroy operation become delete
       action = :restart if action == :reboot  # In CIMI reboot operation become restart
       { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://schemas.dmtf.org/cimi/1/action/#{action}" }
     end
+    actions <<  { :href => context.send(:"machine_images_url"), :rel => "http://schemas.dmtf.org/cimi/1/action/capture" } if instance.can_create_image?
+    actions
   end
 
   def self.convert_storage_volumes(instance, context)
