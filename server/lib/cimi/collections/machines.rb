@@ -52,6 +52,7 @@ module CIMI::Collections
             new_machine = Machine.create_from_xml(request.body.read, self)
           end
           status 201 # Created
+          headers 'Location' => new_machine.id
           respond_to do |format|
             format.json { new_machine.to_json }
             format.xml { new_machine.to_xml }
