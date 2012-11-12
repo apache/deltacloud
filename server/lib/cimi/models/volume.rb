@@ -19,12 +19,9 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   text :state
 
-  href :type
+  text :type
 
-  struct :capacity do
-    scalar :quantity
-    scalar :units
-  end
+  text :capacity
 
   text :bootable
 
@@ -100,7 +97,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :capacity => { :quantity=>volume.capacity, :units=>"gibibyte"  }, #FIXME... units will vary
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
                 :snapshots => [], #fixme...
-                :type => { :href => 'http://schemas.dmtf.org/cimi/1/mapped' },
+                :type => 'http://schemas.dmtf.org/cimi/1/mapped',
                 :state => volume.state,
                 :meters => []
             } )

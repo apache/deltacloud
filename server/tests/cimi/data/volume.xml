@@ -2,11 +2,11 @@
   <id>http://cimi.example.org/volumes/1</id>
   <name>volume1</name>
   <description>Volume One</description>
+  <state>IN-USE</state>
   <created>2011-11-17</created>
-  <capacity quantity="10" units="gigabyte"/>
+  <capacity>1024</capacity>
+  <type>http://schemas.dmtf.org/cimi/1/mapped</type>
   <bootable>false</bootable>
-  <supportsSnapshots>false</supportsSnapshots>
-  <guestInterface>NFS</guestInterface>
   <operation rel="edit" href="http://cimi.example.org/volumes/1/edit"/>
   <operation rel="delete" href="http://cimi.example.org/volumes/1/delete"/>
 </Volume>

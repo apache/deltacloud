@@ -5,9 +5,7 @@
   "description": "Volume Configuration One",
   "created": "2011-11-21",
   "format": "ext3",
-  "capacity": { "quantity": "10", "units": "gigabyte" },
-  "supportsSnapshots": "false",
-  "guestInterface": "NFS",
+  "capacity": "1024",
   "operations": [
     { "rel": "edit",
       "href": "http://cimi.example.org/volume_configurations/1/edit" },
