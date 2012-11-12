@@ -123,8 +123,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
     machine_spec = {
-      :name => instance.id,
-      :description => instance.name,
+      :name => instance.name,
+      :description => "Instance #{instance.name}",
       :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time).xmlschema,
       :id => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
