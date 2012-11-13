@@ -58,6 +58,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
+
+    # Store attributes that are not supported by the backend cloud to local
+    # database:
+    store_attributes_for(context, instance, json)
     from_instance(instance, context)
   end
 
@@ -74,6 +78,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
+
+    # Store attributes that are not supported by the backend cloud to local
+    # database:
+    store_attributes_for(context, instance, xml)
     from_instance(instance, context)
   end
 
@@ -90,6 +98,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   def self.delete!(id, context)
+    context.delete_attributes_for Instance.new(:id => id)
     context.driver.destroy_instance(context.credentials, id)
   end
 
@@ -120,10 +129,16 @@ class CIMI::Model::Machine < CIMI::Model::Base
   def self.from_instance(instance, context)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
+    stored_attributes = context.load_attributes_for(instance)
+    if stored_attributes[:property]
+      stored_attributes[:property].merge!(convert_instance_properties(instance, context))
+    else
+      stored_attributes[:property] = convert_instance_properties(instance, context)
+    end
     machine_spec = {
       :name => instance.name,
-      :description => "Instance #{instance.name}",
       :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time.to_s).xmlschema,
+      :description => "No description set for Machine #{instance.name}",
       :id => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
@@ -131,8 +146,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :disks => { :href => context.machine_url(instance.id)+"/disks"},
       :volumes => { :href=>context.machine_url(instance.id)+"/volumes"},
       :operations => convert_instance_actions(instance, context),
-      :property => convert_instance_properties(instance, context)
-    }
+      :property => stored_attributes
+    }.merge(stored_attributes)
     if context.expand? :disks
       machine_spec[:disks] = CIMI::Model::Disk.find(instance, machine_conf, context, :all)
     end

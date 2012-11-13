@@ -26,6 +26,7 @@ end
 # Declare namespace for CIMI models
 #
 
+require_relative '../db'
 require_relative '../deltacloud/drivers'
 require_relative '../deltacloud/models'
 require_relative '../deltacloud/helpers/driver_helper'

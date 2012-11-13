@@ -44,4 +44,8 @@ class BaseModel
     @id
   end
 
+  def to_entity
+    self.class.name.downcase
+  end
+
 end

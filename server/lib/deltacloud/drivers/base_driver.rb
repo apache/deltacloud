@@ -60,6 +60,10 @@ module Deltacloud
       features.has_key?(collection) and features[collection].include?(feature_name)
     end
 
+    def has_feature?(collection, feature_name)
+      self.class.has_feature?(collection, feature_name)
+    end
+
     def name
       self.class.name.split('::').last.gsub('Driver', '').downcase
     end

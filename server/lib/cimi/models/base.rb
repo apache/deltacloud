@@ -285,4 +285,14 @@ class CIMI::Model::Base < CIMI::Model::Resource
     end
     self.class.new(attrs)
   end
+
+  class << self
+    def store_attributes_for(context, entity, attrs={})
+      stored_attributes = {}
+      stored_attributes[:description] = attrs['description'] if attrs['description']
+      stored_attributes[:name] = attrs['name'] if attrs['name']
+      stored_attributes[:ent_properties] = attrs['properties'].to_json if attrs['properties']
+      context.store_attributes_for(entity, stored_attributes)
+    end
+  end
 end

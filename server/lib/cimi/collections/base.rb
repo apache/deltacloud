@@ -23,6 +23,7 @@ module CIMI::Collections
     include CIMI::Model
 
     helpers Deltacloud::Helpers::Drivers
+    helpers Deltacloud::Helpers::Database
     helpers Sinatra::AuthHelper
     helpers Sinatra::Rabbit::URLHelper
     helpers Deltacloud::Helpers::Application

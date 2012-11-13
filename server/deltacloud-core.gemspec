@@ -79,6 +79,9 @@ Gem::Specification.new do |s|
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
 
+  s.add_dependency('data_mapper')
+  s.add_dependency('dm-sqlite-adapter')
+
   # dependencies for various cloud providers:
 
   # RHEV-M and oVirt

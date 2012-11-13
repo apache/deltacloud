@@ -1,0 +1,55 @@
+module Deltacloud
+
+  require 'data_mapper'
+
+  require_relative './db/provider'
+  require_relative './db/entity'
+
+  DATABASE_LOCATION = ENV['DATABASE_LOCATION'] || "/var/tmp/deltacloud-mock-#{ENV['USER']}/db.sqlite"
+
+  def self.initialize_database
+    DataMapper::Logger.new($stdout, :debug)
+    DataMapper::setup(:default, "sqlite://#{DATABASE_LOCATION}")
+    DataMapper::finalize
+    DataMapper::auto_upgrade!
+  end
+
+  module Helpers
+    module Database
+      include Deltacloud::Database
+
+      def store_attributes_for(model, values={})
+        return if model.nil? or values.empty?
+        current_db.entities.first_or_create(:be_kind => model.to_entity, :be_id => model.id).update(values)
+      end
+
+      def load_attributes_for(model)
+        entity = get_entity(model)
+        entity.nil? ? {} : entity.to_hash
+      end
+
+      def delete_attributes_for(model)
+        get_entity(model).destroy
+      end
+
+      def get_entity(model)
+        current_db.entities.first(:be_kind => model.to_entity, :be_id => model.id)
+      end
+
+      def current_provider
+        Thread.current[:provider] || ENV['API_PROVIDER'] || 'default'
+      end
+
+      # This method allows to store things into database based on current driver
+      # and provider.
+      #
+      def current_db
+        Provider.first_or_create(:driver => driver_symbol.to_s, :url => current_provider)
+      end
+
+    end
+  end
+
+end
+
+Deltacloud::initialize_database

@@ -54,6 +54,7 @@ end
 #       different root_url's
 #
 frontends.each do |frontend|
+  frontend = frontend.strip
   if Deltacloud[frontend.to_sym].nil?
     puts "ERROR: Unknown frontend (#{frontend}). Valid values are 'deltacloud,cimi,ec2'"
     exit(1)
