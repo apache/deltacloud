@@ -56,7 +56,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
       :created => Time.now.xmlschema,  # FIXME: DC hardware_profile has no mention about created_at
       :memory => (memory if memory),
       :disks => (  [ { :capacity => storage, :format => (profile.storage.respond_to?(:format) ? profile.storage.format : "unknown")  } ] if storage ), #no format attr for hwp - may be added if providers support...,
-      :id => context.machine_configuration_url(profile.name)
+      :id => context.machine_configuration_url(profile.id)
     }
     self.new(machine_hash)
   end
