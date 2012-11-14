@@ -85,15 +85,15 @@ module CIMI::Collections
         end
       end
 
-      action :restart, :with_capability => :restart_instance do
+      action :restart, :with_capability => :reboot_instance do
         description "Start specific machine."
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
           if request.content_type.end_with?("json")
-            action = Action.from_json(request.body.read)
+            action = Action.from_json(request.body.read.gsub("restart", "reboot"))
           else
-            action = Action.from_xml(request.body.read)
+            action = Action.from_xml(request.body.read.gsub("restart", "reboot"))
           end
           machine.perform(action, self) do |operation|
             no_content_with_status(202) if operation.success?

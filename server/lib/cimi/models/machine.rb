@@ -79,7 +79,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def perform(action, context, &block)
     begin
-      if context.driver.send(:"#{action.name}_instance", context.credentials, self.name)
+      if context.driver.send(:"#{action.name}_instance", context.credentials, self.id.split("/").last)
         block.callback :success
       else
         raise "Operation failed to execute on given Machine"
