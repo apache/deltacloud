@@ -125,7 +125,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     machine_spec = {
       :name => instance.name,
       :description => "Instance #{instance.name}",
-      :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time).xmlschema,
+      :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time.to_s).xmlschema,
       :id => context.machine_url(instance.id),
       :state => convert_instance_state(instance.state),
       :cpu => cpu || convert_instance_cpu(instance.instance_profile, context),
