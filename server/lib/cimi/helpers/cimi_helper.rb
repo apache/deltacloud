@@ -34,9 +34,9 @@ module CIMI
     def to_kibibyte(value, unit)
       case unit
       when "GB"
-        (value*1024*1024).to_i
+        (value.to_i*1024*1024).to_i
       when "MB"
-        (value*1024).to_i
+        (value.to_i*1024).to_i
       else
         nil # should probably be exploding something here...
       end
