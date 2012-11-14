@@ -135,7 +135,7 @@ module CIMI::Collections
         description "Retrieve the Machine's MachineVolumeCollection"
         param :id,          :string,    :required
         control do
-          volumes = MachineVolumeCollection.default(params[:id], self)
+          volumes = CIMI::Model::Volume.collection_for_instance(params[:id], self)
           respond_to do |format|
             format.json {volumes.to_json}
             format.xml  {volumes.to_xml}

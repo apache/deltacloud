@@ -94,13 +94,27 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :description => volume.id,
                 :created => Time.parse(volume.created).xmlschema,
                 :id => context.volume_url(volume.id),
-                :capacity => { :quantity=>volume.capacity, :units=>"gibibyte"  }, #FIXME... units will vary
+                :capacity => context.to_kibibyte(volume.capacity, 'MB'),
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
                 :snapshots => [], #fixme...
                 :type => 'http://schemas.dmtf.org/cimi/1/mapped',
                 :state => volume.state,
                 :meters => []
             } )
+  end
+
+  def self.collection_for_instance(instance_id, context)
+    instance = context.driver.instance(context.credentials, :id => instance_id)
+    volumes = instance.storage_volumes.map do |mappings|
+      mappings.keys.map { |volume_id| from_storage_volume(context.driver.storage_volume(context.credentials, :id => volume_id), context) }
+    end.flatten
+    CIMI::Model::VolumeCollection.new(
+      :id => context.url("/machines/#{instance_id}/volumes"),
+      :name => 'default',
+      :count => volumes.size,
+      :description => "Volume collection for Machine #{instance_id}",
+      :entries => volumes
+    )
   end
 
 end
