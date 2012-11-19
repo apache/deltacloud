@@ -52,7 +52,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
       :name => profile.name,
       :description => "Machine Configuration with #{memory} KiB "+
         "of memory and #{cpu} CPU",
-      :cpu => ( cpu if cpu ) ,
+      :cpu => ( cpu.to_i.to_s if cpu ) ,
       :created => Time.now.xmlschema,  # FIXME: DC hardware_profile has no mention about created_at
       :memory => (memory if memory),
       :disks => (  [ { :capacity => storage, :format => (profile.storage.respond_to?(:format) ? profile.storage.format : "unknown")  } ] if storage ), #no format attr for hwp - may be added if providers support...,
