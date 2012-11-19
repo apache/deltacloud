@@ -3,7 +3,7 @@
   <name>MachineConfiguration1</name>
   <description>Example MachineConfiguration One</description>
   <created>2011-11-14</created>
-  <property name="architecture">i386</property>
+  <property key="architecture">i386</property>
   <cpu>2</cpu>
   <memory>1048576</memory>
   <disk>

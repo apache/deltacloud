@@ -3,8 +3,8 @@
   <name>img1</name>
   <description>Machine Image One</description>
   <created>2011-11-14</created>
-  <property name="status">BUILD</property>
-  <property name="locked">true</property>
+  <property key="status">BUILD</property>
+  <property key="locked">true</property>
   <imageLocation href="nfs://cimi.example.com/images/1.img"/>
   <operation rel="edit" href="http://cimi.example.org/machine_images/1/edit"/>
   <operation rel="delete" href="http://cimi.example.org/machine_images/1/delete"/>

@@ -195,7 +195,7 @@ class CIMI::Model::Schema
 
     def from_xml(xml, model)
       model[name] = (xml[xml_name] || []).inject({}) do |result, item|
-        result[item["name"]] = item["content"]
+        result[item["key"]] = item["content"]
         result
       end
     end
@@ -205,7 +205,7 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
-      ary = (model[name] || {}).map { |k, v| { "name" => k, "content" => v } }
+      ary = (model[name] || {}).map { |k, v| { "key" => k, "content" => v } }
       xml[xml_name] = ary unless ary.empty?
     end
 

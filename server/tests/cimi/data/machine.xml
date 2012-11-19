@@ -3,7 +3,7 @@
   <name>machine1</name>
   <description>Machine one description</description>
   <created>2011-11-21</created>
-  <property name="owner_id">mockuser</property>
+  <property key="owner_id">mockuser</property>
   <cpu>4</cpu>
   <memory>12582912</memory>
   <disks href="http://cimi.example.org/cimi/machines/1/disks" />
