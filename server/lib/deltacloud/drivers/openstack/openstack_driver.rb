@@ -30,6 +30,8 @@ module Deltacloud
         feature :instances, :user_data
         feature :images, :user_name
         feature :keys, :import_key
+        feature :storage_volumes, :volume_name
+        feature :storage_volumes, :volume_description
 
         define_instance_states do
           start.to( :pending )          .on( :create )
@@ -46,9 +48,14 @@ module Deltacloud
           #get the collections as defined by 'capability' and 'respond_to?' blocks
           super_collections = super
           begin
-             new_client(credentials, :buckets)
+             new_client(credentials, "object-store")
           rescue Deltacloud::Exceptions::NotImplemented #OpenStack::Exception::NotImplemented...
-             return super_collections - [Sinatra::Rabbit::BucketsCollection]
+             super_collections = super_collections - [Sinatra::Rabbit::BucketsCollection]
+          end
+          begin
+              new_client(credentials, "volume")
+          rescue Deltacloud::Exceptions::NotImplemented
+              super_collections = super_collections - [Sinatra::Rabbit::StorageVolumesCollection]
           end
           super_collections
         end
@@ -138,19 +145,19 @@ module Deltacloud
 
         def instances(credentials, opts={})
           os = new_client(credentials)
-          insts = []
+          insts = attachments = []
           safely do
             if opts[:id]
               begin
                 server = os.get_server(opts[:id])
-                insts << convert_from_server(server, os.connection.authuser)
+                insts << convert_from_server(server, os.connection.authuser, get_attachments(opts[:id], os))
               rescue => e
                 raise e unless e.message =~ /The resource could not be found/
                 insts = []
               end
             else
               insts = os.list_servers_detail.collect do |s|
-                convert_from_server(s, os.connection.authuser)
+                convert_from_server(s, os.connection.authuser,get_attachments(s[:id], os))
               end
             end
           end
@@ -179,7 +186,7 @@ module Deltacloud
           end
           safely do
             server = os.create_server(params)
-            result = convert_from_server(server, os.connection.authuser)
+            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os))
           end
           result
         end
@@ -189,7 +196,7 @@ module Deltacloud
           safely do
             server = os.get_server(instance_id)
             server.reboot! # sends a hard reboot (power cycle) - could instead server.reboot("SOFT")
-            convert_from_server(server, os.connection.authuser)
+            convert_from_server(server, os.connection.authuser, get_attachments(instance_id, os))
           end
         end
 
@@ -222,7 +229,7 @@ module Deltacloud
         end
 
         def buckets(credentials, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           buckets = []
           safely do
             if opts[:id]
@@ -235,7 +242,7 @@ module Deltacloud
         end
 
         def create_bucket(credentials, name, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           bucket = nil
           safely do
             bucket = os.create_container(name)
@@ -244,14 +251,14 @@ module Deltacloud
         end
 
         def delete_bucket(credentials, name, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           safely do
             os.delete_container(name)
           end
         end
 
         def blobs(credentials, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           blobs = []
           safely do
             bucket = os.container(opts['bucket'])
@@ -265,7 +272,7 @@ module Deltacloud
         end
 
         def blob_data(credentials, bucket, blob, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           safely do
             os.container(bucket).object(blob).data_stream do |chunk|
               yield chunk
@@ -274,7 +281,7 @@ module Deltacloud
         end
 
         def create_blob(credentials, bucket, blob, data, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           safely do
             if(opts[:segment_manifest]) # finalize a segmented blob upload
               os_blob = os.container(bucket).create_object(blob, {:manifest=>"#{bucket}/#{opts[:segmented_blob_id]}"})
@@ -287,21 +294,21 @@ module Deltacloud
         end
 
         def delete_blob(credentials, bucket, blob, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           safely do
             os.container(bucket).delete_object(blob)
           end
         end
 
         def blob_metadata(credentials, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           safely do
             os.container(opts['bucket']).object(opts[:id]).metadata
           end
         end
 
         def update_blob_metadata(credentials, opts={})
-          os = new_client(credentials, :buckets)
+          os = new_client(credentials, "object-store")
           safely do
             BlobHelper.rename_metadata_headers(opts["meta_hash"], "")
             blob = os.container(opts['bucket']).object(opts[:id])
@@ -371,10 +378,82 @@ module Deltacloud
           end
         end
 
+        def storage_volumes(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          volumes = []
+          safely do
+            if opts[:id]
+              volumes <<  convert_volume(vs.get_volume(opts[:id]))
+            else
+              vs.volumes.each do |vol|
+                volumes << convert_volume(vol)
+              end
+            end
+          end
+          volumes
+        end
+
+        def create_storage_volume(credentials, opts=nil)
+          vs = new_client(credentials, "volume")
+          params = {}
+          safely do
+            params[:size] = opts.delete("capacity") || 1
+            params[:display_name] = opts.delete("name") || "Volume#{Time.now}"
+            params[:display_description] = opts.delete("description") || params[:display_name]
+            params[:availability_zone] = opts.delete("realm_id") unless (opts["realm_id"].nil? || opts["realm_id"].empty?)
+            opts.delete("commit")
+            opts.delete("snapshot_id") #FIXME AFTER ADDING SNAPSHOTS TO OPENSTACK GEM
+            volume = convert_volume(vs.create_volume(opts.merge(params)))
+          end
+        end
+
+        def destroy_storage_volume(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          safely do
+            vs.delete_volume(opts[:id])
+          end
+        end
+
+        def attach_storage_volume(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          cs = new_client(credentials, "compute")
+          safely do
+            cs.attach_volume(opts[:instance_id], opts[:id], opts[:device])
+            volume = convert_volume(vs.get_volume(opts[:id]))
+          end
+        end
+
+        def detach_storage_volume(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          cs = new_client(credentials, "compute")
+          safely do
+            cs.detach_volume(opts[:instance_id], opts[:id])
+            volume = convert_volume(vs.get_volume(opts[:id]))
+          end
+        end
+
+        def storage_snapshots(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          safely do
+          end
+        end
+
+        def create_storage_snapshot(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          safely do
+          end
+        end
+
+        def destroy_storage_snapshot(credentials, opts={})
+          vs = new_client(credentials, "volume")
+          safely do
+          end
+        end
+
 private
 
         #for v2 authentication credentials.name == "username+tenant_name"
-        def new_client(credentials, type = :compute)
+        def new_client(credentials, type = "compute")
           tokens = credentials.user.split("+")
           if credentials.user.empty?
             raise AuthenticationFailure.new(Exception.new("Error: you must supply the username"))
@@ -385,16 +464,10 @@ private
             user_name, tenant_name = tokens.first, tokens.last
           end
           safely do
-              case type
-                when :compute
-                  OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider)
-                when :buckets
-                  OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider, :service_type => "object-store")
-                else
-                  raise ValidationFailure.new(Exception.new("Error: tried to initialise Openstack connection using" +
-                    " an unknown service_type: #{type}"))
-              end
-          end
+            raise ValidationFailure.new(Exception.new("Error: tried to initialise Openstack connection using" +
+                    " an unknown service_type: #{type}")) unless ["volume", "compute", "object-store"].include? type
+            OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider, :service_type => type)
+           end
         end
 
 #NOTE: for the convert_from_foo methods below... openstack-compute
@@ -426,7 +499,7 @@ private
                     })
         end
 
-        def convert_from_server(server, owner)
+        def convert_from_server(server, owner, attachments=[])
           op = (server.class == Hash)? :fetch : :send
           image = server.send(op, :image)
           flavor = server.send(op, :flavor)
@@ -449,7 +522,8 @@ private
             :private_addresses => convert_server_addresses(server, :private),
             :username => 'root',
             :password => password,
-            :keyname => server.send(op, :key_name)
+            :keyname => server.send(op, :key_name),
+            :storage_volumes => attachments.inject([]){|res, cur| res << {cur[:volumeId] => cur[:device]} ;res}
           )
           inst.actions = instance_actions_for(inst.state)
           inst.create_image = 'RUNNING'.eql?(inst.state)
@@ -508,6 +582,27 @@ private
           )
         end
 
+        def get_attachments(server_id, client)
+          if client.api_extensions[:"os-volumes"]
+            attachments = client.list_attachments(server_id)
+            attachments[:volumeAttachments] || []
+          else
+            []
+          end
+        end
+
+        def convert_volume(vol)
+          StorageVolume.new({ :id => vol.id,
+                              :name => vol.display_name,
+                              :created => vol.created_at,
+                              :state => (vol.attachments.inject([]){|res, cur| res << cur if cur.size > 0 ; res}.empty?) ? "AVAILABLE" : "IN-USE",
+                              :capacity => vol.size,
+                              :instance_id => vol.attachments.first["serverId"],
+                              :device =>vol.attachments.first["device"],
+                              :realm_id => vol.availability_zone,
+                              :description => vol.display_description # openstack volumes have a display_description attr
+          })
+        end
 
         #IN: path1='server_path1'. content1='contents1', path2='server_path2', content2='contents2' etc
         #OUT:{local_path=>server_path, local_path1=>server_path2 etc}
