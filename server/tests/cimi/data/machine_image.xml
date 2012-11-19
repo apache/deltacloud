@@ -3,6 +3,7 @@
   <name>img1</name>
   <description>Machine Image One</description>
   <created>2011-11-14</created>
+  <state>AVAILABLE</state>
   <property key="status">BUILD</property>
   <property key="locked">true</property>
   <imageLocation href="nfs://cimi.example.com/images/1.img"/>

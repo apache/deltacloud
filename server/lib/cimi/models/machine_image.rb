@@ -17,6 +17,7 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
 
   acts_as_root_entity
 
+  text :state
   href :image_location
   text :image_data
 
@@ -39,6 +40,7 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
     self.new(
       :name => image.id,
       :id => context.machine_image_url(image.id),
+      :state => image.state || 'UNKNOWN',
       :description => image.description,
       :created => Time.now.xmlschema,
       :image_location => { :href => "#{context.driver.name}://#{image.id}" } # FIXME
