@@ -163,6 +163,25 @@ module Deltacloud
         end
       end
 
+      feature :volume_name, :for => :storage_volumes do
+        description "Specify name when creating storage_volume"
+        operation :create do
+          param :name, :string, :optional
+        end
+      end
+
+      feature :volume_description, :for => :storage_volumes do
+        description "Specify description when creating storage_volume"
+        operation :create do
+          param :description, :string, :optional
+        end
+      end
+
+
+
+
+
+
     end
 
   end

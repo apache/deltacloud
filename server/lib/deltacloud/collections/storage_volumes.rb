@@ -16,6 +16,8 @@
 module Deltacloud::Collections
   class StorageVolumes < Base
 
+    include Deltacloud::Features
+
     set :capability, lambda { |m| driver.respond_to? m }
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
@@ -37,6 +39,8 @@ module Deltacloud::Collections
         param :snapshot_id, :string,  :optional
         param :capacity,    :string,  :optional
         param :realm_id,    :string,  :optional
+        param :name,        :string,  :optional
+        param :description, :string,  :optional
         control do
           @storage_volume = driver.create_storage_volume(credentials, params)
           status 201

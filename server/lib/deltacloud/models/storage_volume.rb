@@ -26,5 +26,6 @@ class StorageVolume < BaseModel
   attr_accessor :actions
   attr_accessor :name
   attr_accessor :kind
+  attr_accessor :description # openstack volumes have a display_description attr
 
 end
