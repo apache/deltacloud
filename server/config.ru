@@ -30,7 +30,7 @@ end
 
 Deltacloud::configure(:cimi) do |server|
   server.root_url '/cimi'
-  server.version Deltacloud::API_VERSION
+  server.version Deltacloud::CIMI_API_VERSION
   server.klass 'CIMI::API'
 end
 
