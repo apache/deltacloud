@@ -140,6 +140,14 @@ the Wiki</a>. Note that they require using homebrew.
 
 <p><strong>And thats it!</strong> The gem install command will automatically fetch and install all other gems that the Deltacloud server needs. As an alternative you can get the latest releases of Deltacloud from the <a href="http://www.apache.org/dist/deltacloud/">Apache website</a>.</p>
 
+<p><span class="label">Note:</span> When installing and running Deltacloud on platforms with Ruby versions 1.8.x, the 'require_relative' gem needs to be installed. This gem should be automatically installed with the deltacloud-core gem however, if this does not occur, the follow error will be thrown when starting Deltacloud: </p>
+
+<pre>/usr/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require': no such file to load -- require_relative (LoadError)</pre>
+
+<p>The fix is to explicitly install the 'require_relative' gem: </p>
+
+<pre>$ sudo gem install require_relative</pre>
+
 <a class="btn btn-inverse btn-large" style="float: right" href="/run-deltacloud-server.html">Run Deltacloud</a>
 
 <br/>
