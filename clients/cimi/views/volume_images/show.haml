@@ -16,16 +16,10 @@
     %a{ :href => "#{@volume_image.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@volume_image.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    This entity represents the information necessary for hardware virtualized
-    resources to create a Volume Instance
-
-- details 'VolumeImage details' do
+- details do
   -row 'ID', @volume_image.id
   -row 'Description', @volume_image.description
   -row 'Created', @volume_image.created
-  -row 'Bootable', boolean_span_for(@volume_image.bootable)
-  -row 'Image Location', "/cimi/volumes/#{href_to_id(@volume_image.image_location.href)}"
-  -row 'Image Data', boolean_span_for(@volume_image.image_data)
+  -row 'Bootable?', boolean_span_for(@volume_image.bootable)
+  -row 'Image Location', url("/cimi/volumes/#{href_to_id(@volume_image.image_location.href)}")
 

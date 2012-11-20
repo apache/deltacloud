@@ -1,4 +1,4 @@
-- @title=@network_templates.description
+- @title=collection_name @network_templates
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -7,23 +7,17 @@
       %span.divider="/"
     %li.active
       NetworkTemplateCollection
+
 - content_for :actions do
   %p
     %a{ :href => "#{@network_templates.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@network_templates.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Network Template Collection entity represents the collection of NetworkTemplates within a Provider.
-    This resource can be used to locate and create NetworkTemplates
-
-%h3 NetworkTemplateCollection
 %ul
   - @network_templates.network_templates.each do |template|
     %li
-      %a{ :href => "/cimi/network_templates/#{template.href.split('/').last}"}=template.href.split('/').last
+      %a{ :href => "/cimi/network_templates/#{href_to_id(template.id)}"}=href_to_id(template.id)
 
--details 'NetworkTemplateCollection details' do
+-details do
   -row 'ID', @network_templates.id
-  -row 'Description', @network_templates.description
-  -row 'Created', @network_templates.created
+  -row 'Count', @network_templates.count

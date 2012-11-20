@@ -15,10 +15,12 @@
 
 
 class CIMI::Frontend::CloudEntryPoint < CIMI::Frontend::Entity
+
   get '/cimi/cloudEntryPoint' do
     entry_point_xml = get_entity_collection('cloudEntryPoint', credentials)
+    puts XmlSimple.xml_in(entry_point_xml).inspect
     haml :'cloud_entry_point/index', :locals => {
-      :entry_point => CIMI::Model::CloudEntryPoint.from_xml(entry_point_xml)
+      :entry_point => XmlSimple.xml_in(entry_point_xml)
     }
   end
 

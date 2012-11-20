@@ -16,18 +16,12 @@
     %a{ :href => "#{@machine_configuration.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machine_configuration.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    The Machine Configuration entity represents the set of configuration values
-    that define the (virtual) hardware resources of a to-be-realized Machine
-    Instance. Machine Configurations are created by Providers and MAY, at the
-    Providers discretion, be created by Consumers.
-
-- details('MachineConfiguration details') do
+- details do
   - row 'ID', @machine_configuration.id
+  - row 'Name', @machine_configuration.name
   - row 'Description', @machine_configuration.description
   - row 'Created', @machine_configuration.created
-  - row '# of CPU', @machine_configuration.cpu
+  - row 'Num of CPUs', @machine_configuration.cpu
   - row 'Memory (RAM)', @machine_configuration.memory
-  - row 'Storage (disks)', @machine_configuration.disks.map { |d| d.capacity }.join(',')
+  - row 'Storage (disks)', @machine_configuration.disks.map { |d| [d.capacity, d.format].join('&nbsp;') }.join(',')
 

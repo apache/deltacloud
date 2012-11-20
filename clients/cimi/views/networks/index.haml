@@ -1,4 +1,4 @@
-- @title=@networks.description
+- @title=collection_name @networks
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -13,18 +13,11 @@
     %a{ :href => "#{@networks.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@networks.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Network Collection entity represents the collection of Networks
-    within a Provider. This entity can be used to locate and create Networks.
-
-%h3 NetworkCollection
 %ul
   - @networks.networks.each do |network|
     %li
-      %a{ :href => "/cimi/networks/#{network.href.split('/').last}"}=network.href.split('/').last
+      %a{ :href => "/cimi/networks/#{href_to_id(network.id)}"}=href_to_id(network.id)
 
--details 'NetworkCollection details' do
+-details do
   -row 'ID', @networks.id
-  -row 'Description', @networks.description
-  -row 'Created', @networks.created
+  -row 'Count', @networks.count

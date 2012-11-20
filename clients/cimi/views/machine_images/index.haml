@@ -1,4 +1,4 @@
-- @title=@machine_images.name
+- @title=collection_name @machine_images
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -13,19 +13,11 @@
     %a{ :href => "#{@machine_images.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machine_images.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Machine Image Collection entity represents the collection of Machine Image
-    entities within a Provider. This entity can be used to locate and create
-    Machine Images.
-
-%h3 MachineImageCollection
 %ul
   - @machine_images.machine_images.each do |image|
     %li
-      %a{ :href => "/cimi/machine_images/#{image.href.split('/').last}"}=image.href.split('/').last
+      %a{ :href => "/cimi/machine_images/#{href_to_id image.id}"}=href_to_id(image.id)
 
 - details('Collection details') do
   - row 'ID', @machine_images.id
-  - row 'Description', @machine_images.description
-  - row 'Created', @machine_images.created
+  - row 'Count', @machine_images.count

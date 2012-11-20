@@ -16,15 +16,11 @@
     %a{ :href => "#{@machine_image.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machine_image.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    This entity represents the information (e.g. an Open Virtualization Format
-    (OVF) package) necessary for hardware virtualized resources to create a
-    Machine Instance
-
-- details 'MachineImage details' do
+- details do
   - row 'ID', @machine_image.id
+  - row 'Name', @machine_image.name
   - row 'Description', @machine_image.description
+  - row 'State', @machine_image.state
   - row 'Created', @machine_image.created
   - row 'Image Location', @machine_image.image_location.href
   - row 'Image Data', @machine_image.image_data

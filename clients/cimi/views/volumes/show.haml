@@ -16,23 +16,12 @@
     %a{ :href => "#{@volume.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@volume.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    This entity represents a volume Instance
-
-- details 'Volume details' do
+- details do
   - row 'ID', @volume.id
+  - row 'Name', @volume.name
   - row 'Description', @volume.description
   - row 'Created', @volume.created
+  - row 'Type', @volume.type
+  - row 'Capacity', @volume.capacity
   - row 'Bootable?', boolean_span_for(@volume.bootable)
-  - row 'Support snapshots?', boolean_span_for(@volume.supports_snapshots)
-  - row 'Guest Interface', boolean_span_for(@volume.guest_interface)
-
-- details 'Volume Snapshots' do
-  - @volume.snapshots.each_with_index do |s, i|
-    - row "##{i}", s.ref
-
-- details 'Volume Meters' do
-  - @volume.meters.each_with_index do |m, i|
-    - row "##{i}", m.ref
-
+  - row 'State', @volume.state

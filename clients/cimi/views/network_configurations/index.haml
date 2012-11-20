@@ -1,4 +1,4 @@
-- @title=@network_configs.description
+- @title=collection_name @network_configs
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -7,24 +7,17 @@
       %span.divider="/"
     %li.active
       NetworkConfigurationCollection
+
 - content_for :actions do
   %p
     %a{ :href => "#{@network_configs.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@network_configs.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    A Network Configuration Collection entity represents the collection
-    of Network Configurations within a Provider. This entity can be used
-    to locate and create Network Configurations
-
-%h3 NetworkConfigurationCollection
 %ul
   - @network_configs.network_configurations.each do |conf|
     %li
-      %a{ :href => "/cimi/network_configurations/#{conf.href.split('/').last}"}=conf.href.split('/').last
+      %a{ :href => "/cimi/network_configurations/#{href_to_id(conf.id)}"}=href_to_id(conf.id)
 
 -details 'NetworkConfigurationCollection details' do
   -row 'ID', @network_configs.id
-  -row 'Description', @network_configs.description
-  -row 'Created', @network_configs.created
+  -row 'Count', @network_configs.count

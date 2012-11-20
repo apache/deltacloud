@@ -32,7 +32,11 @@ module CIMI
 
       def href_to_id(href)
         return '' unless href
-        href.split('/').last
+        href.split('/').last.strip
+      end
+
+      def collection_name(obj)
+        obj.class.name.split('::').last
       end
 
       def flash_block_for(message_type)
@@ -104,12 +108,13 @@ module CIMI
       end
 
       def details(title='', &block)
+        title = title.empty? ? 'Details' : title
         haml_tag :table, { :class => 'table table-bordered table-striped' } do
           haml_tag :caption do
-            haml_tag :h3 do
+            haml_tag :h5 do
               haml_concat title
             end
-          end unless title.empty?
+          end
           haml_tag :tbody, &block
         end
       end

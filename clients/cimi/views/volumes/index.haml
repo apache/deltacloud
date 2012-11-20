@@ -1,4 +1,4 @@
-- @title=@volumes.description
+- @title=collection_name @volumes
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -19,8 +19,6 @@
     %li
       %a{ :href => "/cimi/volumes/#{href_to_id(volume.id)}"}=href_to_id(volume.id)
 
-- details 'VolumeCollection details' do
+- details do
   - row 'ID', @volumes.id
-  - row 'Description', @volumes.description
-  - row 'Created', @volumes.created
-
+  - row 'Count', @volumes.count

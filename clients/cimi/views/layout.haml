@@ -18,7 +18,7 @@
       .navbar.navbar-fixed-top
         .navbar-inner
           .container-fluid
-            %a.brand{ :href => '/' } CIMI
+            %a.brand{ :href => '/' } CIMI Client
             .nav-collapse
               %ul.nav
                 %li.dropdown
@@ -34,6 +34,14 @@
                       %a{ :href => '#providerModal', :onclick => "toggleConfig('rhevm')"} RHEV-M
                     %li
                       %a{ :href => '#providerModal', :onclick => "toggleConfig('openstack')"} OpenStack
+                    %li
+                      %a{ :href => '#providerModal', :onclick => "toggleConfig('vsphere')"} VSphere
+                    %li
+                      %a{ :href => '#providerModal', :onclick => "toggleConfig('fcgp')"} FCGP
+                    %li
+                      %a{ :href => '#providerModal', :onclick => "toggleConfig('gogrid')"} GoGrid
+            .pull-right{ :style => 'margin-top: 9px;'}
+              .muted=ENV['CIMI_API_URL']
 
       .container
         %div{ :id => 'providerModal', :class => 'modal hide fade' }
@@ -58,8 +66,7 @@
                   %label.control-label API Provider
                   .controls
                     %input{ :type => :text, :class => :span3, :placeholder => 'http://', :name => :provider, :value => credentials.provider}
-                    %br/
-                    %span{ :class => 'help-inline'} Enter driver specific provider URL
+                    %span{ :class => 'help-inline'} Enter driver specific provider URL (optional)
           .modal-footer
             %a{ :href => '#', :class => 'btn btn-primary', :id => 'saveProvider'} Continue
             %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel

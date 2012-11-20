@@ -1,23 +1,16 @@
-- @title=@machine_configurations.name
+- @title=collection_name @machine_configurations
 
 - content_for :breadcrumb do
   %ul.breadcrumb
     %li
       %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
       %span.divider="/"
-    %li.active
-      MachineConfigurationCollection
+    %li.active=collection_name @machine_configurations
 
 - content_for :actions do
   %p
     %a{ :href => "#{@machine_configurations.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machine_configurations.id}?format=json", :class => 'label warning' } JSON
-
-%blockquote
-  %p
-    A Machine Configuration Collection entity represents the collection of
-    Machine Configuration entities within a Provider. This entity can be used to
-    locate and create Machine Configurations.
 
 %h3 MachineConfigurationCollection
 %ul
@@ -25,7 +18,6 @@
     %li
       %a{ :href => "/cimi/machine_configurations/#{href_to_id(conf.id)}"}=href_to_id(conf.id)
 
-- details('Collection details') do
+- details do
   - row 'ID', @machine_configurations.id
-  - row 'Description', @machine_configurations.description
-  - row 'Created', @machine_configurations.created
+  - row 'Count', @machine_configurations.count

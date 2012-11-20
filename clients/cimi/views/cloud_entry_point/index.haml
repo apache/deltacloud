@@ -1,4 +1,4 @@
-- @title=entry_point.name
+- @title=entry_point['name'].first
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -7,16 +7,10 @@
 
 - content_for :actions do
   %p
-    %a{ :href => "#{entry_point.id}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{entry_point.id}?format=json", :class => 'label warning' } JSON
+    %a{ :href => "#{entry_point['id'].first}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{entry_point['id'].first}?format=json", :class => 'label warning' } JSON
 
 %ul
-  - entry_point.entities.each do |name, struct|
+  - entry_point.select { |k, v| !v.kind_of?(String) and v.first['href'] }.each do |k, v|
     %li
-      %a{ :href => '/cimi/'+href_to_id(struct.href) }=name.to_s.camelize
-
-- details do
-  - row 'ID', entry_point.id
-  - row 'Base URI', entry_point.base_uri
-  - row 'Description', entry_point.description
-  - row 'Created', entry_point.created
+      %a{ :href => '/cimi/'+href_to_id(v.first['href']) }=k

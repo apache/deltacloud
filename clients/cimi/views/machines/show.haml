@@ -12,36 +12,38 @@
       = @machine.name
 
 - content_for :actions do
-  %p
+
+  %div{:class => 'btn-group btn-group-vertical'}
+    %form{ :action => "/cimi/machines/#{href_to_id @machine.id}/stop", :method => :post, :style => 'display:inline', :id => 'frm_stop'}
+    %form{ :action => "/cimi/machines/#{href_to_id @machine.id}/start", :method => :post, :style => 'display:inline', :id => 'frm_start'}
+    %form{ :action => "/cimi/machines/#{href_to_id @machine.id}/restart", :method => :post, :style => 'display:inline', :id => 'frm_restart'}
+    %form{ :action => "/cimi/machines/#{href_to_id @machine.id}/delete", :method => :post, :style => 'display:inline', :id => 'frm_delete'}
+      %input{ :type => :hidden, :name => '_method', :value => 'delete'}
+    - if @machine.state == 'STARTED'
+      %button{ :class => 'btn btn-warning', :type => :button, :onclick => '$("#frm_stop").submit()'} Stop
+    - if @machine.state == 'STOPPED'
+      %button{ :class => 'btn btn-success', :type => :button, :onclick => '$("#frm_start").submit()'} Start
+    %button{ :class => 'btn btn-info', :type => :button, :onclick => '$("#frm_restart").submit()'} Reboot
+    %button{ :class => 'btn btn-danger', :type => :button, :onclick => '$("#frm_delete").submit()'} Destroy
+
+  %p{:style => 'margin-top:1em;'}
     %a{ :href => "#{@machine.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@machine.id}?format=json", :class => 'label warning' } JSON
-  %p
-    - if @machine.state == 'STARTED'
-      %form{ :action => "/cimi/machines/#{@machine.name}/stop", :method => :post, :style => 'display:inline'}
-        %button{ :class => 'btn'} Stop
-    - if @machine.state == 'STOPPED'
-      %form{ :action => "/cimi/machines/#{@machine.name}/start", :method => :post, :style => 'display:inline'}
-        %button{ :class => 'btn success'} Start
-    %form{ :action => "/cimi/machines/#{@machine.name}/restart", :method => :post, :style => 'display:inline'}
-      %button{ :class => 'btn info'} Restart
-    %form{ :action => "/cimi/machines/#{@machine.name}/delete", :method => :post, :style => 'display:inline'}
-      %input{ :type => :hidden, :name => '_method', :value => 'delete'}
-      %button{ :class => 'btn danger'} Destroy
 
--details 'Machine details' do
+- details do
   -row 'ID', @machine.id
+  -row 'Name',@machine.name
   -row 'Description',@machine.description
-  -row 'Created', @machine.created
   -row 'State',state_span_for(@machine.state)
   -row 'CPU', boolean_span_for(@machine.cpu)
   -row 'RAM', @machine.memory
   -row 'Meters', (@machine.meters.empty? ? "No meters" : ( @machine.meters.each{|meter| meters.id}))
-  -row 'Network Interfaces', @machine.network_interfaces.href
-  -row 'Volumes', @machine.volumes.machine_volumes.first['href']
-  -row 'Disks', @machine.disks.disks.first['href']
+  -row 'Created', @machine.created
+  -row 'Disks', url("/cimi/machines/#{href_to_id @machine.id}/disks")
+  -row 'Volumes', url("/cimi/machines/#{href_to_id @machine.id}/volumes")
 
 
-%h3 Properties
+%h5 Properties
 %table{ :class => 'table table-bordered table-striped' }
   %thead
     %tr
@@ -50,6 +52,7 @@
   %tbody
     - @machine.property.each do |name, value|
       %tr
-        %td=name
+        %td
+          %code=name
         %td=convert_urls value
 

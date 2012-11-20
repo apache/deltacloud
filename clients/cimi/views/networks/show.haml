@@ -16,20 +16,13 @@
     %a{ :href => "#{@network.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@network.id}?format=json", :class => 'label warning' } JSON
 
-%blockquote
-  %p
-    This entity represents a Network - a realized entity
-    that represents an abstraction of a layer 2 broadcast domain.
-
 -details 'Network details' do
   -row 'ID', @network.id
+  -row 'Name', @network.name
   -row 'Description', @network.description
   -row 'Created', @network.created
   -row 'State', @network.state
-  -row 'Access', @network.access
-  -row 'RoutingGroup', @network.routing_group.href
-  -row 'Bandwidth Limit', @network.bandwidth_limit
-  -row 'Traffic Priority', @network.traffic_priority
-  -row 'Maximum Traffic Delay', @network.max_traffic_delay
-  -row 'Maximum Traffic Loss', @network.max_traffic_loss
-  -row 'Maximum Traffic Jitter', @network.max_traffic_jitter
+  -row 'Type', @network.network_type
+  -row 'MTU', @network.mtu
+  -row 'Service Class', @network.class_of_service
+  -row 'Forwarding Group', url("/cimi/forwarding_groups/#{href_to_id @network.forwarding_group.href}")

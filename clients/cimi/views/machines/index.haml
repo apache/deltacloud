@@ -1,4 +1,4 @@
-- @title=@machines.name
+- @title=collection_name @machines
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -9,9 +9,7 @@
       MachineCollection
 
 - content_for :actions do
-  %p
-    %a{ :href => "#{@machines.id}?format=xml", :class => 'label warning' } XML
-    %a{ :href => "#{@machines.id}?format=json", :class => 'label warning' } JSON
+
   %p
     %a{ :href => '#machineModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Machine
 
@@ -44,6 +42,9 @@
     .modal-footer
       %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating MachineAdmin...', :onclick => "postModalForm(this, 'machineModal')"} Continue
       %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+  %p{:style => 'text-align:right;'}
+    %a{ :href => "#{@machines.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machines.id}?format=json", :class => 'label warning' } JSON
 
 %ul
   - @machines.machines.each do |machine|
@@ -60,5 +61,4 @@
 
 - details do
   - row 'ID', @machines.id
-  - row 'Description', @machines.description
-  - row 'Created', @machines.created
+  - row 'Count', @machines.count
