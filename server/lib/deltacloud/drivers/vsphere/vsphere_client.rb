@@ -45,7 +45,7 @@ module Deltacloud::Drivers::VSphere
               end
             end
           end
-          break if [:datastore]
+          break if vm[:datastore]
         end
         vm
       end
