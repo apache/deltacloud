@@ -162,6 +162,7 @@ module Deltacloud::Drivers::Vsphere
           # instance.
           template_id = vm.config[:extraConfig].select { |k| k.key == 'template_id' }
           template_id = template_id.first.value unless template_id.empty?
+
           properties = {
             :memory => config[:memorySizeMB],
             :cpus => config[:numCpu],
@@ -177,17 +178,15 @@ module Deltacloud::Drivers::Vsphere
           # We're getting IP address from 'vmware guest tools'.
           # If guest tools are not installed, we return list of MAC addresses
           # assigned to this instance.
-          public_addresses = []
-          if vm.guest[:net].empty?
-            public_addresses = vm.macs.values.collect { |mac_address| InstanceAddress.new(mac_address, :type => :mac) }
-          else
-            public_addresses = [InstanceAddress.new(vm.guest[:net].first[:ipAddress].first)]
+          public_addresses = vm.macs.values.collect { |mac_address| InstanceAddress.new(mac_address, :type => :mac) }
+          if !vm.guest[:net].empty? and ip_address = vm.guest[:net].first[:ipAddress].first
+            public_addresses += [InstanceAddress.new(ip_address)]
           end
           Instance.new(
             :id => properties[:name],
             :name => properties[:name],
             :owner_id => credentials.user,
-            :image_id => template_id,
+            :image_id => template_id.empty? ? nil : template_id,
             :description => properties[:full_name],
             :realm_id => realm_id,
             :state => instance_state,
