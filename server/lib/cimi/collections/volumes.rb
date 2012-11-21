@@ -46,7 +46,7 @@ module CIMI::Collections
         end
       end
 
-      operation :create do
+      operation :create, :with_capability => :create_storage_volume do
         description "Create a new Volume."
         control do
           content_type = (request.content_type.end_with?("json") ? :json  : :xml)

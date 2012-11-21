@@ -45,12 +45,13 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
   private
 
   def self.create(size, context)
+    size_kib = context.to_kibibyte(size, "GB")
     self.new( {
                 :id => context.volume_configuration_url(size),
                 :name => "volume-#{size}",
-                :description => "Volume configuration with #{size} kilobytes",
+                :description => "Volume configuration with #{size_kib} kibibytes",
                 :created => Time.now.xmlschema,
-                :capacity => context.to_kibibyte(size, "MB"),
+                :capacity => size_kib,
                 :supports_snapshots => "true"
                 # FIXME :guest_interface => "NFS"
             } )

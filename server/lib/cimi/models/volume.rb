@@ -84,7 +84,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   def self.create_volume(params, context)
     volume_config = CIMI::Model::VolumeConfiguration.find(params[:volume_config_id], context)
-    opts = {:capacity=>volume_config.capacity[:quantity], :snapshot_id=>params[:volume_image_id] }
+    opts = {:capacity=>context.from_kibibyte(volume_config.capacity, "GB"), :snapshot_id=>params[:volume_image_id] }
     storage_volume = context.driver.create_storage_volume(context.credentials, opts)
     from_storage_volume(storage_volume, context)
   end
@@ -94,7 +94,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :description => volume.id,
                 :created => Time.parse(volume.created).xmlschema,
                 :id => context.volume_url(volume.id),
-                :capacity => context.to_kibibyte(volume.capacity, 'MB'),
+                :capacity => context.to_kibibyte(volume.capacity, 'GB'),
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
                 :snapshots => [], #fixme...
                 :type => 'http://schemas.dmtf.org/cimi/1/mapped',

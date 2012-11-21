@@ -42,6 +42,14 @@ module CIMI
       end
     end
 
+    def from_kibibyte(value, unit="GB")
+      case unit
+        when "GB" then ((value.to_i)/1024/1024).to_i
+        when "MB" then ((value.to_i)/1024).to_i
+        else nil
+      end
+    end
+
   end
 end
 
