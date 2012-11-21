@@ -244,13 +244,13 @@ class RhevmDriver < Deltacloud::BaseDriver
       ip = confserver_ip(inst.id)
       public_addresses = [ InstanceAddress.new(ip) ]
     end
-    # If IP retrieval failed, fallback to VNC and MAC address
-    if public_addresses.empty?
-      public_addresses = inst.interfaces.map { |interface| InstanceAddress.new(interface.mac, :type => :mac) }
-    end
+
+    public_addresses += inst.interfaces.map { |interface| InstanceAddress.new(interface.mac, :type => :mac) }
+
     if inst.vnc
       public_addresses << InstanceAddress.new(inst.vnc[:address], :port => inst.vnc[:port], :type => :vnc)
     end
+
     Instance.new(
       :id => inst.id,
       :name => inst.name,
