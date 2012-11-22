@@ -160,7 +160,7 @@ namespace :test do
 
     DRIVERS.each do |driver|
       Rake::TestTask.new(driver) do |t|
-        t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
+        #t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
         unless RUBY_VERSION < '1.9.0'
           t.loader = :testrb
         end
