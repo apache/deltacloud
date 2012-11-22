@@ -26,10 +26,10 @@ describe 'RhevmDriver Instances' do
   end
 
   it 'must allow to filter instances' do
-    @driver.instances(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').wont_be_empty
-    @driver.instances(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').must_be_kind_of Array
-    @driver.instances(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').size.must_equal 1
-    @driver.instances(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').first.id.must_equal 'de048029-c4f8-4e90-ac7b-67cf06102190'
+    @driver.instances(:id =>'a949192d-55eb-465c-9ef1-d59581a562a3').wont_be_empty
+    @driver.instances(:id =>'a949192d-55eb-465c-9ef1-d59581a562a3').must_be_kind_of Array
+    @driver.instances(:id =>'a949192d-55eb-465c-9ef1-d59581a562a3').size.must_equal 1
+    @driver.instances(:id => 'a949192d-55eb-465c-9ef1-d59581a562a3').first.id.must_equal 'a949192d-55eb-465c-9ef1-d59581a562a3'
     @driver.instances(:owner_id => 'admin@internal').wont_be_empty
     @driver.instances(:owner_id => 'admin@internal').each do |inst|
       inst.owner_id.must_equal 'admin@internal'
@@ -39,9 +39,9 @@ describe 'RhevmDriver Instances' do
   end
 
   it 'must allow to retrieve single instance' do
-    @driver.instance(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').wont_be_nil
-    @driver.instance(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').must_be_kind_of Instance
-    @driver.instance(:id => 'de048029-c4f8-4e90-ac7b-67cf06102190').id.must_equal 'de048029-c4f8-4e90-ac7b-67cf06102190'
+    @driver.instance(:id => 'a949192d-55eb-465c-9ef1-d59581a562a3').wont_be_nil
+    @driver.instance(:id => 'a949192d-55eb-465c-9ef1-d59581a562a3').must_be_kind_of Instance
+    @driver.instance(:id => 'a949192d-55eb-465c-9ef1-d59581a562a3').id.must_equal 'a949192d-55eb-465c-9ef1-d59581a562a3'
     @driver.instance(:id => 'i-00000000').must_be_nil
     @driver.instance(:id => 'unknown').must_be_nil
   end

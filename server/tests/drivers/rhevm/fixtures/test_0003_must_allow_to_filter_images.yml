@@ -1,5 +1,5 @@
 --- 
-recorded_with: VCR 2.2.5
+recorded_with: VCR 2.3.0
 http_interactions: 
 - request: 
     method: get
@@ -7,33 +7,33 @@ http_interactions:
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:06 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "1608"
       Set-Cookie: 
-      - JSESSIONID=WsPi7tQykIsbnY57fULaB5Xy; Path=/api; Secure
+      - JSESSIONID=yy-zeFvp5Z153J6exn7iHTXK; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -80,40 +80,40 @@ http_interactions:
         </template>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:07 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:06 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "1608"
       Set-Cookie: 
-      - JSESSIONID=pxgv2zF01FXWdDTINHu1Aa0T; Path=/api; Secure
+      - JSESSIONID=01X6z+10yAG6S5wnISlwDb3Z; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -160,40 +160,40 @@ http_interactions:
         </template>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:07 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:06 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "1608"
       Set-Cookie: 
-      - JSESSIONID=KKAntIb4UdPCO8qhGm3de52r; Path=/api; Secure
+      - JSESSIONID=yAn8H+7940nhsv-mzdLAk8pH; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -240,40 +240,40 @@ http_interactions:
         </template>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:07 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:07 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "1608"
       Set-Cookie: 
-      - JSESSIONID=xx+vXCFMDg7l2t0-h+9GsxdM; Path=/api; Secure
+      - JSESSIONID=lsD3Hg6iM2Lieb39yujehvCB; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -320,40 +320,40 @@ http_interactions:
         </template>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:08 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:07 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "828"
       Set-Cookie: 
-      - JSESSIONID=DWp+HEUwdEDjLvZ7GO+1F+ay; Path=/api; Secure
+      - JSESSIONID=4hAgnCIzfXmHBtYp8i8xg1tJ; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -375,40 +375,40 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:08 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates?search=datacenter=Default
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:07 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
-      Content-Length: 
-      - "6750"
-      Set-Cookie: 
-      - JSESSIONID=UqIupVwJSif9fSn0N7SCqjWR; Path=/api; Secure
-      Content-Type: 
-      - application/xml
       Cache-Control: 
       - no-cache
+      Set-Cookie: 
+      - JSESSIONID=Be1dutr4tn5bf4CA58LfJqqO; Path=/api; Secure
+      Content-Type: 
+      - application/xml
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -440,6 +440,47 @@ http_interactions:
                 <high_availability>
                     <enabled>false</enabled>
                     <priority>0</priority>
+                </high_availability>
+                <display>
+                    <type>spice</type>
+                    <monitors>1</monitors>
+                    <allow_override>false</allow_override>
+                </display>
+                <stateless>false</stateless>
+                <usb>
+                    <enabled>false</enabled>
+                </usb>
+            </template>
+            <template href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0" id="d0083bdc-74d5-464e-8907-31ab4d7788e0">
+                <actions>
+                    <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/export" rel="export"/>
+                </actions>
+                <name>centos63</name>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/disks" rel="disks"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/nics" rel="nics"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/cdroms" rel="cdroms"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/permissions" rel="permissions"/>
+                <type>server</type>
+                <status>
+                    <state>ok</state>
+                </status>
+                <memory>2147483648</memory>
+                <cpu>
+                    <topology sockets="1" cores="1"/>
+                </cpu>
+                <os type="rhel_6x64">
+                    <boot dev="cdrom"/>
+                    <boot dev="hd"/>
+                    <kernel></kernel>
+                    <initrd></initrd>
+                    <cmdline></cmdline>
+                </os>
+                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+                <creation_time>2012-11-09T14:35:55.488+01:00</creation_time>
+                <origin>rhev</origin>
+                <high_availability>
+                    <enabled>false</enabled>
+                    <priority>1</priority>
                 </high_availability>
                 <display>
                     <type>spice</type>
@@ -494,7 +535,7 @@ http_interactions:
                 <actions>
                     <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/export" rel="export"/>
                 </actions>
-                <name>fedora17-minimal-03</name>
+                <name>f17-minimal</name>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/disks" rel="disks"/>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/nics" rel="nics"/>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/cdroms" rel="cdroms"/>
@@ -515,6 +556,47 @@ http_interactions:
                 </os>
                 <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
                 <creation_time>2012-11-08T14:35:17.671+01:00</creation_time>
+                <origin>rhev</origin>
+                <high_availability>
+                    <enabled>false</enabled>
+                    <priority>1</priority>
+                </high_availability>
+                <display>
+                    <type>spice</type>
+                    <monitors>1</monitors>
+                    <allow_override>false</allow_override>
+                </display>
+                <stateless>false</stateless>
+                <usb>
+                    <enabled>false</enabled>
+                </usb>
+            </template>
+            <template href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329" id="ce7de898-38cb-4851-b5dc-1f4f0940a329">
+                <actions>
+                    <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/export" rel="export"/>
+                </actions>
+                <name>mrgqe6i_template</name>
+                <description>MRGQE RHEL6/i386 template</description>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/disks" rel="disks"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/nics" rel="nics"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/cdroms" rel="cdroms"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/permissions" rel="permissions"/>
+                <type>server</type>
+                <status>
+                    <state>ok</state>
+                </status>
+                <memory>805306368</memory>
+                <cpu>
+                    <topology sockets="1" cores="1"/>
+                </cpu>
+                <os type="rhel_6">
+                    <boot dev="hd"/>
+                    <kernel></kernel>
+                    <initrd></initrd>
+                    <cmdline></cmdline>
+                </os>
+                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+                <creation_time>2012-11-21T19:41:41.462+01:00</creation_time>
                 <origin>rhev</origin>
                 <high_availability>
                     <enabled>false</enabled>
@@ -574,62 +656,62 @@ http_interactions:
         </templates>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:08 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates/ami-aaaaaaaa
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 404
       message: Not Found
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:07 GMT
-      Connection: 
-      - close
       Content-Length: 
       - "976"
       Content-Type: 
       - text/html;charset=utf-8
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
+      Connection: 
+      - close
     body: 
       string: "<html><head><title>JBoss Web/7.0.16..Final-redhat-1 - Error report</title><style><!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}HR {color : #525D76;}--></style> </head><body><h1>HTTP Status 404 - </h1><HR size=\"1\" noshade=\"noshade\"><p><b>type</b> Status report</p><p><b>message</b> <u></u></p><p><b>description</b> <u>The requested resource () is not available.</u></p><HR size=\"1\" noshade=\"noshade\"><h3>JBoss Web/7.0.16..Final-redhat-1</h3></body></html>"
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:09 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates/unknown
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 404
       message: Not Found
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:08 GMT
-      Connection: 
-      - close
       Content-Length: 
       - "976"
       Content-Type: 
       - text/html;charset=utf-8
+      Date: 
+      - Thu, 22 Nov 2012 11:38:27 GMT
+      Connection: 
+      - close
     body: 
       string: "<html><head><title>JBoss Web/7.0.16..Final-redhat-1 - Error report</title><style><!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color:black;background-color:white;} B {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;} P {font-family:Tahoma,Arial,sans-serif;background:white;color:black;font-size:12px;}A {color : black;}A.name {color : black;}HR {color : #525D76;}--></style> </head><body><h1>HTTP Status 404 - </h1><HR size=\"1\" noshade=\"noshade\"><p><b>type</b> Status report</p><p><b>message</b> <u></u></p><p><b>description</b> <u>The requested resource () is not available.</u></p><HR size=\"1\" noshade=\"noshade\"><h3>JBoss Web/7.0.16..Final-redhat-1</h3></body></html>"
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:09 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:27 GMT

@@ -1,4 +1,5 @@
 --- 
+recorded_with: VCR 2.3.0
 http_interactions: 
 - request: 
     method: get
@@ -8,10 +9,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -19,20 +20,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=k1mYA6FUaOyVwpRPq9ph0W8Z; Path=/api; Secure
       Content-Length: 
       - "828"
+      Set-Cookie: 
+      - JSESSIONID=0DvxYFOURQX2ZrYvw8a35fB6; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:04 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:43 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -54,7 +55,7 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:44 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
@@ -63,10 +64,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -74,20 +75,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=EkMoX34vGoi2dHdyBiISfybc; Path=/api; Secure
       Content-Length: 
       - "1232"
+      Set-Cookie: 
+      - JSESSIONID=LXzamuXkfjKm2iucPQG86ahb; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:04 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:43 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -117,7 +118,7 @@ http_interactions:
         </clusters>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:45 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
@@ -126,10 +127,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -137,20 +138,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=ZAshM9aN7xXV1B49NUQc5gQ5; Path=/api; Secure
       Content-Length: 
       - "828"
+      Set-Cookie: 
+      - JSESSIONID=gGQY+EpVtoNeJjUGxV3KninN; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:04 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:44 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -172,7 +173,7 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:45 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
@@ -181,10 +182,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -192,20 +193,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=NsUA1RcuCuEtnprpHNM-gRFQ; Path=/api; Secure
       Content-Length: 
       - "828"
+      Set-Cookie: 
+      - JSESSIONID=xA+gJYnrgpLT82WlbWXHkr7R; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:04 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:44 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -227,7 +228,7 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:45 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
@@ -236,10 +237,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -247,20 +248,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=-cGZh79KLIYLwdKtYmhaw0Me; Path=/api; Secure
       Content-Length: 
       - "1232"
+      Set-Cookie: 
+      - JSESSIONID=ihwCLAjBfpCX5QO9BXUR2PqO; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:05 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:44 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -290,7 +291,7 @@ http_interactions:
         </clusters>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:46 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:05 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
@@ -299,10 +300,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -310,20 +311,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=KixnYJEJkVTbJj1Lf4cyv7ku; Path=/api; Secure
       Content-Length: 
       - "828"
+      Set-Cookie: 
+      - JSESSIONID=3k4QGXmhck7z3ErqFwozDV0N; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:05 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:45 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -345,7 +346,7 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:46 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:05 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
@@ -354,10 +355,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -365,20 +366,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=PoCn+oJhRARt6ry6V0e3VVWG; Path=/api; Secure
       Content-Length: 
       - "828"
+      Set-Cookie: 
+      - JSESSIONID=z0UURnDz3XM5F7L18ez8Odb3; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:05 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:45 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -400,7 +401,7 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:46 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:05 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
@@ -409,10 +410,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -420,20 +421,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=qcF+m5sVSRSfDYgaXFQkJkAg; Path=/api; Secure
       Content-Length: 
       - "1232"
+      Set-Cookie: 
+      - JSESSIONID=sYwy9tuj1rGmmhzizlp259PW; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:05 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:45 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -463,7 +464,7 @@ http_interactions:
         </clusters>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:46 GMT
+  recorded_at: Thu, 22 Nov 2012 11:41:05 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
@@ -472,10 +473,10 @@ http_interactions:
     headers: 
       Content-Type: 
       - application/xml
-      Accept: 
-      - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
@@ -483,20 +484,20 @@ http_interactions:
     headers: 
       Cache-Control: 
       - no-cache
-      Content-Type: 
-      - application/xml
-      Set-Cookie: 
-      - JSESSIONID=RyRR-SBQIOo2gy06xcRDbVFi; Path=/api; Secure
       Content-Length: 
       - "828"
+      Set-Cookie: 
+      - JSESSIONID=69xX-SgvfNZ16R-MvHW7lKvc; Path=/api; Secure
+      Content-Type: 
+      - application/xml
       Pragma: 
       - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:41:05 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
       Connection: 
       - close
-      Date: 
-      - Fri, 09 Nov 2012 08:52:46 GMT
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -518,5 +519,4 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:52:47 GMT
-recorded_with: VCR 2.2.5
+  recorded_at: Thu, 22 Nov 2012 11:41:05 GMT

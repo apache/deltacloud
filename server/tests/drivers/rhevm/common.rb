@@ -19,5 +19,6 @@ VCR.configure do |c|
   c.cassette_library_dir = File.join(File.dirname(__FILE__), 'fixtures')
   c.hook_into :webmock
   # Set this to :new_episodes when you want to 're-record'
+  #c.default_cassette_options = { :record => :new_episodes }
   c.default_cassette_options = { :record => :none }
 end

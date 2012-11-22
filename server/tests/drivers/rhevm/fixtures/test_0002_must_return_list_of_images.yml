@@ -1,5 +1,5 @@
 --- 
-recorded_with: VCR 2.2.5
+recorded_with: VCR 2.3.0
 http_interactions: 
 - request: 
     method: get
@@ -7,33 +7,33 @@ http_interactions:
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:08 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "828"
       Set-Cookie: 
-      - JSESSIONID=FI2nRi+JxYbcqRtrzPO+UF0l; Path=/api; Secure
+      - JSESSIONID=OJn2u3cFhULQw9UZTwhhGKLh; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:26 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -55,40 +55,40 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:09 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates?search=datacenter=Default
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:09 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
-      Content-Length: 
-      - "6750"
-      Set-Cookie: 
-      - JSESSIONID=5dNTawPQTXql13P62Gd8VB0l; Path=/api; Secure
-      Content-Type: 
-      - application/xml
       Cache-Control: 
       - no-cache
+      Set-Cookie: 
+      - JSESSIONID=FFM4fDToibZuyTHhq32lp6BC; Path=/api; Secure
+      Content-Type: 
+      - application/xml
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:26 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -120,6 +120,47 @@ http_interactions:
                 <high_availability>
                     <enabled>false</enabled>
                     <priority>0</priority>
+                </high_availability>
+                <display>
+                    <type>spice</type>
+                    <monitors>1</monitors>
+                    <allow_override>false</allow_override>
+                </display>
+                <stateless>false</stateless>
+                <usb>
+                    <enabled>false</enabled>
+                </usb>
+            </template>
+            <template href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0" id="d0083bdc-74d5-464e-8907-31ab4d7788e0">
+                <actions>
+                    <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/export" rel="export"/>
+                </actions>
+                <name>centos63</name>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/disks" rel="disks"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/nics" rel="nics"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/cdroms" rel="cdroms"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/permissions" rel="permissions"/>
+                <type>server</type>
+                <status>
+                    <state>ok</state>
+                </status>
+                <memory>2147483648</memory>
+                <cpu>
+                    <topology sockets="1" cores="1"/>
+                </cpu>
+                <os type="rhel_6x64">
+                    <boot dev="cdrom"/>
+                    <boot dev="hd"/>
+                    <kernel></kernel>
+                    <initrd></initrd>
+                    <cmdline></cmdline>
+                </os>
+                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+                <creation_time>2012-11-09T14:35:55.488+01:00</creation_time>
+                <origin>rhev</origin>
+                <high_availability>
+                    <enabled>false</enabled>
+                    <priority>1</priority>
                 </high_availability>
                 <display>
                     <type>spice</type>
@@ -174,7 +215,7 @@ http_interactions:
                 <actions>
                     <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/export" rel="export"/>
                 </actions>
-                <name>fedora17-minimal-03</name>
+                <name>f17-minimal</name>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/disks" rel="disks"/>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/nics" rel="nics"/>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/cdroms" rel="cdroms"/>
@@ -195,6 +236,47 @@ http_interactions:
                 </os>
                 <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
                 <creation_time>2012-11-08T14:35:17.671+01:00</creation_time>
+                <origin>rhev</origin>
+                <high_availability>
+                    <enabled>false</enabled>
+                    <priority>1</priority>
+                </high_availability>
+                <display>
+                    <type>spice</type>
+                    <monitors>1</monitors>
+                    <allow_override>false</allow_override>
+                </display>
+                <stateless>false</stateless>
+                <usb>
+                    <enabled>false</enabled>
+                </usb>
+            </template>
+            <template href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329" id="ce7de898-38cb-4851-b5dc-1f4f0940a329">
+                <actions>
+                    <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/export" rel="export"/>
+                </actions>
+                <name>mrgqe6i_template</name>
+                <description>MRGQE RHEL6/i386 template</description>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/disks" rel="disks"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/nics" rel="nics"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/cdroms" rel="cdroms"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/permissions" rel="permissions"/>
+                <type>server</type>
+                <status>
+                    <state>ok</state>
+                </status>
+                <memory>805306368</memory>
+                <cpu>
+                    <topology sockets="1" cores="1"/>
+                </cpu>
+                <os type="rhel_6">
+                    <boot dev="hd"/>
+                    <kernel></kernel>
+                    <initrd></initrd>
+                    <cmdline></cmdline>
+                </os>
+                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+                <creation_time>2012-11-21T19:41:41.462+01:00</creation_time>
                 <origin>rhev</origin>
                 <high_availability>
                     <enabled>false</enabled>
@@ -254,40 +336,40 @@ http_interactions:
         </templates>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:10 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:09 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
+      Cache-Control: 
+      - no-cache
       Content-Length: 
       - "828"
       Set-Cookie: 
-      - JSESSIONID=6yXciQ6zSSsQXgUDlSAaOPZw; Path=/api; Secure
+      - JSESSIONID=HLqVbGbkN948892xqMFzL2kh; Path=/api; Secure
       Content-Type: 
       - application/xml
-      Cache-Control: 
-      - no-cache
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:26 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -309,40 +391,40 @@ http_interactions:
         </data_center>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:10 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
 - request: 
     method: get
     uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates?search=datacenter=Default
     body: 
       string: ""
     headers: 
-      Accept: 
-      - application/xml
       Content-Type: 
       - application/xml
       Accept-Encoding: 
       - gzip, deflate
+      Accept: 
+      - application/xml
   response: 
     status: 
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Fri, 09 Nov 2012 08:56:09 GMT
-      Connection: 
-      - close
-      Pragma: 
-      - No-cache
-      Content-Length: 
-      - "6750"
-      Set-Cookie: 
-      - JSESSIONID=oBFJbUDcfByY3mqXxlnJeVat; Path=/api; Secure
-      Content-Type: 
-      - application/xml
       Cache-Control: 
       - no-cache
+      Set-Cookie: 
+      - JSESSIONID=y9-pHpTiULHTYEd1BPwXjTjg; Path=/api; Secure
+      Content-Type: 
+      - application/xml
+      Pragma: 
+      - No-cache
+      Date: 
+      - Thu, 22 Nov 2012 11:38:26 GMT
       Expires: 
       - Thu, 01 Jan 1970 01:00:00 CET
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -374,6 +456,47 @@ http_interactions:
                 <high_availability>
                     <enabled>false</enabled>
                     <priority>0</priority>
+                </high_availability>
+                <display>
+                    <type>spice</type>
+                    <monitors>1</monitors>
+                    <allow_override>false</allow_override>
+                </display>
+                <stateless>false</stateless>
+                <usb>
+                    <enabled>false</enabled>
+                </usb>
+            </template>
+            <template href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0" id="d0083bdc-74d5-464e-8907-31ab4d7788e0">
+                <actions>
+                    <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/export" rel="export"/>
+                </actions>
+                <name>centos63</name>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/disks" rel="disks"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/nics" rel="nics"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/cdroms" rel="cdroms"/>
+                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/permissions" rel="permissions"/>
+                <type>server</type>
+                <status>
+                    <state>ok</state>
+                </status>
+                <memory>2147483648</memory>
+                <cpu>
+                    <topology sockets="1" cores="1"/>
+                </cpu>
+                <os type="rhel_6x64">
+                    <boot dev="cdrom"/>
+                    <boot dev="hd"/>
+                    <kernel></kernel>
+                    <initrd></initrd>
+                    <cmdline></cmdline>
+                </os>
+                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+                <creation_time>2012-11-09T14:35:55.488+01:00</creation_time>
+                <origin>rhev</origin>
+                <high_availability>
+                    <enabled>false</enabled>
+                    <priority>1</priority>
                 </high_availability>
                 <display>
                     <type>spice</type>
@@ -428,7 +551,7 @@ http_interactions:
                 <actions>
                     <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/export" rel="export"/>
                 </actions>
-                <name>fedora17-minimal-03</name>
+                <name>f17-minimal</name>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/disks" rel="disks"/>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/nics" rel="nics"/>
                 <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/cdroms" rel="cdroms"/>
@@ -449,6 +572,47 @@ http_interactions:
                 </os>
                 <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
                 <creation_time>2012-11-08T14:35:17.671+01:00</creation_time>
+                <origin>rhev</origin>
+                <high_availability>
+                    <enabled>false</enabled>
+                    <priority>1</priority>
+                </high_availability>
+                <display>
+                    <type>spice</type>
+                    <monitors>1</monitors>
+                    <allow_override>false</allow_override>
+                </display>
+                <stateless>false</stateless>
+                <usb>
+                    <enabled>false</enabled>
+                </usb>
+            </template>
+            <template href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329" id="ce7de898-38cb-4851-b5dc-1f4f0940a329">
+                <actions>
+                    <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/export" rel="export"/>
+                </actions>
+                <name>mrgqe6i_template</name>
+                <description>MRGQE RHEL6/i386 template</description>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/disks" rel="disks"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/nics" rel="nics"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/cdroms" rel="cdroms"/>
+                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/permissions" rel="permissions"/>
+                <type>server</type>
+                <status>
+                    <state>ok</state>
+                </status>
+                <memory>805306368</memory>
+                <cpu>
+                    <topology sockets="1" cores="1"/>
+                </cpu>
+                <os type="rhel_6">
+                    <boot dev="hd"/>
+                    <kernel></kernel>
+                    <initrd></initrd>
+                    <cmdline></cmdline>
+                </os>
+                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+                <creation_time>2012-11-21T19:41:41.462+01:00</creation_time>
                 <origin>rhev</origin>
                 <high_availability>
                     <enabled>false</enabled>
@@ -508,4 +672,4 @@ http_interactions:
         </templates>
 
     http_version: 
-  recorded_at: Fri, 09 Nov 2012 08:56:10 GMT
+  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
