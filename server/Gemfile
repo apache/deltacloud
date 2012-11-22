@@ -16,6 +16,6 @@ group :development do
 end
 
 group :jenkins do
-  gem 'turn', :platform => "ruby_19"
+  gem 'turn'
   gem 'minitest-reporters', :platform => "ruby_19"
 end
