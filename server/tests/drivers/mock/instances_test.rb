@@ -54,6 +54,12 @@ describe 'MockDriver Instances' do
     @driver.instance(:id => instance.id).must_be_nil
   end
 
+  it 'must respond with proper error when using unknown hardware profile' do
+    Proc.new {
+      @driver.create_instance('img1', :name => 'inst2-test', :realm_id => 'us', :hwp_id => 'unknown')
+    }.must_raise Deltacloud::Exceptions::ValidationFailure
+  end
+
   it 'must allow to destroy created instance' do
     instance = @driver.create_instance('img1', :name => 'inst1-test-destroy')
     instance.must_be_kind_of Instance

@@ -106,18 +106,15 @@ module Deltacloud
 
     def find_hardware_profile(credentials, profile_id, image_id)
       hwp = nil
-      if name
+      if profile_id
         unless hwp = hardware_profile(credentials, profile_id)
-          raise BackendError.new(400, "bad-hardware-profile-name",
-                                 "Hardware profile '#{name}' does not exist", nil)
+          raise Exceptions.exception_from_status(400, "Hardware profile '#{profile_id}' does not exists.")
         end
       else
         unless image = image(credentials, :id=>image_id)
-          raise BackendError.new(400, "bad-image-id",
-                                 "Image with ID '#{image_id}' does not exist", nil)
+          raise Exceptions.exception_from_status(400, "Image #{image_id} does not exists.")
         end
-        hwp = hardware_profiles(credentials,
-                                :architecture=>image.architecture).first
+        hwp = hardware_profiles(credentials, :architecture => image.architecture).first
       end
       return hwp
     end
