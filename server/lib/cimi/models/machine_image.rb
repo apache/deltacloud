@@ -18,8 +18,9 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
   acts_as_root_entity
 
   text :state
-  href :image_location
-  text :image_data
+  text :type
+  text :image_location
+  href :related_image
 
   array :operations do
     scalar :rel, :href
@@ -41,9 +42,10 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
       :name => image.id,
       :id => context.machine_image_url(image.id),
       :state => image.state || 'UNKNOWN',
+      :type => "IMAGE",
       :description => image.description,
       :created => Time.now.xmlschema,
-      :image_location => { :href => "#{context.driver.name}://#{image.id}" } # FIXME
+      :image_location => "#{context.driver.name}://#{image.id}" # FIXME
     )
   end
 
