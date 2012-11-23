@@ -697,6 +697,7 @@ class FgcpDriver < Deltacloud::BaseDriver
     addresses
   end
 
+  # allocates (and enables) new ip in specified vsys/network
   def create_address(credentials, opts={})
     safely do
       client = new_client(credentials)
@@ -710,10 +711,32 @@ class FgcpDriver < Deltacloud::BaseDriver
         opts[:realm_id] = xml[0]['vsys'][0]['vsysId'][0] if xml
       end
 
+      old_ips = []
+      xml = client.list_public_ips(opts[:realm_id])['publicips']
+      old_ips = xml[0]['publicip'].collect { |ip| ip['address'][0]} if xml and xml[0]['publicip']
+
       client.allocate_public_ip(opts[:realm_id])
+      # new address not returned immediately:
+      # Seems to take 15-30s. to appear in list, so poll for a while
+      # prepare dummy id in case new ip does not appear soon.
+      id = 'PENDING-xxx.xxx.xxx.xxx'
+      sleep(8)
+      10.times {
+
+        sleep(5)
+        xml = client.list_public_ips(opts[:realm_id])['publicips']
+        if xml and xml[0]['publicip'] and xml[0]['publicip'].size > old_ips.size
+
+          new_ips = xml[0]['publicip'].collect { |ip| ip['address'][0]}
+          new_ip = (new_ips - old_ips).first
+          # enable IP address
+          client.attach_public_ip(opts[:realm_id], new_ip)
+          id = new_ip
+          break
+        end
+      }
+      Address.new(:id => id)
     end
-    # new address not returned immediately!
-    Address.new(:id => 'PENDING-xxx.xxx.xxx.xxx')
   end
 
   def destroy_address(credentials, opts={})
@@ -731,12 +754,23 @@ class FgcpDriver < Deltacloud::BaseDriver
         end
       end
       begin
-        # detach just in case
+        # disable IP if still enabled
         client.detach_public_ip(opts[:realm_id], opts[:id])
+        sleep(8)
       rescue Exception => ex
         raise ex unless ex.message =~ /^ALREADY_DETACHED.*/
       end
-      client.free_public_ip(opts[:realm_id], opts[:id])
+      attempts = 0
+      begin
+        # this may fail if the ip is still detaching, hence retry for a while
+        client.free_public_ip(opts[:realm_id], opts[:id])
+      rescue Exception => ex
+        raise unless attempts < 10 and ex.message =~ /^ILLEGAL_CONDITION.*/
+        # Detaching seems to take 15-30s, so keep trying for a while
+        sleep(5)
+        attempts += 1
+        retry
+      end
     end
   end
 
@@ -746,7 +780,9 @@ class FgcpDriver < Deltacloud::BaseDriver
       vsys_id = client.extract_vsys_id(opts[:instance_id])
 
       begin
+        # enable IP in case not enabled already
         client.attach_public_ip(vsys_id, opts[:id])
+        sleep(8)
       rescue Exception => ex
         raise ex unless ex.message =~ /^ALREADY_ATTACHED.*/
       end
@@ -768,7 +804,8 @@ class FgcpDriver < Deltacloud::BaseDriver
       fw_id = "#{vsys_id}-S-0001"
       nat_rules = client.get_efm_configuration(fw_id, 'FW_NAT_RULE')['efm'][0]['firewall'][0]['nat'][0]['rules'][0]
 
-      if nat_rules and not nat_rules.empty? # happens only if no enabled IP address?
+	# TODO: if no IP address enabled yet
+      if nat_rules and not nat_rules.empty? and nat_rules['rule'].find { |rule| rule['publicIp'][0] == opts[:id] }
 
         nat_rules['rule'].each do |rule|
 
@@ -830,7 +867,6 @@ class FgcpDriver < Deltacloud::BaseDriver
       )
 
       client.update_efm_configuration(fw_id, 'FW_NAT_RULE', conf_xml_new)
-      client.detach_public_ip(client.extract_vsys_id(opts[:realm_id]), opts[:id])
     end
   end
 
@@ -1194,8 +1230,11 @@ eofwopxml
   def create_load_balancer(credentials, opts={})
     safely do
       client = new_client(credentials)
-      # if opts['realm_id'].nil? network id specified, pick first vsys' DMZ?
+      # if opts['realm_id'].nil? network id specified, pick first vsys' DMZ
+      # if realm has SLB already, use that, else create
       # CreateEFM -vsysId vsysId -efmType SLB -efmName opts['name'] -networkId opts['realm_id']
+      # if not started already, start
+      # add group and return :id => efmId_groupId
       network_id = opts[:realm_id]
       if not network_id
         xml = client.list_vsys['vsyss']
@@ -1215,6 +1254,9 @@ eofwopxml
   def destroy_load_balancer(credentials, id)
     safely do
       client = new_client(credentials)
+      # remove group from SLB
+      # if no groups left, stop and destroy SLB
+      # destroy in new thread? May fail if public IP associated?
       client.destroy_efm(id)
     end
   end
@@ -1374,6 +1416,11 @@ eofwopxml
     # wrong vdiskId, etc.
     on /RESOURCE_NOT_FOUND/ do
       status 404 # Not Found
+    end
+
+    # reached maximum number of attempts while polling for an update
+    on /Server did not include public IP address in FW NAT rules/ do
+      status 504 # Gateway Timeout
     end
 
     # wrong FW description (vsys descriptor)

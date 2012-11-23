@@ -1,1 +1,1 @@
-@ruby "%~dp0start"
+@ruby "%~dp0start" %*
