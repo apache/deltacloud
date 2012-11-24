@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 1.8.7
   - 1.9.3
-  - jruby-19mode
+  - jruby-head
 jdk:
   - openjdk7
 env:
@@ -24,3 +24,4 @@ notifications:
       - "irc.freenode.org#deltacloud"
     use_notice: true
     skip_join: false
+
