@@ -549,8 +549,8 @@ The following table gives details about the credentials that must be provided fo
       </td>
       <td>openstack</td>
       <td>OpenStack user</td>
-      <td>OpenStack user password</td>
-      <td>Set the environment variable API_PROVIDER to the URL of OpenStack API entrypoint.</td>
+      <td>The username is OpenStack user name and tenant_name concatenated with a '+' and password is your openstack service password.</td>
+      <td>Set the environment variable API_PROVIDER to the URL of Keystone Identity service. Alternatively use the '-P' option when starting the Deltacloud server. See <a href="drivers.html#open">notes</a> for more info.</td>
     </tr>
 <tr>
 <td>
@@ -720,7 +720,9 @@ The OpenNebula driver has been updated to support v3.x of the OpenNebula API. Th
     </div>
     <div id="open" class="accordion-body collapse">
       <div class="accordion-inner">
-      To connect to OpenStack API, you will need to set the API_provider environment variable or the 'X-Deltacloud-Provider' HTTP header to a valid OpenStack API entrypoint.
+      To use the Openstack driver you need to set the API_PROVIDER environment variable, or the 'X-Deltacloud-Provider' HTTP header to the URI of the Keystone Identity service (you should get this from your Openstack service administrator). You can also pass this with the '-P' option when starting the Deltacloud server. <br><br>
+      Furthermore, you need to provide username, tenant_name and password for authentication. The username and tenant_name are specified as one string, concatenated with '+'. For example, with a username of "you@domain.com" and tenantname of "you@domain.com-default-tenant", you would pass "you@domain.com+you@domain.com-default-tenant" as the username in HTTP basic authentication to Deltacloud. This is explained further in this
+<a href="http://mariosandreou.com/deltacloud/2012/02/23/deltacloud-openstack_v2API-driver.html">blog post</a>.
       </div>
     </div>
   </div>
