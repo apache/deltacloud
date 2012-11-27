@@ -15,4 +15,13 @@ describe 'MockDriver Buckets' do
     end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
   end
 
+  it 'can create a new bucket' do
+    bucket_name = "mini_test_mock_bucket_name"
+    bucket = @driver.create_bucket(bucket_name)
+    bucket.id.wont_be_nil
+    bucket.name.must_equal bucket_name
+    bucket.size.must_equal "0"
+    bucket.blob_list.must_be_empty
+  end
+
 end
