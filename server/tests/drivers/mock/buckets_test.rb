@@ -1,6 +1,6 @@
+require 'rubygems'
 require 'minitest/autorun'
-
-require_relative File.join('..', '..', '..', 'lib', 'deltacloud', 'api.rb')
+require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative 'common.rb'
 
 describe 'MockDriver Buckets' do
