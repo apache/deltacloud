@@ -210,9 +210,16 @@ class CIMI::Test::Spec < MiniTest::Spec
   end
 
   def self.model(name, opts = {}, &block)
-    define_method name do
+    define_method name do |*args|
       @_memoized ||= {}
       @@_cache ||= {}
+      if args[0].is_a?(Hash)
+        if args[0][:refetch]
+          k = "#{name}_#{@format}"
+          @_memoized.delete(k)
+          @@_cache.delete(k)
+        end
+      end
       resp = @_memoized.fetch("#{name}_#{@format}") do |k|
         if opts[:cache]
           @_memoized[k] = @@_cache.fetch(k) do |k|
