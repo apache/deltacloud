@@ -102,20 +102,18 @@ class CIMI::Model::Machine < CIMI::Model::Base
     end
     metadata
   end
-
-  def self.attach_volumes(volumes, context)
-    volumes.each do |vol|
-      context.driver.attach_storage_volume(context.credentials,
-      {:id=>vol[:volume].name, :instance_id=>context.params[:id], :device=>vol[:attachment_point]})
-    end
-    self.find(context.params[:id], context)
+  #returns the newly attach machine_volume
+  def self.attach_volume(volume, location, context)
+    context.driver.attach_storage_volume(context.credentials,
+     {:id=>volume, :instance_id=>context.params[:id], :device=>location})
+    CIMI::Model::MachineVolume.find(context.params[:id], context, volume)
   end
 
-  def self.detach_volumes(volumes, context)
-    volumes.each do |vol|
-      context.driver.detach_storage_volume(context.credentials, {:id=>vol[:volume].name, :instance_id => context.params[:id]})
-    end
-    self.find(context.params[:id], context)
+  #returns the machine_volume_collection for the given machine
+  def self.detach_volume(volume, location, context)
+    context.driver.detach_storage_volume(context.credentials,
+     {:id=>volume, :instance_id=>context.params[:id], :device=>location})
+    CIMI::Model::MachineVolume.collection_for_instance(context.params[:id], context)
   end
 
   private

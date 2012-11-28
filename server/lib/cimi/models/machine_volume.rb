@@ -26,17 +26,65 @@ class CIMI::Model::MachineVolume < CIMI::Model::Base
     if id == :all
       volumes = context.driver.storage_volumes(context.credentials)
       volumes.inject([]) do |attached, vol|
+        id = context.machine_url(instance_id)+"/volumes/#{vol.id}"
         attached <<  self.new(
-          :id => context.machine_url(instance_id)+"/volumes/#{vol.id}",
+          :id => id,
           :name => vol.id,
           :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
           :created => Time.parse(vol.created).xmlschema,
           :initial_location => vol.device,
-          :volume => {:href=>context.volume_url(vol.id)}
+          :volume => {:href=>context.volume_url(vol.id)},
+          :operations => [{:href=>id, :rel => "delete" }]
           ) if vol.instance_id == instance_id
         attached
       end
     else
+      vol = context.driver.storage_volume(context.credentials, {:id=>id})
+      id = context.machine_url(instance_id)+"/volumes/#{vol.id}"
+      raise CIMI::Model::NotFound unless vol.instance_id == instance_id
+      self.new(
+        :id => id,
+        :name => vol.id,
+        :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
+        :created => Time.parse(vol.created).xmlschema,
+        :initial_location => vol.device,
+        :volume => {:href=>context.volume_url(vol.id)},
+        :operations => [{:href=>id, :rel => "delete" }]
+        )
     end
   end
+
+  def self.find_to_attach_from_xml(xml_in, context)
+    xml = XmlSimple.xml_in(xml_in)
+    vol_id = xml["volume"].first["href"].split("/").last
+    location = xml["initialLocation"].first.strip
+    [vol_id, location]
+  end
+
+  def self.find_to_attach_from_json(json_in, context)
+    json = JSON.parse(json_in)
+    vol_id = json["volume"]["href"].split("/").last
+    location = json["initialLocation"]
+    [vol_id, location]
+  end
+
+
+  def self.collection_for_instance(instance_id, context)
+    machine_volumes = self.find(instance_id, context)
+    volumes_url = context.url("/machines/#{instance_id}/volumes")
+    unless CIMI::Model.const_defined?('MachineVolumeCollection')
+      collection_class = CIMI::Model::Collection.generate(self)
+    else
+      collection_class = CIMI::Model::MachineVolumeCollection
+    end
+    collection_class.new(
+      :id => volumes_url,
+      :name => 'default',
+      :count => machine_volumes.size,
+      :description => "Volume collection for Machine #{instance_id}",
+      :entries => machine_volumes,
+      :operations => [{ :href => volumes_url.singularize+"_attach", :rel => "add" }]
+    )
+  end
+
 end

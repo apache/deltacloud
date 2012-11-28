@@ -68,18 +68,6 @@ class CIMI::Model::Volume < CIMI::Model::Base
     context.driver.destroy_storage_volume(context.credentials, {:id=>id} )
   end
 
-  def self.find_to_attach_from_json(json_in, context)
-    json = JSON.parse(json_in)
-    json["volumes"].map{|v| {:volume=>self.find(v["volume"]["href"].split("/volumes/").last, context),
-                             :attachment_point=>v["attachmentPoint"]  }}
-  end
-
-  def self.find_to_attach_from_xml(xml_in, context)
-    xml = XmlSimple.xml_in(xml_in)
-    xml["volume"].map{|v| {:volume => self.find(v["href"].split("/volumes/").last, context),
-                           :attachment_point=>v["attachmentPoint"] }}
-  end
-
   private
 
   def self.create_volume(params, context)
@@ -101,20 +89,6 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :state => volume.state,
                 :meters => []
             } )
-  end
-
-  def self.collection_for_instance(instance_id, context)
-    instance = context.driver.instance(context.credentials, :id => instance_id)
-    volumes = instance.storage_volumes.map do |mappings|
-      mappings.keys.map { |volume_id| from_storage_volume(context.driver.storage_volume(context.credentials, :id => volume_id), context) }
-    end.flatten
-    CIMI::Model::VolumeCollection.new(
-      :id => context.url("/machines/#{instance_id}/volumes"),
-      :name => 'default',
-      :count => volumes.size,
-      :description => "Volume collection for Machine #{instance_id}",
-      :entries => volumes
-    )
   end
 
 end
