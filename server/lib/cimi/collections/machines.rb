@@ -131,54 +131,64 @@ module CIMI::Collections
         end
       end
 
-      operation :volumes, :with_capability => :storage_volumes do
-        description "Retrieve the Machine's MachineVolumeCollection"
-        param :id,          :string,    :required
-        control do
-          volumes = CIMI::Model::Volume.collection_for_instance(params[:id], self)
-          respond_to do |format|
-            format.json {volumes.to_json}
-            format.xml  {volumes.to_xml}
+      #use rabbit subcollections for volumes index/show:
+      collection :volumes, :with_id => :vol_id do
+
+        operation :index, :with_capability => :storage_volumes do
+          description "Retrieve the Machine's MachineVolumeCollection"
+          control do
+            volumes = CIMI::Model::MachineVolume.collection_for_instance(params[:id], self)
+            respond_to do |format|
+              format.json {volumes.to_json}
+              format.xml  {volumes.to_xml}
+            end
           end
         end
+
+        operation :show, :with_capability => :storage_volumes do
+          description "Retrieve a Machine's specific MachineVolume"
+          control do
+            volume = CIMI::Model::MachineVolume.find(params[:id], self, params[:vol_id])
+            respond_to do |format|
+              format.json {volume.to_json}
+              format.xml  {volume.to_xml}
+            end
+          end
+        end
+
+        operation :destroy, :with_capability => :detach_storage_volume do
+          description "Remove/detach a volume from the Machine's MachineVolumeCollection"
+          control do
+            machine_volume = CIMI::Model::MachineVolume.find(params[:id], self, params[:vol_id])
+            location = machine_volume.initial_location
+            machine_volumes = Machine.detach_volume(params[:vol_id], location, self)
+            respond_to do |format|
+              format.json{ machine_volumes.to_json}
+              format.xml{ machine_volumes.to_xml}
+            end
+          end
+        end
+
       end
 
-      #NOTE: The routes for attach/detach used here are NOT as specified by CIMI
-      #will likely move later. CIMI specifies PUT of the whole Machine description
-      #with inclusion/ommission of the volumes you want [att|det]ached
-      action :attach_volume, :http_method => :put, :with_capability => :attach_storage_volume do
+      operation :volume_attach, :http_method => :put, :with_capability => :attach_storage_volume do
         description "Attach CIMI Volume(s) to a machine."
         param :id,          :string,    :required
         control do
           if request.content_type.end_with?("json")
-            volumes_to_attach = Volume.find_to_attach_from_json(request.body.read, self)
+            volume_to_attach, location = MachineVolume.find_to_attach_from_json(request.body.read, self)
           else
-            volumes_to_attach = Volume.find_to_attach_from_xml(request.body.read, self)
+            volume_to_attach, location = MachineVolume.find_to_attach_from_xml(request.body.read, self)
           end
-          machine = Machine.attach_volumes(volumes_to_attach, self)
+          machine_volume = Machine.attach_volume(volume_to_attach,location, self)
+          status 201
           respond_to do |format|
-            format.json{ machine.to_json}
-            format.xml{machine.to_xml}
+            format.json{ machine_volume.to_json}
+            format.xml{machine_volume.to_xml}
           end
         end
       end
 
-      action :detach_volume, :http_method => :put, :with_capability => :detach_storage_volume do
-        description "Detach CIMI Volume(s) from a machine."
-        param :id,          :string,    :required
-        control do
-          if request.content_type.end_with?("json")
-            volumes_to_detach = Volume.find_to_attach_from_json(request.body.read, self)
-          else
-            volumes_to_detach = Volume.find_to_attach_from_xml(request.body.read, self)
-          end
-          machine = Machine.detach_volumes(volumes_to_detach, self)
-          respond_to do |format|
-            format.json{ machine.to_json}
-            format.xml{machine.to_xml}
-          end
-        end
-      end
     end
 
   end
