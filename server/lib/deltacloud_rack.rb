@@ -14,6 +14,7 @@
 # under the License.
 
 require 'require_relative' if RUBY_VERSION < '1.9'
+require 'json/pure'
 
 require_relative './deltacloud/core_ext'
 require_relative './sinatra/rack_logger'

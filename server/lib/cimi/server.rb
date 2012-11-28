@@ -15,7 +15,6 @@
 
 require 'rubygems'
 require 'crack'
-require 'json'
 require 'yaml'
 require 'haml'
 require 'sinatra/base'

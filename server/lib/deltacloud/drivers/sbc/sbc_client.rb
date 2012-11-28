@@ -16,7 +16,6 @@
 
 require 'base64'
 require 'net/https'
-require 'json'
 require 'digest/md5'
 
 module Deltacloud
