@@ -39,7 +39,6 @@ require 'deltacloud/models/load_balancer'
 require 'deltacloud/models/firewall'
 require 'deltacloud/models/firewall_rule'
 
-require 'json'
 require 'sinatra/rack_accept'
 require 'sinatra/rack_cimi'
 require 'sinatra/static_assets'

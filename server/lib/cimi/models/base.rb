@@ -14,7 +14,6 @@
 # under the License.
 
 require 'xmlsimple'
-require 'json'
 
 # The base class for any CIMI object that we either read from a request or
 # write as a response. This class handles serializing/deserializing XML and
@@ -289,10 +288,18 @@ class CIMI::Model::Base < CIMI::Model::Resource
   class << self
     def store_attributes_for(context, entity, attrs={})
       stored_attributes = {}
-      stored_attributes[:description] = attrs['description'] if attrs['description']
-      stored_attributes[:name] = attrs['name'] if attrs['name']
-      stored_attributes[:ent_properties] = attrs['properties'].to_json if attrs['properties']
+      stored_attributes[:description] = extract_attribute_value('description', attrs) if attrs['description']
+      stored_attributes[:name] = extract_attribute_value('name', attrs) if attrs['name']
+      stored_attributes[:ent_properties] = extract_attribute_value('properties', attrs).to_json if attrs['properties']
       context.store_attributes_for(entity, stored_attributes)
+    end
+
+    # In XML serialization the values stored in attrs are arrays, dues to
+    # XmlSimple. This method will help extract values from them
+    #
+    def extract_attribute_value(name, attrs={})
+      return unless attrs[name]
+      attrs[name].is_a?(Array) ? attrs[name].first : attrs[name]
     end
   end
 end
