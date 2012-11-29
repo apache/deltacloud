@@ -1,7 +1,7 @@
 module Deltacloud
   module Database
 
-    class MachineTemplateEntity < Entity
+    class MachineTemplate < Entity
       belongs_to :provider
 
       property :machine_config, String

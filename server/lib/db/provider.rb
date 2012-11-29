@@ -9,7 +9,7 @@ module Deltacloud
       property :url, Text
 
       has n, :entities
-      has n, :machine_template_entities
+      has n, :machine_templates
     end
 
   end
