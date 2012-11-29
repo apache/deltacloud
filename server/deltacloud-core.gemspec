@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-Kernel::load File::join(File::dirname(__FILE__), './lib/deltacloud/version.rb')
+require File::expand_path(File::join(File::dirname(__FILE__), './lib/deltacloud/version.rb'))
 
 Gem::Specification.new do |s|
   s.author = 'The Apache Software Foundation'
