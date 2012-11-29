@@ -1,10 +1,21 @@
 module Deltacloud
 
-  require 'data_mapper'
+  def self.test_environment?
+    ENV['RACK_ENV'] == 'test'
+  end
 
-  require_relative './db/provider'
-  require_relative './db/entity'
-  require_relative './db/machine_template'
+  module Database
+    def test_environment?
+      Deltacloud.test_environment?
+    end
+  end
+
+  unless test_environment?
+    require 'data_mapper'
+    require_relative './db/provider'
+    require_relative './db/entity'
+    require_relative './db/machine_template'
+  end
 
   DATABASE_LOCATION = ENV['DATABASE_LOCATION'] || "/var/tmp/deltacloud-mock-#{ENV['USER']}/db.sqlite"
 
@@ -20,16 +31,19 @@ module Deltacloud
       include Deltacloud::Database
 
       def store_attributes_for(model, values={})
+        return if test_environment?
         return if model.nil? or values.empty?
         current_db.entities.first_or_create(:be_kind => model.to_entity, :be_id => model.id).update(values)
       end
 
       def load_attributes_for(model)
+        return {} if test_environment?
         entity = get_entity(model)
         entity.nil? ? {} : entity.to_hash
       end
 
       def delete_attributes_for(model)
+        return if test_environment?
         get_entity(model).destroy
       end
 
@@ -53,4 +67,4 @@ module Deltacloud
 
 end
 
-Deltacloud::initialize_database
+Deltacloud::initialize_database unless Deltacloud.test_environment?
