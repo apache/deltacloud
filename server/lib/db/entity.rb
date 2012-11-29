@@ -1,19 +1,26 @@
 module Deltacloud
   module Database
 
-    class Entity
+    class BaseEntity
       include DataMapper::Resource
 
       belongs_to :provider
 
       property :id, Serial
+      property :type, Discriminator
+
       property :be_kind, String, :required => true # => Machine, MachineImage, ...
       property :be_id, String, :required => true # => Original Machine 'id'
 
-      property :ent_properties, Json
+    end
+
+    class Entity < BaseEntity
+
+      belongs_to :provider
 
       property :name, String
       property :description, String
+      property :ent_properties, Json
 
       def to_hash
         retval = {}

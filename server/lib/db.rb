@@ -4,6 +4,7 @@ module Deltacloud
 
   require_relative './db/provider'
   require_relative './db/entity'
+  require_relative './db/machine_template'
 
   DATABASE_LOCATION = ENV['DATABASE_LOCATION'] || "/var/tmp/deltacloud-mock-#{ENV['USER']}/db.sqlite"
 
