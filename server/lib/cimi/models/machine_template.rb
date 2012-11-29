@@ -40,4 +40,67 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
   array :operations do
     scalar :rel, :href
   end
+
+  class << self
+    def find(id, context)
+      if id == :all
+        context.current_db.machine_template_entities.all.map { |t| from_db(t, context) }
+      else
+        template = context.current_db.machine_template_entities.first(:id => id)
+        raise CIMI::Model::NotFound unless template
+        from_db(template, context)
+      end
+    end
+
+    def create_from_json(body, context)
+      json = JSON.parse(body)
+      new_template = context.current_db.machine_template_entities.new(
+        :name => json['name'],
+        :description => json['description'],
+        :machine_config => json['machineConfig']['href'],
+        :machine_image => json['machineImage']['href'],
+        :ent_properties => json['properties'].to_json,
+        :be_kind => 'machine_template',
+        :be_id => ''
+      )
+      new_template.save!
+      from_db(new_template, context)
+    end
+
+    def create_from_xml(body, context)
+      xml = XmlSimple.xml_in(body)
+      new_template = context.current_db.machine_template_entities.new(
+        :name => xml['name'].first,
+        :description => xml['description'].first,
+        :machine_config => xml['machineConfig'].first['href'],
+        :machine_image => xml['machineImage'].first['href'],
+        :ent_properties => xml['properties'].first.to_json,
+        :be_kind => 'machine_template',
+        :be_id => ''
+      )
+      new_template.save!
+      from_db(new_template, context)
+    end
+
+    def delete!(id, context)
+      context.current_db.machine_template_entities.first(:id => id).destroy
+    end
+
+    private
+
+    def from_db(model, context)
+      self.new(
+        :id => context.machine_template_url(model.id),
+        :name => model.name,
+        :description => model.description,
+        :machine_config => { :href => model.machine_config },
+        :machine_image => { :href => model.machine_image },
+        :property => model.ent_properties,
+        :operations => [
+          { :href => context.destroy_machine_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
+        ]
+      )
+    end
+  end
+
 end
