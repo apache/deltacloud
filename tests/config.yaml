@@ -35,3 +35,7 @@ cimi:
   cep: "http://localhost:3001/cimi/cloudEntryPoint"
   user: "mockuser"
   password: "mockpassword"
+  preferred:
+    machine_image: "img2"
+    machine_config: "m1-small"
+    volume_config: "2"

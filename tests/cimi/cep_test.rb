@@ -50,23 +50,37 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
     subject.name.wont_be_empty
   end
 
+  it "should have a response code equal to 200" do
+    subject
+    last_response.code.must_equal 200
+  end
+
   it "should have the correct resourceURI", :only => :json do
     subject.wont_be_nil     # Make sure we talk to the server
     last_response.json["resourceURI"].must_equal RESOURCE_URI
   end
 
-  it "should have root collections" do
-    ROOTS.each do |root|
-      r = root.underscore.to_sym
-      if subject.respond_to?(r)
-        coll = subject.send(r)
-        coll.must_respond_to :href, "#{root} collection"
-        unless coll.href.nil?
-          coll.href.must_be_uri "#{root} collection"
-          model = fetch(coll.href)
-          last_response.code.must_equal 200
-        end
-      end
-    end
+  query_the_cep(ROOTS)
+
+  # Testing "*/*" Accept Headers returns json output
+  response = RestClient.get(api.cep_url, "Accept" => "*/*")
+  log.info( " */* accept headers return: " + response.json.to_s() )
+
+  it "should return json response", :only => "*/*" do
+    response.wont_be_nil
+    response.headers[:content_type].eql?("application/json")
   end
+
+  it "should have a response code equal to 200", :only => "*/*" do
+    response.code.must_equal 200
+  end
+
+  it "should have an id equal to the CEP URL" , :only => "*/*" do
+    response.json["id"].must_equal api.cep_url
+  end
+
+  it "should have a baseURI" do
+    response.json["baseURI"].must_be_uri
+  end
+
 end

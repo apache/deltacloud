@@ -1,0 +1,147 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+$:.unshift File.join(File.dirname(__FILE__))
+
+require "test_helper.rb"
+
+class AddVolumeToMachine < CIMI::Test::Spec
+  RESOURCE_URI = "http://schemas.dmtf.org/cimi/1/VolumeCreate"
+
+  ROOTS = [ "machines" , "volumes" , "volumeConfigurations"]
+
+  # Cleanup for resources created for the test
+  MiniTest::Unit.after_tests {  teardown(@@created_resources, api.basic_auth) }
+
+  # 4.1: Query the CEP
+  model :subject, :cache => true do |fmt|
+    cep(:accept => fmt)
+  end
+
+  # 2.2, 2.3: CEP.machines, CEP.volumes and CEP.volumeConfigs must be set
+  query_the_cep(ROOTS)
+
+  # At least one VolumeConfiguration resource must appear in the collection
+  it "should have at least one volumeConfiguration collection" do
+    ROOTS.each do |root|
+      r = root.underscore.to_sym
+      if r.eql?(:volume_configurations)
+        model = fetch(subject.send(r).href)
+        log.info(model.attribute_values[r][0])
+        assert_equal model.attribute_values[r][0].nil?(), false
+        model.attribute_values[r][0].id.must_be_uri
+      end
+    end
+  end
+
+# Create a machine to attach the volume
+   cep_json = cep(:accept => :json)
+   machine = RestClient.post(cep_json.json["machines"]["href"],
+     "<Machine>" +
+       "<name>cimi_machine</name>" +
+       "<machineTemplate>" +
+         "<machineConfig " +
+           "href=\"" + cep_json.json["machineConfigs"]["href"] + "/" + api.provider_perferred_config + "\"/>" +
+         "<machineImage " +
+           "href=\"" + cep_json.json["machineImages"]["href"] + "/" + api.provider_perferred_image + "\"/>" +
+       "</machineTemplate>" +
+     "</Machine>",
+     {'Authorization' => api.basic_auth, :accept => :json})
+
+  # 4.3:  Create a new Volume
+  model :volume do |fmt|
+    RestClient.post(cep_json.json["volumes"]["href"],
+      "<Volume>" +
+        "<name>cimi_volume_" + fmt.to_s() +"</name>" +
+        "<description>volume for testing</description>" +
+        "<volumeTemplate>" +
+          "<volumeConfig href=\"" + cep_json.json["volumeConfigs"]["href"]  +  "/" +
+            api.provider_perferred_volume_config + "\">" +
+          "</volumeConfig>" +
+        "</volumeTemplate>" +
+      "</Volume>",
+    {'Authorization' => api.basic_auth, :accept => fmt})
+  end
+
+  it "should add resource machine resource for cleanup", :only => :json do
+    @@created_resources[:machines] << machine.json["id"]
+  end
+
+#  it "should add resource for cleanup" do
+#    @@created_resources[:volumes] << volume.id
+#  end
+
+  it "should have a name" do
+    volume.name.wont_be_empty
+    log.info("volume name: " + volume.name)
+  end
+
+  it "should have a response code equal to 201 for creating a volume" do
+    volume
+    last_response.code.must_equal 201
+  end
+
+  it "should have the correct resourceURI", :only => :json do
+    volume.wont_be_nil
+    last_response.json["resourceURI"].must_equal RESOURCE_URI.gsub("Create", "")
+  end
+
+  # 4.4: Attach the new Volume to a Machine
+  log.info(machine.json["id"].to_s() + " is the machine id")
+  volume = RestClient.post(cep_json.json["volumes"]["href"],
+  "<Volume>" +
+    "<name>cimi_volume_for_attach</name>" +
+    "<description>volume for attach testing</description>" +
+    "<volumeTemplate>" +
+      "<volumeConfig href=\"" + cep_json.json["volumeConfigs"]["href"] +  "/" +
+        api.provider_perferred_volume_config + "\">" +
+      "</volumeConfig>" +
+    "</volumeTemplate>" +
+  "</Volume>",
+{'Authorization' => api.basic_auth, :accept => :json})
+
+  log.info(volume.json["id"].to_s() + " is the volume id")
+
+  model :machineWithVolume, :only => :xml do
+    RestClient.put(machine.json["id"] + "/volume_attach",
+    "<MachineVolume xmlns=\"http://schemas.dmtf.org/cimi/1/MachineVolume\">" +
+    "<initialLocation>/dev/sdf</initialLocation>" +
+    "<volume href=\"" + volume.json["id"] + "\"/>" +
+    "</MachineVolume>",
+    {'Authorization' => api.basic_auth, :accept => :xml})
+  end
+
+  it "should have a response code equal to 201 for attaching a volume", :only => :xml do
+    machineWithVolume
+    last_response.code.must_equal 201
+  end
+
+  it "should have delete and edit operations", :only => :xml do
+    # no edit
+    machineWithVolume[:operations][0][0].must_include "delete"
+  end
+
+  it "should be able to detach from the instance", :only => :xml do
+    log.info( machine.json["id"] +
+    "/volumes/" + volume.json["id"].split("/volumes/")[1])
+     sleep 5
+    response = RestClient.delete(machine.json["id"] +
+      "/volumes/" + volume.json["id"].split("/volumes/")[1],
+    {'Authorization' => api.basic_auth, :accept => :xml})
+      response.code.must_equal 200
+  end
+
+end

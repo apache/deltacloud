@@ -19,6 +19,7 @@ require 'require_relative'
 require_relative '../helpers/common.rb'
 require 'singleton'
 require_relative "../../server/lib/cimi/models"
+require 'logger'
 
 # Add CIMI specific config stuff
 module CIMI
@@ -33,6 +34,7 @@ module CIMI
       def initialize
         @hash = Deltacloud::Test::yaml_config
         @cimi = @hash["cimi"]
+        @preferred = @cimi["preferred"]
       end
 
       def cep_url
@@ -49,6 +51,18 @@ module CIMI
         "Basic #{Base64.encode64("#{u}:#{p}")}"
       end
 
+      def provider_perferred_image
+        @preferred["machine_image"]
+      end
+
+      def provider_perferred_config
+        @preferred["machine_config"]
+      end
+
+      def provider_perferred_volume_config
+        @preferred["volume_config"]
+      end
+
       def collections
         xml.xpath("/c:CloudEntryPoint/c:*[@href]", ns).map { |c| c.name.to_sym }
       end
@@ -60,6 +74,7 @@ module CIMI
       def ns
         { "c" => CIMI_NAMESPACE }
       end
+
 
       private
       def xml
@@ -79,6 +94,7 @@ end
 module CIMI::Test::Methods
 
   module Global
+
     def api
       CIMI::Test::config
     end
@@ -134,6 +150,40 @@ module CIMI::Test::Methods
       end
       headers
     end
+
+    # Adding logging capability
+    def log
+      unless @log
+        @log = Logger.new(STDOUT)
+        if ENV['LOG_LEVEL'].nil?
+          @log.level = Logger::WARN
+        else
+          @log.level = Logger.const_get ENV['LOG_LEVEL']
+        end
+      end
+      @log
+    end
+
+    def poll_state(machine, state)
+      while not machine.state.upcase.eql?(state)
+        puts state
+        puts 'waiting for machine to be: ' + state.to_s()
+        sleep(10)
+        machine = machine(:refetch => true)
+      end
+    end
+
+    def machine_stop_start(machine, action, state)
+      response = RestClient.post( machine.id + "/" + action,
+            "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
+              "<action> http://http://schemas.dmtf.org/cimi/1/action/" + action + "</action>" +
+            "</Action>",
+            {'Authorization' => api.basic_auth, :accept => :xml })
+      response.code.must_equal 202
+      poll_state(machine(:refetch => true), state)
+      machine(:refetch => true).state.upcase.must_equal state
+    end
+
   end
 
   module ClassMethods
@@ -163,6 +213,98 @@ module CIMI::Test::Methods
           member.name.must_equal entry.name
         end
       end
+    end
+
+    # Cleanup: stop/destroy the resources created for the tests
+    def teardown(created_resources, api_basic_auth)
+      @@created_resources = created_resources
+      puts "CLEANING UP... resources for deletion: #{@@created_resources.inspect}"
+
+      # machines:
+      if not @@created_resources[:machines].nil?
+        @@created_resources[:machines].each_index do |i|
+          attempts = 0
+          begin
+            stop_res = RestClient.post( @@created_resources[:machines][i] + "/stop",
+            "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
+            "<action> http://http://schemas.dmtf.org/cimi/1/action/stop</action>" +
+            "</Action>",
+            {'Authorization' => api.basic_auth, :accept => :xml } )
+
+            if stop_res.code == 202
+
+              model_state = RestClient.get( @@created_resources[:machines][i],
+              {'Authorization' => api_basic_auth, :accept => :json} ).json["state"]
+
+              while not model_state.upcase.eql?("STOPPED")
+                puts 'waiting for machine to be STOPPED'
+                sleep(10)
+                model_state = RestClient.get( @@created_resources[:machines][i],
+                {'Authorization' => api_basic_auth, :accept => :json} ).json["state"]
+              end
+            end
+            delete_res = RestClient.delete( @@created_resources[:machines][i],
+            {'Authorization' => api_basic_auth, :accept => :json} )
+            @@created_resources[:machines][i] = nil if delete_res.code == 200
+          rescue Exception => e
+            sleep(10)
+            attempts += 1
+            retry if (attempts <= 5)
+          end
+        end
+
+        @@created_resources[:machines].compact!
+        @@created_resources.delete(:machines) if @@created_resources[:machines].empty?
+      end
+
+      # machine_image, machine_volumes, other collections
+      if (not @@created_resources[:machine_images].nil?) &&
+      (not @@created_resources[:volumes].nil?)
+        [:machine_images, :volumes].each do |col|
+          @@created_resources[col].each do |k|
+            attempts = 0
+            begin
+              puts "#{k}"
+              res = RestClient.delete( "#{k}",
+              {'Authorization' => api_basic_auth, :accept => :json} )
+              @@created_resources[col].delete(k) if res.code == 200
+            rescue Exception => e
+              sleep(10)
+              attempts += 1
+              retry if (attempts <= 5)
+            end
+          end
+          @@created_resources.delete(col) if @@created_resources[col].empty?
+        end
+      end
+
+      puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.inspect}"
+      raise Exception.new("Unable to delete all created resources - please check: #{@@created_resources.inspect}") unless @@created_resources.empty?
+    end
+
+    def query_the_cep(collections = [])
+      it "should have root collections" do
+        cep = self.send(:subject)
+        collections.each do |root|
+          r = root.underscore.to_sym
+          if cep.respond_to?(r)
+            log.info( "Testing collection: " + root )
+            coll = cep.send(r)
+            coll.must_respond_to :href, "#{root} collection"
+            unless coll.href.nil?
+              coll.href.must_be_uri "#{root} collection"
+              model = fetch(coll.href)
+              last_response.code.must_equal 200
+              if last_response.headers[:content_type].eql?("application/json")
+                last_response.json["resourceURI"].wont_be_nil
+              end
+            else
+              log.info( root + " is not supported by this provider." )
+            end
+          end
+        end
+      end
+
     end
   end
 
@@ -220,6 +362,7 @@ class CIMI::Test::Spec < MiniTest::Spec
           @@_cache.delete(k)
         end
       end
+
       resp = @_memoized.fetch("#{name}_#{@format}") do |k|
         if opts[:cache]
           @_memoized[k] = @@_cache.fetch(k) do |k|
@@ -240,6 +383,14 @@ class CIMI::Test::Spec < MiniTest::Spec
     @@_cache[:last_response] ||= {}
     @@_cache[:last_response][@format]
   end
+
+  def setup
+   unless defined? @@created_resources
+     # Keep track of what collections were created for deletion after tests:
+     @@created_resources = {:machines=>[], :machine_images=>[], :volumes=>[]}
+   end
+   @@created_resources
+ end
 
   private
 
