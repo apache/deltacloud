@@ -80,7 +80,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
   def self.from_storage_volume(volume, context)
     self.new( { :name => volume.id,
                 :description => volume.id,
-                :created => Time.parse(volume.created).xmlschema,
+                :created => volume.created.nil? ? nil : Time.parse(volume.created).xmlschema,
                 :id => context.volume_url(volume.id),
                 :capacity => context.to_kibibyte(volume.capacity, 'GB'),
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
