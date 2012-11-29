@@ -57,6 +57,7 @@ module CIMI::Collections
           when :xml
             new_volume = Volume.create_from_xml(request.body.read, self)
           end
+          status 201
           respond_to do |format|
             format.json { new_volume.to_json }
             format.xml { new_volume.to_xml }

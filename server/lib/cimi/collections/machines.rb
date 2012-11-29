@@ -171,7 +171,7 @@ module CIMI::Collections
 
       end
 
-      operation :volume_attach, :http_method => :put, :with_capability => :attach_storage_volume do
+      operation :volume_attach, :http_method => :post, :with_capability => :attach_storage_volume do
         description "Attach CIMI Volume(s) to a machine."
         param :id,          :string,    :required
         control do
