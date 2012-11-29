@@ -64,7 +64,7 @@ module CIMI::Collections
         end
       end
 
-      operation :destroy do
+      operation :destroy, :with_capability => :destroy_storage_volume do
         description "Delete a specified Volume"
         control do
           Volume.delete!(params[:id], self)

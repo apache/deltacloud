@@ -87,7 +87,8 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :snapshots => [], #fixme...
                 :type => 'http://schemas.dmtf.org/cimi/1/mapped',
                 :state => volume.state,
-                :meters => []
+                :meters => [],
+                :operations => [{:href=> context.volume_url(volume.id), :rel => "delete"}]
             } )
   end
 
