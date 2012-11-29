@@ -343,7 +343,7 @@ class FgcpDriver < Deltacloud::BaseDriver
   # Create a new instance, given an image id
   # opts can include an optional name for the instance, hardware profile (hwp_id) and realm_id
   def create_instance(credentials, image_id, opts={})
-    name = opts[:name]
+    name = (opts[:name] && opts[:name].length > 0)? opts[:name] : "server_#{Time.now.to_s}"
     # default to 'economy' or obtain latest hardware profiles and pick the lowest spec profile?
     hwp = opts[:hwp_id] || 'economy'
     network_id = opts[:realm_id]

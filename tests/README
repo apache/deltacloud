@@ -32,8 +32,9 @@ RUNNING the tests:
 CONFIGURATION - the config.yaml file:
 =====================================
 
+* a space between colon and value is mandatory
 * api_url - set this to the URI for the running deltacloud server
-* each driver has it's own section... enter credentials for the driver
+* each driver has its own section... enter credentials for the driver
   you expect to be running at api_url. If there is no section for your driver,
   add it - the section should have the name used by the deltacloud server for that
   driver. For example for the rhevm driver:

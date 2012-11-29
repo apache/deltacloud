@@ -29,6 +29,17 @@ ec2:
     image: "ami-2b5fba42"
     hardware_profile: "m1.small"
     realm: "us-east-1b"
+#FGCP DRIVER CONFIG:
+fgcp:
+  user:
+  password:
+  #used for instances tests:
+  preferred:
+    provider: "au"
+    image: "IMG_3c9820_D30U8UNY6I9S"
+    hardware_profile: "economy"
+    realm: "UZXC0GRT-ZG8ZJCJ07"
+
 
 # CIMI testing
 cimi:
