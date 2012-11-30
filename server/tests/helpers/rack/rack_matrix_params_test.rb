@@ -3,8 +3,6 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative '../../test_helper.rb'
 require_relative './common.rb'
 
-require 'json'
-
 class TestMatrixApp < Sinatra::Base
   use Rack::MatrixParams
   get '/' do
