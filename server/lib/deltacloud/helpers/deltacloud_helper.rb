@@ -101,7 +101,7 @@ module Deltacloud::Helpers
       response.status = @code
 
       backtrace = (@error.respond_to?(:backtrace) and !@error.backtrace.nil?) ?
-        "\n\n#{@error.backtrace[0..10].join("\n")}\n\n" : ''
+        "\n\n#{@error.backtrace[0..20].join("\n")}\n\n" : ''
 
       if @code.to_s =~ /5(\d+)/
         log.error(@code.to_s) { "[#{@error.class.to_s}] #{message}#{backtrace}" }
