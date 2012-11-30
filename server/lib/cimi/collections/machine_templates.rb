@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index do
         description "List all machine templates"
         control do
-          machine_templates = MachineTemplate.list(self).filter_by(params['$select'])
+          machine_templates = CIMI::Model::MachineTemplate.list(self).filter_by(params['$select'])
           respond_to do |format|
             format.xml { machine_templates.to_xml }
             format.json { machine_templates.to_json }
@@ -34,7 +34,7 @@ module CIMI::Collections
       operation :show do
         description "Show specific machine template"
         control do
-          machine_template = MachineTemplate.find(params[:id], self)
+          machine_template = CIMI::Model::MachineTemplate.find(params[:id], self)
           respond_to do |format|
             format.xml { machine_template.to_xml }
             format.json { machine_template.to_json }
@@ -46,9 +46,9 @@ module CIMI::Collections
         description "Create new machine template"
         control do
           if request.content_type.end_with?("json")
-            new_machine_template = MachineTemplate.create_from_json(request.body.read, self)
+            new_machine_template = CIMI::Model::MachineTemplate.create_from_json(request.body.read, self)
           else
-            new_machine_template = MachineTemplate.create_from_xml(request.body.read, self)
+            new_machine_template = CIMI::Model::MachineTemplate.create_from_xml(request.body.read, self)
           end
           status 201 # Created
           headers 'Location' => new_machine_template.id
@@ -62,7 +62,7 @@ module CIMI::Collections
       operation :destroy do
         description "Delete a specified machine template"
         control do
-          MachineTemplate.delete!(params[:id], self)
+          CIMI::Model::MachineTemplate.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

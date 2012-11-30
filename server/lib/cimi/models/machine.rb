@@ -55,12 +55,13 @@ class CIMI::Model::Machine < CIMI::Model::Base
     else
       hardware_profile_id = machine_template['machineConfig']["href"].split('/').last
       image_id = machine_template['machineImage']["href"].split('/').last
+      if machine_template.has_key? 'credential'
+        additional_params[:keyname] = machine_template['credential']["href"].split('/').last
+      end
     end
+
     additional_params = {}
     additional_params[:name] = json['name'] if json['name']
-    if machine_template.has_key? 'credential'
-      additional_params[:keyname] = machine_template['credential']["href"].split('/').last
-    end
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
@@ -73,22 +74,20 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
-    if !xml['machineTemplate']['href'].nil?
-      template = context.current_db.machine_templates.first(:id => xml['machineTemplate']['href'].split('/').last)
+    if xml['machineTemplate'][0]['href']
+      template = context.current_db.machine_templates.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
       hardware_profile_id = template.machine_config.split('/').last
       image_id = template.machine_image.split('/').last
     else
       machine_template = xml['machineTemplate'][0]
-      hardware_profile_id = machine_template['machineConfig']["href"].split('/').last
-      image_id = machine_template['machineImage']["href"].split('/').last
+      hardware_profile_id = machine_template['machineConfig'].first["href"].split('/').last
+      image_id = machine_template['machineImage'].first["href"].split('/').last
+      if machine_template.has_key? 'credential'
+        additional_params[:keyname] = machine_template['credential'][0]["href"].split('/').last
+      end
     end
-    hardware_profile_id = machine_template['machineConfig'][0]["href"].split('/').last
-    image_id = machine_template['machineImage'][0]["href"].split('/').last
     additional_params = {}
     additional_params[:name] = xml['name'][0] if xml['name']
-    if machine_template.has_key? 'credential'
-      additional_params[:keyname] = machine_template['credential'][0]["href"].split('/').last
-    end
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
