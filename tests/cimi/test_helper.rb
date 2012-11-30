@@ -15,7 +15,7 @@
 # under the License.
 
 require 'rubygems'
-require 'require_relative'
+require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative '../helpers/common.rb'
 require 'singleton'
 require_relative "../../server/lib/cimi/models"
