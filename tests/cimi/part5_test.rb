@@ -29,7 +29,9 @@ class ManipulateAMachine < CIMI::Test::Spec
   # 2.1: Query the Machine
   # For some providers - need to create a machine before querying it.
   cep_json = cep(:accept => :json)
-  machine_created = RestClient.post(cep_json.json["machines"]["href"],
+  #discover machine create URI:
+  machine_add_uri = discover_uri_for("add", "machines")
+  machine_created = RestClient.post(machine_add_uri,
     "<Machine>" +
       "<name>cimi_machine_part5</name>" +
       "<machineTemplate>" +
@@ -99,13 +101,13 @@ class ManipulateAMachine < CIMI::Test::Spec
       machine.state.upcase.eql?("STARTED"))
       log.info(RESOURCE_URI.gsub("Machine", "action/restart"))
         # This relies on odering and needs to be improved
-      machine[:operations][0][0].must_include RESOURCE_URI.gsub( "Machine", "action/restart")
-      machine[:operations][1][0].must_include RESOURCE_URI.gsub( "Machine", "action/stop")
-      machine[:operations][2][0].must_include RESOURCE_URI.gsub( "Machine", "action/capture")
+      assert_silent { discover_uri_for("restart","", machine.operations) }
+      assert_silent { discover_uri_for("stop","", machine.operations) }
+      assert_silent { discover_uri_for("capture","", machine.operations) }
     elsif machine.state.upcase.eql?("STOPPED")
-      machine[:operations][0][0].must_include RESOURCE_URI.gsub( "Machine", "action/start")
-      machine[:operations][1][0].must_include RESOURCE_URI.gsub( "Machine", "action/destroy")
-      machine[:operations][2][0].must_include RESOURCE_URI.gsub( "Machine", "action/capture")
+      assert_silent { discover_uri_for(/\/start/,"", machine.operations) }
+      assert_silent  { discover_uri_for("delete","", machine.operations) }
+      assert_silent { discover_uri_for("capture","", machine.operations) }
     else
       log.info("machine is in an intermediate state: " +  machine.state)
     end

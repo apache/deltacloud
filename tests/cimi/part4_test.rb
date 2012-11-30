@@ -49,7 +49,8 @@ class AddVolumeToMachine < CIMI::Test::Spec
 
 # Create a machine to attach the volume
    cep_json = cep(:accept => :json)
-   machine = RestClient.post(cep_json.json["machines"]["href"],
+   machine_add_uri = discover_uri_for("add", "machines")
+   machine = RestClient.post(machine_add_uri,
      "<Machine>" +
        "<name>cimi_machine</name>" +
        "<machineTemplate>" +
@@ -63,7 +64,8 @@ class AddVolumeToMachine < CIMI::Test::Spec
 
   # 4.3:  Create a new Volume
   model :volume do |fmt|
-    RestClient.post(cep_json.json["volumes"]["href"],
+    volume_add_uri = discover_uri_for("add", "volumes")
+    RestClient.post(volume_add_uri,
       "<Volume>" +
         "<name>cimi_volume_" + fmt.to_s() +"</name>" +
         "<description>volume for testing</description>" +
@@ -99,9 +101,9 @@ class AddVolumeToMachine < CIMI::Test::Spec
     last_response.json["resourceURI"].must_equal RESOURCE_URI.gsub("Create", "")
   end
 
-  # 4.4: Attach the new Volume to a Machine
   log.info(machine.json["id"].to_s() + " is the machine id")
-  volume = RestClient.post(cep_json.json["volumes"]["href"],
+  volume_add_uri = discover_uri_for("add", "volumes")
+  volume = RestClient.post(volume_add_uri,
   "<Volume>" +
     "<name>cimi_volume_for_attach</name>" +
     "<description>volume for attach testing</description>" +
@@ -114,9 +116,10 @@ class AddVolumeToMachine < CIMI::Test::Spec
 {'Authorization' => api.basic_auth, :accept => :json})
 
   log.info(volume.json["id"].to_s() + " is the volume id")
-
+  # 4.4: Attach the new Volume to a Machine
   model :machineWithVolume, :only => :xml do
-    RestClient.put(machine.json["id"] + "/volume_attach",
+  attach_uri = discover_uri_for_subcollection("add", machine.json['id'], "volumes")
+    RestClient.post(attach_uri,
     "<MachineVolume xmlns=\"http://schemas.dmtf.org/cimi/1/MachineVolume\">" +
     "<initialLocation>/dev/sdf</initialLocation>" +
     "<volume href=\"" + volume.json["id"] + "\"/>" +
@@ -138,8 +141,8 @@ class AddVolumeToMachine < CIMI::Test::Spec
     log.info( machine.json["id"] +
     "/volumes/" + volume.json["id"].split("/volumes/")[1])
      sleep 5
-    response = RestClient.delete(machine.json["id"] +
-      "/volumes/" + volume.json["id"].split("/volumes/")[1],
+    detach_uri = discover_uri_for("delete", "", machineWithVolume.operations)
+    response = RestClient.delete(detach_uri,
     {'Authorization' => api.basic_auth, :accept => :xml})
       response.code.must_equal 200
   end

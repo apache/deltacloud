@@ -103,6 +103,24 @@ module CIMI::Test::Methods
       get(api.cep_url, params)
     end
 
+    def discover_uri_for(op, collection, operations = nil)
+      unless operations
+        cep_json = cep(:accept => :json)
+        #get the collection operations:
+        operations = get(cep_json.json["#{collection}"]["href"], {:accept=> :json}).json["operations"]
+      end
+      op_regex = Regexp.new(op, Regexp::IGNORECASE) # "add" == /add/i
+      op_uri = operations.inject(""){|res,current| res = current["href"] if current["rel"] =~ op_regex; res}
+      raise "Couldn't discover the #{collection} Collection #{op} URI" if op_uri.empty?
+      op_uri
+    end
+
+    def discover_uri_for_subcollection(op, resource_id, subcollection)
+      subcollection_uri = get(resource_id, {:accept=> :json}).json[subcollection]["href"]
+      subcollection_ops = get(subcollection_uri, {:accept=> :json}).json["operations"]
+      discover_uri_for(op, "", subcollection_ops)
+    end
+
     def get(path, params = {})
       RestClient.get absolute_url(path), headers(params)
     end
@@ -174,7 +192,8 @@ module CIMI::Test::Methods
     end
 
     def machine_stop_start(machine, action, state)
-      response = RestClient.post( machine.id + "/" + action,
+      uri = discover_uri_for(action, "", machine.operations)
+      response = RestClient.post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
               "<action> http://http://schemas.dmtf.org/cimi/1/action/" + action + "</action>" +
             "</Action>",

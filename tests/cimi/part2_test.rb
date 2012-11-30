@@ -48,12 +48,12 @@ end
 
   # 2.4:  Create a new CredentialResource
   log.info("Create a new CredentialResource: credential_resources is not a supported collection.")
-
   # 2.5: Create a new Machine
   model :machine do |fmt|
     cep_json = cep(:accept => :json)
-
-    RestClient.post(cep_json.json["machines"]["href"],
+    #discover the 'addURI' for creating Machine
+    add_uri = discover_uri_for("add", "machines")
+    RestClient.post(add_uri,
       "<Machine>" +
         "<name>cimi_machine_" + fmt.to_s() + "</name>" +
         "<machineTemplate>" +
