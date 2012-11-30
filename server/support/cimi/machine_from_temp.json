@@ -1,0 +1,10 @@
+{
+  "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "myMachine1337",
+  "description": "My template machine",
+  "properties": {
+    "foo": "bar",
+    "life": "is life"
+  },
+  "machineTemplate": { "href": "http://localhost:3001/cimi/machine_templates/8" }
+}

@@ -1,0 +1,10 @@
+<VolumeCreate>
+  <name>myVolume1</name>
+  <description>Description of my new volume</description>
+  <type>http://schemas.dmtf.org/cimi/1/mapped</type>
+  <capacity>1048576</capacity>
+  <bootable>false</bootable>
+  <volumeTemplate>
+    <volumeConfig href="http://localhost:3001/cimi/volume_configurations/2"/>
+  </volumeTemplate>
+</VolumeCreate>

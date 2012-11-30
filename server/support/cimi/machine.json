@@ -1,0 +1,13 @@
+{
+  "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "myDatabaseMachine",
+  "description": "This is a hangout demo stuff",
+  "properties": {
+    "foo": "bar",
+    "life": "is life"
+  },
+  "machineTemplate": {
+    "machineConfig": { "href": " http://localhost:3001/cimi/machine_configurations/m1-small" },
+    "machineImage": { "href": " http://localhost:3001/cimi/machine_images/img1" }
+  }
+}
