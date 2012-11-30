@@ -7,7 +7,7 @@
     "life": "is life"
   },
   "machineTemplate": {
-    "machineConfig": { "href": " http://localhost:3001/cimi/machine_configurations/m1-small" },
-    "machineImage": { "href": " http://localhost:3001/cimi/machine_images/img1" }
+    "machineConfig": { "href": "http://localhost:3001/cimi/machine_configurations/m1-small" },
+    "machineImage": { "href": "http://localhost:3001/cimi/machine_images/img1" }
   }
 }

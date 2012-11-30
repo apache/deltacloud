@@ -1,0 +1,9 @@
+<MachineCreate>
+  <name>myMachineXML123</name>
+  <description>Description of my new Machine</description>
+  <machineTemplate>
+    <machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"/>
+    <machineImage href="http://localhost:3001/cimi/machine_images/img1"/>
+  </machineTemplate>
+  <property name="test">value</property>
+</MachineCreate>

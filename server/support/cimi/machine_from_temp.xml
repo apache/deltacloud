@@ -1,0 +1,6 @@
+<MachineCreate>
+  <name>myMachineXML123</name>
+  <description>Description of my new Machine</description>
+  <machineTemplate href="http://localhost:3001/cimi/machine_templates/1"/>
+  <property name="test">value</property>
+</MachineCreate>
