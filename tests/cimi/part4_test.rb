@@ -31,7 +31,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
     cep(:accept => fmt)
   end
 
-  # 2.2, 2.3: CEP.machines, CEP.volumes and CEP.volumeConfigs must be set
+  # 4.2, 4.3: CEP.machines, CEP.volumes and CEP.volumeConfigs must be set
   query_the_cep(ROOTS)
 
   # At least one VolumeConfiguration resource must appear in the collection
@@ -55,9 +55,9 @@ class AddVolumeToMachine < CIMI::Test::Spec
        "<name>cimi_machine</name>" +
        "<machineTemplate>" +
          "<machineConfig " +
-           "href=\"" + cep_json.json["machineConfigs"]["href"] + "/" + api.provider_perferred_config + "\"/>" +
+           "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +
          "<machineImage " +
-           "href=\"" + cep_json.json["machineImages"]["href"] + "/" + api.provider_perferred_image + "\"/>" +
+           "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
        "</machineTemplate>" +
      "</Machine>",
      {'Authorization' => api.basic_auth, :accept => :json})
@@ -70,8 +70,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
         "<name>cimi_volume_" + fmt.to_s() +"</name>" +
         "<description>volume for testing</description>" +
         "<volumeTemplate>" +
-          "<volumeConfig href=\"" + cep_json.json["volumeConfigs"]["href"]  +  "/" +
-            api.provider_perferred_volume_config + "\">" +
+          "<volumeConfig href=\"" + get_a(cep_json, "volumeConfig") + "\">" +
           "</volumeConfig>" +
         "</volumeTemplate>" +
       "</Volume>",
@@ -108,8 +107,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
     "<name>cimi_volume_for_attach</name>" +
     "<description>volume for attach testing</description>" +
     "<volumeTemplate>" +
-      "<volumeConfig href=\"" + cep_json.json["volumeConfigs"]["href"] +  "/" +
-        api.provider_perferred_volume_config + "\">" +
+      "<volumeConfig href=\"" + get_a(cep_json, "volumeConfig") + "\">" +
       "</volumeConfig>" +
     "</volumeTemplate>" +
   "</Volume>",
@@ -132,15 +130,11 @@ class AddVolumeToMachine < CIMI::Test::Spec
     last_response.code.must_equal 201
   end
 
-  it "should have delete and edit operations", :only => :xml do
-    # no edit
+  it "should have a delete operation", :only => :xml do
     machineWithVolume[:operations][0][0].must_include "delete"
   end
 
   it "should be able to detach from the instance", :only => :xml do
-    log.info( machine.json["id"] +
-    "/volumes/" + volume.json["id"].split("/volumes/")[1])
-     sleep 5
     detach_uri = discover_uri_for("delete", "", machineWithVolume.operations)
     response = RestClient.delete(detach_uri,
     {'Authorization' => api.basic_auth, :accept => :xml})

@@ -19,5 +19,80 @@ $:.unshift File.join(File.dirname(__FILE__))
 require "test_helper.rb"
 
 class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
- log.info("MachineTemplates are not yet a supported collection - Deltacloud CIMI interface.")
+  RESOURCE_URI =
+    "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
+  ROOTS = ["machines", "machineImages", "machineConfigurations"]
+
+  MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
+
+  # 3.1: Query the CEP
+  model :subject, :cache => true do |fmt|
+    cep(:accept => fmt)
+  end
+
+  # This test must adhere to one of the "Query the CEP" test in the previous section.
+  # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
+  query_the_cep(ROOTS)
+
+  # 3.2 Querying MachineTemplates
+  # At least one MachineTemplate resource must appear in the collection
+  it "should contain one MachineTemplates resource" do
+    r = "machineTemplates".underscore.to_sym
+    model = fetch(subject.send(r).href)
+    log.info(model.attribute_values[r][0])
+    assert_equal model.attribute_values[r][0].nil?(), false
+  end
+
+  # A represenation of a MachineTemplatesCollection resource is returned.
+  cep_json = cep(:accept => :json)
+  model :machineTemplate do |fmt|
+    get(cep_json.json["machineTemplates"]["href"], {:accept=> :json}).json["machineTemplates"][0]
+  end
+
+  it "should have a name" do
+    machineTemplate["name"].wont_be_empty
+  end
+
+  it "should have a response code equal to 200" do
+    machineTemplate
+    last_response.code.must_equal 200
+  end
+
+  it "should have a machineConfig" do
+    machineTemplate["machineConfig"].wont_be_empty
+  end
+
+  it "should have a machineImage" do
+    machineTemplate["machineImage"].wont_be_empty
+  end
+
+  # 3.3 Creating a new machine
+  model :machine do |fmt|
+    cep_json = cep(:accept => :json)
+    #discover the 'addURI' for creating Machine
+    add_uri = discover_uri_for("add", "machines")
+    RestClient.post(add_uri,
+      "<Machine>" +
+        "<name>cimi_machine_from_template" + fmt.to_s() + "</name>" +
+        "<description> Created machine from template" + fmt.to_s() + "</description>" +
+        "<machineTemplate" +
+          "href=\"" + get_a(cep_json, "machineTemplate")+ "\"/>" +
+      "</Machine>",
+    {'Authorization' => api.basic_auth, :accept => fmt})
+  end
+
+  it "should add resource for cleanup" do
+    @@created_resources[:machines] << machine.id
+  end
+
+  it "should have a name" do
+    machine.name.wont_be_empty
+    log.info("machine name: " + machine.name)
+  end
+
+  it "should have a response code equal to 201" do
+    machine
+    last_response.code.must_equal 201
+  end
+
 end

@@ -36,6 +36,6 @@ cimi:
   user: "mockuser"
   password: "mockpassword"
   preferred:
-    machine_image: "img2"
-    machine_config: "m1-small"
-    volume_config: "2"
+   machineImage: "img2"
+   machineConfig: "m1-small"
+   volumeConfig: "2"

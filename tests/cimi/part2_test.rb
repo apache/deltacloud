@@ -58,9 +58,9 @@ end
         "<name>cimi_machine_" + fmt.to_s() + "</name>" +
         "<machineTemplate>" +
           "<machineConfig " +
-            "href=\"" + cep_json.json["machineConfigs"]["href"] + "/" + api.provider_perferred_config + "\"/>" +
+            "href=\"" + get_a(cep_json, "machineConfig")+ "\"/>" +
           "<machineImage " +
-            "href=\"" + cep_json.json["machineImages"]["href"] + "/" + api.provider_perferred_image + "\"/>" +
+            "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
         "</machineTemplate>" +
       "</Machine>",
       {'Authorization' => api.basic_auth, :accept => fmt})

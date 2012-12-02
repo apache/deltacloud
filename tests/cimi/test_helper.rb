@@ -34,7 +34,6 @@ module CIMI
       def initialize
         @hash = Deltacloud::Test::yaml_config
         @cimi = @hash["cimi"]
-        @preferred = @cimi["preferred"]
       end
 
       def cep_url
@@ -51,16 +50,8 @@ module CIMI
         "Basic #{Base64.encode64("#{u}:#{p}")}"
       end
 
-      def provider_perferred_image
-        @preferred["machine_image"]
-      end
-
-      def provider_perferred_config
-        @preferred["machine_config"]
-      end
-
-      def provider_perferred_volume_config
-        @preferred["volume_config"]
+      def preferred
+        @cimi["preferred"] || {}
       end
 
       def collections
@@ -120,6 +111,23 @@ module CIMI::Test::Methods
       subcollection_ops = get(subcollection_uri, {:accept=> :json}).json["operations"]
       discover_uri_for(op, "", subcollection_ops)
     end
+
+    def get_a(cep, item)
+      if api.preferred[item]
+        item_id = cep.json[item.pluralize]["href"] + "/" + api.preferred[item]
+      else
+        item_id = get(cep.json[item.pluralize]["href"], {:accept=> :json}).json[full_name(item).pluralize][0]["id"]
+      end
+    end
+
+    def full_name(item)
+      if item.include?("Config")
+        full_name = item.gsub("Config", "Configuration")
+      else
+        full_name = item
+      end
+    end
+
 
     def get(path, params = {})
       RestClient.get absolute_url(path), headers(params)

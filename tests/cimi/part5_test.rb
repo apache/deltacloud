@@ -36,9 +36,9 @@ class ManipulateAMachine < CIMI::Test::Spec
       "<name>cimi_machine_part5</name>" +
       "<machineTemplate>" +
         "<machineConfig " +
-          "href=\"" + cep_json.json["machineConfigs"]["href"] + "/" + api.provider_perferred_config + "\"/>" +
+          "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +
         "<machineImage " +
-          "href=\"" + cep_json.json["machineImages"]["href"] + "/" + api.provider_perferred_image + "\"/>" +
+          "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
       "</machineTemplate>" +
     "</Machine>",
     {'Authorization' => api.basic_auth, :accept => :json})
@@ -80,7 +80,7 @@ class ManipulateAMachine < CIMI::Test::Spec
     s.must_include machine.state.upcase
   end
 
-  it "should have disks and columes collections" do
+  it "should have disks and volumes collections" do
     machine.disks.must_respond_to :href, "disks collection"
     machine.volumes.must_respond_to :href, "volumes collection"
   end
