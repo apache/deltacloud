@@ -23,6 +23,9 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
   ROOTS = ["machines", "machineImages", "machineConfigurations"]
 
+  #  Ensure test executes in test plan order
+  i_suck_and_my_tests_are_order_dependent!
+
   model :subject, :cache => true do |fmt|
     cep(:accept => fmt)
   end

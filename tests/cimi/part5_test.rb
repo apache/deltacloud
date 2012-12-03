@@ -26,6 +26,9 @@ class ManipulateAMachine < CIMI::Test::Spec
 
   MiniTest::Unit.after_tests {  teardown(@@created_resources, api.basic_auth) }
 
+  #  Ensure test executes in test plan order
+  i_suck_and_my_tests_are_order_dependent!
+
   # 2.1: Query the Machine
   # For some providers - need to create a machine before querying it.
   cep_json = cep(:accept => :json)

@@ -25,6 +25,9 @@ class CreateNewMachine < CIMI::Test::Spec
 
   MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
 
+  #  Ensure test executes in test plan order
+  i_suck_and_my_tests_are_order_dependent!
+
   # 2.1: Query the CEP
   model :subject, :cache => true do |fmt|
     cep(:accept => fmt)

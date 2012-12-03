@@ -35,6 +35,9 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
 
   RESOURCE_URI = "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
 
+  #  Ensure test executes in test plan order
+  i_suck_and_my_tests_are_order_dependent!
+
   # We'd like to call this :cep, but there's already a method by that name
   model :subject, :cache => true do |fmt|
     cep(:accept => fmt)
