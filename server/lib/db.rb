@@ -21,6 +21,10 @@ module Deltacloud
 
   def self.initialize_database
     DataMapper::Logger.new($stdout, :debug)
+    dbdir = File::dirname(DATABASE_LOCATION)
+    unless File::directory?(dbdir)
+      FileUtils::mkdir(dbdir)
+    end
     DataMapper::setup(:default, "sqlite://#{DATABASE_LOCATION}")
     DataMapper::finalize
     DataMapper::auto_upgrade!

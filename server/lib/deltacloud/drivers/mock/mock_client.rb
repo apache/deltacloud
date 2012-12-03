@@ -26,9 +26,7 @@ module Deltacloud::Drivers::Mock
       @storage_root = storage_root
       @collections = []
 
-      if ! File::directory?(@storage_root)
-        FileUtils::rm_rf(@storage_root)
-        FileUtils::mkdir_p(@storage_root, :mode => 0750)
+      if ! File::directory?(File::join(@storage_root, "images"))
         data = Dir[File::join(File::dirname(__FILE__), "data", "*")]
         FileUtils::cp_r(data, @storage_root)
       end
