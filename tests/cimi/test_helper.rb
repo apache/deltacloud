@@ -287,7 +287,7 @@ module CIMI::Test::Methods
       # machine_image, machine_volumes, other collections
       if (not @@created_resources[:machine_images].nil?) &&
       (not @@created_resources[:volumes].nil?)
-        [:machine_images, :volumes].each do |col|
+        [:machine_images, :volumes, :machine_templates].each do |col|
           @@created_resources[col].each do |k|
             attempts = 0
             begin
@@ -414,7 +414,7 @@ class CIMI::Test::Spec < MiniTest::Spec
   def setup
    unless defined? @@created_resources
      # Keep track of what collections were created for deletion after tests:
-     @@created_resources = {:machines=>[], :machine_images=>[], :volumes=>[]}
+     @@created_resources = {:machines=>[], :machine_images=>[], :volumes=>[], :machine_templates=>[]}
    end
    @@created_resources
  end

@@ -23,16 +23,39 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
   ROOTS = ["machines", "machineImages", "machineConfigurations"]
 
-  MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
-
-  # 3.1: Query the CEP
   model :subject, :cache => true do |fmt|
     cep(:accept => fmt)
+  end
+  # This test must adhere to one of the "Query the CEP" test in the previous section.
+  # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
+  query_the_cep(ROOTS)
+
+  i_suck_and_my_tests_are_order_dependent!
+  MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
+  #create a machineTemplate for use in these tests:
+  cep_json = cep(:accept => :json)
+  mach_templ_add_uri = discover_uri_for("add", "machineTemplates")
+  mach_templ_created = RestClient.post(mach_templ_add_uri,
+    "<MachineTemplateCreate>" +
+      "<name>cimi_machineTemplate1</name>"+
+      "<description>A CIMI MachineTemplate, created by part3_test.rb</description>"+
+      "<property name=\"foo\">bar</property>"+
+      "<machineConfig " +
+        "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +
+      "<machineImage " +
+        "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
+    "</MachineTemplateCreate>",
+    {'Authorization' => api.basic_auth, :accept => :json})
+
+  # 3.1: Query the CEP
+  model :machineTemplate  do |fmt|
+    get mach_templ_created.json["id"], :accept => fmt
   end
 
   # This test must adhere to one of the "Query the CEP" test in the previous section.
   # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
   query_the_cep(ROOTS)
+
 
   # 3.2 Querying MachineTemplates
   # At least one MachineTemplate resource must appear in the collection
@@ -43,14 +66,8 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     assert_equal model.attribute_values[r][0].nil?(), false
   end
 
-  # A represenation of a MachineTemplatesCollection resource is returned.
-  cep_json = cep(:accept => :json)
-  model :machineTemplate do |fmt|
-    get(cep_json.json["machineTemplates"]["href"], {:accept=> :json}).json["machineTemplates"][0]
-  end
-
   it "should have a name" do
-    machineTemplate["name"].wont_be_empty
+    machineTemplate.name.wont_be_empty
   end
 
   it "should have a response code equal to 200" do
@@ -59,11 +76,11 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
   end
 
   it "should have a machineConfig" do
-    machineTemplate["machineConfig"].wont_be_empty
+    machineTemplate.machine_config["href"].wont_be_empty
   end
 
   it "should have a machineImage" do
-    machineTemplate["machineImage"].wont_be_empty
+    machineTemplate.machine_image["href"].wont_be_empty
   end
 
   # 3.3 Creating a new machine
@@ -75,14 +92,14 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
       "<Machine>" +
         "<name>cimi_machine_from_template" + fmt.to_s() + "</name>" +
         "<description> Created machine from template" + fmt.to_s() + "</description>" +
-        "<machineTemplate" +
+        "<machineTemplate " +
           "href=\"" + get_a(cep_json, "machineTemplate")+ "\"/>" +
       "</Machine>",
     {'Authorization' => api.basic_auth, :accept => fmt})
   end
 
   it "should add resource for cleanup" do
-    @@created_resources[:machines] << machine.id
+    @@created_resources[:machine_templates] << machineTemplate.id
   end
 
   it "should have a name" do
