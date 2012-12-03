@@ -25,12 +25,15 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   end
 
   def self.find(id, context)
-    storage_snapshots = []
-    opts = ( id==:all  ) ? {}  : { :id=>id }
-    storage_snapshots = context.driver.storage_snapshots(context.credentials, opts)
-    storage_snapshots.collect!{ |snapshot| from_storage_snapshot(snapshot, context) }
-    return storage_snapshots.first unless storage_snapshots.length > 1
-    return storage_snapshots
+    creds = context.credentials
+    if id == :all
+      snapshots = context.driver.storage_snapshots(creds)
+      snapshots.collect{ |snapshot| from_storage_snapshot(snapshot, context) }
+    else
+      snapshot = context.driver.storage_snapshots(creds)
+      raise CIMI::Model::NotFound unless snapshot
+      from_storage_snapshot(snapshot)
+    end
   end
 
   def self.all(context); find(:all, context); end
