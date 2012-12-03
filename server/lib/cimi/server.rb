@@ -48,9 +48,5 @@ module CIMI
 
     helpers Sinatra::Rabbit::URLFor(CIMI.collections)
 
-    get '/' do
-      redirect url('/cloudEntryPoint'), 301
-    end
-
   end
 end

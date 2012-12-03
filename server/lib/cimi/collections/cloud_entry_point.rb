@@ -16,6 +16,10 @@
 module CIMI::Collections
   class CloudEntryPoint < Base
 
+    get '/' do
+      redirect url('/cloudEntryPoint'), 301
+    end
+
     collection :cloudEntryPoint do
       description 'Cloud entry point'
       operation :index do
