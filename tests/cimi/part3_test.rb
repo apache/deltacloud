@@ -23,18 +23,19 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
   ROOTS = ["machines", "machineImages", "machineConfigurations"]
 
+  MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
+
   #  Ensure test executes in test plan order
   i_suck_and_my_tests_are_order_dependent!
 
   model :subject, :cache => true do |fmt|
     cep(:accept => fmt)
   end
+
   # This test must adhere to one of the "Query the CEP" test in the previous section.
   # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
   query_the_cep(ROOTS)
 
-  i_suck_and_my_tests_are_order_dependent!
-  MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
   #create a machineTemplate for use in these tests:
   cep_json = cep(:accept => :json)
   mach_templ_add_uri = discover_uri_for("add", "machineTemplates")
@@ -58,7 +59,6 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
   # This test must adhere to one of the "Query the CEP" test in the previous section.
   # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
   query_the_cep(ROOTS)
-
 
   # 3.2 Querying MachineTemplates
   # At least one MachineTemplate resource must appear in the collection
