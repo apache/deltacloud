@@ -49,15 +49,10 @@ module CIMI::Collections
       operation :create, :with_capability => :create_storage_volume do
         description "Create a new Volume."
         control do
-          content_type = (request.content_type.end_with?("json") ? :json  : :xml)
-          #((request.content_type.end_with?("xml")) ? :xml : report_error(415) ) FIXME
-          case content_type
-          when :json
-            new_volume = Volume.create_from_json(request.body.read, self)
-          when :xml
-            new_volume = Volume.create_from_xml(request.body.read, self)
-          end
+          content_type = grab_content_type(request.content_type, request.body)
+          new_volume = Volume.create(request.body.read, self, content_type)
           status 201
+          headers 'Location' => new_volume.id
           respond_to do |format|
             format.json { new_volume.to_json }
             format.xml { new_volume.to_xml }

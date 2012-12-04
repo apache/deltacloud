@@ -32,22 +32,55 @@ module CIMI
     end
 
     def to_kibibyte(value, unit)
+      #value may be a string. convert to_f
+      value = value.to_f # not to_i because e.g. 0.5 GB
       case unit
       when "GB"
-        (value.to_i*1024*1024).to_i
+        (value*1024*1024).to_i
       when "MB"
-        (value.to_i*1024).to_i
+        (value*1024).to_i
       else
         nil # should probably be exploding something here...
       end
     end
 
+    #e.g. convert volume to GB for deltacloud driver
     def from_kibibyte(value, unit="GB")
       case unit
-        when "GB" then ((value.to_i)/1024/1024).to_i
-        when "MB" then ((value.to_i)/1024).to_i
+        when "GB" then ((value.to_f)/1024/1024)
+        when "MB" then ((value.to_f)/1024)
         else nil
       end
+    end
+
+    def grab_content_type(request_content_type, request_body)
+      case request_content_type
+        when /xml$/i then :xml
+        when /json$/i then :json
+        else guess_content_type(request_body)
+      end
+    end
+
+    def guess_content_type(request_body)
+      xml = json = false
+      body = request_body.read
+      request_body.rewind
+      begin
+        XmlSimple.xml_in(body)
+        xml = true
+      rescue Exception
+        xml = false
+      end
+      begin
+        JSON.parse(body)
+        json = true
+      rescue Exception
+        json = false
+      end
+      if (json == xml) #both true or both false
+        raise CIMI::Model::BadRequest.new("Couldn't guess content type of: #{body}")
+      end
+      type = (xml)? :xml : :json
     end
 
   end

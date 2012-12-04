@@ -51,21 +51,24 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   def self.all(context); find(:all, context); end
 
-  def self.create_from_json(json_in, context)
-    json = JSON.parse(json_in)
-    volume_config_id = json["volumeTemplate"]["volumeConfig"]["href"].split("/").last
-    volume_image_id = (json["volumeTemplate"].has_key?("volumeImage") ?
-                json["volumeTemplate"]["volumeImage"]["href"].split("/").last  : nil)
-    create_volume({:volume_config_id=>volume_config_id, :volume_image_id=>volume_image_id}, json, context)
+  def self.create(request_body, context, type)
+    #json = JSON.parse(json_in)
+    input = (type == :xml)? XmlSimple.xml_in(request_body, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(request_body)
+    if input["volumeTemplate"]["href"]  #template by reference
+      #FIXME - don't have volumeTemplates yet - datamapper   volume_config =
+    else #template by value
+      volume_image_id = (input["volumeTemplate"].has_key?("volumeImage") ?
+                input["volumeTemplate"]["volumeImage"]["href"].split("/").last  : nil)
+      if input["volumeTemplate"]["volumeConfig"]["href"] #with config by reference
+        volume_config_id = input["volumeTemplate"]["volumeConfig"]["href"].split("/").last
+        create_volume({:volume_config_id=>volume_config_id, :volume_image_id=>volume_image_id}, input, context)
+      else #with config by value
+        capacity = input["volumeTemplate"]["volumeConfig"]["capacity"]
+        create_volume({:capacity=>capacity, :volume_image_id=>volume_image_id}, input, context)
+      end
+    end
   end
 
-  def self.create_from_xml(xml_in, context)
-    xml = XmlSimple.xml_in(xml_in)
-    volume_config_id = xml["volumeTemplate"][0]["volumeConfig"][0]["href"].split("/").last
-    volume_image_id = (xml["volumeTemplate"][0].has_key?("volumeImage") ?
-             xml["volumeTemplate"][0]["volumeImage"][0]["href"].split("/").last  : nil)
-    create_volume({:volume_config_id=>volume_config_id, :volume_image_id=>volume_image_id}, xml, context)
-  end
 
   def self.delete!(id, context)
     context.driver.destroy_storage_volume(context.credentials, {:id=>id} )
@@ -91,8 +94,12 @@ class CIMI::Model::Volume < CIMI::Model::Base
   private
 
   def self.create_volume(params, data, context)
-    volume_config = CIMI::Model::VolumeConfiguration.find(params[:volume_config_id], context)
-    opts = {:capacity=>context.from_kibibyte(volume_config.capacity, "GB"), :snapshot_id=>params[:volume_image_id] }
+    if params[:volume_config_id]
+      volume_config = CIMI::Model::VolumeConfiguration.find(params[:volume_config_id], context)
+      opts = {:capacity=>context.from_kibibyte(volume_config.capacity, "GB"), :snapshot_id=>params[:volume_image_id] }
+    elsif params[:capacity]
+      opts = {:capacity=>context.from_kibibyte(params[:capacity], "GB"), :snapshot_id=>params[:volume_image_id]}
+    end
     storage_volume = context.driver.create_storage_volume(context.credentials, opts)
     store_attributes_for(context, storage_volume, data)
     from_storage_volume(storage_volume, context)
