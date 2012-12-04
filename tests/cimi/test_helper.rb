@@ -50,6 +50,14 @@ module CIMI
         "Basic #{Base64.encode64("#{u}:#{p}")}"
       end
 
+      def auth_header
+        if @cimi["user"]
+          { "Authorization" => basic_auth }
+        else
+          {}
+        end
+      end
+
       def preferred
         @cimi["preferred"] || {}
       end
@@ -164,9 +172,7 @@ module CIMI::Test::Methods
     end
 
     def headers(params)
-      headers = {
-        'Authorization' => api.basic_auth
-      }
+      headers = api.auth_header
       if params[:accept]
         headers["Accept"] = "application/#{params.delete(:accept)}"
       else
