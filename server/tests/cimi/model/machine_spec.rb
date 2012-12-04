@@ -23,10 +23,27 @@ describe "Machine model" do
   before do
     @xml = IO::read(File::join(DATA_DIR, "machine.xml"))
     @json = IO::read(File::join(DATA_DIR, "machine.json"))
+    @xml_minimal = IO::read(File::join(DATA_DIR, "machine-minimal.xml"))
+    @json_minimal = IO::read(File::join(DATA_DIR, "machine-minimal.json"))
   end
 
   it "can be constructed from XML and JSON" do
     should_properly_serialize_model CIMI::Model::Machine, @xml, @json
   end
 
+  it "should parse minimal XML machine" do
+    machine = CIMI::Model::Machine.from_xml(@xml_minimal)
+    machine.id.wont_be_nil
+    machine.state.must_equal "STARTED"
+    machine.disks.entries.wont_be_nil
+    machine.disks.entries.size.must_equal 0
+  end
+
+  it "should parse minimal JSON machine" do
+    machine = CIMI::Model::Machine.from_json(@json_minimal)
+    machine.id.wont_be_nil
+    machine.state.must_equal "STARTED"
+    machine.disks.entries.wont_be_nil
+    machine.disks.entries.size.must_equal 0
+  end
 end

@@ -1,0 +1,5 @@
+<Machine xmlns="http://schemas.dmtf.org/cimi/1">
+  <id>http://cimi.example.org/machines/1</id>
+  <memory>12582912</memory>
+  <state>STARTED</state>
+</Machine>

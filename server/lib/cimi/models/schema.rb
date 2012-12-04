@@ -229,11 +229,15 @@ class CIMI::Model::Schema
     end
 
     def from_xml(xml, model)
-      model[name] = @collection_class.schema.from_xml(xml[xml_name].first, {})
+      if xml[xml_name]
+        model[name] = @collection_class.schema.from_xml(xml[xml_name].first, {})
+      end
     end
 
     def from_json(json, model)
-      model[name] = @collection_class.schema.from_json(json[json_name], {})
+      if json[json_name]
+        model[name] = @collection_class.schema.from_json(json[json_name], {})
+      end
     end
 
     def to_xml(model, xml)

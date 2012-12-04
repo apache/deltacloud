@@ -1,0 +1,7 @@
+{
+ "resourceURI": "http://schemas.dmtf.org/cimi/1/Machine",
+ "id": "http://cimi.example.org/machines/1",
+  "state": "STARTED",
+  "cpu": "4",
+  "memory":12582912
+}
