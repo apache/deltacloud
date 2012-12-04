@@ -181,11 +181,14 @@ module CIMI::Test::Methods
     def headers(params)
       headers = api.auth_header
       if params[:accept]
-        headers["Accept"] = "application/#{params.delete(:accept)}"
+        headers["Accept"] = "application/#{params[:accept]}"
       else
         # @content_type is set by the harness below
         # if it isn't, default to XML
         headers["Accept"] = @content_type || "application/xml"
+      end
+      if params[:content_type]
+        headers["Content-Type"] = "application/#{params[:content_type]}"
       end
       headers
     end
