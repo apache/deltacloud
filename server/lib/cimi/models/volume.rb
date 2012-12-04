@@ -38,12 +38,15 @@ class CIMI::Model::Volume < CIMI::Model::Base
   end
 
   def self.find(id, context)
-    volumes = []
-    opts = ( id == :all ) ? {} : { :id => id }
-    volumes = context.driver.storage_volumes(context.credentials, opts)
-    volumes.collect!{ |volume| from_storage_volume(volume, context) }
-    return volumes.first unless volumes.length > 1 || volumes.length == 0
-    return volumes
+    creds = context.credentials
+    if id == :all
+      volumes = context.driver.storage_volumes(creds)
+      volumes.collect{ |volume| from_storage_volume(volume, context) }
+    else
+      volume = context.driver.storage_volumes(creds)
+      raise CIMI::Model::NotFound unless volume
+      from_storage_volume(volume)
+    end
   end
 
   def self.all(context); find(:all, context); end
