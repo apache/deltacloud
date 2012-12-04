@@ -18,6 +18,7 @@ require 'rubygems'
 require 'minitest/autorun'
 require 'minitest/spec'
 require 'xmlsimple'
+require 'json/pure'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative '../../lib/deltacloud/core_ext.rb'
