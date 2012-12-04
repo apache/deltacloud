@@ -39,7 +39,7 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
   #create a machineTemplate for use in these tests:
   cep_json = cep(:accept => :json)
   mach_templ_add_uri = discover_uri_for("add", "machineTemplates")
-  mach_templ_created = RestClient.post(mach_templ_add_uri,
+  mach_templ_created = post(mach_templ_add_uri,
     "<MachineTemplateCreate>" +
       "<name>cimi_machineTemplate1</name>"+
       "<description>A CIMI MachineTemplate, created by part3_test.rb</description>"+
@@ -49,7 +49,7 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
       "<machineImage " +
         "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
     "</MachineTemplateCreate>",
-    {'Authorization' => api.basic_auth, :accept => :json})
+    :accept => :json, :content_type => :xml)
 
   # 3.1: Query the CEP
   model :machineTemplate  do |fmt|
@@ -91,14 +91,14 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     cep_json = cep(:accept => :json)
     #discover the 'addURI' for creating Machine
     add_uri = discover_uri_for("add", "machines")
-    RestClient.post(add_uri,
+    post(add_uri,
       "<Machine>" +
         "<name>cimi_machine_from_template" + fmt.to_s() + "</name>" +
         "<description> Created machine from template" + fmt.to_s() + "</description>" +
         "<machineTemplate " +
           "href=\"" + get_a(cep_json, "machineTemplate")+ "\"/>" +
       "</Machine>",
-    {'Authorization' => api.basic_auth, :accept => fmt})
+         :accept => fmt, :content_type => :xml)
   end
 
   it "should add resource for cleanup" do

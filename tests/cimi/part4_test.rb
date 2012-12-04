@@ -53,8 +53,8 @@ class AddVolumeToMachine < CIMI::Test::Spec
 # Create a machine to attach the volume
    cep_json = cep(:accept => :json)
    machine_add_uri = discover_uri_for("add", "machines")
-   machine = RestClient.post(machine_add_uri,
-     "<Machine>" +
+   machine = post(machine_add_uri,
+     "<MachineCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
        "<name>cimi_machine</name>" +
        "<machineTemplate>" +
          "<machineConfig " +
@@ -62,13 +62,13 @@ class AddVolumeToMachine < CIMI::Test::Spec
          "<machineImage " +
            "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
        "</machineTemplate>" +
-     "</Machine>",
-     {'Authorization' => api.basic_auth, :accept => :json})
+     "</MachineCreate>",
+                  {:accept => :json, :content_type => :xml})
 
   # 4.3:  Create a new Volume
   model :volume do |fmt|
     volume_add_uri = discover_uri_for("add", "volumes")
-    RestClient.post(volume_add_uri,
+    post(volume_add_uri,
       "<Volume>" +
         "<name>cimi_volume_" + fmt.to_s() +"</name>" +
         "<description>volume for testing</description>" +
@@ -77,7 +77,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
           "</volumeConfig>" +
         "</volumeTemplate>" +
       "</Volume>",
-    {'Authorization' => api.basic_auth, :accept => fmt})
+         :accept => fmt, :content_type => :xml)
   end
 
   it "should add resource machine resource for cleanup", :only => :json do
@@ -105,7 +105,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
 
   log.info(machine.json["id"].to_s() + " is the machine id")
   volume_add_uri = discover_uri_for("add", "volumes")
-  volume = RestClient.post(volume_add_uri,
+  volume = post(volume_add_uri,
   "<Volume>" +
     "<name>cimi_volume_for_attach</name>" +
     "<description>volume for attach testing</description>" +
@@ -114,18 +114,18 @@ class AddVolumeToMachine < CIMI::Test::Spec
       "</volumeConfig>" +
     "</volumeTemplate>" +
   "</Volume>",
-{'Authorization' => api.basic_auth, :accept => :json})
+  :accept => :json, :content_type => :xml)
 
   log.info(volume.json["id"].to_s() + " is the volume id")
   # 4.4: Attach the new Volume to a Machine
   model :machineWithVolume, :only => :xml do
   attach_uri = discover_uri_for_subcollection("add", machine.json['id'], "volumes")
-    RestClient.post(attach_uri,
+    post(attach_uri,
     "<MachineVolume xmlns=\"http://schemas.dmtf.org/cimi/1/MachineVolume\">" +
     "<initialLocation>/dev/sdf</initialLocation>" +
     "<volume href=\"" + volume.json["id"] + "\"/>" +
     "</MachineVolume>",
-    {'Authorization' => api.basic_auth, :accept => :xml})
+    :accept => :xml, :content_type => :xml)
   end
 
   it "should have a response code equal to 201 for attaching a volume", :only => :xml do

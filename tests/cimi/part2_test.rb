@@ -56,8 +56,8 @@ end
     cep_json = cep(:accept => :json)
     #discover the 'addURI' for creating Machine
     add_uri = discover_uri_for("add", "machines")
-    RestClient.post(add_uri,
-      "<Machine>" +
+    post(add_uri,
+      "<MachineCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
         "<name>cimi_machine_" + fmt.to_s() + "</name>" +
         "<machineTemplate>" +
           "<machineConfig " +
@@ -65,8 +65,7 @@ end
           "<machineImage " +
             "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
         "</machineTemplate>" +
-      "</Machine>",
-      {'Authorization' => api.basic_auth, :accept => fmt})
+      "</MachineCreate>", :content_type => :xml)
   end
 
   it "should add resource for cleanup" do

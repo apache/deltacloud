@@ -233,11 +233,11 @@ module CIMI::Test::Methods
 
     def machine_stop_start(machine, action, state)
       uri = discover_uri_for(action, "", machine.operations)
-      response = RestClient.post( uri,
+      response = post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
               "<action> http://http://schemas.dmtf.org/cimi/1/action/" + action + "</action>" +
             "</Action>",
-            {'Authorization' => api.basic_auth, :accept => :xml })
+            :accept => :xml, :content_type => :xml)
       response.code.must_equal 202
       poll_state(machine(:refetch => true), state)
       machine(:refetch => true).state.upcase.must_equal state

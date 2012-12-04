@@ -34,7 +34,7 @@ class ManipulateAMachine < CIMI::Test::Spec
   cep_json = cep(:accept => :json)
   #discover machine create URI:
   machine_add_uri = discover_uri_for("add", "machines")
-  machine_created = RestClient.post(machine_add_uri,
+  machine_created = post(machine_add_uri,
     "<Machine>" +
       "<name>cimi_machine_part5</name>" +
       "<machineTemplate>" +
@@ -44,7 +44,7 @@ class ManipulateAMachine < CIMI::Test::Spec
           "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
       "</machineTemplate>" +
     "</Machine>",
-    {'Authorization' => api.basic_auth, :accept => :json})
+    :accept => :json, :content_type => :xml)
 
   model :machine do |fmt|
     get machine_created.json["id"], :accept => fmt
