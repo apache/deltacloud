@@ -46,7 +46,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_instance do
         description "Create a new Machine entity."
         control do
-          if request.content_type.end_with?("json")
+          if grab_content_type(request.content_type, request.body) == :json
             new_machine = Machine.create_from_json(request.body.read, self)
           else
             new_machine = Machine.create_from_xml(request.body.read, self)
@@ -73,7 +73,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if request.content_type.end_with?("json")
+          if grab_content_type(request.content_type, request.body) == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -90,7 +90,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if request.content_type.end_with?("json")
+          if  grab_content_type(request.content_type, request.body) == :json
             action = Action.from_json(request.body.read.gsub("restart", "reboot"))
           else
             action = Action.from_xml(request.body.read.gsub("restart", "reboot"))
@@ -107,7 +107,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if request.content_type.end_with?("json")
+          if  grab_content_type(request.content_type, request.body) == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -175,7 +175,7 @@ module CIMI::Collections
         description "Attach CIMI Volume(s) to a machine."
         param :id,          :string,    :required
         control do
-          if request.content_type.end_with?("json")
+          if  grab_content_type(request.content_type, request.body) == :json
             volume_to_attach, location = MachineVolume.find_to_attach_from_json(request.body.read, self)
           else
             volume_to_attach, location = MachineVolume.find_to_attach_from_xml(request.body.read, self)

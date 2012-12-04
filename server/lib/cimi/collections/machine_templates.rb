@@ -45,7 +45,7 @@ module CIMI::Collections
       operation :create do
         description "Create new machine template"
         control do
-          if request.content_type.end_with?("json")
+          if grab_content_type(request.content_type, request.body) == :json
             new_machine_template = CIMI::Model::MachineTemplate.create_from_json(request.body.read, self)
           else
             new_machine_template = CIMI::Model::MachineTemplate.create_from_xml(request.body.read, self)

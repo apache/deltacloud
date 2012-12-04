@@ -46,7 +46,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_key do
         description "Show specific machine admin"
         control do
-          if request.content_type.end_with?("json")
+          if grab_content_type(request.content_type, request.body) == :json
             new_admin = Credential.create_from_json(request.body.read, self)
           else
             new_admin = Credential.create_from_xml(request.body.read, self)
