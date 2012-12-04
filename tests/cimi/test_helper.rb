@@ -141,6 +141,13 @@ module CIMI::Test::Methods
       RestClient.get absolute_url(path), headers(params)
     end
 
+    def post(path, body, params = {})
+      log_request(:post, path, :params => params, :body => body)
+      resp = RestClient.post absolute_url(path), body, headers(params)
+      log_response(:post, path, resp)
+      resp
+    end
+
     # Find the model class that can process the body of the HTTP response
     # +resp+
     def model_class(resp)
@@ -194,6 +201,22 @@ module CIMI::Test::Methods
         end
       end
       @log
+    end
+
+    def log_request(method, path, opts = {})
+      log.debug("#{method.to_s.upcase} #{absolute_url(path)}")
+      if opts[:params]
+        h = headers(opts[:params])
+        h.keys.sort.each { |k| log.debug "  #{k}: #{h[k]}" }
+      end
+      log.debug opts[:body] if opts[:body]
+    end
+
+    def log_response(method, path, resp)
+      log.debug "--> #{resp.code} #{resp.headers[:content_type]}"
+      resp.headers.keys.each { |k| log.debug "#{k}: /#{resp.headers[k]}/" }
+      log.debug resp.body
+      log.debug "/#{method.to_s.upcase} #{absolute_url(path)}"
     end
 
     def poll_state(machine, state)
