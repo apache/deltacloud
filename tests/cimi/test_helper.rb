@@ -157,9 +157,9 @@ module CIMI::Test::Methods
       if path.start_with?("http")
         path
       elsif path.start_with?("/")
-        api.base_uri + path
+        api.base_uri + path[1, path.size]
       else
-        api.base_uri + "/#{path}"
+        api.base_uri + "#{path}"
       end
     end
 
