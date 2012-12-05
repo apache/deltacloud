@@ -279,7 +279,8 @@ class CIMI::Model::Base < CIMI::Model::Resource
 
   def filter_attributes(attr_list)
     attrs = attr_list.inject({}) do |result, attr|
-      result[attr] = self.send(attr) if self.respond_to?(attr)
+      attr = attr.to_s.underscore
+      result[attr.to_sym] = self.send(attr) if self.respond_to?(attr)
       result
     end
     self.class.new(attrs)
