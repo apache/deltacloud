@@ -23,6 +23,13 @@ require 'base64'
 require 'yaml'
 
 module RestClient::Response
+  # Only return the raw content type without parameters
+  def content_type
+    if headers[:content_type]
+      headers[:content_type].split(";").first
+    end
+  end
+
   def xml
     @xml ||= Nokogiri::XML(body)
   end

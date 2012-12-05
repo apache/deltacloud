@@ -152,7 +152,7 @@ module CIMI::Test::Methods
     # +resp+
     def model_class(resp)
       resource = nil
-      ct = resp.headers[:content_type]
+      ct = resp.content_type
       if ct == "application/json"
         resp.json["resourceURI"].wont_be_nil
         resource = resp.json["resourceURI"].split("/").last
@@ -355,7 +355,7 @@ module CIMI::Test::Methods
               coll.href.must_be_uri "#{root} collection"
               model = fetch(coll.href)
               last_response.code.must_equal 200
-              if last_response.headers[:content_type].eql?("application/json")
+              if last_response.content_type.eql?("application/json")
                 last_response.json["resourceURI"].wont_be_nil
               end
             else
@@ -460,7 +460,7 @@ class CIMI::Test::Spec < MiniTest::Spec
 
   def retrieve(k, &block)
     response = instance_exec(@format, &block)
-    assert_equal @content_type, response.headers[:content_type]
+    assert_equal @content_type, response.content_type
     if @format == :xml
       response.xml.namespaces["xmlns"].must_equal CIMI::Test::CIMI_NAMESPACE
     end
