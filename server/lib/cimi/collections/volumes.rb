@@ -51,8 +51,7 @@ module CIMI::Collections
         control do
           content_type = grab_content_type(request.content_type, request.body)
           new_volume = Volume.create(request.body.read, self, content_type)
-          status 201
-          headers 'Location' => new_volume.id
+          headers_for_create new_volume
           respond_to do |format|
             format.json { new_volume.to_json }
             format.xml { new_volume.to_xml }

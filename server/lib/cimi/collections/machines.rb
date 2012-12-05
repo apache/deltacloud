@@ -51,8 +51,7 @@ module CIMI::Collections
           else
             new_machine = Machine.create_from_xml(request.body.read, self)
           end
-          status 201 # Created
-          headers 'Location' => new_machine.id
+          headers_for_create new_machine
           respond_to do |format|
             format.json { new_machine.to_json }
             format.xml { new_machine.to_xml }
@@ -181,7 +180,7 @@ module CIMI::Collections
             volume_to_attach, location = MachineVolume.find_to_attach_from_xml(request.body.read, self)
           end
           machine_volume = Machine.attach_volume(volume_to_attach,location, self)
-          status 201
+          headers_for_create machine_volume
           respond_to do |format|
             format.json{ machine_volume.to_json}
             format.xml{machine_volume.to_xml}

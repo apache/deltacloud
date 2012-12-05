@@ -26,6 +26,12 @@ module CIMI
       status code
     end
 
+    # Set status to 201 and a Location header
+    def headers_for_create(resource)
+      status 201
+      headers 'Location' => resource.id
+    end
+
     def href_id(href, entity)
       split_on = self.send(:"#{entity.to_s}_url")
       href.split("#{split_on}/").last

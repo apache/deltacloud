@@ -51,7 +51,7 @@ module CIMI::Collections
           else
             new_admin = Credential.create_from_xml(request.body.read, self)
           end
-          status 201 # Created
+          headers_for_create new_admin
           respond_to do |format|
             format.json { new_admin.to_json }
             format.xml { new_admin.to_xml }

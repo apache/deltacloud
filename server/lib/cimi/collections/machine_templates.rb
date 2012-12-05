@@ -50,8 +50,7 @@ module CIMI::Collections
           else
             new_machine_template = CIMI::Model::MachineTemplate.create_from_xml(request.body.read, self)
           end
-          status 201 # Created
-          headers 'Location' => new_machine_template.id
+          headers_for_create new_machine_template
           respond_to do |format|
             format.json { new_machine_template.to_json }
             format.xml { new_machine_template.to_xml }
