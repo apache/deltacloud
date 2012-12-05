@@ -45,12 +45,9 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
     cep(:accept => fmt)
   end
 
-  it "should have an id equal to the CEP URL" do
-    subject.id.must_equal api.cep_url
-  end
-
-  it "should have a baseURI" do
+  it "should have a valid baseURI" do
     subject.base_uri.must_be_uri
+    subject.base_uri.must_match %r{/$}
   end
 
   it "should have a name" do
@@ -72,23 +69,4 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
   # Testing "*/*" Accept Headers returns json output
   response = RestClient.get(api.cep_url, "Accept" => "*/*")
   log.info( " */* accept headers return: " + response.json.to_s() )
-
-  it "should return json response", :only => "*/*" do
-    response.wont_be_nil
-    response.headers[:content_type].eql?("application/json")
-  end
-
-  it "should have a response code equal to 200", :only => "*/*" do
-    response.code.must_equal 200
-  end
-
-  it "should have an id equal to the CEP URL" , :only => "*/*" do
-    response.json["id"].must_equal api.cep_url
-  end
-
-  it "should have a baseURI" do
-    response.json["baseURI"].must_be_uri
-  end
-
 end
-
