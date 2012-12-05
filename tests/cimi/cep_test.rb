@@ -66,7 +66,8 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
 
   query_the_cep(ROOTS)
 
-  # Testing "*/*" Accept Headers returns json output
-  response = RestClient.get(api.cep_url, "Accept" => "*/*")
-  log.info( " */* accept headers return: " + response.json.to_s() )
+  it "should handle Accept of */*", :only => :json do
+    response = RestClient.get(api.cep_url, "Accept" => "*/*")
+    response.content_type.must_be_one_of CONTENT_TYPES.values
+  end
 end
