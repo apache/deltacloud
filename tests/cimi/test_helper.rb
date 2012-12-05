@@ -154,6 +154,7 @@ module CIMI::Test::Methods
       resource = nil
       ct = resp.headers[:content_type]
       if ct == "application/json"
+        resp.json["resourceURI"].wont_be_nil
         resource = resp.json["resourceURI"].split("/").last
       elsif ct == "application/xml"
         if resp.xml.root.name == "Collection"
