@@ -148,6 +148,13 @@ module CIMI::Test::Methods
       resp
     end
 
+    def delete(path, params={})
+      log_request(:delete, path, :params=>params)
+      resp  = RestClient.delete absolute_url(path), headers(params)
+      log_response(:delete, path, resp)
+      resp
+    end
+
     # Find the model class that can process the body of the HTTP response
     # +resp+
     def model_class(resp)

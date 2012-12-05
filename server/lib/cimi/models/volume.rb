@@ -69,10 +69,9 @@ class CIMI::Model::Volume < CIMI::Model::Base
     end
   end
 
-
   def self.delete!(id, context)
     context.driver.destroy_storage_volume(context.credentials, {:id=>id} )
-    delete_attributes_for(Volume.new(:id => id))
+    context.delete_attributes_for(StorageVolume.new(:id => id))
   end
 
   def self.find_to_attach_from_json(json_in, context)

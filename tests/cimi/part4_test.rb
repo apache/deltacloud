@@ -81,6 +81,45 @@ class AddVolumeToMachine < CIMI::Test::Spec
     get resp.location
   end
 
+  it "should allow creation of Volume with Config by value in XML" do
+    volume_add_uri = discover_uri_for("add", "volumes")
+    res = post(volume_add_uri,
+      "<VolumeCreate>" +
+        "<name>cimi_volume_by_value_xml</name>" +
+        "<description>volume for testing</description>" +
+        "<volumeTemplate>" +
+          "<volumeConfig>" +
+            "<type>http://schemas.dmtf.org/cimi/1/mapped</type>"+
+            "<capacity> 1024 </capacity>" +
+          "</volumeConfig>" +
+        "</volumeTemplate>" +
+      "</VolumeCreate>",
+         :accept => :json, :content_type => :xml)
+    res.code.must_equal 201
+    #cleanup
+    delete_uri = discover_uri_for("delete", "volumes", res.json["operations"])
+    res= delete(delete_uri)
+    res.code.must_equal 200
+  end
+
+  it "should allow creation of Volume with Config by value in JSON" do
+    volume_add_uri = discover_uri_for("add", "volumes")
+    res = post(volume_add_uri,
+      '{"name": "marios_new_volume_json", "description": "a new volume",' +
+        ' "volumeTemplate":'+
+            '{"volumeConfig": '+
+              '{"type":"http://schemas.dmtf.org/cimi/1/mapped", "capacity": 1024 }}}',
+       :accept => :json, :content_type => :json)
+    res.code.must_equal 201
+    #cleanup
+    delete_uri = discover_uri_for("delete", "volumes", res.json["operations"])
+    res= delete(delete_uri)
+    res.code.must_equal 200
+  end
+
+
+  #this test is not strictly part of the cimi plugfest scenario
+  #added for DTACLOUD-385
   it "should add resource machine resource for cleanup", :only => :json do
     @@created_resources[:machines] << machine.location
   end
