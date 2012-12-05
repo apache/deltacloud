@@ -61,12 +61,15 @@ module CIMI
 
     def grab_content_type(request_content_type, request_body)
       case request_content_type
-        when /xml$/i then :xml
-        when /json$/i then :json
-        else guess_content_type(request_body)
+        when /xml$/ then :xml
+        when /json$/ then :json
+        else raise CIMI::Model::UnsupportedMediaType.new("Unsupported content type - only xml and json supported by CIMI")
+        #guess_content_type(request_body)
       end
     end
 
+    #not being used - was called from above grab_content_type
+    #decided to reject anything not xml || json
     def guess_content_type(request_body)
       xml = json = false
       body = request_body.read

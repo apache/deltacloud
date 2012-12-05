@@ -33,6 +33,14 @@ module CIMI::Model
     end
   end
 
+  class UnsupportedMediaType < StandardError
+    attr_accessor :code
+    def initialize(msg="")
+      super(msg)
+      self.code=415
+    end
+  end
+
   class NotImplemented < StandardError
     attr_accessor :code
 
