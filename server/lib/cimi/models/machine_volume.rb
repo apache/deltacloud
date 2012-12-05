@@ -31,7 +31,7 @@ class CIMI::Model::MachineVolume < CIMI::Model::Base
           :id => id,
           :name => vol.id,
           :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
-          :created => Time.parse(vol.created).xmlschema,
+          :created => vol.created.nil? ? nil : Time.parse(vol.created).xmlschema,
           :initial_location => vol.device,
           :volume => {:href=>context.volume_url(vol.id)},
           :operations => [{:href=>id, :rel => "delete" }]
@@ -46,7 +46,7 @@ class CIMI::Model::MachineVolume < CIMI::Model::Base
         :id => id,
         :name => vol.id,
         :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
-        :created => Time.parse(vol.created).xmlschema,
+        :created => vol.created.nil? ? nil : Time.parse(vol.created).xmlschema,
         :initial_location => vol.device,
         :volume => {:href=>context.volume_url(vol.id)},
         :operations => [{:href=>id, :rel => "delete" }]

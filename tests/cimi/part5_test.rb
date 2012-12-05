@@ -68,8 +68,8 @@ class ManipulateAMachine < CIMI::Test::Spec
    machine.id.must_include api.cep_url.gsub("cloudEntryPoint", "machines/")
   end
 
-  it "should have a valid creation time" do
-    Time.parse(machine.created.to_s()) < Time.now
+  it "should have a valid creation time if specified" do
+    Time.parse(machine.created.to_s()) < Time.now if machine.created
   end
 
   it "should have numerical values for memory and cpu" do
