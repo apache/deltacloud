@@ -43,9 +43,9 @@ class CIMI::Model::Volume < CIMI::Model::Base
       volumes = context.driver.storage_volumes(creds)
       volumes.collect{ |volume| from_storage_volume(volume, context) }
     else
-      volume = context.driver.storage_volumes(creds)
+      volume = context.driver.storage_volumes(creds, :id => id).first
       raise CIMI::Model::NotFound unless volume
-      from_storage_volume(volume)
+      from_storage_volume(volume, context)
     end
   end
 

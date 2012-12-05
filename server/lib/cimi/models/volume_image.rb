@@ -30,9 +30,9 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
       snapshots = context.driver.storage_snapshots(creds)
       snapshots.collect{ |snapshot| from_storage_snapshot(snapshot, context) }
     else
-      snapshot = context.driver.storage_snapshots(creds)
+      snapshot = context.driver.storage_snapshots(creds, id => :id).first
       raise CIMI::Model::NotFound unless snapshot
-      from_storage_snapshot(snapshot)
+      from_storage_snapshot(snapshot, context)
     end
   end
 
