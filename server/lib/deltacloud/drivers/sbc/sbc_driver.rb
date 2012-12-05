@@ -87,7 +87,11 @@ class SbcDriver < Deltacloud::BaseDriver
     # Map DeltaCloud keywords to SBC
     body['imageID'] = opts[:image_id]
     body['location'] = opts[:realm_id] || @last_image['location']
-    body['instanceType'] = opts[:hwp_id].gsub('-', '/') || @last_image['supportedInstanceTypes'][0]['id']
+    if opts[:hwp_id]
+      body['instanceType'] = opts[:hwp_id].gsub('-', '/')
+    else
+      body['instanceType'] = @last_image['supportedInstanceTypes'][0]['id']
+    end
 
     if not body['name']
       body['name'] = Time.now.to_i.to_s
