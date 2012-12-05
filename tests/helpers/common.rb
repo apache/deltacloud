@@ -84,3 +84,4 @@ module MiniTest::Assertions
 end
 
 MiniTest::Expectations::infect_an_assertion :assert_uri, :must_be_uri, :unary
+MiniTest::Expectations::infect_an_assertion :assert_includes, :must_be_one_of

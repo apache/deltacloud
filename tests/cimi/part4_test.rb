@@ -93,9 +93,10 @@ class AddVolumeToMachine < CIMI::Test::Spec
     log.info("volume name: " + volume.name)
   end
 
-  it "should have a response code equal to 201 for creating a volume" do
+  it "should produce a valid create response" do
     volume
-    last_response.code.must_equal 201
+    last_response.code.must_be_one_of [201, 202]
+    last_response.headers[:location].must_be_uri
   end
 
   it "should have the correct resourceURI", :only => :json do
