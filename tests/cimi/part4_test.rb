@@ -66,22 +66,23 @@ class AddVolumeToMachine < CIMI::Test::Spec
                   {:accept => :json, :content_type => :xml})
 
   # 4.3:  Create a new Volume
-  model :volume do |fmt|
+  model :volume, :cache => true do |fmt|
     volume_add_uri = discover_uri_for("add", "volumes")
-    post(volume_add_uri,
-      "<Volume>" +
+    resp = post(volume_add_uri,
+      "<VolumeCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
         "<name>cimi_volume_" + fmt.to_s() +"</name>" +
         "<description>volume for testing</description>" +
         "<volumeTemplate>" +
           "<volumeConfig href=\"" + get_a(cep_json, "volumeConfig") + "\">" +
           "</volumeConfig>" +
         "</volumeTemplate>" +
-      "</Volume>",
+      "</VolumeCreate>",
          :accept => fmt, :content_type => :xml)
+    get resp.location
   end
 
   it "should add resource machine resource for cleanup", :only => :json do
-    @@created_resources[:machines] << machine.json["id"]
+    @@created_resources[:machines] << machine.location
   end
 
 #  it "should add resource for cleanup" do
@@ -104,27 +105,27 @@ class AddVolumeToMachine < CIMI::Test::Spec
     last_response.json["resourceURI"].must_equal RESOURCE_URI.gsub("Create", "")
   end
 
-  log.info(machine.json["id"].to_s() + " is the machine id")
+  log.info("#{machine.location} is the machine id")
   volume_add_uri = discover_uri_for("add", "volumes")
   volume = post(volume_add_uri,
-  "<Volume>" +
+  "<VolumeCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
     "<name>cimi_volume_for_attach</name>" +
     "<description>volume for attach testing</description>" +
     "<volumeTemplate>" +
       "<volumeConfig href=\"" + get_a(cep_json, "volumeConfig") + "\">" +
       "</volumeConfig>" +
     "</volumeTemplate>" +
-  "</Volume>",
+  "</VolumeCreate>",
   :accept => :json, :content_type => :xml)
 
-  log.info(volume.json["id"].to_s() + " is the volume id")
+  log.info(volume.location + " is the volume id")
   # 4.4: Attach the new Volume to a Machine
   model :machineWithVolume, :only => :xml do
-  attach_uri = discover_uri_for_subcollection("add", machine.json['id'], "volumes")
+  attach_uri = discover_uri_for_subcollection("add", machine.location, "volumes")
     post(attach_uri,
-    "<MachineVolume xmlns=\"http://schemas.dmtf.org/cimi/1/MachineVolume\">" +
+    "<MachineVolume xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
     "<initialLocation>/dev/sdf</initialLocation>" +
-    "<volume href=\"" + volume.json["id"] + "\"/>" +
+    "<volume href=\"" + volume.location + "\"/>" +
     "</MachineVolume>",
     :accept => :xml, :content_type => :xml)
   end

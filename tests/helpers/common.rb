@@ -30,6 +30,10 @@ module RestClient::Response
     end
   end
 
+  def location
+    headers[:location]
+  end
+
   def xml
     @xml ||= Nokogiri::XML(body)
   end
