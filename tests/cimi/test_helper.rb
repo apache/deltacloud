@@ -163,7 +163,7 @@ module CIMI::Test::Methods
           resource = resp.xml.root.name
         end
       else
-        raise "Unexpected content type #{response.content_type}"
+        raise "Unexpected content type #{resp.content_type}"
       end
       CIMI::Model::const_get(resource)
     end
@@ -380,6 +380,8 @@ end
 class CIMI::Test::Spec < MiniTest::Spec
   include CIMI::Test::Methods
 
+  attr_reader :format, :content_type
+
   CONTENT_TYPES = { :xml => "application/xml",
     :json => "application/json" }
 
@@ -460,9 +462,11 @@ class CIMI::Test::Spec < MiniTest::Spec
 
   def retrieve(k, &block)
     response = instance_exec(@format, &block)
-    assert_equal @content_type, response.content_type
-    if @format == :xml
-      response.xml.namespaces["xmlns"].must_equal CIMI::Test::CIMI_NAMESPACE
+    if response.body && response.body.size > 0
+      assert_equal @content_type, response.content_type
+      if @format == :xml
+        response.xml.namespaces["xmlns"].must_equal CIMI::Test::CIMI_NAMESPACE
+      end
     end
     response
   end
