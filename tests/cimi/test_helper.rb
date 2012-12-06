@@ -203,6 +203,8 @@ module CIMI::Test::Methods
         else
           @log.level = Logger.const_get ENV['LOG_LEVEL']
         end
+        @log.datetime_format = "%H:%M:%S"
+        RestClient.log = @log if @log.level == Logger::DEBUG
       end
       @log
     end
