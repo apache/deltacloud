@@ -221,9 +221,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.convert_instance_actions(instance, context)
     actions = instance.actions.collect do |action|
-      action = :destroy if action == :delete # In CIMI destroy operation become delete
-      action = :restart if action == :reboot  # In CIMI reboot operation become restart
-      { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://schemas.dmtf.org/cimi/1/action/#{action}" }
+      action = :restart if action == :reboot
+      name = action
+      name = :delete if action == :destroy # In CIMI destroy operation become delete
+      { :href => context.send(:"#{action}_machine_url", instance.id), :rel => "http://schemas.dmtf.org/cimi/1/action/#{name}" }
     end
     actions <<  { :href => context.send(:"machine_images_url"), :rel => "http://schemas.dmtf.org/cimi/1/action/capture" } if instance.can_create_image?
     actions
