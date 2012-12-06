@@ -97,10 +97,15 @@ module Deltacloud::Drivers::VSphere
       rootFolder = vsphere.serviceInstance.content.rootFolder
       rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter).each do |dc|
         list_datastores(dc.datastoreFolder).each do  |datastore|
-          vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } unless vm.nil? }
-          stored_tasks(datastore, vsphere) do |task|
-            if task.info.entity.class == RbVmomi::VIM::VirtualMachine
-              vms << { :stored_instance => load_serialized_instance(datastore, task.info.key), :datastore => datastore.name }
+          if datastore.class == RbVmomi::VIM::StoragePod
+            storagepod_name = datastore.summary['name']
+            vms += datastore.childEntity.grep(RbVmomi::VIM::VirtualMachine).collect { |vm| { :instance => vm, :datastore => storagepod_name } }
+          else
+            vms += datastore.vm.collect { |vm| { :instance => vm, :datastore => datastore.name } unless vm.nil? }
+            stored_tasks(datastore, vsphere) do |task|
+              if task.info.entity.class == RbVmomi::VIM::VirtualMachine
+                vms << { :stored_instance => load_serialized_instance(datastore, task.info.key), :datastore => datastore.name }
+              end
             end
           end
         end
@@ -115,6 +120,8 @@ module Deltacloud::Drivers::VSphere
       datastores = []
       df.childEntity.each do |object|
         if object.class.to_s == 'Folder'
+          datastores += list_datastores(object)
+        elsif object.class.to_s == 'StoragePod'
           datastores += list_datastores(object)
         else
           datastores << object
