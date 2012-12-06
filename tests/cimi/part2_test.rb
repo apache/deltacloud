@@ -51,14 +51,15 @@ end
 
   # 2.4:  Create a new CredentialResource
   log.info("Create a new CredentialResource: credential_resources is not a supported collection.")
-  # 2.5: Create a new Machine
-  model :machine do |fmt|
+
+  it "allows creation of a new machine (step 2.5)", :only => :json do
     cep_json = cep(:accept => :json)
     #discover the 'addURI' for creating Machine
     add_uri = discover_uri_for("add", "machines")
-    post(add_uri,
+
+    resp = post(add_uri,
       "<MachineCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
-        "<name>cimi_machine_" + fmt.to_s() + "</name>" +
+        "<name>cimi_machine_" + format.to_s + "</name>" +
         "<machineTemplate>" +
           "<machineConfig " +
             "href=\"" + get_a(cep_json, "machineConfig")+ "\"/>" +
@@ -66,21 +67,15 @@ end
             "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
         "</machineTemplate>" +
       "</MachineCreate>", :content_type => :xml)
-  end
 
-  it "should add resource for cleanup" do
-    @@created_resources[:machines] << machine.id
+    resp.headers[:location].must_be_uri
+    resp.code.must_be_one_of [201, 202]
+    if resp.code == 201
+      machine = fetch(resp.headers[:location])
+      machine.name.wont_be_empty
+    else
+      machine = CIMI::Model::Machinemachine.new(:id => resp.headers[:location])
+    end
+    @@created_resources[:machines] << machine
   end
-
-  it "should have a name" do
-    machine.name.wont_be_empty
-    log.info("machine name: " + machine.name)
-  end
-
-  it "should produce a valid create response" do
-    machine
-    last_response.code.must_be_one_of [201, 202]
-    last_response.headers[:location].must_be_uri
-  end
-
 end
