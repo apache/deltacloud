@@ -21,7 +21,6 @@ require "test_helper.rb"
 class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
   RESOURCE_URI =
     "http://schemas.dmtf.org/cimi/1/CloudEntryPoint"
-  ROOTS = ["machines", "machineImages", "machineConfigurations"]
 
   MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
 
@@ -32,41 +31,30 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     cep(:accept => fmt)
   end
 
-  # This test must adhere to one of the "Query the CEP" test in the previous section.
-  # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
-  query_the_cep(ROOTS)
-
   #create a machineTemplate for use in these tests:
   cep_json = cep(:accept => :json)
   mach_templ_add_uri = discover_uri_for("add", "machineTemplates")
-  mach_templ_created = post(mach_templ_add_uri,
-    "<MachineTemplateCreate>" +
-      "<name>cimi_machineTemplate1</name>"+
-      "<description>A CIMI MachineTemplate, created by part3_test.rb</description>"+
-      "<property name=\"foo\">bar</property>"+
-      "<machineConfig " +
-        "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +
-      "<machineImage " +
-        "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
-    "</MachineTemplateCreate>",
-    :accept => :json, :content_type => :xml)
+  templ = CIMI::Model::MachineTemplate.new(
+    :name => "cimi_machineTemplate1",
+    :description => "A CIMI MachineTemplate, created by part3_test.rb",
+    :property => { "foo" => "bar" },
+    :machine_config => { :href => get_a(cep_json, "machineConfig") },
+    :machine_image => { :href => get_a(cep_json, "machineImage") } )
+
+  mach_templ_created = post(mach_templ_add_uri, templ.to_xml,
+                            :accept => :json, :content_type => :xml)
 
   # 3.1: Query the CEP
   model :machineTemplate  do |fmt|
-    get mach_templ_created.json["id"], :accept => fmt
+    get mach_templ_created.headers[:location], :accept => fmt
   end
-
-  # This test must adhere to one of the "Query the CEP" test in the previous section.
-  # CEP.machines, CEP.machineConfigs and CEP.machineImages must be set
-  query_the_cep(ROOTS)
 
   # 3.2 Querying MachineTemplates
   # At least one MachineTemplate resource must appear in the collection
   it "should contain one MachineTemplates resource" do
-    r = "machineTemplates".underscore.to_sym
-    model = fetch(subject.send(r).href)
-    log.info(model.attribute_values[r][0])
-    assert_equal model.attribute_values[r][0].nil?(), false
+    model = fetch(subject.machine_templates.href)
+    assert_operator 0, :<, model.count.to_i
+    model.machine_templates[0].wont_be_nil
   end
 
   it "should have a name" do
@@ -86,34 +74,28 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     machineTemplate.machine_image["href"].wont_be_empty
   end
 
-  # 3.3 Creating a new machine
-  model :machine do |fmt|
+  it "allows creation of a machine from a template (step 3.3)",
+     :only => :json do
     cep_json = cep(:accept => :json)
-    #discover the 'addURI' for creating Machine
     add_uri = discover_uri_for("add", "machines")
-    post(add_uri,
-      "<Machine>" +
-        "<name>cimi_machine_from_template" + fmt.to_s() + "</name>" +
-        "<description> Created machine from template" + fmt.to_s() + "</description>" +
+    resp = post(add_uri,
+      "<MachineCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
+         "<name>cimi_machine_from_template_#{format}</name>" +
+         "<description> Created machine from template #{format}</description>" +
         "<machineTemplate " +
           "href=\"" + get_a(cep_json, "machineTemplate")+ "\"/>" +
-      "</Machine>",
-         :accept => fmt, :content_type => :xml)
-  end
+      "</MachineCreate>",
+         :accept => format, :content_type => :xml)
 
-  it "should add resource for cleanup" do
-    @@created_resources[:machine_templates] << machineTemplate.id
-  end
-
-  it "should have a name" do
-    machine.name.wont_be_empty
-    log.info("machine name: " + machine.name)
-  end
-
-  it "should produce a valid create response" do
-    machine
-    last_response.code.must_be_one_of [201, 202]
-    last_response.headers[:location].must_be_uri
+    resp.headers[:location].must_be_uri
+    resp.code.must_be_one_of [201, 202]
+    if resp.code == 201
+      machine = fetch(resp.headers[:location])
+      machine.name.wont_be_empty
+    else
+      machine = CIMI::Model::Machinemachine.new(:id => resp.headers[:location])
+    end
+    @@created_resources[:machines] << machine
   end
 
 end
