@@ -32,14 +32,19 @@ For now we're using an <a href="http://openetherpad.org/DeltacloudCall">etherpad
 <br>
 <a href="http://www.youtube.com/watch?v=cUC96SdQjaE">Deltacloud Community Call #1</a>
 
-Agenda: Working with Deltacloud API clients, Contributing patches, review process, etc
+Working with Deltacloud API clients, Contributing patches, review process, etc
 
 <br>
 <a href="http://www.youtube.com/watch?v=CMf73mtsIfs">Deltacloud Community Call #2</a>
 
-Agenda: Networking API discussion, Writing Deltacloud API tests
+Networking API discussion, Writing Deltacloud API tests
 
 <br>
 <a href="http://www.youtube.com/watch?v=YOMK8jrhGoo">Deltacloud Community Call #3</a>
 
-Agenda: Adding state to Deltacloud for the CIMI frontend - Datamapper
+Adding state to Deltacloud for the CIMI frontend - Datamapper
+
+<br>
+<a href="http://www.youtube.com/watch?v=TGYTrVRxcGE">Deltacloud Community Call #4</a>
+
+Debugging deltacloud - how to chase a bug - common steps, debugging tools. Mailing list questions: i) ovirt and the User Level API, ii) Plans for CIMI back-end driver?
