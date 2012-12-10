@@ -4,6 +4,7 @@ gemspec
 
 platforms :jruby do
   gem 'jruby-openssl'
+  gem 'puma'
 end
 
 group :development do
