@@ -48,7 +48,8 @@ module Deltacloud
 
       def delete_attributes_for(model)
         return if test_environment?
-        get_entity(model).destroy
+        entity = get_entity(model)
+        !entity.nil? && entity.destroy!
       end
 
       def get_entity(model)
