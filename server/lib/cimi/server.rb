@@ -21,6 +21,8 @@ require 'sinatra/base'
 require 'sinatra/rabbit'
 require_relative '../sinatra'
 
+require_relative '../db'
+
 require_relative './helpers'
 require_relative './collections'
 
