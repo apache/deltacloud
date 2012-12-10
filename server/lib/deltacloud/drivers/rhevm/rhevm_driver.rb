@@ -206,8 +206,13 @@ class RhevmDriver < Deltacloud::BaseDriver
   def new_client(credentials)
     safely do
       raise 'No API provider set for this request.' unless api_provider
-      url, datacenter = api_provider.split(';')
-      OVIRT::Client.new(credentials.user, credentials.password, url, datacenter)
+      url, datacenter, filtered = api_provider.split(';')
+      if filtered.nil?
+        OVIRT::Client.new(credentials.user, credentials.password, url, datacenter)
+      else
+        filtered_api = filtered.upcase == 'USER'
+        OVIRT::Client.new(credentials.user, credentials.password, url, datacenter, nil, filtered_api)
+      end
     end
   end
 
