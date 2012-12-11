@@ -1,109 +1,457 @@
----
-http_interactions:
-- request:
+--- 
+recorded_with: VCR 2.3.0
+http_interactions: 
+- request: 
     method: post
-    uri: http://10.34.32.211:5000/v2.0/tokens
-    body:
-      encoding: UTF-8
-      string: ! '{"auth":{"passwordCredentials":{"username":"admin","password":"password"},"tenantName":"admin"}}'
-    headers:
-      Content-Type:
+    uri: https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens
+    body: 
+      string: "{\"auth\":{\"passwordCredentials\":{\"username\":\"foo@fakedomain.eu\",\"password\":\"1234fake56789\"},\"tenantName\":\"foo@fakedomain.eu-default-tenant\"}}"
+    headers: 
+      Content-Type: 
       - application/json
-      Accept:
-      - ! '*/*'
-      User-Agent:
-      - Ruby
-  response:
-    status:
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      Content-Type:
+    headers: 
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
       - application/json
-      Vary:
-      - X-Auth-Token
-      Content-Length:
-      - '2010'
-      Date:
-      - Mon, 27 Aug 2012 16:17:32 GMT
-    body:
-      encoding: US-ASCII
-      string: ! '{"access": {"token": {"expires": "2012-08-28T16:17:32Z", "id": "d20ae4dcd00a414aba6ca84918d2ffcc",
-        "tenant": {"description": null, "enabled": true, "id": "e827289fd66f4effb5b9b5012282fdb7",
-        "name": "admin"}}, "serviceCatalog": [{"endpoints": [{"adminURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
-        "region": "RegionOne", "publicURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7",
-        "internalURL": "http://10.34.32.211:8776/v1/e827289fd66f4effb5b9b5012282fdb7"}],
-        "endpoints_links": [], "type": "volume", "name": "Volume Service"}, {"endpoints":
-        [{"adminURL": "http://10.34.32.211:9292/v1", "region": "RegionOne", "publicURL":
-        "http://10.34.32.211:9292/v1", "internalURL": "http://10.34.32.211:9292/v1"}],
-        "endpoints_links": [], "type": "image", "name": "Image Service"}, {"endpoints":
-        [{"adminURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
-        "region": "RegionOne", "publicURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7",
-        "internalURL": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7"}],
-        "endpoints_links": [], "type": "compute", "name": "Compute Service"}, {"endpoints":
-        [{"adminURL": "http://10.34.32.211:8773/services/Admin", "region": "RegionOne",
-        "publicURL": "http://10.34.32.211:8773/services/Cloud", "internalURL": "http://10.34.32.211:8773/services/Cloud"}],
-        "endpoints_links": [], "type": "ec2", "name": "EC2 Service"}, {"endpoints":
-        [{"adminURL": "http://10.34.32.211:35357/v2.0", "region": "RegionOne", "publicURL":
-        "http://10.34.32.211:5000/v2.0", "internalURL": "http://10.34.32.211:5000/v2.0"}],
-        "endpoints_links": [], "type": "identity", "name": "Identity Service"}], "user":
-        {"username": "admin", "roles_links": [], "id": "f2286a51122345cea7d216c120974b41",
-        "roles": [{"id": "e7e292b28c4b4befb06232fa935a3c48", "name": "KeystoneServiceAdmin"},
-        {"id": "7e716d5a52f348bb9a7fbbc230041b2a", "name": "admin"}, {"id": "bf2113c0cb924b34907521808ed9df13",
-        "name": "KeystoneAdmin"}], "name": "admin"}}}'
+      Expires: 
+      - "-1"
+      Pragma: 
+      - no-cache
+      Cache-Control: 
+      - no-cache
+      Date: 
+      - Tue, 11 Dec 2012 11:42:00 GMT
+      Content-Length: 
+      - "4011"
+    body: 
+      string: |-
+        {"access": {
+          "token": {
+            "expires": "2012-12-11T23:42:00.168Z",
+            "id": "EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1",
+            "tenant": {
+              "id": "123456fake7890",
+              "name": "foo@fakedomain.eu-default-tenant"
+            }
+          },
+          "user": {
+            "id": "98765fake43210",
+            "name": "foo@fakedomain.eu",
+            "roles": [
+              {
+                "id": "00000000004024",
+                "serviceId": "140",
+                "name": "user",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004022",
+                "serviceId": "110",
+                "name": "Admin",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004025",
+                "serviceId": "120",
+                "name": "sysadmin",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004003",
+                "serviceId": "100",
+                "name": "domainadmin"
+              },
+              {
+                "id": "00000000004016",
+                "serviceId": "120",
+                "name": "netadmin",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004004",
+                "serviceId": "100",
+                "name": "domainuser"
+              },
+              {
+                "id": "00000000004013",
+                "serviceId": "130",
+                "name": "block-admin",
+                "tenantId": "123456fake7890"
+              }
+            ]
+          },
+          "serviceCatalog": [
+            {
+              "name": "Object Storage",
+              "type": "object-store",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/region-a.geo-1.objects.hpcloudsvc.com\/v1\/123456fake7890",
+                "region": "region-a.geo-1",
+                "versionId": "1.0",
+                "versionInfo": "https:\/\/region-a.geo-1.objects.hpcloudsvc.com\/v1.0\/",
+                "versionList": "https:\/\/region-a.geo-1.objects.hpcloudsvc.com"
+              }]
+            },
+            {
+              "name": "Identity",
+              "type": "identity",
+              "endpoints": [
+                {
+                  "publicURL": "https:\/\/region-b.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "region": "region-b.geo-1",
+                  "versionId": "2.0",
+                  "versionInfo": "https:\/\/region-b.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "versionList": "https:\/\/region-b.geo-1.identity.hpcloudsvc.com:35357"
+                },
+                {
+                  "publicURL": "https:\/\/region-a.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "region": "region-a.geo-1",
+                  "versionId": "2.0",
+                  "versionInfo": "https:\/\/region-a.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "versionList": "https:\/\/region-a.geo-1.identity.hpcloudsvc.com:35357"
+                }
+              ]
+            },
+            {
+              "name": "Image Management",
+              "type": "image",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/glance2.uswest.hpcloud.net:9292\/v1.0",
+                "region": "az-2.region-a.geo-1",
+                "versionId": "1.0",
+                "versionInfo": "https:\/\/glance2.uswest.hpcloud.net:9292\/v1.0\/",
+                "versionList": "https:\/\/glance2.uswest.hpcloud.net:9292"
+              }]
+            },
+            {
+              "name": "Block Storage",
+              "type": "volume",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/123456fake7890",
+                "region": "az-2.region-a.geo-1",
+                "versionId": "1.1",
+                "versionInfo": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/",
+                "versionList": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com"
+              }]
+            },
+            {
+              "name": "Compute",
+              "type": "compute",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/123456fake7890",
+                "publicURL2": "https:\/\/az-2.region-a.geo-1.ec2-compute.hpcloudsvc.com\/services\/Cloud",
+                "region": "az-2.region-a.geo-1",
+                "versionId": "1.1",
+                "versionInfo": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/",
+                "versionList": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com"
+              }]
+            }
+          ]
+        }}
     http_version: 
-  recorded_at: Mon, 27 Aug 2012 12:28:51 GMT
-- request:
+  recorded_at: Tue, 11 Dec 2012 11:42:00 GMT
+- request: 
     method: get
-    uri: http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers/fef00348-9991-404c-b0d4-655d18f84345
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      X-Auth-Token:
-      - d20ae4dcd00a414aba6ca84918d2ffcc
-      X-Storage-Token:
-      - d20ae4dcd00a414aba6ca84918d2ffcc
-      Connection:
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/123456fake7890/servers/806837
+    body: 
+      string: ""
+    headers: 
+      X-Storage-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      Content-Type: 
+      - application/json
+      Accept: 
+      - application/json
+      X-Auth-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      User-Agent: 
+      - OpenStack Ruby API 1.0.7
+      Connection: 
       - Keep-Alive
-      User-Agent:
-      - OpenStack Ruby API 1.0.3
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-  response:
-    status:
+  response: 
+    status: 
       code: 200
       message: OK
-    headers:
-      X-Compute-Request-Id:
-      - req-93e528c1-c7a7-49f6-a479-910b80ef9b1c
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1403'
-      Date:
-      - Mon, 27 Aug 2012 16:17:33 GMT
-      Connection:
-      - keep-alive
-    body:
-      encoding: US-ASCII
-      string: ! '{"server": {"OS-EXT-STS:task_state": null, "addresses": {"demonet":
-        [{"version": 4, "addr": "10.0.0.2"}]}, "links": [{"href": "http://10.34.32.211:8774/v1.1/e827289fd66f4effb5b9b5012282fdb7/servers/fef00348-9991-404c-b0d4-655d18f84345",
-        "rel": "self"}, {"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/servers/fef00348-9991-404c-b0d4-655d18f84345",
-        "rel": "bookmark"}], "image": {"id": "bf7ce59a-d9f9-45d4-9313-f45b16436602",
-        "links": [{"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/images/bf7ce59a-d9f9-45d4-9313-f45b16436602",
-        "rel": "bookmark"}]}, "OS-EXT-STS:vm_state": "active", "OS-EXT-SRV-ATTR:instance_name":
-        "instance-0000000c", "flavor": {"id": "1", "links": [{"href": "http://10.34.32.211:8774/e827289fd66f4effb5b9b5012282fdb7/flavors/1",
-        "rel": "bookmark"}]}, "id": "fef00348-9991-404c-b0d4-655d18f84345", "user_id":
-        "f2286a51122345cea7d216c120974b41", "OS-DCF:diskConfig": "MANUAL", "accessIPv4":
-        "", "accessIPv6": "", "progress": 0, "OS-EXT-STS:power_state": 1, "config_drive":
-        "", "status": "ACTIVE", "updated": "2012-08-27T15:27:16Z", "hostId": "13942eef5ee69ea6fabcd918042084b1ec915973056bb1b497b43dfa",
-        "OS-EXT-SRV-ATTR:host": "openstack-01.lab.eng.brq.redhat.com", "key_name":
-        "", "OS-EXT-SRV-ATTR:hypervisor_hostname": null, "name": "test-3", "created":
-        "2012-08-27T15:27:12Z", "tenant_id": "e827289fd66f4effb5b9b5012282fdb7", "metadata":
-        {}}}'
+    headers: 
+      Content-Type: 
+      - application/json; charset=UTF-8
+      Date: 
+      - Tue, 11 Dec 2012 11:42:01 GMT
+      Content-Length: 
+      - "1294"
+    body: 
+      string: "{\"server\": {\"status\": \"ACTIVE\", \"updated\": \"2012-12-11T11:36:16Z\", \"hostId\": \"bbe65f8ab3fc264a6d7b576cf43db3268a0053b15a84ec9b1daaaf22\", \"user_id\": \"98765fake43210\", \"name\": \"Server-1355225740-az-2-region-a-geo-1\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/123456fake7890/servers/806837\", \"rel\": \"self\"}, {\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/123456fake7890/servers/806837\", \"rel\": \"bookmark\"}], \"addresses\": {\"private\": [{\"version\": 4, \"addr\": \"10.7.17.252\"}, {\"version\": 4, \"addr\": \"15.185.175.43\"}]}, \"tenant_id\": \"123456fake7890\", \"image\": {\"id\": \"47940\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/123456fake7890/images/47940\", \"rel\": \"bookmark\"}]}, \"created\": \"2012-12-11T11:35:45Z\", \"uuid\": \"936765b5-27bd-4d7d-a010-437e67611312\", \"accessIPv4\": \"\", \"accessIPv6\": \"\", \"key_name\": \"marios_default\", \"progress\": 100, \"flavor\": {\"id\": \"100\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/123456fake7890/flavors/100\", \"rel\": \"bookmark\"}]}, \"config_drive\": \"\", \"id\": 806837, \"security_groups\": [{\"name\": \"default\", \"links\": [{\"href\": \"https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/123456fake7890/os-security-groups/1381\", \"rel\": \"bookmark\"}], \"id\": 1381}], \"metadata\": {}}}"
     http_version: 
-  recorded_at: Mon, 27 Aug 2012 12:28:51 GMT
-recorded_with: VCR 2.2.4
+  recorded_at: Tue, 11 Dec 2012 11:42:01 GMT
+- request: 
+    method: get
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/123456fake7890/extensions
+    body: 
+      string: ""
+    headers: 
+      X-Storage-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      Content-Type: 
+      - application/json
+      Accept: 
+      - application/json
+      X-Auth-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      User-Agent: 
+      - OpenStack Ruby API 1.0.7
+      Connection: 
+      - Keep-Alive
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Content-Type: 
+      - application/json; charset=UTF-8
+      Date: 
+      - Tue, 11 Dec 2012 11:42:03 GMT
+      Content-Length: 
+      - "1570"
+    body: 
+      string: "{\"extensions\": [{\"updated\": \"2011-03-25T00:00:00+00:00\", \"name\": \"Volumes\", \"links\": [], \"namespace\": \"http://docs.openstack.org/ext/volumes/api/v1.1\", \"alias\": \"os-volumes\", \"description\": \"Volumes support\"}, {\"updated\": \"2012-10-11T00:00:00+00:00\", \"name\": \"HP Bootable Volumes\", \"links\": [], \"namespace\": \"http://docs.openstack.org/ext/hp-bootable-volumes/api/v1.1\", \"alias\": \"hp-bootable-volumes\", \"description\": \"hp bootable volumes support\"}, {\"updated\": \"2012-09-04T00:00:00+00:00\", \"name\": \"hp volume backup\", \"links\": [], \"namespace\": \"http://docs.openstack.org/ext/hp-volume-backups/api/v1.1\", \"alias\": \"hp-volume-backups\", \"description\": \"hp volume backups support\"}, {\"updated\": \"2011-08-08T00:00:00+00:00\", \"name\": \"Keypairs\", \"links\": [], \"namespace\": \"http://docs.openstack.org/ext/keypairs/api/v1.1\", \"alias\": \"os-keypairs\", \"description\": \"Keypair Support\"}, {\"updated\": \"2011-12-08T00:00:00+00:00\", \"name\": \"Console_output\", \"links\": [], \"namespace\": \"http://docs.openstack.org/compute/ext/os-console-output/api/v1.1\", \"alias\": \"os-console-output\", \"description\": \"Console log output support, with tailing ability.\"}, {\"updated\": \"2011-07-21T00:00:00+00:00\", \"name\": \"SecurityGroups\", \"links\": [], \"namespace\": \"http://docs.openstack.org/ext/securitygroups/api/v1.1\", \"alias\": \"security_groups\", \"description\": \"Security group support\"}, {\"updated\": \"2011-06-16T00:00:00+00:00\", \"name\": \"Floating_ips\", \"links\": [], \"namespace\": \"http://docs.openstack.org/ext/floating_ips/api/v1.1\", \"alias\": \"os-floating-ips\", \"description\": \"Floating IPs support\"}]}"
+    http_version: 
+  recorded_at: Tue, 11 Dec 2012 11:42:03 GMT
+- request: 
+    method: get
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/123456fake7890/servers/806837/os-volume_attachments
+    body: 
+      string: ""
+    headers: 
+      X-Storage-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      Content-Type: 
+      - application/json
+      Accept: 
+      - application/json
+      X-Auth-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      User-Agent: 
+      - OpenStack Ruby API 1.0.7
+      Connection: 
+      - Keep-Alive
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Content-Type: 
+      - application/json; charset=UTF-8
+      Date: 
+      - Tue, 11 Dec 2012 11:42:04 GMT
+      Content-Length: 
+      - "25"
+    body: 
+      string: "{\"volumeAttachments\": []}"
+    http_version: 
+  recorded_at: Tue, 11 Dec 2012 11:42:04 GMT
+- request: 
+    method: post
+    uri: https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens
+    body: 
+      string: "{\"auth\":{\"passwordCredentials\":{\"username\":\"foo@fakedomain.eu\",\"password\":\"1234fake56789\"},\"tenantName\":\"foo@fakedomain.eu-default-tenant\"}}"
+    headers: 
+      Content-Type: 
+      - application/json
+      Accept: 
+      - "*/*"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Server: 
+      - Apache-Coyote/1.1
+      Content-Type: 
+      - application/json
+      Expires: 
+      - "-1"
+      Pragma: 
+      - no-cache
+      Cache-Control: 
+      - no-cache
+      Date: 
+      - Tue, 11 Dec 2012 11:42:06 GMT
+      Content-Length: 
+      - "4011"
+    body: 
+      string: |-
+        {"access": {
+          "token": {
+            "expires": "2012-12-11T23:42:06.295Z",
+            "id": "EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1",
+            "tenant": {
+              "id": "123456fake7890",
+              "name": "foo@fakedomain.eu-default-tenant"
+            }
+          },
+          "user": {
+            "id": "98765fake43210",
+            "name": "foo@fakedomain.eu",
+            "roles": [
+              {
+                "id": "00000000004024",
+                "serviceId": "140",
+                "name": "user",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004022",
+                "serviceId": "110",
+                "name": "Admin",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004025",
+                "serviceId": "120",
+                "name": "sysadmin",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004003",
+                "serviceId": "100",
+                "name": "domainadmin"
+              },
+              {
+                "id": "00000000004016",
+                "serviceId": "120",
+                "name": "netadmin",
+                "tenantId": "123456fake7890"
+              },
+              {
+                "id": "00000000004004",
+                "serviceId": "100",
+                "name": "domainuser"
+              },
+              {
+                "id": "00000000004013",
+                "serviceId": "130",
+                "name": "block-admin",
+                "tenantId": "123456fake7890"
+              }
+            ]
+          },
+          "serviceCatalog": [
+            {
+              "name": "Object Storage",
+              "type": "object-store",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/region-a.geo-1.objects.hpcloudsvc.com\/v1\/123456fake7890",
+                "region": "region-a.geo-1",
+                "versionId": "1.0",
+                "versionInfo": "https:\/\/region-a.geo-1.objects.hpcloudsvc.com\/v1.0\/",
+                "versionList": "https:\/\/region-a.geo-1.objects.hpcloudsvc.com"
+              }]
+            },
+            {
+              "name": "Identity",
+              "type": "identity",
+              "endpoints": [
+                {
+                  "publicURL": "https:\/\/region-b.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "region": "region-b.geo-1",
+                  "versionId": "2.0",
+                  "versionInfo": "https:\/\/region-b.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "versionList": "https:\/\/region-b.geo-1.identity.hpcloudsvc.com:35357"
+                },
+                {
+                  "publicURL": "https:\/\/region-a.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "region": "region-a.geo-1",
+                  "versionId": "2.0",
+                  "versionInfo": "https:\/\/region-a.geo-1.identity.hpcloudsvc.com:35357\/v2.0\/",
+                  "versionList": "https:\/\/region-a.geo-1.identity.hpcloudsvc.com:35357"
+                }
+              ]
+            },
+            {
+              "name": "Image Management",
+              "type": "image",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/glance2.uswest.hpcloud.net:9292\/v1.0",
+                "region": "az-2.region-a.geo-1",
+                "versionId": "1.0",
+                "versionInfo": "https:\/\/glance2.uswest.hpcloud.net:9292\/v1.0\/",
+                "versionList": "https:\/\/glance2.uswest.hpcloud.net:9292"
+              }]
+            },
+            {
+              "name": "Block Storage",
+              "type": "volume",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/123456fake7890",
+                "region": "az-2.region-a.geo-1",
+                "versionId": "1.1",
+                "versionInfo": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/",
+                "versionList": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com"
+              }]
+            },
+            {
+              "name": "Compute",
+              "type": "compute",
+              "endpoints": [{
+                "tenantId": "123456fake7890",
+                "publicURL": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/123456fake7890",
+                "publicURL2": "https:\/\/az-2.region-a.geo-1.ec2-compute.hpcloudsvc.com\/services\/Cloud",
+                "region": "az-2.region-a.geo-1",
+                "versionId": "1.1",
+                "versionInfo": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com\/v1.1\/",
+                "versionList": "https:\/\/az-2.region-a.geo-1.compute.hpcloudsvc.com"
+              }]
+            }
+          ]
+        }}
+    http_version: 
+  recorded_at: Tue, 11 Dec 2012 11:42:06 GMT
+- request: 
+    method: get
+    uri: https://az-2.region-a.geo-1.compute.hpcloudsvc.com/v1.1/123456fake7890/servers/unknown
+    body: 
+      string: ""
+    headers: 
+      X-Storage-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      Content-Type: 
+      - application/json
+      Accept: 
+      - application/json
+      X-Auth-Token: 
+      - EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1
+      User-Agent: 
+      - OpenStack Ruby API 1.0.7
+      Connection: 
+      - Keep-Alive
+  response: 
+    status: 
+      code: 404
+      message: Not Found
+    headers: 
+      Content-Type: 
+      - application/json; charset=UTF-8
+      Nncoection: 
+      - close
+      Date: 
+      - Tue, 11 Dec 2012 11:42:07 GMT
+      Content-Length: 
+      - "78"
+    body: 
+      string: "{\"itemNotFound\": {\"message\": \"The resource could not be found.\", \"code\": 404}}"
+    http_version: 
+  recorded_at: Tue, 11 Dec 2012 11:42:08 GMT
