@@ -724,7 +724,7 @@ The list of possible datacenters will appear in the 'providers' section.
     <div id="vmware" class="accordion-body collapse">
       <div class="accordion-inner">
 <p>
-You can find the details on how to make the VMware vSphere driver work with Deltacloud API in <a href="https://www.aeolusproject.org/redmine/projects/aeolus/wiki/VSphere_Setup">vSphere Setup</a> in Aeolus project wiki.
+You can find the details on how to make the VMware vSphere driver work with Deltacloud API in <a href="https://redmine.aeolusproject.org/redmine/projects/aeolus/wiki/VSphere_Setup">vSphere Setup</a> in Aeolus project wiki.
 </p>
 
 <p>
