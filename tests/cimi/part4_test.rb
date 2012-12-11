@@ -78,7 +78,6 @@ class AddVolumeToMachine < CIMI::Test::Spec
         "</volumeTemplate>" +
       "</VolumeCreate>",
          :accept => fmt, :content_type => :xml)
-    get resp.location
   end
 
   it "should allow creation of Volume with Config by value in XML" do
