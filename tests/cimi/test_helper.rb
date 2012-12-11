@@ -169,6 +169,8 @@ module CIMI::Test::Methods
         else
           resource = resp.xml.root.name
         end
+      elsif resp.body.nil? || resp.body.size == 0
+        raise "Can not construct model from empty body"
       else
         raise "Unexpected content type #{resp.content_type}"
       end
@@ -292,33 +294,29 @@ module CIMI::Test::Methods
       # machines:
       if not @@created_resources[:machines].nil?
         @@created_resources[:machines].each_index do |i|
-          attempts = 0
-          begin
-            stop_res = RestClient.post( @@created_resources[:machines][i] + "/stop",
+          machine = get(@@created_resources[:machines][i], :accept => :json)
+          unless machine.json["state"].upcase.eql?("STOPPED")
+            stop_op = machine.json["operations"].find { |op| op["rel"] =~ /stop$/ }
+            stop_res = post( stop_op["href"],
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
-            "<action> http://http://schemas.dmtf.org/cimi/1/action/stop</action>" +
+            "<action>http://schemas.dmtf.org/cimi/1/action/stop</action>" +
             "</Action>",
-            {'Authorization' => api.basic_auth, :accept => :xml } )
+            :accept => :xml, :content_type => :xml )
 
-            if stop_res.code == 202
+            machine = get(machine.json["id"], :accept => :json)
+          end
 
-              model_state = RestClient.get( @@created_resources[:machines][i],
-              {'Authorization' => api_basic_auth, :accept => :json} ).json["state"]
+          while not machine.json["state"].upcase.eql?("STOPPED")
+            puts 'waiting for machine to be STOPPED'
+            sleep(1)
+            machine = get(machine.json["id"], :accept => :json)
+          end
 
-              while not model_state.upcase.eql?("STOPPED")
-                puts 'waiting for machine to be STOPPED'
-                sleep(10)
-                model_state = RestClient.get( @@created_resources[:machines][i],
-                {'Authorization' => api_basic_auth, :accept => :json} ).json["state"]
-              end
-            end
-            delete_res = RestClient.delete( @@created_resources[:machines][i],
-            {'Authorization' => api_basic_auth, :accept => :json} )
-            @@created_resources[:machines][i] = nil if delete_res.code == 200
-          rescue Exception => e
-            sleep(10)
-            attempts += 1
-            retry if (attempts <= 5)
+          delete_op = machine.json["operations"].find { |op| op["rel"] =~ /delete$/ }
+          if delete_op
+            delete_res = RestClient.delete( delete_op["href"],
+                {'Authorization' => api_basic_auth, :accept => :json} )
+            @@created_resources[:machines][i] = nil if (200..207).include? delete_res.code
           end
         end
 
