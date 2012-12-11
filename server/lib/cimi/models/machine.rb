@@ -49,7 +49,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
     json = JSON.parse(body)
     machine_template = json['machineTemplate']
     if !machine_template['href'].nil?
-      template = context.current_db.machine_templates.first(:id => machine_template['href'].split('/').last)
+      template = current_db.machine_templates.first(:id => machine_template['href'].split('/').last)
+      raise 'Could not find the MachineTemplate' if template.nil?
       hardware_profile_id = template.machine_config.split('/').last
       image_id = template.machine_image.split('/').last
     else
@@ -68,14 +69,14 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
     # Store attributes that are not supported by the backend cloud to local
     # database:
-    store_attributes_for(context, instance, json)
+    store_attributes_for(instance, json)
     from_instance(instance, context)
   end
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
     if xml['machineTemplate'][0]['href']
-      template = context.current_db.machine_templates.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
+      template = current_db.machine_templates.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
       hardware_profile_id = template.machine_config.split('/').last
       image_id = template.machine_image.split('/').last
     else
@@ -94,8 +95,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
     # Store attributes that are not supported by the backend cloud to local
     # database:
-    store_attributes_for(context, instance, xml)
-    from_instance(instance, context)
+    entity = store_attributes_for(instance, xml)
+    from_instance(instance, context, entity.to_hash)
   end
 
   def perform(action, context, &block)
@@ -111,7 +112,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   def self.delete!(id, context)
-    context.delete_attributes_for Instance.new(:id => id)
+    delete_attributes_for Instance.new(:id => id)
     context.driver.destroy_instance(context.credentials, id)
   end
 
@@ -139,10 +140,10 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   private
-  def self.from_instance(instance, context)
+  def self.from_instance(instance, context, stored_attributes=nil)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
-    stored_attributes = context.load_attributes_for(instance)
+    stored_attributes ||= load_attributes_for(instance)
     if stored_attributes[:property]
       stored_attributes[:property].merge!(convert_instance_properties(instance, context))
     else

@@ -44,9 +44,16 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
   class << self
     def find(id, context)
       if id == :all
-        context.current_db.machine_templates.all.map { |t| from_db(t, context) }
+        Deltacloud::Database::MachineTemplate.all(
+          'provider.driver' => driver_symbol.to_s,
+          'provider.url' => current_provider
+        ).map { |t| from_db(t, context) }
       else
-        template = context.current_db.machine_templates.first(:id => id)
+        template = Deltacloud::Database::MachineTemplate.first(
+          'provider.driver' => driver_symbol.to_s,
+          'provider.url' => current_provider,
+          :id => id
+        )
         raise CIMI::Model::NotFound unless template
         from_db(template, context)
       end
@@ -54,7 +61,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
     def create_from_json(body, context)
       json = JSON.parse(body)
-      new_template = context.current_db.machine_templates.new(
+      new_template = current_db.machine_templates.new(
         :name => json['name'],
         :description => json['description'],
         :machine_config => json['machineConfig']['href'],
@@ -69,7 +76,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
     def create_from_xml(body, context)
       xml = XmlSimple.xml_in(body)
-      new_template = context.current_db.machine_templates.new(
+      new_template = current_db.machine_templates.new(
         :name => xml['name'].first,
         :description => xml['description'].first,
         :machine_config => xml['machineConfig'].first['href'],
@@ -83,7 +90,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
     end
 
     def delete!(id, context)
-      context.current_db.machine_templates.first(:id => id).destroy
+      current_db.machine_templates.first(:id => id).destroy
     end
 
     private

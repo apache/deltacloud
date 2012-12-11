@@ -100,12 +100,12 @@ class CIMI::Model::Volume < CIMI::Model::Base
       opts = {:capacity=>context.from_kibibyte(params[:capacity], "GB"), :snapshot_id=>params[:volume_image_id]}
     end
     storage_volume = context.driver.create_storage_volume(context.credentials, opts)
-    store_attributes_for(context, storage_volume, data)
-    from_storage_volume(storage_volume, context)
+    entity = store_attributes_for(storage_volume, data)
+    from_storage_volume(storage_volume, context, entity.to_hash)
   end
 
-  def self.from_storage_volume(volume, context)
-    stored_attributes = context.load_attributes_for(volume)
+  def self.from_storage_volume(volume, context, stored_attributes=nil)
+    stored_attributes ||= load_attributes_for(volume)
     self.new( { :name => stored_attributes[:name] || volume.id,
                 :description => stored_attributes[:description] || 'Description of Volume',
                 :property => stored_attributes[:property],
