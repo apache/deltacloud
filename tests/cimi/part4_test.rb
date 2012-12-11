@@ -78,12 +78,15 @@ class AddVolumeToMachine < CIMI::Test::Spec
         "</volumeTemplate>" +
       "</VolumeCreate>",
          :accept => fmt, :content_type => :xml)
+    resp.code.must_be_one_of [201, 202]
+    resp.location.must_be_uri
+    get resp.location
   end
 
   it "should allow creation of Volume with Config by value in XML" do
     volume_add_uri = discover_uri_for("add", "volumes")
     res = post(volume_add_uri,
-      "<VolumeCreate>" +
+      "<VolumeCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
         "<name>cimi_volume_by_value_xml</name>" +
         "<description>volume for testing</description>" +
         "<volumeTemplate>" +
@@ -94,7 +97,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
         "</volumeTemplate>" +
       "</VolumeCreate>",
          :accept => :json, :content_type => :xml)
-    res.code.must_equal 201
+    res.code.must_be_one_of [201, 202]
     #cleanup
     delete_uri = discover_uri_for("delete", "volumes", res.json["operations"])
     res= delete(delete_uri)
@@ -109,7 +112,7 @@ class AddVolumeToMachine < CIMI::Test::Spec
             '{"volumeConfig": '+
               '{"type":"http://schemas.dmtf.org/cimi/1/mapped", "capacity": 1024 }}}',
        :accept => :json, :content_type => :json)
-    res.code.must_equal 201
+    res.code.must_be_one_of [201, 202]
     #cleanup
     delete_uri = discover_uri_for("delete", "volumes", res.json["operations"])
     res= delete(delete_uri)
@@ -130,12 +133,6 @@ class AddVolumeToMachine < CIMI::Test::Spec
   it "should have a name" do
     volume.name.wont_be_empty
     log.info("volume name: " + volume.name)
-  end
-
-  it "should produce a valid create response" do
-    volume
-    last_response.code.must_be_one_of [201, 202]
-    last_response.headers[:location].must_be_uri
   end
 
   it "should have the correct resourceURI", :only => :json do
@@ -159,18 +156,16 @@ class AddVolumeToMachine < CIMI::Test::Spec
   log.info(volume.location + " is the volume id")
   # 4.4: Attach the new Volume to a Machine
   model :machineWithVolume, :only => :xml do
-  attach_uri = discover_uri_for_subcollection("add", machine.location, "volumes")
-    post(attach_uri,
+    attach_uri = discover_uri_for_subcollection("add", machine.location, "volumes")
+    resp = post(attach_uri,
     "<MachineVolume xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
     "<initialLocation>/dev/sdf</initialLocation>" +
     "<volume href=\"" + volume.location + "\"/>" +
     "</MachineVolume>",
     :accept => :xml, :content_type => :xml)
-  end
-
-  it "should have a response code equal to 201 for attaching a volume", :only => :xml do
-    machineWithVolume
-    last_response.code.must_equal 201
+    resp.code.must_be_one_of [201, 202]
+    resp.location.must_be_uri
+    get resp.location
   end
 
   it "should have a delete operation", :only => :xml do
