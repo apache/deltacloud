@@ -37,7 +37,7 @@ module Deltacloud
       # and provider.
       #
       def current_db
-        Provider.first_or_create(:driver => driver_symbol.to_s, :url => current_provider)
+        Deltacloud::Database::Provider.first_or_create(:driver => driver_symbol.to_s, :url => current_provider)
       end
 
     end
