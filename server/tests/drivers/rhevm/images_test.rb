@@ -57,7 +57,7 @@ describe 'RhevmDriver Images' do
       image.state.must_equal 'OK'
       Proc.new {
         @driver.destroy_image(image.id)
-      }.must_raise Deltacloud::Exceptions::BackendError, 'Cannot delete Template. Template is being used by the following VMs: test1.'
+      }.must_raise Deltacloud::Exceptions::Conflict, 'Cannot delete Template. Template is being used by the following VMs: test1.'
     end
   end
 

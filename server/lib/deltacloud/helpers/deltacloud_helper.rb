@@ -257,6 +257,7 @@ module Deltacloud::Helpers
       when 404; { :message => "Not Found" }
       when 405; { :message => "Method Not Allowed" }
       when 406; { :message => "Not Acceptable" }
+      when 409; { :message => "Resource Conflict" }
       when 500; { :message => "Internal Server Error" }
       when 502; { :message => "Backend Server Error" }
       when 504; { :message => "Gateway Timeout" }

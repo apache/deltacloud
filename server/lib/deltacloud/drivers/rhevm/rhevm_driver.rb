@@ -118,9 +118,7 @@ class RhevmDriver < Deltacloud::BaseDriver
   def destroy_image(credentials, image_id)
     client = new_client(credentials)
     safely do
-      unless client.destroy_template(image_id)
-        raise "ERROR: Unable to remove image"
-      end
+      client.destroy_template(image_id)
     end
   end
 
@@ -340,6 +338,10 @@ class RhevmDriver < Deltacloud::BaseDriver
 
     on /(404|ResourceNotFound)/ do
       status 404
+    end
+
+    on /(Cannot delete Template. Template is being used)/ do
+      status 409
     end
 
     on /(RestClient|RHEVM|OVIRT)/ do

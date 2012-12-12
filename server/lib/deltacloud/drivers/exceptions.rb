@@ -58,6 +58,13 @@ module Deltacloud
       end
     end
 
+    class Conflict < DeltacloudException
+      def initialize(e, message=nil)
+        message ||= e.message
+        super(409, e.class.name, message, e.backtrace)
+      end
+    end
+
     class MethodNotAllowed < DeltacloudException
       def initialize(e, message=nil)
         message ||= e.message
@@ -157,6 +164,7 @@ module Deltacloud
           when 406 then UnknownMediaTypeError.new(e, @message)
           when 405 then MethodNotAllowed.new(e, @message)
           when 400 then ValidationFailure.new(e, @message)
+          when 409 then Conflict.new(e, @message)
           when 500 then BackendError.new(e, @message)
           when 501 then NotImplemented.new(e, @message)
           when 502 then ProviderError.new(e, @message)
