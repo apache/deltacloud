@@ -25,7 +25,8 @@ class Realm < BaseModel
     {
       :id => self.id,
       :name => name,
-      :state => state
+      :state => state,
+      :limit => limit
     }
   end
 

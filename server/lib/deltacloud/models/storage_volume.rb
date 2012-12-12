@@ -32,17 +32,22 @@ class StorageVolume < BaseModel
     r = {
       :id => self.id,
       :name => name,
+      :description => description,
       :state => state,
       :created => created,
       :realm => { :id => realm_id, :href => context.realm_url(realm_id), :rel => :realm },
       :device => device,
       :kind => kind,
+      :capacity => capacity,
     }
-    r[:actions] = actions.map { |a|
+    r[:actions] = (actions || []).map { |a|
       { :href => context.send("#{a}_storage_volume", self.id), :rel => a }
-    } if actions
-    r[:instance] = { :id => instance_id, :href => context.instance_url(instance_id), :rel => :instance } if instance_id
-    r.delete_if { |k, v| v.nil? }
+    }
+    if instance_id
+      r[:instance] = { :id => instance_id, :href => context.instance_url(instance_id), :rel => :instance }
+    else
+      r[:instance] = {}
+    end
     r
   end
 

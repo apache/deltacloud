@@ -43,6 +43,7 @@ class Instance < BaseModel
       :id => self.id,
       :name => name,
       :state => state,
+      :owner => owner_id,
       :image => { :href => context.image_url(image_id), :id => image_id, :rel => :image },
       :realm => { :href => context.realm_url(realm_id), :id => realm_id, :rel => :realm },
       :actions => actions.compact.map { |a|
@@ -52,7 +53,7 @@ class Instance < BaseModel
           :method => context.instance_action_method(a)
         }
       },
-      :hardware_profile => {
+      :instance_profile => {
         :id => instance_profile.id,
         :href => context.hardware_profile_url(instance_profile.id),
         :rel => :hardware_profile,
@@ -61,7 +62,8 @@ class Instance < BaseModel
       :public_addresses => public_addresses.map { |addr| addr.to_hash(context) },
       :private_addresses => private_addresses.map { |addr| addr.to_hash(context) }
     }
-    r.merge!(:launch_time => launch_time) if !launch_time.nil?
+    r.merge!(:launch_time => launch_time)
+    r.merge!(:create_image => create_image) if create_image
     r.merge!(:firewalls => firewalls.map { |f| { :id => f.id, :href => context.firewall_url(f.id), :rel => :firewall }}) if firewalls
     if storage_volumes
       r.merge!(:storage_volumes => storage_volumes.map { |f| { :id => f.id, :href => context.storage_volume_url(f.id), :rel => :storage_volume }})
