@@ -57,4 +57,8 @@ describe Deltacloud::Collections::Keys do
     status.must_equal 404
   end
 
+  it 'properly serialize attributes in JSON' do
+    check_json_serialization_for :key, 'test-key'
+  end
+
 end

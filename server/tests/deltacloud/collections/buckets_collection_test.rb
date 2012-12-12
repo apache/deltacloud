@@ -61,5 +61,8 @@ describe Deltacloud::Collections::Buckets do
     status.must_equal 204
   end
 
+  it 'properly serialize attributes in JSON' do
+    check_json_serialization_for :bucket, 'bucket1'
+  end
 
 end

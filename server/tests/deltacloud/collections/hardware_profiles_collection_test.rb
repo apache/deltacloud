@@ -50,4 +50,8 @@ describe Deltacloud::Collections::HardwareProfiles do
     status.must_equal 404
   end
 
+  it 'properly serialize attributes in JSON' do
+    check_json_serialization_for :hardware_profile, 'm1-small'
+  end
+
 end

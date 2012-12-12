@@ -59,5 +59,18 @@ describe Deltacloud::Collections::Instances do
     status.must_equal 204
   end
 
-
+  it 'properly serialize attributes in JSON' do
+    header 'Accept', 'application/json'
+    get root_url + "/instances"
+    status.must_equal 200
+    json['instances'].wont_be_empty
+    get root_url + "/instances/inst1"
+    status.must_equal 200
+    json['instance'].wont_be_empty
+    Instance.attributes.each do |attr|
+      attr = attr.to_s.gsub(/_id$/,'') if attr.to_s =~ /_id$/
+      next if ['authn_error', 'firewalls', 'keyname', 'username', 'password'].include?(attr.to_s)
+      json['instance'].keys.must_include attr.to_s
+    end
+  end
 end

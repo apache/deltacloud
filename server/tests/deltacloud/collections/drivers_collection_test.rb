@@ -34,4 +34,14 @@ describe Deltacloud::Collections::Drivers do
     end
   end
 
+  it 'properly serialize attributes in JSON' do
+    header 'Accept', 'application/json'
+    get root_url + "/drivers/ec2"
+    status.must_equal 200
+    json['driver'].wont_be_empty
+    json['driver']['id'].must_equal 'ec2'
+    json['driver']['name'].must_equal 'EC2'
+    json['driver']['entrypoints'].wont_be_empty
+  end
+
 end

@@ -56,4 +56,8 @@ describe Deltacloud::Collections::Images do
     status.must_equal 404
   end
 
+  it 'properly serialize attributes in JSON' do
+    check_json_serialization_for :image, 'img1'
+  end
+
 end
