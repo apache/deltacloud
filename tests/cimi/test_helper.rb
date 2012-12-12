@@ -34,6 +34,9 @@ module CIMI
       def initialize
         @hash = Deltacloud::Test::yaml_config
         @cimi = @hash["cimi"]
+        # Pull in settings for driver reported by server, if any
+        # Only relevant when running against Deltacloud
+        @hash["cimi"].update(@hash[name] || {})
       end
 
       def cep_url
@@ -42,6 +45,10 @@ module CIMI
 
       def base_uri
         xml.xpath("/c:CloudEntryPoint/c:baseURI", ns).text
+      end
+
+      def name
+        xml.xpath("/c:CloudEntryPoint/c:name", ns).text
       end
 
       def basic_auth(u = nil, p = nil)

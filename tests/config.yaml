@@ -4,6 +4,10 @@ api_url: "http://localhost:3001/api"
 mock:
   user: "mockuser"
   password: "mockpassword"
+  preferred:
+    machineImage: "img2"
+    machineConfig: "m1-small"
+    volumeConfig: "2"
 #OPENSTACK DRIVER CONFIG
 openstack:
   user:
@@ -44,9 +48,3 @@ fgcp:
 # CIMI testing
 cimi:
   cep: "http://localhost:3001/cimi/cloudEntryPoint"
-  user: "mockuser"
-  password: "mockpassword"
-  preferred:
-   machineImage: "img2"
-   machineConfig: "m1-small"
-   volumeConfig: "2"

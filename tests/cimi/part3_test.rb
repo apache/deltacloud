@@ -95,7 +95,7 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
     else
       machine = CIMI::Model::Machinemachine.new(:id => resp.headers[:location])
     end
-    @@created_resources[:machines] << machine
+    @@created_resources[:machines] << machine[:id]
   end
 
 end
