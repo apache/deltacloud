@@ -39,7 +39,7 @@ module Deltacloud::Collections
           halt 404 unless @driver
           respond_to do |format|
             format.xml { haml :"drivers/show" }
-            format.json { @driver.to_json }
+            format.json { { :driver => @driver.merge(:id => params[:id]) }.to_json }
             format.html { haml :"drivers/show" }
           end
         end
