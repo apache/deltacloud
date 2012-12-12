@@ -540,10 +540,12 @@ private
               "STOPPED"
             when /build.*$/
               "PENDING"
+            when /error.*/
+              "STOPPED"
             when /active/
               "RUNNING"
             else
-              "UNKOWN"
+              "UNKNOWN"
           end
         end
 
