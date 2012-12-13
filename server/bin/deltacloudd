@@ -197,10 +197,7 @@ unless have_thin
 
   app = Rack::Builder.new {
     use Rack::CommonLogger # apache-like logging
-    use Rack::Reloader if options[:env] == "development"
-    unless RUBY_PLATFORM == 'java'
-      set :root, $top_srcdir # Set Sinatra root since we can't chdir to ../
-    end
+    use Rack::Reloader #if options[:env] == "development"
     run inner_app
   }.to_app
 
