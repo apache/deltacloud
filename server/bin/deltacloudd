@@ -206,8 +206,8 @@ unless have_thin
   # There's a bug with string ports on JRuby so convert to int
   # http://jira.codehaus.org/browse/JRUBY-4868
   port = ENV["API_PORT"].to_i
-
   puts "=> Ctrl-C to shutdown server"
+  Dir::chdir($top_srcdir)
   Rack::Server::start(:app => app,
                       :Host => ENV["API_HOST"],
                       :Port => port,
