@@ -39,7 +39,7 @@ module CIMI
     Dir[File.join(File::dirname(__FILE__), "collections", "*.rb")].each do |collection|
       base_collection_name = File.basename(collection).gsub('.rb', '')
       next if base_collection_name == 'base'
-      require_relative collection
+      require collection
       cimi_module_class = CIMI::Collections.const_get(base_collection_name.camelize)
       cimi_modules << cimi_module_class
       unless cimi_module_class.collections.nil?
