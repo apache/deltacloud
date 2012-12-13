@@ -85,7 +85,7 @@ BANNER
   opts.on( '-V', '--verbose', 'Set verbose logging on') do |verbose|
     ENV["API_VERBOSE"] ||= 'true'
   end
-  opts.on(  nil, '--webrick', 'Force the use of WEBRick as a server') do |opt|
+  opts.on( '-w', '--webrick', 'Force the use of WEBRick as a server') do |opt|
     options[:webrick] = true
   end
   opts.on('--logdir LOGDIR', "Directory for log files, defaults to #{options[:logdir]}") do |opt|
@@ -209,6 +209,7 @@ unless have_thin
   puts "=> Ctrl-C to shutdown server"
   Dir::chdir($top_srcdir)
   Rack::Server::start(:app => app,
+                      :server => :webrick,
                       :Host => ENV["API_HOST"],
                       :Port => port,
                       :AccessLog => [])
