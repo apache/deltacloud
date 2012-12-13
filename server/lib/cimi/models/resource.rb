@@ -56,7 +56,7 @@ module CIMI
 
         def clone_base_schema
           @schema_duped = true
-          @schema = Marshal::load(Marshal.dump(superclass.base_schema))
+          @schema = superclass.base_schema.deep_clone
         end
 
         def base_schema_cloned?

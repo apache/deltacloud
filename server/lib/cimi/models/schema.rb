@@ -91,6 +91,9 @@ class CIMI::Model::Schema
     def initialize(name, opts, &block)
       content = opts[:content]
       super(name, opts)
+      if opts[:class]
+        opts[:schema] = opts[:class].schema
+      end
       if opts[:schema]
         if block_given?
           raise "Cannot provide :schema option and a block"
@@ -278,6 +281,10 @@ class CIMI::Model::Schema
 
   def initialize
     @attributes = []
+  end
+
+  def deep_clone
+    Marshal::load(Marshal.dump(self))
   end
 
   def collections
