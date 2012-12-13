@@ -165,7 +165,10 @@ end
 ENV["API_HOST"] = "localhost" unless ENV["API_HOST"]
 ENV["API_PORT"] = "3001" unless ENV["API_PORT"]
 
-unless options[:daemon]
+have_thin = options[:webrick].nil? && library_present?('thin')
+have_rerun = library_present?('rerun')
+
+if !options[:daemon] || options[:daemon] && !have_thin
   msg = "Starting Deltacloud API :: #{ENV["API_DRIVER"]} "
   msg << ":: #{ENV['API_PROVIDER']} " if ENV['API_PROVIDER']
   api_uri = ENV['API_FRONTEND'] == 'cimi' ? 'cimi/cloudEntryPoint' : 'api'
@@ -184,11 +187,10 @@ if ENV['API_USER'] && ENV['API_PASSWORD']
   puts
 end
 
-have_thin = options[:webrick].nil? && library_present?('thin')
-have_rerun = library_present?('rerun')
-
 unless have_thin
   require 'rack'
+
+  puts "To start Deltacloud as a daemon, install 'thin' (gem install thin)\n\n" if options[:daemon]
 
   # Read in config.ru and convert it to an instance of Rack::Builder
   cfgfile = File.read(File.join($top_srcdir, 'config.ru'))
