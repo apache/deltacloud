@@ -108,7 +108,6 @@ module CIMI::Test::Methods
     def cep(params = {})
       get(api.cep_url, params)
     end
-
     def discover_uri_for(op, collection, operations = nil)
       unless operations
         cep_json = cep(:accept => :json)
@@ -116,8 +115,8 @@ module CIMI::Test::Methods
         operations = get(cep_json.json["#{collection}"]["href"], {:accept=> :json}).json["operations"]
       end
       op_regex = Regexp.new(op, Regexp::IGNORECASE) # "add" == /add/i
-      op_uri = operations.inject(""){|res,current| res = current["href"] if current["rel"] =~ op_regex; res}
-      raise "Couldn't discover the #{collection} Collection #{op} URI" if op_uri.empty?
+      op_uri = operations.inject(""){|res,current| res = current["href"] if current["rel"] =~ op_regex; res} unless operations.nil?
+      raise "Couldn't discover the #{collection} Collection #{op} URI" if op_uri.nil? || op_uri.empty?
       op_uri
     end
 
@@ -269,6 +268,16 @@ module CIMI::Test::Methods
       before :each do
         unless api.collections.include?(name.to_sym)
           skip "Server at #{api.cep_url} doesn't support #{name}"
+        end
+      end
+    end
+
+    def need_capability(op, collection)
+      before :each do
+        begin
+          discover_uri_for(op, collection)
+        rescue RuntimeError => e
+          skip "Server at #{api.cep_url} doesn't support #{op} for #{collection} collection. #{e.message}"
         end
       end
     end

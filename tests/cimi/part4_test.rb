@@ -23,6 +23,8 @@ class AddVolumeToMachine < CIMI::Test::Spec
 
   ROOTS = [ "machines" , "volumes" , "volumeConfigurations"]
 
+  need_capability("add", "volumes")
+
   # Cleanup for resources created for the test
   MiniTest::Unit.after_tests {  teardown(@@created_resources, api.basic_auth) }
 
@@ -53,17 +55,21 @@ class AddVolumeToMachine < CIMI::Test::Spec
 # Create a machine to attach the volume
    cep_json = cep(:accept => :json)
    machine_add_uri = discover_uri_for("add", "machines")
-   machine = post(machine_add_uri,
-     "<MachineCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
-       "<name>cimi_machine</name>" +
-       "<machineTemplate>" +
-         "<machineConfig " +
-           "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +
-         "<machineImage " +
-           "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
-       "</machineTemplate>" +
-     "</MachineCreate>",
-                  {:accept => :json, :content_type => :xml})
+#no point creating machine if we can't run these tests:
+   begin
+     discover_uri_for("add", "volumes") # this will raise the RuntimeError
+     machine = post(machine_add_uri,
+       "<MachineCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
+         "<name>cimi_machine</name>" +
+         "<machineTemplate>" +
+           "<machineConfig " +
+             "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +
+           "<machineImage " +
+             "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
+          "</machineTemplate>" +
+        "</MachineCreate>", {:accept => :json, :content_type => :xml})
+    rescue RuntimeError =>e
+    end
 
   # 4.3:  Create a new Volume
   model :volume, :cache => true do |fmt|
@@ -129,7 +135,6 @@ class AddVolumeToMachine < CIMI::Test::Spec
 #  it "should add resource for cleanup" do
 #    @@created_resources[:volumes] << volume.id
 #  end
-
   it "should have a name" do
     volume.name.wont_be_empty
     log.info("volume name: " + volume.name)
@@ -140,20 +145,22 @@ class AddVolumeToMachine < CIMI::Test::Spec
     last_response.json["resourceURI"].must_equal RESOURCE_URI.gsub("Create", "")
   end
 
-  log.info("#{machine.location} is the machine id")
-  volume_add_uri = discover_uri_for("add", "volumes")
-  volume = post(volume_add_uri,
-  "<VolumeCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
-    "<name>cimi_volume_for_attach</name>" +
-    "<description>volume for attach testing</description>" +
-    "<volumeTemplate>" +
-      "<volumeConfig href=\"" + get_a(cep_json, "volumeConfig") + "\">" +
-      "</volumeConfig>" +
-    "</volumeTemplate>" +
-  "</VolumeCreate>",
-  :accept => :json, :content_type => :xml)
+  if machine # machine not created if we can't create volumes here
+    log.info("#{machine.location} is the machine id")
+    volume_add_uri = discover_uri_for("add", "volumes")
+    volume = post(volume_add_uri,
+    "<VolumeCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
+      "<name>cimi_volume_for_attach</name>" +
+      "<description>volume for attach testing</description>" +
+      "<volumeTemplate>" +
+        "<volumeConfig href=\"" + get_a(cep_json, "volumeConfig") + "\">" +
+        "</volumeConfig>" +
+      "</volumeTemplate>" +
+    "</VolumeCreate>",
+    :accept => :json, :content_type => :xml)
+    log.info(volume.location + " is the volume id")
+  end
 
-  log.info(volume.location + " is the volume id")
   # 4.4: Attach the new Volume to a Machine
   model :machineWithVolume, :only => :xml do
     attach_uri = discover_uri_for_subcollection("add", machine.location, "volumes")
