@@ -136,7 +136,7 @@ class CIMI::Model::Schema
     end
 
     def convert_to_xml(model)
-      xml = {}
+      xml = OrderedHash.new
       @schema.to_xml(model, xml)
       xml
     end
