@@ -103,6 +103,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :machine_config => { :href => model.machine_config },
         :machine_image => { :href => model.machine_image },
         :property => model.ent_properties,
+        :created => Time.parse(model.created_at.to_s).xmlschema,
         :operations => [
           { :href => context.destroy_machine_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
         ]

@@ -12,6 +12,8 @@ module Deltacloud
       property :be_kind, String, :required => true # => Machine, MachineImage, ...
       property :be_id, String, :required => true # => Original Machine 'id'
 
+      property :created_at, DateTime
+      property :updated_at, DateTime
     end
 
     class Entity < BaseEntity
