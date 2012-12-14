@@ -95,9 +95,13 @@ class CIMI::Model::Volume < CIMI::Model::Base
   def self.create_volume(params, data, context)
     if params[:volume_config_id]
       volume_config = CIMI::Model::VolumeConfiguration.find(params[:volume_config_id], context)
-      opts = {:capacity=>context.from_kibibyte(volume_config.capacity, "GB"), :snapshot_id=>params[:volume_image_id] }
+      opts = {:capacity=>context.from_kibibyte(volume_config.capacity, "GB"),
+              :snapshot_id=>params[:volume_image_id],
+              :name=>data["name"]}
     elsif params[:capacity]
-      opts = {:capacity=>context.from_kibibyte(params[:capacity], "GB"), :snapshot_id=>params[:volume_image_id]}
+      opts = {:capacity=>context.from_kibibyte(params[:capacity], "GB"),
+              :snapshot_id=>params[:volume_image_id],
+              :name=>data["name"]}
     end
     storage_volume = context.driver.create_storage_volume(context.credentials, opts)
     entity = store_attributes_for(storage_volume, data)
