@@ -48,3 +48,8 @@ Adding state to Deltacloud for the CIMI frontend - Datamapper
 <a href="http://www.youtube.com/watch?v=TGYTrVRxcGE">Deltacloud Community Call #4</a>
 
 Debugging deltacloud - how to chase a bug - common steps, debugging tools. Mailing list questions: i) ovirt and the User Level API, ii) Plans for CIMI back-end driver?
+
+<br>
+<a href="http://www.youtube.com/watch?v=oP__wuCqFxQ">Deltacloud Community Call #5</a>
+
+How to file bug reports for Deltacloud - process, what to report, following up and CIMI resourceMetadata (implementation, why it is important?) - testing scenarios.
