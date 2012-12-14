@@ -125,7 +125,7 @@ module CIMI::Model
           url = context.send(cimi_create)
           ops << { :rel => "add", :href => url }
         end
-        collection_class.new(:id => id, :name => 'default',
+        collection_class.new(:id => id,
                              :count => entries.size,
                              :entries => entries,
                              :operations => ops,
