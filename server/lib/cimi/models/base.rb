@@ -181,7 +181,7 @@ class CIMI::Model::Resource
   #
   def initialize(values = {})
     names = self.class.schema.attribute_names
-    @attribute_values = names.inject({}) do |hash, name|
+    @attribute_values = names.inject(OrderedHash.new) do |hash, name|
       hash[name] = self.class.schema.convert(name, values[name])
       hash
     end
