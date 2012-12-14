@@ -108,7 +108,6 @@ class CIMI::Model::Resource
       clone_base_schema unless base_schema_cloned?
       member_name = model.name.split("::").last
       if ::Struct.const_defined?("CIMI_#{member_name}")
-        puts "Removing struct"
         ::Struct.send(:remove_const, "CIMI_#{member_name}")
       end
       member_symbol = member_name.underscore.pluralize.to_sym
