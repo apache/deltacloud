@@ -92,6 +92,18 @@ module CIMI
       type = (xml)? :xml : :json
     end
 
+    def deltacloud_create_method_for(cimi_entity)
+      case cimi_entity
+        when "machine"                then "create_instance"
+        when "machine_configuration"  then "create_hardware_profile"
+        when "machine_image"          then "create_image"
+        when "volume"                 then "create_storage_volume"
+        when "volume_image"           then "create_storage_snapshot"
+        else "create_#{cimi_entity}"
+      end
+
+    end
+
   end
 end
 

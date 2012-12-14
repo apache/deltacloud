@@ -118,9 +118,11 @@ module CIMI::Model
         desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
         id = context.send("#{collection_class.entry_name}_url")
         ops = []
-        create = "create_#{collection_class.entry_name.to_s.singularize}_url"
-        if context.respond_to?(create)
-          url = context.send(create)
+        cimi_entity = collection_class.entry_name.to_s.singularize
+        cimi_create = "create_#{cimi_entity}_url"
+        dcloud_create = context.deltacloud_create_method_for(cimi_entity)
+        if context.respond_to?(cimi_create) && context.driver.respond_to?(dcloud_create)
+          url = context.send(cimi_create)
           ops << { :rel => "add", :href => url }
         end
         collection_class.new(:id => id, :name => 'default',
