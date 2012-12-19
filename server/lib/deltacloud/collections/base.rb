@@ -43,11 +43,18 @@ module Deltacloud::Collections
       report_error
     end
 
-    error Deltacloud::Exceptions::Conflict do
-      report_error
-    end
+    # error Deltacloud::Exceptions::ObjectNotFound do
+    #   report_error
+    # end
 
-    error Deltacloud::Exceptions::ValidationFailure do
+    error Deltacloud::Exceptions::AcceptedButNotCompletedError,
+          Deltacloud::Exceptions::ValidationFailure,
+          Deltacloud::Exceptions::AuthenticationFailure,
+          Deltacloud::Exceptions::ForbiddenError,
+          Deltacloud::Exceptions::ObjectNotFound,
+          Deltacloud::Exceptions::MethodNotAllowed,
+          Deltacloud::Exceptions::UnknownMediaTypeError,
+          Deltacloud::Exceptions::Conflict do
       report_error
     end
 
