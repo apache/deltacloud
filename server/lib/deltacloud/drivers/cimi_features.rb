@@ -13,26 +13,30 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require_relative '../deltacloud/drivers/features'
-require_relative '../deltacloud/drivers/cimi_features'
 module CIMI
-  module Model; end
-  class FakeCollection
-    extend Sinatra::Rabbit::Features
-    include Deltacloud::Features
-    include CIMI::Features
+  module Features
+
+    def self.included(k)
+      current_features = features
+      k.instance_eval do
+        features(&current_features)
+      end
+    end
+
+    def self.features(&block)
+      block_given? ? @features = block : @features || Proc.new{}
+    end
+
+
+    features do
+      feature :default_initial_state, :for => :machines do
+        description "Indicates what the default initial state of a new Machine "
+      end
+
+      feature :initial_states, :for => :machines do
+        description "Indicates the list of allowable initial states"
+      end
+
+    end
   end
 end
-
-# Declare namespace for CIMI models
-#
-
-require_relative '../deltacloud/drivers'
-require_relative '../deltacloud/models'
-require_relative '../deltacloud/helpers/driver_helper'
-require_relative '../deltacloud/helpers/auth_helper'
-require_relative '../deltacloud/helpers/deltacloud_helper'
-require_relative '../deltacloud/helpers/rabbit_helper'
-
-require_relative './helpers/cimi_helper'
-require_relative './helpers/database_helper'

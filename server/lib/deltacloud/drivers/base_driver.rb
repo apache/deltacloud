@@ -19,6 +19,7 @@ module Deltacloud
   require_relative '../core_ext.rb'
   require_relative './exceptions.rb'
   require_relative './features.rb'
+  require_relative './cimi_features.rb'
   require_relative '../models/state_machine.rb'
 
   class BaseDriver
@@ -37,7 +38,6 @@ module Deltacloud
     def self.features
       @features ||= {}
     end
-
 
     def self.feature(collection, feature_name)
       return if has_feature?(collection, feature_name)
