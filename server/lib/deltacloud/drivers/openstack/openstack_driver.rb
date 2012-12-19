@@ -40,6 +40,7 @@ module Deltacloud
           running.to( :stopping )       .on( :stop )
           stopping.to( :stopped )       .automatically
           stopped.to( :finish )         .automatically
+          error.from(:running, :pending, :stopping)
         end
 
         define_hardware_profile('default')
@@ -541,7 +542,7 @@ private
             when /build.*$/
               "PENDING"
             when /error.*/
-              "STOPPED"
+              "ERROR"
             when /active/
               "RUNNING"
             else

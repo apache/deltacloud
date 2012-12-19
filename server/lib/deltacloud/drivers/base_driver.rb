@@ -27,7 +27,7 @@ module Deltacloud
     include Exceptions
 
     STATE_MACHINE_OPTS = {
-      :all_states => [:start, :pending, :running, :stopping, :stopped, :finish],
+      :all_states => [:start, :pending, :running, :stopping, :stopped, :finish, :error],
       :all_actions => [:create, :reboot, :stop, :start, :destroy]
     } unless defined?(STATE_MACHINE_OPTS)
 

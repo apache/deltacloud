@@ -81,6 +81,14 @@ module Deltacloud
         transition
       end
 
+      def from(*states)
+        states.each do |s|
+          initial = @machine.state(s)
+          trans = initial.to self.name
+          trans.automatically
+        end
+      end
+
     end
 
     class Transition
