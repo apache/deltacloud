@@ -35,8 +35,8 @@ describe "Collection class" do
 
   before do
     @models = ["m1", "m2"].map { |s| Model.new(:text => s) }
-    @xml = IO::read(File::join(DATA_DIR, "container.xml"))
-    @json = IO::read(File::join(DATA_DIR, "container.json"))
+    @xml = read_data_file("container.xml")
+    @json = read_data_file("container.json")
   end
 
   describe "XML serialization" do

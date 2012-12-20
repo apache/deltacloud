@@ -24,8 +24,8 @@ end
 describe "Credential model" do
 
   before do
-    @xml = IO::read(File::join(DATA_DIR, "credential.xml"))
-    @json = IO::read(File::join(DATA_DIR, "credential.json"))
+    @xml = read_data_file("credential.xml")
+    @json = read_data_file("credential.json")
   end
 
   it "can be constructed from XML and JSON" do

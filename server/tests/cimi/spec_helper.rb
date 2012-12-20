@@ -32,6 +32,10 @@ def parse_xml(xml, opts = {})
   XmlSimple.xml_in(xml, opts)
 end
 
+def read_data_file(name)
+  IO::read(File::join(DATA_DIR, name))
+end
+
 class HashCmp
 
   IGNORED_KEYS = [ "resourceURI" ]

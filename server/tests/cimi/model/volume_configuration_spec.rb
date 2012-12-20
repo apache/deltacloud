@@ -22,8 +22,8 @@ require_relative '../spec_helper.rb' if require 'minitest/autorun'
 describe "Volume Configuration model" do
 
   before do
-    @xml = IO::read(File::join(DATA_DIR, "volume_configuration.xml"))
-    @json = IO::read(File::join(DATA_DIR, "volume_configuration.json"))
+    @xml = read_data_file("volume_configuration.xml")
+    @json = read_data_file("volume_configuration.json")
   end
 
   it "can be constructed from XML and JSON" do
