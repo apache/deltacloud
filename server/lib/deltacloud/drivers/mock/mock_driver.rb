@@ -84,6 +84,15 @@ module Deltacloud::Drivers::Mock
     feature :images, :user_name
     feature :images, :user_description
 
+    #cimi features
+    feature :machines, :default_initial_state do
+      { :values => ["STARTED"] }
+    end
+    feature :machines, :initial_states do
+      { :values => ["STARTED", "STOPPED"]}
+    end
+
+
     def initialize
       if ENV["DELTACLOUD_MOCK_STORAGE"]
         storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]

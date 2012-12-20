@@ -18,6 +18,8 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
 
   acts_as_root_entity
 
+  text :name
+
   text :type_uri
 
   array :attributes do
@@ -25,10 +27,20 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
     scalar :namespace
     scalar :type
     scalar :required
-    scalar :constraints
+    array :constraints do
+      text :value
+    end
   end
 
-  array :operations do
+  array :capabilities do
+    scalar :name
+    scalar :uri
+    scalar :description
+    scalar :value, :text => :direct
+  end
+
+
+  array :actions do
     scalar :name
     scalar :uri
     scalar :description
@@ -37,49 +49,68 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
     scalar :output_message
   end
 
+  array :operations do
+    scalar :rel, :href
+  end
+
   def self.find(id, context)
-    resource_metadata = []
     if id == :all
+      resource_metadata = []
       CIMI::Model.root_entities.each do |resource_class|
-        resource_metadata << resource_class.create_resource_metadata(context) if resource_class.respond_to?(:create_resource_metadata)
+        meta = resource_metadata_for(resource_class, context)
+        resource_metadata << meta unless none_defined(meta)
       end
       return resource_metadata
     else
       resource_class = CIMI::Model.const_get("#{id.camelize}")
-      if resource_class.respond_to?(:create_resource_metadata)
-        resource_class.create_resource_metadata(context)
-      end
+      resource_metadata_for(resource_class, context)
     end
   end
 
-  def self.metadata_from_deltacloud_features(cimi_resource, dcloud_resource, context)
-    deltacloud_features = context.driver.class.features[dcloud_resource]
-    metadata_attributes = deltacloud_features.map{|f| attributes_from_feature(f)}
-    from_feature(cimi_resource, context, metadata_attributes.flatten!)
-  end
-
-  def includes_attribute?(attribute)
-    self.attributes.any?{|attr| attr[:name] == attribute}
+  def self.resource_metadata_for(resource_class, context)
+    attributes = rm_attributes_for(resource_class, context)
+    capabilities = rm_capabilities_for(resource_class, context)
+    actions = rm_actions_for(resource_class, context)
+    cimi_resource = resource_class.name.split("::").last
+    self.new({ :id => context.resource_metadata_url(cimi_resource.underscore),
+              :name => cimi_resource,
+              :type_uri => resource_class.resource_uri,
+              :attributes => attributes,
+              :capabilities => capabilities,
+              :actions => actions
+    })
   end
 
   private
 
-  def self.attributes_from_feature(feature)
-    feature = CIMI::FakeCollection.feature(feature)
-    feature.operations.first.params_array.map do |p|
-      {
-        :name=> p.name,
-        :type=> "xs:string",
-        :required=> p.required? ? "true" : "false",
-        :constraints=> (feature.constraints.empty? ? (feature.description.nil? ? "" : feature.description): feature.constraints)
-      }
-    end
+  def self.rm_attributes_for(resource_class, context)
+    []
   end
 
-  def self.from_feature(cimi_resource, context, metadata_attributes)
-    self.new(:name => cimi_resource, :uri=>"#{context.resource_metadata_url}/#{cimi_resource.underscore}",
-             :type_uri=> context.send("#{cimi_resource.pluralize.underscore}_url"),
-             :attributes => metadata_attributes)
+  def self.rm_capabilities_for(resource_class,context)
+    cimi_object = resource_class.name.split("::").last.underscore.pluralize.to_sym
+    capabilities = (context.driver.class.features[cimi_object] || []).inject([]) do |res, cur|
+      feat = CIMI::FakeCollection.feature(cur)
+      values = (context.driver.class.constraints[cimi_object][feat.name][:values] || []).inject([]) do |vals, val|
+        vals <<  val
+        vals
+      end
+      res << {:name => feat.name.to_s.camelize,
+       :uri => CMWG_NAMESPACE+"/capability/#{cimi_object.to_s.camelize.singularize}/#{feat.name.to_s.camelize}",
+       :description => feat.description,
+       :value => values.join(",") }
+      res
+    end
+#cimi_resource.underscore.pluralize.to_sym
+  end
+
+  def self.rm_actions_for(resource_class, context)
+    []
+  end
+
+  def self.none_defined(metadata)
+    return true if metadata.capabilities.empty? && metadata.capabilities.empty? && metadata.attributes.empty?
+    return false
   end
 
 end

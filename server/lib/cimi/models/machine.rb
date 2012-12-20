@@ -116,15 +116,6 @@ class CIMI::Model::Machine < CIMI::Model::Base
     context.driver.destroy_instance(context.credentials, id)
   end
 
-  def self.create_resource_metadata(context)
-    cimi_resource = self.name.split("::").last
-    metadata = CIMI::Model::ResourceMetadata.metadata_from_deltacloud_features(cimi_resource, :instances, context)
-    unless metadata.includes_attribute?(:name)
-      metadata.attributes << {:name=>"name", :required=>"false",
-                   :constraints=>"Determined by the cloud provider", :type=>"xs:string"}
-    end
-    metadata
-  end
   #returns the newly attach machine_volume
   def self.attach_volume(volume, location, context)
     context.driver.attach_storage_volume(context.credentials,
