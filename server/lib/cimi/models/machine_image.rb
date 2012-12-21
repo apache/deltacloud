@@ -49,4 +49,16 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
     )
   end
 
+  def self.create(request_body, context)
+    type = context.grab_content_type(context.request.content_type, request_body)
+    input = (type == :xml)? XmlSimple.xml_in(request_body.read, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(request_body.read)
+    params = {:id => context.href_id(input["imageLocation"], :machines), :name=>input["name"], :description=>input["description"]}
+    image = context.driver.create_image(context.credentials, params)
+    from_image(image, context)
+  end
+
+  def self.delete!(image_id, context)
+    context.driver.destroy_image(context.credentials, image_id)
+  end
+
 end
