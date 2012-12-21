@@ -33,4 +33,36 @@ class MachineBehavior < CIMI::Test::Spec
     machine.wont_be_nil      # Make sure we talk to the server
     last_response.json["resourceURI"].must_equal RESOURCE_URI
   end
+
+  it "should be able to create new machineImage from Machine" do
+    #should have a running machine:
+    cep_json = cep(:accept => :json)
+    machine_id = get_a(cep_json, "machine")
+    machine = get(machine_id, :accept=>:json)
+    machine.wont_be_nil
+    #discover 'create image' URI
+    capture_uri = discover_uri_for("capture", "machines", machine.json["operations"])
+    #now create the image:
+    resp = post(capture_uri,
+        "<MachineImage>"+
+          "<name>image_from_#{machine_id.split("/").last}</name>"+
+          "<description>my new machine image for machine_test.rb</description>"+
+          "<type>IMAGE</type>"+
+          "<imageLocation>#{machine_id}</imageLocation>"+
+        "</MachineImage>", {:accept=> :json, :content_type => :xml})
+    #checks:
+    resp.code.must_equal 201
+    resp.headers[:location].must_be_uri
+    resp.json["id"].must_equal resp.headers[:location]
+    #retrieve new image:
+    image_id = resp.json["id"]
+    resp = get(image_id, :accept=>:json)
+    resp.code.must_equal 200
+    resp.json["resourceURI"].must_include "MachineImage"
+    resp.json["id"].must_equal image_id
+    #cleanup:
+    resp = delete(image_id)
+    resp.code.must_equal 200
+  end
+
 end
