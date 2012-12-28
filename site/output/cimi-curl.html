@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CIMI cURL Examples</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li><a href="/download.html">Download</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">CIMI<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/cimi-rest.html">CIMI REST API</a></li>
+      <li><a href="/cimi-curl.html">CIMI cURL Examples</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<div class="row">
+
+  <div class="span8">
+
+    <h3 id="command">Working with cURL against the Deltacloud CIMI frontend</h3>
+
+    <p> The <a href="http://curl.haxx.se/docs/">cURL documentation</a> is pretty comprehensive, but the following are some general points to remember for using cURL against Deltacloud. All the examples on this page assume the deltacloud server is running at localhost:3001: </p>
+
+  <ul>
+<li>
+      Credentials are specified with <strong> --user "name:password"  </strong>
+    </li>
+    <li>
+      Request headers are specified with <strong> -H "header: value" </strong>. For the "Accept" header Deltacloud offers a convenient way of specifying the desired response format; you can include the <strong>"?format="</strong> parameter into the request URL rather than setting the Accept header
+    </li>
+    <li>
+      HTTP verbs are specified with <strong>-X VERB</strong>
+    </li>
+    <li>
+      The <strong> -i </strong> flag will show you the response headers and the <strong> -v </strong> flag will show you request and response headers as well as info about cURL activity:
+      <pre>
+curl -v -X DELETE --user "username:password" -H "Accept: application/xml" http://localhost:3001/cimi/images/my_image
+      </pre>
+    </li>
+  </ul>
+</div>
+
+  <div class="span4">
+
+    <ul class="nav nav-list well">
+<li class="nav-header">cURL as a deltacloud client</li>
+      <li><a href="#machines">Work with Machines</a></li>
+      <li><a href="#machine-images">Work with Machine Images</a></li>
+    </ul>
+</div>
+</div>
+
+<hr><h4 id="machines">Working with Machines</h4>
+
+<p>Retrieve the Machine Collection in json format:</p>
+
+<pre> curl --user "user:pass" -H "Accept: application/json" http://localhost:3001/cimi/machines </pre>
+
+<p>Create a new Machine with the message body in XML format:</p>
+
+<pre>
+curl -v --user "mockuser:mockpassword" -X POST -H "Content-Type: application/xml" -H "Accept: application/xml" -d '&lt;MachineCreate xmlns="http://schemas.dmtf.org/cimi/1"&gt; &lt;name&gt; myMachine1 &lt;/name&gt; &lt;description&gt; my machine description &lt;/description&gt; &lt;machineTemplate&gt; &lt;machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"&gt; &lt;/machineConfig&gt; &lt;machineImage href="http://localhost:3001/cimi/machine_images/img1"&gt; &lt;/machineImage&gt; &lt;/machineTemplate&gt; &lt;/MachineCreate&gt;'
+</pre>
+
+<p>Alternatively, specifying the message body in JSON:</p>
+<pre>
+ curl -v --user "user:password" -X POST -H "Content-Type: application/json" -H "Accept: application/xml" -d '{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate", "name": "myMachine3", "description": "My very first json machine", "machineTemplate": { "machineConfig": { "href": "http://localhost:3001/cimi/machine_configurations/m1.small" }, "machineImage": { "href": "http://localhost:3001/cimi/machine_images/ami-48aa4921" } } }' http://localhost:3001/cimi/machines
+</pre>
+
+<p>Perform a Machine operation - stop - with the message body in XML format:</p>
+
+<pre>
+curl -v -X POST --user "mockuser:mockpassword" -H "Content-Type: application/xml" -H "Accept: application/xml" -d '&lt;Action xmlns="http://schemas.dmtf.org/cimi/1"&gt;&lt;action&gt; http://http://schemas.dmtf.org/cimi/1/action/stop &lt;/action&gt; &lt;/Action&gt;'  http://localhost:3001/cimi/machines/inst3/stop
+</pre>
+
+<p>Alternatively, specifying the message body in JSON:</p>
+<pre>
+ curl -v -X POST --user "user:password" -H "Accept: application/json" -H "Content-Type: application/json" -d '{"resourceURI": "http://www.dmtf.org/cimi/1/Action", "action":"http://www.dmtf.org/cimi/action/stop"}' http://localhost:3001/cimi/machines/i-5feb7c20/stop
+</pre>
+
+<p><br></p>
+
+<hr><h4 id="machine-images">Working with Machine Images</h4>
+
+<p>Retrieve the Machine Image Collection:</p>
+
+<pre>
+curl --user "user:pass" -H "Accept: application/json" http://localhost:3001/cimi/machine_images
+</pre>
+
+<p>Create a new Machine Image from an existing Machine, with message body in JSON:</p>
+
+<pre>
+curl --user "mockuser:mockpassword" -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"resourceURI":"http://schemas.dmtf.org/cimi/1/MachineImage", "name":"new_image","description":"my new machine image","type":"IMAGE", "imageLocation":"http://localhost:3001/cimi/machines/inst1"}' http://localhost:3001/cimi/machine_images
+</pre>
+
+<p>Alternatively, specifying the message body in XML:</p>
+
+<pre>
+curl -v --user "mockuser:mockpassword" -H "Content-Type: application/xml" -H "Accept: application/xml" -X POST -d "&lt;MachineImage&gt;&lt;name&gt;some_name&lt;/name&gt;&lt;description&gt;my new machine image&lt;/description&gt;&lt;type&gt;IMAGE&lt;/type&gt;&lt;imageLocation&gt;http://localhost:3001/cimi/machines/inst1&lt;/imageLocation&gt;&lt;/MachineImage&gt;" http://localhost:3001/cimi/machine_images
+</pre>
+
+<p>Delete a Machine Image:</p>
+
+<pre>curl -X DELETE --user "user:pass" http://localhost:3001/cimi/machine_images/my_image </pre>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.salasaga.org/aeolus/piwik/" : "http://stats.salasaga.org/aeolus/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://stats.salasaga.org/aeolus/piwik/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+  </body>
+</html>
