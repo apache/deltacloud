@@ -16,11 +16,11 @@
 module CIMI::Collections
   class AddressTemplates < Base
 
-    set :capability, lambda { |m| driver.respond_to? m }
+    set :capability, lambda { |t| true }
 
     collection :address_templates do
 
-      operation :index, :with_capability => :address_templates do
+      operation :index do
         description 'List all AddressTemplates in the AddressTemplateCollection'
         control do
           address_templates = AddressTemplate.list(self).filter_by(params['$select'])
@@ -31,7 +31,7 @@ module CIMI::Collections
         end
       end
 
-      operation :show, :with_capability => :address_templates do
+      operation :show do
         description 'Show a specific AddressTemplate'
         control do
           address_template = CIMI::Model::AddressTemplate.find(params[:id], self)
@@ -39,6 +39,30 @@ module CIMI::Collections
             format.xml {address_template.to_xml}
             format.json {address_template.to_json}
           end
+        end
+      end
+
+      operation :create do
+        description "Create new AddressTemplate"
+        control do
+          if grab_content_type(request.content_type, request.body) == :json
+            new_address_template = CIMI::Model::AddressTemplate.create_from_json(request.body.read, self)
+          else
+            new_address_template = CIMI::Model::AddressTemplate.create_from_xml(request.body.read, self)
+          end
+          headers_for_create new_address_template
+          respond_to do |format|
+            format.json { new_address_template.to_json }
+            format.xml { new_address_template.to_xml }
+          end
+        end
+      end
+
+      operation :destroy do
+        description "Delete a specified machine template"
+        control do
+          CIMI::Model::MachineTemplate.delete!(params[:id], self)
+          no_content_with_status(200)
         end
       end
 

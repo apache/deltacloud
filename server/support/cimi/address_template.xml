@@ -1,0 +1,12 @@
+<AddressTemplateCreate>
+  <name>myAddressTemplate</name>
+  <ip>10.0.0.1</ip>
+  <allocation>static</allocation>
+  <default_gateway>10.0.0.250</default_gateway>
+  <dns>8.8.8.8</dns>
+  <mask>255.255.255.0</mask>
+  <protocol>ipv4</protocol>
+  <description>A new awesome Address Template</description>
+  <property key="address_template_test">value_address_template</property>
+  <property key="foo">bar</property>
+</AddressTemplateCreate>
