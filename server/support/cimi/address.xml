@@ -1,0 +1,9 @@
+<AddressCreate>
+  <name>myAddress</name>
+  <addressTemplate>
+    <ip>127.0.0.1</ip>
+  </addressTemplate>
+  <description>Description of my new address</description>
+  <property key="address_test">value_address</property>
+  <property key="foo">bar</property>
+</AddressCreate>

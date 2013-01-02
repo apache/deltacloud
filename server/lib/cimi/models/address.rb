@@ -51,7 +51,7 @@ class CIMI::Model::Address < CIMI::Model::Base
 
   def self.create(request_body, context, type)
     input = (type == :xml)? XmlSimple.xml_in(request_body, {"ForceArray"=>false, "NormaliseSpace"=>2}) : JSON.parse(request_body)
-    if input["addressTemplate"]["href"] #by reference
+    if input['addressTemplate'] and input["addressTemplate"]["href"] #by reference
       address_template = CIMI::Model::AddressTemplate.find(context.href_id(input["addressTemplate"]["href"], :address_templates), context)
     else
       case type
@@ -64,27 +64,32 @@ class CIMI::Model::Address < CIMI::Model::Base
     end
     params = {:name=>input["name"], :description=>input["description"], :address_template=>address_template, :env=>context }
     raise CIMI::Model::BadRequest.new("Bad request - missing required parameters. Client sent: #{request_body} which produced #{params.inspect}")  if params.has_value?(nil)
-    context.driver.create_address(context.credentials, params)
+    address = context.driver.create_address(context.credentials, params)
+    store_attributes_for(address, input)
+    from_address(address, context)
   end
 
   def self.delete!(id, context)
     context.driver.delete_address(context.credentials, id)
+    delete_attributes_for(::Address.new(:id => id))
   end
 
   private
 
   def self.from_address(address, context)
+    stored_attributes = load_attributes_for(address)
     self.new(
-      :name => address.id,
+      :name => stored_attributes[:name] || address.id,
       :id => context.address_url(address.id),
-      :description => "Address #{address.id}",
+      :description => stored_attributes[:description] || "Address #{address.id}",
       :ip => address.id,
       :allocation => "dynamic", #or "static"
-      :default_gateway => "unkown", #wtf
+      :default_gateway => "unknown", #wtf
       :dns => "unknown", #wtf
       :protocol => protocol_from_address(address.id),
       :mask => "unknown",
       :resource => (address.instance_id) ? {:href=> context.machine_url(address.instance_id)} : nil,
+      :property => stored_attributes[:property],
       :network => nil #unknown
       #optional:
       #:hostname =>

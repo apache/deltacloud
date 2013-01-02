@@ -1,0 +1,10 @@
+{
+  "resourceURI": "http://schemas.dmtf.org/cimi/1/AddressCreate",
+  "name": "myDemoAddress",
+  "description": "My very favorite address",
+  "addressTemplate": { "ip" : "127.0.0.1" },
+  "properties": {
+    "foo": "bar",
+    "life": "is life"
+  }
+}
