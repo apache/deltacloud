@@ -81,7 +81,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => xml['description'].first,
         :machine_config => xml['machineConfig'].first['href'],
         :machine_image => xml['machineImage'].first['href'],
-        :ent_properties => xml['property'].inject({}) { |r, p| r[p['name']]=p['content']; r },
+        :ent_properties => xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
         :be_kind => 'machine_template',
         :be_id => ''
       )
