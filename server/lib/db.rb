@@ -9,6 +9,7 @@ module Deltacloud
     require_relative './db/provider'
     require_relative './db/entity'
     require_relative './db/machine_template'
+    require_relative './db/address_template'
   end
 
   DATABASE_LOCATION = ENV['DATABASE_LOCATION'] || File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
