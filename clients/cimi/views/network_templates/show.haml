@@ -21,5 +21,5 @@
   -row 'Name',@network_template.name
   -row 'Description',@network_template.description
   -row 'Created',@network_template.created
-  -row 'Network Config', url("/cimi/network_config/#{href_to_id @network_template.network_config.href}")
+  -row 'Network Config', url("/cimi/network_configurations/#{href_to_id @network_template.network_config.href}")
   -row 'Forwarding Group', url("/cimi/forwarding_groups/#{href_to_id @network_template.forwarding_group.href}")
