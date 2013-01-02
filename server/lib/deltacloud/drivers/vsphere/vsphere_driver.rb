@@ -380,6 +380,10 @@ module Deltacloud::Drivers::Vsphere
         status 504
       end
 
+      on /missing required parameter name/ do
+        status 400
+      end
+
       on /Invalid/ do
         status 400
       end
