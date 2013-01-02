@@ -214,7 +214,7 @@ module Deltacloud::Drivers::Vsphere
         if opts[:hwp_cpu]
           raise "Invalid CPU value. Must be in integer format" unless valid_cpu_value?(opts[:hwp_cpu])
         end
-        vm = find_vm(credentials, opts[:image_id])
+        vm = find_vm(credentials, image_id)
         raise "ERROR: Could not find the image in given datacenter" unless vm[:instance]
         # New instance need valid resource pool and datastore to be placed.
         # For this reason, realm_id **needs** to be set.
