@@ -1,7 +1,7 @@
 <MachineTemplateCreate>
   <name>myXmlTestMachineTemplate1</name>
   <description>Description of my MachineTemplate</description>
-  <property name="test">value</property>
+  <property key="test">value</property>
   <machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-xlarge"/>
   <machineImage href="http://localhost:3001/cimi/machine_images/img3"/>
 </MachineTemplateCreate>

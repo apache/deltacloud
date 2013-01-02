@@ -5,5 +5,5 @@
     <machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"/>
     <machineImage href="http://localhost:3001/cimi/machine_images/img1"/>
   </machineTemplate>
-  <property name="test">value</property>
+  <property key="test">value</property>
 </MachineCreate>
