@@ -409,7 +409,14 @@ module Deltacloud::Drivers::Vsphere
     end
 
     def host_endpoint
-      endpoint = api_provider
+      endpoint = "#{api_provider}"
+      # We need to have the 'hostname' form in API_PROVIDER, but to be
+      # compatible with other drivers, we allow 'https://vsphere/api' format.
+      # The 'http' and '/.*' parts are however stripped.
+      if endpoint =~ /^http/
+        endpoint.gsub!(/^http(s?):\/\//, '')
+        endpoint.gsub!(/\/.*$/, '')
+      end
       endpoint || Deltacloud::Drivers::driver_config[:vsphere][:entrypoints]['default']['default']
     end
 
