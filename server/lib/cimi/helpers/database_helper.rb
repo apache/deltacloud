@@ -44,7 +44,11 @@ module Deltacloud
 
         entity.description = extract_attribute_value('description', attrs) if attrs.has_key? 'description'
         entity.name = extract_attribute_value('name', attrs) if attrs.has_key? 'name'
-        entity.ent_properties = extract_attribute_value('properties', attrs).to_json if attrs.has_key? 'properties'
+        if attrs.has_key? 'properties'
+          entity.ent_properties = extract_attribute_value('properties', attrs).to_json
+        elsif attrs.has_key? 'property'
+          entity.ent_properties = extract_attribute_value('property', attrs).to_json
+        end
 
         entity.save! && entity
       end
