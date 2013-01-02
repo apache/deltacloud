@@ -290,7 +290,7 @@ module Deltacloud::Drivers::Vsphere
           :config => RbVmomi::VIM.VirtualMachineConfigSpec(machine_config)
         )
         instance_profile = InstanceProfile::new('default', :hwp_memory => opts[:hwp_memory], :hwp_cpu => opts[:hwp_cpu])
-        task = vm[:instance].CloneVM_Task(:folder => vm[:instance].parent, :name => opts[:name], :spec => spec)
+        task = vm[:instance].CloneVM_Task(:folder => vm[:instance].parent, :name => opts[:name] || "inst#{Time.now.to_i}", :spec => spec)
         new_instance = Instance::new(
           :id => opts[:name],
           :name => opts[:name],
