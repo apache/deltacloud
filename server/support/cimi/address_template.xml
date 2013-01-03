@@ -1,6 +1,7 @@
 <AddressTemplateCreate>
   <name>myAddressTemplate</name>
   <ip>10.0.0.1</ip>
+  <hostname>my-example.hostname.com</hostname>
   <allocation>static</allocation>
   <default_gateway>10.0.0.250</default_gateway>
   <dns>8.8.8.8</dns>

@@ -67,6 +67,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
     new_template = current_db.address_templates.new(
       :name => json['name'],
       :description => json['description'],
+      :hostname => json['hostname'],
       :ip => json['ip'],
       :allocation => json['allocation'],
       :default_gateway => json['default_gateway'],
@@ -87,6 +88,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :name => xml['name'].first,
       :description => xml['description'].first,
       :ip => xml['ip'].first,
+      :hostname => xml['hostname'].first,
       :allocation => xml['allocation'].first,
       :default_gateway => xml['default_gateway'].first,
       :dns => xml['dns'].first,
@@ -112,6 +114,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :name => model.name,
       :description => model.description,
       :ip => model.ip,
+      :hostname => model.hostname,
       :allocation => model.allocation,
       :default_gateway => model.default_gateway,
       :dns => model.dns,

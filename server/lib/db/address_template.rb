@@ -5,6 +5,7 @@ module Deltacloud
       belongs_to :provider
 
       property :ip, String
+      property :hostname, String
       property :allocation, String, :default => 'dynamic'
       property :default_gateway, String, :default => 'unknown'
       property :dns, String, :default => 'unknown'
