@@ -1,0 +1,7 @@
+<MachineImageCreate>
+  <name>myMachineImage1</name>
+  <description>Description of my new Machine</description>
+  <type>IMAGE</type>
+  <imageLocation>http://localhost:3001/cimi/machines/inst1</imageLocation>
+  <property key="test_image">image_value</property>
+</MachineImageCreate>
