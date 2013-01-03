@@ -29,7 +29,7 @@ module Deltacloud::Helpers
             :href => self.send(:"#{c.collection_name}_url"),
             :features => c.features.select { |f| driver.class.has_feature?(c.collection_name, f.name) }.map { |f|
               f.operations.map { |o|
-                { :name => f.name, :rel => o.name, :params => o.params_array }
+                { :name => f.name, :rel => o.name, :params => o.params_array, :constraints => constraints_hash_for(c.collection_name, f.name) }
               }
             }
           }
@@ -37,6 +37,10 @@ module Deltacloud::Helpers
       }
       r[:provider] ||= 'default'
       JSON::dump(:api => r)
+    end
+
+    def constraints_hash_for(collection_name, feature_name)
+      driver.class.constraints(:collection => collection_name, :feature => feature_name).inject({}) { |r, v| r[v[0]]=v[1];r }
     end
 
     def request_headers
