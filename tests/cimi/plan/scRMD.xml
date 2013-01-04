@@ -111,10 +111,13 @@ Content-Type: application/json
       <note> For each collection appearing in the
         CEP there should be a ResourceMetadata entry with the corresponding typeURI in the
         ResourceMetadata collection </note>
-      <note> Capabilities, attributes and actions available on the
-	provider must be listed. The entries are returned within
+      <note> At least one of the capabilities/attributes/actions must be listed within
+	the Resource Metadata resource. Note that a collection Resource
+	Metadata resource does not have to have all three
+	(capabilities, attributes and actions) necessarily, but at least one
+	capability/attribute/action must be present. The entries should be returned within
 	ResourceMetadata elements related to the collections they are
-	associated with</note>
+	associated with. </note>
 
     <p/>
 
@@ -147,7 +150,8 @@ Content-Type: application/json
 
 <part title="Machines Resource Metadata">
    <note>
-    This test only applies if CEP.machines is present.
+    This test applies only if the CEP.machines collection is present and the CEP.ResourceMetadata
+ collection contains an entry corresponding to the Machine resource.
    </note>
   <tests>
     <test name="Query the resource_metadata collection">
@@ -162,9 +166,11 @@ Content-Type: application/json
        <note>ResourceMetadata.id must be set </note>
        <note> ResourceMetadata.name must be set to Machine </note>
        <note> ResourceMetadata.typeUri must be set </note>
-       <note> Capabilities, attributes and actions available on the
-	provider that are associated with the Machine collection must be
-	listed </note>
+       <note> At least one of the capabilities/attributes/actions must be listed within
+	the Machine Resource Metadata resource. Note that a Machine Resource
+	Metadata resource does not have to have all three
+	(capabilities, attributes and actions) necessarily, but at least one
+	capability/attribute/action must be returned.  </note>
 
       <p/>
 
@@ -233,6 +239,8 @@ Content-Type: application/json
   </part>
 
 <part title="Default Initial State – Machine Capability">
+ <note> This test applies only if the ResourceMetadata
+ corresponding to the Machine resource contains a DefaultInitialState capability. </note>
   <tests>
     <test name="Query the ResourceMetadata entry">
      <desc>
@@ -409,6 +417,8 @@ Content-Type: application/json
 
 
   <part title="Initial States – Machine Capability">
+   <note> This test applies only if the ResourceMetadata
+ corresponding to the Machine resource contains an InitialStates capability. </note>
    <tests>
     <test name="Query the ResourceMetadata entry">
      <desc>
