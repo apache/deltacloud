@@ -81,10 +81,29 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
     })
   end
 
+  def self.resource_attributes
+    @resource_attributes ||= {}
+  end
+
+  def self.add_resource_attribute!(klass, name, opts={})
+    resource_attributes[klass.name] ||= {}
+    resource_attributes[klass.name][name] = opts
+  end
+
   private
 
   def self.rm_attributes_for(resource_class, context)
-    []
+    return [] if resource_attributes[resource_class.name].nil?
+    resource_attributes[resource_class.name].map do |attr_name, attr_def|
+      {
+        :name => attr_name.to_s,
+        # TODO: We need to make this URI return description of this 'non-CIMI'
+        # attribute
+        :namespace => "http://deltacloud.org/cimi/#{resource_class.name.split('::').last}/#{attr_name}",
+        :type => translate_attr_type(attr_def[:type]),
+        :required => attr_def[:required] ? 'true' : 'false'
+      }
+    end
   end
 
   def self.rm_capabilities_for(resource_class,context)
@@ -106,6 +125,15 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
 
   def self.rm_actions_for(resource_class, context)
     []
+  end
+
+  def self.translate_attr_type(type)
+    case type
+      when :href then 'URI'
+      when :text then 'string'
+      when :boolean then 'boolean'
+      else 'text'
+    end
   end
 
   def self.none_defined(metadata)

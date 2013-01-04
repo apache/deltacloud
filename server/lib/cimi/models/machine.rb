@@ -17,6 +17,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   acts_as_root_entity
 
+  resource_attr :realm, :required => false
+  resource_attr :machine_image, :required => false, :type => :href
+
   text :state
   text :cpu
 
@@ -159,6 +162,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
     if context.expand? :volumes
       machine_spec[:volumes] = CIMI::Model::MachineVolume.find(instance.id, context, :all)
     end
+    machine_spec[:realm] = instance.realm_id if instance.realm_id
+    machine_spec[:machine_image] = { :href => context.machine_image_url(instance.image_id) } if instance.image_id
     machine = self.new(machine_spec)
     machine
   end
