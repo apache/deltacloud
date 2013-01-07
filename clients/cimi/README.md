@@ -7,7 +7,7 @@ Prerequisites
 Start Deltacloud API with CIMI option:
 
     $ cd core/server
-    $ ./bin/deltacloud -i mock --cimi
+    $ deltacloudd -i mock -f cimi
 
 Then start CIMI Frontend server and point to Deltacloud API URL:
 
