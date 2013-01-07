@@ -59,9 +59,9 @@ module CIMI::Collections
       end
 
       operation :destroy do
-        description "Delete a specified machine template"
+        description "Delete a specified AddressTemplate"
         control do
-          CIMI::Model::MachineTemplate.delete!(params[:id], self)
+          CIMI::Model::AddressTemplate.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end
