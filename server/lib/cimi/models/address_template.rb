@@ -84,6 +84,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
+    xml['property'] ||= []
     new_template = current_db.address_templates.new(
       :name => xml['name'].first,
       :description => xml['description'].first,
