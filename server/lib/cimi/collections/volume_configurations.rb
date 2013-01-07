@@ -41,6 +41,31 @@ module CIMI::Collections
           end
         end
       end
+
+      operation :create, :with_capability => :create_storage_volume do
+        description "Create new VolumeConfiguration"
+        control do
+          if grab_content_type(request.content_type, request.body) == :json
+            new_config = CIMI::Model::VolumeConfiguration.create_from_json(request.body.read, self)
+          else
+            new_config = CIMI::Model::VolumeConfiguration.create_from_xml(request.body.read, self)
+          end
+          headers_for_create new_config
+          respond_to do |format|
+            format.json { new_config.to_json }
+            format.xml { new_config.to_xml }
+          end
+        end
+      end
+
+      operation :destroy, :with_capability => :destroy_storage_volume do
+        description "Delete a specified VolumeConfiguration"
+        control do
+          CIMI::Model::VolumeConfiguration.delete!(params[:id], self)
+          no_content_with_status(200)
+        end
+      end
+
     end
 
   end

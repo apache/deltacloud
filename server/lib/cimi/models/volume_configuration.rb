@@ -25,36 +25,80 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    volume_configs = []
-    if id == :all
-      #ec2 ebs volumes can 1gb..1tb
-      (1..1000).each do |size|
-        volume_configs << create(size, context)
-      end
-    else
-      volume_configs << create(id, context)
-      return volume_configs.first
-    end
-    return volume_configs
+  def self.create_from_json(body, context)
+    json = JSON.parse(body)
+    new_config = current_db.volume_configurations.new(
+      :name => json['name'],
+      :description => json['description'],
+      :format => json['format'],
+      :capacity => json['capacity'],
+      :ent_properties => json['properties'].to_json,
+      :be_kind => 'volume_configuration',
+      :be_id => ''
+    )
+    new_config.save!
+    from_db(new_config, context)
   end
 
+  def self.create_from_xml(body, context)
+    xml = XmlSimple.xml_in(body)
+    xml['property'] ||= []
+    new_config = current_db.volume_configurations.new(
+      :name => xml['name'].first,
+      :description => xml['description'].first,
+      :format => xml['format'].first,
+      :capacity => xml['capacity'].first,
+      :ent_properties => xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
+      :be_kind => 'volume_configuration',
+      :be_id => ''
+    )
+    new_config.save!
+    from_db(new_config, context)
+  end
 
-  def self.all(context); find(:all, context); end
+  def self.delete!(id, context)
+    current_db.volume_configurations.first(:id => id).destroy
+  end
+
+  def self.find(id, context)
+    if id==:all
+      if context.driver.respond_to? :volume_configurations
+        context.driver.volume_configurations(context.credentials, {:env=>context})
+      else
+        Deltacloud::Database::VolumeConfiguration.all(
+          'provider.driver' => driver_symbol.to_s,
+          'provider.url' => current_provider
+        ).map { |t| from_db(t, context) }
+      end
+    else
+      if context.driver.respond_to? :volume_configuration
+        context.driver.volume_configuration(context.credentials, id, :env=>context)
+      else
+        config = Deltacloud::Database::VolumeConfiguration.first(
+          'provider.driver' => driver_symbol.to_s,
+          'provider.url' => current_provider,
+          :id => id
+        )
+        raise CIMI::Model::NotFound unless config
+        from_db(config, context)
+      end
+    end
+  end
 
   private
 
-  def self.create(size, context)
-    size_kib = context.to_kibibyte(size, "GB")
-    self.new( {
-                :id => context.volume_configuration_url(size),
-                :name => "volume-#{size}",
-                :description => "Volume configuration with #{size_kib} kibibytes",
-                :created => Time.now.xmlschema,
-                :capacity => size_kib,
-                :supports_snapshots => "true"
-                # FIXME :guest_interface => "NFS"
-            } )
+  def self.from_db(model, context)
+    self.new(
+      :id => context.volume_configuration_url(model.id),
+      :name => model.name,
+      :description => model.description,
+      :format => model.format,
+      :capacity => context.to_kibibyte(model.capacity, "GB"),
+      :property => model.ent_properties,
+      :operations => [
+        { :href => context.destroy_volume_configuration_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
+      ]
+    )
   end
 
 end

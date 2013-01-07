@@ -1,0 +1,6 @@
+<VolumeConfigurationCreate>
+  <name>SampleVolumeConfiguration1</name>
+  <description>This is sample 1GB volume configuration</description>
+  <format>qcow2</format>
+  <capacity>1</capacity>
+</VolumeConfigurationCreate>

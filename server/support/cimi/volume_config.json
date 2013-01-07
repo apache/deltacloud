@@ -1,0 +1,7 @@
+{
+  "resourceURI": "http://schemas.dmtf.org/cimi/1/VolumeConfigurationCreate",
+  "name": "myVolumeConfig1",
+  "description": "1 GB volume configuration",
+  "format": "qcow2",
+  "capacity": "1"
+}
