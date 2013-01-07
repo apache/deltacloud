@@ -95,13 +95,19 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
   def self.rm_attributes_for(resource_class, context)
     return [] if resource_attributes[resource_class.name].nil?
     resource_attributes[resource_class.name].map do |attr_name, attr_def|
+      if attr_def.has_key? :constraints
+        constraints = attr_def[:constraints].call(context)
+      else
+        constraints = []
+      end
       {
         :name => attr_name.to_s,
         # TODO: We need to make this URI return description of this 'non-CIMI'
         # attribute
         :namespace => "http://deltacloud.org/cimi/#{resource_class.name.split('::').last}/#{attr_name}",
         :type => translate_attr_type(attr_def[:type]),
-        :required => attr_def[:required] ? 'true' : 'false'
+        :required => attr_def[:required] ? 'true' : 'false',
+        :constraints => constraints.map { |v| { :value => v }}
       }
     end
   end
