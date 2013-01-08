@@ -41,7 +41,7 @@ describe Deltacloud::Collections::StorageSnapshots do
   end
 
   it 'properly serialize attributes in JSON' do
-    check_json_serialization_for :storage_snapshot, 'snap1'
+    check_json_serialization_for :storage_snapshot, 'snap1', [:name, :description]
   end
 
 end
