@@ -42,8 +42,28 @@ module CIMI::Collections
           end
         end
       end
-    end
 
+      operation :create, :with_capability => :create_storage_snapshot do
+        description "Create a new volume image."
+        control do
+          volume_image = CIMI::Model::VolumeImage.create(request.body, self)
+          headers_for_create volume_image
+          respond_to do |format|
+            format.xml { volume_image.to_xml }
+            format.json { volume_image.to_json }
+          end
+        end
+      end
+
+      operation :destroy, :with_capability => :destroy_storage_snapshot do
+        description "Delete a specified VolumeImage"
+        control do
+          CIMI::Model::VolumeImage.delete!(params[:id], self)
+          no_content_with_status 200
+        end
+      end
+
+    end
 
   end
 end
