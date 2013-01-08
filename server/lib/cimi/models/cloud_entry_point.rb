@@ -15,6 +15,9 @@
 
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
+  resource_attr :driver, :required => true
+  resource_attr :provider, :required => true
+
   # All possible CIMI collections, in the order in which they should appear
   # in the CEP
   COLLECTIONS = [ "resourceMetadata", "systems", "systemTemplates",
@@ -38,6 +41,8 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     self.new(entities(context).merge({
       :name => context.driver.name,
       :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
+      :driver => context.driver.name,
+      :provider => context.current_provider,
       :id => context.cloudEntryPoint_url,
       :base_uri => context.base_uri + "/",
       :created => Time.now.xmlschema

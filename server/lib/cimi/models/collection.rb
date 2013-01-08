@@ -116,6 +116,7 @@ module CIMI::Model
       def list(context)
         entries = find(:all, context)
         desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
+        acts_as_root_entity unless collection_class
         id = context.send("#{collection_class.entry_name}_url")
         ops = []
         cimi_entity = collection_class.entry_name.to_s.singularize

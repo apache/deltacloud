@@ -16,8 +16,6 @@
 
 class CIMI::Model::ResourceMetadata < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :name
 
   text :type_uri

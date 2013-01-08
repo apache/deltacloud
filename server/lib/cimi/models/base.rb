@@ -72,7 +72,7 @@ require 'xmlsimple'
 module CIMI::Model
 
   def self.register_as_root_entity!(klass, opts = {})
-    @root_entities ||= []
+    @root_entities ||= [CIMI::Model::CloudEntryPoint]
     @root_entities << klass
     name = klass.name.split("::").last.pluralize
     unless CIMI::Model::CloudEntryPoint.href_defined?(name)
