@@ -314,6 +314,26 @@ module Deltacloud::Drivers::Mock
       snapshots
     end
 
+    def create_storage_snapshot(credentials, opts={})
+      check_credentials(credentials)
+      id = "store_snapshot_#{Time.now.to_i}"
+      snapshot = {
+            :id => id,
+            :created => Time.now.to_s,
+            :state => "COMPLETED",
+            :storage_volume_id => opts[:volume_id],
+      }
+      snapshot.merge!({:name=>opts[:name]}) if opts[:name]
+      snapshot.merge!({:description=>opts[:description]}) if opts[:description]
+      @client.store(:storage_snapshots, snapshot)
+      StorageSnapshot.new(snapshot)
+    end
+
+    def destroy_storage_snapshot(credentials, opts={})
+      check_credentials(credentials)
+      @client.destroy(:storage_snapshots, opts[:id])
+    end
+
     def keys(credentials, opts={})
       check_credentials(credentials)
       result = @client.build_all(Key)

@@ -31,7 +31,11 @@ module Deltacloud::Collections
           @storage_snapshot = driver.create_storage_snapshot(credentials, params)
           status 201  # Created
           response['Location'] = storage_snapshot_url(@storage_snapshot.id)
-          show(:storage_snapshot)
+          respond_to do |format|
+            format.xml { haml :"storage_snapshots/show" }
+            format.html { haml :"storage_snapshots/show" }
+            format.json { xml_to_json "storage_snapshots/show" }
+          end
         end
       end
 
