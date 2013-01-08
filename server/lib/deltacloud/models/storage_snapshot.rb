@@ -21,6 +21,8 @@ class StorageSnapshot < BaseModel
   attr_accessor :state
   attr_accessor :storage_volume_id
   attr_accessor :created
+  attr_accessor :name
+  attr_accessor :description
 
   def is_completed?
     state == 'completed'
