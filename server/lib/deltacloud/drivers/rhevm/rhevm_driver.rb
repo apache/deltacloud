@@ -254,7 +254,18 @@ class RhevmDriver < Deltacloud::BaseDriver
       public_addresses << InstanceAddress.new(inst.vnc[:address], :port => inst.vnc[:port], :type => :vnc)
     end
 
+    # Remove 'destroy' operation from list of actions when RHEV-M instance
+    # is suspended or paused.
+    if state == 'PAUSED'
+      actions = instance_actions_for(state = 'STOPPED')
+      actions.delete(:destroy)
+    else
+      actions = instance_actions_for(state)
+      can_create_image = true
+    end
+
     Instance.new(
+      :actions=>actions,
       :id => inst.id,
       :name => inst.name,
       :state => state,
@@ -264,10 +275,9 @@ class RhevmDriver < Deltacloud::BaseDriver
       :launch_time => inst.creation_time,
       :instance_profile => profile,
       :hardware_profile_id => profile.id,
-      :actions=>instance_actions_for( state ),
       :public_addresses => public_addresses,
       :private_addresses => [],
-      :create_image => true
+      :create_image => can_create_image || false
     )
   end
 
@@ -286,9 +296,10 @@ class RhevmDriver < Deltacloud::BaseDriver
     return 'PENDING' if ['WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
                         'RESTORING_STATE', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE'].include? state
     return 'STOPPING' if state == 'POWERING_DOWN'
-    return 'STOPPED' if ['UNASSIGNED', 'DOWN', 'PAUSED', 'NOT_RESPONDING', 'SUSPENDED',
+    return 'STOPPED' if ['UNASSIGNED', 'DOWN', 'NOT_RESPONDING',
                          'IMAGE_ILLEGAL', 'UNKNOWN'].include? state
     return 'RUNNING' if ['UP', 'MIGRATING_TO', 'MIGRATING_FROM'].include? state
+    return 'PAUSED' if ['PAUSED', 'SUSPENDED'].include? state
     raise "Unexpected state '#{state}'"
   end
 
