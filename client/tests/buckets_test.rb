@@ -21,16 +21,14 @@ require_relative './test_helper.rb'
 describe "Buckets" do
 
   it "should allow retrieval of all buckets" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        buckets = client.buckets
-        buckets.wont_be_empty
-        buckets.each do |bucket|
-          bucket.uri.wont_be_nil
-          bucket.uri.must_be_kind_of String
-          bucket.name.wont_be_nil
-          bucket.name.must_be_kind_of String
-        end
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      buckets = client.buckets
+      buckets.wont_be_empty
+      buckets.each do |bucket|
+        bucket.uri.wont_be_nil
+        bucket.uri.must_be_kind_of String
+        bucket.name.wont_be_nil
+        bucket.name.must_be_kind_of String
       end
     end
   end

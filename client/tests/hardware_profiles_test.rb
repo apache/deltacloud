@@ -28,16 +28,14 @@ end
 describe "Hardware Profiles" do
 
   it "should allow retrieval of all hardware profiles" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        hardware_profiles = client.hardware_profiles
-        hardware_profiles.wont_be_empty
-        hardware_profiles.each do |hwp|
-          hwp.uri.wont_be_nil
-          hwp.uri.must_be_kind_of String
-          prop_check(hwp.architecture, String) unless hwp.name.eql?("opaque")
-       end
-      end
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      hardware_profiles = client.hardware_profiles
+      hardware_profiles.wont_be_empty
+      hardware_profiles.each do |hwp|
+        hwp.uri.wont_be_nil
+        hwp.uri.must_be_kind_of String
+        prop_check(hwp.architecture, String) unless hwp.name.eql?("opaque")
+     end
     end
   end
 

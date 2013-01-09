@@ -21,17 +21,15 @@ require_relative './test_helper.rb'
 describe "Storage Volumes" do
 
   it "allow retrieval of all storage volumes owned by the current user" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      client = DeltaCloud.new( API_NAME, API_PASSWORD, entry_point )
-      client.connect do |c|
-        storage_volumes = c.storage_volumes
-        storage_volumes.wont_be_nil
-        storage_volumes.wont_be_nil
-        ids = storage_volumes.collect{|e| e.id}
-        ids.size.must_equal 3
-        ids.must_include 'vol1'
-        ids.must_include 'vol3'
-      end
+    client = DeltaCloud.new( API_NAME, API_PASSWORD, API_URL )
+    client.connect do |c|
+      storage_volumes = c.storage_volumes
+      storage_volumes.wont_be_nil
+      storage_volumes.wont_be_nil
+      ids = storage_volumes.collect{|e| e.id}
+      ids.size.must_equal 3
+      ids.must_include 'vol1'
+      ids.must_include 'vol3'
     end
   end
 

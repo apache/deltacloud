@@ -42,10 +42,8 @@ end
 
 describe "Keys" do
   it "should allow retrieval of all keys" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        client.keys.wont_be_empty
-      end
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      client.keys.wont_be_empty
     end
   end
 end

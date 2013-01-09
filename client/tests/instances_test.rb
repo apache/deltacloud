@@ -21,28 +21,26 @@ require_relative './test_helper.rb'
 describe "Instances" do
 
   it "should allow retrieval of all instances" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        instances = client.instances
-        instances.wont_be_empty
-        instances.each do |instance|
-          instance.uri.wont_be_nil
-          instance.uri.must_be_kind_of String
-          instance.owner_id.wont_be_nil
-          instance.owner_id.must_be_kind_of String
-          instance.image.wont_be_nil
-          instance.image.to_s.must_match /DeltaCloud::API::.*::Image/
-          instance.hardware_profile.wont_be_nil
-          instance.hardware_profile.must_be_kind_of DeltaCloud::API::Base::HardwareProfile
-          instance.state.wont_be_nil
-          instance.state.must_be_kind_of String
-          instance.public_addresses.wont_be_nil
-          instance.public_addresses.wont_be_empty
-          instance.public_addresses.must_be_kind_of Array
-          instance.private_addresses.wont_be_nil
-          instance.private_addresses.wont_be_empty
-          instance.private_addresses.must_be_kind_of Array
-        end
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      instances = client.instances
+      instances.wont_be_empty
+      instances.each do |instance|
+        instance.uri.wont_be_nil
+        instance.uri.must_be_kind_of String
+        instance.owner_id.wont_be_nil
+        instance.owner_id.must_be_kind_of String
+        instance.image.wont_be_nil
+        instance.image.to_s.must_match /DeltaCloud::API::.*::Image/
+        instance.hardware_profile.wont_be_nil
+        instance.hardware_profile.must_be_kind_of DeltaCloud::API::Base::HardwareProfile
+        instance.state.wont_be_nil
+        instance.state.must_be_kind_of String
+        instance.public_addresses.wont_be_nil
+        instance.public_addresses.wont_be_empty
+        instance.public_addresses.must_be_kind_of Array
+        instance.private_addresses.wont_be_nil
+        instance.private_addresses.wont_be_empty
+        instance.private_addresses.must_be_kind_of Array
       end
     end
   end
@@ -74,10 +72,10 @@ describe "Instances" do
       instance.image.uri.must_equal API_URL + "/images/img1"
       instance.hardware_profile.wont_be_nil
       instance.hardware_profile.wont_be_nil
-      instance.hardware_profile.uri.must_equal API_URL + "/hardware_profiles/m1-large" 
+      instance.hardware_profile.uri.must_equal API_URL + "/hardware_profiles/m1-large"
       instance.hardware_profile.memory.value.must_equal '10240'
       instance.hardware_profile.storage.value.must_equal '850'
-      instance.state.must_equal "RUNNING" 
+      instance.state.must_equal "RUNNING"
       instance.actions.wont_be_nil
     end
   end
@@ -130,7 +128,7 @@ describe "Instances" do
       instance.image.id.must_equal 'img1'
       instance.hardware_profile.id.must_equal 'm1-xlarge'
       instance.hardware_profile.memory.value.must_equal'12288'
-      instance.realm.id.must_equal 'us' 
+      instance.realm.id.must_equal 'us'
     end
   end
 

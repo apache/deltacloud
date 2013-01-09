@@ -21,25 +21,23 @@ require_relative './test_helper.rb'
 describe "Instance States" do
 
   it "should allow retrieval of instance-state information" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        instance_states = client.instance_states
-        instance_states.wont_be_nil
-        instance_states.wont_be_empty
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      instance_states = client.instance_states
+      instance_states.wont_be_nil
+      instance_states.wont_be_empty
 
-        instance_states[0].name.must_equal 'start'
-        instance_states[0].transitions.size.must_equal 1
-        instance_states[0].transitions[0].wont_equal :auto
+      instance_states[0].name.must_equal 'start'
+      instance_states[0].transitions.size.must_equal 1
+      instance_states[0].transitions[0].wont_equal :auto
 
-        instance_states[1].name.must_equal 'pending'
-        instance_states[1].transitions.size.must_equal 1
-        instance_states[1].transitions[0].wont_equal :auto
+      instance_states[1].name.must_equal 'pending'
+      instance_states[1].transitions.size.must_equal 1
+      instance_states[1].transitions[0].wont_equal :auto
 
-        instance_states[2].name.must_equal 'running'
-        instance_states[2].transitions.size.must_equal 2
-        includes_transition( instance_states[2].transitions, :reboot, :running ).must_equal true
-        includes_transition( instance_states[2].transitions, :stop, :stopped ).must_equal true
-      end
+      instance_states[2].name.must_equal 'running'
+      instance_states[2].transitions.size.must_equal 2
+      includes_transition( instance_states[2].transitions, :reboot, :running ).must_equal true
+      includes_transition( instance_states[2].transitions, :stop, :stopped ).must_equal true
     end
   end
 

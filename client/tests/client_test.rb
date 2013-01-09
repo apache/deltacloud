@@ -28,16 +28,14 @@ describe "initializing the client" do
   end
 
   it "should discover entry points upon connection" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( "name", "password", entry_point ) do |client|
-        client.entry_points[:hardware_profiles].must_equal "#{API_URL}/hardware_profiles"
-        client.entry_points[:images].must_equal "#{API_URL}/images"
-        client.entry_points[:instances].must_equal "#{API_URL}/instances"
-        client.entry_points[:storage_volumes].must_equal "#{API_URL}/storage_volumes"
-        client.entry_points[:storage_snapshots].must_equal "#{API_URL}/storage_snapshots"
-        client.entry_points[:buckets].must_equal "#{API_URL}/buckets"
-        client.entry_points[:keys].must_equal "#{API_URL}/keys"
-      end
+    DeltaCloud.new( "name", "password", API_URL ) do |client|
+      client.entry_points[:hardware_profiles].must_equal "#{API_URL}/hardware_profiles"
+      client.entry_points[:images].must_equal "#{API_URL}/images"
+      client.entry_points[:instances].must_equal "#{API_URL}/instances"
+      client.entry_points[:storage_volumes].must_equal "#{API_URL}/storage_volumes"
+      client.entry_points[:storage_snapshots].must_equal "#{API_URL}/storage_snapshots"
+      client.entry_points[:buckets].must_equal "#{API_URL}/buckets"
+      client.entry_points[:keys].must_equal "#{API_URL}/keys"
     end
   end
 

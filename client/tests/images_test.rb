@@ -21,21 +21,19 @@ require_relative './test_helper.rb'
 describe "Images" do
 
   it "should allow retrieval of all images" do
-    [API_URL, API_URL_REDIRECT].each do |entry_point|
-      DeltaCloud.new( API_NAME, API_PASSWORD, entry_point ) do |client|
-        images = client.images
-        images.wont_be_empty
-        images.size.must_equal 3
-        images.each do |image|
-          image.uri.wont_be_nil
-          image.uri.must_be_kind_of String
-          image.description.wont_be_nil
-          image.description.must_be_kind_of String
-          image.architecture.wont_be_nil
-          image.architecture.must_be_kind_of String
-          image.owner_id.wont_be_nil
-          image.owner_id.must_be_kind_of String
-        end
+    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
+      images = client.images
+      images.wont_be_empty
+      images.size.must_equal 3
+      images.each do |image|
+        image.uri.wont_be_nil
+        image.uri.must_be_kind_of String
+        image.description.wont_be_nil
+        image.description.must_be_kind_of String
+        image.architecture.wont_be_nil
+        image.architecture.must_be_kind_of String
+        image.owner_id.wont_be_nil
+        image.owner_id.must_be_kind_of String
       end
     end
   end

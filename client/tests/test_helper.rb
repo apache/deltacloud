@@ -13,5 +13,4 @@ API_PATH = '/api'
 API_NAME = 'mockuser'
 API_PASSWORD = 'mockpassword'
 
-API_URL_REDIRECT = "http://#{API_HOST}:#{API_PORT}"
-API_URL = "#{API_URL_REDIRECT}#{API_PATH}"
+API_URL = "http://#{API_HOST}:#{API_PORT}#{API_PATH}"
