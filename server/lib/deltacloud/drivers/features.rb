@@ -112,8 +112,6 @@ module Deltacloud
         operation :create do
           param :keyname, :string,  :optional, [], "Key authentification method"
         end
-        operation :show do
-        end
       end
 
       feature :authentication_password, :for => :instances do
