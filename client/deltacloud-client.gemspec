@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.version = Deltacloud::API_VERSION
   s.summary = %q{Deltacloud REST Client}
   s.files = Dir['Rakefile', 'lib/**/*.rb']
-  s.test_files= Dir.glob("specs/**/**")
+  s.test_files= Dir.glob("tests/**/**")
   s.extra_rdoc_files = Dir["LICENSE", "NOTICE", "DISCLAIMER"]
 
   s.add_dependency('rest-client', '>= 1.6.1')
