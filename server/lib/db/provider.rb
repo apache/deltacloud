@@ -12,6 +12,7 @@ module Deltacloud
       has n, :machine_templates
       has n, :address_templates
       has n, :volume_configurations
+      has n, :volume_templates
 
       # This is a workaround for strange bug in Fedora MRI:
       #
@@ -25,6 +26,10 @@ module Deltacloud
 
       def volume_configurations
         VolumeConfiguration.all(:provider_id => self.id)
+      end
+
+      def volume_templates
+        VolumeTemplate.all(:provider_id => self.id)
       end
 
       def entities

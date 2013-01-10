@@ -19,7 +19,78 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
 
   href :volume_config
   href :volume_image
+
+  array :meter_templates do
+  end
+
+  href :event_log_template
+
   array :operations do
     scalar :rel, :href
   end
+
+  def self.find(id, context)
+   if id==:all
+     if context.driver.respond_to? :volume_templates
+       context.driver.volume_templates(context.credentials, {:env=>context})
+     else
+       Deltacloud::Database::VolumeTemplate.all(
+         'provider.driver' => driver_symbol.to_s,
+         'provider.url' => current_provider
+       ).map { |t| from_db(t, context) }
+      end
+    else
+     if context.driver.respond_to? :volume_template
+       context.driver.volume_template(context.credentials, id, :env=>context)
+     else
+       template = Deltacloud::Database::VolumeTemplate.first(
+         'provider.driver' => driver_symbol.to_s,
+         'provider.url' => current_provider,
+         :id => id
+       )
+       raise CIMI::Model::NotFound unless template
+       from_db(template, context)
+     end
+    end
+  end
+
+  def self.create(body, context, type)
+    input = (type == :xml)? XmlSimple.xml_in(body, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(body)
+    input['property'] ||= []
+    vol_image = input['volumeImage']['href'] if input['volumeImage']
+    new_template = current_db.volume_templates.new(
+      :name => input['name'],
+      :description => input['description'],
+      :volume_config => input['volumeConfig']['href'],
+      :volume_image => vol_image,
+      :ent_properties => input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
+      :be_kind => 'volume_template',
+      :be_id => ''
+    )
+    new_template.save!
+    from_db(new_template, context)
+  end
+
+  def self.delete!(id, context)
+    current_db.volume_templates.first(:id => id).destroy
+  end
+
+private
+
+  def self.from_db(model, context)
+    self.new(
+      :id => context.volume_template_url(model.id),
+      :name => model.name,
+      :description => model.description,
+      :volume_config => {:href => model.volume_config},
+      :volume_image => {:href => model.volume_image},
+      :property => model.ent_properties,
+      :operations => [
+        { :href => context.destroy_volume_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
+      ]
+    )
+  end
+
+
+
 end
