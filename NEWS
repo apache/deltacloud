@@ -1,3 +1,42 @@
+1.0.5 - 2012-11-15
+ * Server
+   - Added possibility to log into a file (deltacloudd -L option)
+   - Various fixes and improvements in logging errors
+   - Advertise operation and parameters for features (/api)
+   - Fixed memory leak (DTACLOUD-347)
+ * Drivers
+   + Aruba
+     - Updated API URLs
+   + FGCP
+     - Added possibility to filter instances by realm_id
+     - Fixed certificate location
+   + OpenStack
+     - Set hardware profile name to OpenStack flavor name
+     - Fixed .id vs .name issues in create_instance
+     - Added support for user_data
+     - DTACLOUD-316, DTACLOUD_328
+   + VSphere
+     - Report instance launch_time properly
+     - Report time of image creation
+   + RHEV-M
+     - Report time of image creation
+ * CIMI frontend
+   - Added support for Collections
+   - Added support for embedded collections (Machine.disks,
+     Machine.volumes)
+   - Added initial support for $expand
+   - Many improvements to CIMI tests
+   - Fixed parsing of JSON HTTP body when creating Machine
+   - Set default content type for CIMI responses
+   - Added support for $select to Collections
+   - Fixed order of top-level resources
+   - Fixed numerous CIMI 1.0 compatibility issues
+   - Various JIRA fixes: DTACLOUD-350, DTACLOUD-349
+ * CIMI client
+   - Fixed various compatibility issues
+ * EC2 frontend
+   - Allow to pass user_data to RunInstances (thanks to Oved Ourfali)
+
 1.0.4 - 2012-10-08
   * server: shorten backtraces in logs to make them readable
   * server: report unknown frontend cleanly when starting server (JIRA 331)
