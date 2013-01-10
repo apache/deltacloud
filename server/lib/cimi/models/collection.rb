@@ -122,7 +122,9 @@ module CIMI::Model
         cimi_entity = collection_class.entry_name.to_s.singularize
         cimi_create = "create_#{cimi_entity}_url"
         dcloud_create = context.deltacloud_create_method_for(cimi_entity)
-        if context.respond_to?(cimi_create) && context.driver.respond_to?(dcloud_create)
+        if(context.respond_to?(cimi_create) &&
+           context.driver.respond_to?(dcloud_create)) ||
+             provides?(cimi_entity)
           url = context.send(cimi_create)
           ops << { :rel => "add", :href => url }
         end
