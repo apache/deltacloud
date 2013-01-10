@@ -43,7 +43,7 @@ describe "Hardware Profiles" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       hardware_profiles = client.hardware_profiles( :architecture=>'i386' )
       hardware_profiles.wont_be_empty
-      hardware_profiles.size.must_equal 2
+      hardware_profiles.size.must_equal 1
       hardware_profiles.first.architecture.value.must_equal 'i386'
     end
   end

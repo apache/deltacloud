@@ -75,6 +75,7 @@ module Deltacloud
       return false unless p = property(prop)
       return true if p.kind == :range and (p.first..p.last).include?(v)
       return true if p.kind == :enum and p.values.include?(v)
+      return true if p.kind == :fixed and p.value == v
       false
     end
 
