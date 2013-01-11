@@ -29,6 +29,7 @@ require_relative './models/disk'
 
 require_relative './models/resource_metadata'
 require_relative './models/cloud_entry_point'
+CIMI::Model::ResourceMetadata.acts_as_root_entity
 require_relative './models/volume'
 require_relative './models/volume_template'
 require_relative './models/volume_configuration'
