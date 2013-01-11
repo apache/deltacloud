@@ -71,6 +71,19 @@ class AddVolumeToMachine < CIMI::Test::Spec
     rescue RuntimeError =>e
     end
 
+
+  #need to create a new VolumeConfiguration before creating the Volume:
+  cep_json = cep(:accept => :json)
+  volume_config_add_uri = discover_uri_for("add", "volumeConfigs")
+  volume_config_resp = post(volume_config_add_uri,
+     "<VolumeConfigurationCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
+       "<name>marios_volume_config</name>" +
+       "<description>a volume configuration</description>"+
+       "<format>ext3</format>"+
+       " <capacity>1</capacity>" +
+     "</VolumeConfigurationCreate>", {:accept => :json, :content_type => :xml})
+  log.info("just created volume_configuration " + volume_config_resp.json["id"])
+
   # 4.3:  Create a new Volume
   model :volume, :cache => true do |fmt|
     volume_add_uri = discover_uri_for("add", "volumes")

@@ -7,7 +7,6 @@ mock:
   preferred:
     machineImage: "img2"
     machineConfig: "m1-small"
-    volumeConfig: "2"
 #OPENSTACK DRIVER CONFIG
 openstack:
   user:
