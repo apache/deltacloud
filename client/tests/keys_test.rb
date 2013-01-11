@@ -50,16 +50,18 @@ end
 
 describe "Operations on Keys" do
 
-  it "should allow successful creation of a new key" do
+  it "should allow successful creation and destroy of a new key" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
       new_key = client.create_key({:name => "my_new_key"})
       check_key(new_key, "my_new_key")
+      the_key = client.key('my_new_key')
+      the_key.destroy!.must_be_nil
     end
   end
 
   it "should allow retrieval of an existing named key" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      key_name = "my_new_key"
+      key_name = "test-key"
       create_key_if_necessary(client, key_name)
       the_key = client.key(key_name)
       check_key(the_key, key_name)
@@ -68,20 +70,11 @@ describe "Operations on Keys" do
 
   it "should raise error if you create a key with the same name as an existing key" do
     DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      name = "my_new_key"
+      name = "test-key"
       create_key_if_necessary(client, name)
       lambda{
               client.create_key({:name => name})
             }.must_raise DeltaCloud::HTTPError::Forbidden
-    end
-  end
-
-  it "should allow successful destruction of an existing key" do
-    DeltaCloud.new( API_NAME, API_PASSWORD, API_URL ) do |client|
-      name = "my_new_key"
-      create_key_if_necessary(client, name)
-      the_key = client.key(name)
-      the_key.destroy!.must_be_nil
     end
   end
 
