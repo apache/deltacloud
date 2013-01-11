@@ -13,27 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::NetworkPort < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_port'
-require 'entities/network_template'
-require 'entities/routing_group'
-require 'entities/routing_group_template'
-require 'entities/vsp'
-require 'entities/vsp_configuration'
-require 'entities/vsp_template'
+  get '/cimi/network_ports/:id' do
+    network_port_xml = get_entity('network_ports', params[:id], credentials)
+    @network_port = CIMI::Model::NetworkPort.from_xml(network_port_xml)
+    haml :'network_ports/show'
+  end
+
+  get '/cimi/network_ports' do
+    network_ports_xml = get_entity_collection('network_ports', credentials)
+    @network_ports = CIMI::Model::NetworkPortCollection.from_xml(network_ports_xml)
+    haml :'network_ports/index'
+  end
+
+end

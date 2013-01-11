@@ -31,6 +31,7 @@ module CIMI::Frontend
     use CIMI::Frontend::Network
     use CIMI::Frontend::NetworkConfiguration
     use CIMI::Frontend::NetworkTemplate
+    use CIMI::Frontend::NetworkPort
     use CIMI::Frontend::RoutingGroup
     use CIMI::Frontend::RoutingGroupTemplate
     use CIMI::Frontend::VSP
