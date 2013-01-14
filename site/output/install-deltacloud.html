@@ -115,7 +115,10 @@
   libxslt and libxslt-devel,
   </li>
   <li>
-  rake.
+  sqlite and sqlite-devel
+  </li>
+  <li>
+  rake
   </li>
 </ul><p><br></p>
 
@@ -143,13 +146,14 @@ $ sudo yum install ruby-devel
 $ sudo yum install rubygems
 </pre>
 
-<h4>GCC-C++, Libxml2, Libxml2-devel, Libxslt, Libxslt-devel</h4>
-<p>These libraries are required to build RubyGems that have C extensions. Use commands:</p>
+<h4>GCC-C++, Libxml2, Libxml2-devel, Libxslt, Libxslt-devel, sqlite, sqlite-devel</h4>
+<p>These libraries are required to build RubyGems that have C extensions (the last two are for the CIMI persistence layer). Use commands:</p>
 
 <pre>
 $ sudo yum install gcc-c++
 $ sudo yum install libxml libxml2-devel
 $ sudo yum install libxslt libxslt-devel
+$ sudo yum install sqlite sqlite-devel
 </pre>
 
 <h4>Rake</h4>
@@ -180,13 +184,14 @@ $ gem -v
 1.3.7
 </pre>
 
-<h4>G++, Libxml2, Libxml2-dev, Libxslt, Libxslt-dev</h4>
-<p>These libraries are required to build RubyGems that have C extensions. Use commands:</p>
+<h4>g++, libxml2, libxml2-dev, libxslt, libxslt-dev, sqlite, sqlite-devel</h4>
+<p>These libraries are required to build RubyGems that have C extensions (last two are for CIMI persistence layer). Use commands:</p>
 
 <pre>
 $ sudo apt-get install g++
 $ sudo apt-get install libxml libxml2-dev
 $ sudo apt-get install libxslt libxslt-dev
+$ sudo apt-get install sqlite sqlite-dev
 </pre>
 
 <h4 id="gem-list">Gem dependecies</h4>
