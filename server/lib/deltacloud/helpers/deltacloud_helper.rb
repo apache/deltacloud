@@ -18,6 +18,10 @@ module Deltacloud::Helpers
 
     require 'benchmark'
 
+    def current_provider
+      Thread.current[:provider] || ENV['API_PROVIDER'] || 'default'
+    end
+
     def collections_to_json(collections)
       r = {
         :version => settings.version,
@@ -124,16 +128,16 @@ module Deltacloud::Helpers
       end
 
       respond_to do |format|
-        format.xml {  haml :"errors/#{@code || @error.code}", :layout => false }
+        format.xml {  haml :"errors/common", :layout => false }
         format.json { JSON::dump({ :code => @code || @error.code, :message => message, :error => @error.class.name }) }
         format.html {
           begin
-            haml :"errors/#{@code || @error.code}", :layout => :error
+            haml :"errors/common", :layout => :error
           rescue RuntimeError
             # If the HTML representation of error is missing, then try to report
             # it through XML
             @media_type=:xml
-            haml :"errors/#{@code || @error.code}", :layout => false
+            haml :"errors/common", :layout => false
           end
         }
       end
