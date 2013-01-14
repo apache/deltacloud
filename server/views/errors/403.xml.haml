@@ -1,9 +1,0 @@
-%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
-  %backend{ :driver => driver_symbol, :provider => "#{Thread::current[:provider] || ENV['API_PROVIDER'] || 'default'}" }
-  - if @error.respond_to?(:backtrace) and !@error.backtrace.nil?
-    %backtrace=cdata(@error.backtrace.join("\n"))
-  - if params
-    %request
-      - params.each do |k, v|
-        %param{ :name => k}=v
-  %message Method not allowed for this resource

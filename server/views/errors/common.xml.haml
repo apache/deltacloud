@@ -1,0 +1,16 @@
+- unless defined?(partial)
+  !!! XML
+%error{ :url => request.env['REQUEST_URI'], :status => response.status }
+  %backend{ :driver => driver_symbol, :provider => current_provider }
+  %code=response.status
+  %message<
+    - if @error.respond_to? :message
+      =cdata @error.message
+    - else
+      =translate_error_code(response.status)
+  - if @error.respond_to? :backtrace
+    %backtrace=@error.backtrace.nil? ? '' : @error.backtrace.join("\n")
+    %request
+      - if params
+        -params.each do |name, value|
+          %param{ :name => name }=cdata value.inspect
