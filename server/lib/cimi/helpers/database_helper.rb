@@ -48,6 +48,7 @@ module Deltacloud
 
       def store_attributes_for(model, attrs={})
         return if test_environment? or model.nil? or attrs.empty?
+        return if model.id.nil?
         entity = get_entity(model) || current_db.entities.new(:be_kind => model.to_entity, :be_id => model.id)
 
         entity.description = extract_attribute_value('description', attrs) if attrs.has_key? 'description'
@@ -58,7 +59,7 @@ module Deltacloud
           entity.ent_properties = extract_attribute_value('property', attrs).to_json
         end
 
-        entity.save! && entity
+        entity.save && entity
       end
 
       # In XML serialization the values stored in attrs are arrays, dues to

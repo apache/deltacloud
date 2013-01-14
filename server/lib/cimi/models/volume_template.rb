@@ -67,7 +67,7 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
       :be_kind => 'volume_template',
       :be_id => ''
     )
-    new_template.save!
+    new_template.save
     from_db(new_template, context)
   end
 

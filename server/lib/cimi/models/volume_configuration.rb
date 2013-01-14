@@ -36,7 +36,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
       :be_kind => 'volume_configuration',
       :be_id => ''
     )
-    new_config.save!
+    new_config.save
     from_db(new_config, context)
   end
 
@@ -52,7 +52,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
       :be_kind => 'volume_configuration',
       :be_id => ''
     )
-    new_config.save!
+    new_config.save
     from_db(new_config, context)
   end
 

@@ -78,7 +78,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :be_kind => 'address_template',
       :be_id => ''
     )
-    new_template.save!
+    new_template.save
     from_db(new_template, context)
   end
 
@@ -99,7 +99,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :be_kind => 'machine_template',
       :be_id => ''
     )
-    new_template.save!
+    new_template.save
     from_db(new_template, context)
   end
 

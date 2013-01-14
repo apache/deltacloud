@@ -70,7 +70,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :be_kind => 'machine_template',
         :be_id => ''
       )
-      new_template.save!
+      new_template.save
       from_db(new_template, context)
     end
 
@@ -85,7 +85,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :be_kind => 'machine_template',
         :be_id => ''
       )
-      new_template.save!
+      new_template.save
       from_db(new_template, context)
     end
 
