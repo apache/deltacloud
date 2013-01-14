@@ -120,7 +120,6 @@ describe Deltacloud::API do
     get root_url
     status.must_equal 200
     headers['Content-Type'].must_equal 'application/json'
-    p response_body.inspect
     JSON::parse(response_body).must_be_kind_of Hash
     JSON::parse(response_body)['api'].must_be_kind_of Hash
   end

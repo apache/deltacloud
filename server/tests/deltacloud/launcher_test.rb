@@ -1,3 +1,9 @@
+=begin
+
+# TODO: This test require full access to 'kill' command and also
+# ability to execute the actual launcher.
+#
+
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative 'common.rb'
@@ -99,3 +105,4 @@ describe "deltacloudd" do
   end
 
 end
+=end
