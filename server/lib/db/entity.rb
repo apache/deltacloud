@@ -10,10 +10,9 @@ module Deltacloud
       property :type, Discriminator
 
       property :be_kind, String, :required => true # => Machine, MachineImage, ...
-      property :be_id, String, :required => true # => Original Machine 'id'
+      property :be_id, String # => Original Machine 'id'
 
-      property :created_at, DateTime
-      property :updated_at, DateTime
+      timestamps :created_at, :updated_on
     end
 
     class Entity < BaseEntity
