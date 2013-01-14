@@ -45,7 +45,7 @@ describe Deltacloud::Collections::Instances do
     delete root_url + '/instances/' + instance_id
     status.must_equal 405
     # You can't remove RUNNING instance
-    (xml/'error/message').first.text.strip.must_equal 'Requested method not allowed'
+    (xml/'error/message').first.text.strip.must_equal 'Method Not Allowed'
     post root_url + '/instances/' + instance_id + '/reboot'
     status.must_equal 202
     (xml/'instance/state').first.text.strip.must_equal 'RUNNING'
