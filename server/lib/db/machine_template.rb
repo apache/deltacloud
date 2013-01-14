@@ -4,8 +4,8 @@ module Deltacloud
     class MachineTemplate < Entity
       belongs_to :provider
 
-      property :machine_config, String
-      property :machine_image, String
+      property :machine_config, String, :length => 255
+      property :machine_image, String, :length => 255
 
     end
 
