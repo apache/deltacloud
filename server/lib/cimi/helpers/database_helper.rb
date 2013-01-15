@@ -27,11 +27,14 @@ module Deltacloud
       def delete_attributes_for(model)
         return if test_environment?
         entity = get_entity(model)
-        !entity.nil? && entity.destroy!
+        !entity.nil? && entity.destroy
       end
 
       def get_entity(model)
-        Deltacloud::Database::Entity.first(:be_kind => model.to_entity, :be_id => model.id, 'provider.driver' => driver_symbol.to_s, 'provider.url' => current_provider)
+        current_db.entities_dataset.first(
+          :be_kind => model.to_entity,
+          :be_id => model.id,
+        )
       end
 
       def current_provider
@@ -43,23 +46,29 @@ module Deltacloud
       #
 
       def current_db
-        Deltacloud::Database::Provider.first_or_create(:driver => driver_symbol.to_s, :url => current_provider)
+        Deltacloud::Database::Provider.find_or_create(:driver => driver_symbol.to_s, :url => current_provider)
       end
 
       def store_attributes_for(model, attrs={})
         return if test_environment? or model.nil? or attrs.empty?
         return if model.id.nil?
-        entity = get_entity(model) || current_db.entities.new(:be_kind => model.to_entity, :be_id => model.id)
+
+        unless entity = get_entity(model)
+          entity = Deltacloud::Database::Entity.new(:provider_id => current_db.id)
+        end
 
         entity.description = extract_attribute_value('description', attrs) if attrs.has_key? 'description'
         entity.name = extract_attribute_value('name', attrs) if attrs.has_key? 'name'
+
         if attrs.has_key? 'properties'
           entity.ent_properties = extract_attribute_value('properties', attrs).to_json
         elsif attrs.has_key? 'property'
           entity.ent_properties = extract_attribute_value('property', attrs).to_json
         end
 
-        entity.save && entity
+        entity.exists? ? entity.save_changes : entity.save
+
+        entity
       end
 
       # In XML serialization the values stored in attrs are arrays, dues to

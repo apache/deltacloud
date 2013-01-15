@@ -78,9 +78,8 @@ Gem::Specification.new do |s|
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
 
-  s.add_dependency('data_mapper')
-  s.add_dependency('dm-sqlite-adapter')
-  s.add_dependency('dm-timestamps')
+  s.add_dependency('sequel', '<= 3.42.0')
+  s.add_dependency('sqlite3')
 
   # dependencies for various cloud providers:
 
