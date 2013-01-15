@@ -44,16 +44,9 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
   class << self
     def find(id, context)
       if id == :all
-        Deltacloud::Database::MachineTemplate.all(
-          'provider.driver' => driver_symbol.to_s,
-          'provider.url' => current_provider
-        ).map { |t| from_db(t, context) }
+        current_db.machine_templates.map { |t| from_db(t, context) }
       else
-        template = Deltacloud::Database::MachineTemplate.first(
-          'provider.driver' => driver_symbol.to_s,
-          'provider.url' => current_provider,
-          :id => id
-        )
+        template = current_db.machine_templates_dataset.first(:id => id)
         raise CIMI::Model::NotFound unless template
         from_db(template, context)
       end
@@ -61,31 +54,25 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
     def create_from_json(body, context)
       json = JSON.parse(body)
-      new_template = current_db.machine_templates.new(
+      new_template = current_db.add_machine_template(
         :name => json['name'],
         :description => json['description'],
         :machine_config => json['machineConfig']['href'],
         :machine_image => json['machineImage']['href'],
         :ent_properties => json['properties'].to_json,
-        :be_kind => 'machine_template',
-        :be_id => ''
       )
-      new_template.save
       from_db(new_template, context)
     end
 
     def create_from_xml(body, context)
       xml = XmlSimple.xml_in(body)
-      new_template = current_db.machine_templates.new(
+      new_template = current_db.add_machine_template(
         :name => xml['name'].first,
         :description => xml['description'].first,
         :machine_config => xml['machineConfig'].first['href'],
         :machine_image => xml['machineImage'].first['href'],
-        :ent_properties => xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
-        :be_kind => 'machine_template',
-        :be_id => ''
+        :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
       )
-      new_template.save
       from_db(new_template, context)
     end
 
@@ -102,7 +89,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => model.description,
         :machine_config => { :href => model.machine_config },
         :machine_image => { :href => model.machine_image },
-        :property => model.ent_properties,
+        :property => JSON::parse(model.ent_properties),
         :created => Time.parse(model.created_at.to_s).xmlschema,
         :operations => [
           { :href => context.destroy_machine_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }

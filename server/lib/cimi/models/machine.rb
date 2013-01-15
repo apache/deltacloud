@@ -81,7 +81,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
     if xml['machineTemplate'][0]['href']
-      template = current_db.machine_templates.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
+      template = current_db.machine_templates_dataset.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
       hardware_profile_id = template.machine_config.split('/').last
       image_id = template.machine_image.split('/').last
     else

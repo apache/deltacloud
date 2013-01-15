@@ -27,32 +27,26 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
   def self.create_from_json(body, context)
     json = JSON.parse(body)
-    new_config = current_db.volume_configurations.new(
+    new_config = current_db.add_volume_configuration(
       :name => json['name'],
       :description => json['description'],
       :format => json['format'],
       :capacity => json['capacity'],
       :ent_properties => json['properties'].to_json,
-      :be_kind => 'volume_configuration',
-      :be_id => ''
     )
-    new_config.save
     from_db(new_config, context)
   end
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
     xml['property'] ||= []
-    new_config = current_db.volume_configurations.new(
+    new_config = current_db.add_volume_configuration(
       :name => xml['name'].first,
       :description => xml['description'].first,
       :format => xml['format'].first,
       :capacity => xml['capacity'].first,
-      :ent_properties => xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
-      :be_kind => 'volume_configuration',
-      :be_id => ''
+      :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
     )
-    new_config.save
     from_db(new_config, context)
   end
 
@@ -65,20 +59,13 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
       if context.driver.respond_to? :volume_configurations
         context.driver.volume_configurations(context.credentials, {:env=>context})
       else
-        Deltacloud::Database::VolumeConfiguration.all(
-          'provider.driver' => driver_symbol.to_s,
-          'provider.url' => current_provider
-        ).map { |t| from_db(t, context) }
+        current_db.volume_configurations.map { |t| from_db(t, context) }
       end
     else
       if context.driver.respond_to? :volume_configuration
         context.driver.volume_configuration(context.credentials, id, :env=>context)
       else
-        config = Deltacloud::Database::VolumeConfiguration.first(
-          'provider.driver' => driver_symbol.to_s,
-          'provider.url' => current_provider,
-          :id => id
-        )
+        config = current_db.volume_configurations_dataset.first(:id => id)
         raise CIMI::Model::NotFound unless config
         from_db(config, context)
       end
@@ -94,7 +81,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
       :description => model.description,
       :format => model.format,
       :capacity => context.to_kibibyte(model.capacity, "GB"),
-      :property => model.ent_properties,
+      :property => JSON::parse(model.ent_properties),
       :operations => [
         { :href => context.destroy_volume_configuration_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
       ]

@@ -42,20 +42,13 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       if context.driver.respond_to? :address_templates
         context.driver.address_templates(context.credentials, {:env=>context})
       else
-        Deltacloud::Database::AddressTemplate.all(
-          'provider.driver' => driver_symbol.to_s,
-          'provider.url' => current_provider
-        ).map { |t| from_db(t, context) }
+        current_db.address_teplates.map { |t| from_db(t, context) }
       end
     else
       if context.driver.respond_to? :address_template
         context.driver.address_template(context.credentials, id, :env=>context)
       else
-        template = Deltacloud::Database::AddressTemplate.first(
-          'provider.driver' => driver_symbol.to_s,
-          'provider.url' => current_provider,
-          :id => id
-        )
+        template = current_db.address_templates_dataset.first(:id => id)
         raise CIMI::Model::NotFound unless template
         from_db(template, context)
       end
@@ -64,7 +57,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
 
   def self.create_from_json(body, context)
     json = JSON.parse(body)
-    new_template = current_db.address_templates.new(
+    new_template = current_db.add_address_template(
       :name => json['name'],
       :description => json['description'],
       :hostname => json['hostname'],
@@ -75,17 +68,14 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :protocol => json['protocol'],
       :mask => json['mask'],
       :ent_properties => json['properties'].to_json,
-      :be_kind => 'address_template',
-      :be_id => ''
     )
-    new_template.save
     from_db(new_template, context)
   end
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
     xml['property'] ||= []
-    new_template = current_db.address_templates.new(
+    new_template = current_db.add_address_template(
       :name => xml['name'].first,
       :description => xml['description'].first,
       :ip => xml['ip'].first,
@@ -95,11 +85,8 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => xml['dns'].first,
       :protocol => xml['protocol'].nil? ? nil : xml['protocol'].first,
       :mask => xml['mask'].first,
-      :ent_properties => xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
-      :be_kind => 'machine_template',
-      :be_id => ''
+      :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
     )
-    new_template.save
     from_db(new_template, context)
   end
 
@@ -121,7 +108,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => model.dns,
       :protocol => model.protocol,
       :mask => model.mask,
-      :property => model.ent_properties,
+      :property => JSON::parse(model.ent_properties),
       :operations => [
         { :href => context.destroy_address_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
       ]

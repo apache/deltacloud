@@ -30,27 +30,20 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
   end
 
   def self.find(id, context)
-   if id==:all
-     if context.driver.respond_to? :volume_templates
-       context.driver.volume_templates(context.credentials, {:env=>context})
-     else
-       Deltacloud::Database::VolumeTemplate.all(
-         'provider.driver' => driver_symbol.to_s,
-         'provider.url' => current_provider
-       ).map { |t| from_db(t, context) }
+    if id==:all
+      if context.driver.respond_to? :volume_templates
+        context.driver.volume_templates(context.credentials, {:env=>context})
+      else
+        current_db.volume_templates.map { |t| from_db(t, context) }
       end
     else
-     if context.driver.respond_to? :volume_template
-       context.driver.volume_template(context.credentials, id, :env=>context)
-     else
-       template = Deltacloud::Database::VolumeTemplate.first(
-         'provider.driver' => driver_symbol.to_s,
-         'provider.url' => current_provider,
-         :id => id
-       )
-       raise CIMI::Model::NotFound unless template
-       from_db(template, context)
-     end
+      if context.driver.respond_to? :volume_template
+        context.driver.volume_template(context.credentials, id, :env=>context)
+      else
+        template = current_db.volume_templates_dataset.first(:id => id)
+        raise CIMI::Model::NotFound unless template
+        from_db(template, context)
+      end
     end
   end
 
@@ -58,16 +51,13 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
     input = (type == :xml)? XmlSimple.xml_in(body, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(body)
     input['property'] ||= []
     vol_image = input['volumeImage']['href'] if input['volumeImage']
-    new_template = current_db.volume_templates.new(
+    new_template = current_db.add_volume_template(
       :name => input['name'],
       :description => input['description'],
       :volume_config => input['volumeConfig']['href'],
       :volume_image => vol_image,
-      :ent_properties => input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r },
-      :be_kind => 'volume_template',
-      :be_id => ''
+      :ent_properties => JSON::dump(input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
     )
-    new_template.save
     from_db(new_template, context)
   end
 
@@ -84,7 +74,7 @@ private
       :description => model.description,
       :volume_config => {:href => model.volume_config},
       :volume_image => {:href => model.volume_image},
-      :property => model.ent_properties,
+      :property => JSON::parse(model.ent_properties),
       :operations => [
         { :href => context.destroy_volume_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
       ]
