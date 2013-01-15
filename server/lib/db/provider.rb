@@ -1,41 +1,12 @@
 module Deltacloud
   module Database
 
-    class Provider
-      include DataMapper::Resource
-
-      property :id, Serial
-      property :driver, String, :required => true
-      property :url, Text
-
-      has n, :entities
-      has n, :machine_templates
-      has n, :address_templates
-      has n, :volume_configurations
-      has n, :volume_templates
-
-      # This is a workaround for strange bug in Fedora MRI:
-      #
-      def machine_templates
-        MachineTemplate.all(:provider_id => self.id)
-      end
-
-      def address_templates
-        AddressTemplate.all(:provider_id => self.id)
-      end
-
-      def volume_configurations
-        VolumeConfiguration.all(:provider_id => self.id)
-      end
-
-      def volume_templates
-        VolumeTemplate.all(:provider_id => self.id)
-      end
-
-      def entities
-        Entity.all(:provider_id => self.id)
-      end
-
+    class Provider < Sequel::Model
+      one_to_many :entities
+      one_to_many :machine_templates
+      one_to_many :address_templates
+      one_to_many :volume_templates
+      one_to_many :volume_configurations
     end
 
   end

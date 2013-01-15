@@ -1,33 +1,18 @@
 module Deltacloud
   module Database
 
-    class BaseEntity
-      include DataMapper::Resource
+    class Entity < Sequel::Model
 
-      belongs_to :provider
+      many_to_one :provider
 
-      property :id, Serial
-      property :type, Discriminator
-
-      property :be_kind, String, :required => true # => Machine, MachineImage, ...
-      property :be_id, String # => Original Machine 'id'
-
-      timestamps :created_at, :updated_on
-    end
-
-    class Entity < BaseEntity
-
-      belongs_to :provider
-
-      property :name, String
-      property :description, String
-      property :ent_properties, Json
+      plugin :single_table_inheritance, :model
+      plugin :timestamps, :create => :created_at
 
       def to_hash
         retval = {}
         retval.merge!(:name => self.name) if !self.name.nil?
         retval.merge!(:description => self.description) if !self.description.nil?
-        retval.merge!(:property => self.ent_properties) if !self.ent_properties.nil?
+        retval.merge!(:property => JSON::parse(self.ent_properties)) if !self.ent_properties.nil?
         retval
       end
 
