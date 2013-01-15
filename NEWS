@@ -1,3 +1,171 @@
+1.1.0 - 2013-01-15
+ * Deltacloud core server
+    -Added minor tuning for jruby to spawn rake tasks correctly
+    -Added jruby-head target to Travis
+    -Core: Require "json/pure" instead of buggy "json" (DTACLOUD-382)
+    -Adds routes and helpers for segmented blob upload API
+    -Make backtrace in console longer
+    -Core: Fix case when backtrace for 502 exception is not set (DTACLOUD-359)
+    -Fix bug in images show.xml ... hwp.name vs hwp.id
+    -Added .to_hash method to all Deltacloud models .to_hash produce Ruby Hash that can be converted to JSON
+    -Serialize :drivers collection in same way as other collections
+    -Do not use require_relative when full path is given
+    -DTACLOUD-379 - raise and handle 409 instead of 500
+    -Adds error state to state machine model (+openstack)
+    -Added constraints to JSON output (DTACLOUD-410)
+    -DTACLOUD-398 explicitely specify errors not otherwise caught by sinatra
+    -Adds name/description attributes for storage_snapshot entity
+    -Fixed filtering of hwp profiles using architecture (DTACLOUD-414)
+    -Remove the :show operation from :authentication_key definition
+    -Fixed format of reported 403 error
+    -Remove 'set' in deltacloudd when thin is not installed
+    -Print warning when starting as a daemon without thin
+    -Change directory to $top_srcdir when using Webrick
+    -Overide default Rack::Server server to use :webrick
+    -Fixed timestamps and make be_id not required
+
+ * Deltacloud Tests:
+    -Fixed require_relative issue in drivers.
+    -Enable turn for Ruby 1.8
+    -added test for mock buckets
+    -added minitest can_create_bucket in mock driver
+    -updated fixtures for openstack instances - fixes broken build
+    -fixes openstack driver instances test - broken build
+    -Added unit tests for JSON serialization
+    -Fix loading of require_relative on MRI 1.8 in test_helper
+    -fix failing server (white box) tests for storage_snapshot
+    -Initial tests for deltacloudd launcher
+
+ * Deltacloud Client and Client Tests:
+    -tests: removing testing loops using API_URL_REDIRECT
+    -Fixed wrong directory name for tests in gemspec
+    -Fixed 'keys' unit tests
+
+ * Drivers
+    +EC2
+      -EC2: Round down the float value of m2.xlarge hardware_profile (DTACLOUD-373
+      -Adds support for S3 multipart object uploads (segmented blob upload API)
+    +Openstack
+      -support for object-store multipart object uploads (segmented blob upload API)
+      -added support for Openstack block storage volumes
+      -Openstack volumes - catch case where volume attachment unset - thanks Ian Main.
+      -Fix mappings.UNKNOWN mispeeled and add error state to state machine
+    +VSphere
+      -Fixed typo that cause DC to return 404 for all instances
+      -Report MAC addresses together with ipv4 addresses (DTACLOUD-376)
+      -Make API_PROVIDER format consistent with other drivers (DTACLOUD-399)
+      -Return 400 in case that required parameter is missing
+      -Make the 'name' parameter optional
+      -Fixed typo in create_instance method (DTACLOUD-401)
+    +RHEV-M
+      -Keep reporting the MAC addresses when ipv4 address is ready
+      -Fixed VCR fixtures to reflect recent changes in reporting MAC address
+      -support user-level API
+      -Do not advertise :destroy operation when PAUSED (DTACLOUD-355)
+    +FGCP
+      -return IP address immediately; also add arguments to batch files
+      -generate default instance name using timestamp if not user-specified
+    +GoGrid
+      -Switch to use json/pure in gogrid_client
+    +IBM SBC
+      -Make sure the hwp_id is not Nil when creating new instance (DTACLOUD-388)
+    +Mock
+      -Fix reporting wrong hardware profile when creating instances (DTACLOUD-364)
+      -Fix for DTACLOUD-393 - setup of mock fixtures
+      -adds storage_snapshot create/delete in mock driver
+
+ * CIMI API frontend:
+    -Fix hwp.name bug (.name vs .id) in machine_configs
+    -fix issue with machine_configs values - DTACLOUD-369
+    -fix stop/restart actions on Machine (DTACLOUD-367 and DTACLOUD-368)
+    -fix Time parse on Machine model (creation time) - DTACLOUD-370
+    -Fixed problem when generating subcollection
+    -Renamed 'name' attribute to 'key' in resource properties (DTACLOUD-372
+    -Added mandatory 'state' property to MachineImage (DTACLOUD-371)
+    -fix returned 'CIMI-Specification-Version' 1.0.1
+    -tidy up nits in Volumes/VolumeConfigs - especially creation
+    -Fixes nits on MachineImage model - DTACLOUD-378
+    -Fix routes for MachineVolumes - uses rabbit subcollection
+    -fixes MachineVolume:attach/detach operations on Machine model correct generation of MachineVolume collection
+    -exclude created attribute from volume if not returned by driver (fgcp, rhvem)
+    -fixes DELETE route for Volume (+adds delete operation for entries
+    -fix nits - volumes create return 201, volume attach is POST
+    -Initial support for persisting attributes in database
+    -Fix the case when stored attributes are XML
+    -Added MachineTemplate database model
+    -Added MachineTemplate collection and CRUD operations to model
+    -Added support for creating Machine using MachineTemplate
+    -Added sample JSON and XML files to support/cimi
+    -Fixed namespace error in MachineTemplate collection
+    -make CIMI::Model::VolumeImage.find behavie like Machine.find
+    -Moved "/cimi" to "/cimi/cloudEntryPoint" redirect to CEP collection
+    -Adds Volume creation with template and config by value - DTACLOUD-385
+    -collections use grab_content_type helper to guess type if not supplied
+    -make retrieving individual volumes and volume images work again
+    -don't depend on created to have a value as it's optional in cimi
+    -server/lib/cimi/models/machine.rb (from_instance): fix name of delete action
+    -Fix $select filter to undercore attributes (DTACLOUD-391)
+    -Be more carefull when removing persistence data about entity (DTACLOUD-395)
+    -tolerate missing subcollections when parsing
+    -use a helper to produce correct headers for create responses
+    -strictly enforce only xml or json as content-type for message bodies
+    -dont expose 'add' URI for collection if not supported DTACLOUD-400
+    -DTACLOUD-390 Add name when creating volume.
+    -Fix ordering of Collection entries XML elements (DTACLOUD-396)
+    -Add CIMI Features (Sinatra rabbit features DSL
+    -Initial implementation of resource_metadata (capabilities) for Machine
+    -adds create_image (from a running server) + delete
+    -Add database support to Address entity
+    -Added AddressTemplate database model
+    -Added database support for managing AddressTemplate
+    -Initial implementation of 'attributes' in ResourceMetadata
+    -Added 'constraints' to resourceMetadata attributes for realms
+    -Adds create/destroy for volume_image collection+model
+    -Fixed wrong destroy action in AddressTemplate
+    -Added database support for VolumeConfiguration
+    -Added driver and provider to CEP using resourceMetadata
+    -Adds database support for VolumeTemplate (create
+    -Added database support for MachineImage
+    -Added 'created' attribute to MachineTemplate
+
+ * CIMI Tests:
+    -Fixed compare_values() method in tests to use 'key' instead of 'name'
+    -allow forcing a refetch of an existing model
+    -Removed require "json" from tests
+    -API Tests - adds discovery for URIs
+    -(cep_test): do not accss forwarding_group_templates collection
+    -tests add machineTemplates test and selection if no preferred option
+    -tests - add create machineTemplate for scenario
+    -tests adding test ordering and task:cimiplan
+    -do not send any auth header if no user is set
+    -allow setting the Content-Type header for requests
+    -tests/cimi/test_helper.rb (model_class): assert that resourceURI is set
+    -tests/cimi/cep_test.rb: remove duplicate tests and assertions not required by CIMI
+    -check creations against what the spec allows
+    -add content_type helper to RestClient::Response
+    -tests/cimi/test_helper.rb (retrieve): accomodate responses w/o body
+    -fiddle with log format; dump RestClient traffic in debug level
+    -tests/cimi/part3_test.rb: streamline part3
+    -tests add creation of volume with config by value
+    -tests - adding provider detection
+    -tests skip if capability ! supported - DTACLOUD-400
+    -Adds API/black-box test for MachineImage create + delete
+    -test plan (resource metadata - The author of the XSLT (Doug Davis <dug@us.ibm.com>) agreed to licensing the stylesheet http://wstf.org/docs/web/sc2html.xsl under the ASL 2.0
+
+ * CIMI client
+    -created view files for network ports; added network port in entities
+    -Fixed various compatibility issues in CIMI client
+    -UI/HTML client fix (MachineImages show) - DTACLOUD-405
+    -fixed typo for network config url
+
+ * Deltacloud Site
+    -Add note about require_relative gem install for Deltacloud 1.0.5
+    -Update Openstack specific information on drivers page
+    -update contact page with links to deltacloud community call
+    -fix broken link to aeolus wiki for vsphere setup
+    -Adds CIMI REST API and cURL Examples (incomplete)
+    -Fix Deltacloud δ logo
+
 1.0.5 - 2012-11-15
  * Server
    - Added possibility to log into a file (deltacloudd -L option)
