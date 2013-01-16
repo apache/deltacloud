@@ -1,7 +1,7 @@
 module Deltacloud
 
   def self.test_environment?
-    ENV['RACK_ENV'] == 'test' || ENV['DELTACLOUD_NO_DATABASE']
+    ENV['RACK_ENV'] == 'test'
   end
 
   require 'sequel' unless test_environment?
@@ -71,14 +71,4 @@ module Deltacloud
     }
   end
 
-end
-
-unless Deltacloud.test_environment?
-  Deltacloud::initialize_database
-  require_relative './db/provider'
-  require_relative './db/entity'
-  require_relative './db/machine_template'
-  require_relative './db/address_template'
-  require_relative './db/volume_configuration'
-  require_relative './db/volume_template'
 end
