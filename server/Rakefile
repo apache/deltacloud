@@ -206,6 +206,7 @@ namespace :test do
         t.loader = :testrb
       end
       t.test_files = FileList[
+        'tests/cimi/db/*test.rb',            # CIMI frontend database tests
         'tests/cimi/model/*spec.rb',            # CIMI frontend serialization API tests
         'tests/cimi/collections/*test.rb',      # CIMI frontend API tests
       ]
