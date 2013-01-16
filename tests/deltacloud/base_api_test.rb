@@ -22,7 +22,7 @@ describe "Deltacloud API Entry Point" do
 
   # Get the API entrypoint without any authentication
   def get_api(params={})
-    get("/", params.update(:noauth => true))
+    get("/", params) #, params.update(:noauth => true))
   end
 
   it 'return status 200 OK when accessing API entrypoint' do
@@ -111,7 +111,7 @@ describe "Deltacloud API Entry Point" do
 
   it 'must re-validate the driver credentials when using "?force_auth" parameter in URL' do
     proc do
-      get_api(:force_auth => '1')
+      get_api(:noauth=> true, :force_auth => '1')
     end.must_raise RestClient::Request::Unauthorized
 
     res = get("/", :driver => "mock", :force_auth => '1',
@@ -120,10 +120,10 @@ describe "Deltacloud API Entry Point" do
   end
 
   it 'must change the API PROVIDER using the /api;provider matrix parameter in URI' do
-    res = get(";provider=test1", :noauth=>true)
+    res = get(";driver=mock;provider=test1")
     res.xml.root[:provider].wont_be_nil
     res.xml.root[:provider].must_equal 'test1'
-    res = get(";provider=test2", :noauth=>true)
+    res = get(";driver=mock;provider=test2")
     res.xml.root[:provider].must_equal 'test2'
   end
 

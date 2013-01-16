@@ -77,8 +77,20 @@ module Deltacloud
       private
       def xml
         unless @xml
-          @xml = RestClient.get(url).xml
-          drv = @xml.root[:driver]
+          begin
+            @xml = RestClient.get(url).xml
+            drv = @xml.root[:driver]
+          rescue RestClient::Unauthorized => e
+            #need to do this by hand - RestClient only return exception for 4XX
+            #(e.g. Openstack needs creds for /api) - but headers contain driver
+            uri = URI.parse(url)
+            http = Net::HTTP.new(uri.host, uri.port)
+            request = Net::HTTP::Get.new(uri.path)
+            res = http.request(request)
+            drv = res["X-Deltacloud-Driver"]
+            u,p = [@hash[drv]["user"], @hash[drv]["password"]]
+            @xml = RestClient.get(url, {'Authorization' => "Basic #{Base64.encode64("#{u}:#{p}")}"}).xml
+          end
           unless @hash[drv]
             raise "No config for #{drv} driver in config.yaml used by #{url}"
           end
@@ -173,7 +185,6 @@ module Deltacloud::Test::Methods
     end
 
     private
-
     def process_url_params(path, params)
       path = "" if path == "/"
       headers = {}
