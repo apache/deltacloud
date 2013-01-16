@@ -54,7 +54,11 @@ module Deltacloud
         return if model.id.nil?
 
         unless entity = get_entity(model)
-          entity = Deltacloud::Database::Entity.new(:provider_id => current_db.id)
+          entity = Deltacloud::Database::Entity.new(
+            :provider_id => current_db.id,
+            :be_id => model.id,
+            :be_kind => model.to_entity
+          )
         end
 
         entity.description = extract_attribute_value('description', attrs) if attrs.has_key? 'description'
@@ -76,7 +80,13 @@ module Deltacloud
       #
       def extract_attribute_value(name, attrs={})
         return unless attrs[name]
-        attrs[name].is_a?(Array) ? attrs[name].first : attrs[name]
+        if name == 'property'
+          attrs[name].is_a?(Array) ?
+            attrs[name].inject({}) { |r, v| r[v['key']] = v['content']; r} :
+            attrs[name]
+        else
+          attrs[name].is_a?(Array) ? attrs[name].first : attrs[name]
+        end
       end
 
     end
