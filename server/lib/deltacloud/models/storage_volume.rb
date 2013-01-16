@@ -31,6 +31,7 @@ class StorageVolume < BaseModel
   def to_hash(context)
     r = {
       :id => self.id,
+      :href => context.storage_volume_url(self.id),
       :name => name,
       :description => description,
       :state => state,

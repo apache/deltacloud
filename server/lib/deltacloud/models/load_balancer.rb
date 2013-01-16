@@ -30,6 +30,7 @@ class LoadBalancer < BaseModel
   def to_hash(context)
     {
       :id => self.id,
+      :href => context.load_balancer_url(self.id),
       :realms => realms,
       :listeners => listeners.map { |l| l.to_hash(context) },
       :instances => instances.map { |i| i.to_hash(context) },

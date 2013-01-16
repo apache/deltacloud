@@ -31,6 +31,7 @@ class StorageSnapshot < BaseModel
   def to_hash(context)
     {
       :id => self.id,
+      :href => context.storage_snapshot_url(self.id),
       :state => state,
       :storage_volume => { :id => storage_volume_id, :href => context.storage_volume_url(storage_volume_id), :rel => :storage_volume },
       :created => created

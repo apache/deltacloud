@@ -28,6 +28,7 @@ class Address < BaseModel
   def to_hash(context)
     r = {
       :id => self.id,
+      :href => context.address_url(self.id),
       :associated => associated?
     }
     r[:instance_id] = instance_id if associated?

@@ -24,6 +24,7 @@ class Realm < BaseModel
   def to_hash(context)
     {
       :id => self.id,
+      :href => context.realm_url(self.id),
       :name => name,
       :state => state,
       :limit => limit

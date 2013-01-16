@@ -54,6 +54,7 @@ class Key < BaseModel
   def to_hash(context)
     r = {
       :id => self.id,
+      :href => context.key_url(self.id),
       :credential_type => credential_type,
       :username => username,
       :password => password,

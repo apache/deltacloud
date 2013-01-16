@@ -27,6 +27,7 @@ class Blob < BaseModel
   def to_hash(context)
     {
       :id => self.id,
+      :href => context.bucket_url(bucket) + '/' + self.id,
       :bucket => { :rel => :bucket, :href => context.bucket_url(bucket), :id => bucket },
       :content_length => content_length,
       :content_type => content_type,

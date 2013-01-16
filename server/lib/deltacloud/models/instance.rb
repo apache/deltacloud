@@ -41,6 +41,7 @@ class Instance < BaseModel
   def to_hash(context)
     r = {
       :id => self.id,
+      :href => context.instance_url(self.id),
       :name => name,
       :state => state,
       :owner => owner_id,

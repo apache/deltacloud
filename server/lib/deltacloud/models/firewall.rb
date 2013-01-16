@@ -23,6 +23,7 @@ class Firewall < BaseModel
   def to_hash(context)
     r = {
       :id => self.id,
+      :href => context.firewall_url(self.id),
       :name => name,
       :description => description,
       :owner_id => owner_id,

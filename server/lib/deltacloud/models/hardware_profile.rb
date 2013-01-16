@@ -88,6 +88,7 @@ module Deltacloud
     def to_hash(context)
       r = {
         :id => self.id,
+        :href => context.hardware_profile_url(self.id),
         :name => name,
       }
       r.merge!({:properties => @properties}) if !@properties.empty?

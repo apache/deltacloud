@@ -28,6 +28,7 @@ class Image < BaseModel
   def to_hash(context)
     {
       :id => self.id,
+      :href => context.image_url(self.id),
       :name => name,
       :description => description,
       :owner => owner_id,
