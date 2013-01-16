@@ -16,22 +16,29 @@ module Deltacloud
   end
 
   def self.initialize_database
+    db = database
 
-    database.create_table?(:providers) {
+    db.create_table?(:providers) {
       primary_key :id
 
       column :driver, :string, { :null => false }
       column :url, :string
-      index [ :url, :driver ]
+      index [ :url, :driver ] if !db.table_exists?(:providers)
     }
 
-    database.create_table?(:entities) {
+    db.create_table?(:entities) {
       primary_key :id
-      foreign_key :provider_id, :providers, { :index => true, :null => false }
+
+      unless db.table_exists?(:entities)
+        foreign_key :provider_id, :providers, { :index => true, :null => false }
+      end
+
       column :created_at, :timestamp
 
       # Base
-      column :model, :string, { :index => true, :null => false, :default => 'entity' }
+      unless db.table_exists?(:entities)
+        column :model, :string, { :index => true, :null => false, :default => 'entity' }
+      end
 
       # Map Entity to Deltacloud model
       # (like: Machine => Instance)
