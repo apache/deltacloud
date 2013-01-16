@@ -64,15 +64,15 @@ class Instance < BaseModel
     }
     r.merge!(:launch_time => launch_time)
     r.merge!(:create_image => create_image) if create_image
-    r.merge!(:firewalls => firewalls.map { |f| { :id => f.id, :href => context.firewall_url(f.id), :rel => :firewall }}) if firewalls
+    r.merge!(:firewalls => firewalls.map { |f| { :id => f, :href => context.firewall_url(f), :rel => :firewall }}) if firewalls
     if storage_volumes
-      r.merge!(:storage_volumes => storage_volumes.map { |f| { :id => f.id, :href => context.storage_volume_url(f.id), :rel => :storage_volume }})
+      r.merge!(:storage_volumes => storage_volumes.map { |v| { :id => v.keys.first, :href => context.storage_volume_url(v.keys.first), :rel => :storage_volume }})
     end
     if context.driver.class.has_feature?(:instances, :authentication_key)
       r.merge!(:authentication => { :keyname => keyname }) if keyname
     end
     if context.driver.class.has_feature?(:instances, :authentication_password)
-      r.merge!(:authentication => { :user => username, :password => password }) if user
+      r.merge!(:authentication => { :user => username, :password => password }) if username
     end
     r
   end
