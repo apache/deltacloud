@@ -4,8 +4,11 @@ module Deltacloud
     ENV['RACK_ENV'] == 'test'
   end
 
-  require 'sequel' unless test_environment?
-  require 'logger'
+  unless test_environment?
+    require 'sequel'
+    require 'logger'
+    Sequel::Model.plugin :validation_class_methods
+  end
 
   DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
     'sqlite://'+File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
