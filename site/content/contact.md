@@ -53,3 +53,8 @@ Debugging deltacloud - how to chase a bug - common steps, debugging tools. Maili
 <a href="http://www.youtube.com/watch?v=oP__wuCqFxQ">Deltacloud Community Call #5</a>
 
 How to file bug reports for Deltacloud - process, what to report, following up and CIMI resourceMetadata (implementation, why it is important?) - testing scenarios.
+
+<br>
+<a href="http://www.youtube.com/watch?v=YbAsWrj6UEY">Deltacloud Community Call #7</a>
+
+The Deltacloud website - how it works, how to submit changes etc  -  Deltacloud exceptions and error handling introduction, how to catch provider errors and raise specific HTTP response codes.
