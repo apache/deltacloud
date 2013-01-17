@@ -90,7 +90,7 @@
         %fieldset{ :'data-role' => :fieldcontain}
           - @hardware_profiles.each do |profile|
             %input{ :type => :radio, :name => 'hwp_id', :value => profile.id, :id => profile.name, :'data-theme' => 'b'}/
-            %label{ :for => profile.name, :onclick => "expandHWP('#{profile.name}');"}=profile.name
+            %label{ :for => profile.name, :onclick => "expandHWP('#{profile.name}');"}="#{profile.name} - #{profile.memory} MB"
             %div{ :'data-role' => :fieldcontain, :id => "property_container_#{profile.name}", :class => 'hwp_properties'}
 
     - if !@realms.empty?
