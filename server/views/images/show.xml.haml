@@ -15,4 +15,5 @@
         %hardware_profile{ :href => hardware_profile_url(profile.id), :id => profile.id, :rel => :hardware_profile }
   %actions
     %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{@image.id}"}
-    %link{ :rel => 'destroy_image', :method => :delete, :href => "#{destroy_image_url(@image.id)}" }
+    - if driver.respond_to? :destroy_image
+      %link{ :rel => 'destroy_image', :method => :delete, :href => "#{destroy_image_url(@image.id)}" }
