@@ -69,8 +69,10 @@ describe Deltacloud::Collections::Instances do
     json['instance'].wont_be_empty
     Instance.attributes.each do |attr|
       attr = attr.to_s.gsub(/_id$/,'') if attr.to_s =~ /_id$/
-      next if ['authn_error', 'firewalls', 'keyname', 'username', 'password'].include?(attr.to_s)
+      next if ['launch_time', 'authn_error', 'firewalls', 'keyname', 'username', 'password', 'instance_profile'].include?(attr.to_s)
       json['instance'].keys.must_include attr.to_s
+      json['instance'].keys.must_include 'create_image'
+      json['instance'].keys.must_include 'hardware_profile'
     end
   end
 end
