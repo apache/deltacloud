@@ -101,14 +101,14 @@
 
 <h3 id="cimi-entry-point">CIMI Resources and Collections</h3>
 
-<p> We are continually improving CIMI support in Deltacloud. If you come across any inconsistencies or errors in the Deltacloud CIMI implementation we'll be very glad to <a href="contact.html">hear about them</a>.</p>
+<p> We are continually improving CIMI support in Deltacloud. If you come across any inconsistencies or errors in the Deltacloud CIMI implementation we'll be very glad to <a href="../contact.html">hear about them</a>.</p>
 
 <p>
-In the following sections, the textual definitions following the title of each resource (e.g. "Machine") that are rendered in bold and italic type are taken from the CIMI 1.0.1 specification, available from the DMTF <a href="http://dmtf.org/cloud">Cloud Management Initiative</a> (DSP0263).
+In the following sections, the textual definitions following the title of each resource (e.g. "Machine") that are rendered in <strong><em>bold and italic type</em></strong> are taken from the CIMI 1.0.1 specification, available from the DMTF <a href="http://dmtf.org/cloud">Cloud Management Initiative</a> (DSP0263).
 </p>
 
 <hr>
-<h3 id="cimi-machine">Machine</h3>
+<br><br><h3 id="cimi-machine">Machine</h3>
 <p>
 <strong><em>
 An instantiated compute resource that encapsulates both CPU and Memory.
@@ -124,13 +124,29 @@ A Machine Collection resource represents the collection of Machine resources wit
 <li class="nav-header">
     CIMI REST API
   </li>
-  <li><a href="cimi-rest.html">Introduction</a></li>
+  <li><a href="../cimi-rest.html">Introduction</a></li>
   <li><a href="cimi-rest-entry-point.html">Cloud Entry Point</a></li>
-  <li><a href="cimi-rest-collections.html">CIMI Resources</a></li>
-    <ul class="nav nav-list">
-<li class="active"><a href="cimi-rest-collections.html">Machine</a></li>
-      <li><a href="cimi-rest-machine-images.html">MachineImage</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      CIMI Resources
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+<li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="cimi-rest-collections.html">Machine</a></li>
+      <li><a href="cimi-rest-volumes.html">Volume</a></li>
     </ul>
+</li>
+  <hr>
+<li class="nav-header">
+    Machine Resources
+  </li>
+  <ul class="nav nav-list">
+<li class="active"><a href="cimi-rest-collections.html">Machine</a></li>
+    <li><a href="cimi-rest-machine-images.html">MachineImage</a></li>
+    <li><a href="cimi-rest-machine-configs.html">MachineConfiguration</a></li>
+    <li><a href="cimi-rest-machine-templates.html">MachineTemplate</a></li>
+  </ul>
 </ul>
 </div>
 
@@ -141,6 +157,7 @@ A Machine Collection resource represents the collection of Machine resources wit
   <li><a href="#single-machine" data-toggle="tab">Retrieve a single Machine</a></li>
   <li><a href="#create-machine" data-toggle="tab">Create a new Machine</a></li>
   <li><a href="#machine-action" data-toggle="tab">Perform a Machine Operation</a></li>
+  <li><a href="#machine-volumes" data-toggle="tab">Work with Machine Volumes</a></li>
 </ul><hr><div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
@@ -381,6 +398,132 @@ Server: thin 1.5.0 codename Knife
 
   </div>
 
+  <div class="tab-pane" id="machine-volumes">
+
+  <h4>Work with Machine Volumes</h4>
+
+  <p>Retrieve the MachineVolume Collection </p>
+
+  <p>Example request:</p>
+
+  <pre>
+GET /cimi/machines/inst1/volumes HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Accept: application/xml
+  </pre>
+
+  <p>Server response:</p>
+  <pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+CIMI-Specification-Version: 1.0.1
+Content-Length: 747
+ETag: 8e2d333a3747634c04942b7d219a8d59
+Cache-Control: max-age=0, private, must-revalidate
+Date: Fri, 18 Jan 2013 14:50:26 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;Collection xmlns="http://schemas.dmtf.org/cimi/1"
+          resourceURI="http://schemas.dmtf.org/cimi/1/MachineVolumeCollection"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/machines/inst1/volumes&lt;/id&gt;
+  &lt;count&gt;1&lt;/count&gt;
+  &lt;MachineVolume&gt;
+    &lt;id&gt;http://localhost:3001/cimi/machines/inst1/volumes/vol3&lt;/id&gt;
+    &lt;name&gt;vol3&lt;/name&gt;
+    &lt;description&gt;MachineVolume vol3 for Machine inst1&lt;/description&gt;
+    &lt;created&gt;2009-07-30T14:35:11Z&lt;/created&gt;
+    &lt;initialLocation&gt;/dev/sda1&lt;/initialLocation&gt;
+    &lt;volume href="http://localhost:3001/cimi/volumes/vol3" /&gt;
+    &lt;operation rel="delete" href="http://localhost:3001/cimi/machines/inst1/volumes/vol3" /&gt;
+  &lt;/MachineVolume&gt;
+  &lt;operation rel="add" href="http://localhost:3001/cimi/machines/inst1/volume_attach" /&gt;
+&lt;/Collection&gt;
+  </pre>
+
+<br><hr>
+<p>Attach a Volume to a Machine - aka add a new MachineVolume to the MachineVolumeCollection of a specific Machine resource </p>
+
+  <p>Example request:</p>
+  <pre>
+
+POST /cimi/machines/inst1/volume_attach HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Content-Type: application/xml
+Accept: application/xml
+Content-Length: 186
+
+&lt;MachineVolume xmlns="http://schemas.dmtf.org/cimi/1/MachineVolume"&gt;
+  &lt;initialLocation&gt; /dev/sdf &lt;/initialLocation&gt;
+  &lt;volume href="http://localhost:3001/cimi/volumes/vol3"/&gt;
+&lt;/MachineVolume&gt;
+  </pre>
+
+  <p>Server response:</p>
+  <pre>
+
+HTTP/1.1 201 Created
+Content-Type: application/xml
+Location: http://localhost:3001/cimi/machines/inst1/volumes/vol3
+CIMI-Specification-Version: 1.0.1
+Content-Length: 522
+ETag: cba6ca3186fa1ca3b7caf6b19e857139
+Cache-Control: max-age=0, private, must-revalidate
+Date: Fri, 18 Jan 2013 14:56:52 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;MachineVolume xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/MachineVolume"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/machines/inst1/volumes/vol3&lt;/id&gt;
+  &lt;name&gt;vol3&lt;/name&gt;
+  &lt;description&gt;MachineVolume vol3 for Machine inst1&lt;/description&gt;
+  &lt;created&gt;2009-07-30T14:35:11Z&lt;/created&gt;
+  &lt;initialLocation&gt;/dev/sdf&lt;/initialLocation&gt;
+  &lt;volume href="http://localhost:3001/cimi/volumes/vol3" /&gt;
+  &lt;operation rel="delete" href="http://localhost:3001/cimi/machines/inst1/volumes/vol3" /&gt;
+&lt;/MachineVolume&gt;
+
+  </pre>
+
+
+<br><hr>
+<p>Detach a Volume from a Machine - aka remove a MachineVolume from the MachineVolumeCollection of a specific Machine resource </p>
+
+  <p>Example request:</p>
+  <pre>
+DELETE /cimi/machines/inst1/volumes/vol3 HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Accept: application/xml
+
+  </pre>
+
+  <p>Server response:</p>
+
+  <pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+CIMI-Specification-Version: 1.0.1
+Content-Length: 304
+ETag: 011fb5daa52162644aeb170c86dc08ce
+Cache-Control: max-age=0, private, must-revalidate
+Date: Fri, 18 Jan 2013 17:11:02 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;Collection xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/MachineVolumeCollection"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/machines/inst1/volumes&lt;/id&gt;
+  &lt;count&gt;0&lt;/count&gt;
+  &lt;operation rel="add" href="http://localhost:3001/cimi/machines/inst1/volume_attach" /&gt;
+&lt;/Collection&gt;
+
+  </pre>
+  </div>
 
 </div>
 

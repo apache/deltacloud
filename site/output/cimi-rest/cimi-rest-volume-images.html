@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CIMI Resource Collections - Volume Image</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li><a href="/download.html">Download</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">CIMI<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/cimi-rest.html">CIMI REST API</a></li>
+      <li><a href="/cimi-curl.html">CIMI cURL Examples</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<div class="row">
+  <div class="span9">
+
+<h3 id="cimi-volume-image">Volume Image</h3>
+<p>
+<strong><em>
+This resource represents an image that could be placed on a pre-loaded volume.
+<br><br>
+A Volume Image Collection resource represents the collection of Volume Image resources within a
+Provider.
+</em></strong>
+</p>
+
+  </div>
+  <div class="span3">
+
+
+<ul class="nav nav-list well">
+<li class="nav-header">
+    CIMI REST API
+  </li>
+  <li><a href="../cimi-rest.html">Introduction</a></li>
+  <li><a href="cimi-rest-entry-point.html">Cloud Entry Point</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      CIMI Resources
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+<li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="cimi-rest-collections.html">Machine</a></li>
+      <li><a href="cimi-rest-volumes.html">Volume</a></li>
+    </ul>
+</li>
+  <hr>
+<li class="nav-header">
+    Volume Resources
+  </li>
+  <ul class="nav nav-list">
+<li><a href="cimi-rest-volumes.html">Volume</a></li>
+    <li class="active"><a href="cimi-rest-volume-images.html">VolumeImage</a></li>
+    <li><a href="cimi-rest-volume-configs.html">VolumeConfiguration</a></li>
+    <li><a href="cimi-rest-volume-templates.html">VolumeTemplate</a></li>
+  </ul>
+</ul>
+</div>
+
+</div>
+
+<ul class="nav nav-pills">
+<li class="active"><a href="#volume-image-collection" data-toggle="tab">Retrieve the Volume Image Collection</a></li>
+  <li><a href="#single-volume-image" data-toggle="tab">Retrieve a single Volume Image</a></li>
+  <li><a href="#create-volume-image" data-toggle="tab">Create a Volume Image</a></li>
+  <li><a href="#delete-volume-image" data-toggle="tab">Delete a Volume Image</a></li>
+</ul><hr><div class="tab-content">
+
+  <div class="tab-pane active" id="volume-image-collection">
+
+<h4>Retrieve the Volume Image Collection</h4>
+
+<p>Example request:</p>
+
+<pre>
+GET /cimi/volume_images HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Accept: application/xml
+</pre>
+
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+CIMI-Specification-Version: 1.0.1
+Content-Length: 1095
+ETag: ae3be87f858bb7c9b1000e5409c497f9
+Cache-Control: max-age=0, private, must-revalidate
+Date: Mon, 07 Jan 2013 15:18:00 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;Collection xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/VolumeImageCollection"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/volume_images&lt;/id&gt;
+  &lt;count&gt;3&lt;/count&gt;
+  &lt;VolumeImage&gt;
+    &lt;id&gt;http://localhost:3001/cimi/volume_images/snap1&lt;/id&gt;
+    &lt;name&gt;snap1&lt;/name&gt;
+    &lt;description&gt;snap1&lt;/description&gt;
+    &lt;created&gt;2009-07-29T18:15:24Z&lt;/created&gt;
+    &lt;imageLocation href="http://localhost:3001/cimi/volumes/vol1" /&gt;
+    &lt;bootable&gt;false&lt;/bootable&gt;
+  &lt;/VolumeImage&gt;
+  &lt;VolumeImage&gt;
+    &lt;id&gt;http://localhost:3001/cimi/volume_images/snap3&lt;/id&gt;
+    &lt;name&gt;snap3&lt;/name&gt;
+    &lt;description&gt;snap3&lt;/description&gt;
+    &lt;created&gt;2009-07-29T18:15:24Z&lt;/created&gt;
+    &lt;imageLocation href="http://localhost:3001/cimi/volumes/vol2" /&gt;
+    &lt;bootable&gt;false&lt;/bootable&gt;
+  &lt;/VolumeImage&gt;
+  &lt;VolumeImage&gt;
+    &lt;id&gt;http://localhost:3001/cimi/volume_images/snap2&lt;/id&gt;
+    &lt;name&gt;snap2&lt;/name&gt;
+    &lt;description&gt;snap2&lt;/description&gt;
+    &lt;created&gt;2009-07-29T18:15:24Z&lt;/created&gt;
+    &lt;imageLocation href="http://localhost:3001/cimi/volumes/vol2" /&gt;
+    &lt;bootable&gt;false&lt;/bootable&gt;
+  &lt;/VolumeImage&gt;
+&lt;/Collection&gt;
+</pre>
+
+  </div>
+
+
+  <div class="tab-pane active" id="single-volume-image">
+
+<h4>Retrieve a single Volume Image</h4>
+
+<p>Example request:</p>
+
+<pre>
+GET /cimi/volume_images/snap2 HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu) libcurl/7.24.0 NSS/3.13.5.0 zlib/1.2.5 libidn/1.24 libssh2/1.4.1
+Host: localhost:3001
+Accept: application/xml
+</pre>
+
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+CIMI-Specification-Version: 1.0.1
+Content-Length: 377
+ETag: 134b5cae11297fd59b2a783a0ee430ed
+Cache-Control: max-age=0, private, must-revalidate
+Date: Tue, 08 Jan 2013 13:40:54 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;VolumeImage xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/VolumeImage"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/volume_images/snap1&lt;/id&gt;
+  &lt;name&gt;snap1&lt;/name&gt;
+  &lt;description&gt;snap1&lt;/description&gt;
+  &lt;created&gt;2009-07-29T18:15:24Z&lt;/created&gt;
+  &lt;imageLocation href="http://localhost:3001/cimi/volumes/vol1" /&gt;
+  &lt;bootable&gt;false&lt;/bootable&gt;
+&lt;/VolumeImage&gt;
+</pre>
+
+  </div>
+
+  <div class="tab-pane active" id="create-volume-image">
+
+<h4>Create a Volume Image</h4>
+
+<p>A new Volume Image can be created from an existing Volume, by referencing the Volume
+resource with the imageLocation attribute in the message body. This is illustrated in
+the example below.</p>
+
+<p>Example request:</p>
+
+<pre>
+POST /cimi/volume_images HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu) libcurl/7.24.0 NSS/3.13.5.0 zlib/1.2.5 libidn/1.24 libssh2/1.4.1
+Host: localhost:3001
+Content-Type: application/xml
+Accept: application/xml
+Content-Length: 210
+
+&lt;VolumeImage xmlns="http://schemas.dmtf.org/cimi/1"&gt;
+  &lt;name&gt; my_vol_image &lt;/name&gt;
+  &lt;description&gt; marios first volume image &lt;/description&gt;
+  &lt;imageLocation href="http://localhost:3001/cimi/volumes/vol1"/&gt;
+&lt;/VolumeImage&gt;
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 201 Created
+Content-Type: application/xml
+Location: http://localhost:3001/cimi/volume_images/store_snapshot_1357663577
+CIMI-Specification-Version: 1.0.1
+Content-Length: 429
+ETag: 5d4bdca8ed98295d1c463012bb8ff427
+Cache-Control: max-age=0, private, must-revalidate
+Date: Tue, 08 Jan 2013 16:46:17 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;VolumeImage xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/VolumeImage"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/volume_images/store_snapshot_1357663577&lt;/id&gt;
+  &lt;name&gt;my_vol_image&lt;/name&gt;
+  &lt;description&gt;marios first volume image&lt;/description&gt;
+  &lt;created&gt;2013-01-08T18:46:17+02:00&lt;/created&gt;
+  &lt;imageLocation href="http://localhost:3001/cimi/volumes/vol1" /&gt;
+  &lt;bootable&gt;false&lt;/bootable&gt;
+&lt;/VolumeImage&gt;
+</pre>
+
+  </div>
+
+  <div class="tab-pane active" id="delete-volume-image">
+
+<h4>Delete a Volume Image</h4>
+
+<p>Example request:</p>
+
+<pre>
+DELETE /cimi/volume_images/snap1 HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu) libcurl/7.24.0 NSS/3.13.5.0 zlib/1.2.5 libidn/1.24 libssh2/1.4.1
+Host: localhost:3001
+Accept: application/xml
+</pre>
+
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: text/html;charset=utf-8
+CIMI-Specification-Version: 1.0.1
+Content-Length: 0
+Date: Wed, 09 Jan 2013 15:45:32 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+</pre>
+
+  </div>
+
+</div>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.salasaga.org/aeolus/piwik/" : "http://stats.salasaga.org/aeolus/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://stats.salasaga.org/aeolus/piwik/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+  </body>
+</html>

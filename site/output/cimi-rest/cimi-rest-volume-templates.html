@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CIMI Resource Collections - Volume Template</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le JavaScript -->
+    <script src="/assets/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/assets/js/jquery.tweet.js" type="text/javascript"></script>
+    <script src="/assets/js/application.js" type="text/javascript"></script>
+    <script src="/assets/js/bootstrap-transition.js"></script>
+    <script src="/assets/js/bootstrap-alert.js"></script>
+    <script src="/assets/js/bootstrap-modal.js"></script>
+    <script src="/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/assets/js/bootstrap-tab.js"></script>
+    <script src="/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/assets/js/bootstrap-popover.js"></script>
+    <script src="/assets/js/bootstrap-button.js"></script>
+    <script src="/assets/js/bootstrap-collapse.js"></script>
+    <script src="/assets/js/bootstrap-carousel.js"></script>
+    <script src="/assets/js/bootstrap-typeahead.js"></script>
+
+    <!-- Le styles -->
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/application.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/img/favicon.ico">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/"><img src="/assets/img/logo.png" width="152"
+            alt="Deltacloud API"/></a>
+          <ul class="nav top-nav">
+  <li><a href="/">Home</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/about.html">What is Deltacloud?</a></li>
+      <li><a href="/supported-providers.html">Supported Providers</a></li>
+    </ul>
+  </li>
+  <li><a href="/download.html">Download</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Installation<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/install-deltacloud.html">Install Deltacloud</a></li>
+      <li><a href="/run-deltacloud-server.html">Run the Deltacloud Server</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="/usage.html" class="dropdown-toggle" data-toggle="dropdown">Usage<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/usage.html#usingapi">Using API</a></li>
+      <li><a href="/usage.html#clients">Client Libraries</a></li>
+      <li><a href="/command-tools.html">Command Line Tools</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contribute<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/getting-sources.html">Getting Sources</a></li>
+      <li><a href="/how-to-contribute.html">How Can I Contribute?</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/drivers.html">Drivers API</a></li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">CIMI<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+      <li><a href="/cimi-rest.html">CIMI REST API</a></li>
+      <li><a href="/cimi-curl.html">CIMI cURL Examples</a></li>
+    </ul>
+  </li>
+  <li><a href="/contact.html">Contact</a></li>
+</ul>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container content">
+
+      <p><br></p>
+
+<div class="row">
+  <div class="span9">
+
+<h3 id="cimi-volume-template">Volume Template</h3>
+<p>
+<strong><em>
+This resource captures the configuration values for realizing a Volume. A Volume Template may be used
+to create multiple Volumes.
+<br><br>
+A Volume Template Collection resource represents the collection of VolumeTemplate resources within a
+Provider.
+</em></strong>
+</p>
+
+<p>The Volume Template in another example of the template pattern used by CIMI, as explained in the introduction of the <a href="cimi-rest-machine-templates.html">Machine Template</a> resource. That is, in general, CIMI a resource is instantiated with the use of a template and a template itself usually consists of an image and a configuration.</p>
+  </div>
+  <div class="span3">
+
+
+<ul class="nav nav-list well">
+<li class="nav-header">
+    CIMI REST API
+  </li>
+  <li><a href="../cimi-rest.html">Introduction</a></li>
+  <li><a href="cimi-rest-entry-point.html">Cloud Entry Point</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      CIMI Resources
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+<li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="cimi-rest-collections.html">Machine</a></li>
+      <li><a href="cimi-rest-volumes.html">Volume</a></li>
+    </ul>
+</li>
+  <hr>
+<li class="nav-header">
+    Volume Resources
+  </li>
+  <ul class="nav nav-list">
+<li><a href="cimi-rest-volumes.html">Volume</a></li>
+    <li><a href="cimi-rest-volume-images.html">VolumeImage</a></li>
+    <li><a href="cimi-rest-volume-configs.html">VolumeConfiguration</a></li>
+    <li class="active"><a href="cimi-rest-volume-templates.html">VolumeTemplate</a></li>
+  </ul>
+</ul>
+</div>
+
+</div>
+
+<ul class="nav nav-pills">
+<li class="active"><a href="#volume-template-collection" data-toggle="tab">Retrieve the Volume Template Collection</a></li>
+  <li><a href="#single-volume-template" data-toggle="tab">Retrieve a single Volume Template</a></li>
+  <li><a href="#create-volume-template" data-toggle="tab">Create a Volume Template</a></li>
+  <li><a href="#delete-volume-template" data-toggle="tab">Delete a Volume Template</a></li>
+
+</ul><hr><div class="tab-content">
+
+  <div class="tab-pane active" id="volume-template-collection">
+
+<h4>Retrieve the Volume Template Collection</h4>
+
+<p>Example request:</p>
+
+<pre>
+GET /cimi/volume_templates HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Accept: application/xml
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+CIMI-Specification-Version: 1.0.1
+Content-Length: 1045
+ETag: 3ca6eecb1450ebe3a9fa6714bff542c1
+Cache-Control: max-age=0, private, must-revalidate
+Date: Fri, 11 Jan 2013 13:02:47 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;Collection xmlns="http://schemas.dmtf.org/cimi/1"
+          resourceURI="http://schemas.dmtf.org/cimi/1/VolumeTemplateCollection"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/volume_templates&lt;/id&gt;
+  &lt;count&gt;2&lt;/count&gt;
+  &lt;VolumeTemplate&gt;
+    &lt;id&gt;http://localhost:3001/cimi/volume_templates/3&lt;/id&gt;
+    &lt;name&gt;marios_vol_template&lt;/name&gt;
+    &lt;description&gt;my first volume template&lt;/description&gt;
+    &lt;volumeConfig href="http://localhost:3001/cimi/volume_configs/1" /&gt;
+    &lt;operation rel="http://schemas.dmtf.org/cimi/1/action/delete"
+          href="http://localhost:3001/cimi/volume_templates/3" /&gt;
+  &lt;/VolumeTemplate&gt;
+  &lt;VolumeTemplate&gt;
+    &lt;id&gt;http://localhost:3001/cimi/volume_templates/4&lt;/id&gt;
+    &lt;name&gt;YAVT&lt;/name&gt;
+    &lt;description&gt;yet another volume template&lt;/description&gt;
+    &lt;volumeConfig href="http://localhost:3001/cimi/volume_configs/6" /&gt;
+    &lt;operation rel="http://schemas.dmtf.org/cimi/1/action/delete"
+          href="http://localhost:3001/cimi/volume_templates/4" /&gt;
+  &lt;/VolumeTemplate&gt;
+  &lt;operation rel="add" href="http://localhost:3001/cimi/volume_templates" /&gt;
+&lt;/Collection&gt;
+</pre>
+
+  </div>
+
+  <div class="tab-pane" id="single-volume-template">
+
+<h4>Retrieve a single Volume Template</h4>
+
+<p>Example request:</p>
+
+<pre>
+GET /cimi/volume_templates/3 HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Accept: application/xml
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/xml
+CIMI-Specification-Version: 1.0.1
+Content-Length: 470
+ETag: a527b1170f798affc88a0ea0fa4ede7a
+Cache-Control: max-age=0, private, must-revalidate
+Date: Fri, 11 Jan 2013 13:05:42 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;VolumeTemplate xmlns="http://schemas.dmtf.org/cimi/1"
+          resourceURI="http://schemas.dmtf.org/cimi/1/VolumeTemplate"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/volume_templates/3&lt;/id&gt;
+  &lt;name&gt;marios_vol_template&lt;/name&gt;
+  &lt;description&gt;my first volume template&lt;/description&gt;
+  &lt;volumeConfig href="http://localhost:3001/cimi/volume_configs/1" /&gt;
+  &lt;operation rel="http://schemas.dmtf.org/cimi/1/action/delete"
+          href="http://localhost:3001/cimi/volume_templates/3" /&gt;
+&lt;/VolumeTemplate&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane" id="create-volume-template">
+
+<h4>Create a Volume Template</h4>
+
+<p>Example request:</p>
+
+<pre>
+POST /cimi/volume_templates HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Content-Type: application/xml
+Accept: application/xml
+Content-Length: 232
+
+&lt;VolumeTemplate xmlns="http://schemas.dmtf.org/cimi/1"&gt;
+  &lt;name&gt; YAVT &lt;/name&gt;
+  &lt;description&gt; yet another volume template &lt;/description&gt;
+  &lt;volumeConfig href="http://localhost:3001/cimi/volume_configs/6"&gt; &lt;/volumeConfig&gt;
+&lt;/VolumeTemplate&gt;
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 201 Created
+Content-Type: application/xml
+Location: http://localhost:3001/cimi/volume_templates/5
+CIMI-Specification-Version: 1.0.1
+Content-Length: 458
+ETag: 66d7d08c49a5e81923ac124d71af50ad
+Cache-Control: max-age=0, private, must-revalidate
+Date: Fri, 11 Jan 2013 13:07:00 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+
+&lt;VolumeTemplate xmlns="http://schemas.dmtf.org/cimi/1"
+          resourceURI="http://schemas.dmtf.org/cimi/1/VolumeTemplate"&gt;
+  &lt;id&gt;http://localhost:3001/cimi/volume_templates/5&lt;/id&gt;
+  &lt;name&gt;YAVT&lt;/name&gt;
+  &lt;description&gt;yet another volume template&lt;/description&gt;
+  &lt;volumeConfig href="http://localhost:3001/cimi/volume_configs/6" /&gt;
+  &lt;operation rel="http://schemas.dmtf.org/cimi/1/action/delete"
+          href="http://localhost:3001/cimi/volume_templates/5" /&gt;
+&lt;/VolumeTemplate&gt;
+</pre>
+
+  </div>
+  <div class="tab-pane" id="delete-volume-template">
+
+<h4>Delete a Volume Template</h4>
+
+<p>Example request:</p>
+
+<pre>
+DELETE /cimi/volume_templates/5 HTTP/1.1
+Authorization: Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+User-Agent: curl/7.24.0 (i686-redhat-linux-gnu)
+Host: localhost:3001
+Accept: application/xml
+</pre>
+
+<p>Server response:</p>
+
+<pre>
+HTTP/1.1 200 OK
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: text/html;charset=utf-8
+CIMI-Specification-Version: 1.0.1
+Content-Length: 0
+Date: Fri, 11 Jan 2013 13:07:34 GMT
+Connection: keep-alive
+Server: thin 1.5.0 codename Knife
+</pre>
+
+  </div>
+</div>
+
+      <footer class="footer">
+        <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
+        <div class='row'>
+          <div class='span3'>
+            <img src="/assets/img/asf.png" alt="Apache Software Foundation"/>
+          </div>
+          <div class='span9'>
+            <strong>Apache Deltacloud</strong> is a top-level project at the <a
+              href="http://www.apache.org">Apache Software Foundation</a>,
+            having graduated from the ASF Incubator in October
+            2011. Through a collaborative and meritocratic development process, Apache
+            projects deliver enterprise-grade, freely available software products that
+            attract large communities of users. 
+          </div>
+        </div>
+      </footer>
+
+    </div> <!-- /container -->
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stats.salasaga.org/aeolus/piwik/" : "http://stats.salasaga.org/aeolus/piwik/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 2);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://stats.salasaga.org/aeolus/piwik/piwik.php?idsite=2" style="border:0" alt="" /></p></noscript>
+<!-- End Piwik Tracking Code -->
+
+  </body>
+</html>

@@ -26,13 +26,25 @@ Apache Deltacloud exposes the DMTF <a href="http://dmtf.org/cloud">Cloud Infrast
 
   <div class="span3">
 
+
 <ul class="nav nav-list well">
   <li class="nav-header">
     CIMI REST API
   </li>
   <li class="active"><a href="/cimi-rest.html">Introduction</a></li>
-  <li><a href="/cimi-rest-entry-point.html">Cloud Entry Point</a></li>
-  <li><a href="/cimi-rest-collections.html">CIMI Resources</a></li>
+  <li><a href="/cimi-rest/cimi-rest-entry-point.html">Cloud Entry Point</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      CIMI Resources
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="/cimi-rest/cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="/cimi-rest/cimi-rest-collections.html">Machine</a></li>
+      <li><a href="/cimi-rest/cimi-rest-volumes.html">Volume</a></li>
+    </ul>
+  </li>
+
 </ul>
 
   </div>
@@ -40,6 +52,11 @@ Apache Deltacloud exposes the DMTF <a href="http://dmtf.org/cloud">Cloud Infrast
 </div>
 <p>
 This page shows examples of interactions with the CIMI interface exposed by a Deltacloud server. The examples here cover the CIMI resources and collections that are currently supported in Deltacloud; we are constantly improving our CIMI implementation. If you come across any bugs or inconsistencies we'd be very happy to <a href="/contact.html">hear about them</a>.
+</p>
+
+
+<p>
+In the following sections, the textual definitions following the title of each resource (e.g. "Machine") that are rendered in <strong><em>bold and italic type</em></strong> are taken from the CIMI 1.0.1 specification, available from the DMTF <a href="http://dmtf.org/cloud">Cloud Management Initiative</a> (DSP0263).
 </p>
 
 <hr>

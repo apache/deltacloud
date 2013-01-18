@@ -28,8 +28,19 @@ A deltacloud server exposes the CIMI Cloud Entry Point at /cimi/cloudEntryPoint.
     CIMI REST API
   </li>
   <li><a href="/cimi-rest.html">Introduction</a></li>
-  <li class="active"><a href="/cimi-rest-entry-point.html">Cloud Entry Point</a></li>
-  <li><a href="/cimi-rest-collections.html">CIMI Resources</a></li>
+  <li class="active"><a href="/cimi-rest/cimi-rest-entry-point.html">Cloud Entry Point</a></li>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      CIMI Resources
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="/cimi-rest/cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="/cimi-rest/cimi-rest-collections.html">Machine</a></li>
+      <li><a href="/cimi-rest/cimi-rest-volumes.html">Volume</a></li>
+    </ul>
+  </li>
+
 </ul>
 
   </div>
