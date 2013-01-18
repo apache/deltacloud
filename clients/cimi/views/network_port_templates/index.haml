@@ -1,0 +1,23 @@
+- @title=collection_name @network_port_templates
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      NetworkPortTemplateCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@network_port_templates.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network_port_templates.id}?format=json", :class => 'label warning' } JSON
+
+%ul
+  - @network_port_templates.network_port_templates.each do |template|
+    %li
+      %a{ :href => "/cimi/network_port_templates/#{href_to_id(template.id)}"}=href_to_id(template.id)
+
+-details do
+  -row 'ID', @network_port_templates.id
+  -row 'Count', @network_port_templates.count

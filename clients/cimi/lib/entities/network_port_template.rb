@@ -13,29 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::NetworkPortTemplate < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_port'
-require 'entities/network_port_configuration'
-require 'entities/network_port_template'
-require 'entities/network_template'
-require 'entities/routing_group'
-require 'entities/routing_group_template'
-require 'entities/vsp'
-require 'entities/vsp_configuration'
-require 'entities/vsp_template'
+  get '/cimi/network_port_templates/:id' do
+    network_port_template_xml = get_entity('network_port_templates', params[:id], credentials)
+    @network_port_template = CIMI::Model::NetworkPortTemplate.from_xml(network_port_template_xml)
+    haml :'network_port_templates/show'
+  end
+
+  get '/cimi/network_port_templates' do
+    network_port_templates_xml = get_entity_collection('network_port_templates', credentials)
+    @network_port_templates = CIMI::Model::NetworkPortTemplateCollection.from_xml(network_port_templates_xml)
+    haml :'network_port_templates/index'
+  end
+
+end
