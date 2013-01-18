@@ -1,0 +1,24 @@
+- @title="#{@network_port_config.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/network_port_configurations"} NetworkPortConfigurationCollection
+      %span.divider="/"
+    %li.active
+      = @network_port_config.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@network_port_config.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@network_port_config.id}?format=json", :class => 'label warning' } JSON
+
+-details do
+  -row 'ID', @network_port_config.id
+  -row 'Description',@network_port_config.description
+  -row 'Created',@network_port_config.created
+  -row 'Class of Service',@network_port_config.class_of_service
+  -row 'Port Type',@network_port_config.port_type
