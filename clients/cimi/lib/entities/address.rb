@@ -13,30 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::Address < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/address'
-require 'entities/machine_configuration'
-require 'entities/machine_admin'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_port'
-require 'entities/network_port_configuration'
-require 'entities/network_port_template'
-require 'entities/network_template'
-require 'entities/routing_group'
-require 'entities/routing_group_template'
-require 'entities/vsp'
-require 'entities/vsp_configuration'
-require 'entities/vsp_template'
+  get '/cimi/addresses/:id' do
+    address_xml = get_entity('addresses', params[:id], credentials)
+    @address = CIMI::Model::Address.from_xml(address_xml)
+    haml :'addresses/show'
+  end
+
+  get '/cimi/addresses' do
+    addresses_xml = get_entity_collection('addresses', credentials)
+    @addresses = CIMI::Model::AddressCollection.from_xml(addresses_xml)
+    haml :'addresses/index'
+  end
+
+end
