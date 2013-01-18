@@ -1,0 +1,30 @@
+- @title="#{@address_template.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/network_port_templates"} AddressTemplateCollection
+      %span.divider="/"
+    %li.active
+      = @address_template.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@address_template.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@address_template.id}?format=json", :class => 'label warning' } JSON
+
+-details do
+  -row 'ID', @address_template.id
+  -row 'Name',@address_template.name
+  -row 'Description',@address_template.description
+  -row 'Created',@address_template.created
+  -row 'IP',@address_template.ip
+  -row 'Host name',@address_template.hostname
+  -row 'Allocation',@address_template.allocation
+  -row 'Default gateway',@address_template.default_gateway
+  -row 'DNS',@address_template.dns
+  -row 'Protocol',@address_template.protocol
+  -row 'mask',@address_template.mask

@@ -1,0 +1,23 @@
+- @title=collection_name @address_templates
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      AddressTemplateCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@address_templates.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@address_templates.id}?format=json", :class => 'label warning' } JSON
+
+%ul
+  - @address_templates.address_templates.each do |template|
+    %li
+      %a{ :href => "/cimi/address_templates/#{href_to_id(template.id)}"}=href_to_id(template.id)
+
+-details do
+  -row 'ID', @address_templates.id
+  -row 'Count', @address_templates.count

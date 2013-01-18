@@ -21,6 +21,7 @@ end
 require 'entities/base_entity'
 require 'entities/cloud_entry_point'
 require 'entities/address'
+require 'entities/address_template'
 require 'entities/machine_configuration'
 require 'entities/machine_admin'
 require 'entities/machine_image'

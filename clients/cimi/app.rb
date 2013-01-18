@@ -20,6 +20,7 @@ module CIMI::Frontend
   class Application < Sinatra::Base
 
     use CIMI::Frontend::Address
+    use CIMI::Frontend::AddressTemplate
     use CIMI::Frontend::CloudEntryPoint
     use CIMI::Frontend::MachineConfiguration
     use CIMI::Frontend::MachineImage
