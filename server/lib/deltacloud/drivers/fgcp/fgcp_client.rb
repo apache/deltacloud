@@ -115,6 +115,17 @@ class FgcpClient
       'networkId'   => network_id})
   end
 
+  def create_vservers(vsys_id, vservers_xml)
+    @version = '2012-07-20'
+    request('CreateMultipleVServer',
+      {
+        'vsysId'    => vsys_id,
+      },
+      vservers_xml,
+      'vserversXMLFilePath'
+    )
+  end
+
   def destroy_vserver(vserver_id)
     request('DestroyVServer', {'vsysId' => extract_vsys_id(vserver_id), 'vserverId' => vserver_id})
   end

@@ -30,6 +30,7 @@ class FgcpDriver < Deltacloud::BaseDriver
   feature :instances, :user_name
   feature :instances, :metrics
   feature :instances, :realm_filter
+  feature :instances, :instance_count
   feature :images, :user_name
   feature :images, :user_description
 
@@ -355,9 +356,33 @@ class FgcpDriver < Deltacloud::BaseDriver
         # use first returned system's DMZ as realm
         network_id = xml ? xml[0]['vsys'][0]['vsysId'][0] + '-N-DMZ' : nil
       end
-      xml = client.create_vserver(name, hwp, image_id, network_id)
-      # returns vserver details
-      instances(credentials, {:id => xml['vserverId'][0]}).first
+      if opts[:instance_count] and opts[:instance_count].to_i > 1
+
+        vservers = Array.new(opts[:instance_count].to_i) { |n|
+          {
+            'vserverName' => "#{name}_#{n+1}",
+            'vserverType' => hwp,
+            'diskImageId' => image_id,
+            'networkId'   => network_id
+          }
+        }
+        new_vservers = { 'vservers' => { 'vserver' => vservers } }
+        vservers_xml = XmlSimple.xml_out(new_vservers,
+          'RootName' => 'Request',
+          'NoAttr' => true
+        )
+
+        xml = client.create_vservers(client.extract_vsys_id(network_id), vservers_xml)
+        vserver_ids = xml['vservers'][0]['vserver'].collect { |vserver| vserver['vserverId'][0] }
+        # returns vservers' details using filter
+        instances(credentials, {:realm_id => network_id}).select { |instance|
+          vserver_ids.include? instance.id
+        }
+      else
+        xml = client.create_vserver(name, hwp, image_id, network_id)
+        # returns vserver details
+        instances(credentials, {:id => xml['vserverId'][0]}).first
+      end
     end
   end
 
