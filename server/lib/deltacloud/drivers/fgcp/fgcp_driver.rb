@@ -60,6 +60,7 @@ class FgcpDriver < Deltacloud::BaseDriver
     stopping.to( :stopped )       .automatically  # stopping an instance does not automatically destroy it
     stopped.to(:running)          .on( :start )   # obvious
     stopped.to(:finish)           .on( :destroy ) # only destroy removes an instance, and it has to be stopped first
+    error.from( :pending :starting, :running, :stopping) # not including STOP_ERROR and START_ERROR as they are as :running and :stopped
   end
 
   ######################################################################
@@ -1705,9 +1706,9 @@ eofwopxml
     'UNEXPECTED_STOP' =>  'STOPPED',
     'RESTORING'       =>  'PENDING',
     'BACKUP_ING'      =>  'PENDING',
-    'ERROR'           =>  'STOPPED',
-    'START_ERROR'     =>  'STOPPED', # not sure about this one
-    'STOP_ERROR'      =>  'STOPPING',
+    'ERROR'           =>  'ERROR',   # allowed actions limited
+    'START_ERROR'     =>  'STOPPED', # allowed actions are same as for STOPPED
+    'STOP_ERROR'      =>  'RUNNING', # allowed actions are same as for RUNNING
     'REGISTERING'     =>  'PENDING',
     'CHANGE_TYPE'     =>  'PENDING'
   }
