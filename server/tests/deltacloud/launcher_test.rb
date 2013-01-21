@@ -1,5 +1,3 @@
-=begin
-
 # TODO: This test require full access to 'kill' command and also
 # ability to execute the actual launcher.
 #
@@ -105,4 +103,3 @@ describe "deltacloudd" do
   end
 
 end
-=end
