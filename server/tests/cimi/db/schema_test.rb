@@ -4,7 +4,7 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative 'db_helper.rb'
 require_relative '../spec_helper.rb'
 
-describe Deltacloud::Database do
+describe "Deltacloud::Database" do
 
   include Deltacloud::DatabaseTestHelper
 
