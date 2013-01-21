@@ -1,5 +1,11 @@
 # Memory database
-ENV['DATABASE_LOCATION'] = 'sqlite:/'
+if RUBY_PLATFORM == 'java'
+  ENV['DATABASE_LOCATION'] = 'jdbc:sqlite::memory:'
+else
+  ENV['DATABASE_LOCATION'] = 'sqlite:/'
+end
+
+require_relative '../../../lib/db'
 
 module Deltacloud
   module DatabaseTestHelper

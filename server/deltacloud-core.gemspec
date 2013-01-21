@@ -74,12 +74,17 @@ Gem::Specification.new do |s|
   s.add_dependency('rack-accept')
   s.add_dependency('json', '>= 1.1.9')
   s.add_dependency('net-ssh', '>= 2.0.0')
-  s.add_dependency('thin', '>= 1.2.5') unless RUBY_PLATFORM == 'java'
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
 
   s.add_dependency('sequel', '<= 3.42.0')
-  s.add_dependency('sqlite3')
+
+  if RUBY_PLATFORM == 'java'
+    s.add_dependency('jdbc-sqlite3')
+  else
+    s.add_dependency('sqlite3')
+    s.add_dependency('thin', '>= 1.2.5')
+  end
 
   # dependencies for various cloud providers:
 

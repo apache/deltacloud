@@ -10,8 +10,13 @@ module Deltacloud
     Sequel::Model.plugin :validation_class_methods
   end
 
-  DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
-    'sqlite://'+File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
+  if RUBY_PLATFORM == 'java'
+    DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
+      'jdbc:sqlite:'+File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
+  else
+    DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
+      'sqlite://'+File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
+  end
 
   def self.database(opts={})
     opts[:logger] = ::Logger.new($stdout) if ENV['API_VERBOSE']
