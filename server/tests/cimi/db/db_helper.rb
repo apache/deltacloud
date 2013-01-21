@@ -5,6 +5,8 @@ else
   ENV['DATABASE_LOCATION'] = 'sqlite:/'
 end
 
+ENV['RACK_ENV'] = ''
+
 require_relative '../../../lib/db'
 
 module Deltacloud
