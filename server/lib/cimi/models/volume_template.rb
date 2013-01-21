@@ -56,7 +56,7 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
       :description => input['description'],
       :volume_config => input['volumeConfig']['href'],
       :volume_image => vol_image,
-      :ent_properties => JSON::dump(input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
+      :ent_properties => JSON::dump(input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r })
     )
     from_db(new_template, context)
   end

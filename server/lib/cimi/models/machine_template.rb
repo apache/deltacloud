@@ -59,7 +59,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => json['description'],
         :machine_config => json['machineConfig']['href'],
         :machine_image => json['machineImage']['href'],
-        :ent_properties => json['properties'].to_json,
+        :ent_properties => json['properties'].to_json
       )
       from_db(new_template, context)
     end
@@ -71,7 +71,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => xml['description'].first,
         :machine_config => xml['machineConfig'].first['href'],
         :machine_image => xml['machineImage'].first['href'],
-        :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
+        :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r })
       )
       from_db(new_template, context)
     end

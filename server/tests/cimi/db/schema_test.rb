@@ -86,7 +86,7 @@ describe Deltacloud::Database do
       new_entity = entity_provider.add_machine_template(
         :name => 'testMachineTemplate1',
         :description => 'testMachineTemplate1 description',
-        :ent_properties => JSON::dump(:key => 'value'),
+        :ent_properties => JSON::dump(:key => 'value')
       )
     }.must_raise Sequel::ValidationFailed
   end

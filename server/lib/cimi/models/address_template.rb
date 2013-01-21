@@ -67,7 +67,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => json['dns'],
       :protocol => json['protocol'],
       :mask => json['mask'],
-      :ent_properties => json['properties'].to_json,
+      :ent_properties => json['properties'].to_json
     )
     from_db(new_template, context)
   end
@@ -85,7 +85,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => xml['dns'].first,
       :protocol => xml['protocol'].nil? ? nil : xml['protocol'].first,
       :mask => xml['mask'].first,
-      :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }),
+      :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r })
     )
     from_db(new_template, context)
   end

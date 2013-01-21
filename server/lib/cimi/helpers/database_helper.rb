@@ -33,7 +33,7 @@ module Deltacloud
       def get_entity(model)
         current_db.entities_dataset.first(
           :be_kind => model.to_entity,
-          :be_id => model.id,
+          :be_id => model.id
         )
       end
 
