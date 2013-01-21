@@ -23,76 +23,6 @@ module Deltacloud
         feature :instances, :user_name
         feature :images, :owner_id
 
-        define_hardware_profile '66' do
-          cpu           1
-          memory        512
-          storage       20 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '63' do
-          cpu           1
-          memory        1024
-          storage       30 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '62' do
-          cpu           2
-          memory        2 * 1024
-          storage       40 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '64' do
-          cpu           2
-          memory        4 * 1024
-          storage       60 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '65' do
-          cpu           4
-          memory        8 * 1024
-          storage       80 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '61' do
-          cpu           8
-          memory        16 * 1024
-          storage       160 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '60' do
-          cpu           12
-          memory        32 * 1024
-          storage       320 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '70' do
-          cpu           16
-          memory        48 * 1024
-          storage       480 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '69' do
-          cpu           16
-          memory        64 * 1024
-          storage       640 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
-        define_hardware_profile '68' do
-          cpu           24
-          memory        96 * 1024
-          storage       960 * 1024
-          architecture  ['i386', 'x86_64']
-        end
-
         define_instance_states do
           start.to( :pending )          .on( :create )
           pending.to( :running )        .automatically
@@ -103,6 +33,36 @@ module Deltacloud
           stopping.to( :stopped )       .automatically
           stopped.to( :finish )         .automatically
           error.from(:running, :pending, :stopping)
+        end
+
+        define_hardware_profile('default')
+
+        def hardware_profiles(credentials, opts={})
+          do_client = new_client(credentials)
+          results = []
+          safely do
+            if opts[:id]
+              size = do_client.get("sizes/#{opts[:id]}")["size"]
+              results << hardware_profile_from(size)
+            else
+              sizes = do_client.get("sizes")["sizes"].each do |s|
+                size = do_client.get("sizes/#{s['id']}")["size"]
+                results << hardware_profile_from(size)
+              end
+            end
+            filter_hardware_profiles(results, opts)
+          end
+        end
+
+        def hardware_profile_ids(credentials)
+          do_client = new_client(credentials)
+          hwps = []
+          safely do
+            do_client.get("sizes")["sizes"].each do |s|
+              hwps << HardwareProfile.new(s["id"].to_s)
+            end
+          end
+          hwps
         end
 
         def realms(credentials, opts={})
@@ -124,18 +84,19 @@ module Deltacloud
         # values to get less images.
         #
         def images(credentials, opts={})
+          hwps = hardware_profile_ids(credentials)
           unless opts[:id]
-            filter = opts[:owner_id] ? { :filter => opts[:owner_id] } : {}
+            filter = opts[:owner_id] ? { :filter => "my_images" } : {}
             img_arr = safely do
               new_client(credentials).get('images', filter)['images'].map do |i|
-                convert_image(credentials, i)
+                convert_image(hwps, i)
               end
             end
             filter_on( img_arr, :architecture, opts )
           else
             safely do
               [convert_image(
-                credentials,
+                hwps,
                 new_client(credentials).get('images/%s' % opts[:id])['image']
               )]
             end
@@ -289,7 +250,7 @@ module Deltacloud
           )
         end
 
-        def convert_image(credentials, i)
+        def convert_image(hwps, i)
           Image.new(
             :id => i['id'].to_s,
             :name => i['name'],
@@ -297,8 +258,20 @@ module Deltacloud
             :owner_id => 'global',
             :state => 'AVAILABLE',
             :architecture => extract_arch_from_name(i['name']),
-            :hardware_profiles => hardware_profiles(credentials)
+            :hardware_profiles => hwps
           )
+        end
+
+        #{"cost_per_hour"=>0.00744, "cpu"=>1, "disk"=>20, "id"=>66, "memory"=>512, "name"=>"512MB"}
+        def hardware_profile_from(size)
+          hwp = HardwareProfile.new(size["id"].to_s) do
+            architecture 'x86_64'
+            memory size["memory"]
+            storage size["disk"]
+            cpu size["cpu"]
+          end
+          hwp.name=size["name"]
+          return hwp
         end
 
       end
