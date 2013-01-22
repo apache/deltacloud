@@ -22,6 +22,8 @@ module CIMI::Frontend
     use CIMI::Frontend::Address
     use CIMI::Frontend::AddressTemplate
     use CIMI::Frontend::CloudEntryPoint
+    use CIMI::Frontend::ForwardingGroup
+    use CIMI::Frontend::ForwardingGroupTemplate
     use CIMI::Frontend::MachineConfiguration
     use CIMI::Frontend::MachineImage
     use CIMI::Frontend::Machine
@@ -41,8 +43,6 @@ module CIMI::Frontend
     use CIMI::Frontend::VSP
     use CIMI::Frontend::VSPConfiguration
     use CIMI::Frontend::VSPTemplate
-    use CIMI::Frontend::ForwardingGroup
-    use CIMI::Frontend::ForwardingGroupTemplate
     use Rack::Session::Cookie
 
     helpers CIMI::Frontend::Helper

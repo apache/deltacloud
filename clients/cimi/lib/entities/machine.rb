@@ -21,6 +21,20 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
     haml :'machines/show'
   end
 
+  get '/cimi/machines/:id/disks' do
+    machine_xml = get_entity('machines', params[:id], credentials)
+    @machine= CIMI::Model::Machine.from_xml(machine_xml)
+    @disks = @machine.disks
+    haml :'machines/disks/index'
+  end
+
+  get '/cimi/machines/:id/volumes' do
+    machine_xml = get_entity('machines', params[:id], credentials)
+    @machine= CIMI::Model::Machine.from_xml(machine_xml)
+    @volumes = @machine.volumes
+    haml :'volumes/index'
+  end
+
   get '/cimi/machines' do
     # We need to include this stuff for new Machine Form
     machine_image_xml = get_entity_collection('machine_images', credentials)

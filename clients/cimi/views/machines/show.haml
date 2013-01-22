@@ -42,7 +42,6 @@
   -row 'Disks', url("/cimi/machines/#{href_to_id @machine.id}/disks")
   -row 'Volumes', url("/cimi/machines/#{href_to_id @machine.id}/volumes")
 
-
 %h5 Properties
 %table{ :class => 'table table-bordered table-striped' }
   %thead
@@ -55,4 +54,3 @@
         %td
           %code=name
         %td=convert_urls value
-

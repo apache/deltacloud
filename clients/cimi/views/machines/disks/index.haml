@@ -1,0 +1,34 @@
+- @title=collection_name @disks
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/machines"} MachineCollection
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/machines/:id"}= @machine.name
+      %span.divider="/"
+    %li.active
+      MachineDisksCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@disks.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@disks.id}?format=json", :class => 'label warning' } JSON
+
+%ul
+  - @disks.disks.each do |disk|
+    %li
+      %a{ :href => "cimi/machines/#{href_to_id @machine.id}/disks/#{href_to_id(disk.id)}" }
+
+- if @disks.disks.empty?
+  .alert-message.block-message.warning
+    %p
+      There are no disks defined for this machine.
+
+-details do
+  -row 'ID', @disks.id
+  -row 'Count', @disks.count
