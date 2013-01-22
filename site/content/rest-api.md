@@ -1,6 +1,6 @@
 ---
 site_name: Deltacloud API
-title: REST API
+title: Deltacloud REST API
 ---
 
 <br/>
@@ -8,7 +8,7 @@ title: REST API
 <div class="row">
   <div class="span9">
 
-<h3 id="rest">REST API</h3>
+<h3 id="rest">The Deltacloud REST API</h3>
 
 <p>
 Apache Deltacloud is a REST-based (HATEOAS) cloud abstraction API. It enables management of resources in different IaaS clouds using a single API. There are back-end drivers communicating with each cloud provider's native API and the Deltacloud Core Framework provides the basis for implementing drivers to new IaaS clouds. Apache Deltacloud currently supports many back-end <a href="/drivers.html#drivers">cloud providers</a>.

@@ -73,7 +73,8 @@
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">API<b class="caret"></b></a>
     <ul class="dropdown-menu">
-      <li><a href="/rest-api.html">REST API</a></li>
+      <li><a href="/rest-api.html">Deltacloud REST API</a></li>
+      <li><a href="/curl-examples.html">Deltacloud API cURL examples</a></li>
       <li><a href="/drivers.html">Drivers API</a></li>
     </ul>
   </li>
@@ -127,11 +128,11 @@
 
   <p> Retrieve the Resource Metadata resource corresponding to the Cloud Entry Point resource, in json format:</p>
 
-  <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/xml" http://localhost:3001/cimi/resource_metadata/cloud_entry_point </pre>
+  <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/json" http://localhost:3001/cimi/resource_metadata/cloud_entry_point </pre>
 
   <p> Retrieve the Resource Metadata resource corresponding to the Machine resource, in xml format:</p>
 
-  <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/json" http://localhost:3001/cimi/resource_metadata/machine </pre>
+  <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/xml" http://localhost:3001/cimi/resource_metadata/machine </pre>
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
