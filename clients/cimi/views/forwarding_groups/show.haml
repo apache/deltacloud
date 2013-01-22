@@ -1,0 +1,30 @@
+- @title="#{@fg.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/forwarding_groups"} ForwardingGroupCollection
+      %span.divider="/"
+    %li.active
+      =@fg.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@fg.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@fg.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+
+
+-details 'ForwardingGroup details' do
+  -row 'ID', @fg.id
+  -row 'Description', @fg.description
+  -row 'Created', @fg.created
+
+-details 'ForwardingGroup networks' do
+  -@fg.networks.each do |net|
+    -row 'ID', net.href

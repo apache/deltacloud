@@ -1,0 +1,24 @@
+- @title=collection_name @fgs
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      ForwardingGroupCollection
+- content_for :actions do
+  %p
+    %a{ :href => "#{@fgs.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@fgs.id}?format=json", :class => 'label warning' } JSON
+
+
+%h3 ForwardingGroupCollection
+%ul
+  - @fgs.forwarding_groups.each do |fg|
+    %li
+      %a{ :href => "/cimi/forwarding_groups/#{href_to_id fg.id}"}=href_to_id(fg.id)
+
+-details 'ForwardingGroupCollection details' do
+  -row 'ID', @fgs.id
+  -row 'Count', @fgs.count

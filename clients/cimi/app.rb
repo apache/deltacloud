@@ -41,6 +41,7 @@ module CIMI::Frontend
     use CIMI::Frontend::VSP
     use CIMI::Frontend::VSPConfiguration
     use CIMI::Frontend::VSPTemplate
+    use CIMI::Frontend::ForwardingGroup
     use CIMI::Frontend::ForwardingGroupTemplate
     use Rack::Session::Cookie
 
