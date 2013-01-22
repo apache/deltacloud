@@ -58,3 +58,8 @@ How to file bug reports for Deltacloud - process, what to report, following up a
 <a href="http://www.youtube.com/watch?v=YbAsWrj6UEY">Deltacloud Community Call #7</a>
 
 The Deltacloud website - how it works, how to submit changes etc  -  Deltacloud exceptions and error handling introduction, how to catch provider errors and raise specific HTTP response codes.
+
+<br>
+<a href="http://youtu.be/KvN0xEVc_N0">Deltacloud Community Call #8</a>
+
+Deep dive into a Deltacloud API call, a look at the Deltacloud server gemspec - gems used as clients to cloud providers
