@@ -37,9 +37,10 @@ def wait_for_port_open(port)
 end
 
 def kill_process(pid)
-  Process.kill('TERM', pid) rescue ''
   # Die!
+  puts "Sending KILL to #{pid}"
   Process.kill('KILL', pid) rescue ''
+  sleep(1)
 end
 
 describe "deltacloudd" do
@@ -102,4 +103,4 @@ describe "deltacloudd" do
     @pids.map { |pid| kill_process(pid) }
   end
 
-end
+end unless ENV['TRAVIS']
