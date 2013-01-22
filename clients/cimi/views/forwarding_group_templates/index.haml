@@ -1,0 +1,24 @@
+- @title=collection_name @fg_templates
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      ForwardingGroupTemplateCollection
+- content_for :actions do
+  %p
+    %a{ :href => "#{@fg_templates.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@fg_templates.id}?format=json", :class => 'label warning' } JSON
+
+
+%h3 ForwardingGroupTemplateCollection
+%ul
+  - @fg_templates.forwarding_group_templates.each do |fg_template|
+    %li
+      %a{ :href => "/cimi/forwarding_group_templates/#{href_to_id fg_template.id}"}=href_to_id(fg_template.id)
+
+-details 'ForwardingGroupTemplateCollection details' do
+  -row 'ID', @fg_templates.id
+  -row 'Count', @fg_templates.count

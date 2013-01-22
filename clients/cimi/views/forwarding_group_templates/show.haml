@@ -1,0 +1,30 @@
+- @title="#{@fg_template.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/forwarding_group_templates"} ForwardingGroupTemplateCollection
+      %span.divider="/"
+    %li.active
+      =@fg_template.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@fg_template.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@fg_template.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+
+
+-details 'ForwardingGroupTemplate details' do
+  -row 'ID', @fg_template.id
+  -row 'Description', @fg_template.description
+  -row 'Created', @fg_template.created
+
+-details 'ForwardingGroupTemplate networks' do
+  -@fg_template.networks.each do |net|
+    -row 'ID', net.href
