@@ -72,7 +72,8 @@ class Instance < BaseModel
       r.merge!(:authentication => { :keyname => keyname }) if keyname
     end
     if context.driver.class.has_feature?(:instances, :authentication_password)
-      r.merge!(:authentication => { :user => username, :password => password }) if username
+      r[:authentication] && username ? r[:authentication].merge!({ :user => username, :password => password }) :
+              (username ? r.merge!(:authentication => { :user => username, :password => password }) : nil)
     end
     r
   end
