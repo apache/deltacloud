@@ -122,9 +122,6 @@ Content-Type: application/json
     <p/>
 
       <popup title="Sample">
-       <xml>GET /CEP HTTP/1.1
-Accept: application/json</xml>
-       <p/>
        <xml>HTTP/1.1 200 OK
 Content-Type: application/json
 
@@ -132,8 +129,12 @@ Content-Type: application/json
   "resourceURI": "http://schemas.dmtf.org/cimi/1/ResourceMetadataCollection",
   "resourceMetadata":
     [{"capabilities":
-      [{"uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability1", "description":"Description of Capability 1", "name":"Capability1", "value":"valueOfCapability1"},
-      {"uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability2", "description":"Description of Capability 2", "name":"Capability2", "value":"valueOfCapability2A, valueOfCapability2B"}],
+      [{"uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability1",
+      "description":"Description of Capability 1", "name":"Capability1",
+      "value":"valueOfCapability1"},
+      {"uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability2",
+      "description":"Description of Capability 2", "name":"Capability2",
+      "value":"valueOfCapability2A, valueOfCapability2B"}],
     "typeUri": "http://schemas.dmtf.org/cimi/1/Collection",
     "name": "Collection",
     "id": "http://example.com/cimi/resource_metadata/collection"}],
@@ -183,8 +184,12 @@ Content-Type: application/json
 "resourceURI": "http://schemas.dmtf.org/cimi/1/ResourceMetadataCollection",
 "resourceMetadata":
   [{"capabilities":
-    [{"uri":"http://schemas.dmtf.org/cimi/1/capability/Machine/Capability1", "description":"Decsription of Capability 1", "name":"Capability1", "value":"valueOfCapability1"},
-    {"uri":"http://schemas.dmtf.org/cimi/1/capability/Machine/capability2", "description":"Description of Capability 2", "name":"Capability2", "value":"valueOfCapability2A, valueOfCapability2B"}],
+    [{"uri":"http://schemas.dmtf.org/cimi/1/capability/Machine/Capability1",
+    "description":"Decsription of Capability 1", "name":"Capability1",
+    "value":"valueOfCapability1"},
+    {"uri":"http://schemas.dmtf.org/cimi/1/capability/Machine/capability2",
+    "description":"Description of Capability 2", "name":"Capability2",
+    "value":"valueOfCapability2A, valueOfCapability2B"}],
   "typeUri":"http://schemas.dmtf.org/cimi/1/Machine",
   "name":"Machine",
   "id":"http://example.com/cimi/resource_metadata/machine"}],
@@ -261,11 +266,15 @@ Content-Type: application/json
        <xml>HTTP/1.1 200 OK
 Content-Type: application/xml
 
-&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
+&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1"
+ resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
 &lt;id>http://example.com/cimi/resource_metadata/machine&lt;/id>
 &lt;name>Machine&lt;/name>
 &lt;typeUri>http://schemas.dmtf.org/cimi/1/Machine&lt;/typeUri>
-&lt;capability name="DefaultInitialState" uri="http://schemas.dmtf.org/cimi/1/capability/Machine/DefaultInitialState" description="Indicates what the default initial state of a new Machine">STARTED&lt;/capability>
+&lt;capability name="DefaultInitialState"
+uri="http://schemas.dmtf.org/cimi/1/capability/Machine/DefaultInitialState"
+description="Indicates what the default initial state of a new Machine">
+STARTED&lt;/capability>
 &lt;/ResourceMetadata>
      </xml>
       </popup>
@@ -384,8 +393,10 @@ Content-Type: application/json
   "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
   "networkInterfaces": { "href": "http://example.com/machines/machineId12345/NIs",
   "operations": [
-    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture", "href": "http://example.com/cimi/machine_images" },
-    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop", "href": "http://example.com/machines/machineId12345/stop" }
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" }
   ]
 }
      </xml>
@@ -474,11 +485,15 @@ Content-Type: application/json
        <xml>HTTP/1.1 200 OK
 Content-Type: application/xml
 
-&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1" resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
+&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1"
+resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
 &lt;id>http://example.com/cimi/resource_metadata/machine&lt;/id>
 &lt;name>Machine&lt;/name>
 &lt;typeUri>http://schemas.dmtf.org/cimi/1/Machine&lt;/typeUri>
-&lt;capability name="InitialStates" uri="http://schemas.dmtf.org/cimi/1/capability/Machine/InitialStates" description="Indicates the list of allowable initial states">STARTED,STOPPED&lt;/capability>
+&lt;capability name="InitialStates"
+uri="http://schemas.dmtf.org/cimi/1/capability/Machine/InitialStates"
+description="Indicates the list of allowable initial states">
+STARTED,STOPPED&lt;/capability>
 &lt;/ResourceMetadata>
       </xml>
       </popup>
@@ -570,8 +585,10 @@ Content-Type: application/json
   "volumes": { "href": "http://example.com/machines/machineId123456/volumes" },
   "networkInterfaces": { "href": "http://example.com/machines/machineId123456/NIs",
   "operations": [
-    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture", "href": "http://example.com/cimi/machine_images" },
-    { "rel": "http://schemas.dmtf.org/cimi/1/action/start", "href": "http://example.com/machines/machineId123456/start" }
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/start",
+    "href": "http://example.com/machines/machineId123456/start" }
   ]
 }
       </xml>
