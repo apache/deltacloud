@@ -64,7 +64,6 @@ module Sinatra::Rabbit
                          end
 
     helper_method_name += '_url'
-
     [Proc.new do
       define_method helper_method_name do |*args|
         if (opts = args.first).kind_of? Hash
@@ -76,7 +75,7 @@ module Sinatra::Rabbit
         else
           path = operation.full_path
         end
-        path.slice!(root_url)
+        path.slice!(root_url) if path.start_with?(root_url)
         url(path)
       end unless respond_to?(helper_method_name)
     end, helper_method_name]
