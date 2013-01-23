@@ -241,6 +241,7 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
+      return if model[name].nil?
       model[name].prepare
       if model[name].entries.empty?
         xml[xml_name] = { "href" => model[name].href }
