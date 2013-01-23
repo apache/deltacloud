@@ -24,11 +24,15 @@ module CIMI::Model
     self.schema
 
     def initialize(values = {})
-      if values[:entries]
-        values[self.class.entry_name] = values.delete(:entries)
+      if values.kind_of?(Hash) 
+        if values[:entries]
+          values[self.class.entry_name] = values.delete(:entries)
+        end
+        values[self.class.entry_name] ||= []
+        super(values)
+      else
+        super
       end
-      values[self.class.entry_name] ||= []
-      super(values)
     end
 
     def entries
@@ -53,12 +57,12 @@ module CIMI::Model
     end
 
     def [](a)
-      a = entry_name if a == :entries
+      a = self.class.entry_name if a == :entries
       super(a)
     end
 
     def []=(a, v)
-      a = entry_name if a == :entries
+      a = self.class.entry_name if a == :entries
       super(a, v)
     end
 
