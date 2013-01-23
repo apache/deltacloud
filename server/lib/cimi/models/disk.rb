@@ -24,11 +24,20 @@ class CIMI::Model::Disk < CIMI::Model::Base
 
   def self.find(instance, machine_config, context, id=:all)
     if id == :all
-      return machine_config.disks if machine_config
+      name = instance.id+"_disk_" #assuming one disk for now...
 
-      capacity = false
-
-      if instance
+      if machine_config
+        mach_config_disks = machine_config.disks
+        return mach_config_disks.map do |d|
+          self.new(
+            :id => context.machine_url(instance.id) + "/disks/#{name}#{d[:capacity]}",
+            :name => "#{name}#{d[:capacity]}",
+            :description => "Disk for Machine #{instance.id}",
+            :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time).xmlschema,
+            :capacity => d[:capacity]
+          )
+        end
+      else
         if instance.instance_profile.override? :storage
           capacity = context.to_kibibyte(instance.instance_profile.storage, 'MB')
         else
@@ -40,11 +49,9 @@ class CIMI::Model::Disk < CIMI::Model::Base
 
         return [] unless capacity
 
-        name = instance.id+"_disk_#{capacity}" #assuming one disk for now...
-
         [self.new(
-          :id => context.machine_url(instance.id)+"/disks/#{name}",
-          :name => name,
+          :id => context.machine_url(instance.id)+"/disks/#{name}#{capacity}",
+          :name => name + capacity.to_s,
           :description => "Disk for Machine #{instance.id}",
           :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time).xmlschema,
           :capacity => capacity

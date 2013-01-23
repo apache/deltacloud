@@ -173,8 +173,8 @@ class CIMI::Model::Resource
       if !@filter_attrs.empty? and !@filter_attrs.include?(n)
         @attribute_values[n] = nil
       else
-        self[n].href = "#{self.id}/#{n}" if !self[n].href
-        self[n].id = "#{self.id}/#{n}" if !self[n].entries.empty?
+        self[n].href = "#{self.base_id}/#{n}" if !self[n].href
+        self[n].id = "#{self.base_id}/#{n}" if !self[n].entries.empty?
       end
     end
   end
@@ -185,10 +185,18 @@ class CIMI::Model::Resource
   def initialize(values = {})
     names = self.class.schema.attribute_names
     @filter_attrs = values[:filter_attr_list] || []
+    # Make sure we always have the :id of the entity even
+    # the $select parameter is used and :id is filtered out
+    #
+    @_base_id = values[:base_id] || values[:id]
     @attribute_values = names.inject(OrderedHash.new) do |hash, name|
       hash[name] = self.class.schema.convert(name, values[name])
       hash
     end
+  end
+
+  def base_id
+    self.id || @_base_id
   end
 
   # Construct a new object from the XML representation +xml+
@@ -290,7 +298,10 @@ class CIMI::Model::Base < CIMI::Model::Resource
       result[attr.to_sym] = self.send(attr) if self.respond_to?(attr)
       result
     end
-    self.class.new(attrs.merge(:filter_attr_list => attr_list))
+    self.class.new(attrs.merge(
+      :filter_attr_list => attr_list,
+      :base_id => self.send(:id)
+    ))
   end
 
 end

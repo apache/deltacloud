@@ -13,6 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+
 module CIMI::Model
   class Collection < Resource
 
@@ -23,8 +24,11 @@ module CIMI::Model
     # Make sure the base schema gets cloned
     self.schema
 
+    # You can initialize collection by passing the Hash representation of the
+    # collection or passing another Collection object.
+    #
     def initialize(values = {})
-      if values.kind_of?(Hash) 
+      if values.kind_of?(Hash)
         if values[:entries]
           values[self.class.entry_name] = values.delete(:entries)
         end
