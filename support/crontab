@@ -1,0 +1,2 @@
+MAILTO=dev@deltalcoud.apache.org
+30 * * * * ${HOME}/bin/dev

@@ -1,0 +1,9 @@
+This directory contains files used to maintain the public API instances
+https://api.deltacloud.org/ and https://dev.deltacloud.org/
+
+We could/should puppetize this, but for now, here is where these files go
+on cavia:
+
+dev.sh  -> symlinked from ~/bin/dev
+prod.sh -> symlinked from ~/bin/prod
+ssl.conf -> /etc/httpd/conf.d
