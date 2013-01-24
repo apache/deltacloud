@@ -237,6 +237,13 @@ module Deltacloud::Test::Methods
       end
     end
 
+    #convenience method for checking if collection :foo is supported:
+    def collection_supported(name)
+      return true if api.collections.include?(name.to_sym)
+      false
+    end
+
+
     # Only run tests if collection +collection+ supports feature +name+ in
     # the current driver. Use inside a 'describe' block. Tests that are not
     # run because of a missing collection are marked as skipped

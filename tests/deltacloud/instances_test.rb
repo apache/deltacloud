@@ -33,7 +33,7 @@ describe 'Deltacloud API instances collection' do
     end
     @@my_instance_id = (res.xml/'instance')[0][:id]
     @@created_resources[:instances] << @@my_instance_id
-  end
+  end if collection_supported :instances
 
   #stop/destroy the resources we created for the tests
   MiniTest::Unit.after_tests {

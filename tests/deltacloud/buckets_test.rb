@@ -50,7 +50,7 @@ describe 'Deltacloud API buckets collection' do
     unless res.code == 200
       raise Exception.new("Failed to create blob #{@@my_blob}")
     end
-  end
+  end if collection_supported :buckets
 
   # delete the bucket/blob we created for the tests
   MiniTest::Unit.after_tests {
