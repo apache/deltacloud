@@ -60,7 +60,7 @@ class FgcpDriver < Deltacloud::BaseDriver
     stopping.to( :stopped )       .automatically  # stopping an instance does not automatically destroy it
     stopped.to(:running)          .on( :start )   # obvious
     stopped.to(:finish)           .on( :destroy ) # only destroy removes an instance, and it has to be stopped first
-    error.from( :pending :starting, :running, :stopping) # not including STOP_ERROR and START_ERROR as they are as :running and :stopped
+    error.from( :pending, :running, :stopping)    # not including STOP_ERROR and START_ERROR as they are as :running and :stopped
   end
 
   ######################################################################
