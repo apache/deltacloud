@@ -36,10 +36,10 @@ title: CIMI cURL Examples - Resource Metadata Resources
 
   <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/xml" http://localhost:3001/cimi/resource_metadata</pre>
 
-  <p> Retrieve the Resource Metadata resource corresponding to the Cloud Entry Point resource, in json format:</p>
+  <p> Retrieve the Resource Metadata as it corresponding to the Cloud Entry Point resource, in json format:</p>
 
   <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/json" http://localhost:3001/cimi/resource_metadata/cloud_entry_point </pre>
 
-  <p> Retrieve the Resource Metadata resource corresponding to the Machine resource, in xml format:</p>
+  <p> Retrieve the Resource Metadata as it corresponding to the Machine resource, in xml format:</p>
 
   <pre>curl -v --user "mockuser:mockpassword" -H "Accept: application/xml" http://localhost:3001/cimi/resource_metadata/machine </pre>

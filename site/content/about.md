@@ -14,7 +14,7 @@ title: About
 
 <p>Deltacloud maintains <strong>long-term stability</strong> for scripts, tools and applications and <strong>backward compatibility</strong> across different versions.</p>
 
-<p>Using a single API Deltacloud enables management of resources in different clouds. This 'single API' can be the <a href="/rest-api.html">Deltacloud</a> classic API, the DMTF <a href="/cimi-rest.html">CIMI API</a> or even the EC2 API.</p>
+<p>Deltacloud enables management of resources in different clouds by the use of one of three supported APIs. The supported  APIs are the <a href="/rest-api.html">Deltacloud</a> classic API, the DMTF <a href="/cimi-rest.html">CIMI API</a> or even the EC2 API.</p>
 
 <p>All of this means you can start an instance on an internal cloud and with the same code start another on EC2 or RHEV-M.</p>
 </div>
@@ -31,9 +31,9 @@ title: About
 <br/>
 <h3>How does Deltacloud work?</h3>
 <br/>
-<p>Deltacloud contains a cloud abstraction API - whether the <a href="/rest-api.html">Deltacloud</a> classic API, the DMTF <a href="/cimi-rest.html">CIMI API</a> or even the EC2 API. The API works as a wrapper around a large number of clouds, abstracting their differences. For every <a href="/supported-providers.html" rel="tooltip" title="currently supported providers">provider</a> there is a driver "speaking" cloud provider's native API. It frees you from dealing with the particulars of each cloud's API.</p>
+<p>Deltacloud contains a cloud abstraction API - whether the <a href="/rest-api.html">Deltacloud</a> classic API, the DMTF <a href="/cimi-rest.html">CIMI API</a> or even the EC2 API. The API works as a wrapper around a large number of clouds, abstracting their differences. For every cloud <a href="/supported-providers.html" rel="tooltip" title="currently supported providers">provider</a> there is a driver "speaking" that cloud provider's native API, freeing you from dealing with the particulars of each cloud's API.</p>
 
-<p>Install Deltacloud and start the <strong>deltacloudd</strong> daemon server. You can use your favourite HTTP client to talk to the server using the <a href="/rest-api.html">Deltacloud REST API</a>, the DMTF <a href="/cimi-rest.html">CIMI API</a> or even the EC2 API. Deltacloud even comes with a HTML interface so you can simply use your web browser to control your cloud infrastructure straight out of the box. The HTML interface is written with the <a href="http://jquerymobile.com/">jQuery mobile</a> framework, so it is compatible with your mobile or tablet devices.</p>
+<p>Install Deltacloud and start the <strong>deltacloudd</strong> daemon server. You can use your favourite HTTP client to talk to the server using the <a href="/rest-api.html">Deltacloud REST API</a>, the DMTF <a href="/cimi-rest.html">CIMI API</a> or even the EC2 API. Deltacloud even comes with an HTML interface so you can simply use your web browser to control your cloud infrastructure straight out of the box. The HTML interface is written with the <a href="http://jquerymobile.com/">jQuery mobile</a> framework, so it is compatible with your mobile or tablet devices.</p>
 <br/>
 
 <img src="/assets/img/deltacloud_concept.gif" alt="Deltacloud concept scheme"/>

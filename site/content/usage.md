@@ -66,7 +66,7 @@ openstack = client.with_config(:driver => :openstack)
 <h3>HTTP clients - cURL</h3>
 
 <p>
-Basically, you interact with the Deltacloud server via HTTP calls, so you can use any HTTP client to talk to Deltacloud using the <a href="/rest-api.html">REST API</a>.
+Basically, you interact with the Deltacloud server via HTTP calls, so you can use any HTTP client to talk to Deltacloud using the <a href="/rest-api.html">Deltacloud REST API</a>.
 </p>
 
 <p>

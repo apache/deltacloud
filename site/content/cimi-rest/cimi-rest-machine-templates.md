@@ -27,7 +27,7 @@ machineConfiguration + machineImage = machineTemplate ===> machine
 </pre>
 
 <p>
-A CIMI client (a <strong>consumer</strong> in CIMI terminology) uses a Machine Template to <a href="/cimi-rest/cimi-rest-collections.html#create-machine"> create a new Machine</a>; a Machine Template consists of (amongst other attributes) a Machine Configuration and a Machine Image. Generally speaking - many CIMI resources require use of a template for their creation and a template will typically consist of an image plus a configuration resource.
+A CIMI client (a <strong>consumer</strong> in CIMI terminology) uses a Machine Template to <a href="/cimi-rest/cimi-rest-collections.html#create-machine"> create a new Machine</a>; a Machine Template consists of (amongst other attributes) a Machine Configuration and a Machine Image. Generally speaking - many CIMI resources require the use of a template for their creation and a template will typically consist of an image plus a configuration resource.
 </p>
 
   </div>
