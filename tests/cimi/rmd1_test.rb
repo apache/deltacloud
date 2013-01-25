@@ -39,8 +39,7 @@ class ResourceMetadataCollection < CIMI::Test::Spec
       model = fetch(subject.send(r).href)
       log.info(model.attribute_values[r][0])
       unless !model.attribute_values[r][0].nil?()
-        puts "No ResourceMetadata resource available - ending test."
-        return
+        skip "No ResourceMetadata resource available - ending test."
     end
   end
 
