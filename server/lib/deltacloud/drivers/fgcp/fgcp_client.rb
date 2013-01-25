@@ -167,7 +167,7 @@ class FgcpClient
       <description>#{description}</description>
     </locale>
     <locale>
-      <lcid>jp</lcid>
+      <lcid>ja</lcid>
       <name>#{name}</name>
       <description>#{description}</description>
     </locale>

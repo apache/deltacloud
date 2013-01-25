@@ -109,6 +109,13 @@ class FgcpDriver < Deltacloud::BaseDriver
       if xml['diskimages'] # not likely to not be so, but just in case
         xml['diskimages'][0]['diskimage'].each do |img|
 
+          # 32bit CentOS/RHEL images are refused on hwps > 16GB (i.e. w_high, quad_high)
+          os_arch = img['osName'][0].to_s =~ /.*32.?bit.*/ ? 'i386' : 'x86_64'
+          os_centos_rhel = img['osName'][0] =~ /(CentOS|Red Hat).*/
+          allowed_hwps = hwps.select do |hwp|
+            hwp.memory.default.to_i < 16000 or os_arch == 'x86_64' or not os_centos_rhel
+          end
+
           images << Image.new(
             :id => img['diskimageId'][0],
             :name => img['diskimageName'][0].to_s,
@@ -118,8 +125,8 @@ class FgcpDriver < Deltacloud::BaseDriver
             # This will determine image architecture using OS name.
             # Usually the OS name includes '64bit' or '32bit'. If not,
             # it will fall back to 64 bit.
-            :architecture => img['osName'][0].to_s =~ /.*32.?bit.*/ ? 'i386' : 'x86_64',
-            :hardware_profiles => hwps
+            :architecture => os_arch,
+            :hardware_profiles => allowed_hwps
           ) if opts[:id].nil? or opts[:id] == img['diskimageId'][0]
         end
       end
@@ -139,7 +146,7 @@ class FgcpDriver < Deltacloud::BaseDriver
       if opts[:name].nil?
         # default to instance name
         instance = client.get_vserver_attributes(opts[:id])
-        opts[:name] ||= instance['vserver'][0]['vserverName']
+        opts[:name] = instance['vserver'][0]['vserverName']
         opts[:description] ||= opts[:name]
       end
 
@@ -1444,6 +1451,11 @@ eofwopxml
       status 404 # Not Found
     end
 
+    # trying to create an image that has never been booted
+    on /NEVER_BOOTED/ do
+      status 409 # Conflict
+    end
+
     # reached maximum number of attempts while polling for an update
     on /Server did not include public IP address in FW NAT rules/ do
       status 504 # Gateway Timeout
@@ -1630,7 +1642,7 @@ eofwopxml
       :firewalls => server != 'FW' ? [client.extract_vsys_id(vserver['vserverId'][0]) + '-S-0001'] : nil,
       :owner_id => vserver['creator'][0]
     }
-    instance.merge!( {'create_image' => false}) if not server == 'vserver'
+    instance.merge!( {'create_image' => false}) if server != 'vserver' or state_data[:state] != 'STOPPED'
     instance.merge! state_data
 
     Instance::new(instance)

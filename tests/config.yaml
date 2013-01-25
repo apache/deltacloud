@@ -39,9 +39,9 @@ fgcp:
   #used for instances tests:
   preferred:
     provider: "au"
-    image: "IMG_3c9820_D30U8UNY6I9S"
+    image: "IMG_3c9820_S24FWXU0Q9VH0JK"
     hardware_profile: "economy"
-    realm: "UZXC0GRT-ZG8ZJCJ07"
+    realm: "UZXC0GRT-ZG8ZJCJ07-N-DMZ"
 
 
 # CIMI testing

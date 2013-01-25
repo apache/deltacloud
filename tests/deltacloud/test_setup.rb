@@ -172,7 +172,7 @@ module Deltacloud::Test::Methods
 
     def random_name
       name = rand(36**10).to_s(36)
-      name.insert(0, "apitest")
+      name.insert(0, "dcapitest")
     end
 
     def get_a(item)

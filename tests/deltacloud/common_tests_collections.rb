@@ -39,7 +39,7 @@ module CommonCollectionsTest
       end
 
       it "must require authentication to access the #{test_collection} collection" do
-        skip "Skipping for #{test_collection} as no auth required here" if ["hardware_profiles", "instance_states"].include?(test_collection)
+        skip "Skipping for #{test_collection} as auth may not be required here" if ["hardware_profiles", "instance_states"].include?(test_collection)
         proc {  get(test_collection, :noauth => true) }.must_raise RestClient::Request::Unauthorized
       end
 
@@ -59,7 +59,7 @@ module CommonCollectionsTest
     end
   end
 
-  #run tests for both the top-level collection and it's members
+  #run tests for both the top-level collection and its members
   def self.run_collection_and_member_tests_for(test_collection)
     #first run only 'top-level' collection tests (e.g. for 'images')
     run_collection_tests_for(test_collection)

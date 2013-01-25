@@ -84,11 +84,11 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
 
   #Now run the instances-specific tests:
 
-  it 'must have the "state" element defined for each instance in collection' do
+  it 'must have a legal "state" element defined for each instance in collection, or no "state" at all' do
     res = get(INSTANCES)
     (res.xml/'instances/instance').each do |r|
-      (r/'state').wont_be_empty
-      (r/'state').first.must_match /(RUNNING|STOPPED|PENDING)/
+      # provider may not return state for each instance in collection because of performance reasons
+      (r/'state').first.must_match /(RUNNING|STOPPED|PENDING)/ unless (r/'state').empty?
     end
   end
 
@@ -242,7 +242,7 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     instance_actions = (res.xml/'actions/link').to_a.inject([]){|actions, current| actions << current[:rel]; actions}
     skip "no create image support for instance #{@@my_instance_id}" unless instance_actions.include?("create_image")
     #create image
-    res = post("/images", :instance_id => @@my_instance_id, :name=>random_name)
+    res = post("/images", :instance_id => @@my_instance_id, :name => random_name)
     res.code.must_equal 201
     my_image_id = (res.xml/'image')[0][:id]
     #mark for deletion later:
