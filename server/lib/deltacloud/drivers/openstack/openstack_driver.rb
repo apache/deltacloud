@@ -435,19 +435,33 @@ module Deltacloud
 
         def storage_snapshots(credentials, opts={})
           vs = new_client(credentials, "volume")
+          snapshots = []
           safely do
+            if opts[:id]
+              snapshots <<  convert_snapshot(vs.get_snapshot(opts[:id]))
+            else
+              vs.snapshots.each do |snap|
+                snapshots << convert_snapshot(snap)
+              end
+            end
           end
+          snapshots
         end
 
         def create_storage_snapshot(credentials, opts={})
           vs = new_client(credentials, "volume")
           safely do
+            name = opts[:name] || "snapshot_#{Time.now.to_i}"
+            description = opts[:description] || "snapshot from volume #{opts[:volume_id]}"
+            params = {:volume_id => opts[:volume_id], :display_name=>name, :display_description=>description}
+            convert_snapshot(vs.create_snapshot(params))
           end
         end
 
         def destroy_storage_snapshot(credentials, opts={})
           vs = new_client(credentials, "volume")
           safely do
+            vs.delete_snapshot(opts[:id])
           end
         end
 
@@ -605,6 +619,17 @@ private
                               :realm_id => vol.availability_zone,
                               :description => vol.display_description # openstack volumes have a display_description attr
           })
+        end
+
+        def convert_snapshot(snapshot)
+          StorageSnapshot.new(
+            :id => snapshot.id,
+            :name => snapshot.display_name,
+            :description => snapshot.display_description || snapshot.display_name,
+            :state => snapshot.status,
+            :storage_volume_id => snapshot.volume_id,
+            :created => snapshot.created_at
+          )
         end
 
         #IN: path1='server_path1'. content1='contents1', path2='server_path2', content2='contents2' etc

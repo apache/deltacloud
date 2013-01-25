@@ -26,7 +26,9 @@ module Deltacloud::Collections
       standard_show_operation
 
       operation :create, :with_capability => :create_storage_snapshot do
-        param :volume_id, :string,  :required
+        param :volume_id,   :string,  :required
+        param :name,        :string,  :optional
+        param :description, :string,  :optional
         control do
           @storage_snapshot = driver.create_storage_snapshot(credentials, params)
           status 201  # Created
