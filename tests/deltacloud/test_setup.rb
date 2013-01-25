@@ -239,8 +239,7 @@ module Deltacloud::Test::Methods
 
     #convenience method for checking if collection :foo is supported:
     def collection_supported(name)
-      return true if api.collections.include?(name.to_sym)
-      false
+      api.collections.include?(name.to_sym)
     end
 
 

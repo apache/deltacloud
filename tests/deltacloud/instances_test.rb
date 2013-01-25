@@ -23,7 +23,7 @@ describe 'Deltacloud API instances collection' do
   include Deltacloud::Test::Methods
   need_collection :instances
   #make sure we have at least one instance to test
-  begin
+  if collection_supported :instances
     #keep track of what we create for deletion after tests:
     @@created_resources = {:instances=>[], :keys=>[], :images=>[], :firewalls=>[]}
     image_id = get_a("image")
@@ -33,7 +33,7 @@ describe 'Deltacloud API instances collection' do
     end
     @@my_instance_id = (res.xml/'instance')[0][:id]
     @@created_resources[:instances] << @@my_instance_id
-  end if collection_supported :instances
+  end
 
   #stop/destroy the resources we created for the tests
   MiniTest::Unit.after_tests {
