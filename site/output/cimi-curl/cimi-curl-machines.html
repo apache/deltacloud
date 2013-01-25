@@ -143,7 +143,7 @@
 <p>Create a new Machine with the message body in XML format:</p>
 
 <pre>
-curl -v --user "mockuser:mockpassword" -X POST -H "Content-Type: application/xml" -H "Accept: application/xml" -d '&lt;MachineCreate xmlns="http://schemas.dmtf.org/cimi/1"&gt; &lt;name&gt; myMachine1 &lt;/name&gt; &lt;description&gt; my machine description &lt;/description&gt; &lt;machineTemplate&gt; &lt;machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"&gt; &lt;/machineConfig&gt; &lt;machineImage href="http://localhost:3001/cimi/machine_images/img1"&gt; &lt;/machineImage&gt; &lt;/machineTemplate&gt; &lt;/MachineCreate&gt;'
+curl -v --user "mockuser:mockpassword" -X POST -H "Content-Type: application/xml" -H "Accept: application/xml" -d '&lt;MachineCreate xmlns="http://schemas.dmtf.org/cimi/1"&gt; &lt;name&gt; myMachine1 &lt;/name&gt; &lt;description&gt; my machine description &lt;/description&gt; &lt;machineTemplate&gt; &lt;machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"&gt; &lt;/machineConfig&gt; &lt;machineImage href="http://localhost:3001/cimi/machine_images/img1"&gt; &lt;/machineImage&gt; &lt;/machineTemplate&gt; &lt;/MachineCreate&gt;' http://localhost:3001/cimi/machines
 </pre>
 
 <p>Alternatively, specifying the message body in JSON:</p>
