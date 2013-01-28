@@ -118,6 +118,30 @@ module Deltacloud
                   "Loadbalancer not supported in Eucalyptus", "")
         end
 
+        #override ec2 driver realms - euca API doesn't support vpc/subnet concepts
+        #http://docs.aws.amazon.com/AWSEC2/2009-04-04/DeveloperGuide/
+        def realms(credentials, opts={})
+          ec2 = new_client(credentials)
+          realms = []
+          safely do
+            if opts[:id] and !opts[:id].empty?
+              begin
+                ec2.describe_availability_zones([opts[:id]]).collect do |realm|
+                  realms << convert_realm(realm) unless realm.empty?
+              rescue => e
+                raise e unless e.message =~ /Invalid availability zone/
+                realms = []
+              end
+            else
+              realms = ec2.describe_availability_zones.collect do |realm|
+                convert_realm(realm) unless realm.empty?
+              end
+            end
+          end
+          realms
+        end
+
+
 	# override EC2 implementation; Eucalyptus implements the older definition of EC2 security group;
 	# http://docs.amazonwebservices.com/AWSEC2/2009-07-15/APIReference/index.html?ApiReference-query-AuthorizeSecurityGroupIngress.html
         # if the rule specifies a source group, port&protocol will be ignored. And source group and cidr range can't be mixed in a request
