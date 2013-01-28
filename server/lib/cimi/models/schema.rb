@@ -251,6 +251,7 @@ class CIMI::Model::Schema
     end
 
     def to_json(model, json)
+      return if model[name].nil?
       model[name].prepare
       if model[name].entries.empty?
         json[json_name] = { "href" => model[name].href }

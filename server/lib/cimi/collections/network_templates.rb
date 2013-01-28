@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :network_templates do
         description 'List all Network Templates in the NetworkTemplateCollection'
         control do
-          network_templates = NetworkTemplate.list(self).filter_by(params['$select'])
+          network_templates = NetworkTemplate.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml {network_templates.to_xml}
             format.json {network_templates.to_json}

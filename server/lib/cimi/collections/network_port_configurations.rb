@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :network_port_configurations do
         description 'List all NetworkPortConfigurations in the NetworkPortConfigurationCollection'
         control do
-          net_port_configs = NetworkPortConfiguration.list(self).filter_by(params['$select'])
+          net_port_configs = NetworkPortConfiguration.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml {net_port_configs.to_xml}
             format.json {net_port_configs.to_json}

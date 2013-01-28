@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index do
         description 'List all AddressTemplates in the AddressTemplateCollection'
         control do
-          address_templates = AddressTemplate.list(self).filter_by(params['$select'])
+          address_templates = AddressTemplate.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml {address_templates.to_xml}
             format.json {address_templates.to_json}

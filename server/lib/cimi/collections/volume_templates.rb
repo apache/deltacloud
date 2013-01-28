@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :storage_volumes do
         description "Retrieve the Volume Template Collection"
         control do
-          volume_template = VolumeTemplate.list(self).filter_by(params['$select'])
+          volume_template = VolumeTemplate.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { volume_template.to_xml }
             format.json { volume_template.to_json }

@@ -24,7 +24,7 @@ module CIMI::Collections
       operation :index, :with_capability => :hardware_profiles do
         description "List all machine configurations"
         control do
-          machine_configs = MachineConfiguration.list(self).filter_by(params['$select'])
+          machine_configs = MachineConfiguration.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { machine_configs.to_xml }
             format.json { machine_configs.to_json }

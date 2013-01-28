@@ -24,7 +24,7 @@ module CIMI::Collections
       operation :index, :with_capability => :images do
         description "List all machine configurations"
         control do
-          machine_images = MachineImage.list(self).filter_by(params['$select'])
+          machine_images = MachineImage.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { machine_images.to_xml }
             format.json { machine_images.to_json }

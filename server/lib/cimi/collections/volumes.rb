@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :storage_volumes do
         description "List all volumes"
         control do
-          volumes = Volume.list(self).filter_by(params['$select'])
+          volumes = Volume.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { volumes.to_xml }
             format.json { volumes.to_json }

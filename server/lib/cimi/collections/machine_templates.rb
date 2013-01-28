@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index do
         description "List all machine templates"
         control do
-          machine_templates = CIMI::Model::MachineTemplate.list(self).filter_by(params['$select'])
+          machine_templates = CIMI::Model::MachineTemplate.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { machine_templates.to_xml }
             format.json { machine_templates.to_json }

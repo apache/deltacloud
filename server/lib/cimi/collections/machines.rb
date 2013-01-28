@@ -24,7 +24,7 @@ module CIMI::Collections
       operation :index, :with_capability => :instances do
         description "List all machines"
         control do
-          machines = Machine.list(self).filter_by(params['$select'])
+          machines = Machine.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { machines.to_xml }
             format.json { machines.to_json }

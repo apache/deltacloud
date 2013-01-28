@@ -24,7 +24,7 @@ module CIMI::Collections
       operation :index, :with_capability => :storage_snapshots do
         description "List all volumes images"
         control do
-          volume_images = VolumeImage.list(self).filter_by(params['$select'])
+          volume_images = VolumeImage.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { volume_images.to_xml }
             format.json { volume_images.to_json }

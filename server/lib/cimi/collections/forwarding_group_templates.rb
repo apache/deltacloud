@@ -22,7 +22,7 @@ module CIMI::Collections
       operation :index, :with_capability => :forwarding_groups do
         description 'List all ForwardingGroupTemplates in the ForwardingGroupTemplateCollection'
         control do
-          forwarding_group_templates = ForwardingGroupTemplate.list(self).filter_by(params['$select'])
+          forwarding_group_templates = ForwardingGroupTemplate.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml {forwarding_group_templates.to_xml}
             format.json {forwarding_group_templates.to_json}

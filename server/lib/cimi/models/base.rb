@@ -164,17 +164,18 @@ class CIMI::Model::Resource
   end
 
   def []=(a, v)
+    return @attribute_values.delete(a) if v.nil?
     @attribute_values[a] = self.class.schema.convert(a, v)
   end
 
   # Prepare to serialize
   def prepare
     self.class.schema.collections.map { |coll| coll.name }.each do |n|
-      if !@filter_attrs.empty? and !@filter_attrs.include?(n)
-        @attribute_values[n] = nil
-      else
+      if @select_attrs.empty? or @select_attrs.include?(n)
         self[n].href = "#{self.base_id}/#{n}" if !self[n].href
         self[n].id = "#{self.base_id}/#{n}" if !self[n].entries.empty?
+      else
+        self[n] = nil
       end
     end
   end
@@ -184,11 +185,11 @@ class CIMI::Model::Resource
   #
   def initialize(values = {})
     names = self.class.schema.attribute_names
-    @filter_attrs = values[:filter_attr_list] || []
+    @select_attrs = values[:select_attr_list] || []
     # Make sure we always have the :id of the entity even
     # the $select parameter is used and :id is filtered out
     #
-    @_base_id = values[:base_id] || values[:id]
+    @base_id = values[:base_id] || values[:id]
     @attribute_values = names.inject(OrderedHash.new) do |hash, name|
       hash[name] = self.class.schema.convert(name, values[name])
       hash
@@ -196,7 +197,7 @@ class CIMI::Model::Resource
   end
 
   def base_id
-    self.id || @_base_id
+    self.id || @base_id
   end
 
   # Construct a new object from the XML representation +xml+
@@ -258,23 +259,23 @@ class CIMI::Model::Resource
     self.class.to_xml(self)
   end
 
-  def filter_by(filter_opts)
+  def select_by(filter_opts)
     return self if filter_opts.nil?
-    return filter_attributes(filter_opts.split(',').map{ |a| a.intern }) if filter_opts.include? ','
+    return select_attributes(filter_opts.split(',').map{ |a| a.intern }) if filter_opts.include? ','
     case filter_opts
-      when /^([\w\_]+)$/ then filter_attributes([$1.intern])
-      when /^([\w\_]+)\[(\d+\-\d+)\]$/ then filter_by_arr_range($1.intern, $2)
-      when /^([\w\_]+)\[(\d+)\]$/ then filter_by_arr_index($1.intern, $2)
+      when /^([\w\_]+)$/ then select_attributes([$1.intern])
+      when /^([\w\_]+)\[(\d+\-\d+)\]$/ then select_by_arr_range($1.intern, $2)
+      when /^([\w\_]+)\[(\d+)\]$/ then select_by_arr_index($1.intern, $2)
       else self
     end
   end
 
-  def filter_by_arr_index(attr, filter)
+  def select_by_arr_index(attr, filter)
     return self unless self.respond_to?(attr)
     self.class.new(attr => [self.send(attr)[filter.to_i]])
   end
 
-  def filter_by_arr_range(attr, filter)
+  def select_by_arr_range(attr, filter)
     return self unless self.respond_to?(attr)
     filter = filter.split('-').inject { |s,e| s.to_i..e.to_i }
     self.class.new(attr => self.send(attr)[filter])
@@ -292,14 +293,14 @@ class CIMI::Model::Base < CIMI::Model::Resource
 
   hash :property
 
-  def filter_attributes(attr_list)
+  def select_attributes(attr_list)
     attrs = attr_list.inject({}) do |result, attr|
       attr = attr.to_s.underscore
       result[attr.to_sym] = self.send(attr) if self.respond_to?(attr)
       result
     end
     self.class.new(attrs.merge(
-      :filter_attr_list => attr_list,
+      :select_attr_list => attr_list,
       :base_id => self.send(:id)
     ))
   end

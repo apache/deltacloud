@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :network_configurations do
         description 'List all NetworkConfigurations'
         control do
-          network_configurations = NetworkConfiguration.list(self).filter_by(params['$select'])
+          network_configurations = NetworkConfiguration.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { network_configurations.to_xml  }
             format.json { network_configurations.to_json }
