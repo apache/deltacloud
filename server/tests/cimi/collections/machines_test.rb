@@ -72,6 +72,64 @@ describe CIMI::Collections::Machines do
     end
   end
 
+  describe '$select' do
+
+    it 'should return only selected attribute' do
+      get root_url('/machines?$select=name')
+      status.must_equal 200
+      (xml/'Collection/Machine/name').wont_be_empty
+      (xml/'Collection/Machine/name').first.text.wont_be_empty
+      xml.xpath("/c:Collection/c:Machine/*[not(self::c:name)]", NS).must_be_empty
+    end
+
+    it 'should support multiple selected attributes' do
+      get root_url('/machines?$select=name,description')
+      status.must_equal 200
+      (xml/'Collection/Machine/name').wont_be_empty
+      (xml/'Collection/Machine/name').first.text.wont_be_empty
+      (xml/'Collection/Machine/description').wont_be_empty
+      (xml/'Collection/Machine/description').first.text.wont_be_empty
+      xml.xpath("/c:Collection/c:Machine/*[not(self::c:name) and not(self::c:description)]", NS).must_be_empty
+    end
+
+    it 'should support select on non-expanded subcollection' do
+      get root_url('/machines?$select=disks')
+      xml.xpath("/c:Collection/c:Machine/*[not(self::c:disks)]", NS).must_be_empty
+      (xml/'Collection/Machine/disks').wont_be_empty
+      (xml/'Collection/Machine/disks').each do |d|
+        d[:href].wont_be_empty
+        d[:href].must_match(/^http/)
+        d.children.must_be_empty
+      end
+    end
+
+    def disks
+      (xml/'Collection/Machine/disks').wont_be_empty
+      (xml/'Collection/Machine/disks').each do |d|
+        d[:href].wont_be_empty
+        d[:href].must_match(/^http/)
+        d.at('id').wont_be_nil
+        d.at('count').wont_be_nil
+        d.at('Disk/id').wont_be_nil
+        d.at('Disk/description').wont_be_nil
+        d.at('Disk/capacity').wont_be_nil
+        d.at('Disk/created').wont_be_nil
+      end
+    end
+
+    it 'should support select on expanded subcollection' do
+      get root_url('/machines?$select=disks&$expand=disks')
+      xml.xpath("/c:Collection/c:Machine/*[not(self::c:disks)]", NS).must_be_empty
+      disks
+    end
+
+    it 'should support select on expanded subcollection and regular attribute' do
+      get root_url('/machines?$select=name,disks&$expand=disks')
+      xml.xpath("/c:Collection/c:Machine/*[not(self::c:disks) and not(self::c:name)]", NS).must_be_empty
+      disks
+    end
+  end
+
   it 'should not return non-existing machine' do
     get root_url '/machines/unknown-machine'
     status.must_equal 404
