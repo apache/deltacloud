@@ -86,6 +86,8 @@ module Deltacloud
               end
             end
           end
+          profiles = hardware_profiles(credentials)
+          imgs.each { |img| img.hardware_profiles = profiles }
           imgs = filter_on( imgs, :architecture, opts )
           imgs.sort_by{|e| [e.owner_id, e.description]}
         end

@@ -62,6 +62,8 @@ class RackspaceDriver < Deltacloud::BaseDriver
         )
       end
     end
+    profiles = hardware_profiles(credentials)
+    results.each { |img| img.hardware_profiles = profiles }
     filter_on( results, :id, opts )
   end
 
