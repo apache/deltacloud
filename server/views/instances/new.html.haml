@@ -2,7 +2,7 @@
 =subheader "#{@image.id}"
 
 .hidden_content
-  - @hardware_profiles.each do |profile|
+  - @image.hardware_profiles.each do |profile|
     %div{ :'data-role' => :fieldcontain, :id => "hwp_properties_#{profile.name}", :class => 'property_block'}
       - profile.properties.reject { |prop| prop.fixed? }.each do |prop|
         %label{ :for => "#{prop.param}_#{profile.name}", :class => 'ui-input-text' }=prop.name

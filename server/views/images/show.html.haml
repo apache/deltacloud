@@ -21,11 +21,14 @@
       %li{ :'data-role' => 'list-divider'} Creation Time
       %li
         %p{ :'data-role' => 'fieldcontain'}=@image.creation_time
+    %li{ :'data-role' => 'list-divider'} Root Device Type
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@image.root_type
     %li{ :'data-role' => 'list-divider'} Architecture
     %li
       %p{ :'data-role' => 'fieldcontain'}=@image.architecture
     - if @image.hardware_profiles
-      %li{ :'data-role' => 'list-divider'} Hardware Profiles
+      %li{ :'data-role' => 'list-divider'} Compatible Hardware Profiles
       %li
         %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
           - @image.hardware_profiles.each do |hwp|

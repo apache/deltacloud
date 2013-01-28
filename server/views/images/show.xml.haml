@@ -13,6 +13,7 @@
     %hardware_profiles
       - @image.hardware_profiles.each do |profile|
         %hardware_profile{ :href => hardware_profile_url(profile.id), :id => profile.id, :rel => :hardware_profile }
+  %root_type=@image.root_type
   %actions
     %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{@image.id}"}
     - if driver.respond_to? :destroy_image

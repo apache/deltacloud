@@ -45,4 +45,11 @@ describe 'Ec2Driver Images' do
     @driver.image(:id => 'unknown').must_be_nil
   end
 
+  it 'must advertise the image storage_type' do
+    VCR.insert_cassette 'test_0004_must_allow_to_retrieve_single_image'
+    @driver.image(:id => 'ami-aecd60c7').wont_be_nil
+    @driver.image(:id => 'ami-aecd60c7').storage_type.wont_be_nil
+    @driver.image(:id => 'ami-aecd60c7').storage_type.must_equal 'persistent'
+  end
+
 end

@@ -53,6 +53,7 @@ module Deltacloud
           memory             613
           storage            160
           architecture       ['i386','x86_64']
+          root_type          :persistent
         end
 
         define_hardware_profile('m1.small') do
@@ -938,8 +939,13 @@ module Deltacloud
             :owner_id => image[:aws_owner],
             :architecture => image[:aws_architecture],
             :hardware_profiles => image_profiles(image, profiles),
-            :state => image[:aws_state]
+            :state => image[:aws_state],
+            :root_type => convert_root_type(image[:aws_root_device_type])
           )
+        end
+
+        def convert_root_type(type)
+          type == 'ebs' ? 'persistent' : 'transient'
         end
 
         def convert_instance(instance)
@@ -1146,6 +1152,11 @@ module Deltacloud
         end
 
         exceptions do
+
+          on /root device is not supported for the instance/ do
+            status 400
+          end
+
           on /(AuthFailure|InvalidAccessKeyId)/ do
             status 401
           end

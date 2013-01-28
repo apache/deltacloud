@@ -46,11 +46,15 @@ module Deltacloud
     property :architecture
     property :memory
     property :storage
+    property :root_type
 
     def initialize(profile_id, &block)
       @properties   = {}
       super(:id => profile_id)
       result = instance_eval(&block) if block_given?
+      unless @properties.include? :root_type
+        root_type(:transient)
+      end
       @name ||= profile_id
       result
     end

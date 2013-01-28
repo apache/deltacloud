@@ -24,6 +24,11 @@ class Image < BaseModel
   attr_accessor :state
   attr_accessor :hardware_profiles
   attr_accessor :creation_time
+  attr_accessor :root_type
+
+  def root_type
+    @root_type || 'transient'
+  end
 
   def to_hash(context)
     {
@@ -34,6 +39,7 @@ class Image < BaseModel
       :owner => owner_id,
       :architecture => architecture,
       :state => state,
+      :root_type => storage_type,
       :creation_time => creation_time,
       :hardware_profiles => hardware_profiles.map { |p|
         { :id => p.id, :href => context.hardware_profile_url(p.id), :rel => :hardware_profile }
