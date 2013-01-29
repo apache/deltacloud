@@ -39,7 +39,7 @@ class Image < BaseModel
       :owner => owner_id,
       :architecture => architecture,
       :state => state,
-      :root_type => storage_type,
+      :root_type => root_type,
       :creation_time => creation_time,
       :hardware_profiles => hardware_profiles.map { |p|
         { :id => p.id, :href => context.hardware_profile_url(p.id), :rel => :hardware_profile }
