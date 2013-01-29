@@ -1,5 +1,7 @@
 # Memory database
 if RUBY_PLATFORM == 'java'
+  require 'jdbc/sqlite3'
+  Jdbc::SQLite3.load_driver
   ENV['DATABASE_LOCATION'] = 'jdbc:sqlite::memory:'
 else
   ENV['DATABASE_LOCATION'] = 'sqlite:/'
