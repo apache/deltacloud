@@ -128,6 +128,7 @@ module Deltacloud
               begin
                 ec2.describe_availability_zones([opts[:id]]).collect do |realm|
                   realms << convert_realm(realm) unless realm.empty?
+                end
               rescue => e
                 raise e unless e.message =~ /Invalid availability zone/
                 realms = []
