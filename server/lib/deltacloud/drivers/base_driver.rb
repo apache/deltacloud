@@ -39,13 +39,15 @@ module Deltacloud
       @features ||= {}
     end
 
-    def self.feature(collection, feature_name)
-      return if has_feature?(collection, feature_name)
-      constraints[collection] ||= {}
-      constraints[collection][feature_name] ||= {}
-      constraints[collection][feature_name].merge!(yield) if block_given?
-      features[collection] ||= []
-      features[collection] << feature_name
+    def self.feature(collection, *feature_list)
+      feature_list.each do |feature_name|
+        next if has_feature?(collection, feature_name)
+        constraints[collection] ||= {}
+        constraints[collection][feature_name] ||= {}
+        constraints[collection][feature_name].merge!(yield) if block_given?
+        features[collection] ||= []
+        features[collection] << feature_name
+      end
     end
 
     def self.constraints(opts={})

@@ -35,16 +35,20 @@ module Deltacloud
     module Ec2
       class Ec2Driver < Deltacloud::BaseDriver
 
-        feature :instances, :user_data
-        feature :instances, :authentication_key
-        feature :instances, :firewalls
-        feature :instances, :instance_count
-        feature :instances, :metrics
-        feature :images, :owner_id
-        feature :images, :image_name
-        feature :images, :image_description
+        feature :instances,
+          :user_data,
+          :authentication_key,
+          :firewalls,
+          :instance_count,
+          :metrics,
+          :attach_snapshot
+
+        feature :images,
+          :owner_id,
+          :image_name,
+          :image_description
+
         feature :buckets, :bucket_location
-        feature :instances, :attach_snapshot
 
         DEFAULT_REGION = 'us-east-1'
 
