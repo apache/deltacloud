@@ -5,6 +5,13 @@ require_relative 'common'
 
 describe 'GoGridDriver Images' do
 
+  def credentials
+  {
+    :user => "04825b9fb0826b0b",
+    :password => "gogrid_deltacloud_te"
+  }
+  end
+
   before do
     @driver = Deltacloud::new(:gogrid, credentials)
     VCR.insert_cassette __name__
