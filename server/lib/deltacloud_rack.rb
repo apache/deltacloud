@@ -68,6 +68,10 @@ module Deltacloud
 
     set :views, File.join(File.dirname(__FILE__), '..', 'views')
 
+    get '/robots.txt' do
+      send_file File.join('public', 'robots.txt')
+    end
+
     get '/' do
       respond_to do |format|
         format.xml { haml :'index', :layout => false }
