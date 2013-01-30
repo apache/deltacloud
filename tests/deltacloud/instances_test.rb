@@ -22,7 +22,7 @@ INSTANCES = "/instances"
 describe 'Deltacloud API instances collection' do
   include Deltacloud::Test::Methods
   need_collection :instances
-  #make sure we have at least one instance to test
+  #make sure we have at least one running instance to test
   if collection_supported :instances
     #keep track of what we create for deletion after tests:
     @@created_resources = {:instances=>[], :keys=>[], :images=>[], :firewalls=>[]}
@@ -33,12 +33,26 @@ describe 'Deltacloud API instances collection' do
     end
     @@my_instance_id = (res.xml/'instance')[0][:id]
     @@created_resources[:instances] << @@my_instance_id
+    #currently supported providers transition from PENDING to either RUNNING or STOPPED
+    attempts = 0
+    begin
+      res = get(INSTANCES+"/"+@@my_instance_id)
+      attempts += 1
+      state = (res.xml/'instance/state').text
+      if state == "STOPPED"
+        start_res = post(INSTANCES+"/"+@@my_instance_id+"/start", "")
+        attempts = 0
+      elsif state == "PENDING"
+        sleep(10)
+      end
+    end while attempts < 30 and state != "RUNNING"
   end
 
   #stop/destroy the resources we created for the tests
   MiniTest::Unit.after_tests {
 puts "CLEANING UP... resources for deletion: #{@@created_resources.inspect}"
     #instances:
+    #first try to stop them all. They may still be in another state, so keep trying for a while.
     @@created_resources[:instances].each_index do |i|
       attempts = 0
       begin
@@ -51,6 +65,28 @@ puts "CLEANING UP... resources for deletion: #{@@created_resources.inspect}"
       end
     end
     @@created_resources[:instances].compact!
+    #then destroy them. They may still be still stopping, so keep trying for a while.
+    (0..20).each do
+      @@created_resources[:instances].each_index do |i|
+        attempts = 0
+        begin
+          destroy_res = delete(INSTANCES+"/"+@@created_resources[:instances][i])
+          @@created_resources[:instances][i] = nil if destroy_res.code == 204
+        rescue Exception => e
+          if e.http_code == 404 # the stop operation may have destroyed it already
+            @@created_resources[:instances][i] = nil
+          elsif (attempts <= 5)
+            attempts += 1
+            sleep(10)
+            retry
+          end
+        end
+      end
+      @@created_resources[:instances].compact!
+      break if @@created_resources[:instances].empty?
+      puts "sleeping 10"
+      sleep(10)
+    end
     @@created_resources.delete(:instances) if @@created_resources[:instances].empty?
     #keys
     [:keys, :images, :firewalls].each do |col|
@@ -76,6 +112,17 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     (res.xml/'instances/instance').each do |r|
       instance_res = get(INSTANCES + '/' + r[:id])
       yield instance_res.xml
+    end
+  end
+
+  def wait_until_running_or_stopped(res, instance_id)
+    attempts = 0
+    state = (res.xml/'instance/state').text
+    while (attempts < 30 and not ["RUNNING","STOPPED"].include?(state)) do
+      sleep(10)
+      res = get(INSTANCES+"/"+instance_id)
+      state = (res.xml/'instance/state').text
+      attempts += 1
     end
   end
 
@@ -180,7 +227,9 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     res.code.must_equal 200
     (res.xml/'instance').first[:id].must_equal created_instance_id
     (res.xml/'instance/image').first[:id].must_equal image_id
-    #mark it for stopping after tests run:
+    #confirm instance progresses from PENDING to initial (non-error) state.
+    wait_until_running_or_stopped(res, created_instance_id)
+    #mark it for stopping/destroying after tests run:
     @@created_resources[:instances] << created_instance_id
   end
 
@@ -200,7 +249,9 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     (res.xml/'instance').first[:id].must_equal created_instance_id
     (res.xml/'instance/image').first[:id].must_equal image_id
     (res.xml/'instance/realm').first[:id].must_equal realm_id
-    #mark it for stopping after tests run:
+    #confirm instance progresses from PENDING to initial (non-error) state.
+    wait_until_running_or_stopped(res, created_instance_id)
+    #mark it for stopping/destroying after tests run:
     @@created_resources[:instances] << created_instance_id
   end
 
@@ -230,15 +281,19 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     (res.xml/'instance/image').first[:id].must_equal image_id
     (res.xml/'instance/realm').first[:id].must_equal realm_id
     (res.xml/'instance/hardware_profile').first[:id].must_equal hwp_id
-    #mark it for stopping after tests run:
+    #confirm instance progresses from PENDING to initial (non-error) state.
+    wait_until_running_or_stopped(res, created_instance_id)
+    #mark it for stopping/destroying after tests run:
     @@created_resources[:instances] << created_instance_id
   end
 
-#snapshot (make image)
+#snapshot (make image of running instance)
 
   it 'should allow to snapshot running instance if supported by provider' do
-    #check if created instance allows creating image
     res = get(INSTANCES+"/"+@@my_instance_id)
+    #confirm instance is running at all
+    (res.xml/'instance/state').text.must_match /RUNNING/
+    #check if created instance allows creating image
     instance_actions = (res.xml/'actions/link').to_a.inject([]){|actions, current| actions << current[:rel]; actions}
     skip "no create image support for instance #{@@my_instance_id}" unless instance_actions.include?("create_image")
     #create image
@@ -291,6 +346,8 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
       #check the name:
       created_name = (res.xml/'instance/name')[0].text
       created_name.must_equal instance_name
+      #confirm instance progresses from PENDING to initial (non-error) state.
+      wait_until_running_or_stopped(res, instance_id)
       #mark for deletion:
       @@created_resources[:instances] << instance_id
     end
