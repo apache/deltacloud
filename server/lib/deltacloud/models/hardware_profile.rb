@@ -31,7 +31,7 @@ module Deltacloud
     class << self
       def property(prop)
         define_method(prop) do |*args|
-          values, opts, *ignored = *args
+          values, opts, _ = *args
           unless values.nil?
             @properties[prop] = Property.new(prop, values, opts || {})
           end
@@ -52,9 +52,6 @@ module Deltacloud
       @properties   = {}
       super(:id => profile_id)
       result = instance_eval(&block) if block_given?
-      unless @properties.include? :root_type
-        root_type(:transient)
-      end
       @name ||= profile_id
       result
     end
