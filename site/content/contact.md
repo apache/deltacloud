@@ -63,3 +63,8 @@ The Deltacloud website - how it works, how to submit changes etc  -  Deltacloud 
 <a href="http://youtu.be/KvN0xEVc_N0">Deltacloud Community Call #8</a>
 
 Deep dive into a Deltacloud API call, a look at the Deltacloud server gemspec - gems used as clients to cloud providers
+
+<br>
+<a href="http://youtu.be/XWSG2knVvZI">Deltacloud Community Call #9</a>
+
+Demo of how to use CIMI $select and $expand parameters - Introduction/overview of a deltacloud driver
