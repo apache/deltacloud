@@ -13,8 +13,26 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 #
+
 module CIMI
-  module Model; end
+  module Model
+    def self.register_as_root_entity!(klass, opts = {})
+      @root_entities ||= [CIMI::Model::CloudEntryPoint]
+      @root_entities << klass
+      name = klass.name.split("::").last.pluralize
+      unless CIMI::Model::CloudEntryPoint.href_defined?(name)
+        params = {}
+        if opts[:as]
+          params[:xml_name] = params[:json_name] = opts[:as]
+        end
+        CIMI::Model::CloudEntryPoint.send(:href, name.underscore, params)
+      end
+    end
+
+    def self.root_entities
+      @root_entities || []
+    end
+  end
 end
 
 require 'require_relative' if RUBY_VERSION < '1.9'
@@ -31,8 +49,9 @@ unless Deltacloud.test_environment?
 end
 
 require_relative './models/schema'
-require_relative './models/base'
+require_relative './models/resource'
 require_relative './models/collection'
+require_relative './models/base'
 require_relative './models/errors'
 require_relative './models/action'
 require_relative './models/machine_volume'

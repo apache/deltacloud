@@ -19,10 +19,36 @@ module CIMI::Model
 
     class << self
       attr_accessor :entry_name, :embedded
+
+      def xml_tag_name
+        'Collection'
+      end
+
+      def generate(model_class, opts = {})
+        model_name = model_class.name.split("::").last
+        scope = opts[:scope] || CIMI::Model
+        coll_class = Class.new(CIMI::Model::Collection)
+        scope.const_set(:"#{model_name}Collection", coll_class)
+        coll_class.entry_name = model_name.underscore.pluralize.to_sym
+        coll_class.embedded = opts[:embedded]
+        entry_schema = model_class.schema
+        coll_class.instance_eval do
+          text :id
+          scalar :href
+          text :count
+          scalar :href if opts[:embedded]
+          array self.entry_name, :schema => entry_schema, :xml_name => model_name
+          array :operations do
+            scalar :rel, :href
+          end
+        end
+        coll_class
+      end
+
     end
 
     # Make sure the base schema gets cloned
-    self.schema
+    schema
 
     # You can initialize collection by passing the Hash representation of the
     # collection or passing another Collection object.
@@ -76,76 +102,50 @@ module CIMI::Model
       end
       self
     end
-
-    def self.xml_tag_name
-      "Collection"
-    end
-
-    def self.generate(model_class, opts = {})
-      model_name = model_class.name.split("::").last
-      scope = opts[:scope] || CIMI::Model
-      coll_class = Class.new(CIMI::Model::Collection)
-      scope.const_set(:"#{model_name}Collection", coll_class)
-      coll_class.entry_name = model_name.underscore.pluralize.to_sym
-      coll_class.embedded = opts[:embedded]
-      entry_schema = model_class.schema
-      coll_class.instance_eval do
-        text :id
-        scalar :href
-        text :count
-        scalar :href if opts[:embedded]
-        array self.entry_name, :schema => entry_schema, :xml_name => model_name
-        array :operations do
-          scalar :rel, :href
-        end
-      end
-      coll_class
-    end
   end
 
-  #
-  # We need to reopen Base and add some stuff to avoid circular dependencies
-  #
-  class Base
-    #
-    # Toplevel collections
-    #
+  module CollectionMethods
 
-    class << self
-
-      attr_accessor :collection_class
-
-      def acts_as_root_entity(opts = {})
-        self.collection_class = Collection.generate(self)
-        CIMI::Model.register_as_root_entity! self, opts
-      end
-
-      # Return a collection of entities
-      def list(context)
-        entries = find(:all, context)
-        desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
-        acts_as_root_entity unless collection_class
-        id = context.send("#{collection_class.entry_name}_url")
-        ops = []
-        cimi_entity = collection_class.entry_name.to_s.singularize
-        cimi_create = "create_#{cimi_entity}_url"
-        dcloud_create = context.deltacloud_create_method_for(cimi_entity)
-        if(context.respond_to?(cimi_create) &&
-           context.driver.respond_to?(dcloud_create)) ||
-             provides?(cimi_entity)
-          url = context.send(cimi_create)
-          ops << { :rel => "add", :href => url }
-        end
-        collection_class.new(:id => id,
-                             :count => entries.size,
-                             :entries => entries,
-                             :operations => ops,
-                             :description => desc)
-      end
+    def collection_class=(klass)
+      @collection_class = klass
     end
 
-    def self.all(context)
-      find(:all, context)
+    def collection_class
+      @collection_class
     end
+
+    def acts_as_root_entity(opts = {})
+      self.collection_class = Collection.generate(self)
+      CIMI::Model.register_as_root_entity! self, opts
+    end
+
+    # Return a collection of entities
+    def list(context)
+      entries = find(:all, context)
+      desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
+      acts_as_root_entity unless collection_class
+      id = context.send("#{collection_class.entry_name}_url")
+      ops = []
+      cimi_entity = collection_class.entry_name.to_s.singularize
+      cimi_create = "create_#{cimi_entity}_url"
+      dcloud_create = context.deltacloud_create_method_for(cimi_entity)
+      if(context.respond_to?(cimi_create) &&
+         context.driver.respond_to?(dcloud_create)) ||
+      provides?(cimi_entity)
+        url = context.send(cimi_create)
+        ops << { :rel => "add", :href => url }
+      end
+      collection_class.new(:id => id,
+                           :count => entries.size,
+                           :entries => entries,
+                           :operations => ops,
+                           :description => desc)
+    end
+
+    def all(context)
+      find :all, context
+    end
+
   end
+
 end
