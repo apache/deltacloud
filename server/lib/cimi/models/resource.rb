@@ -13,6 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require_relative '../helpers/filter_helper'
 require_relative '../helpers/select_helper'
 
 module CIMI
@@ -21,6 +22,7 @@ module CIMI
 
       extend CIMI::Model::Schema::DSL
       include CIMI::Helpers::SelectResourceMethods
+      include CIMI::Helpers::FilterResourceMethods
 
       #
       # We keep the values of the attributes in a hash

@@ -72,6 +72,28 @@ describe CIMI::Collections::Machines do
     end
   end
 
+  describe '$filter' do
+
+    it 'should filter collection by name attribute' do
+      get root_url("/machines?$filter=name='MockUserInstance'")
+      status.must_equal 200
+      (xml/'Collection/Machine').wont_be_empty
+      (xml/'Collection/Machine').size.must_equal 1
+      xml.at('Collection/count').text.must_equal '1'
+      xml.at('Collection/Machine/name').text.must_equal 'MockUserInstance'
+    end
+
+    it 'should filter collection by reverse name attribute' do
+      get root_url("/machines?$filter=name!='MockUserInstance'")
+      status.must_equal 200
+      (xml/'Collection/Machine').wont_be_empty
+      (xml/'Collection/Machine').size.must_equal 1
+      xml.at('Collection/count').text.must_equal '1'
+      xml.at('Collection/Machine/name').text.must_equal 'Mock Instance With Profile Change'
+    end
+
+  end
+
   describe '$select' do
 
     it 'should return only selected attribute' do
