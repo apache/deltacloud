@@ -119,7 +119,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
                 :bootable => "false", #fixme ... will vary... ec2 doesn't expose this
                 :snapshots => [], #fixme...
                 :type => 'http://schemas.dmtf.org/cimi/1/mapped',
-                :state => volume.state,
+                :state => volume.state == 'IN-USE' ? 'AVAILABLE' : volume.state,
                 :meters => [],
                 :operations => [{:href=> context.volume_url(volume.id), :rel => "delete"}]
             } )

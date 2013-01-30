@@ -457,7 +457,9 @@ class FgcpDriver < Deltacloud::BaseDriver
         end
         state = client.get_vdisk_status(opts[:id])['vdiskStatus'][0]
         actions = []
-        if state == 'NORMAL'
+        #align with EC2, cimi
+        case state
+        when 'NORMAL'
           if vdisk['attachedTo'].nil?
             state = 'AVAILABLE'
             actions = [:attach, :destroy]
@@ -465,6 +467,10 @@ class FgcpDriver < Deltacloud::BaseDriver
             state = 'IN-USE'
             actions = [:detach]
           end
+        when 'DEPLOYING'
+          state = 'CREATING'
+        when 'BACKUP_ING'
+          state = 'CAPTURING'
         end
 
         volumes << StorageVolume.new(
@@ -498,7 +504,7 @@ class FgcpDriver < Deltacloud::BaseDriver
                 :realm_id    => client.extract_vsys_id(vdisk['vdiskId'][0]),
                 # aligning with rhevm, which returns 'system' or 'data'
                 :kind        => determine_storage_type(vdisk['vdiskId'][0]),
-                :state       => vdisk['attachedTo'].nil? ? nil : 'IN-USE'
+                :state       => vdisk['attachedTo'].nil? ? 'AVAILABLE' : 'IN-USE'
               )
             end
           end
@@ -510,7 +516,7 @@ class FgcpDriver < Deltacloud::BaseDriver
 
   def create_storage_volume(credentials, opts={})
     opts ||= {}
-    opts[:name]     ||= Time.now.to_s
+    opts[:name] = Time.now.to_s unless opts[:name] and not opts[:name].empty?
     opts[:capacity] ||= '1' # DC default
     #size has to be a multiple of 10: round up.
     opts[:capacity] = ((opts[:capacity].to_f / 10.0).ceil * 10.0).to_s
@@ -536,7 +542,8 @@ class FgcpDriver < Deltacloud::BaseDriver
         :capacity    => opts[:capacity],
         :realm_id    => client.extract_vsys_id(opts[:realm_id]),
         :instance_id => nil,
-        :state       => 'DEPLOYING',
+        # aligning with ec2, cimi (instead of fgcp's DEPLOYING)
+        :state       => 'CREATING',
         # aligning with rhevm, which returns 'system' or 'data'
         :kind        => 'data',
         :actions     => []
@@ -585,7 +592,7 @@ class FgcpDriver < Deltacloud::BaseDriver
 
               snapshots << StorageSnapshot.new(
                 :id => opts[:id],
-                #:state => ?,
+                :state => 'AVAILABLE',
                 :storage_volume_id => vdisk_id,
                 :created => backup['backupTime'][0]
               ) if backup_id = backup['backupId'][0]
@@ -611,7 +618,7 @@ class FgcpDriver < Deltacloud::BaseDriver
 
                   snapshots << StorageSnapshot.new(
                     :id => generate_snapshot_id(vdisk['vdiskId'][0], backup['backupId'][0]),
-                    #:state => ?,
+                    :state => 'AVAILABLE',
                     :storage_volume_id => vdisk['vdiskId'][0],
                     :created => backup['backupTime'][0]
                   )
@@ -634,7 +641,7 @@ class FgcpDriver < Deltacloud::BaseDriver
 
     StorageSnapshot.new(
       :id                 => "PENDING-#{opts[:volume_id]}", # don't know id until backup completed
-      :state              => 'PENDING', # OK to make up a state like that?
+      :state              => 'CREATING',
       :storage_volume_id  => opts[:volume_id],
       :created            => Time.now.to_s
     )
