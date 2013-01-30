@@ -91,16 +91,20 @@ class MachinesResourceMetadata < CIMI::Test::Spec
     last_response.code.must_equal 200
   end
 
-  it "should Each capability, attribute and action advertised must contain attributes specified", :only => :json do
+  it "should show each capability, attribute and action containing attributes specified", :only => :json do
     resource_metadata_machine
     rmd_type = ["capabilities", "attributes", "actions"]
     elements = [ ["name", "uri", "description", "value"],
-      ["name", "namespace", "type", "required", "constraints"],
+      # see Mantis issue 1977
+      ["name", "namespace", "type", "required"],  # "constraints"],
       ["name", "uri", "description", "method", "inputMessage", "outputMessage"] ]
     $i=0
     while $i < rmd_type.size()
       unless last_response.json[rmd_type[$i]].nil?()
+        log.info("Testing resource metadata: " + last_response.json[rmd_type[$i]].to_s())
+        log.info(" For elements: " + elements[$i].to_s())
         (elements[$i].all? { |element| last_response.json[rmd_type[$i]].all? {|i| !i[element].nil?()} }).must_equal true
+        log.info(" Results for " + rmd_type[$i] + ":  true")
       end
       $i +=1
     end
