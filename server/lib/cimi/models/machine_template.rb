@@ -59,7 +59,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => json['description'],
         :machine_config => json['machineConfig']['href'],
         :machine_image => json['machineImage']['href'],
-        :ent_properties => json['properties'].to_json
+        :ent_properties => json['properties'] ? json['properties'].to_json : {}
       )
       from_db(new_template, context)
     end
@@ -71,7 +71,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => xml['description'].first,
         :machine_config => xml['machineConfig'].first['href'],
         :machine_image => xml['machineImage'].first['href'],
-        :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r })
+        :ent_properties => xml['property'] ? JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
       )
       from_db(new_template, context)
     end
@@ -89,7 +89,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => model.description,
         :machine_config => { :href => model.machine_config },
         :machine_image => { :href => model.machine_image },
-        :property => JSON::parse(model.ent_properties),
+        :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
         :created => Time.parse(model.created_at.to_s).xmlschema,
         :operations => [
           { :href => context.destroy_machine_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }

@@ -56,7 +56,7 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
       :description => input['description'],
       :volume_config => input['volumeConfig']['href'],
       :volume_image => vol_image,
-      :ent_properties => JSON::dump(input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r })
+      :ent_properties => input['property'] ? JSON::dump(input['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
     )
     from_db(new_template, context)
   end
@@ -74,7 +74,7 @@ private
       :description => model.description,
       :volume_config => {:href => model.volume_config},
       :volume_image => {:href => model.volume_image},
-      :property => JSON::parse(model.ent_properties),
+      :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
       :operations => [
         { :href => context.destroy_volume_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
       ]

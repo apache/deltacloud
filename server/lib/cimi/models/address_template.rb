@@ -67,7 +67,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => json['dns'],
       :protocol => json['protocol'],
       :mask => json['mask'],
-      :ent_properties => json['properties'].to_json
+      :ent_properties => json['properties'] ? json['properties'].to_json : {}
     )
     from_db(new_template, context)
   end
@@ -85,7 +85,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => xml['dns'].first,
       :protocol => xml['protocol'].nil? ? nil : xml['protocol'].first,
       :mask => xml['mask'].first,
-      :ent_properties => JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r })
+      :ent_properties => xml['property'] ? JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
     )
     from_db(new_template, context)
   end
@@ -108,7 +108,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :dns => model.dns,
       :protocol => model.protocol,
       :mask => model.mask,
-      :property => JSON::parse(model.ent_properties),
+      :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
       :operations => [
         { :href => context.destroy_address_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
       ]
