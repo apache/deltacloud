@@ -537,6 +537,7 @@ private
             :username => 'root',
             :password => password,
             :keyname => server.send(op, :key_name),
+            :launch_time => server.send(op, :created),
             :storage_volumes => attachments.inject([]){|res, cur| res << {cur[:volumeId] => cur[:device]} ;res}
           )
           inst.actions = instance_actions_for(inst.state)
