@@ -42,7 +42,7 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       if context.driver.respond_to? :address_templates
         context.driver.address_templates(context.credentials, {:env=>context})
       else
-        current_db.address_teplates.map { |t| from_db(t, context) }
+        current_db.address_templates.map { |t| from_db(t, context) }
       end
     else
       if context.driver.respond_to? :address_template
