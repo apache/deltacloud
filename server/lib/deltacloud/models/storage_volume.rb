@@ -42,7 +42,7 @@ class StorageVolume < BaseModel
       :capacity => capacity,
     }
     r[:actions] = (actions || []).map { |a|
-      { :href => context.send("#{a}_storage_volume", self.id), :rel => a }
+      { :href => context.send("#{a}_storage_volume_url", self.id), :rel => a }
     }
     if instance_id
       r[:instance] = { :id => instance_id, :href => context.instance_url(instance_id), :rel => :instance }
