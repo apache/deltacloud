@@ -25,9 +25,9 @@ HTTPI.log = false
 
 module Deltacloud
   module Drivers
-    module Aruba
+    module Arubacloud
 
-class ArubaDriver < Deltacloud::BaseDriver
+class ArubacloudDriver < Deltacloud::BaseDriver
 
   DEFAULT_DC = 'dc1'
   feature :instances, :authentication_password
