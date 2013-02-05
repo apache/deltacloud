@@ -30,34 +30,14 @@ For now we're using an <a href="http://openetherpad.org/DeltacloudCall">etherpad
 <h3>Past Calls:</h3>
 
 <br>
-<a href="http://www.youtube.com/watch?v=cUC96SdQjaE">Deltacloud Community Call #1</a>
+<a href="http://www.youtube.com/watch?v=HzRbBA8BJ-Q">Deltacloud Community Call #10</a>
 
-Working with Deltacloud API clients, Contributing patches, review process, etc
-
-<br>
-<a href="http://www.youtube.com/watch?v=CMf73mtsIfs">Deltacloud Community Call #2</a>
-
-Networking API discussion, Writing Deltacloud API tests
+How to use Deltacloud driver "features"
 
 <br>
-<a href="http://www.youtube.com/watch?v=YOMK8jrhGoo">Deltacloud Community Call #3</a>
+<a href="http://youtu.be/XWSG2knVvZI">Deltacloud Community Call #9</a>
 
-Adding state to Deltacloud for the CIMI frontend - Datamapper
-
-<br>
-<a href="http://www.youtube.com/watch?v=TGYTrVRxcGE">Deltacloud Community Call #4</a>
-
-Debugging deltacloud - how to chase a bug - common steps, debugging tools. Mailing list questions: i) ovirt and the User Level API, ii) Plans for CIMI back-end driver?
-
-<br>
-<a href="http://www.youtube.com/watch?v=oP__wuCqFxQ">Deltacloud Community Call #5</a>
-
-How to file bug reports for Deltacloud - process, what to report, following up and CIMI resourceMetadata (implementation, why it is important?) - testing scenarios.
-
-<br>
-<a href="http://www.youtube.com/watch?v=YbAsWrj6UEY">Deltacloud Community Call #7</a>
-
-The Deltacloud website - how it works, how to submit changes etc  -  Deltacloud exceptions and error handling introduction, how to catch provider errors and raise specific HTTP response codes.
+Demo of how to use CIMI $select and $expand parameters - Introduction/overview of a deltacloud driver
 
 <br>
 <a href="http://youtu.be/KvN0xEVc_N0">Deltacloud Community Call #8</a>
@@ -65,6 +45,31 @@ The Deltacloud website - how it works, how to submit changes etc  -  Deltacloud 
 Deep dive into a Deltacloud API call, a look at the Deltacloud server gemspec - gems used as clients to cloud providers
 
 <br>
-<a href="http://youtu.be/XWSG2knVvZI">Deltacloud Community Call #9</a>
+<a href="http://www.youtube.com/watch?v=YbAsWrj6UEY">Deltacloud Community Call #7</a>
 
-Demo of how to use CIMI $select and $expand parameters - Introduction/overview of a deltacloud driver
+The Deltacloud website - how it works, how to submit changes etc  -  Deltacloud exceptions and error handling introduction, how to catch provider errors and raise specific HTTP response codes.
+
+<br>
+<a href="http://www.youtube.com/watch?v=oP__wuCqFxQ">Deltacloud Community Call #5</a>
+
+How to file bug reports for Deltacloud - process, what to report, following up and CIMI resourceMetadata (implementation, why it is important?) - testing scenarios.
+
+<br>
+<a href="http://www.youtube.com/watch?v=TGYTrVRxcGE">Deltacloud Community Call #4</a>
+
+Debugging deltacloud - how to chase a bug - common steps, debugging tools. Mailing list questions: i) ovirt and the User Level API, ii) Plans for CIMI back-end driver?
+
+<br>
+<a href="http://www.youtube.com/watch?v=YOMK8jrhGoo">Deltacloud Community Call #3</a>
+
+Adding state to Deltacloud for the CIMI frontend - Datamapper
+
+<br>
+<a href="http://www.youtube.com/watch?v=CMf73mtsIfs">Deltacloud Community Call #2</a>
+
+Networking API discussion, Writing Deltacloud API tests
+
+<br>
+<a href="http://www.youtube.com/watch?v=cUC96SdQjaE">Deltacloud Community Call #1</a>
+
+Working with Deltacloud API clients, Contributing patches, review process, etc
