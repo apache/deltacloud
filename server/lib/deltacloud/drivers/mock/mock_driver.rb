@@ -205,11 +205,11 @@ module Deltacloud::Drivers::Mock
       hwp ||= find_hardware_profile(credentials, 'm1-small', image_id)
 
       name = opts[:name] || "i-#{Time.now.to_i}"
-
+      initial_state = opts[:initial_state] || "RUNNING"
       instance = {
         :id => next_id,
         :name=>name,
-        :state=>'RUNNING',
+        :state=> (initial_state == "STARTED" ? "RUNNING" : initial_state),
         :keyname => opts[:keyname],
         :image_id=>image_id,
         :owner_id=>credentials.user,
@@ -218,7 +218,7 @@ module Deltacloud::Drivers::Mock
         :instance_profile => InstanceProfile.new(hwp.name, opts),
         :realm_id=>realm_id,
         :create_image=>true,
-        :actions=>instance_actions_for( 'RUNNING' ),
+        :actions=>instance_actions_for((initial_state == "STARTED" ? "RUNNING" : initial_state)),
         :user_data => opts[:user_data] ? Base64::decode64(opts[:user_data]) : nil
       }
       @client.store(:instances, instance)

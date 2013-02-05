@@ -52,6 +52,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_json(body, context)
     json = JSON.parse(body)
+    additional_params={}
     machine_template = json['machineTemplate']
     if !machine_template['href'].nil?
       template = current_db.machine_templates.first(:id => machine_template['href'].split('/').last)
@@ -65,8 +66,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
         additional_params[:keyname] = machine_template['credential']["href"].split('/').last
       end
     end
-
-    additional_params = {}
+    if machine_template.has_key? "initialState"
+      additional_params[:initial_state] = machine_template["initialState"].strip
+    end
     additional_params[:name] = json['name'] if json['name']
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
@@ -80,6 +82,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.create_from_xml(body, context)
     xml = XmlSimple.xml_in(body)
+    additional_params = {}
     if xml['machineTemplate'][0]['href']
       template = current_db.machine_templates_dataset.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
       hardware_profile_id = template.machine_config.split('/').last
@@ -92,7 +95,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
         additional_params[:keyname] = machine_template['credential'][0]["href"].split('/').last
       end
     end
-    additional_params = {}
+    if xml["machineTemplate"][0].has_key? "initialState"
+      additional_params[:initial_state] = xml["machineTemplate"][0]["initialState"].first.strip
+    end
     additional_params[:name] = xml['name'][0] if xml['name']
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
