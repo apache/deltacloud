@@ -240,12 +240,17 @@ class OpennebulaDriver < Deltacloud::BaseDriver
     if computehash['DISK/STORAGE']
       image_id = computehash['DISK/STORAGE'].attributes['href'].split("/").last
     end
+    if computehash['INSTANCE_TYPE']
+      instance_profile = computehash['INSTANCE_TYPE'].text
+    else
+      instance_profile = 'small'
+    end
     Instance.new( {
       :id=>computehash['ID'].text,
       :owner_id=>credentials.user,
       :name=>computehash['NAME'].text,
       :image_id=>image_id,
-      :instance_profile=>InstanceProfile.new(computehash['INSTANCE_TYPE'].text||'small'),
+      :instance_profile=>InstanceProfile.new(instance_profile),
       :realm_id=>'ONE',
       :state=>VM_STATES[computehash['STATE'].text],
       :public_addresses=>network,
