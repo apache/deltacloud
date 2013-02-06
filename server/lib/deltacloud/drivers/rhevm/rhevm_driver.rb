@@ -254,6 +254,7 @@ class RhevmDriver < Deltacloud::BaseDriver
       public_addresses << InstanceAddress.new(inst.vnc[:address], :port => inst.vnc[:port], :type => :vnc)
     end
 
+    can_create_image = state == 'STOPPED'
     # Remove 'destroy' operation from list of actions when RHEV-M instance
     # is suspended or paused.
     if state == 'PAUSED'
@@ -261,7 +262,6 @@ class RhevmDriver < Deltacloud::BaseDriver
       actions.delete(:destroy)
     else
       actions = instance_actions_for(state)
-      can_create_image = true
     end
 
     Instance.new(
@@ -277,7 +277,7 @@ class RhevmDriver < Deltacloud::BaseDriver
       :hardware_profile_id => profile.id,
       :public_addresses => public_addresses,
       :private_addresses => [],
-      :create_image => can_create_image || false
+      :create_image => can_create_image
     )
   end
 
