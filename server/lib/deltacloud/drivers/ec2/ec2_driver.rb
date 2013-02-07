@@ -380,7 +380,11 @@ module Deltacloud
         def create_key(credentials, opts={})
           ec2 = new_client(credentials)
           safely do
-            convert_key(ec2.create_key_pair(opts[:key_name]))
+            if (opts[:public_key] && opts[:public_key].length >0)
+              convert_key(ec2.import_key_pair(opts[:key_name], opts[:public_key]))
+            else
+              convert_key(ec2.create_key_pair(opts[:key_name]))
+            end
           end
         end
 
