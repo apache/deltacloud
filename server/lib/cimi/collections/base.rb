@@ -53,6 +53,18 @@ module CIMI::Collections
       report_error
     end
 
+    error CIMI::Model::ValidationError do
+      report_error
+    end
+
+    error JSON::ParserError do
+      report_error(400)
+    end
+
+    error REXML::ParseException do
+      report_error(400)
+    end
+
     before do
       # Respond with 400, If we don't get a http Host header,
       halt 400, "Unable to find HTTP Host header" if @env['HTTP_HOST'] == nil
