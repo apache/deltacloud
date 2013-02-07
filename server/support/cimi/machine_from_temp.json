@@ -6,5 +6,5 @@
     "foo": "bar",
     "life": "is life"
   },
-  "machineTemplate": { "href": "http://localhost:3001/cimi/machine_templates/8" }
+  "machineTemplate": { "href": "http://localhost:3001/cimi/machine_templates/1" }
 }

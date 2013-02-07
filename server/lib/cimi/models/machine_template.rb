@@ -21,6 +21,9 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
   href :machine_image
   href :credential
 
+  resource_attr :realm, :required => false,
+    :constraints => lambda { |c| c.driver.realms(c.credentials).map { |r| r.id }}
+
   array :volumes do
     scalar :href
     scalar :protocol
@@ -59,6 +62,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => json['description'],
         :machine_config => json['machineConfig']['href'],
         :machine_image => json['machineImage']['href'],
+        :realm => json['realm'],
         :ent_properties => json['properties'] ? json['properties'].to_json : {}
       )
       from_db(new_template, context)
@@ -71,6 +75,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => xml['description'].first,
         :machine_config => xml['machineConfig'].first['href'],
         :machine_image => xml['machineImage'].first['href'],
+        :realm => xml['realm'].first,
         :ent_properties => xml['property'] ? JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
       )
       from_db(new_template, context)
@@ -89,6 +94,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :description => model.description,
         :machine_config => { :href => model.machine_config },
         :machine_image => { :href => model.machine_image },
+        :realm => model.realm,
         :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
         :created => Time.parse(model.created_at.to_s).xmlschema,
         :operations => [

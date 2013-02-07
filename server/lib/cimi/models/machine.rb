@@ -55,10 +55,11 @@ class CIMI::Model::Machine < CIMI::Model::Base
     additional_params={}
     machine_template = json['machineTemplate']
     if !machine_template['href'].nil?
-      template = current_db.machine_templates.first(:id => machine_template['href'].split('/').last)
+      template = current_db.machine_templates_dataset.first(:id => machine_template['href'].split('/').last)
       raise 'Could not find the MachineTemplate' if template.nil?
       hardware_profile_id = template.machine_config.split('/').last
       image_id = template.machine_image.split('/').last
+      json['realm'] = template.realm
     else
       hardware_profile_id = machine_template['machineConfig']["href"].split('/').last
       image_id = machine_template['machineImage']["href"].split('/').last
@@ -92,6 +93,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
       template = current_db.machine_templates_dataset.first(:id => xml['machineTemplate'][0]['href'].split('/').last)
       hardware_profile_id = template.machine_config.split('/').last
       image_id = template.machine_image.split('/').last
+      xml['realm'] = [ template.realm ]
     else
       machine_template = xml['machineTemplate'][0]
       hardware_profile_id = machine_template['machineConfig'].first["href"].split('/').last
