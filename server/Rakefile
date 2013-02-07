@@ -46,6 +46,16 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
+namespace :db do
+  desc 'Execute the database migrations'
+  task 'migrate' do
+    ENV['API_VERBOSE'] = 'true'
+    load File.join(File.dirname(__FILE__), 'lib', 'db.rb')
+    db = Deltacloud.database
+    Sequel::Migrator.apply(db, File.join(File.dirname(__FILE__), 'db', 'migrations'))
+  end
+end
+
 namespace :mock do
   namespace :fixtures do
     desc "Setup Mock driver fixtures"

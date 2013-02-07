@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+ENV['API_VERBOSE'] = 'true'
+
+load File.join(File.dirname(__FILE__), '..', 'lib', 'db.rb')
+
+# Initialize the database
+#
+db = Deltacloud.initialize_database
+
+# Apply the migrations
+#
+Sequel::Migrator.apply(db, File.join(File.dirname(__FILE__), '..', 'db', 'migrations'))

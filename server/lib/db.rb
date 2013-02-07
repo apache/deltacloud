@@ -15,7 +15,6 @@
 
 module Deltacloud
 
-
   def self.database(opts={})
     if ENV['API_VERBOSE']
       if Deltacloud.respond_to? :config
@@ -81,6 +80,6 @@ module Deltacloud
       column :volume_config, :string
       column :volume_image, :string
     }
+    db
   end
-
 end
