@@ -55,8 +55,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
       end
     end
 
-    def create_from_json(body, context)
-      json = JSON.parse(body)
+    def create(template, context)
       new_template = current_db.add_machine_template(
         :name => json['name'],
         :description => json['description'],
@@ -68,17 +67,16 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
       from_db(new_template, context)
     end
 
+    def create_from_json(body, context)
+      template = CIMI::Model::MachineTemplateCreate.from_json(body)
+      template.validate!(:json)
+      create(template, context)
+    end
+
     def create_from_xml(body, context)
-      xml = XmlSimple.xml_in(body)
-      new_template = current_db.add_machine_template(
-        :name => xml['name'].first,
-        :description => xml['description'].first,
-        :machine_config => xml['machineConfig'].first['href'],
-        :machine_image => xml['machineImage'].first['href'],
-        :realm => xml['realm'].first,
-        :ent_properties => xml['property'] ? JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
-      )
-      from_db(new_template, context)
+      template = CIMI::Model::MachineTemplateCreate.from_xml(body)
+      template.validate!(:xml)
+      create(template, context)
     end
 
     def delete!(id, context)
@@ -98,7 +96,10 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
         :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
         :created => Time.parse(model.created_at.to_s).xmlschema,
         :operations => [
-          { :href => context.destroy_machine_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
+          {
+            :href => context.destroy_machine_template_url(model.id),
+            :rel => 'http://schemas.dmtf.org/cimi/1/action/delete'
+          }
         ]
       )
     end
