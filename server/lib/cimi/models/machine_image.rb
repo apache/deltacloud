@@ -38,17 +38,13 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
   end
 
   def self.from_image(image, context)
-    stored_attributes = load_attributes_for(image)
     self.new(
       :id => context.machine_image_url(image.id),
-      :name => stored_attributes[:name] || image.id,
-      :description => stored_attributes[:description] || image.description,
+      :name => image.id,
+      :description => image.description,
       :state => image.state || 'UNKNOWN',
       :type => "IMAGE",
-      :created => image.creation_time.nil? ? Time.now.xmlschema : Time.parse(image.creation_time.to_s).xmlschema,
-      :image_location => (stored_attributes[:property] && stored_attributes[:property]['image_location']) ?
-        stored_attributes[:property].delete('image_location') : 'unknown',
-      :property => stored_attributes[:property]
+      :created => image.creation_time.nil? ? Time.now.xmlschema : Time.parse(image.creation_time.to_s).xmlschema
     )
   end
 
@@ -71,13 +67,17 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
     end
     params = {:id => context.href_id(input["imageLocation"], :machines), :name=>input["name"], :description=>input["description"]}
     image = context.driver.create_image(context.credentials, params)
-    store_attributes_for(image, input)
-    from_image(image, context)
+    result = from_image(image, context)
+    result.name = input['name'] if input['name']
+    result.description = input['description'] if input['description']
+    result.extract_properties!(input)
+    result.save
+    result
   end
 
   def self.delete!(image_id, context)
     context.driver.destroy_image(context.credentials, image_id)
-    delete_attributes_for(::Image.new(:id => image_id))
+    CIMI::Model::Image.new(:id => image_id).delete
   end
 
 end

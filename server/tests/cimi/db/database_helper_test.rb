@@ -13,9 +13,14 @@ end
 describe Deltacloud::Helpers::Database do
   include Deltacloud::DatabaseTestHelper
 
+  Provider = Deltacloud::Database::Provider
+  Entity = Deltacloud::Database::Entity
+  BaseModel = CIMI::Model::Base
+
   before do
     ENV['RACK_ENV'] = 'development'
     @db = DatabaseHelper.new
+    @prov = Provider::lookup
   end
 
   it 'report if application is running under test environment' do
@@ -35,97 +40,84 @@ describe Deltacloud::Helpers::Database do
   end
 
   it 'create provider when it does not exists' do
-    @db.current_db.must_be_kind_of Deltacloud::Database::Provider
-    @db.current_db.driver.must_equal 'mock'
-    @db.current_db.url.must_equal @db.current_provider
-    @db.current_db.must_respond_to :entities
-    @db.current_db.must_respond_to :machine_templates
-    @db.current_db.must_respond_to :address_templates
-    @db.current_db.must_respond_to :volume_configurations
-    @db.current_db.must_respond_to :volume_templates
-  end
-
-  it 'extract attributes both from JSON and XMLSimple' do
-    xml_simple_test = { 'property' => [ { 'key' => 'template', 'content' => "value"} ] }
-    json_test = { 'properties' => { 'template' => 'value' } }
-
-    @db.extract_attribute_value('property', xml_simple_test).must_equal('template' => 'value')
-    @db.extract_attribute_value('properties', json_test).must_equal('template' => 'value')
+    @prov.must_be_kind_of Deltacloud::Database::Provider
+    @prov.driver.must_equal 'mock'
+    @prov.url.must_equal @db.current_provider
+    @prov.must_respond_to :entities
+    @prov.must_respond_to :machine_templates
+    @prov.must_respond_to :address_templates
+    @prov.must_respond_to :volume_configurations
+    @prov.must_respond_to :volume_templates
   end
 
   it 'must return entity for given model' do
-    provider = Deltacloud::Database::Provider
-    entity = Deltacloud::Database::Entity
-    @db.current_db.wont_be_nil
+    @prov.wont_be_nil
 
-    new_entity = @db.current_db.add_entity(
+    new_entity = @prov.add_entity(
       :name => 'testMachine1',
       :description => 'testMachine1 description',
       :ent_properties => JSON::dump(:key => 'value'),
-      :be_kind => 'instance',
+      :be_kind => BaseModel.name,
       :be_id => 'inst1'
     )
 
-    check_entity_base_attrs new_entity, entity, @db.current_db
+    check_entity_base_attrs new_entity, Entity, @prov
 
-    result = @db.get_entity(Instance.new(:id => 'inst1'))
+    result = Entity.retrieve(BaseModel.new(:id => 'inst1'))
     result.must_equal new_entity
 
-    new_entity.destroy.wont_equal false
+    new_entity.destroy
+    result = Entity.retrieve(BaseModel.new(:id => 'inst1'))
+    result.exists?.must_equal false
   end
 
   it 'must load attributes for entity for given model' do
-    provider = Deltacloud::Database::Provider
-    entity = Deltacloud::Database::Entity
-    @db.current_db.wont_be_nil
+    @prov.wont_be_nil
 
-    new_entity = @db.current_db.add_entity(
+    new_entity = @prov.add_entity(
       :name => 'testMachine1',
       :description => 'testMachine1 description',
       :ent_properties => JSON::dump(:key => 'value'),
-      :be_kind => 'instance',
-      :be_id => 'inst1'
+      :be_kind => BaseModel.name,
+      :be_id => 'base1'
     )
 
-    check_entity_base_attrs new_entity, entity, @db.current_db
+    check_entity_base_attrs new_entity, Entity, @prov
 
-    result = @db.load_attributes_for(Instance.new(:id => 'inst1'))
-    result.must_be_kind_of Hash
-    result[:name].must_equal new_entity.name
-    result[:description].must_equal new_entity.description
-    result[:property].must_equal JSON::parse(new_entity.ent_properties)
+    result = Entity::retrieve(BaseModel.new(:id => 'base1'))
+    result.name.must_equal new_entity.name
+    result.description.must_equal new_entity.description
+    result.properties.must_equal new_entity.properties
 
     new_entity.destroy.wont_equal false
   end
 
   it 'must delete attributes for entity for given model' do
-    provider = Deltacloud::Database::Provider
-    entity = Deltacloud::Database::Entity
-    @db.current_db.wont_be_nil
+    @prov.wont_be_nil
 
-    new_entity = @db.current_db.add_entity(
+    new_entity = @prov.add_entity(
       :name => 'testMachine1',
       :description => 'testMachine1 description',
       :ent_properties => JSON::dump(:key => 'value'),
-      :be_kind => 'instance',
-      :be_id => 'inst1'
+      :be_kind => BaseModel.name,
+      :be_id => 'base1'
     )
 
-    check_entity_base_attrs new_entity, entity, @db.current_db
+    check_entity_base_attrs new_entity, Entity, @prov
 
-    result = @db.delete_attributes_for(Instance.new(:id => 'inst1'))
-    result.wont_equal false
-    result.exists?.must_equal false
+    base = BaseModel.new(:id => 'base1')
+    base.destroy
+    entity = Entity.retrieve(base)
+    entity.wont_be_nil
+    entity.exists?.must_equal false
   end
 
-  it 'must store JSON attributes for entity for given model' do
-    provider = Deltacloud::Database::Provider
-    entity = Deltacloud::Database::Entity
-    @db.current_db.wont_be_nil
+  it 'must store attributes for a given CIMI::Model' do
+    @prov.wont_be_nil
 
-    mock_instance = Instance.new(:id => 'inst1')
-    mock_json = '
+   json = '
 {
+  "id": "http://localhost:3001/cimi/machines/42",
   "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
   "name": "myDatabaseMachine",
   "description": "This is a demo machine",
@@ -139,52 +131,15 @@ describe Deltacloud::Helpers::Database do
   }
 }
     '
-    result = @db.store_attributes_for(mock_instance, JSON::parse(mock_json))
-    result.must_be_kind_of entity
-    check_entity_base_attrs result, entity, @db.current_db
-    load_result = @db.load_attributes_for(mock_instance)
-    load_result.must_be_kind_of Hash
-    load_result.wont_be_empty
-    load_result[:name].must_equal 'myDatabaseMachine'
-    load_result[:description].must_equal 'This is a demo machine'
-    load_result[:property].must_be_kind_of Hash
-    load_result[:property].wont_be_empty
-    load_result[:property]['foo'].must_equal 'bar'
-    load_result[:property]['life'].must_equal 'is life'
-    result.destroy.wont_equal false
+    machine = CIMI::Model::Machine.from_json(json)
+    machine.save
+
+    m2 = CIMI::Model::Machine.new(:id => machine.id)
+    m2.name.must_equal 'myDatabaseMachine'
+    m2.description.must_equal 'This is a demo machine'
+    m2.property.must_be_kind_of Hash
+    m2.property.size.must_equal 2
+    m2.property['foo'].must_equal 'bar'
+    m2.property['life'].must_equal 'is life'
   end
-
-  it 'must store XML attributes for entity for given model' do
-    provider = Deltacloud::Database::Provider
-    entity = Deltacloud::Database::Entity
-    @db.current_db.wont_be_nil
-
-    mock_instance = Instance.new(:id => 'inst1')
-    mock_xml = '
-<MachineCreate>
-  <name>myMachineXML123</name>
-  <description>Description of my new Machine</description>
-  <machineTemplate>
-    <machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"/>
-    <machineImage href="http://localhost:3001/cimi/machine_images/img1"/>
-  </machineTemplate>
-  <property key="test">value</property>
-  <property key="foo">bar</property>
-</MachineCreate>
-    '
-    result = @db.store_attributes_for(mock_instance, XmlSimple.xml_in(mock_xml))
-    result.must_be_kind_of entity
-    check_entity_base_attrs result, entity, @db.current_db
-    load_result = @db.load_attributes_for(mock_instance)
-    load_result.must_be_kind_of Hash
-    load_result.wont_be_empty
-    load_result[:name].must_equal 'myMachineXML123'
-    load_result[:description].must_equal 'Description of my new Machine'
-    load_result[:property].must_be_kind_of Hash
-    load_result[:property].wont_be_empty
-    load_result[:property]['test'].must_equal 'value'
-    result.destroy.wont_equal false
-  end
-
-
 end

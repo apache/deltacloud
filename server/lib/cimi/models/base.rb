@@ -88,6 +88,69 @@ module CIMI::Model
     #
     text :id, :name, :description, :created
     hash :property
-  end
 
+    def initialize(values = {})
+      super(values)
+      retrieve_entity
+    end
+
+    def []=(a, v)
+      v = super
+      retrieve_entity if a == :id
+      v
+    end
+
+    # Save the common attributes name, description, and properties to the
+    # database
+    def save
+      if @entity
+        @entity.name = name
+        @entity.description = description
+        @entity.properties = property
+        @entity.save
+      end
+      self
+    end
+
+    # Destroy the database attributes for this model
+    def destroy
+      @entity.destroy
+      self
+    end
+
+    # FIXME: Kludge around the fact that we do not have proper *Create
+    # objects that deserialize properties by themselves
+    def extract_properties!(data)
+      h = {}
+      if data['property']
+        # Data came from XML
+        h = data['property'].inject({}) do |r,v|
+          r[v['key']] = v['content']
+          r
+        end
+      elsif data['properties']
+        h = data['properties']
+      end
+      property ||= {}
+      property.merge!(h)
+    end
+
+    private
+
+    # Load an existing database entity for this object, or create a new one
+    def retrieve_entity
+      if self.id
+        @entity = Deltacloud::Database::Entity::retrieve(self)
+        if @entity.exists?
+          self.name = @entity.name
+          self.description = @entity.description
+          self.property ||= {}
+          self.property.merge!(@entity.properties)
+        end
+      else
+        @entity = nil
+      end
+    end
+
+  end
 end

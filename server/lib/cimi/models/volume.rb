@@ -71,7 +71,7 @@ class CIMI::Model::Volume < CIMI::Model::Base
 
   def self.delete!(id, context)
     context.driver.destroy_storage_volume(context.credentials, {:id=>id} )
-    delete_attributes_for(StorageVolume.new(:id => id))
+    new(:id => id).destroy
   end
 
   def self.find_to_attach_from_json(json_in, context)
@@ -84,10 +84,6 @@ class CIMI::Model::Volume < CIMI::Model::Base
     xml = XmlSimple.xml_in(xml_in)
     xml["volume"].map{|v| {:volume => self.find(v["href"].split("/volumes/").last, context),
                            :attachment_point=>v["attachmentPoint"] }}
-  end
-
-  def to_entity
-    'volume'
   end
 
   private
@@ -104,15 +100,16 @@ class CIMI::Model::Volume < CIMI::Model::Base
               :name=>data["name"]}
     end
     storage_volume = context.driver.create_storage_volume(context.credentials, opts)
-    entity = store_attributes_for(storage_volume, data)
-    from_storage_volume(storage_volume, context, entity.to_hash)
+    result = from_storage_volume(storage_volume, context)
+    result.name = data['name'] if data['name']
+    result.description = data['description']
+    result.extract_properties!(data)
+    result.save
+    result
   end
 
-  def self.from_storage_volume(volume, context, stored_attributes=nil)
-    stored_attributes ||= load_attributes_for(volume)
-    self.new( { :name => stored_attributes[:name] || volume.id,
-                :description => stored_attributes[:description] || 'Description of Volume',
-                :property => stored_attributes[:property],
+  def self.from_storage_volume(volume, context)
+    self.new( { :name => volume.id,
                 :created => volume.created.nil? ? nil : Time.parse(volume.created).xmlschema,
                 :id => context.volume_url(volume.id),
                 :capacity => context.to_kibibyte(volume.capacity, 'GB'),

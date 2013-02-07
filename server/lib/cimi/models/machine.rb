@@ -76,8 +76,12 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
     # Store attributes that are not supported by the backend cloud to local
     # database:
-    store_attributes_for(instance, json)
-    from_instance(instance, context)
+    machine = from_instance(instance, context)
+    machine.name = json['name'] || machine.name
+    machine.description = json['description']
+    machine.extract_properties!(json)
+    machine.save
+    machine
   end
 
   def self.create_from_xml(body, context)
@@ -105,8 +109,12 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
     # Store attributes that are not supported by the backend cloud to local
     # database:
-    entity = store_attributes_for(instance, xml)
-    from_instance(instance, context, entity.to_hash)
+    machine = from_instance(instance, context)
+    machine.name = xml['name'] || machine.name
+    machine.description = xml['description']
+    machine.extract_properties!(xml)
+    machine.save
+    machine
   end
 
   def perform(action, context, &block)
@@ -122,8 +130,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   def self.delete!(id, context)
-    delete_attributes_for Instance.new(:id => id)
     context.driver.destroy_instance(context.credentials, id)
+    CIMI::Model::Machine.new(:id => id).delete
   end
 
   #returns the newly attach machine_volume
@@ -141,10 +149,9 @@ class CIMI::Model::Machine < CIMI::Model::Base
   end
 
   private
-  def self.from_instance(instance, context, stored_attributes=nil)
+  def self.from_instance(instance, context)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
-    stored_attributes ||= load_attributes_for(instance)
     machine_spec = {
       :name => instance.name,
       :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time.to_s).xmlschema,
@@ -155,9 +162,8 @@ class CIMI::Model::Machine < CIMI::Model::Base
       :memory => memory || convert_instance_memory(instance.instance_profile, context),
       :disks => { :href => context.machine_url(instance.id)+"/disks"},
       :volumes => { :href=>context.machine_url(instance.id)+"/volumes"},
-      :operations => convert_instance_actions(instance, context),
-      :property => stored_attributes
-    }.merge(stored_attributes)
+      :operations => convert_instance_actions(instance, context)
+    }
     if context.expand? :disks
       machine_spec[:disks] = CIMI::Model::Disk.find(instance, machine_conf, context, :all)
     end
@@ -166,8 +172,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
     end
     machine_spec[:realm] = instance.realm_id if instance.realm_id
     machine_spec[:machine_image] = { :href => context.machine_image_url(instance.image_id) } if instance.image_id
-    machine = self.new(machine_spec)
-    machine
+    self.new(machine_spec)
   end
 
   # FIXME: This will convert 'RUNNING' state to 'STARTED'

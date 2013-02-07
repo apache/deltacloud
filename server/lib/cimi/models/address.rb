@@ -65,23 +65,26 @@ class CIMI::Model::Address < CIMI::Model::Base
     params = {:name=>input["name"], :description=>input["description"], :address_template=>address_template, :env=>context }
     raise CIMI::Model::BadRequest.new("Bad request - missing required parameters. Client sent: #{request_body} which produced #{params.inspect}")  if params.has_value?(nil)
     address = context.driver.create_address(context.credentials, params)
-    store_attributes_for(address, input)
-    from_address(address, context)
+    result = from_address(address, context)
+    result.name = input['name'] if input['name']
+    result.description = input['description'] if input['description']
+    result.extract_properties!(input)
+    result.save
+    result
   end
 
   def self.delete!(id, context)
     context.driver.delete_address(context.credentials, id)
-    delete_attributes_for(::Address.new(:id => id))
+    new(:id => id).destroy
   end
 
   private
 
   def self.from_address(address, context)
-    stored_attributes = load_attributes_for(address)
     self.new(
-      :name => stored_attributes[:name] || address.id,
+      :name => address.id,
       :id => context.address_url(address.id),
-      :description => stored_attributes[:description] || "Address #{address.id}",
+      :description => "Address #{address.id}",
       :ip => address.id,
       :allocation => "dynamic", #or "static"
       :default_gateway => "unknown", #wtf
@@ -89,7 +92,6 @@ class CIMI::Model::Address < CIMI::Model::Base
       :protocol => protocol_from_address(address.id),
       :mask => "unknown",
       :resource => (address.instance_id) ? {:href=> context.machine_url(address.instance_id)} : nil,
-      :property => stored_attributes[:property],
       :network => nil #unknown
       #optional:
       #:hostname =>
