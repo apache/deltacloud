@@ -12,6 +12,9 @@
     %li{ :'data-role' => 'list-divider'} State
     %li
       %p{ :'data-role' => 'fieldcontain'}=@instance.state
+    %li{ :'data-role' => 'list-divider'} Launch Time
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@instance.launch_time
     %li{ :'data-role' => 'list-divider'} Image
     %li
       %a{ :href => image_url(@instance.image_id), :'data-ajax' => 'false' }=@instance.image_id
