@@ -43,20 +43,11 @@ module Deltacloud
         end
 
         define_hardware_profile('default')
-
         def supported_collections(credentials)
           #get the collections as defined by 'capability' and 'respond_to?' blocks
           super_collections = super
-          begin
-             new_client(credentials, "object-store")
-          rescue Deltacloud::Exceptions::NotImplemented #OpenStack::Exception::NotImplemented...
-             super_collections = super_collections - [Sinatra::Rabbit::BucketsCollection]
-          end
-          begin
-              new_client(credentials, "volume")
-          rescue Deltacloud::Exceptions::NotImplemented
-              super_collections = super_collections - [Sinatra::Rabbit::StorageVolumesCollection]
-          end
+          super_collections = super_collections - [Sinatra::Rabbit::BucketsCollection] if regions_for("object-store", credentials).empty?
+          super_collections = super_collections - [Sinatra::Rabbit::StorageVolumesCollection] if regions_for("volume", credentials).empty?
           super_collections
         end
 
@@ -126,21 +117,42 @@ module Deltacloud
 
         def realms(credentials, opts={})
           os = new_client(credentials)
-          limits = ""
-          safely do
-            lim = os.limits
-              limits << "ABSOLUTE >> Max. Instances: #{lim[:absolute][:maxTotalInstances]} Max. RAM: #{lim[:absolute][:maxTotalRAMSize]}   ||   "
-              lim[:rate].each do |rate|
-                if rate[:regex] =~ /servers/
-                  limits << "SERVERS >> Total: #{rate[:limit].first[:value]}  Remaining: #{rate[:limit].first[:remaining]} Time Unit: per #{rate[:limit].first[:unit]}"
-                end
-              end
+          realms = []
+          if opts[:id]
+            resource_types = []
+            os.connection.regions_list[opts[:id]].each do |service|
+              resource_types << service[:service] if ["compute", "volume", "object-store"].include?(service[:service])
+              realms << Realm.new( {  :id => opts[:id],
+                                    :name => opts[:id],
+                                    :state =>'AVAILABLE',
+                                    :resource_types => resource_types}) unless resource_types.empty?
+            end
+          else
+            os.connection.regions_list.each_pair do |region, services|
+              resource_types = services.inject([]){|res, cur| res << cur[:service] if ["compute", "volume", "object-store"].include?(cur[:service]); res }
+              next if resource_types.empty? #nothing here deltacloud manages
+              realms << Realm.new( {  :id => region,
+                                    :name => region,
+                                    :state =>'AVAILABLE',
+                                    :resource_types => resource_types})
+            end
           end
-          return [] if opts[:id] and opts[:id] != 'default'
-          [ Realm.new( { :id=>'default',
-                        :name=>'default',
-                        :limit => limits,
-                        :state=>'AVAILABLE' })]
+          realms
+#          limits = ""
+#          safely do
+#            lim = os.limits
+#              limits << "ABSOLUTE >> Max. Instances: #{lim[:absolute][:maxTotalInstances]} Max. RAM: #{lim[:absolute][:maxTotalRAMSize]}   ||   "
+#              lim[:rate].each do |rate|
+#                if rate[:regex] =~ /servers/
+#                  limits << "SERVERS >> Total: #{rate[:limit].first[:value]}  Remaining: #{rate[:limit].first[:remaining]} Time Unit: per #{rate[:limit].first[:unit]}"
+#                end
+#              end
+#          end
+#          return [] if opts[:id] and opts[:id] != 'default'
+#          [ Realm.new( { :id=>'default',
+#                        :name=>'default',
+#                        :limit => limits,
+#                        :state=>'AVAILABLE' })]
         end
 
         def instances(credentials, opts={})
@@ -166,7 +178,13 @@ module Deltacloud
         end
 
         def create_instance(credentials, image_id, opts)
-          os = new_client( credentials )
+          if opts[:realm_id] && opts[:realm_id].length > 0
+            os = new_client( credentials, "compute", opts[:realm_id])
+          else
+            #choose a random realm:
+            available_realms = regions_for("compute", credentials)
+            os = new_client(credentials, "compute", available_realms.sample.id)
+          end
           result = nil
 #opts[:personality]: path1='server_path1'. content1='contents1', path2='server_path2', content2='contents2' etc
           params = {}
@@ -186,10 +204,11 @@ module Deltacloud
           end
           safely do
             server = os.create_server(params)
-            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os))
+            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os), os.connection.region)
           end
           result
         end
+
 
         def reboot_instance(credentials, instance_id)
           os = new_client(credentials)
@@ -466,8 +485,16 @@ module Deltacloud
 
 private
 
+        def region_specified?
+          api_provider.split(";").last
+        end
+
+        def regions_for(service="compute", credentials)
+          realms(credentials).select{|region| region.resource_types.include?(service)}
+        end
+
         #for v2 authentication credentials.name == "username+tenant_name"
-        def new_client(credentials, type = "compute")
+        def new_client(credentials, type="compute", realm_id=nil)
           tokens = credentials.user.split("+")
           if credentials.user.empty?
             raise AuthenticationFailure.new(Exception.new("Error: you must supply the username"))
@@ -477,10 +504,18 @@ private
           else
             user_name, tenant_name = tokens.first, tokens.last
           end
+          #check if region specified with provider:
+          provider = api_provider
+          if (realm_id || provider.include?(";"))
+            region = realm_id || provider.split(";").last
+            provider = provider.chomp(";#{region}")
+          end
+          connection_params = {:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => provider, :service_type => type}
+          connection_params.merge!({:region => region}) if region
           safely do
             raise ValidationFailure.new(Exception.new("Error: tried to initialise Openstack connection using" +
                     " an unknown service_type: #{type}")) unless ["volume", "compute", "object-store"].include? type
-            OpenStack::Connection.create(:username => user_name, :api_key => credentials.password, :authtenant => tenant_name, :auth_url => api_provider, :service_type => type)
+            OpenStack::Connection.create(connection_params)
            end
         end
 
@@ -513,7 +548,7 @@ private
                     })
         end
 
-        def convert_from_server(server, owner, attachments=[])
+        def convert_from_server(server, owner, attachments=[], region=nil)
           op = (server.class == Hash)? :fetch : :send
           image = server.send(op, :image)
           flavor = server.send(op, :flavor)
@@ -524,7 +559,7 @@ private
           end
           inst = Instance.new(
             :id => server.send(op, :id).to_s,
-            :realm_id => 'default',
+            :realm_id => region || "n/a",
             :owner_id => owner,
             :description => server.send(op, :name),
             :name => server.send(op, :name),

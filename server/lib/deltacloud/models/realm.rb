@@ -20,15 +20,18 @@ class Realm < BaseModel
   attr_accessor :name
   attr_accessor :limit
   attr_accessor :state
+  attr_accessor :resource_types
 
   def to_hash(context)
-    {
+    r = {
       :id => self.id,
       :href => context.realm_url(self.id),
       :name => name,
       :state => state,
       :limit => limit
     }
+    r.merge!({:resource_types => resource_types}) if resource_types
+    r
   end
 
 end

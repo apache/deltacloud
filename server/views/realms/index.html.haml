@@ -10,4 +10,6 @@
           %img{ :class => 'ui-link-thumb', :src => '/images/realm.png'}
           %h3= realm.name
           %p=[realm.id, realm.limit].join(', ')
+          -if realm.resource_types
+            %p=realm.resource_types.join(",")
           %span{ :class => 'ui-li-count'}=realm.state
