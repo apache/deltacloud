@@ -78,6 +78,24 @@ require_relative '../helpers/database_helper'
 
 module CIMI::Model
 
+  class ValidationError < StandardError
+
+    def initialize(attribute)
+      @attr_name  = attribute
+      super("Required attribute '#{@attr_name}' must be set.")
+    end
+
+    # Report the ValidationError as HTTP 400 - Bad Request
+    def code
+      400
+    end
+
+    def name
+      @attr_name
+    end
+
+  end
+
   class Base < Resource
 
     # Extend the base model with database methods
@@ -121,6 +139,14 @@ module CIMI::Model
     def destroy
       @entity.destroy
       self
+    end
+
+    def validate!(format=:xml)
+      self.class.required_attributes.each do |attr|
+        unless attr.valid?(send(attr.name))
+          raise CIMI::Model::ValidationError.new(attr.send("#{format}_name"))
+        end
+      end
     end
 
     # FIXME: Kludge around the fact that we do not have proper *Create

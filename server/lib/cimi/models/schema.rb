@@ -24,11 +24,13 @@ class CIMI::Model::Schema
   #
   class Attribute
     attr_reader :name, :xml_name, :json_name
+    attr_reader :required
 
     def initialize(name, opts = {})
       @name = name
       @xml_name = opts[:xml_name] || name.to_s.camelize(true)
       @json_name = opts[:json_name] || name.to_s.camelize(true)
+      @required = opts[:required] || false
     end
 
     def from_xml(xml, model)
@@ -49,6 +51,14 @@ class CIMI::Model::Schema
 
     def convert(value)
       value
+    end
+
+    def required?
+      @required
+    end
+
+    def valid?(value)
+      !value.nil? and !value.empty?
     end
   end
 
@@ -122,7 +132,7 @@ class CIMI::Model::Schema
       else
         @schema = CIMI::Model::Schema.new
         @schema.instance_eval(&block) if block_given?
-        @schema.scalar(content, :text => :direct) if content
+        @schema.scalar(content, :text => :direct, :required => opts[:required]) if content
       end
     end
 
@@ -176,6 +186,10 @@ class CIMI::Model::Schema
       else
         super(value)
       end
+    end
+
+    def valid?(value)
+      @schema.required_attributes.any? { |a| a.valid?(value.send(a.name) )}
     end
 
     private
@@ -369,6 +383,10 @@ class CIMI::Model::Schema
     @attributes.map { |a| a.name }
   end
 
+  def required_attributes
+    @attributes.select { |a| a.required? }
+  end
+
   #
   # The DSL
   #
@@ -387,7 +405,7 @@ class CIMI::Model::Schema
 
     def href(*args)
       opts = args.extract_opts!
-      args.each { |arg| struct(arg, opts) { scalar :href } }
+      args.each { |arg| struct(arg, opts) { scalar :href, :required => opts[:required] } }
     end
 
     def text(*args)

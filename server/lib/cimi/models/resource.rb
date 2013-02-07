@@ -145,6 +145,10 @@ module CIMI
           xml["resourceURI"] = resource_uri
           XmlSimple.xml_out(xml, :root_name => xml_tag_name)
         end
+
+        def required_attributes
+          @schema.required_attributes
+        end
       end
 
       # END of class methods
