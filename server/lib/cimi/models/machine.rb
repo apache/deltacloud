@@ -145,11 +145,6 @@ class CIMI::Model::Machine < CIMI::Model::Base
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
     stored_attributes ||= load_attributes_for(instance)
-    if stored_attributes[:property]
-      stored_attributes[:property].merge!(convert_instance_properties(instance, context))
-    else
-      stored_attributes[:property] = convert_instance_properties(instance, context)
-    end
     machine_spec = {
       :name => instance.name,
       :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time.to_s).xmlschema,
@@ -184,15 +179,6 @@ class CIMI::Model::Machine < CIMI::Model::Base
       when "PENDING" then "CREATING" #aruba only exception... could be "STARTING" here
       else state
     end
-  end
-
-  def self.convert_instance_properties(instance, context)
-    properties = {}
-    properties["machine_image"] = context.machine_image_url(instance.image_id)
-    if instance.respond_to? :keyname
-      properties["credential"] = context.credential_url(instance.keyname)
-    end
-    properties
   end
 
   def self.convert_instance_cpu(profile, context)
