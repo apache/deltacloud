@@ -70,6 +70,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
       additional_params[:initial_state] = machine_template["initialState"].strip
     end
     additional_params[:name] = json['name'] if json['name']
+    additional_params[:realm_id] = json['realm'] if json['realm']
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
@@ -103,6 +104,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
       additional_params[:initial_state] = xml["machineTemplate"][0]["initialState"].first.strip
     end
     additional_params[:name] = xml['name'][0] if xml['name']
+    additional_params[:realm_id] = xml['realm'][0] if xml['realm']
     instance = context.driver.create_instance(context.credentials, image_id, {
       :hwp_id => hardware_profile_id
     }.merge(additional_params))
