@@ -17,9 +17,6 @@
 
 require "savon"
 
-Savon.configure do |config|
-  config.log = false
-end
 HTTPI.log = false
 
 
@@ -307,7 +304,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   def new_client(credentials, realm_id=nil)
     safely do
       wsdl = realm_id ? Deltacloud::Drivers::driver_config[:aruba][:entrypoints]["compute"]["dc#{realm_id}"] : endpoint
-      client = Savon.client(wsdl)
+      client = Savon.client({wsdl: wsdl, log: false})
       client.wsse.credentials credentials.user, credentials.password
       client.request :get_user_authentication_token
       client
