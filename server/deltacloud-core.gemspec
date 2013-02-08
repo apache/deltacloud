@@ -89,7 +89,7 @@ Gem::Specification.new do |s|
   # dependencies for various cloud providers:
 
   # RHEV-M and oVirt
-  s.add_dependency('rbovirt', '>=0.0.16')
+  s.add_dependency('rbovirt', '>=0.0.17')
 
   # Amazon EC2 S3
   s.add_dependency('aws', '>=2.7.0')
