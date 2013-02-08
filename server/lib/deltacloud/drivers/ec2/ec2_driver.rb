@@ -302,7 +302,7 @@ module Deltacloud
           target = instance(credentials, :id => opts[:id])
           param = {}
           param[:credentials] = {
-            :username => 'root', # Default for EC2 Linux instances
+            :username => (opts[:username]) ? opts[:username] : 'root', # Default for EC2 Linux instances
           }
           param[:port] = opts[:port] || '22'
           param[:ip] = opts[:ip] || target.public_addresses.first.address
