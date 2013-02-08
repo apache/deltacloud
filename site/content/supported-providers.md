@@ -211,7 +211,7 @@ title: Supported Providers
     </tr>
     <tr>
       <td class='provider'>
-        <strong>Aruba cloud.it</strong>
+        <strong>Arubacloud</strong>
       </td>
       <td>yes</td>
       <td>yes</td>
@@ -443,9 +443,9 @@ title: Supported Providers
     </tr>
     <tr>
       <td style="text-align:left">
-        <strong>Aruba cloud.it</strong>
+        <strong>Arubacloud</strong>
       </td>
-      <td style="text-align:left"><span style="font-size:x-small">aruba</span></td>
+      <td style="text-align:left"><span style="font-size:x-small">arubacloud</span></td>
       <td style="text-align:left">Username</td>
       <td style="text-align:left">Password</td>
       <td style="text-align:left"></td>

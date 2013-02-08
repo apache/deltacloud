@@ -263,7 +263,7 @@ The driver and provider can be selected through the request headers <strong> X-D
     </tr>
     <tr>
       <td class='provider'>
-        <strong>Aruba cloud.it</strong>
+        <strong>Arubacloud</strong>
       </td>
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
@@ -529,9 +529,9 @@ The following table gives details about the credentials that must be provided fo
     </tr>
     <tr>
       <td>
-        <strong>Aruba cloud.it</strong>
+        <strong>Arubacloud</strong>
       </td>
-      <td>aruba</td>
+      <td>arubacloud</td>
       <td>Username</td>
       <td>Password</td>
       <td></td>
