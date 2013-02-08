@@ -115,6 +115,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml { haml :"instances/run" }
             format.html { haml :"instances/run" }
+            format.json { JSON::dump({:instance => { :id => params[:id], :public_address => @output.ssh.network.ip, :command => @output.ssh.command, :output => @output.body}})}
           end
         end
       end
