@@ -140,7 +140,9 @@ module Deltacloud::Helpers
     end
 
     def instance_action(name)
-      original_instance = driver.instance(credentials, :id => params[:id])
+      unless original_instance = driver.instance(credentials, :id => params[:id])
+        return report_error(403)
+      end
 
       # If original instance doesn't include called action
       # return with 405 error (Method is not Allowed)
