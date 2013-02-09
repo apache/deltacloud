@@ -46,11 +46,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_instance do
         description "Create a new Machine entity."
         control do
-          if grab_content_type(request.content_type, request.body) == :json
-            new_machine = Machine.create_from_json(request.body.read, self)
-          else
-            new_machine = Machine.create_from_xml(request.body.read, self)
-          end
+          mc = MachineCreate.parse(request.body, request.content_type)
+          new_machine = mc.create(self)
           headers_for_create new_machine
           respond_to do |format|
             format.json { new_machine.to_json }
