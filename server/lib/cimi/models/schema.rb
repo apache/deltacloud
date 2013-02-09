@@ -92,7 +92,27 @@ class CIMI::Model::Schema
       content = opts[:content]
       super(name, opts)
       if opts[:class]
-        opts[:schema] = opts[:class].schema
+        raise "Cannot use both :class and :schema" if opts[:schema]
+        refname = "#{opts[:class].name.split("::").last}Ref"
+        if CIMI::Model::const_defined?(refname)
+          @klass = CIMI::Model::const_get(refname)
+        else
+          @klass = Class.new(opts[:class]) do
+            scalar :href
+
+            def ref_id(ctx)
+              # FIXME: We should use ctx's routes to split
+              # out the :id
+              href.split('/').last
+            end
+
+            def find(ctx)
+              opts[:class].find(ref_id(ctx), ctx)
+            end
+          end
+          CIMI::Model::const_set(refname, @klass)
+        end
+        opts[:schema] = @klass.schema
       end
       if opts[:schema]
         if block_given?
@@ -150,9 +170,21 @@ class CIMI::Model::Schema
       json
     end
 
+    def convert(value)
+      if @klass
+        @klass.new(value || {})
+      else
+        super(value)
+      end
+    end
+
     private
     def struct
-      @struct_class ||= ::Struct.new(nil, *@schema.attribute_names)
+      if @klass
+        @klass
+      else
+        @struct_class ||= ::Struct.new(nil, *@schema.attribute_names)
+      end
     end
   end
 
@@ -373,6 +405,14 @@ class CIMI::Model::Schema
 
     def struct(name, opts={}, &block)
       add_attributes!([name, opts], Struct, &block)
+    end
+
+    def ref(name, klass = nil)
+      unless klass
+        s = name.to_s.camelize.gsub(/Config$/, "Configuration")
+        klass = CIMI::Model::const_get(s)
+      end
+      struct(name, :class => klass)
     end
 
     def hash(name)

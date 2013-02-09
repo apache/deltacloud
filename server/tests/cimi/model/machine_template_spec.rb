@@ -29,4 +29,33 @@ describe "MachineTemplate model" do
     should_properly_serialize_model CIMI::Model::MachineTemplate, @xml, @json
   end
 
+  describe "can have an embedded machineConfig" do
+    MACHINE_CONFIG_ID = "http://cimi.example.org/machine_configs/1"
+
+    it "in XML" do
+      mt = CIMI::Model::MachineTemplate.from_xml(@xml)
+      mt.name.must_equal "My First Template"
+      mt.machine_config.href.must_equal MACHINE_CONFIG_ID
+      mt.machine_config.id.must_be_nil
+      mt.machine_config.cpu = 7
+
+      mc = parse_xml(mt.to_xml)["MachineTemplate"].first["machineConfig"].first
+      mc.wont_be_nil
+      mc["href"].must_equal MACHINE_CONFIG_ID
+      mc["cpu"].first["content"].must_equal "7"
+    end
+
+    it "in JSON" do
+      mt = CIMI::Model::MachineTemplate.from_json(@json)
+      mt.name.must_equal "My First Template"
+      mt.machine_config.href.must_equal MACHINE_CONFIG_ID
+      mt.machine_config.id.must_be_nil
+      mt.machine_config.cpu = 7
+
+      mc = JSON::parse(mt.to_json)["machineConfig"]
+      mc.wont_be_nil
+      mc["href"].must_equal MACHINE_CONFIG_ID
+      mc["cpu"].must_equal 7
+    end
+  end
 end

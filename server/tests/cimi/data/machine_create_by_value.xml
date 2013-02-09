@@ -1,0 +1,7 @@
+<MachineCreate xmlns="http://schemas.dmtf.org/cimi/1">
+  <name>xml_machine_by_value</name>
+  <machineTemplate>
+    <machineConfig href="http://localhost:3001/cimi/machine_configurations/m1-small"/>
+    <machineImage href="http://localhost:3001/cimi/machine_images/img2"/>
+  </machineTemplate>
+</MachineCreate>

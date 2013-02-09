@@ -17,9 +17,9 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
   acts_as_root_entity
 
-  href :machine_config
-  href :machine_image
-  href :credential
+  ref :machine_config
+  ref :machine_image
+  ref :credential
 
   resource_attr :realm, :required => false,
     :constraints => lambda { |c| c.driver.realms(c.credentials).map { |r| r.id }}

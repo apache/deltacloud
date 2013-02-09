@@ -60,6 +60,11 @@ require_relative '../helpers/database_helper'
 #     A shorthand for +struct name { scalar :href }+; in JSON, this is
 #     represented as +{ name: { "href": string } }+, and in XML as +<name
 #     href="..."/>+
+#   [ref(name, [klass])]
+#     A reference to another object, like the reference to the
+#     MachineConfiguration in a MachineTemplate. If +klass+ is not given,
+#     an attempt is made to infer the class of the target of the reference
+#     from +name+
 #   [struct(name, opts, &block)]
 #     A structured subobject; the block defines the schema of the
 #     subobject. The +:content+ option can be used to specify the attribute
