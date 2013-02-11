@@ -86,7 +86,7 @@ module CIMI::Model
     #
     # Common attributes for all resources
     #
-    text :id, :name, :description, :created
+    text :id, :name, :description, :created, :updated
     hash :property
 
     def initialize(values = {})
