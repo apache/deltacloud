@@ -22,6 +22,11 @@ class Realm < BaseModel
   attr_accessor :state
   attr_accessor :resource_types
 
+  def initialize(init=nil)
+    super(init)
+    self.resource_types ||= []
+  end
+
   def to_hash(context)
     r = {
       :id => self.id,
