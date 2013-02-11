@@ -102,10 +102,10 @@ module Deltacloud::Helpers
       Deltacloud::Exceptions.logger(Deltacloud.default_frontend.logger)
     end
 
-    def report_error(code=nil)
+    def report_error(code=nil, message=nil)
 
       if !code.nil?
-        @error = Deltacloud::Exceptions.exception_from_status(code, translate_error_code(code)[:message])
+        @error = Deltacloud::Exceptions.exception_from_status(code, message || translate_error_code(code)[:message])
         @code = code
         message = @error.message
       else
