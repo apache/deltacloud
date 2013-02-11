@@ -44,32 +44,9 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
       :description => image.description,
       :state => image.state || 'UNKNOWN',
       :type => "IMAGE",
-      :created => image.creation_time.nil? ? Time.now.xmlschema : Time.parse(image.creation_time.to_s).xmlschema
+      :created => image.creation_time.nil? ?
+        Time.now.xmlschema : Time.parse(image.creation_time.to_s).xmlschema
     )
-  end
-
-  def self.create(request_body, context)
-    # The 'imageLocation' attribute is mandatory in CIMI, however in Deltacloud
-    # there is no way how to figure out from what Machine the MachineImage was
-    # created from. For that we need to store this attribute in properties.
-    #
-    if context.current_content_type == :xml
-      input = XmlSimple.xml_in(request_body.read, {"ForceArray"=>false,"NormaliseSpace"=>2})
-      raise 'imageLocation attribute is mandatory' unless input['imageLocation']
-      input['property'] ||= {}
-    else
-      input = JSON.parse(request_body.read)
-      raise 'imageLocation attribute is mandatory' unless input['imageLocation']
-      input['properties'] ||= []
-    end
-    params = {:id => context.href_id(input["imageLocation"], :machines), :name=>input["name"], :description=>input["description"]}
-    image = context.driver.create_image(context.credentials, params)
-    result = from_image(image, context)
-    result.name = input['name'] if input['name']
-    result.description = input['description'] if input['description']
-    result.extract_properties!(input)
-    result.save
-    result
   end
 
   def self.delete!(image_id, context)

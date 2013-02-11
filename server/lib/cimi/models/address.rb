@@ -49,30 +49,6 @@ class CIMI::Model::Address < CIMI::Model::Base
     end
   end
 
-  def self.create(request_body, context, type)
-    input = (type == :xml)? XmlSimple.xml_in(request_body, {"ForceArray"=>false, "NormaliseSpace"=>2}) : JSON.parse(request_body)
-    if input['addressTemplate'] and input["addressTemplate"]["href"] #by reference
-      address_template = CIMI::Model::AddressTemplate.find(context.href_id(input["addressTemplate"]["href"], :address_templates), context)
-    else
-      case type
-        when :json
-          address_template = CIMI::Model::AddressTemplate.from_json(JSON.generate(input["addressTemplate"]))
-        when :xml
-          xml = XmlSimple.xml_in(request_body, {"NormaliseSpace"=>2})
-          address_template = CIMI::Model::AddressTemplate.from_xml(XmlSimple.xml_out(xml["addressTemplate"][0]))
-      end
-    end
-    params = {:name=>input["name"], :description=>input["description"], :address_template=>address_template, :env=>context }
-    raise CIMI::Model::BadRequest.new("Bad request - missing required parameters. Client sent: #{request_body} which produced #{params.inspect}")  if params.has_value?(nil)
-    address = context.driver.create_address(context.credentials, params)
-    result = from_address(address, context)
-    result.name = input['name'] if input['name']
-    result.description = input['description'] if input['description']
-    result.extract_properties!(input)
-    result.save
-    result
-  end
-
   def self.delete!(id, context)
     context.driver.delete_address(context.credentials, id)
     new(:id => id).destroy
@@ -86,16 +62,13 @@ class CIMI::Model::Address < CIMI::Model::Base
       :id => context.address_url(address.id),
       :description => "Address #{address.id}",
       :ip => address.id,
-      :allocation => "dynamic", #or "static"
-      :default_gateway => "unknown", #wtf
-      :dns => "unknown", #wtf
+      :allocation => "dynamic",
+      :default_gateway => "unknown",
+      :dns => "unknown",
       :protocol => protocol_from_address(address.id),
       :mask => "unknown",
       :resource => (address.instance_id) ? {:href=> context.machine_url(address.instance_id)} : nil,
-      :network => nil #unknown
-      #optional:
-      #:hostname =>
-      #:
+      :network => nil
     )
   end
 

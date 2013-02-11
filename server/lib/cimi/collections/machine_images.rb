@@ -46,7 +46,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_image do
         description "Create a new machine image."
         control do
-          machine_image = CIMI::Model::MachineImage.create(request.body, self)
+          mi = CIMI::Model::MachineImageCreate.parse(request.body, request.content_type)
+          machine_image = mi.create(self)
           headers_for_create machine_image
           respond_to do |format|
             format.xml { machine_image.to_xml }

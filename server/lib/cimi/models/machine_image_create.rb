@@ -13,25 +13,29 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::NetworkTemplate < CIMI::Model::Base
+class CIMI::Model::MachineImageCreate < CIMI::Model::Base
 
-  acts_as_root_entity
+  text :type, :required => true
+  text :image_location, :required => true
+  href :related_image
 
-  ref :network_config, :required => true
-  ref :forwarding_group, :required => true
+  def create(context)
+    validate!
 
-  array :operations do
-    scalar :rel, :href
-  end
+    params = {
+      :id => context.href_id(image_location, :machines),
+      :name => name,
+      :description => description
+    }
 
-  def self.find(id, context)
-    network_templates = []
-    if id==:all
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context})
-    else
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context, :id=>id})
-    end
-    network_templates
+    img = context.driver.create_image(context.credentials, params)
+
+    result = CIMI::Model::MachineImage.from_image(img, context)
+    result.name = name if name
+    result.description = description if description
+    result.property = property if property
+    result.save
+    result
   end
 
 end

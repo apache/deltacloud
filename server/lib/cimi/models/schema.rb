@@ -217,7 +217,6 @@ class CIMI::Model::Schema
         a.valid?(value.send(a.name))
       }
     end
-
   end
 
   class Array < Attribute

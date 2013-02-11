@@ -13,25 +13,34 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::NetworkTemplate < CIMI::Model::Base
+class CIMI::Model::CredentialCreate < CIMI::Model::Base
 
-  acts_as_root_entity
+  ref :credential_template, :required => true
 
-  ref :network_config, :required => true
-  ref :forwarding_group, :required => true
+  def create(context)
+    validate!
 
-  array :operations do
-    scalar :rel, :href
-  end
-
-  def self.find(id, context)
-    network_templates = []
-    if id==:all
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context})
-    else
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context, :id=>id})
+    unless context.driver.respond_to? :create_key
+       raise Deltacloud::Exceptions.exception_from_status(
+         501,
+         "Creating Credential is not supported by the current driver"
+       )
     end
-    network_templates
-  end
 
+    if credential_template.href?
+      template = credential_template.find(ctx)
+    else
+      template = credential_template
+    end
+
+    key = context.driver.create_key(context.credentials, :key_name => name)
+
+    result = CIMI::Model::Credential.from_key(key, context)
+    result.name = name if name
+    result.description = description if description
+    result.property = property if property
+    result.save
+    result
+
+  end
 end

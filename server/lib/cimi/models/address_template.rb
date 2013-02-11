@@ -17,20 +17,8 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
 
   acts_as_root_entity
 
-  text :ip
-
-  text :hostname
-
-  text :allocation
-
-  text :default_gateway
-
-  text :dns
-
-  text :protocol
-
-  text :mask
-
+  text :ip, :required => true
+  text :hostname, :allocation, :default_gateway, :dns, :protocol, :mask
   href :network
 
   array :operations do
@@ -55,41 +43,6 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
     end
   end
 
-  def self.create_from_json(body, context)
-    json = JSON.parse(body)
-    new_template = current_db.add_address_template(
-      :name => json['name'],
-      :description => json['description'],
-      :hostname => json['hostname'],
-      :ip => json['ip'],
-      :allocation => json['allocation'],
-      :default_gateway => json['default_gateway'],
-      :dns => json['dns'],
-      :protocol => json['protocol'],
-      :mask => json['mask'],
-      :ent_properties => json['properties'] ? json['properties'].to_json : {}
-    )
-    from_db(new_template, context)
-  end
-
-  def self.create_from_xml(body, context)
-    xml = XmlSimple.xml_in(body)
-    xml['property'] ||= []
-    new_template = current_db.add_address_template(
-      :name => xml['name'].first,
-      :description => xml['description'].first,
-      :ip => xml['ip'].first,
-      :hostname => xml['hostname'].first,
-      :allocation => xml['allocation'].first,
-      :default_gateway => xml['default_gateway'].first,
-      :dns => xml['dns'].first,
-      :protocol => xml['protocol'].nil? ? nil : xml['protocol'].first,
-      :mask => xml['mask'].first,
-      :ent_properties => xml['property'] ? JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
-    )
-    from_db(new_template, context)
-  end
-
   def self.delete!(id, context)
     current_db.address_templates.first(:id => id).destroy
   end
@@ -110,7 +63,10 @@ class CIMI::Model::AddressTemplate < CIMI::Model::Base
       :mask => model.mask,
       :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
       :operations => [
-        { :href => context.destroy_address_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
+        {
+          :href => context.destroy_address_template_url(model.id),
+          :rel => 'http://schemas.dmtf.org/cimi/1/action/delete'
+        }
       ]
     )
   end

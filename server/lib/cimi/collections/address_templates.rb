@@ -45,11 +45,8 @@ module CIMI::Collections
       operation :create do
         description "Create new AddressTemplate"
         control do
-          if current_content_type == :json
-            new_address_template = CIMI::Model::AddressTemplate.create_from_json(request.body.read, self)
-          else
-            new_address_template = CIMI::Model::AddressTemplate.create_from_xml(request.body.read, self)
-          end
+          addr_templ = CIMI::Model::AddressTemplateCreate.parse(request.body, request.content_type)
+          new_address_template = addr_templ.create(self)
           headers_for_create new_address_template
           respond_to do |format|
             format.json { new_address_template.to_json }

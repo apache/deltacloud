@@ -1,0 +1,9 @@
+{
+  "resourceURI": "http://schemas.dmtf.org/cimi/1/NetworkCreate",
+  "name": "myAwesomeNetwork",
+  "description": "Sample network description",
+  "networkTemplate": {
+    "networkConfig" : { 'href' => 'http://localhost:3001/cimi/network_configurations/network_config1' }
+    "forwardingGroup" : { 'href' => 'http://localhost:3001/cimi/forwarding_groups/group1' }
+  }
+}

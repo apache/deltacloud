@@ -45,7 +45,7 @@ module CIMI::Collections
       operation :create do
         description "Create new machine template"
         control do
-          mt = MachineTemplateCreate.parse(request.body, request.content_type)
+          mt = CIMI::Model::MachineTemplateCreate.parse(request.body, request.content_type)
           new_machine_template = mt.create(self)
           headers_for_create new_machine_template
           respond_to do |format|

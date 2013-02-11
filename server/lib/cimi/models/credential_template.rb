@@ -13,25 +13,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::NetworkTemplate < CIMI::Model::Base
+class CIMI::Model::CredentialTemplate < CIMI::Model::Base
 
-  acts_as_root_entity
+  text :username, :required => true
+  text :password, :required => true
+  text :key, :required => true
 
-  ref :network_config, :required => true
-  ref :forwarding_group, :required => true
-
-  array :operations do
-    scalar :rel, :href
-  end
-
-  def self.find(id, context)
-    network_templates = []
-    if id==:all
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context})
-    else
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context, :id=>id})
-    end
-    network_templates
-  end
+  # TODO: tbd
 
 end

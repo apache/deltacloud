@@ -47,11 +47,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_address do
         description "Create a new Address"
         control do
-          if current_content_type == :json
-            address = CIMI::Model::Address.create(request.body.read, self, :json)
-          else
-            address = CIMI::Model::Address.create(request.body.read, self, :xml)
-          end
+          addr = CIMI::Model::AddressCreate.parse(request.body, request.content_type)
+          address = addr.create(self)
           respond_to do |format|
             format.xml { address.to_xml }
             format.json { address.to_json }

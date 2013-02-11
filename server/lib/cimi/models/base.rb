@@ -81,7 +81,7 @@ module CIMI::Model
   class ValidationError < StandardError
 
     def initialize(attr_list, format)
-      @lst = attr_list.map { |a| a.send("#{format}_name") }
+      @lst = attr_list
       super("Required attributes not set: #{name}")
     end
 
@@ -142,15 +142,10 @@ module CIMI::Model
     end
 
     def validate!(format=:xml)
-      failed_attrs = []
-      self.class.required_attributes.each do |attr|
-        unless attr.valid?(send(attr.name))
-          failed_attrs << attr
-        end
-      end
-      unless failed_attrs.empty?
-        raise CIMI::Model::ValidationError.new(failed_attrs, format)
-      end
+      failed_attrs = self.class.required_attributes.map do |attr|
+        attr.send("#{format}_name") unless attr.valid?(send(attr.name))
+      end.compact
+      raise CIMI::Model::ValidationError.new(failed_attrs, format) unless failed_attrs.empty?
     end
 
     # FIXME: Kludge around the fact that we do not have proper *Create

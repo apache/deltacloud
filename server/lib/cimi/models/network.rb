@@ -52,25 +52,6 @@ class CIMI::Model::Network < CIMI::Model::Base
     networks
   end
 
-  def self.create(request_body, context, type)
-    input = (type == :xml)? XmlSimple.xml_in(request_body, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(request_body)
-    if input["networkTemplate"]["href"] #template by reference
-      network_config, forwarding_group = get_by_reference(input, context)
-    else
-      if input["networkTemplate"]["networkConfig"]["href"] # configuration by reference
-        network_config = CIMI::Model::NetworkConfiguration.find(context.href_id(input["networkTemplate"]["networkConfig"]["href"],
-                                                                                :network_configurations), context)
-      else #configuration by value
-        network_config = get_by_value(request_body, type)
-      end
-      forwarding_group = CIMI::Model::ForwardingGroup.find(context.href_id(input["networkTemplate"]["forwardingGroup"]["href"],
-                                                                     :forwarding_groups), context)
-    end
-    params = {:network_config => network_config, :forwarding_group => forwarding_group, :name=>input["name"],
-              :description=>input["description"], :env=>context}
-    raise CIMI::Model::BadRequest.new("Bad request - missing required parameters. Client sent: #{request_body} which produced #{params.inspect}")  if params.has_value?(nil)
-    context.driver.create_network(context.credentials, params)
-  end
 
   def self.delete!(id, context)
     context.driver.delete_network(context.credentials, id)
@@ -85,25 +66,6 @@ class CIMI::Model::Network < CIMI::Model::Base
       end
     rescue => e
       block.callback :failure, e.message
-    end
-  end
-
-  private
-
-  def self.get_by_reference(input, context)
-    network_template = CIMI::Model::NetworkTemplate.find(context.href_id(input["networkTemplate"]["href"], :network_templates), context)
-    network_config = CIMI::Model::NetworkConfiguration.find(context.href_id(network_template.network_config.href, :network_configurations), context)
-    forwarding_group = CIMI::Model::ForwardingGroup.find(context.href_id(network_template.forwarding_group.href, :forwarding_groups), context)
-    return network_config, forwarding_group
-  end
-
-  def self.get_by_value(request_body, type)
-    if type == :xml
-      xml_arrays = XmlSimple.xml_in(request_body, {"NormaliseSpace"=>2})
-      network_config = CIMI::Model::NetworkConfiguration.from_xml(XmlSimple.xml_out(xml_arrays["networkTemplate"][0]["networkConfig"][0]))
-    else
-     json = JSON.parse(request_body)
-      network_config = CIMI::Model::NetworkConfiguration.from_json(JSON.generate(json["networkTemplate"]["networkConfig"]))
     end
   end
 

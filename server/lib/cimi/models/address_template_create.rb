@@ -13,25 +13,32 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::NetworkTemplate < CIMI::Model::Base
+class CIMI::Model::AddressTemplateCreate < CIMI::Model::Base
 
-  acts_as_root_entity
+  text :ip, :required => true
+  text :hostname, :required => true
+  text :allocation, :required => true
+  text :default_gateway, :required => true
+  text :dns, :required => true
+  text :protocol, :required => true
+  text :mask, :required => true
 
-  ref :network_config, :required => true
-  ref :forwarding_group, :required => true
+  href :network
 
-  array :operations do
-    scalar :rel, :href
+  def create(context)
+    validate!
+    new_template = context.current_db.add_address_template(
+      :name => name,
+      :description => description,
+      :hostname => hostname,
+      :ip => ip,
+      :allocation => allocation,
+      :default_gateway => default_gateway,
+      :dns => dns,
+      :protocol => protocol,
+      :mask => mask,
+      :ent_properties => property.to_json
+    )
+    CIMI::Model::AddressTemplate.from_db(new_template, context)
   end
-
-  def self.find(id, context)
-    network_templates = []
-    if id==:all
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context})
-    else
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context, :id=>id})
-    end
-    network_templates
-  end
-
 end
