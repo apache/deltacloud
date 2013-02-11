@@ -27,6 +27,10 @@ class Realm < BaseModel
     self.resource_types ||= []
   end
 
+  def resource_types
+    @resource_types || []
+  end
+
   def to_hash(context)
     r = {
       :id => self.id,
@@ -35,7 +39,7 @@ class Realm < BaseModel
       :state => state,
       :limit => limit
     }
-    r.merge!({:resource_types => resource_types}) if resource_types
+    r[:resource_types] = resource_types || []
     r
   end
 
