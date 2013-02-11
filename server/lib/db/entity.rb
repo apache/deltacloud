@@ -18,6 +18,11 @@ module Deltacloud
         retval
       end
 
+      def properties=(v)
+        # Make sure @properties is always a Hash
+        @properties = v || {}
+      end
+
       def before_save
         self.ent_properties = properties.to_json
         super
