@@ -98,32 +98,9 @@ class CIMI::Model::Schema
 
     attr_accessor :schema
 
-    def initialize(name, opts, &block)
+    def initialize(name, opts={}, &block)
       content = opts[:content]
       super(name, opts)
-      if opts[:class]
-        raise "Cannot use both :class and :schema" if opts[:schema]
-        refname = "#{opts[:class].name.split("::").last}Ref"
-        if CIMI::Model::const_defined?(refname)
-          @klass = CIMI::Model::const_get(refname)
-        else
-          @klass = Class.new(opts[:class]) do
-            scalar :href
-
-            def ref_id(ctx)
-              # FIXME: We should use ctx's routes to split
-              # out the :id
-              href.split('/').last
-            end
-
-            def find(ctx)
-              opts[:class].find(ref_id(ctx), ctx)
-            end
-          end
-          CIMI::Model::const_set(refname, @klass)
-        end
-        opts[:schema] = @klass.schema
-      end
       if opts[:schema]
         if block_given?
           raise "Cannot provide :schema option and a block"
@@ -180,16 +157,18 @@ class CIMI::Model::Schema
       json
     end
 
+    def valid?(value)
+      @schema.required_attributes.all? { |a|
+        a.valid?(value.send(a.name))
+      }
+    end
+
     def convert(value)
       if @klass
         @klass.new(value || {})
       else
         super(value)
       end
-    end
-
-    def valid?(value)
-      @schema.required_attributes.any? { |a| a.valid?(value.send(a.name) )}
     end
 
     private
@@ -200,6 +179,45 @@ class CIMI::Model::Schema
         @struct_class ||= ::Struct.new(nil, *@schema.attribute_names)
       end
     end
+  end
+
+  class Ref < CIMI::Model::Schema::Struct
+
+    def initialize(name, opts={}, &block)
+      raise 'The :class attribute must be set' unless opts[:class]
+      refname = "#{opts[:class].name.split("::").last}Ref"
+      if CIMI::Model::const_defined?(refname)
+        @klass = CIMI::Model::const_get(refname)
+      else
+        @klass = Class.new(opts[:class]) do
+          scalar :href
+
+          def ref_id(ctx)
+            # FIXME: We should use ctx's routes to split
+            # out the :id
+            href.split('/').last
+          end
+
+          def find(ctx)
+            opts[:class].find(ref_id(ctx), ctx)
+          end
+        end
+        CIMI::Model::const_set(refname, @klass)
+      end
+      @klass.class_eval { def href?; !href.nil?; end }
+      opts[:schema] = @klass.schema
+      super(name, opts, &block)
+    end
+
+    # The 'ref' could be the reference to a CIMI entity or the full CIMI
+    # entity representation.
+    #
+    def valid?(value)
+      !value.href.nil? || @klass.schema.required_attributes.all? { |a|
+        a.valid?(value.send(a.name))
+      }
+    end
+
   end
 
   class Array < Attribute
@@ -425,12 +443,12 @@ class CIMI::Model::Schema
       add_attributes!([name, opts], Struct, &block)
     end
 
-    def ref(name, klass = nil)
-      unless klass
+    def ref(name, opts={})
+      unless opts[:class]
         s = name.to_s.camelize.gsub(/Config$/, "Configuration")
-        klass = CIMI::Model::const_get(s)
+        opts[:class] = CIMI::Model::const_get(s)
       end
-      struct(name, :class => klass)
+      add_attributes!([name, opts], Ref)
     end
 
     def hash(name)

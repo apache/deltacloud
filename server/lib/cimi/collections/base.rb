@@ -58,7 +58,7 @@ module CIMI::Collections
     end
 
     error JSON::ParserError do
-      report_error(400)
+      report_error(400, "Bad request (#{request.env['sinatra.error'].message})")
     end
 
     error REXML::ParseException do

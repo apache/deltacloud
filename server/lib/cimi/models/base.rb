@@ -80,9 +80,9 @@ module CIMI::Model
 
   class ValidationError < StandardError
 
-    def initialize(attribute)
-      @attr_name  = attribute
-      super("Required attribute '#{@attr_name}' must be set.")
+    def initialize(attr_list, format)
+      @lst = attr_list.map { |a| a.send("#{format}_name") }
+      super("Required attributes not set: #{name}")
     end
 
     # Report the ValidationError as HTTP 400 - Bad Request
@@ -91,7 +91,7 @@ module CIMI::Model
     end
 
     def name
-      @attr_name
+      @lst.join(',')
     end
 
   end
@@ -142,10 +142,14 @@ module CIMI::Model
     end
 
     def validate!(format=:xml)
+      failed_attrs = []
       self.class.required_attributes.each do |attr|
         unless attr.valid?(send(attr.name))
-          raise CIMI::Model::ValidationError.new(attr.send("#{format}_name"))
+          failed_attrs << attr
         end
+      end
+      unless failed_attrs.empty?
+        raise CIMI::Model::ValidationError.new(failed_attrs, format)
       end
     end
 

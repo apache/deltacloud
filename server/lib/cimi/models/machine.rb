@@ -81,7 +81,6 @@ class CIMI::Model::Machine < CIMI::Model::Base
     CIMI::Model::MachineVolume.collection_for_instance(context.params[:id], context)
   end
 
-  private
   def self.from_instance(instance, context)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
     machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)

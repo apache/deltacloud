@@ -55,35 +55,9 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
       end
     end
 
-    def create(template, context)
-      new_template = current_db.add_machine_template(
-        :name => json['name'],
-        :description => json['description'],
-        :machine_config => json['machineConfig']['href'],
-        :machine_image => json['machineImage']['href'],
-        :realm => json['realm'],
-        :ent_properties => json['properties'] ? json['properties'].to_json : {}
-      )
-      from_db(new_template, context)
-    end
-
-    def create_from_json(body, context)
-      template = CIMI::Model::MachineTemplateCreate.from_json(body)
-      template.validate!(:json)
-      create(template, context)
-    end
-
-    def create_from_xml(body, context)
-      template = CIMI::Model::MachineTemplateCreate.from_xml(body)
-      template.validate!(:xml)
-      create(template, context)
-    end
-
     def delete!(id, context)
       current_db.machine_templates.first(:id => id).destroy
     end
-
-    private
 
     def from_db(model, context)
       self.new(

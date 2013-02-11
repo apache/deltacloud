@@ -112,10 +112,18 @@ module CIMI
         end
 
         def parse(text, content_type)
-          if content_type == "application/xml"
-            from_xml(text)
+          if ["application/xml", "text/xml"].include? content_type
+            entity = from_xml(text)
+            entity.validate!(:xml)
+            entity
           elsif content_type == "application/json"
-            from_json(text)
+            if text.kind_of? StringIO
+              entity = from_json(text.read)
+            else
+              entity = from_json(text)
+            end
+            entity.validate!(:json)
+            entity
           else
             raise "Can not parse content type #{content_type}"
           end

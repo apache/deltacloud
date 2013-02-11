@@ -17,8 +17,8 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
 
   acts_as_root_entity :as => "machineConfigs"
 
-  text :cpu
-  text :memory
+  text :cpu, :required => true
+  text :memory, :required => true
 
   array :disks do
     text :capacity
