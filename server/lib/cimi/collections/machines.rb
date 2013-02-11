@@ -85,7 +85,7 @@ module CIMI::Collections
       end
 
       action :restart, :with_capability => :reboot_instance do
-        description "Start specific machine."
+        description "Restart specific machine."
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)

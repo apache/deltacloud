@@ -20,7 +20,7 @@ module CIMI::Collections
 
     collection :addresses do
 
-      description 'An Address represents an IP address, and its associated metdata, for a particular Network.'
+      description 'An Address represents an IP address, and its associated metadata, for a particular Network.'
 
       operation :index, :with_capability => :addresses do
         description 'List all Addresses in the AddressCollection'

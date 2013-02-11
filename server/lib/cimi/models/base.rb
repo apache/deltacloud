@@ -63,7 +63,7 @@ require_relative '../helpers/database_helper'
 #   [struct(name, opts, &block)]
 #     A structured subobject; the block defines the schema of the
 #     subobject. The +:content+ option can be used to specify the attribute
-#     that should receive the content of hte corresponding XML element
+#     that should receive the content of the corresponding XML element
 #   [array(name, opts, &block)]
 #     An array of structured subobjects; the block defines the schema of
 #     the subobjects.
