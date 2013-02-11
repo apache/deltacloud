@@ -46,8 +46,8 @@ module Deltacloud
         def supported_collections(credentials)
           #get the collections as defined by 'capability' and 'respond_to?' blocks
           super_collections = super
-          super_collections = super_collections - [Sinatra::Rabbit::BucketsCollection] if regions_for("object-store", credentials).empty?
-          super_collections = super_collections - [Sinatra::Rabbit::StorageVolumesCollection] if regions_for("volume", credentials).empty?
+          super_collections = super_collections - [Sinatra::Rabbit::BucketsCollection] if regions_for(credentials, "object-store").empty?
+          super_collections = super_collections - [Sinatra::Rabbit::StorageVolumesCollection] if regions_for(credentials, "volume").empty?
           super_collections
         end
 
@@ -182,7 +182,7 @@ module Deltacloud
             os = new_client( credentials, "compute", opts[:realm_id])
           else
             #choose a random realm:
-            available_realms = regions_for("compute", credentials)
+            available_realms = regions_for(credentials, "compute")
             os = new_client(credentials, "compute", available_realms.sample.id)
           end
           result = nil
@@ -489,7 +489,7 @@ private
           api_provider.split(";").last
         end
 
-        def regions_for(service="compute", credentials)
+        def regions_for(credentials, service="compute")
           realms(credentials).select{|region| region.resource_types.include?(service)}
         end
 
