@@ -69,7 +69,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -86,7 +86,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if  grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read.gsub("restart", "reboot"))
           else
             action = Action.from_xml(request.body.read.gsub("restart", "reboot"))
@@ -103,7 +103,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if  grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -171,7 +171,7 @@ module CIMI::Collections
         description "Attach CIMI Volume(s) to a machine."
         param :id,          :string,    :required
         control do
-          if  grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             volume_to_attach, location = MachineVolume.find_to_attach_from_json(request.body.read, self)
           else
             volume_to_attach, location = MachineVolume.find_to_attach_from_xml(request.body.read, self)

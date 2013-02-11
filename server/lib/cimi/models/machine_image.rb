@@ -53,7 +53,7 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
     # there is no way how to figure out from what Machine the MachineImage was
     # created from. For that we need to store this attribute in properties.
     #
-    if context.grab_content_type(context.request.content_type, request_body) == :xml
+    if context.current_content_type == :xml
       input = XmlSimple.xml_in(request_body.read, {"ForceArray"=>false,"NormaliseSpace"=>2})
       raise 'imageLocation attribute is mandatory' unless input['imageLocation']
       input['property'] ||= {}

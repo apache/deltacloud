@@ -45,7 +45,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_storage_volume do
         description "Create new VolumeConfiguration"
         control do
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             new_config = CIMI::Model::VolumeConfiguration.create_from_json(request.body.read, self)
           else
             new_config = CIMI::Model::VolumeConfiguration.create_from_xml(request.body.read, self)

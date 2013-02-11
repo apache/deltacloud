@@ -47,7 +47,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_network_port do
         description "Create a new NetworkPort"
         control do
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             network_port = CIMI::Model::NetworkPort.create(request.body.read, self, :json)
           else
             network_port = CIMI::Model::NetworkPort.create(request.body.read, self, :xml)
@@ -73,7 +73,7 @@ module CIMI::Collections
         control do
           network_port = NetworkPort.find(params[:id], self)
           report_error(404) unless network_port
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -91,7 +91,7 @@ module CIMI::Collections
         control do
           network_port = NetworkPort.find(params[:id], self)
           report_error(404) unless network_port
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)

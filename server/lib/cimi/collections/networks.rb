@@ -46,7 +46,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_network do
         description "Create a new Network"
         control do
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             network = Network.create(request.body.read, self, :json)
           else
             network = Network.create(request.body.read, self, :xml)
@@ -72,7 +72,7 @@ module CIMI::Collections
         control do
           network = Network.find(params[:id], self)
           report_error(404) unless network
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -90,7 +90,7 @@ module CIMI::Collections
         control do
           network = Network.find(params[:id], self)
           report_error(404) unless network
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)
@@ -108,7 +108,7 @@ module CIMI::Collections
         control do
           network = Network.find(params[:id], self)
           report_error(404) unless network
-          if grab_content_type(request.content_type, request.body) == :json
+          if current_content_type == :json
             action = Action.from_json(request.body.read)
           else
             action = Action.from_xml(request.body.read)

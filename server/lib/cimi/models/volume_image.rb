@@ -39,7 +39,7 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   def self.all(context); find(:all, context); end
 
   def self.create(request_body, context)
-    type = context.grab_content_type(context.request.content_type, request_body)
+    type = context.current_content_type
     input = (type == :xml)? XmlSimple.xml_in(request_body.read, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(request_body.read)
     params = {:volume_id => context.href_id(input["imageLocation"]["href"], :volumes), :name=>input["name"], :description=>input["description"]}
     vol_image = context.driver.create_storage_snapshot(context.credentials, params)

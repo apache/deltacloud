@@ -16,6 +16,18 @@
 module CIMI
   module Helper
 
+    def current_content_type
+      case request.content_type
+        when 'application/json' then :json
+        when 'text/xml', 'application/xml' then :xml
+        else
+          raise Deltacloud::Exceptions.exception_from_status(
+            406,
+            translate_error_code(406)[:message]
+          )
+      end
+    end
+
     def expand?(collection)
       params['$expand'] == '*' ||
         (params['$expand'] || '').split(',').include?(collection.to_s)
@@ -57,39 +69,6 @@ module CIMI
         when "MB" then ((value.to_f)/1024)
         else nil
       end
-    end
-
-    def grab_content_type(request_content_type, request_body)
-      case request_content_type
-        when /xml$/ then :xml
-        when /json$/ then :json
-        else raise CIMI::Model::UnsupportedMediaType.new("Unsupported content type - only xml and json supported by CIMI")
-        #guess_content_type(request_body)
-      end
-    end
-
-    #not being used - was called from above grab_content_type
-    #decided to reject anything not xml || json
-    def guess_content_type(request_body)
-      xml = json = false
-      body = request_body.read
-      request_body.rewind
-      begin
-        XmlSimple.xml_in(body)
-        xml = true
-      rescue Exception
-        xml = false
-      end
-      begin
-        JSON.parse(body)
-        json = true
-      rescue Exception
-        json = false
-      end
-      if (json == xml) #both true or both false
-        raise CIMI::Model::BadRequest.new("Couldn't guess content type of: #{body}")
-      end
-      type = (xml)? :xml : :json
     end
 
     def deltacloud_create_method_for(cimi_entity)
