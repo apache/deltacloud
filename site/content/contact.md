@@ -30,6 +30,11 @@ For now we're using an <a href="http://openetherpad.org/DeltacloudCall">etherpad
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/HQ5aPdRSLHo">Deltacloud Community Call #11</a>
+
+An introduction/overview of sinatra-rabbit
+
+<br>
 <a href="http://www.youtube.com/watch?v=HzRbBA8BJ-Q">Deltacloud Community Call #10</a>
 
 How to use Deltacloud driver "features"
