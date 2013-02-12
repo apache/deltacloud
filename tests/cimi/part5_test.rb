@@ -79,7 +79,7 @@ class ManipulateAMachine < CIMI::Test::Spec
   end
 
   it "should have a valid state" do
-    s = Set.new ["RUNNING", "NEW", "PAUSED", "STOPPED", "STARTED"]
+    s = Set.new ["RUNNING", "NEW", "PAUSED", "STOPPED", "STARTED", "CREATING"]
     log.info("machine state: " + machine.state.upcase)
     s.must_include machine.state.upcase
   end
@@ -109,7 +109,7 @@ class ManipulateAMachine < CIMI::Test::Spec
       assert_silent { discover_uri_for("stop","", machine.operations) }
       assert_silent { discover_uri_for("capture","", machine.operations) }
     elsif machine.state.upcase.eql?("STOPPED")
-      assert_silent { discover_uri_for(/\/start/,"", machine.operations) }
+      assert_silent { discover_uri_for("start","", machine.operations) }
       assert_silent  { discover_uri_for("delete","", machine.operations) }
       assert_silent { discover_uri_for("capture","", machine.operations) }
     else
