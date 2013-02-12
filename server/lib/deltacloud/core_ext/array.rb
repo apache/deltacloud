@@ -22,4 +22,9 @@ class Array
   def extract_opts!
     last.is_a?(Hash) ? pop : {}
   end
+
+  unless [].respond_to? :sample
+    alias :sample :choice
+  end
+
 end
