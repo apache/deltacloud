@@ -20,6 +20,7 @@ require "test_helper.rb"
 
 class MachinesRMDInitialStates < CIMI::Test::Spec
   @@created_resources ||= {}
+  @@created_resources[:machines] ||= []
   RESOURCE_URI =
   "http://schemas.dmtf.org/cimi/1/Machine"
   ROOTS = ["machine", "resourceMetadata"]

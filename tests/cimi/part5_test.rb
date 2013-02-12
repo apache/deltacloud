@@ -37,6 +37,7 @@ class ManipulateAMachine < CIMI::Test::Spec
   machine_created = post(machine_add_uri,
     "<Machine>" +
       "<name>cimi_machine_part5</name>" +
+      "<description> created as part of tests/cimi/part5_test  </description>" +
       "<machineTemplate>" +
         "<machineConfig " +
           "href=\"" + get_a(cep_json, "machineConfig") + "\"/>" +

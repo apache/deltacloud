@@ -57,13 +57,10 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
       input = XmlSimple.xml_in(request_body.read, {"ForceArray"=>false,"NormaliseSpace"=>2})
       raise 'imageLocation attribute is mandatory' unless input['imageLocation']
       input['property'] ||= {}
-      input['property'].kind_of?(Array) ?
-        input['property'] << { 'image_location' => input['imageLocation'] } : input['property'].merge!('image_location' => input['imageLocation'])
     else
       input = JSON.parse(request_body.read)
       raise 'imageLocation attribute is mandatory' unless input['imageLocation']
       input['properties'] ||= []
-      input['properties'] << { 'image_location' => input['imageLocation'] }
     end
     params = {:id => context.href_id(input["imageLocation"], :machines), :name=>input["name"], :description=>input["description"]}
     image = context.driver.create_image(context.credentials, params)
@@ -77,7 +74,7 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
 
   def self.delete!(image_id, context)
     context.driver.destroy_image(context.credentials, image_id)
-    CIMI::Model::Image.new(:id => image_id).delete
+    new(:id => image_id).destroy
   end
 
 end

@@ -133,7 +133,7 @@ class CIMI::Model::Machine < CIMI::Model::Base
 
   def self.delete!(id, context)
     context.driver.destroy_instance(context.credentials, id)
-    CIMI::Model::Machine.new(:id => id).delete
+    new(:id => id).destroy
   end
 
   #returns the newly attach machine_volume
