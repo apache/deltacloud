@@ -1,3 +1,72 @@
+1.1.1 - 2013-02-13
+ * Deltacloud
+  + API CHANGES
+    - Added 'root_type' attribute to Image and HardwareProfile
+    - Added the 'resource_types' attribute to Realm model
+  + Server
+    - Advertise :destroy_image only if backend driver support this operation
+    - Added tests for deltacloudd launcher
+    - JSON output now include :href attributes (DTACLOUD-418)
+    - Fixed bug in JSON output in storage_volumes collection (DTACLOUD-454)
+    - Added possiblity to specify an 'username' for 'run on instance' action.
+    - Added JSON output for run_on_instance action
+    - Don't advertise the 'root_type' if provider does not support
+      persistent/transient storage.
+ * Drivers:
+  + Mock
+    - Some buckets hrefs in XML are missing "/" and returned garbled (DTACLOUD-425)
+  + EC2
+    - Added possiblity to import 'key' (require 'aws' >= 2.7.0) (DTACLOUD-438)
+  + Aruba
+    - Renamed driver to 'ArubaCloud' (DTACLOUD-444)
+    - Fixed in the 'savon' client
+  + DigitalOcean
+    - New driver (https://www.digitalocean.com/)
+    - Added hardware_profiles retrieval from provider
+  + FGCP
+    - Added support for :instance_count feature (CreateMultipleVServer)
+    - Remaped instance error states
+  + Rackspace
+    - Fixed case when created instances are not returned immediately after
+      creation
+    - Added compatible hardware_profiles to image (DTACLOUD-439)
+  + Openstack
+    - Make sure we retain keyname when both authentication_password and
+      authentication_key are present in driver (DTACLOUD-421)
+    - Added :storage_snapshot support (openstack gem >= 1.0.8 required)
+    - Fixed bug when we did base64 encode for :user_data in driver
+    - Added :launch_time attribute for instances
+    - Map Openstack 'regions' to Deltacloud realms (DTACLOUD-443)
+    - Fixed several MRI 1.8.7 compatiblity issues (DTACLOUD-461)
+  + Eucalyptus
+    - Override the realms method (no vpc/subnets) (DTACLOUD-423)
+  + GoGrid
+    - Added compatible hardware_profiles to image (DTACLOUD-439)
+    - GoGrid VCR fixtures update
+  + RHEV-M
+    - Advertise the :create_image operation only for STOPPED instances (DTACLOUD-452)
+    - Fixed case when using wrong instance_id when performing operation errors
+      out (DTACLOUD-457)
+ * CIMI
+  + Server
+   - Datamapper ORM replaced by the Sequel (http://sequel.rubyforge.org/)
+   - Added unit-tests for database models
+   - Fixed case when the collection is used as value for $select (DTACLOUD-432)
+   - Filtering of sub-collections now works using $select (DTACLOUD-431)
+   - Fixed missing :href attribute for sub-collections (DTACLOUD-433)
+   - Added unit-tests for the $select
+   - Fixed case when CIMI database entity is created without properties (DTACLOUD-448)
+   - Initial support for $filter parameter
+   - Added support for 'initial_state' capability (mock driver) (DTACLOUD-447)
+   - Renamed 'test:cimi:models' rake task to 'test:cimi'
+   - Fixed case when we set CIMI properties on provider side
+   - Improvements in how we handle CIMI::Model vs. DB entity
+   - Added support for passing an 'realm' when creating Machine
+   - Added 'updated' attribute to all CIMI models
+  + Client
+   - Added support for NetworkPortConfig and NetworkPortTemplate (DTACLOUD-409)
+   - Added support for AddressTemplate and Address (DTACLOUD-409)
+
 1.1.0 - 2013-01-15
  * Deltacloud core server
     -Added minor tuning for jruby to spawn rake tasks correctly
