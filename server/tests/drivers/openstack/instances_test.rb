@@ -8,7 +8,7 @@ describe 'OpenStackDriver Instances' do
   {
     :user => "foo@fakedomain.eu+foo@fakedomain.eu-default-tenant",
     :password => "1234fake56789",
-    :provider => "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/"
+    :provider =>  "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/;az-1.region-a.geo-1"
   }
   end
 
@@ -33,20 +33,20 @@ describe 'OpenStackDriver Instances' do
   end
 
   it 'must allow to filter instances' do
-    instances = @driver.instances :id => '806837'
+    instances = @driver.instances :id => '815215'
     instances.wont_be_empty
     instances.must_be_kind_of Array
     instances.size.must_equal 1
     puts instances.inspect
-    instances.first.id.must_equal '806837'
+    instances.first.id.must_equal '815215'
     @driver.instances(:id => 'unknown').must_be_empty
   end
 
   it 'must allow to retrieve single instance' do
-    instance = @driver.instance :id => '806837'
+    instance = @driver.instance :id => '815215'
     instance.wont_be_nil
-    instance.id.must_equal '806837'
-    instance.name.must_equal 'Server-1355225740-az-2-region-a-geo-1'
+    instance.id.must_equal '815215'
+    instance.name.must_equal 'server2013-02-13 13:06:46 +0200'
     instance.state.wont_be_empty
     instance.owner_id.must_equal 'foo@fakedomain.eu'
     instance.realm_id.wont_be_empty
@@ -56,9 +56,9 @@ describe 'OpenStackDriver Instances' do
   end
 
   it 'must allow to create and destroy an instance' do
-    instance = @driver.create_instance '47940', :hwp_id => '100'
+    instance = @driver.create_instance '78265', :hwp_id => '100', :realm_id => "az-1.region-a.geo-1"
     instance.wont_be_nil
-    instance.image_id.must_equal '47940'
+    instance.image_id.must_equal '78265'
     instance.name.wont_be_empty
     instance.wait_for!(@driver, record_retries('inst_launch')) { |i| i.is_running? }
     puts @driver.destroy_instance(instance.id).inspect
