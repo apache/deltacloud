@@ -72,7 +72,7 @@ Gem::Specification.new do |s|
   s.add_dependency('sinatra-rabbit', '>= 1.0.11')
   s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('rack-accept')
-  s.add_dependency('json', '>= 1.1.9')
+  s.add_dependency('json_pure', '>= 1.5.0')
   s.add_dependency('net-ssh', '>= 2.0.0')
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
