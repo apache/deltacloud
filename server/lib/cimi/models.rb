@@ -36,17 +36,15 @@ module CIMI
 end
 
 require 'require_relative' if RUBY_VERSION < '1.9'
-require_relative '../db'
 
-unless Deltacloud.test_environment?
-  Deltacloud::initialize_database
-  require_relative './../db/provider'
-  require_relative './../db/entity'
-  require_relative './../db/machine_template'
-  require_relative './../db/address_template'
-  require_relative './../db/volume_configuration'
-  require_relative './../db/volume_template'
-end
+# Database entities
+#
+require_relative './../db/provider'
+require_relative './../db/entity'
+require_relative './../db/machine_template'
+require_relative './../db/address_template'
+require_relative './../db/volume_configuration'
+require_relative './../db/volume_template'
 
 require_relative './models/schema'
 require_relative './models/resource'

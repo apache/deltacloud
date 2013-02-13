@@ -57,6 +57,19 @@ module Deltacloud
     @default_frontend || config[:deltacloud]
   end
 
+  def self.generate_routes_for(frontends)
+    frontends.inject({}) do |result, frontend|
+      frontend = frontend.strip
+      if Deltacloud[frontend.to_sym].nil?
+        puts "ERROR: Unknown frontend (#{frontend}). Valid values are 'deltacloud,cimi,ec2'"
+        exit(1)
+      end
+      Deltacloud[frontend.to_sym].require!
+      result[Deltacloud[frontend].root_url] = Deltacloud[frontend].klass
+      result
+    end
+  end
+
   require 'sinatra/base'
   require_relative './deltacloud/helpers/deltacloud_helper'
   require_relative './sinatra/rack_accept'

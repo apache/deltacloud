@@ -15,23 +15,6 @@
 
 module Deltacloud
 
-  def self.test_environment?
-    ENV['RACK_ENV'] == 'test'
-  end
-
-  unless test_environment?
-    require 'sequel'
-    require 'logger'
-    Sequel::Model.plugin :validation_class_methods
-  end
-
-  if RUBY_PLATFORM == 'java'
-    DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
-      'jdbc:sqlite:'+File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
-  else
-    DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
-      'sqlite://'+File.join('/', 'var', 'tmp', "deltacloud-mock-#{ENV['USER']}", 'db.sqlite')
-  end
 
   def self.database(opts={})
     opts[:logger] = ::Logger.new($stdout) if ENV['API_VERBOSE']

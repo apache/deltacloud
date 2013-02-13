@@ -94,14 +94,7 @@ module Deltacloud::Drivers::Mock
 
 
     def initialize
-      if ENV["DELTACLOUD_MOCK_STORAGE"]
-        storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
-      elsif Etc.getlogin
-        storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
-      else
-        raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
-      end
-      @client = Client.new(storage_root)
+      @client = Client.new(MOCK_STORAGE_DIR)
     end
 
     def realms(credentials, opts={})

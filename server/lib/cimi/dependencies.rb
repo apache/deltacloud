@@ -58,5 +58,3 @@ require 'sinatra/rack_date'
 require 'sinatra/rack_matrix_params'
 require 'sinatra/rack_syslog'
 require 'sinatra/sinatra_verbose'
-
-CMWG_NAMESPACE = "http://schemas.dmtf.org/cimi/1"
