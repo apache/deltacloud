@@ -5,6 +5,15 @@ require_relative 'common.rb'
 
 describe 'OpenStackDriver Realms' do
 
+  def credentials
+  {
+    :user => "foo@fakedomain.eu+foo@fakedomain.eu-default-tenant",
+    :password => "1234fake56789",
+    :provider => "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/"
+  }
+  end
+
+
   before do
     @driver = Deltacloud::new(:openstack, credentials)
     VCR.insert_cassette __name__
@@ -14,7 +23,7 @@ describe 'OpenStackDriver Realms' do
     VCR.eject_cassette
   end
 
-  it 'must throw error when wrong credentials' do
+  it 'must throw error when GET Realms with wrong credentials' do
     Proc.new do
       @driver.backend.images(OpenStruct.new(:user => 'unknown+wrong', :password => 'wrong'))
     end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
@@ -25,20 +34,11 @@ describe 'OpenStackDriver Realms' do
     @driver.realms.first.must_be_kind_of Realm
   end
 
-  it 'must allow to filter realms' do
-    realms = @driver.realms :id => 'default'
-    realms.wont_be_empty
-    realms.must_be_kind_of Array
-    realms.size.must_equal 1
-    realms.first.id.must_equal 'default'
-    @driver.realms(:id => 'unknown').must_be_empty
-  end
-
   it 'must allow to retrieve single realm' do
-    realm = @driver.realm :id => 'default'
+    realm_id = @driver.realms.first.id
+    realm = @driver.realm :id => realm_id
     realm.wont_be_nil
-    realm.id.must_equal 'default'
-    realm.limit.wont_be_empty
+    realm.id.must_equal realm_id
     realm.state.must_equal 'AVAILABLE'
     @driver.realm(:id => 'unknown').must_be_nil
   end

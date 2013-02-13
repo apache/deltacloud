@@ -120,7 +120,7 @@ module Deltacloud
           realms = []
           if opts[:id]
             resource_types = []
-            os.connection.regions_list[opts[:id]].each do |service|
+            (os.connection.regions_list[opts[:id]] || []).each do |service|
               resource_types << service[:service] if ["compute", "volume", "object-store"].include?(service[:service])
               realms << Realm.new( {  :id => opts[:id],
                                     :name => opts[:id],

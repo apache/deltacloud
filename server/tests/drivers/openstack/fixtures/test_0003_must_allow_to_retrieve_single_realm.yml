@@ -23,7 +23,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 13 Feb 2013 10:22:55 GMT
+      - Wed, 13 Feb 2013 10:22:46 GMT
       Cache-Control:
       - no-cache
       Expires:
@@ -34,7 +34,7 @@ http_interactions:
       - Apache-Coyote/1.1
     body:
       encoding: US-ASCII
-      string: ! "{\"access\": {\n  \"token\": {\n    \"expires\": \"2013-02-13T22:22:55.724Z\",\n
+      string: ! "{\"access\": {\n  \"token\": {\n    \"expires\": \"2013-02-13T22:22:46.922Z\",\n
         \   \"id\": \"EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1\",\n
         \   \"tenant\": {\n      \"id\": \"123456fake7890\",\n      \"name\": \"foo@fakedomain.eu-default-tenant\"\n
         \   }\n  },\n  \"user\": {\n    \"id\": \"98765fake43210\",\n    \"name\":
@@ -112,7 +112,7 @@ http_interactions:
         \         \"versionList\": \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\"\n
         \       }\n      ]\n    }\n  ]\n}}"
     http_version: 
-  recorded_at: Wed, 13 Feb 2013 10:22:55 GMT
+  recorded_at: Wed, 13 Feb 2013 10:22:47 GMT
 - request:
     method: post
     uri: https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens
@@ -136,7 +136,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 13 Feb 2013 10:22:57 GMT
+      - Wed, 13 Feb 2013 10:22:49 GMT
       Cache-Control:
       - no-cache
       Expires:
@@ -147,7 +147,7 @@ http_interactions:
       - Apache-Coyote/1.1
     body:
       encoding: US-ASCII
-      string: ! "{\"access\": {\n  \"token\": {\n    \"expires\": \"2013-02-13T22:22:57.588Z\",\n
+      string: ! "{\"access\": {\n  \"token\": {\n    \"expires\": \"2013-02-13T22:22:49.316Z\",\n
         \   \"id\": \"EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1\",\n
         \   \"tenant\": {\n      \"id\": \"123456fake7890\",\n      \"name\": \"foo@fakedomain.eu-default-tenant\"\n
         \   }\n  },\n  \"user\": {\n    \"id\": \"98765fake43210\",\n    \"name\":
@@ -225,5 +225,118 @@ http_interactions:
         \         \"versionList\": \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\"\n
         \       }\n      ]\n    }\n  ]\n}}"
     http_version: 
-  recorded_at: Wed, 13 Feb 2013 10:22:57 GMT
+  recorded_at: Wed, 13 Feb 2013 10:22:49 GMT
+- request:
+    method: post
+    uri: https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens
+    body:
+      encoding: UTF-8
+      string: ! '{"auth":{"passwordCredentials":{"username":"foo@fakedomain.eu","password":"1234fake56789"},"tenantName":"foo@fakedomain.eu-default-tenant"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - ! '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Length:
+      - '5934'
+      Content-Type:
+      - application/json
+      Date:
+      - Wed, 13 Feb 2013 10:22:51 GMT
+      Cache-Control:
+      - no-cache
+      Expires:
+      - '-1'
+      Pragma:
+      - no-cache
+      Server:
+      - Apache-Coyote/1.1
+    body:
+      encoding: US-ASCII
+      string: ! "{\"access\": {\n  \"token\": {\n    \"expires\": \"2013-02-13T22:22:52.152Z\",\n
+        \   \"id\": \"EUAuth_01d7206e81832d1ac45183ab9531ba4f6cdc231590a31d5a326aa3cac417cdd1\",\n
+        \   \"tenant\": {\n      \"id\": \"123456fake7890\",\n      \"name\": \"foo@fakedomain.eu-default-tenant\"\n
+        \   }\n  },\n  \"user\": {\n    \"id\": \"98765fake43210\",\n    \"name\":
+        \"foo@fakedomain.eu\",\n    \"roles\": [\n      {\n        \"id\": \"00000000004013\",\n
+        \       \"serviceId\": \"130\",\n        \"name\": \"block-admin\",\n        \"tenantId\":
+        \"123456fake7890\"\n      },\n      {\n        \"id\": \"00000000004025\",\n
+        \       \"serviceId\": \"120\",\n        \"name\": \"sysadmin\",\n        \"tenantId\":
+        \"123456fake7890\"\n      },\n      {\n        \"id\": \"00000000004024\",\n
+        \       \"serviceId\": \"140\",\n        \"name\": \"user\",\n        \"tenantId\":
+        \"123456fake7890\"\n      },\n      {\n        \"id\": \"00000000004022\",\n
+        \       \"serviceId\": \"110\",\n        \"name\": \"Admin\",\n        \"tenantId\":
+        \"123456fake7890\"\n      },\n      {\n        \"id\": \"00000000004025\",\n
+        \       \"serviceId\": \"120\",\n        \"name\": \"sysadmin\",\n        \"tenantId\":
+        \"123456fake7890\"\n      },\n      {\n        \"id\": \"00000000004024\",\n
+        \       \"serviceId\": \"140\",\n        \"name\": \"user\",\n        \"tenantId\":
+        \"123456fake7890\"\n      },\n      {\n        \"id\": \"00000000004003\",\n
+        \       \"serviceId\": \"100\",\n        \"name\": \"domainadmin\"\n      },\n
+        \     {\n        \"id\": \"00000000004016\",\n        \"serviceId\": \"120\",\n
+        \       \"name\": \"netadmin\",\n        \"tenantId\": \"123456fake7890\"\n
+        \     },\n      {\n        \"id\": \"00000000004004\",\n        \"serviceId\":
+        \"100\",\n        \"name\": \"domainuser\"\n      },\n      {\n        \"id\":
+        \"00000000004013\",\n        \"serviceId\": \"130\",\n        \"name\": \"block-admin\",\n
+        \       \"tenantId\": \"123456fake7890\"\n      },\n      {\n        \"id\":
+        \"00000000004016\",\n        \"serviceId\": \"120\",\n        \"name\": \"netadmin\",\n
+        \       \"tenantId\": \"123456fake7890\"\n      }\n    ]\n  },\n  \"serviceCatalog\":
+        [\n    {\n      \"name\": \"Object Storage\",\n      \"type\": \"object-store\",\n
+        \     \"endpoints\": [{\n        \"tenantId\": \"123456fake7890\",\n        \"publicURL\":
+        \"https:\\/\\/region-a.geo-1.objects.hpcloudsvc.com\\/v1\\/123456fake7890\",\n
+        \       \"region\": \"region-a.geo-1\",\n        \"versionId\": \"1.0\",\n
+        \       \"versionInfo\": \"https:\\/\\/region-a.geo-1.objects.hpcloudsvc.com\\/v1.0\\/\",\n
+        \       \"versionList\": \"https:\\/\\/region-a.geo-1.objects.hpcloudsvc.com\"\n
+        \     }]\n    },\n    {\n      \"name\": \"Identity\",\n      \"type\": \"identity\",\n
+        \     \"endpoints\": [\n        {\n          \"publicURL\": \"https:\\/\\/region-a.geo-1.identity.hpcloudsvc.com:35357\\/v2.0\\/\",\n
+        \         \"region\": \"region-a.geo-1\",\n          \"versionId\": \"2.0\",\n
+        \         \"versionInfo\": \"https:\\/\\/region-a.geo-1.identity.hpcloudsvc.com:35357\\/v2.0\\/\",\n
+        \         \"versionList\": \"https:\\/\\/region-a.geo-1.identity.hpcloudsvc.com:35357\"\n
+        \       },\n        {\n          \"publicURL\": \"https:\\/\\/region-b.geo-1.identity.hpcloudsvc.com:35357\\/v2.0\\/\",\n
+        \         \"region\": \"region-b.geo-1\",\n          \"versionId\": \"2.0\",\n
+        \         \"versionInfo\": \"https:\\/\\/region-b.geo-1.identity.hpcloudsvc.com:35357\\/v2.0\\/\",\n
+        \         \"versionList\": \"https:\\/\\/region-b.geo-1.identity.hpcloudsvc.com:35357\"\n
+        \       }\n      ]\n    },\n    {\n      \"name\": \"Image Management\",\n
+        \     \"type\": \"image\",\n      \"endpoints\": [\n        {\n          \"tenantId\":
+        \"123456fake7890\",\n          \"publicURL\": \"https:\\/\\/glance2.uswest.hpcloud.net:9292\\/v1.0\",\n
+        \         \"region\": \"az-2.region-a.geo-1\",\n          \"versionId\": \"1.0\",\n
+        \         \"versionInfo\": \"https:\\/\\/glance2.uswest.hpcloud.net:9292\\/v1.0\\/\",\n
+        \         \"versionList\": \"https:\\/\\/glance2.uswest.hpcloud.net:9292\"\n
+        \       },\n        {\n          \"tenantId\": \"123456fake7890\",\n          \"publicURL\":
+        \"https:\\/\\/glance1.uswest.hpcloud.net:9292\\/v1.0\",\n          \"region\":
+        \"az-1.region-a.geo-1\",\n          \"versionId\": \"1.0\",\n          \"versionInfo\":
+        \"https:\\/\\/glance1.uswest.hpcloud.net:9292\\/v1.0\\/\",\n          \"versionList\":
+        \"https:\\/\\/glance1.uswest.hpcloud.net:9292\"\n        }\n      ]\n    },\n
+        \   {\n      \"name\": \"Block Storage\",\n      \"type\": \"volume\",\n      \"endpoints\":
+        [\n        {\n          \"tenantId\": \"123456fake7890\",\n          \"publicURL\":
+        \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/123456fake7890\",\n
+        \         \"region\": \"az-1.region-a.geo-1\",\n          \"versionId\": \"1.1\",\n
+        \         \"versionInfo\": \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/\",\n
+        \         \"versionList\": \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\"\n
+        \       },\n        {\n          \"tenantId\": \"123456fake7890\",\n          \"publicURL\":
+        \"https:\\/\\/az-2.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/123456fake7890\",\n
+        \         \"region\": \"az-2.region-a.geo-1\",\n          \"versionId\": \"1.1\",\n
+        \         \"versionInfo\": \"https:\\/\\/az-2.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/\",\n
+        \         \"versionList\": \"https:\\/\\/az-2.region-a.geo-1.compute.hpcloudsvc.com\"\n
+        \       }\n      ]\n    },\n    {\n      \"name\": \"Compute\",\n      \"type\":
+        \"compute\",\n      \"endpoints\": [\n        {\n          \"tenantId\": \"123456fake7890\",\n
+        \         \"publicURL\": \"https:\\/\\/az-2.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/123456fake7890\",\n
+        \         \"publicURL2\": \"https:\\/\\/az-2.region-a.geo-1.ec2-compute.hpcloudsvc.com\\/services\\/Cloud\",\n
+        \         \"region\": \"az-2.region-a.geo-1\",\n          \"versionId\": \"1.1\",\n
+        \         \"versionInfo\": \"https:\\/\\/az-2.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/\",\n
+        \         \"versionList\": \"https:\\/\\/az-2.region-a.geo-1.compute.hpcloudsvc.com\"\n
+        \       },\n        {\n          \"tenantId\": \"123456fake7890\",\n          \"publicURL\":
+        \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/123456fake7890\",\n
+        \         \"publicURL2\": \"https:\\/\\/az-1.region-a.geo-1.ec2-compute.hpcloudsvc.com\\/services\\/Cloud\",\n
+        \         \"region\": \"az-1.region-a.geo-1\",\n          \"versionId\": \"1.1\",\n
+        \         \"versionInfo\": \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\\/v1.1\\/\",\n
+        \         \"versionList\": \"https:\\/\\/az-1.region-a.geo-1.compute.hpcloudsvc.com\"\n
+        \       }\n      ]\n    }\n  ]\n}}"
+    http_version: 
+  recorded_at: Wed, 13 Feb 2013 10:22:52 GMT
 recorded_with: VCR 2.4.0
