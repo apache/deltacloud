@@ -42,6 +42,7 @@ module Deltacloud
     helpers Sinatra::Rabbit::URLFor(Deltacloud.collections)
 
     set :config, Deltacloud[:deltacloud]
+    set :haml, :format => :xhtml
 
     get '/' do
       if params[:force_auth]

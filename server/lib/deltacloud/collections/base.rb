@@ -38,6 +38,7 @@ module Deltacloud::Collections
     set :public_folder, root + '/public'
     # A class where the Rabbit will look up for 'collections'
     set :documentation_class, Deltacloud
+    set :haml, :format => :xhtml
 
     error do
       report_error

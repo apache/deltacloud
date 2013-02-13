@@ -44,6 +44,7 @@ module CIMI
     enable :method_override
     disable :show_exceptions
     disable :dump_errors
+    set :haml, :format => :xhtml
 
     helpers Sinatra::Rabbit::URLFor(CIMI.collections)
 

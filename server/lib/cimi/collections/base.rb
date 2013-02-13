@@ -43,6 +43,7 @@ module CIMI::Collections
     set :views, root + '/views/cimi'
     set :public_folder, root + '/public'
     set :documentation_class, CIMI
+    set :haml, :format => :xhtml
 
     error do
       report_error
