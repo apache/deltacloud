@@ -38,12 +38,12 @@ describe Deltacloud do
 
     it 'should provide the correct version' do
       Deltacloud.config[:deltacloud].version.must_equal Deltacloud::API_VERSION
-      Deltacloud.config[:cimi].version.must_equal Deltacloud::API_VERSION
+      Deltacloud.config[:cimi].version.must_equal Deltacloud::CIMI_API_VERSION
     end
 
     it 'should provide the logger facility' do
       Deltacloud.config[:deltacloud].logger.must_equal Rack::DeltacloudLogger
-      Deltacloud.config[:cimi].logger.must_equal Logger
+      Deltacloud.config[:cimi].logger.must_equal Rack::DeltacloudLogger
     end
 
   end

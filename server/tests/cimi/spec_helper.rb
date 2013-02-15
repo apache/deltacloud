@@ -21,7 +21,10 @@ require 'xmlsimple'
 require 'json/pure'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
+ENV['API_FRONTEND'] = 'cimi'
+
 require_relative '../../lib/deltacloud/core_ext.rb'
+require_relative '../../lib/initialize'
 require_relative '../../lib/cimi/models.rb'
 
 DATA_DIR = File::join(File::expand_path(File::dirname(__FILE__)), 'data')

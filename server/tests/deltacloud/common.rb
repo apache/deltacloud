@@ -1,7 +1,9 @@
 require_relative '../test_helper.rb'
+
+require_relative File.join('..', '..', 'lib', 'initializers', 'mock_initialize')
 require_relative File.join('..', '..', 'lib', 'initializers', 'frontend_initialize')
 
-Deltacloud.require_frontend!(:deltacloud)
+Deltacloud.require_frontend! :deltacloud
 
 def check_json_serialization_for(model, sample_id, optional_attrs=[])
   header 'Accept', 'application/json'

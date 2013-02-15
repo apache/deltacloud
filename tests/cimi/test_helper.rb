@@ -18,8 +18,11 @@ require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 require_relative '../helpers/common.rb'
 require 'singleton'
+
+ENV['API_FRONTEND'] = 'cimi'
+
+require_relative '../../server/lib/initialize'
 require_relative "../../server/lib/cimi/models"
-require 'logger'
 
 # Add CIMI specific config stuff
 module CIMI

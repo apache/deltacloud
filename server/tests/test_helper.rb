@@ -8,6 +8,7 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require 'singleton'
 
+require_relative '../lib/initializers/mock_initialize'
 require_relative '../lib/deltacloud/api.rb'
 
 ENV['RACK_ENV'] = 'test'

@@ -18,7 +18,7 @@ describe CIMI::Collections::CloudEntryPoint do
   it 'set the CIMI-Version header' do
     get root_url
     headers['CIMI-Specification-Version'].wont_be_nil
-    headers['CIMI-Specification-Version'].must_equal '1.0.0'
+    headers['CIMI-Specification-Version'].must_equal Deltacloud::CIMI_API_VERSION
   end
 
   it 'advertise CIMI collections in XML format' do

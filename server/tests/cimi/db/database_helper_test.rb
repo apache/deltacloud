@@ -18,16 +18,8 @@ describe Deltacloud::Helpers::Database do
   BaseModel = CIMI::Model::Base
 
   before do
-    ENV['RACK_ENV'] = 'development'
     @db = DatabaseHelper.new
     @prov = Provider::lookup
-  end
-
-  it 'report if application is running under test environment' do
-    ENV['RACK_ENV'] = 'test'
-    @db.test_environment?.must_equal true
-    ENV['RACK_ENV'] = 'development'
-    @db.test_environment?.must_equal false
   end
 
   it 'report if given entity is provided by database' do
