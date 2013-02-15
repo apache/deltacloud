@@ -26,33 +26,40 @@ module Rack
   # rack.errors by default.
   class DeltacloudLogger
 
-    def self.log_path(path=nil)
-      @log_file ||= path
-    end
-
-    def self.verbose?
-      @verbose
-    end
-
-    def self.verbose(v=nil)
-      @verbose ||= v
-    end
-
-    def self.setup(path, be_verbose=false)
-      verbose(be_verbose)
-      return self if path.nil?
-      dir = ::File.dirname(path)
-      if ::File.exists?(dir) and ::File.writable?(dir)
-        log_path(path)
-      else
-        warn "Warning: The log directory (#{dir}) is not writeable."
+    class << self
+      def log_path(path=nil)
+        @log_file ||= path
       end
-      self
-    end
 
-    def self.error(code, &block)
-      @logger ||= ::Logger.new(log_path || $stdout)
-      @logger.error(code, &block)
+      def verbose?
+        @verbose
+      end
+
+      def verbose(v=nil)
+        @verbose ||= v
+      end
+
+      def setup(path, be_verbose=false)
+        verbose(be_verbose)
+        return self if path.nil?
+        dir = ::File.dirname(path)
+        if ::File.exists?(dir) and ::File.writable?(dir)
+          log_path(path)
+        else
+          warn "Warning: The log directory (#{dir}) is not writeable."
+        end
+        self
+      end
+
+      def logger
+        @logger ||= ::Logger.new(log_path || $stdout)
+      end
+
+      [:error, :warn, :info].each do |method_name|
+        define_method method_name do |msg, &block|
+          logger.send(method_name, msg, &block)
+        end
+      end
     end
 
     # Common Log Format: http://httpd.apache.org/docs/1.3/logs.html#common
@@ -62,10 +69,14 @@ module Rack
 
     VERBOSE_FORMAT = %{%s - %s [%s] "%s %s%s%s %s" %s %s %d %s %0.4f\n}
 
+    # If Deltacloud is started with the -L/--log option then
+    # we set logger to this file, otherwise use the default
+    # Sinatra logger facility
+    #
     def initialize(app, logger=nil)
       @app = app
-      unless self.class.log_path.nil?
-        @logger = ::Logger.new(self.class.log_path)
+      if self.class.log_path
+        @logger = self.class.logger
       else
         @logger = logger
       end
