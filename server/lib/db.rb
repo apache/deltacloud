@@ -17,7 +17,13 @@ module Deltacloud
 
 
   def self.database(opts={})
-    opts[:logger] = ::Logger.new($stdout) if ENV['API_VERBOSE']
+    if ENV['API_VERBOSE']
+      if Deltacloud.respond_to? :config
+        opts[:logger] = Deltacloud.config[:cimi].logger
+      else
+        opts[:logger] = ::Logger.new($stdout)
+      end
+    end
     @db ||=  Sequel.connect(DATABASE_LOCATION, opts)
   end
 
