@@ -54,13 +54,15 @@ describe 'Deltacloud API buckets collection' do
 
   # delete the bucket/blob we created for the tests
   MiniTest::Unit.after_tests {
-    res = delete("/buckets/#{@@my_bucket}/#{@@my_blob}")
-    unless res.code == 204
-      raise Exception.new("Failed to delete blob #{@@my_blob}")
-    end
-    res = delete("/buckets/#{@@my_bucket}")
-    unless res.code == 204
-      raise Exception.new("Failed to delete bucket #{@@my_bucket}")
+    collection_supported :buckets
+      res = delete("/buckets/#{@@my_bucket}/#{@@my_blob}")
+      unless res.code == 204
+        raise Exception.new("Failed to delete blob #{@@my_blob}")
+      end
+      res = delete("/buckets/#{@@my_bucket}")
+      unless res.code == 204
+        raise Exception.new("Failed to delete bucket #{@@my_bucket}")
+      end
     end
   }
 
