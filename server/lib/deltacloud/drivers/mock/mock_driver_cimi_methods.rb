@@ -21,6 +21,36 @@ module Deltacloud::Drivers::Mock
 
   class MockDriver < Deltacloud::BaseDriver
 
+    def systems(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        systems = @client.load_all_cimi(:system).map{|sys| CIMI::Model::System.from_json(sys)}
+        systems.map{|sys|convert_cimi_mock_urls(:system, sys ,opts[:env])}.flatten
+      else
+        begin
+          system = CIMI::Model::System.from_json(@client.load_cimi(:system, opts[:id]))
+          convert_cimi_mock_urls(:system, system, opts[:env])
+        rescue Errno::ENOENT
+          nil
+        end
+      end
+    end
+
+    def system_templates(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        system_templates = @client.load_all_cimi(:system_template).map{|sys_templ| CIMI::Model::SystemTemplate.from_json(sys_templ)}
+        system_templates.map{|sys_templ|convert_cimi_mock_urls(:system_template, sys_templ, opts[:env])}.flatten
+      else
+        begin
+          system_template = CIMI::Model::SystemTemplate.from_json(@client.load_cimi(:system_template, opts[:id]))
+          convert_cimi_mock_urls(:system_template, system_template, opts[:env])
+        rescue Errno::ENOENT
+          nil
+        end
+      end
+    end
+
     def networks(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?

@@ -1,0 +1,28 @@
+{ "id": "http://cimi.example.org/system_templates/template1",
+  "name": "template1",
+  "description": "A mock system template",
+  "created": "Fri Feb 08 12:15:15 EET 2013",
+  "componentDescriptors": [
+    { "name": "my machine",
+      "type": "http://schemas.dmtf.org/cimi/1/Machine",
+      "description": "an inline mock machine template",
+      "machineTemplate": {
+        "name": "machine in mock system",
+        "description": "machine in system",
+        "machineConfig": { "href": "http://example.com/configs/m1-small" },
+        "machineImage": { "href": "http://example.com/images/img1" }
+      }
+    },
+    { "name": "my network",
+      "type": "http://schemas.dmtf.org/cimi/1/Network",
+      "description": "a reference to an existing mock network template",
+      "networkTemplate": {
+        "href": "http://cimi.example.org/network_templates/template1"
+      }
+    }
+  ],
+  "operations": [
+    { "rel": "edit", "href": "http://cimi.example.org/system_templates/template1" },
+    { "rel": "delete", "href": "http://cimi.example.org/system_templates/template1" }
+  ]
+}
