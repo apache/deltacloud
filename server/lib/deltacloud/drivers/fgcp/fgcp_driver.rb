@@ -1558,6 +1558,8 @@ eofwopxml
         images['diskimages'][0]['diskimage'].each do |img|
           if vserver['diskimageId'][0] == img['diskimageId'][0]
             instance.username = img['osName'][0] =~ /Windows.*/ ? 'Administrator' : 'root'
+            instance.instance_profile.storage = img['size'][0].to_s
+            break
           end
         end
         instance.password = client.get_vserver_initial_password(vserver['vserverId'][0])['initialPassword'][0]
