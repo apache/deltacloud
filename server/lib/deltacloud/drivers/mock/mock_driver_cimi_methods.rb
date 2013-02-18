@@ -20,6 +20,7 @@
 module Deltacloud::Drivers::Mock
 
   class MockDriver < Deltacloud::BaseDriver
+
     def networks(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
@@ -29,6 +30,48 @@ module Deltacloud::Drivers::Mock
         network = CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:id]))
         convert_cimi_mock_urls(:network, network, opts[:env])
       end
+    end
+
+    def create_network(credentials, opts={})
+      check_credentials(credentials)
+      id = "#{opts[:env].send("networks_url")}/#{opts[:name]}"
+      net_hsh = { "id"=> id,
+                  "name" => opts[:name],
+                  "description" => opts[:description],
+                  "created" => Time.now,
+                  "state" => "STARTED",
+                  "networkType" => opts[:network_config].network_type,
+                  "mtu" =>  opts[:network_config].mtu,
+                  "classOfService" => opts[:network_config].class_of_service,
+
+
+                  "forwardingGroup"=> { "href" => opts[:forwarding_group].id },
+                  "operations" => [{"rel"=>"edit", "href"=> id},
+                                   {"rel"=>"delete", "href"=> id}]    }
+      network = CIMI::Model::Network.from_json(JSON.generate(net_hsh))
+
+      @client.store_cimi(:network, network)
+      network
+    end
+
+    def delete_network(credentials, id)
+      check_credentials(credentials)
+      @client.destroy_cimi(:network, id)
+    end
+
+    def start_network(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "Network", "STARTED")
+    end
+
+    def stop_network(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "Network", "STOPPED")
+    end
+
+    def suspend_network(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "Network", "SUSPENDED")
     end
 
     def network_configurations(credentials, opts={})
@@ -161,6 +204,15 @@ module Deltacloud::Drivers::Mock
           struct.href = context.send(:"#{cimi_name}_url", obj_name)
         end
       end
+    end
+
+    def update_object_state(id, object, new_state)
+      klass = CIMI::Model.const_get("#{object}")
+      symbol = object.to_s.downcase.singularize.intern
+      obj = klass.from_json(@client.load_cimi(symbol, id))
+      obj.state = new_state
+      @client.store_cimi(symbol, obj)
+      obj
     end
 
   end
