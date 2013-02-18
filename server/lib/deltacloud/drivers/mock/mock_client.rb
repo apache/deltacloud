@@ -19,6 +19,7 @@
 
 module Deltacloud::Drivers::Mock
 
+  require 'yaml'
   require 'fileutils'
 
   class Client
@@ -66,6 +67,7 @@ module Deltacloud::Drivers::Mock
     def store(collection, obj)
       raise "Why no obj[:id] ?" unless obj[:id]
       File::open(file(collection, obj[:id]), "w") { |f| YAML.dump(obj, f) }
+      obj
     end
 
     # Return the object with id +id+ of class +klass+ from the collection
