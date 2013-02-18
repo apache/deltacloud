@@ -18,6 +18,18 @@ class Metric < BaseModel
   attr_accessor :entity
   attr_accessor :properties
 
+  MOCK_METRICS_NAMES = [
+    'cpuUtilization',
+    'diskReadRequestCount',
+    'diskReadSector',
+    'diskWriteRequestCount',
+    'diskWriteSector',
+    'nicInputByte',
+    'nicInputPacket',
+    'nicOutputByte',
+    'nicOutputPacket'
+  ]
+
   def unknown?
     self.entity == :unknown
   end
@@ -51,6 +63,39 @@ class Metric < BaseModel
         :values => values
       }
     end
+
+    def generate_mock_values!
+      generator = lambda { |name, kind|
+        v = {
+          :min => (1+(rand(49))),
+          :max => (50+(rand(50)))
+        }
+        (name == 'cpuUtilization') ? v[kind].to_f/100 : v[kind]
+      }
+      @values = (0..5).map do |v_id|
+        {
+          :minimum => min = generator.call(@name, :min),
+          :maximum => max = generator.call(@name, :max),
+          :average => (min+max)/2,
+          :timestamp => (Time.now-v_id).to_i,
+          :unit => unit_for(@name)
+        }
+      end
+    end
+
+    private
+
+    def unit_for(name)
+      case name
+        when /Utilization/ then 'Percent'
+        when /Byte/ then 'Bytes'
+        when /Sector/ then 'Count'
+        when /Count/ then 'Count'
+        when /Packet/ then 'Count'
+        else 'None'
+      end
+    end
+
   end
 
 end
