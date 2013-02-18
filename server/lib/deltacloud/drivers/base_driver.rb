@@ -262,14 +262,27 @@ module Deltacloud
     MEMBER_SHOW_METHODS = [ :realm, :image, :instance, :storage_volume, :bucket, :blob,
                             :key, :firewall ] unless defined?(MEMBER_SHOW_METHODS)
 
-    def filter_on(collection, attribute, opts)
+    def filter_on(collection, opts, *attributes)
+      opts, attributes = attributes.pop, [opts] if !opts.nil? and !(opts.is_a?(Hash))
+      # FIXME: ^^ This is just to keep backward compatibility until
+      # drivers will be fixed to use the new syntax.
+      #
+      # filter_on instances, :opts, [ :id, :state, :realm_id]
+      #
+      # instead of old:
+      #
+      # filter_on instances, :id, opts
+      # filter_on instances, :state, opts
+      # filter_on instances, :realm_id, opts
+
       return collection if opts.nil?
-      return collection if opts[attribute].nil?
-      filter = opts[attribute]
-      if ( filter.is_a?( Array ) )
-        return collection.select{|e| filter.include?( e.send(attribute) ) }
-      else
-        return collection.select{|e| filter == e.send(attribute) }
+      attributes.each do |attribute|
+        next unless filter = opts[attribute]
+        if ( filter.is_a?( Array ) )
+          collection.select! { |e| filter.include?( e.send(attribute) ) }
+        else
+          collection.select! { |e| filter == e.send(attribute) }
+        end
       end
     end
 
