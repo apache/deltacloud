@@ -1,0 +1,679 @@
+--- 
+recorded_with: VCR 2.4.0
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODE2MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=ibeQka9hTGWcqEHtFX0djGvGJsKOuNaIZRD3F+lvMUrMX3nyXA+KnIWxG371%0AuXxk9SyWCJhu4z2ZZ0frzi0FE5aUqeF0ssYIvJ7eBc4gopDZMUe8YpbXgSmI%0A7LCrQILI2sCqfZ7t6jH3SlI+hEn/PT/GdU/zWXmGUozc13tZyopoN5N0LIV7%0AOYTQcGIKg8e+3C4g9GIU9Tqml1ixdHUefZvQ0umVk3qmvLRc1E2QdlaAGmQC%0AcpU4M0k3qxaET+LmYtjQC9ZN+m52sVrOnIofnX/Blq4TJ4yo6+OQpY5z+G88%0AWC0fV9ynAr0JVRxW1NL3SpAuY2g+As1rMYV7+HQjkQ==%0A&Version=2011-01-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 10:20:17 GMT
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=D5EF3EAEA45CFC5E8A6A692894A41265; Path=/ovisspxy; Secure
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Connection: 
+      - close
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListDiskImageResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <diskimages>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0001_RHEL5_8EN64_v1_24x7SPT</diskimageId>
+              <diskimageName>RHEL5.8 64bit(EN) wSPT</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 5.8 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0002_RHEL5_8EN64_v1_NoSPT</diskimageId>
+              <diskimageName>RHEL5.8 64bit(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 5.8 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0003_RHEL6_3EN64_v1_24x7SPT</diskimageId>
+              <diskimageName>RHEL6.3 64bit(EN) wSPT</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 6.3 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0004_RHEL6_3EN64_v1_NoSPT</diskimageId>
+              <diskimageName>RHEL6.3 64bit(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 6.3 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_21VKHA77OO</diskimageId>
+              <diskimageName>CentOS 5.6 32bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.6 32bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_D30U8UNY6I9S</diskimageId>
+              <diskimageName>CentOS 6.2 32bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 6.2 32bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_D30Y0LNN4WE8</diskimageId>
+              <diskimageName>W2k8R2EESP1(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 EE 64bit SP1 (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_FBV3QFG44MPS</diskimageId>
+              <diskimageName>CentOS 5.6 64bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.6 64bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_J55YW6UE101DS</diskimageId>
+              <diskimageName>CentOS 5.4 32bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.4 32bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_J56Y5PS4FJO5C</diskimageId>
+              <diskimageName>W2k8R2SE/SQL2k8R2(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 SE 64bit (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+              <softwares>
+                <software>
+                  <license>Included</license>
+                  <name>SQLServer 2008 R2 SE (English)</name>
+                </software>
+              </softwares>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_LKNVW2TH31A0W</diskimageId>
+              <diskimageName>CentOS 5.4 64bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.4 64bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_LLIPQ3UJ43RWG</diskimageId>
+              <diskimageName>W2k8R2SESP1(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 SE 64bit SP1 (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_QIEWLLNIF7IF40</diskimageId>
+              <diskimageName>W2k8R2SE/IIS(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 SE 64bit (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+              <softwares>
+                <software>
+                  <license />
+                  <name>Internet Information Server 7.5</name>
+                </software>
+              </softwares>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_S24FWXU0Q9VH0JK</diskimageId>
+              <diskimageName>CentOS 6.2 64bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 6.2 64bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_X1W13YQIDAYQ2SQO</diskimageId>
+              <diskimageName>RHEL5.7 64bit wSPT</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 5.7 64bit (English) with Support</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+          </diskimages>
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+        </ListDiskImageResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 10:20:18 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODE4MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=C+m5bymEH7RO/D6zaqRj6+1rIpsmhhUlX+ExbXmu+LXP3gxuZ06TD3RBaipG%0A+ANdJ39dUW50orvzshVBdbgBFPcqIfYuaeCRq7U1GeZh/qlMJB6GFRLwW9It%0AW/4G2mB7sck518DT8qWBu1nIXCEs9C9dzI/aRW7pBDJpF+YYfZEqL8gZk9p4%0ASPVovSZygwzEOyiM8NdaCvgXRXSwiPqi5GpZjqMwLVfUjyuDWryTnST7prQ6%0AUDSbImF5qqxMYjUDG4o/HBVL8mJucdaZHMCtKzQYxvPJKCsmm3UY0VzD27cQ%0AB77ArCM1BuEreJ09ahR0NEw2h95qgTwShROHmgWSUA==%0A&Version=2011-01-31&diskImageId=dummy
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 10:20:19 GMT
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=72A3B8DFDBA4E527F86A2299C1D8B7B6; Path=/ovisspxy; Secure
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Connection: 
+      - close
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListServerTypeResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <servertypes>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_144</id>
+              <memory>
+                <memorySize>7.5</memorySize>
+              </memory>
+              <name>advanced</name>
+              <price>0.4949</price>
+              <productId>AUS-VM-0001-0003</productId>
+              <productName>Advanced VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>1.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_140</id>
+              <memory>
+                <memorySize>1.7</memorySize>
+              </memory>
+              <name>economy</name>
+              <price>0.1237</price>
+              <productId>AUS-VM-0001-0001</productId>
+              <productName>Economy VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>2</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146</id>
+              <memory>
+                <memorySize>15.0</memorySize>
+              </memory>
+              <name>high_performance</name>
+              <price>0.9898</price>
+              <productId>AUS-VM-0001-0004</productId>
+              <productName>High-Performance VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>2.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_142</id>
+              <memory>
+                <memorySize>3.4</memorySize>
+              </memory>
+              <name>standard</name>
+              <price>0.2474</price>
+              <productId>AUS-VM-0001-0002</productId>
+              <productName>Standard VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>4</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146337</id>
+              <memory>
+                <memorySize>30.0</memorySize>
+              </memory>
+              <name>w_high</name>
+              <price>1.9796</price>
+              <productId>AUS-VM-0001-0011</productId>
+              <productName>Double-High Performance VM</productName>
+            </servertype>
+          </servertypes>
+        </ListServerTypeResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 10:20:19 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODE5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=ceSgDqn1q5Ct0WxTVKUWQYJmOf2OjqrolahzWhFGKaPsG5t8uJdwb2AVSjNG%0AHDv4EZLp6qAZBW/kFj5VwvCqLL2nG3KtCrViBe92X339AaL/YEPRPJYbgEiN%0AA+0v0zjN16rEz8LUlho/bU6DTumN8Lto2hSX0YMydki0xCkeiG/vndksxEqq%0AOamGMUaHQesXRdqOjvlSLeKzAhCb76bJp7M/8UF3urGpbuiM2AhoQsb+3kBY%0AU4YoIxowCyUkYXZ3hg5LFDjkdooX83gJTy17LEC6+tu3jCUawVI0BHobyk4W%0A9Mj1vazJbMJuw1zlcVr0IFif2UbzO8S0eLNc5YtrMw==%0A&Version=2011-01-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 10:20:20 GMT
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=3F554B82753EFCBF8B9996C9CE61FAC4; Path=/ovisspxy; Secure
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Connection: 
+      - close
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListDiskImageResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <diskimages>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0001_RHEL5_8EN64_v1_24x7SPT</diskimageId>
+              <diskimageName>RHEL5.8 64bit(EN) wSPT</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 5.8 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0002_RHEL5_8EN64_v1_NoSPT</diskimageId>
+              <diskimageName>RHEL5.8 64bit(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 5.8 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0003_RHEL6_3EN64_v1_24x7SPT</diskimageId>
+              <diskimageName>RHEL6.3 64bit(EN) wSPT</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 6.3 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG0004_RHEL6_3EN64_v1_NoSPT</diskimageId>
+              <diskimageName>RHEL6.3 64bit(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 6.3 64bit</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_21VKHA77OO</diskimageId>
+              <diskimageName>CentOS 5.6 32bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.6 32bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_D30U8UNY6I9S</diskimageId>
+              <diskimageName>CentOS 6.2 32bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 6.2 32bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_D30Y0LNN4WE8</diskimageId>
+              <diskimageName>W2k8R2EESP1(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 EE 64bit SP1 (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_FBV3QFG44MPS</diskimageId>
+              <diskimageName>CentOS 5.6 64bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.6 64bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_J55YW6UE101DS</diskimageId>
+              <diskimageName>CentOS 5.4 32bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.4 32bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_J56Y5PS4FJO5C</diskimageId>
+              <diskimageName>W2k8R2SE/SQL2k8R2(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 SE 64bit (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+              <softwares>
+                <software>
+                  <license>Included</license>
+                  <name>SQLServer 2008 R2 SE (English)</name>
+                </software>
+              </softwares>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_LKNVW2TH31A0W</diskimageId>
+              <diskimageName>CentOS 5.4 64bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 5.4 64bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_LLIPQ3UJ43RWG</diskimageId>
+              <diskimageName>W2k8R2SESP1(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 SE 64bit SP1 (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_QIEWLLNIF7IF40</diskimageId>
+              <diskimageName>W2k8R2SE/IIS(EN)</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Windows Server 2008 R2 SE 64bit (English)</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+              <softwares>
+                <software>
+                  <license />
+                  <name>Internet Information Server 7.5</name>
+                </software>
+              </softwares>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_S24FWXU0Q9VH0JK</diskimageId>
+              <diskimageName>CentOS 6.2 64bit(EN)</diskimageName>
+              <licenseInfo />
+              <osName>CentOS 6.2 64bit (English)</osName>
+              <osType>pv</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>10.0</size>
+            </diskimage>
+            <diskimage>
+              <creatorName>UZXC0GRT</creatorName>
+              <description />
+              <diskimageId>IMG_3c9820_X1W13YQIDAYQ2SQO</diskimageId>
+              <diskimageName>RHEL5.7 64bit wSPT</diskimageName>
+              <licenseInfo>Included</licenseInfo>
+              <osName>Red Hat Enterprise Linux 5.7 64bit (English) with Support</osName>
+              <osType>hvm</osType>
+              <registrant>UZXC0GRT</registrant>
+              <size>40.0</size>
+            </diskimage>
+          </diskimages>
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+        </ListDiskImageResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 10:20:20 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODIxMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=fK8xszbGy8gCaTss4YJkGoOvWkFGvBls6vSpF02xMBBhfOnxYxB/SL1gCR+y%0AmEueWaphxDf+KjxKr46C51ZKPjg+ZWnZQjc8rsddX9FPRCBobEUZu6cDaGUC%0AWvkMLTS1MDcP0KSkgm3uogOVm/0nNdP3sh/wbRZJPDvm5EZRQw5n+lSMZVkh%0AXO+rt5rMlqjd0+et7DWmCFmOgkLiF8JQZy7qlao47QwMbY1LY1eTzBt3634t%0AvZYIqwWw2PpneXO7vQk7eKudzfUHzAezjVM6Ngv23po/f4Vrp+alQm56dEOv%0AxavVZX7nMYFwCPgfAZ2xbjd74pOt6POwyX/oAldbaA==%0A&Version=2011-01-31&diskImageId=dummy
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 10:20:21 GMT
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=A2A0BFD6A522222CA052855090142AA3; Path=/ovisspxy; Secure
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Connection: 
+      - close
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListServerTypeResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <servertypes>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_144</id>
+              <memory>
+                <memorySize>7.5</memorySize>
+              </memory>
+              <name>advanced</name>
+              <price>0.4949</price>
+              <productId>AUS-VM-0001-0003</productId>
+              <productName>Advanced VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>1.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_140</id>
+              <memory>
+                <memorySize>1.7</memorySize>
+              </memory>
+              <name>economy</name>
+              <price>0.1237</price>
+              <productId>AUS-VM-0001-0001</productId>
+              <productName>Economy VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>2</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146</id>
+              <memory>
+                <memorySize>15.0</memorySize>
+              </memory>
+              <name>high_performance</name>
+              <price>0.9898</price>
+              <productId>AUS-VM-0001-0004</productId>
+              <productName>High-Performance VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>2.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_142</id>
+              <memory>
+                <memorySize>3.4</memorySize>
+              </memory>
+              <name>standard</name>
+              <price>0.2474</price>
+              <productId>AUS-VM-0001-0002</productId>
+              <productName>Standard VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>4</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146337</id>
+              <memory>
+                <memorySize>30.0</memorySize>
+              </memory>
+              <name>w_high</name>
+              <price>1.9796</price>
+              <productId>AUS-VM-0001-0011</productId>
+              <productName>Double-High Performance VM</productName>
+            </servertype>
+          </servertypes>
+        </ListServerTypeResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 10:20:21 GMT

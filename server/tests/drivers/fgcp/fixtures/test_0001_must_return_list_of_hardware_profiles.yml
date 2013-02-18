@@ -1,0 +1,249 @@
+--- 
+recorded_with: VCR 2.4.0
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODE0MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=ZPAhBW7w0v3nMkQSGMU5kz82VEVdQeiBhhBNL9O6DfYASHXfQRjjOT7SBLG3%0AFWyiuODgwxQIUG95FNDEeM3B3EZOILyAgid91+SYVV6AgyP0HQgEuRf/bEfS%0AA6eo4fzUclYZXjCN0emtlgD2LXtWvyXyV1s1hNThtOw+M2z6M4LhA8OJBfnu%0Avc8kWrWsvSyx3Lp9fgaDsmsRdyqyZPSP+WQ87jwmrTr62nt7WtCRuXw6VZmO%0AsDpiG8p/lo3nqYSGZMsyRMDyRMXRjCpAFWdecYKMQp0HU2Vwy7U+qLBuVp71%0AVG9gPRTggZFlC8VYpcrD2+wMUqAVxYMsezmxFfmP4Q==%0A&Version=2011-01-31&diskImageId=dummy
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 10:20:15 GMT
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=F1F21DE292B5B6E71FBC786C383F669A; Path=/ovisspxy; Secure
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Connection: 
+      - close
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListServerTypeResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <servertypes>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_144</id>
+              <memory>
+                <memorySize>7.5</memorySize>
+              </memory>
+              <name>advanced</name>
+              <price>0.4949</price>
+              <productId>AUS-VM-0001-0003</productId>
+              <productName>Advanced VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>1.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_140</id>
+              <memory>
+                <memorySize>1.7</memorySize>
+              </memory>
+              <name>economy</name>
+              <price>0.1237</price>
+              <productId>AUS-VM-0001-0001</productId>
+              <productName>Economy VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>2</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146</id>
+              <memory>
+                <memorySize>15.0</memorySize>
+              </memory>
+              <name>high_performance</name>
+              <price>0.9898</price>
+              <productId>AUS-VM-0001-0004</productId>
+              <productName>High-Performance VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>2.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_142</id>
+              <memory>
+                <memorySize>3.4</memorySize>
+              </memory>
+              <name>standard</name>
+              <price>0.2474</price>
+              <productId>AUS-VM-0001-0002</productId>
+              <productName>Standard VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>4</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146337</id>
+              <memory>
+                <memorySize>30.0</memorySize>
+              </memory>
+              <name>w_high</name>
+              <price>1.9796</price>
+              <productId>AUS-VM-0001-0011</productId>
+              <productName>Double-High Performance VM</productName>
+            </servertype>
+          </servertypes>
+        </ListServerTypeResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 10:20:15 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODE1MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=whx93k3+lbm1vrlFzUKl3wibIxxmV/ivgEO9SyS5JUlMtdT+myMbaNMHQwuT%0A83grJL72nWUZZCesk7ZbBMFuHcdpMCaEWnmUM+6qEjQNsHKKsInE8bX/ZmK0%0AJe2BOhDLN+8v1mHE1IYIO4OmzhA1Ql2K8th9lJDyHAGSAorqOJED8K7FkdNV%0Abc22Us08422hT4Y0Gz2tDzd/hoy8kA8sFTA2KDGHB43n9SsZgdRVtyQU45Yj%0AZxnhi+/RwiZymNIA3q3aW3Lc/Zm/DnrBK/g54YoqUK2LjfN/11rUtTz7/zNL%0AzvAxl0yvspcZZ8K7NRC8nlvtlpE68A9rIl4m5/fFyw==%0A&Version=2011-01-31&diskImageId=dummy
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 10:20:16 GMT
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=696DA083C6FBA66114C588B0B61016F3; Path=/ovisspxy; Secure
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Connection: 
+      - close
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListServerTypeResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <servertypes>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_144</id>
+              <memory>
+                <memorySize>7.5</memorySize>
+              </memory>
+              <name>advanced</name>
+              <price>0.4949</price>
+              <productId>AUS-VM-0001-0003</productId>
+              <productName>Advanced VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>1.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_140</id>
+              <memory>
+                <memorySize>1.7</memorySize>
+              </memory>
+              <name>economy</name>
+              <price>0.1237</price>
+              <productId>AUS-VM-0001-0001</productId>
+              <productName>Economy VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>2</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146</id>
+              <memory>
+                <memorySize>15.0</memorySize>
+              </memory>
+              <name>high_performance</name>
+              <price>0.9898</price>
+              <productId>AUS-VM-0001-0004</productId>
+              <productName>High-Performance VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>2.0</cpuPerf>
+                <numOfCpu>1</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_142</id>
+              <memory>
+                <memorySize>3.4</memorySize>
+              </memory>
+              <name>standard</name>
+              <price>0.2474</price>
+              <productId>AUS-VM-0001-0002</productId>
+              <productName>Standard VM</productName>
+            </servertype>
+            <servertype>
+              <chargeType>amount</chargeType>
+              <cpu>
+                <cpuArch>IA</cpuArch>
+                <cpuPerf>4.0</cpuPerf>
+                <numOfCpu>4</numOfCpu>
+              </cpu>
+              <expectedUsage>744</expectedUsage>
+              <id>islanda-cbrm_146337</id>
+              <memory>
+                <memorySize>30.0</memorySize>
+              </memory>
+              <name>w_high</name>
+              <price>1.9796</price>
+              <productId>AUS-VM-0001-0011</productId>
+              <productName>Double-High Performance VM</productName>
+            </servertype>
+          </servertypes>
+        </ListServerTypeResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 10:20:16 GMT
