@@ -46,8 +46,10 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
-require 'require_relative' if RUBY_VERSION < '1.9'
-require_relative './lib/initializers/mock_initialize'
+# Not meant for enduser consumption; make sure we run our initializers
+task :initialize do
+  require_relative 'lib/initialize.rb'
+end
 
 namespace :db do
   desc 'Execute the database migrations'
@@ -59,37 +61,28 @@ end
 namespace :mock do
   namespace :fixtures do
     desc "Setup Mock driver fixtures"
-    task 'setup' do
-      if ENV["DELTACLOUD_MOCK_STORAGE"]
-        storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
-      elsif ENV["USER"]
-        storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
-      else
-        raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
-      end
-      data = Dir::glob(File::join(File::dirname(__FILE__), "lib", "deltacloud", "drivers", "mock", "data", "*"))
-      FileUtils::mkdir_p(storage_root, :verbose => true)
-      FileUtils::cp_r(data, storage_root, :verbose => true)
+    task 'setup' => :initialize do
+      srcdir = File::join(File::dirname(__FILE__), "lib", "deltacloud", "drivers", "mock", "data")
+      data = Dir::glob(File::join(srcdir, "*"))
+      srcdir.gsub!(/^#{ENV["PWD"]}/, ".").gsub!(/^#{ENV["HOME"]}/, "~")
+      puts "Copy mock data to #{MOCK_STORAGE_DIR}"
+      puts "  (from #{srcdir})"
+      FileUtils::cp_r(data, MOCK_STORAGE_DIR, :verbose => false)
     end
 
     desc "Remove Mock driver fixtures"
-    task 'clean' do
-      if ENV["DELTACLOUD_MOCK_STORAGE"]
-        storage_root = ENV["DELTACLOUD_MOCK_STORAGE"]
-      elsif ENV["USER"]
-        storage_root = File::join("/var/tmp", "deltacloud-mock-#{ENV["USER"]}")
-      else
-        raise "Please set either the DELTACLOUD_MOCK_STORAGE or USER environment variable"
-      end
-      FileUtils::rm_rf(storage_root, :verbose => true)
+    task 'clean' => :initialize do
+      puts "Remove mock data in #{MOCK_STORAGE_DIR}"
+      files = Dir::glob(File::join(MOCK_STORAGE_DIR, "*"))
+      FileUtils::rm_rf(files, :verbose => false)
     end
 
     desc "Reset Mock driver fixtures"
-    task 'reset' do
-      Rake::Task["mock:fixtures:clean"].reenable
-      Rake::Task["mock:fixtures:clean"].invoke
-      Rake::Task["mock:fixtures:setup"].reenable
-      Rake::Task["mock:fixtures:setup"].invoke
+    task 'reset' => :initialize do
+      ["mock:fixtures:clean", "mock:fixtures:setup"].each do |t|
+        Rake::Task[t].reenable
+        Rake::Task[t].invoke
+      end
     end
 
   end
