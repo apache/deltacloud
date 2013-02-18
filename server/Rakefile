@@ -46,13 +46,13 @@ Gem::PackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
+require 'require_relative' if RUBY_VERSION < '1.9'
+require_relative './lib/initializers/mock_initialize'
+
 namespace :db do
   desc 'Execute the database migrations'
   task 'migrate' do
-    ENV['API_VERBOSE'] = 'true'
-    load File.join(File.dirname(__FILE__), 'lib', 'db.rb')
-    db = Deltacloud.database
-    Sequel::Migrator.apply(db, File.join(File.dirname(__FILE__), 'db', 'migrations'))
+    load File.join(File.dirname(__FILE__), 'bin', 'deltacloud-db-upgrade')
   end
 end
 
