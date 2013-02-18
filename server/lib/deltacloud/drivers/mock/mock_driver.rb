@@ -14,31 +14,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'yaml'
-require 'base64'
-require 'etc'
 require 'ipaddr'
 
 require_relative 'mock_client'
 require_relative 'mock_driver_cimi_methods'
+
 require_relative '../../runner'
 
 module Deltacloud::Drivers::Mock
 
   class MockDriver < Deltacloud::BaseDriver
-
-    ( REALMS = [
-      Realm.new({
-        :id=>'us',
-        :name=>'United States',
-        :limit=>:unlimited,
-        :state=>'AVAILABLE'}),
-      Realm.new({
-        :id=>'eu',
-        :name=>'Europe',
-        :limit=>:unlimited,
-        :state=>'AVAILABLE'}),
-      ] ) unless defined?( REALMS )
 
     define_hardware_profile('m1-small') do
       cpu              1
@@ -48,15 +33,15 @@ module Deltacloud::Drivers::Mock
     end
 
     define_hardware_profile('m1-large') do
-      cpu              (1..6)
-      memory           ( 7680.. 15*1024), :default => 10 * 1024
+      cpu              1..6
+      memory           7680..(15*1024), :default => 10 * 1024
       storage          [ 850, 1024 ]
       architecture     'x86_64'
     end
 
     define_hardware_profile('m1-xlarge') do
       cpu              4
-      memory           (12*1024 .. 32*1024)
+      memory           12*1024..32*1024
       storage          [ 1024, 2048, 4096 ]
       architecture     'x86_64'
     end
@@ -76,13 +61,16 @@ module Deltacloud::Drivers::Mock
       stopped.to( :finish )      .on( :destroy )
     end
 
-    feature :instances, :user_name
-    feature :instances, :user_data
-    feature :instances, :authentication_key
-    feature :instances, :metrics
-    feature :instances, :realm_filter
-    feature :images, :user_name
-    feature :images, :user_description
+    feature :instances,
+      :user_name,
+      :user_Data,
+      :authentication_key,
+      :metrics,
+      :realm_filter
+
+    feature :images,
+      :user_name,
+      :user_description
 
     #cimi features
     feature :machines, :default_initial_state do
@@ -107,33 +95,55 @@ module Deltacloud::Drivers::Mock
         raise "NotImplementedTest" if opts and opts[:id] == "501"
         raise "ProviderErrorTest" if opts and opts[:id] == "502"
         raise "ProviderTimeoutTest" if opts and opts[:id] == "504"
-        results = REALMS
+        results = [
+          Realm.new(
+            :id=>'us',
+            :name=>'United States',
+            :limit=>:unlimited,
+            :state=>'AVAILABLE'
+          ),
+          Realm.new(
+            :id=>'eu',
+            :name=>'Europe',
+            :limit=>:unlimited,
+            :state=>'AVAILABLE'
+          ),
+        ]
       end
-      results = filter_on( results, :id, opts )
+      results = filter_on( results, opts, :id )
       results
+    end
+
+    def filter_by_owner(images, owner_id)
+      return images unless owner_id
+      if owner_id == 'self'
+        images.select { |e| e.owner_id == credentials.user }
+      else
+        filter_on(images, { :owner_id => owner_id}, :owner_id )
+      end
     end
 
     #
     # Images
     #
-    def images(credentials, opts=nil )
-      check_credentials( credentials )
-      images = []
+    def images(credentials, opts={})
+      check_credentials(credentials)
       images = @client.build_all(Image)
-      images = filter_on( images, :id, opts )
-      images = filter_on( images, :architecture, opts )
-      if ( opts && opts[:owner_id] == 'self' )
-        images = images.select{|e| e.owner_id == credentials.user }
-      else
-        images = filter_on( images, :owner_id, opts )
-      end
+
+      images = filter_on(images, opts, :id, :architecture)
+      images = filter_by_owner(images, opts[:owner_id])
+
+      # Add hardware profiles to each image
       images = images.map { |i| (i.hardware_profiles = hardware_profiles(nil)) && i }
+
       images.sort_by{|e| [e.owner_id, e.description]}
     end
 
     def create_image(credentials, opts={})
       check_credentials(credentials)
-      instance = instance(credentials, :id => opts[:id])
+
+      instance = instance(credentials, opts)
+
       safely do
         raise 'CreateImageNotSupported' unless instance and instance.can_create_image?
         image = {
@@ -168,62 +178,66 @@ module Deltacloud::Drivers::Mock
     def instances(credentials, opts={})
       check_credentials( credentials )
       instances = @client.build_all(Instance)
-      instances = filter_on( instances, :owner_id, :owner_id => credentials.user )
-      instances = filter_on( instances, :id, opts )
-      instances = filter_on( instances, :state, opts )
-      instances = filter_on( instances, :realm_id, opts)
-      instances
+      opts.merge!( :owner_id => credentials.user ) unless opts.has_key?(:owner_id)
+      filter_on(instances, opts, :owner_id, :id, :state, :realm_id)
     end
 
-    def create_instance(credentials, image_id, opts)
-      check_credentials( credentials )
+    def generate_instance_id
       ids = @client.members(:instances)
-
-      count = 0
-      while true
-        next_id = "inst" + count.to_s
-        if not ids.include?(next_id)
-          break
-        end
+      count, next_id = 0, ''
+      loop do
+        break unless ids.include?(next_id = "inst#{count}")
         count = count + 1
       end
+      next_id
+    end
 
-      realm_id = opts[:realm_id]
-      if ( realm_id.nil? )
-        realm = realms(credentials).first
-        ( realm_id = realm.id ) if realm
+    def create_instance(credentials, image_id, opts={})
+      check_credentials( credentials )
+
+      instance_id = generate_instance_id
+      realm_id = opts[:realm_id] || realms(credentials).first.id
+
+      if opts[:hwp_id]
+        hwp = find_hardware_profile(credentials, opts[:hwp_id], image_id)
+      else
+        hwp = find_hardware_profile(credentials, 'm1-small', image_id)
       end
 
-      hwp = find_hardware_profile(credentials, opts[:hwp_id], image_id)
-      hwp ||= find_hardware_profile(credentials, 'm1-small', image_id)
-
       name = opts[:name] || "i-#{Time.now.to_i}"
+
       initial_state = opts[:initial_state] || "RUNNING"
+
       instance = {
-        :id => next_id,
-        :name=>name,
-        :state=> (initial_state == "STARTED" ? "RUNNING" : initial_state),
+        :id => instance_id,
+        :name => name,
+        :state => (initial_state == "STARTED" ? "RUNNING" : initial_state),
         :keyname => opts[:keyname],
-        :image_id=>image_id,
-        :owner_id=>credentials.user,
-        :public_addresses=>[ InstanceAddress.new("#{image_id}.#{next_id}.public.com", :type => :hostname) ],
-        :private_addresses=>[ InstanceAddress.new("#{image_id}.#{next_id}.private.com", :type => :hostname) ],
+        :image_id => image_id,
+        :owner_id => credentials.user,
+        :public_addresses => [
+          InstanceAddress.new("#{image_id}.#{instance_id}.public.com", :type => :hostname)
+        ],
+        :private_addresses =>[
+          InstanceAddress.new("#{image_id}.#{instance_id}.private.com", :type => :hostname)
+        ],
         :instance_profile => InstanceProfile.new(hwp.name, opts),
-        :realm_id=>realm_id,
-        :create_image=>true,
-        :actions=>instance_actions_for((initial_state == "STARTED" ? "RUNNING" : initial_state)),
+        :realm_id => realm_id,
+        :create_image => true,
+        :actions => instance_actions_for((initial_state == "STARTED" ? "RUNNING" : initial_state)),
         :user_data => opts[:user_data] ? Base64::decode64(opts[:user_data]) : nil
       }
+
       @client.store(:instances, instance)
       Instance.new( instance )
     end
 
     def update_instance_state(credentials, id, state)
       instance  = @client.load_collection(:instances, id)
-      instance[:state] = state
-      instance[:actions] = instance_actions_for( instance[:state] )
-      @client.store(:instances, instance)
-      Instance.new( instance )
+      Instance.new(@client.store(:instances, instance.merge(
+        :state => state,
+        :actions => instance_actions_for(state)
+      )))
     end
 
     def start_instance(credentials, id)
@@ -238,45 +252,44 @@ module Deltacloud::Drivers::Mock
       update_instance_state(credentials, id, 'STOPPED')
     end
 
-
     def destroy_instance(credentials, id)
       check_credentials( credentials )
       @client.destroy(:instances, id)
     end
 
     # mock object to mimick Net::SSH object
-    class Mock_ssh
+    class MockSSH
       attr_accessor :command
     end
 
     def run_on_instance(credentials, opts={})
-      ssh = Mock_ssh.new
+      ssh = MockSSH.new
       ssh.command = opts[:cmd]
-      Deltacloud::Runner::Response.new(ssh, "This is where the output would appear if this were not a mock provider")
+      Deltacloud::Runner::Response.new(
+        ssh,
+        "This is where the output from '#{ssh.command}' would appear if this were not a mock provider"
+      )
     end
 
     #
     # Storage Volumes
     #
-    def storage_volumes(credentials, opts=nil)
-      check_credentials( credentials )
-      volumes = @client.build_all(StorageVolume)
-      volumes = filter_on( volumes, :id, opts )
-      volumes
+    def storage_volumes(credentials, opts={})
+      check_credentials(credentials)
+      filter_on(@client.build_all(StorageVolume), opts, :id)
     end
 
     def create_storage_volume(credentials, opts={})
       check_credentials(credentials)
       opts[:capacity] ||= "1"
-      id = "Volume#{Time.now.to_i}"
-      volume = {
-            :id => id,
-            :name => opts[:name] ? opts[:name] : id,
-            :created => Time.now.to_s,
-            :state => "AVAILABLE",
-            :capacity => opts[:capacity],
-      }
-      @client.store(:storage_volumes, volume)
+      volume_id = "volume_#{Time.now.to_i}"
+      volume = @client.store(:storage_volumes, {
+        :id => volume_id,
+        :name => opts[:name] ? opts[:name] : "Volume#{volume_id}",
+        :created => Time.now.to_s,
+        :state => "AVAILABLE",
+        :capacity => opts[:capacity],
+      })
       StorageVolume.new(volume)
     end
 
@@ -291,7 +304,7 @@ module Deltacloud::Drivers::Mock
       attach_volume_instance(opts[:id], opts[:device], opts[:instance_id])
     end
 
-    def detach_storage_volume(credentials, opts)
+    def detach_storage_volume(credentials, opts={})
       check_credentials(credentials)
       detach_volume_instance(opts[:id], opts[:instance_id])
     end
@@ -300,11 +313,9 @@ module Deltacloud::Drivers::Mock
     # Storage Snapshots
     #
 
-    def storage_snapshots(credentials, opts=nil)
+    def storage_snapshots(credentials, opts={})
       check_credentials( credentials )
-      snapshots = @client.build_all(StorageSnapshot)
-      snapshots = filter_on(snapshots, :id, opts )
-      snapshots
+      filter_on(@client.build_all(StorageSnapshot), opts, :id)
     end
 
     def create_storage_snapshot(credentials, opts={})
@@ -316,10 +327,9 @@ module Deltacloud::Drivers::Mock
             :state => "COMPLETED",
             :storage_volume_id => opts[:volume_id],
       }
-      snapshot.merge!({:name=>opts[:name]}) if opts[:name]
-      snapshot.merge!({:description=>opts[:description]}) if opts[:description]
-      @client.store(:storage_snapshots, snapshot)
-      StorageSnapshot.new(snapshot)
+      snapshot.merge!({:name => opts[:name]}) if opts[:name]
+      snapshot.merge!({:description => opts[:description]}) if opts[:description]
+      StorageSnapshot.new(@client.store(:storage_snapshots, snapshot))
     end
 
     def destroy_storage_snapshot(credentials, opts={})
@@ -329,9 +339,7 @@ module Deltacloud::Drivers::Mock
 
     def keys(credentials, opts={})
       check_credentials(credentials)
-      result = @client.build_all(Key)
-      result = filter_on( result, :id, opts )
-      result
+      filter_on(@client.build_all(Key), opts, :id)
     end
 
     def key(credentials, opts={})
@@ -348,9 +356,8 @@ module Deltacloud::Drivers::Mock
       }
       safely do
         raise "KeyExist" if @client.load_collection(:keys, key_hash[:id])
-        @client.store(:keys, key_hash)
+        Key.new(@client.store(:keys, key_hash))
       end
-      return Key.new(key_hash)
     end
 
     def destroy_key(credentials, opts={})
@@ -360,15 +367,15 @@ module Deltacloud::Drivers::Mock
 
     def addresses(credentials, opts={})
       check_credentials(credentials)
-      addresses = @client.build_all(Address)
-      addresses = filter_on( addresses, :id, opts )
+      filter_on(@client.build_all(Address), opts, :id)
     end
 
     def create_address(credentials, opts={})
       check_credentials(credentials)
-      address = {:id => allocate_mock_address.to_s, :instance_id=>nil}
-      @client.store(:addresses, address)
-      Address.new(address)
+      Address.new(@client.store(:addresses, {
+        :id => allocate_mock_address.to_s,
+        :instance_id => nil
+      }))
     end
 
     def destroy_address(credentials, opts={})
@@ -395,7 +402,9 @@ module Deltacloud::Drivers::Mock
       raise "AddressNotInUse" unless address[:instance_id]
       instance = @client.load_collection(:instances, address[:instance_id])
       address[:instance_id] = nil
-      instance[:public_addresses] = [InstanceAddress.new("#{instance[:image_id]}.#{instance[:id]}.public.com", :type => :hostname)]
+      instance[:public_addresses] = [
+        InstanceAddress.new("#{instance[:image_id]}.#{instance[:id]}.public.com", :type => :hostname)
+      ]
       @client.store(:addresses, address)
       @client.store(:instances, instance)
     end
@@ -412,7 +421,7 @@ module Deltacloud::Drivers::Mock
         map
       end
       buckets.each { |bucket| bucket.blob_list = blob_map[bucket.id] }
-      filter_on( buckets, :id, opts )
+      filter_on( buckets, opts, :id)
     end
 
     #--
@@ -447,8 +456,8 @@ module Deltacloud::Drivers::Mock
     def blobs(credentials, opts = {})
       check_credentials(credentials)
       blobs = @client.build_all(Blob)
-      filter_on( blobs, :bucket, :bucket => opts['bucket'] )
-      filter_on( blobs, :id, opts )
+      opts.merge!( :bucket => opts.delete('bucket') )
+      filter_on(blobs, opts, :id, :bucket)
     end
 
     #--
@@ -490,8 +499,7 @@ module Deltacloud::Drivers::Mock
           :content => blob_data
         })
       end
-      @client.store(:blobs, blob)
-      Blob.new(blob)
+      Blob.new(@client.store(:blobs, blob))
     end
 
     #--
@@ -510,11 +518,7 @@ module Deltacloud::Drivers::Mock
     #--
     def blob_metadata(credentials, opts={})
       check_credentials(credentials)
-      if blob = @client.load_collection(:blobs, opts[:id])
-        blob[:user_metadata]
-      else
-        nil
-      end
+      (blob = @client.load_collection(:blobs, opts[:id])) ? blob[:user_metadata] : nil
     end
 
     #--
@@ -523,10 +527,13 @@ module Deltacloud::Drivers::Mock
     def update_blob_metadata(credentials, opts={})
       check_credentials(credentials)
       safely do
-        blob = @client.load_collection(:blobs, opts[:id])
-        return false unless blob
-        blob[:user_metadata] = BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
-        @client.store(:blobs, blob)
+        if blob = @client.load_collection(:blobs, opts[:id])
+          @client.store(:blobs, blob.merge(
+            :user_metadata => BlobHelper::rename_metadata_headers(opts['meta_hash'], '')
+          ))
+        else
+          false
+        end
       end
     end
 
@@ -534,47 +541,21 @@ module Deltacloud::Drivers::Mock
     # Metrics
     #--
     def metrics(credentials, opts={})
-      check_credentials( credentials )
-      instances = @client.build_all(Instance)
-      instances = filter_on( instances, :id, opts )
-
-      metrics_arr = instances.collect do |instance|
-        Metric.new(
-          :id     => instance.id,
-          :entity => instance.name
+      check_credentials(credentials)
+      instances(credentials).map do |inst|
+        metric = Metric.new(
+          :id     => inst.id,
+          :entity => inst.name
         )
+        Metric::MOCK_METRICS_NAMES.each { |metric_name| metric.add_property(metric_name) }
+        metric.properties.sort! { |a,b| a.name <=> b.name }
+        metric
       end
-
-      # add metric names to metrics
-      metrics_arr.each do |metric|
-        @@METRIC_NAMES.each do |name|
-          metric.add_property(name)
-        end
-        metric.properties.sort! {|a,b| a.name <=> b.name}
-      end
-      metrics_arr
     end
 
     def metric(credentials, opts={})
-      metric = metrics(credentials, opts).first
-
-      metric.properties.each do |property|
-
-        property.values = (0..5).collect do |i|
-
-          unit = metric_unit_for(property.name)
-          average = (property.name == 'cpuUtilization') ? (rand * 1000).to_i / 10.0 : rand(1000)
-          max = (property.name == 'cpuUtilization') ? (1000 + 10 * average).to_i / 20.0 : average * (i + 1)
-          min = (property.name == 'cpuUtilization') ? (2.5 * average).to_i / 10.0 : (average / 4).to_i
-          {
-            :minimum   => min,
-            :maximum   => max,
-            :average   => average,
-            :timestamp => Time.now - i * 60,
-            :unit      => unit
-          }
-        end
-      end
+      metric = metrics(credentials).first
+      metric.properties.each { |p| p.generate_mock_values! }
       metric
     end
 
@@ -589,9 +570,10 @@ module Deltacloud::Drivers::Mock
     end
     alias :new_client :check_credentials
 
-    #Mock allocation of 'new' address
-    #There is a synchronization problem (but it's the mock driver,
-    #mutex seemed overkill)
+    # Mock allocation of 'new' address
+    # There is a synchronization problem (but it's the mock driver,
+    # mutex seemed overkill)
+    #
     def allocate_mock_address
       addresses = []
       @client.members(:addresses).each do |addr|
@@ -625,30 +607,6 @@ module Deltacloud::Drivers::Mock
       @client.store(:instances, instance)
       StorageVolume.new(volume)
     end
-
-    def metric_unit_for(name)
-      case name
-        when /Utilization/ then 'Percent'
-        when /Byte/ then 'Bytes'
-        when /Sector/ then 'Count'
-        when /Count/ then 'Count'
-        when /Packet/ then 'Count'
-        else 'None'
-      end
-    end
-
-    # names copied from FGCP driver
-    @@METRIC_NAMES = [
-      'cpuUtilization',
-      'diskReadRequestCount',
-      'diskReadSector',
-      'diskWriteRequestCount',
-      'diskWriteSector',
-      'nicInputByte',
-      'nicInputPacket',
-      'nicOutputByte',
-      'nicOutputPacket'
-    ]
 
     exceptions do
 

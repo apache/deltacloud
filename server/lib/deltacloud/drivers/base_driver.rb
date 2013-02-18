@@ -284,6 +284,7 @@ module Deltacloud
           collection.select! { |e| filter == e.send(attribute) }
         end
       end
+      collection
     end
 
     def catched_exceptions_list
