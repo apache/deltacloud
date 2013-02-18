@@ -13,13 +13,13 @@ end
 describe Deltacloud::Helpers::Database do
   include Deltacloud::DatabaseTestHelper
 
-  Provider = Deltacloud::Database::Provider
-  Entity = Deltacloud::Database::Entity
-  BaseModel = CIMI::Model::Base
-
   before do
+    @provider = Deltacloud::Database::Provider
+    @entity = Deltacloud::Database::Entity
+    @baseModel = CIMI::Model::Base
+
     @db = DatabaseHelper.new
-    @prov = Provider::lookup
+    @prov = @provider::lookup
   end
 
   it 'report if given entity is provided by database' do
@@ -32,7 +32,7 @@ describe Deltacloud::Helpers::Database do
   end
 
   it 'create provider when it does not exists' do
-    @prov.must_be_kind_of Deltacloud::Database::Provider
+    @prov.must_be_kind_of @provider
     @prov.driver.must_equal 'mock'
     @prov.url.must_equal @db.current_provider
     @prov.must_respond_to :entities
@@ -49,17 +49,17 @@ describe Deltacloud::Helpers::Database do
       :name => 'testMachine1',
       :description => 'testMachine1 description',
       :ent_properties => JSON::dump(:key => 'value'),
-      :be_kind => BaseModel.name,
+      :be_kind => @baseModel.name,
       :be_id => 'inst1'
     )
 
-    check_entity_base_attrs new_entity, Entity, @prov
+    check_entity_base_attrs new_entity, @entity, @prov
 
-    result = Entity.retrieve(BaseModel.new(:id => 'inst1'))
+    result = @entity.retrieve(@baseModel.new(:id => 'inst1'))
     result.must_equal new_entity
 
     new_entity.destroy
-    result = Entity.retrieve(BaseModel.new(:id => 'inst1'))
+    result = @entity.retrieve(@baseModel.new(:id => 'inst1'))
     result.exists?.must_equal false
   end
 
@@ -70,13 +70,13 @@ describe Deltacloud::Helpers::Database do
       :name => 'testMachine1',
       :description => 'testMachine1 description',
       :ent_properties => JSON::dump(:key => 'value'),
-      :be_kind => BaseModel.name,
+      :be_kind => @baseModel.name,
       :be_id => 'base1'
     )
 
-    check_entity_base_attrs new_entity, Entity, @prov
+    check_entity_base_attrs new_entity, @entity, @prov
 
-    result = Entity::retrieve(BaseModel.new(:id => 'base1'))
+    result = @entity::retrieve(@baseModel.new(:id => 'base1'))
     result.name.must_equal new_entity.name
     result.description.must_equal new_entity.description
     result.properties.must_equal new_entity.properties
@@ -91,15 +91,15 @@ describe Deltacloud::Helpers::Database do
       :name => 'testMachine1',
       :description => 'testMachine1 description',
       :ent_properties => JSON::dump(:key => 'value'),
-      :be_kind => BaseModel.name,
+      :be_kind => @baseModel.name,
       :be_id => 'base1'
     )
 
-    check_entity_base_attrs new_entity, Entity, @prov
+    check_entity_base_attrs new_entity, @entity, @prov
 
-    base = BaseModel.new(:id => 'base1')
+    base = @baseModel.new(:id => 'base1')
     base.destroy
-    entity = Entity.retrieve(base)
+    entity = @entity.retrieve(base)
     entity.wont_be_nil
     entity.exists?.must_equal false
   end

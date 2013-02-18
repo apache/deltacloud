@@ -58,9 +58,5 @@ module CIMI::Collections
       halt 400, "Unable to find HTTP Host header" if @env['HTTP_HOST'] == nil
     end
 
-    after do
-      headers 'CIMI-Specification-Version' => Deltacloud[:cimi].version
-    end
-
   end
 end

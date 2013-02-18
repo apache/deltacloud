@@ -15,12 +15,6 @@ describe CIMI::Collections::CloudEntryPoint do
     @collection.operation(:index).must_equal Sinatra::Rabbit::CloudentrypointCollection::IndexOperation
   end
 
-  it 'set the CIMI-Version header' do
-    get root_url
-    headers['CIMI-Specification-Version'].wont_be_nil
-    headers['CIMI-Specification-Version'].must_equal Deltacloud::CIMI_API_VERSION
-  end
-
   it 'advertise CIMI collections in XML format' do
     get root_url + '/cloudEntryPoint'
     xml.root.name.must_equal 'CloudEntryPoint'
