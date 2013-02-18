@@ -15,6 +15,8 @@
 
 # Deltacloud server initialization scripts:
 
+require 'require_relative' if RUBY_VERSION < '1.9'
+
 # Initialize storage for mock and CIMI database
 require_relative './initializers/mock_initialize'
 
