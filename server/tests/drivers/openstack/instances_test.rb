@@ -37,7 +37,6 @@ describe 'OpenStackDriver Instances' do
     instances.wont_be_empty
     instances.must_be_kind_of Array
     instances.size.must_equal 1
-    puts instances.inspect
     instances.first.id.must_equal '815215'
     @driver.instances(:id => 'unknown').must_be_empty
   end
@@ -61,7 +60,7 @@ describe 'OpenStackDriver Instances' do
     instance.image_id.must_equal '78265'
     instance.name.wont_be_empty
     instance.wait_for!(@driver, record_retries('inst_launch')) { |i| i.is_running? }
-    puts @driver.destroy_instance(instance.id).inspect
+    @driver.destroy_instance(instance.id)
   end
 
 end
