@@ -48,10 +48,13 @@ describe Deltacloud::Collections::Instances do
     (xml/'error/message').first.text.strip.must_equal 'Requested method not allowed'
     post root_url + '/instances/' + instance_id + '/reboot'
     status.must_equal 202
+    (xml/'instance/state').first.text.strip.must_equal 'RUNNING'
     post root_url + '/instances/' + instance_id + '/stop'
     status.must_equal 202
+    (xml/'instance/state').first.text.strip.must_equal 'STOPPED'
     post root_url + '/instances/' + instance_id + '/start'
     status.must_equal 202
+    (xml/'instance/state').first.text.strip.must_equal 'RUNNING'
     post root_url + '/instances/' + instance_id + '/stop'
     status.must_equal 202
     (xml/'instance/state').first.text.strip.must_equal 'STOPPED'
