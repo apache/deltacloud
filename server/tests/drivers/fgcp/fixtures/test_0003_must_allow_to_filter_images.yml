@@ -1,9 +1,8 @@
 --- 
-recorded_with: VCR 2.4.0
 http_interactions: 
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODI0MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=rUT0CKUe2YHzwS21/WvehpqGxdhaqH7AgfFPNHNaQzCVOx4NgvVDT+Z+sFpP%0AFt32i1VaBd5R++haqPtSi6H1181CMTi2u7O9Gb5vJQkqyhWE/LeaDiKxvi6V%0AbYFHyOBHxtodFwGrVqf09HDbRXMpymDAh3VPUGixCZge39Q4oGabSAtZLxem%0AahMj3/lseBTU5l/ql5K1qjfl/n+vO366tgG6uv7/ZTzV+NnSXjTAtWAEyFia%0AbgHQQBI9sZA9yoV9abmGly1RX1FRXEbjs16w9mJNUZPv5fXiAb8GAaYx1MEV%0AFwFwbe7LdrZ2m+6by6KD+oJISrtGJHf9Nkm3MsJndw==%0A&Version=2011-01-31
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODQ5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=LAPxOyA0e+SIDOGuSOVui2J681QfR4MbZxCG6Z9FQD1THFwa1WSmPNY7eDjf%0A88s1VArPv6Z9zxIBl4ukBgqWODyG8HYAzoJRMsXfX3Ogw/VSvC1quWNM7Ru+%0A49ODjDYLE7wBw8OU7SCBvkBae2/bK2b+MpOJLwdBpTeSq4xzNFujitPrE/vi%0AO6jTqCB1Em93ysSvSz8SFumVAayHQf+afstCdMbsc6I/N1z5IUOEjs2d0fRq%0AugVoczDBdj7D/gbDPKT2ueMEYbO9MR6dx9fra/XZR+uKZESGVGS07dMnvcj8%0Apu4I/EGZDKkWeaPjBzddSHOe280yqAFuH//TXFnVkA==%0A&Version=2011-01-31
     body: 
       string: ""
     headers: 
@@ -16,16 +15,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:25 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=C46AF488794781319EA9702917E30183; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:50 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=E949EAC040EA29A32E95787350094A59; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -215,10 +214,10 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:26 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:52 GMT
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODI2MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=khYgVzLiWlm+pTtiNxASl4yAbm8M20elcbnJui2czpKC3YPSRWk24qr0HJD9%0A9qe4XheCQSguMhdYCQTd7U+eB1FJpJEDvk19nFBiWBmIcvjna92haBAlt3AA%0AGolou85DGTo9CVntjhQsMCau2ZNMtGfJov81F3sgdmrtEQauWNJM28i/CV2Q%0Auy23nzsbuISLXSh1SNiVIZIpK0RhTVb9SYv11jTeTJjEURY+QdDwqNHMnZTH%0AJ3Zp2JId+6ZfikOg2P9slMLXNEhodJIt4C8vK+RPo8Q9ZQIvhZy+yDa8+X6I%0A622QEK1lzECAMh/T1VX1MPTG9VyaZyVqw8kBYtLCQQ==%0A&Version=2011-01-31&diskImageId=dummy
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODUyMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=CjP3Ig6myE2FEbMo2aflX1Juw9MqHLKguWz1DwRUhTRt8mWBSwEzp9l2rS4P%0Ag9Gc1sTTcEnOmA0zNw3YMKayzKRLJpCdleMyTaGVRabFIfvO7ZfW9A3TDcOE%0Afx5ysg1CiQpNMP9OxQRL+VVyXlmuOmBXxNrlCygJciZaBgx/WpZw85yxbSUy%0A7xXQNSn9YY2F0Yxur+41ygepXpxOXcJ6qPsy3WneFsHI5IkYXird6raJtjL1%0AmG34biV/onWdkPcBkjkO7m0MPBTZhVpGdyzNo5zXHhu5nyOIwMT+p8kTbKFB%0A4LvTV/rCqayGos+G2YtEEw1XsH18z3qFWedEfU/Uag==%0A&Version=2011-01-31&diskImageId=dummy
     body: 
       string: ""
     headers: 
@@ -231,16 +230,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:27 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=3CB1A31CD36466E41C7A928FBF639A4A; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:53 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=B94B060CDEEE866693F92895CE34C1DC; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -338,10 +337,10 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:27 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:53 GMT
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODI3MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=H2v6F5XT4k0naC19ZmNz7QVof1EIbkr5okJ69J08/DXWb7hKhUA9pmaKt8oB%0A0925mrF1rynp6OvmwimwZOhTuPdS+FrXQ1IkjXiQoipoAgRlJeH7K+MCeYYq%0An4wafTD8I5kCeyxa7lWE2zOZI+5BM6MsXJbDUQ6gP6ZRL2vJD0TKs/mhrvbm%0AJ+XVWyA4oA5fLxD5dUq+JecKl5hC43yKXmmaFaXOWlnUZbnrTp19ki4jmezM%0AEEhrpYe8IlgpqUFLPLiDMfyUzErJ60xr5r3tmXtEX7DsV13okNwCkfhYf7ih%0ANwNmikZQOTUawy0u7JBDiSpEkproEtx+vvnehbGehQ==%0A&Version=2011-01-31
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODUzMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=D7lj2PWlkj/Krw9rHqxIN6mptFe/BetNUpMdDR/H2HDE8uZaKMKB2VOQxUoB%0AMRJS96UtxaAUydUZ5CEE3lihWq+0or6q66KLyJiS0DEvdEBcV+BIrAqm5ldw%0A0Japm0L4BgoYi22UYQw6K4xQl8luHbeZaP4bEwO2mDvsnmbSy3kOi74wtyP6%0AW63WhNO5CMf/00utPSR1az/+soshDucRDZgZGXfpF0uO54ryk7wxaC9xoEhV%0A/lpetLPaw5z7JtJz0YFOkKNCaEEi+u8a+sGenm9cbLICNTOoZgKi2YtQKIPN%0AvlCKuJTShYWBv/osOce0X6l44ZWkAqUtHqD04WsIxw==%0A&Version=2011-01-31
     body: 
       string: ""
     headers: 
@@ -354,16 +353,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:27 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=12E65B5611016F68D0A251E0F968382A; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:54 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=A5B6CA396405C93173D703CF314184B7; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -553,10 +552,10 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:28 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:55 GMT
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODI4MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=URN8gXp8uW5gojsDViTNobmtplrOC16HPwiRSqiyTgodD+bLciVXION75zGa%0AGlE4xSFxNNZYmhicbaSOHp+15AQz2rjF7NEfqMDrtOk4PlqHDGp5/SVxzwQD%0AsAqS9XTq8weyF+x/xJJEGOjBp8mLN2vyOtq3dcibWP0OsHVPIvOcDfivOGwb%0Af9BsuHDYaKAjIqlzvhB1wL1eD7A7dWyvknWcdlGYVfUns2KdArUtTktKaN4v%0Ax7dU0h7BBcWZn/5nOE+QCbVo60m8Ii5YcLQjDGJLHJsvl6F6r6onXFJRRebT%0AP9JKhZg/zaZdviqDNoFwhjMIUGe1nS8oNyKe6lmoBg==%0A&Version=2011-01-31&diskImageId=dummy
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODU1MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=OttEIRBfAdauHnvgN09YLWbZCTtYCdgdFiExy3ZibFjhcaSq7hOav0sG9L9p%0AAi3Pqevs6qpLjBcnfSh6l7d3uT8bN1azTy6K79D7GRgMF3gSEMmLfbGEeK0y%0ABlT8700sxZsQjAWikm7NfVJq2DEgXdcRswRIA+m/Xfa4Pp8tA8ITF/vcTiJy%0A8FHRyLE12O/ZaaVoPNE1EV4I/2fHf+ZFW9Nx4V2iTsfQfA6ykDxWwEU/dimJ%0AIaRKFydfU+yPyFi4fhauHovIVASys5OnJaoy+C7NoLi7KNwPb5zKTQB9GPOL%0A6f5oiZm/+7IJcfJpxnK7tlDhUmDwpxQplbTQp4EKXA==%0A&Version=2011-01-31&diskImageId=dummy
     body: 
       string: ""
     headers: 
@@ -569,16 +568,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:29 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=A6CBCF3F7C6249E68EC518AACB544020; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:56 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=7C145E541D70AE2EA6BF2A038B30CCFC; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -676,4 +675,5 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:29 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:56 GMT
+recorded_with: VCR 2.4.0

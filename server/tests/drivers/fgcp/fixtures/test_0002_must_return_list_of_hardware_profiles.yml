@@ -1,9 +1,8 @@
 --- 
-recorded_with: VCR 2.4.0
 http_interactions: 
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODEyMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=z3pBXQX53AXyyosU0Is0xAni9N61RnBi4NMw7glcGUQPlmV/rf0gB+JY/y3l%0AgDTbxCGPJ3Xg8b/PAn3YvnyMhJAiL3HaQKznsbH1wcQcS9+fZ/0x08JpWWVz%0ABHSija61OtJGbqV9Et9VamDMe4OzsAcHbWcN7KeW0P1WH5V00MbCNIZnZZBR%0Awhit8SoE2I3bzUAPgWl/M2VWqxqDwzlr6bEcBEkXUqfGis9s635T8o4gysLW%0ABoFfUaZR1f0/zlDsbRsuovWyIJYjHAZ3lJe58SxnBUS7CX2nWpi2OXThGoAr%0Aoea1NoeKFiawYDU4hIPGxlxV95D8TEIYwlIEzRRexA==%0A&Version=2011-01-31&diskImageId=dummy
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODQyMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=fzDXA+UtOl6eZ2Fj0f8QaXCLhzeotZ7MFR6X/x+y5QIOpp5pBXuNB5P2dbxz%0ASyzfiDMY1wwLQguqoSHpM+M5ZVFc37xpODQ34bM39Qh3GqoutrXIWk0fWH6T%0AaGE+2606+MwaD4A51kw2P2JhIsJWLO1SCgtEFBVUYMeZLQxSLMtrrDoBfiYk%0AVqO7yXg/HYd9GzgFtg7WfHIWjgRKqsh8/whJYx8TFiYZn7qK/p1wRRwso0po%0AhiN2b5XIWsxhKSMaporv1Nt9p8BYY6aFYf5zCo22IquQW388qX9zq+EiE5/K%0AAj24BCRP9T4sGKCKVPURp/f6JAe35+il1bBWlhPhvg==%0A&Version=2011-01-31&diskImageId=dummy
     body: 
       string: ""
     headers: 
@@ -16,16 +15,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:13 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=EB12E538DA934CE48CE6B699FBB2AF76; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:43 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=B59D07AF56831CE2C20C42F3C9F2241B; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -123,4 +122,5 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:13 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:43 GMT
+recorded_with: VCR 2.4.0

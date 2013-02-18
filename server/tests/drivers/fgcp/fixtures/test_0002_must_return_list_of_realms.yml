@@ -1,0 +1,443 @@
+--- 
+recorded_with: VCR 2.4.0
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1NDQ0MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListVSYS&Locale=en&Signature=fy8MacmdlO4cuBEgCRHywcXJpZhPdySJ+N6PINdc0y9n+MUvMXPPauKyLuq7%0ACMQfsNl/coCcGlfRCYBatrTVJkrYbwVeWBXJyUGSKASqZuf+LcC6O9RGzuUB%0ArrervcIZZH+H299B3hXJ/Y93xr2n5ssiZ0hwwjW/RsRVfTQ2EEsVAhtlCXyD%0A2FLT7R5pOzQ4rErvMVKc3hwc50ew18yS/BnF3LDyWTom/CKaKH7TTuJscpAW%0Ai9AAQrjHney/dPwfAnUBi4w3phIIo3FIg5Xn7Tu8Qep4/z1NPMdj4awZwNK/%0AZKKmBknOb+N/o40ShRaCh8FfyV/TK925bdbXkaELGw==%0A&Version=2011-01-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 11:04:05 GMT
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=9767D0629DA8E1709F719D67356F5CB1; Path=/ovisspxy; Secure
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListVSYSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsyss>
+            <vsys>
+              <baseDescriptor>2-tier Skeleton</baseDescriptor>
+              <creator>UZXC0GRT</creator>
+              <description>2-tier Skeleton</description>
+              <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+              <vsysName>Dies-DC-test</vsysName>
+            </vsys>
+          </vsyss>
+        </ListVSYSResponse>
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:04:06 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1NDQ2MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSConfiguration&Locale=en&Signature=vkZT5yvg+jsOaNDL2fb6y1pvQA0lhpO1NNfEC0yIG67fFynDCvaHUZ1Fofc2%0AM8gn+Ji1mevrg2MrzWQptGfGZR05B9VVUxULBcWknt1Y/rMfm+35KhYX4Fn7%0AojAXhWdx2YaKUZsszkCU+p02flpOH2nq8yZAOsHZ8hckrpKYul/yr83ShxPJ%0AdTXlSlgc5TqylO/nf8vQ9MSjUIFNZJGV54SJ4OvJ0MbzkmrbBtHTjmG72BWa%0AZY9iPHtqQ+HLaz+lljYx/eOo15QxRmji+qPO001w+xCS/Co9UhU5hBEMpikO%0Ae5nI/jebNSP6/MR24Di4DbcWVs99sl/JJotp4pGBtA==%0A&Version=2011-01-31&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 11:04:06 GMT
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=D15CAF02A18AB179C9F770E4C42ED4E6; Path=/ovisspxy; Secure
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVSYSConfigurationResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsys>
+            <baseDescriptor>2-tier Skeleton</baseDescriptor>
+            <cloudCategory>PUBLIC</cloudCategory>
+            <creator>UZXC0GRT</creator>
+            <description>2-tier Skeleton</description>
+            <publicips>
+              <publicip>
+                <address>137.172.209.220</address>
+                <v4v6Flag>IPv4</v4v6Flag>
+              </publicip>
+            </publicips>
+            <vdisks>
+              <vdisk>
+                <creator>UZXC0GRT</creator>
+                <size>10.0</size>
+                <vdiskId>UZXC0GRT-ZG8ZJCJ07-D-0039</vdiskId>
+                <vdiskName>DISK1</vdiskName>
+              </vdisk>
+            </vdisks>
+            <vnets>
+              <vnet>
+                <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+              </vnet>
+              <vnet>
+                <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>
+              </vnet>
+            </vnets>
+            <vservers>
+              <vserver>
+                <creator>UZXC0GRT</creator>
+                <diskimageId>IMG_3c9820_C1HQIPAKLM9S</diskimageId>
+                <vdisks />
+                <vnics>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+                    <nicNo>4</nicNo>
+                    <privateIp>192.168.0.11</privateIp>
+                  </vnic>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>
+                    <nicNo>5</nicNo>
+                    <privateIp>192.168.1.11</privateIp>
+                  </vnic>
+                </vnics>
+                <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0001</vserverId>
+                <vserverName>Firewall</vserverName>
+                <vserverType>firewall</vserverType>
+              </vserver>
+              <vserver>
+                <creator>UZXC0GRT</creator>
+                <diskimageId>IMG_3c9820_S24FWXU0Q9VH0JK</diskimageId>
+                <vdisks />
+                <vnics>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+                    <nicNo>0</nicNo>
+                    <privateIp>192.168.0.12</privateIp>
+                  </vnic>
+                </vnics>
+                <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0186</vserverId>
+                <vserverName>test</vserverName>
+                <vserverType>economy</vserverType>
+              </vserver>
+            </vservers>
+            <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+            <vsysName>Dies-DC-test</vsysName>
+          </vsys>
+        </GetVSYSConfigurationResponse>
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:04:06 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1NDQ3MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListVSYS&Locale=en&Signature=PtOTqTFpcXHUrJFUcD4nHDWiciaMlxYpxJpzTEK/bblZWdcst5bjI3kGFqjD%0A9rImHQkNCvFFCU5XZtVr9hXStAqttU48NLgvZ0A0wA22y9X/+9eKt7pbrYAt%0Auojsgpb0Y2d5UtygiZH92BiqfNpqEE0moRjvChtFCUdharEchbv01JQ9ASxG%0AwoVw/UP+NPHtNLtabA2vzQqF8BQAGQL9e0YbAqoQ9XljJCXKS284bAdZ/Gzz%0AkDCPvJn7sZluqUOER5cz5AtCKTtFC8X3vMQjhom7RTi9SHpS45ZnFWTnWFu0%0AuykqddzhCvFBazAQj55kgsavtIxKp2w5b5McxnwJ4Q==%0A&Version=2011-01-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 11:04:07 GMT
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=28699F776BA30CE6AB2F0D9820B8B682; Path=/ovisspxy; Secure
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListVSYSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsyss>
+            <vsys>
+              <baseDescriptor>2-tier Skeleton</baseDescriptor>
+              <creator>UZXC0GRT</creator>
+              <description>2-tier Skeleton</description>
+              <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+              <vsysName>Dies-DC-test</vsysName>
+            </vsys>
+          </vsyss>
+        </ListVSYSResponse>
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:04:08 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1NDQ4MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSConfiguration&Locale=en&Signature=Nv8vgtmdoqzDl7X6mnyzgTsHGDPcFd5rcIVHV7UkNBSIDmWAm8v2iMeREqpy%0Amwqyqjd5JsWtlgDeXTk3Ad8Q+5rXyfWJdn3iR1SfMmo21fePkllQRPFiOZib%0AHbpXYlPZORPJOb9OPeYmju0E7Ok0KCQwGgtx/FK8iQ5vfmssw2Adk9BGs2d1%0AiWEcC80xkW1/4wjL+yrFFk0kEwcceADm1fZvKx5Os8nO4iREccnzvJ1dIfVa%0AJtbLARZZo9NKqfXZvjgPcSVeG0QK5WFilV8j3G3uhZFL40LsYGerB/5+bORx%0A5yEQFHnpui5AGAXRe58BRfj83iDJwlNS6zeSLbuDRA==%0A&Version=2011-01-31&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 11:04:08 GMT
+      Connection: 
+      - close
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=A733DCC852991744FD4733BA7AC017D2; Path=/ovisspxy; Secure
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVSYSConfigurationResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsys>
+            <baseDescriptor>2-tier Skeleton</baseDescriptor>
+            <cloudCategory>PUBLIC</cloudCategory>
+            <creator>UZXC0GRT</creator>
+            <description>2-tier Skeleton</description>
+            <publicips>
+              <publicip>
+                <address>137.172.209.220</address>
+                <v4v6Flag>IPv4</v4v6Flag>
+              </publicip>
+            </publicips>
+            <vdisks>
+              <vdisk>
+                <creator>UZXC0GRT</creator>
+                <size>10.0</size>
+                <vdiskId>UZXC0GRT-ZG8ZJCJ07-D-0039</vdiskId>
+                <vdiskName>DISK1</vdiskName>
+              </vdisk>
+            </vdisks>
+            <vnets>
+              <vnet>
+                <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+              </vnet>
+              <vnet>
+                <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>
+              </vnet>
+            </vnets>
+            <vservers>
+              <vserver>
+                <creator>UZXC0GRT</creator>
+                <diskimageId>IMG_3c9820_C1HQIPAKLM9S</diskimageId>
+                <vdisks />
+                <vnics>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+                    <nicNo>4</nicNo>
+                    <privateIp>192.168.0.11</privateIp>
+                  </vnic>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>
+                    <nicNo>5</nicNo>
+                    <privateIp>192.168.1.11</privateIp>
+                  </vnic>
+                </vnics>
+                <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0001</vserverId>
+                <vserverName>Firewall</vserverName>
+                <vserverType>firewall</vserverType>
+              </vserver>
+              <vserver>
+                <creator>UZXC0GRT</creator>
+                <diskimageId>IMG_3c9820_S24FWXU0Q9VH0JK</diskimageId>
+                <vdisks />
+                <vnics>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+                    <nicNo>0</nicNo>
+                    <privateIp>192.168.0.12</privateIp>
+                  </vnic>
+                </vnics>
+                <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0186</vserverId>
+                <vserverName>test</vserverName>
+                <vserverType>economy</vserverType>
+              </vserver>
+            </vservers>
+            <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+            <vsysName>Dies-DC-test</vsysName>
+          </vsys>
+        </GetVSYSConfigurationResponse>
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:04:09 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg2MTk1MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListVSYS&Locale=en&Signature=DPAzeGt2/zc7Cp99pnnShBknZyKB5KYs42DAqMpPHeAjr4EfLVbufOJfqe2v%0AsBq3v4ONKtOOClCV3sVlVPDE91fbF4YmG2GPO+4Fap90gp7+N6jUZsZamFep%0AGP2h39sAjoOYHzkhfVfMFTr3jwxGZMRE3aTIxR+gctv/+cmGAslm6OzNEeFJ%0A+GOOllP1XN+51APVIhujomKhtoZ8iGudovImLsT3FNXisyIz39W5hapk/JX+%0AFVAttKSy+k/aj4HkGiCvPNjNl+a1PHNpPKkLZrT+pknCBKSsxixg1yGw8Z6p%0AApCA0Cr/PHLPL4AZLVlBva/ROR5vFd1a2H8HRoezlg==%0A&Version=2011-01-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 11:16:36 GMT
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=95EEF056ECEFFDF6AD0F2F71D2808C03; Path=/ovisspxy; Secure
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListVSYSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsyss>
+            <vsys>
+              <baseDescriptor>2-tier Skeleton</baseDescriptor>
+              <creator>UZXC0GRT</creator>
+              <description>2-tier Skeleton</description>
+              <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+              <vsysName>Dies-DC-test</vsysName>
+            </vsys>
+          </vsyss>
+        </ListVSYSResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:16:36 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg2MTk2MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSConfiguration&Locale=en&Signature=dvNdiM9QAC2eDJ0Q9IcStdkvJtBuImFy/GEyeOaio6M9ehGgiT+crf+tbag8%0A0AajdTL+EOoEfuWrDx5QpUTdcpGtTNRvRuRvqAtWLVeDn4cPQ24dCw3lrdDH%0AkBfZ7e1vLr5O5w7bS2IAH0kkSm6tzKCu9rsYfKd7AUn8dOYZE0q+EvqhWgrR%0AJaL0AHPotYbvOpQrlm3HVJo/tYawzudym7ADn4aBVaTVP+Kvj+LTNwdDhd9h%0ACr7TIfm/ttXuA6R2diM4ppVjjvoHy0NPLFsq38hG0gaMVK+nkqpESpoL9QkD%0Ay2tINUCOr5Bc5c2z/LLR22yYNbCFFGMeC48n2/BMIg==%0A&Version=2011-01-31&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Mon, 18 Feb 2013 11:16:36 GMT
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Transfer-Encoding: 
+      - chunked
+      Set-Cookie: 
+      - JSESSIONID=977B018054BECF081961096A9429DE2E; Path=/ovisspxy; Secure
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVSYSConfigurationResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsys>
+            <baseDescriptor>2-tier Skeleton</baseDescriptor>
+            <cloudCategory>PUBLIC</cloudCategory>
+            <creator>UZXC0GRT</creator>
+            <description>2-tier Skeleton</description>
+            <publicips>
+              <publicip>
+                <address>137.172.209.220</address>
+                <v4v6Flag>IPv4</v4v6Flag>
+              </publicip>
+            </publicips>
+            <vdisks>
+              <vdisk>
+                <creator>UZXC0GRT</creator>
+                <size>10.0</size>
+                <vdiskId>UZXC0GRT-ZG8ZJCJ07-D-0039</vdiskId>
+                <vdiskName>DISK1</vdiskName>
+              </vdisk>
+            </vdisks>
+            <vnets>
+              <vnet>
+                <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+              </vnet>
+              <vnet>
+                <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>
+              </vnet>
+            </vnets>
+            <vservers>
+              <vserver>
+                <creator>UZXC0GRT</creator>
+                <diskimageId>IMG_3c9820_C1HQIPAKLM9S</diskimageId>
+                <vdisks />
+                <vnics>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+                    <nicNo>4</nicNo>
+                    <privateIp>192.168.0.11</privateIp>
+                  </vnic>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>
+                    <nicNo>5</nicNo>
+                    <privateIp>192.168.1.11</privateIp>
+                  </vnic>
+                </vnics>
+                <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0001</vserverId>
+                <vserverName>Firewall</vserverName>
+                <vserverType>firewall</vserverType>
+              </vserver>
+              <vserver>
+                <creator>UZXC0GRT</creator>
+                <diskimageId>IMG_3c9820_S24FWXU0Q9VH0JK</diskimageId>
+                <vdisks />
+                <vnics>
+                  <vnic>
+                    <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>
+                    <nicNo>0</nicNo>
+                    <privateIp>192.168.0.12</privateIp>
+                  </vnic>
+                </vnics>
+                <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0186</vserverId>
+                <vserverName>test</vserverName>
+                <vserverType>economy</vserverType>
+              </vserver>
+            </vservers>
+            <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+            <vsysName>Dies-DC-test</vsysName>
+          </vsys>
+        </GetVSYSConfigurationResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:16:36 GMT

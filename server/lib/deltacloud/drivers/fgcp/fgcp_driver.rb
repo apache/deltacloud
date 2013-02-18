@@ -183,7 +183,13 @@ class FgcpDriver < Deltacloud::BaseDriver
 
         # determine id belongs to system or network
         vsys_id = client.extract_vsys_id(opts[:id])
-        vsys = client.get_vsys_attributes(vsys_id)['vsys'][0]
+        begin
+          vsys = client.get_vsys_attributes(vsys_id)['vsys'][0]
+        rescue Exception => ex
+          return [] if ex.message =~ /VALIDATION_ERROR.*A wrong value is set/
+          raise
+        end
+
         realm_name = vsys['vsysName'][0]
         limit = '[System]'
         if opts[:id] != vsys_id # network id specified

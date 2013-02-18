@@ -1,9 +1,8 @@
 --- 
-recorded_with: VCR 2.4.0
 http_interactions: 
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODIyMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=v8Xbznsd1l2SHLNgA3j+BdhFAooa3J1cdknacEbZ2f0g6vLwChbSGYjtPXmd%0Atp98I4NVFCz4s35+dR2NM9s7c1cnLzgOiv+XPJBl913jAtyfUzQBgCZy6+xG%0A/JIbWSrEgSRw93EyaPjdviwyEhfpFNLw4/J63lbtzhjICY6jU+rtGuu2jzo+%0AOEt+ooZ2M3FDpZsNv19wJ/vrW1E6SADO0kqZmL2GB8emKvH1XbuCOJzT+c7e%0AAcg7f933GqyKeCr+HJol0uOUNUbpFn13g6QJ1YQAC0Q7CoG6ipf3EhzZjmnb%0A0usnkhetiSg71y5alscARMmErrK2XkMCjY4d7ed84g==%0A&Version=2011-01-31
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODQ3MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListDiskImage&Locale=en&Signature=gldS+HMCeZYar/Zja5HqrYHLQuu+Y/KEVLSxKOhDhttDULwM0oWwkGCsO/F6%0Aw6DZVtwtwo3a+JU70IU9f+AdL0Aj7IEXFXRkJS1HWabMP4PjnTMbFkUeTv7J%0AXaW7PpmQiA6n0UG4GHgGrTbdnXk5ukB6LEv7MqHlRo1iAsHGoc6WslCnRib1%0Ai49neV4NvJfaSVaPkC2kMMHZaPfWhQi6Q39k3OWHqpl2sV02Ti44bioGkWIE%0AStgf/2f+gNa3MuwnzkztQiAx5e7G206ARsYGKPRhep+76ubpLier6RUeOvKI%0ANdHoBnOvGqH+wdFgLQD3afJ5GypkrAALi/t04dmhhA==%0A&Version=2011-01-31
     body: 
       string: ""
     headers: 
@@ -16,16 +15,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:22 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=7C97F13ACCE75CD4642357180FF24340; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:48 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=3768DFCD66E1B2DD9F8DEB04CC692EB7; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -215,10 +214,10 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:23 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:48 GMT
 - request: 
     method: get
-    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTgyODIzMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=PU8hMf3zKWKbZiRj8eVEm3L2/AjsFXbENw7nkY5jt4e6OlqdYHOT+2PdsuLT%0AmWrcJG/t6aE3Ndkzyv3pUpQ62RrriIg4scyr+gXPJztIyMpBcfflsn6W+9ks%0ApX6tfdsEm5ITW4egPw2kNEGrZOR8XPsC7v0zv0woQZ/lLSLE+SDTbOFMAE4R%0AHys1tR2yHlQieIjphegW9KfnMipRyX+QsCM+SgphXObpT4uJIvKsJHr/Eafi%0AiK7DM01brFbdVbZzvOjr1g/PqVOeIwgCAsa9xVynFJTfLdQX+GFQG3DU76oD%0AQtlBJSqXSKbxG5OuGS1DVSWrATH+I7wD1oPdXN/Akg==%0A&Version=2011-01-31&diskImageId=dummy
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg4ODQ5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListServerType&Locale=en&Signature=LAPxOyA0e+SIDOGuSOVui2J681QfR4MbZxCG6Z9FQD1THFwa1WSmPNY7eDjf%0A88s1VArPv6Z9zxIBl4ukBgqWODyG8HYAzoJRMsXfX3Ogw/VSvC1quWNM7Ru+%0A49ODjDYLE7wBw8OU7SCBvkBae2/bK2b+MpOJLwdBpTeSq4xzNFujitPrE/vi%0AO6jTqCB1Em93ysSvSz8SFumVAayHQf+afstCdMbsc6I/N1z5IUOEjs2d0fRq%0AugVoczDBdj7D/gbDPKT2ueMEYbO9MR6dx9fra/XZR+uKZESGVGS07dMnvcj8%0Apu4I/EGZDKkWeaPjBzddSHOe280yqAFuH//TXFnVkA==%0A&Version=2011-01-31&diskImageId=dummy
     body: 
       string: ""
     headers: 
@@ -231,16 +230,16 @@ http_interactions:
       code: 200
       message: OK
     headers: 
-      Date: 
-      - Mon, 18 Feb 2013 10:20:24 GMT
-      Transfer-Encoding: 
-      - chunked
-      Set-Cookie: 
-      - JSESSIONID=7A7893C252855EB637B7EBE38FE31A9F; Path=/ovisspxy; Secure
-      Content-Type: 
-      - text/xml;charset=UTF-8
       Connection: 
       - close
+      Date: 
+      - Mon, 18 Feb 2013 12:00:49 GMT
+      Transfer-Encoding: 
+      - chunked
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=E982A88A5FEDE051EA6185C75B601CCF; Path=/ovisspxy; Secure
     body: 
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
@@ -338,4 +337,5 @@ http_interactions:
         
 
     http_version: 
-  recorded_at: Mon, 18 Feb 2013 10:20:24 GMT
+  recorded_at: Mon, 18 Feb 2013 12:00:49 GMT
+recorded_with: VCR 2.4.0

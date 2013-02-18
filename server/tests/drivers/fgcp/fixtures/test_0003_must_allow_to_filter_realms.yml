@@ -1,0 +1,117 @@
+--- 
+recorded_with: VCR 2.4.0
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1NDQ5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSAttributes&Locale=en&Signature=V8sRvAZRep06Ftyhiv6kRBJ9D4Xq+fxxexM75KwbIqIZxGtdhMK6q1xidzuM%0AWrUwEJJT6+yO/K2aOKjTAw19MF+H5dPXa0K+AMdIGsDvzdXGRjRJ+rPo9gZ1%0AE+UjeZW6FPl9C+8PDQsrqfUqzUSJj5vAEAILX14BeuUEG/0PMB8wqx4gkedK%0Aun967gZHApaMq61uAB4sVB35TeOZEWUIU7ICrgtmKWVuDeQ5AG5tQUIIjrAS%0AcRD/ghPGlaXxnFOH6fsDn/6E9xJlNJbazkd0uqTJXWng52w6Sa8wc3XW3X2o%0AdMLA50ZqLuAG2QfYVf4q8ciClymqvW+7L9OMnaTblw==%0A&Version=2011-01-31&vsysId=Dies-DC
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=F33B20F6BC90D0CC487B851E1642D4A3; Path=/ovisspxy; Secure
+      Date: 
+      - Mon, 18 Feb 2013 11:04:09 GMT
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <OViSSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>A wrong value is set.:[vsysId]</responseMessage>
+          <responseStatus>VALIDATION_ERROR</responseStatus>
+        </OViSSResponse>
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:04:09 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1ODgyMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSAttributes&Locale=en&Signature=OLibu6lJzvYjvpcZ50H7itnUj/7bfbahEImfEEeh3yiCtS/JKc3cU99L0Zjp%0Aod1r5MEbDJQPp2ZLGbU1DS55B1Wlj1rHVqpATeB55pwAj/I9IikEf7tDgf1k%0ATpal7rYW6/gXEe4ZN4GMCJmkZQbxmeUTONvQemgD8iyLqT/wBX5g8n4ANRJD%0Adfv3BBRy+Myb38PqZ2VkwcOiisLFP+fVFO3i3PMerE7v+QkO2eBkV1SLsv9F%0ALwtFPjTgzd2ZImrqMAZHnCENA8DaGmb39xr8LeDURrOBgccrzQ7jwsSUODjj%0AX0xAUan1/G4o11BczWvfFk6VtZchw2bWW1XCtZQ4Cg==%0A&Version=2011-01-31&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=4D61F175043D4E7BDAD030330B13ED44; Path=/ovisspxy; Secure
+      Date: 
+      - Mon, 18 Feb 2013 11:11:22 GMT
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVSYSAttributesResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsys>
+            <baseDescriptor>2-tier Skeleton</baseDescriptor>
+            <creator>UZXC0GRT</creator>
+            <description>2-tier Skeleton</description>
+            <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+            <vsysName>Dies-DC-test</vsysName>
+          </vsys>
+        </GetVSYSAttributesResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:11:23 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMTg1ODgzMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSAttributes&Locale=en&Signature=200L71C6/DniKIP/cHG47aJYX5vni0H4ohItT/m3Iz1GfxU9lFSY3QGNsh0H%0AvnUhSitdCMDGXwjLuwqALwYzjskxGaFhNEReg2QbUo0ACVhnxfoiB92UT3ZW%0ALyuFG95y+YuACXdS1cy7v/fEKXneEqWq9TU1ujwBvSTcw/blqdZcsPZKbpgd%0AN7xs530xgMQ0sQN6WUxhCxGHD7JdJa7JY9isiaaH1QSk7T9zRGRr6ehEm/gH%0AS6ZreSviIATbM9099//e4mOPDOl6IAnZOKuS6tXTwsbwNBW0UFvKYLGT/uQd%0AgNuVJG7bhxRclXswLu3ECz4G0r4XfgCPkAEOdoJRKQ==%0A&Version=2011-01-31&vsysId=
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=BD5273ABF7CD6F8E0C76C53221E522FD; Path=/ovisspxy; Secure
+      Date: 
+      - Mon, 18 Feb 2013 11:11:24 GMT
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <OViSSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>A wrong value is set.:[vsysId]</responseMessage>
+          <responseStatus>VALIDATION_ERROR</responseStatus>
+        </OViSSResponse>
+        
+
+    http_version: 
+  recorded_at: Mon, 18 Feb 2013 11:11:24 GMT

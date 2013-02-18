@@ -3,7 +3,7 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'common.rb'
 
-describe 'FGCP HardwareProfiles' do
+describe 'FgcpDriver HardwareProfiles' do
 
   before do
     @driver = Deltacloud::new(:fgcp, credentials)
@@ -14,9 +14,16 @@ describe 'FGCP HardwareProfiles' do
     VCR.eject_cassette
   end
 
+  it 'must throw error when wrong credentials' do
+    Proc.new do
+      @driver.backend.hardware_profiles(OpenStruct.new(:user => 'unknown', :password => 'wrong'))
+    end.must_raise Deltacloud::Exceptions::AuthenticationFailure, 'Authentication Failure'
+  end
+
   it 'must return list of hardware_profiles' do
-    @driver.hardware_profiles.wont_be_empty
-    @driver.hardware_profiles.first.must_be_kind_of Deltacloud::HardwareProfile
+    hardware_profiles = @driver.hardware_profiles
+    hardware_profiles.wont_be_empty
+    hardware_profiles.first.must_be_kind_of Deltacloud::HardwareProfile
   end
 
   it 'must allow to filter hardware_profiles' do
