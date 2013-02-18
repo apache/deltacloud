@@ -1,13 +1,17 @@
 #!/usr/bin/env ruby
 
-ENV['API_VERBOSE'] = 'true'
+require 'rubygems'
 
-load File.join(File.dirname(__FILE__), '..', 'lib', 'db.rb')
+require 'require_relative' if RUBY_VERSION < '1.9'
 
-# Initialize the database
+require_relative './../lib/initializers/mock_initialize'
+require_relative './../lib/initializers/database_initialize'
+
+# The DATABASE_UPGRADE constant is set to true if we have discovered
+# pending migrations in DATABASE_MIGRATIONS_DIR.
 #
-db = Deltacloud.initialize_database
 
-# Apply the migrations
-#
-Sequel::Migrator.apply(db, File.join(File.dirname(__FILE__), '..', 'db', 'migrations'))
+if DATABASE_UPGRADE
+  puts "Upgrading database schema to the latest version..."
+  Sequel::Migrator.apply(DATABASE, DATABASE_MIGRATIONS_DIR)
+end

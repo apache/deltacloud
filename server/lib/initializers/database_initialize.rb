@@ -12,6 +12,9 @@ require_relative '../db'
 #
 Sequel::Model.plugin :validation_class_methods
 
+# Enable Sequel migrations extension
+Sequel.extension :migration
+
 # For JRuby we need to different Sequel driver
 #
 sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
@@ -25,4 +28,18 @@ sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
 DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
   "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
 
-Deltacloud::initialize_database
+DATABASE = Deltacloud::initialize_database
+
+# Detect if there are some pending migrations to run.
+# We don't actually run migrations during server startup, just print
+# a warning to console
+#
+
+DATABASE_MIGRATIONS_DIR = File.join(File.dirname(__FILE__), '..', '..', 'db', 'migrations')
+
+unless Sequel::Migrator.is_current?(DATABASE, DATABASE_MIGRATIONS_DIR)
+  warn "WARNING: The database needs to be upgraded. Run: 'deltacloud-db-upgrade' command."
+  DATABASE_UPGRADE = true
+else
+  DATABASE_UPGRADE = false
+end
