@@ -28,5 +28,6 @@ BASE_STORAGE_DIR = File.join('/', 'var', 'tmp', "deltacloud-#{ENV['USER']}")
 #
 MOCK_STORAGE_DIR = ENV['DELTACLOUD_MOCK_STORAGE'] || File.join(BASE_STORAGE_DIR, 'mock')
 
-FileUtils.mkpath(BASE_STORAGE_DIR, :mode => 0750) unless File.directory?(BASE_STORAGE_DIR)
-FileUtils.mkpath(BASE_STORAGE_DIR, :mode => 0750) unless File.directory?(MOCK_STORAGE_DIR)
+[BASE_STORAGE_DIR, MOCK_STORAGE_DIR].each do |p|
+  FileUtils.mkpath(p, :mode => 0750) unless File.directory?(p)
+end
