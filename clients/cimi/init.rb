@@ -28,4 +28,6 @@ require 'entities'
 
 $:.unshift File.join('..', '..','server', 'lib')
 require 'deltacloud/core_ext'
+require 'initializers/mock_initialize'
+require 'initializers/database_initialize'
 require 'cimi/models'
