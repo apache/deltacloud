@@ -30,6 +30,12 @@ For now we're using an <a href="http://openetherpad.org/DeltacloudCall">etherpad
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/zTCGRDO_3dU">Deltacloud Community Call #12</a>
+
+Working with patches revisited - basics of rebasing and how to contribute via patch review.
+The 'white box' unit tests revisited - updating vcr fixtures
+
+<br>
 <a href="http://youtu.be/HQ5aPdRSLHo">Deltacloud Community Call #11</a>
 
 An introduction/overview of sinatra-rabbit
