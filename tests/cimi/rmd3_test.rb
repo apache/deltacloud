@@ -22,6 +22,10 @@ class MachinesRMDDefaultInitialState < CIMI::Test::Spec
   RESOURCE_URI =
   "http://schemas.dmtf.org/cimi/1/Machine"
   ROOTS = ["machine", "resourceMetadata"]
+  DEFAULT_INITIAL_STATE_CAPABILITY_URI = "http://schemas.dmtf.org/cimi/1/capability/Machine/DefaultInitialState"
+
+  need_rmd(RESOURCE_URI, "capabilities", DEFAULT_INITIAL_STATE_CAPABILITY_URI)
+
 
   MiniTest::Unit.after_tests { teardown(@@created_resources, api.basic_auth) }
 
@@ -34,12 +38,17 @@ class MachinesRMDDefaultInitialState < CIMI::Test::Spec
   # 3.1: Query the ResourceMetadata entry
   cep_json = cep(:accept => :json)
   rmd_coll = get cep_json.json[ROOTS[1]]["href"], :accept => :json
-  machine_index = rmd_coll.json["resourceMetadata"].index {|rmd| rmd.to_s().include? "Machine"}
-  default_initial_state_index = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].index {|rmd| rmd.to_s().include? "DefaultInitialState"}
-  default_initial_state_value = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"][default_initial_state_index]["value"]
+  machine_index = rmd_coll.json["resourceMetadata"].index {|rmd| rmd["typeUri"] ==  RESOURCE_URI}
 
-  model :resource_metadata_machine do |fmt|
-    get rmd_coll.json["resourceMetadata"][machine_index]["id"], :accept => fmt
+  unless  machine_index.nil?() || rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].nil?()
+    default_initial_state_index = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].index {|rmd| rmd["uri"] == DEFAULT_INITIAL_STATE_CAPABILITY_URI}
+    unless default_initial_state_index.nil?()
+      default_initial_state_value = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"][default_initial_state_index]["value"]
+
+      model :resource_metadata_machine do |fmt|
+        get rmd_coll.json["resourceMetadata"][machine_index]["id"], :accept => fmt
+      end
+    end
   end
 
   it "should have a response code equal to 200" do
@@ -68,22 +77,24 @@ class MachinesRMDDefaultInitialState < CIMI::Test::Spec
 
   # 3.3 Put collection member in state to verify capability
   # Create a new machine
-  cep_json = cep(:accept => :json)
-  # discover the 'addURI' for creating Machine
-  add_uri = discover_uri_for("add", "machines")
-  resp = post(add_uri,
-  "<Machine>" +
-  "<name>cimi_machine_" + rand(6).to_s + "</name>" +
-  "<machineTemplate>" +
-  "<machineConfig " +
-  "href=\"" + get_a(cep_json, "machineConfig")+ "\"/>" +
-  "<machineImage " +
-  "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
-  "</machineTemplate>" +
-  "</Machine>", :accept => :json, :content_type => :xml)
+  unless default_initial_state_index.nil?()
+    cep_json = cep(:accept => :json)
+    # discover the 'addURI' for creating Machine
+    add_uri = discover_uri_for("add", "machines")
+    resp = post(add_uri,
+    "<Machine>" +
+    "<name>cimi_machine_" + rand(6).to_s + "</name>" +
+    "<machineTemplate>" +
+    "<machineConfig " +
+    "href=\"" + get_a(cep_json, "machineConfig")+ "\"/>" +
+    "<machineImage " +
+    "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
+    "</machineTemplate>" +
+    "</Machine>", :accept => :json, :content_type => :xml)
 
-  model :machine do |fmt|
-    get resp.json["id"], :accept => fmt
+    model :machine do |fmt|
+      get resp.json["id"], :accept => fmt
+    end
   end
 
   it "should add resource for cleanup", :only => :json do

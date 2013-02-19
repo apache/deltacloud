@@ -129,6 +129,17 @@ module CIMI::Test::Methods
       discover_uri_for(op, "", subcollection_ops)
     end
 
+    def discover_uri_for_rmd(resource_uri, rmd_type, rmd_uri)
+      cep_json = cep(:accept => :json)
+      rmd_coll = get cep_json.json["resourceMetadata"]["href"], :accept => :json
+      #get the collection index:
+      collection_index = rmd_coll.json["resourceMetadata"].index {|rmd| rmd["typeUri"] ==  resource_uri}
+      unless rmd_coll.json["resourceMetadata"][collection_index][rmd_type].nil?()
+        rmd_index = rmd_coll.json["resourceMetadata"][collection_index][rmd_type].index {|rmd| rmd["uri"] == rmd_uri}
+      end
+      raise "Couldn't discover the #{rmd_uri} URI" if rmd_index.nil?() || rmd_index.empty?()
+    end
+
     def get_a(cep, item)
       if api.preferred[item]
         item_id = cep.json[item.pluralize]["href"] + "/" + api.preferred[item]
@@ -281,6 +292,16 @@ module CIMI::Test::Methods
           discover_uri_for(op, collection)
         rescue RuntimeError => e
           skip "Server at #{api.cep_url} doesn't support #{op} for #{collection} collection. #{e.message}"
+        end
+      end
+    end
+
+    def need_rmd(resource_uri, rmd_type, rmd_uri)
+      before :each do
+        begin
+          discover_uri_for_rmd(resource_uri, rmd_type, rmd_uri)
+        rescue RuntimeError => e
+          skip "Server at #{api.cep_url} doesn't support #{rmd_uri}. #{e.message}"
         end
       end
     end
