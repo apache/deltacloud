@@ -20,16 +20,6 @@ class Realm < BaseModel
   attr_accessor :name
   attr_accessor :limit
   attr_accessor :state
-  attr_accessor :resource_types
-
-  def initialize(init=nil)
-    super(init)
-    self.resource_types ||= []
-  end
-
-  def resource_types
-    @resource_types || []
-  end
 
   def to_hash(context)
     r = {
@@ -39,7 +29,6 @@ class Realm < BaseModel
       :state => state,
       :limit => limit
     }
-    r[:resource_types] = resource_types || []
     r
   end
 
