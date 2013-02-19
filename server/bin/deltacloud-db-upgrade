@@ -15,8 +15,9 @@
 # under the License.
 
 require 'rubygems'
-
 require 'require_relative' if RUBY_VERSION < '1.9'
+
+require 'jdbc/sqlite3' if RUBY_PLATFORM == 'java'
 
 # Do not exit
 ENV['DB_UPGRADE'] = 'true'
