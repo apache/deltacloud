@@ -109,8 +109,11 @@ class FgcpDriver < Deltacloud::BaseDriver
       if xml['diskimages'] # not likely to not be so, but just in case
         xml['diskimages'][0]['diskimage'].each do |img|
 
-          # 32bit CentOS/RHEL images are refused on hwps > 16GB (i.e. w_high, quad_high)
+          # This will determine image architecture using OS name.
+          # Usually the OS name includes '64bit' or '32bit'. If not,
+          # it will fall back to 64 bit.
           os_arch = img['osName'][0].to_s =~ /.*32.?bit.*/ ? 'i386' : 'x86_64'
+          # 32bit CentOS/RHEL images are refused on hwps > 16GB (i.e. w_high, quad_high)
           os_centos_rhel = img['osName'][0] =~ /(CentOS|Red Hat).*/
           allowed_hwps = hwps.select do |hwp|
             hwp.memory.default.to_i < 16000 or os_arch == 'x86_64' or not os_centos_rhel
@@ -122,9 +125,6 @@ class FgcpDriver < Deltacloud::BaseDriver
             :description => img['description'][0].to_s,
             :owner_id => img['registrant'][0].to_s, # or 'creatorName'?
             :state => 'AVAILABLE', #server keeps no particular state. If it's listed, it's available for use.
-            # This will determine image architecture using OS name.
-            # Usually the OS name includes '64bit' or '32bit'. If not,
-            # it will fall back to 64 bit.
             :architecture => os_arch,
             :hardware_profiles => allowed_hwps
           ) if opts[:id].nil? or opts[:id] == img['diskimageId'][0]
@@ -216,18 +216,24 @@ class FgcpDriver < Deltacloud::BaseDriver
                       :limit => '[System]',
                       :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
                     )
-          # then retrieve and add list of network segments
-          client.get_vsys_configuration(vsys['vsysId'][0])['vsys'][0]['vnets'][0]['vnet'].each do |vnet|
+          begin
+            # then retrieve and add list of network segments
+            client.get_vsys_configuration(vsys['vsysId'][0])['vsys'][0]['vnets'][0]['vnet'].each do |vnet|
 
-            vnet['networkId'][0] =~ /^.*\b(\w+)$/
-            realm_name = vsys['vsysName'][0].to_s + ' [' + $1 + ']' # vsys name or vsys name + network [DMZ/SECURE1/SECURE2]
-            realms << Realm::new(
-                        :id => vnet['networkId'][0], # vsysId or networkId
-                        :name => realm_name,
-                        #:limit => :unlimited,
-                        :limit => '[Network]',
-                        :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
-                      )
+              vnet['networkId'][0] =~ /^.*\b(\w+)$/
+              realm_name = vsys['vsysName'][0].to_s + ' [' + $1 + ']' # vsys name or vsys name + network [DMZ/SECURE1/SECURE2]
+              realms << Realm::new(
+                          :id => vnet['networkId'][0], # vsysId or networkId
+                          :name => realm_name,
+                          #:limit => :unlimited,
+                          :limit => '[Network]',
+                          :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
+                        )
+            end
+          rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call
+            raise ex if not ex.message =~ /RESOURCE_NOT_FOUND.*/
+            # remove earlier added vsys
+            realms.pop
           end
         end
       end
@@ -272,20 +278,24 @@ class FgcpDriver < Deltacloud::BaseDriver
         xml[0]['vsys'].each do |vsys|
 
           # use get_vsys_configuration (instead of get_vserver_configuration) to retrieve all vservers in one call
-          vsys_config = client.get_vsys_configuration(vsys['vsysId'][0])
-          vsys_config['vsys'][0]['vservers'][0]['vserver'].each do |vserver|
+          begin
+            vsys_config = client.get_vsys_configuration(vsys['vsysId'][0])
+            vsys_config['vsys'][0]['vservers'][0]['vserver'].each do |vserver|
 
-            # skip firewalls - they probably don't belong here and their new type ('firewall' instead of 
-            # 'economy') causes errors when trying to map to available profiles)
-            unless determine_server_type(vserver) == 'FW'
-              # to keep the response time of this method acceptable, retrieve state
-              # only if required because state is filtered on
-              state_data = opts[:state] ? instance_state_data(vserver, client) : nil
-              # filter on state
-              if opts[:state].nil? or opts[:state] == state_data[:state]
-                instances << convert_to_instance(client, vserver, state_data)
+              # skip firewalls - they probably don't belong here and their new type ('firewall' instead of 
+              # 'economy') causes errors when trying to map to available profiles)
+              unless determine_server_type(vserver) == 'FW'
+                # to keep the response time of this method acceptable, retrieve state
+                # only if required because state is filtered on
+                state_data = opts[:state] ? instance_state_data(vserver, client) : nil
+                # filter on state
+                if opts[:state].nil? or opts[:state] == state_data[:state]
+                  instances << convert_to_instance(client, vserver, state_data)
+                end
               end
             end
+          rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call
+            raise ex if not ex.message =~ /RESOURCE_NOT_FOUND.*/
           end
         end
       end
@@ -495,24 +505,28 @@ class FgcpDriver < Deltacloud::BaseDriver
         return [] if xml.nil?
         xml[0]['vsys'].each do |vsys|
 
-          vdisks = client.list_vdisk(vsys['vsysId'][0])['vdisks'][0]
+          begin
+            vdisks = client.list_vdisk(vsys['vsysId'][0])['vdisks'][0]
 
-          if vdisks['vdisk']
-            vdisks['vdisk'].each do |vdisk|
+            if vdisks['vdisk']
+              vdisks['vdisk'].each do |vdisk|
 
-              #state requires an additional call per volume. Only set if attached.
-              #exclude system disks as they are not detachable?
-              volumes << StorageVolume.new(
-                :id          => vdisk['vdiskId'][0],
-                :name        => vdisk['vdiskName'][0],
-                :capacity    => vdisk['size'][0],
-                :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
-                :realm_id    => client.extract_vsys_id(vdisk['vdiskId'][0]),
-                # aligning with rhevm, which returns 'system' or 'data'
-                :kind        => determine_storage_type(vdisk['vdiskId'][0]),
-                :state       => vdisk['attachedTo'].nil? ? 'AVAILABLE' : 'IN-USE'
-              )
+                #state requires an additional call per volume. Only set if attached.
+                #exclude system disks as they are not detachable?
+                volumes << StorageVolume.new(
+                  :id          => vdisk['vdiskId'][0],
+                  :name        => vdisk['vdiskName'][0],
+                  :capacity    => vdisk['size'][0],
+                  :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
+                  :realm_id    => client.extract_vsys_id(vdisk['vdiskId'][0]),
+                  # aligning with rhevm, which returns 'system' or 'data'
+                  :kind        => determine_storage_type(vdisk['vdiskId'][0]),
+                  :state       => vdisk['attachedTo'].nil? ? 'AVAILABLE' : 'IN-USE'
+                )
+              end
             end
+          rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call
+            raise ex if not ex.message =~ /RESOURCE_NOT_FOUND.*/
           end
         end
       end
@@ -614,23 +628,27 @@ class FgcpDriver < Deltacloud::BaseDriver
         return [] if xml.nil?
         xml[0]['vsys'].each do |vsys|
 
-          vdisks = client.list_vdisk(vsys['vsysId'][0])['vdisks'][0]
-          if vdisks['vdisk']
-            vdisks['vdisk'].each do |vdisk|
+          begin
+            vdisks = client.list_vdisk(vsys['vsysId'][0])['vdisks'][0]
+            if vdisks['vdisk']
+              vdisks['vdisk'].each do |vdisk|
 
-              backups = client.list_vdisk_backup(vdisk['vdiskId'][0])
-              if backups['backups'] and backups['backups'][0]['backup']
-                backups['backups'][0]['backup'].each do |backup|
+                backups = client.list_vdisk_backup(vdisk['vdiskId'][0])
+                if backups['backups'] and backups['backups'][0]['backup']
+                  backups['backups'][0]['backup'].each do |backup|
 
-                  snapshots << StorageSnapshot.new(
-                    :id => generate_snapshot_id(vdisk['vdiskId'][0], backup['backupId'][0]),
-                    :state => 'AVAILABLE',
-                    :storage_volume_id => vdisk['vdiskId'][0],
-                    :created => backup['backupTime'][0]
-                  )
+                    snapshots << StorageSnapshot.new(
+                      :id => generate_snapshot_id(vdisk['vdiskId'][0], backup['backupId'][0]),
+                      :state => 'AVAILABLE',
+                      :storage_volume_id => vdisk['vdiskId'][0],
+                      :created => backup['backupTime'][0]
+                    )
+                  end
                 end
               end
             end
+          rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call
+            raise ex if not ex.message =~ /(RESOURCE_NOT_FOUND|ERROR).*/
           end
         end
       end
@@ -1174,31 +1192,35 @@ eofwopxml
       xml = client.list_vsys['vsyss']
       return [] if xml.nil?
 
-      xml[0]['vsys'].each do |vsys|
+      begin
+        xml[0]['vsys'].each do |vsys|
 
-        # use get_vsys_configuration (instead of list_efm) to retrieve all SLBs incl. realms in one call
-        vsys_config = client.get_vsys_configuration(vsys['vsysId'][0])
-        vsys_config['vsys'][0]['vservers'][0]['vserver'].each do |vserver|
+          # use get_vsys_configuration (instead of list_efm) to retrieve all SLBs incl. realms in one call
+          vsys_config = client.get_vsys_configuration(vsys['vsysId'][0])
+          vsys_config['vsys'][0]['vservers'][0]['vserver'].each do |vserver|
 
-          if determine_server_type(vserver) == 'SLB'
-            vserver['vnics'][0]['vnic'][0]['networkId'][0] =~ /^.*\b(\w+)$/
-            realm_name = vsys['vsysId'][0] + ' [' + $1 + ']' # vsys name + network [DMZ/SECURE1/SECURE2]
-            realm = Realm::new(
-              :id => vserver['vnics'][0]['vnic'][0]['networkId'][0],
-              :name => realm_name,
-              :limit => '[Network]',
-              :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
-            )
-            balancer = LoadBalancer.new({
-              :id               => vserver['vserverId'][0],
-              :realms           => [realm],
-              :listeners        => [],
-              :instances        => [],
-              :public_addresses => []
-            })
-            balancers << balancer
+            if determine_server_type(vserver) == 'SLB'
+              vserver['vnics'][0]['vnic'][0]['networkId'][0] =~ /^.*\b(\w+)$/
+              realm_name = vsys['vsysId'][0] + ' [' + $1 + ']' # vsys name + network [DMZ/SECURE1/SECURE2]
+              realm = Realm::new(
+                :id => vserver['vnics'][0]['vnic'][0]['networkId'][0],
+                :name => realm_name,
+                :limit => '[Network]',
+                :state => 'AVAILABLE' # map to state of FW/VSYS (reconfiguring = unavailable)?
+              )
+              balancer = LoadBalancer.new({
+                :id               => vserver['vserverId'][0],
+                :realms           => [realm],
+                :listeners        => [],
+                :instances        => [],
+                :public_addresses => []
+              })
+              balancers << balancer
+            end
           end
         end
+      rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call
+        raise ex if not ex.message =~ /(RESOURCE_NOT_FOUND).*/
       end
     end
     balancers
@@ -1333,18 +1355,22 @@ eofwopxml
       # list all vservers
       realms.each do |realm_id|
 
-        xml = client.list_vservers(client.extract_vsys_id(realm_id))['vservers']
+        begin
+          xml = client.list_vservers(client.extract_vsys_id(realm_id))['vservers']
 
-        if xml and xml[0]['vserver']
+          if xml and xml[0]['vserver']
 
-          xml[0]['vserver'].each do |vserver|
+            xml[0]['vserver'].each do |vserver|
 
-            # should check whether vserver is actually in opts[:realm_id] if network segment?
-            metrics_arr << Metric.new(
-              :id     => vserver['vserverId'][0],
-              :entity => vserver['vserverName'][0]
-            )
+              # should check whether vserver is actually in opts[:realm_id] if network segment?
+              metrics_arr << Metric.new(
+                :id     => vserver['vserverId'][0],
+                :entity => vserver['vserverName'][0]
+              )
+            end
           end
+        rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call
+          raise ex if not ex.message =~ /(RESOURCE_NOT_FOUND).*/
         end
       end
 
