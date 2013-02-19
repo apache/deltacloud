@@ -5,12 +5,11 @@ rvm:
   - jruby-head
 jdk:
   - openjdk7
-env:
-  - JRUBY_OPTS='-X+O -J-Djruby.launch.inproc=false'
 gemfile: server/Gemfile
 install:
   - cd server
   - bundle install
+  - bin/deltacloud-db-upgrade
 script:
   - bundle exec rake test
 notifications:
