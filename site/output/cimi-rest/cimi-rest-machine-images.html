@@ -103,7 +103,7 @@
 <h3 id="cimi-machine-image">Machine Image</h3>
 <p>
 <strong><em>
-This resource represents the information necessary for hardware virtualized resources to create a Machine Instance; it contains configuration data such as startup instructions, including possible combinations of the following items, depending on the 'type' of Machine Image created: the software image, installation software, both a disk image and a set of software and parameters. <br><br>
+This resource represents the information necessary for hardware virtualized resources to create a Machine Instance; it contains configuration data such as startup instructions, including possible combinations of the following items, depending on the 'type' of Machine Image created: the software image, installation software, both a disk image and a set of software and parameters. <br> <br>
 A Machine Image Collection resource represents the collection of Machine Image resources within a Provider.
 </em></strong>
 </p>
@@ -113,7 +113,7 @@ A Machine Image Collection resource represents the collection of Machine Image r
 
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     CIMI REST API
   </li>
   <li><a href="../cimi-rest.html">Introduction</a></li>
@@ -124,31 +124,37 @@ A Machine Image Collection resource represents the collection of Machine Image r
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
-<li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
       <li><a href="cimi-rest-collections.html">Machine</a></li>
       <li><a href="cimi-rest-volumes.html">Volume</a></li>
     </ul>
-</li>
+  </li>
   <hr>
-<li class="nav-header">
+  <li class="nav-header">
     Machine Resources
   </li>
   <ul class="nav nav-list">
-<li><a href="cimi-rest-collections.html">Machine</a></li>
+    <li><a href="cimi-rest-collections.html">Machine</a></li>
     <li class="active"><a href="cimi-rest-machine-images.html">MachineImage</a></li>
     <li><a href="cimi-rest-machine-configs.html">MachineConfiguration</a></li>
     <li><a href="cimi-rest-machine-templates.html">MachineTemplate</a></li>
   </ul>
+
 </ul>
-</div>
+
+  </div>
 
 </div>
 
 <ul class="nav nav-pills">
-<li class="active"><a href="#image-collection" data-toggle="tab">Retrieve the Machine Image Collection</a></li>
+  <li class="active"><a href="#image-collection" data-toggle="tab">Retrieve the Machine Image Collection</a></li>
   <li><a href="#single-image" data-toggle="tab">Retrieve a single Machine Image</a></li>
   <li><a href="#create-image" data-toggle="tab">Create or Delete a Machine Image</a></li>
-</ul><hr><div class="tab-content">
+</ul>
+
+<hr>
+
+<div class="tab-content">
   <div class="tab-pane active" id="image-collection">
 
 <h4>Retrieve the Machine Image Collection</h4>
@@ -308,7 +314,9 @@ Server: thin 1.5.0 codename Knife
 &lt;/MachineImage&gt;
 </pre>
 
-<br><hr>
+<br>
+<hr>
+
 <h4>Delete a Machine Image</h4>
 
 <p>Example request:</p>
@@ -338,6 +346,7 @@ Server: thin 1.5.0 codename Knife
 
   </div>
 </div>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

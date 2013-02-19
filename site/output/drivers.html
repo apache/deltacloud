@@ -117,17 +117,18 @@ When the Deltacloud server is started it is passed a parameter that specifies th
   <div class="span4">
 
 <ul class="nav nav-list well">
-<li class="nav-header">Drivers</li>
+  <li class="nav-header">Drivers</li>
   <li class="active"><a href="#switch">Dynamic driver switching</a></li>
   <li><a href="#drivers">Driver functionality and credentials</a></li>
   <ul class="nav nav-list">
-<li><a href="#func">Compute driver functionality</a></li>
+    <li><a href="#func">Compute driver functionality</a></li>
     <li><a href="#storage">Storage driver functionality</a></li>
     <li><a href="#credentials">Cloud provider credentials</a></li>
   </ul>
-<li><a href="#notes">Notes on specific drivers</a></li>
+  <li><a href="#notes">Notes on specific drivers</a></li>
 </ul>
-</div>
+
+  </div>
 </div>
 
 <pre>
@@ -150,8 +151,9 @@ The driver and provider can be selected through the request headers <strong> X-D
 
 <h4 id="func">Compute Driver Functionality</h4>
 <table class="table-bordered table-striped table-condensed">
-<thead><tr>
-<th class="emptycell"> </th>
+  <thead>
+    <tr>
+      <th class="emptycell"> </th>
       <th>
         Create new instances
       </th>
@@ -179,10 +181,11 @@ The driver and provider can be selected through the request headers <strong> X-D
       <th>
         List all/get details about instances
       </th>
-    </tr></thead>
-<tbody>
-<tr>
-<td class="provider">
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="provider">
         <strong>Amazon EC2</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -196,8 +199,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Eucalyptus</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -210,8 +213,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Fujitsu FGCP</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -224,8 +227,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>IBM SmartCloud</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -238,8 +241,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>GoGrid</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -252,8 +255,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>OpenNebula</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -266,8 +269,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Rackspace</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -280,8 +283,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>RHEV-M</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -294,8 +297,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>RimuHosting</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -308,8 +311,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Terremark</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -322,8 +325,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>vSphere</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -336,8 +339,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>OpenStack</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -350,8 +353,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Arubacloud</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -364,13 +367,16 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-</tbody>
-</table><p><br></p>
+  </tbody>
+</table>
+
+<p><br></p>
 
 <h4 id="storage">Storage Driver Functionality</h4>
 <table class="table-bordered table-striped table-condensed">
-<thead><tr>
-<th class="emptycell"> </th>
+  <thead>
+    <tr>
+      <th class="emptycell"> </th>
       <th>
         Create new buckets
       </th>
@@ -389,10 +395,11 @@ The driver and provider can be selected through the request headers <strong> X-D
       <th>
         Read/write individual blob attributes
       </th>
-    </tr></thead>
-<tbody>
-<tr>
-<td class="provider">
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="provider">
         <strong>Amazon S3</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -402,8 +409,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Eucalyptus Walrus</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -413,8 +420,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Rackspace CloudFiles</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -424,8 +431,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Microsoft Azure</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -435,8 +442,8 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-<tr>
-<td class="provider">
+    <tr>
+      <td class="provider">
         <strong>Google Storage</strong>
       </td>
       <td style="text-align:center">yes</td>
@@ -446,8 +453,9 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
-</tbody>
-</table><p><br></p>
+  </tbody>
+</table>
+<p><br></p>
 <p>
 Deltacloud uses basic HTTP <a href="rest-api.html#auth">authentication</a> to receive credentials from the client and passes them through to the particular back-end cloud. The credentials always consist of a username and password and they are never stored on the server. The exact credentials for logging into the server, and a place where you can find them, depends on the backend cloud that the server is talking to.
 </p>
@@ -459,18 +467,22 @@ The following table gives details about the credentials that must be provided fo
 <style>
  table { table-layout: fixed; }
  table th, table td { overflow: hidden; }
-</style><h4 id="credentials">Cloud provider credentials</h4>
+</style>
+
+<h4 id="credentials">Cloud provider credentials</h4>
 <table class="table-bordered table-striped table-condensed">
-<thead><tr>
-<th style="width:15%">Cloud</th>
+  <thead>
+    <tr>
+      <th style="width:15%">Cloud</th>
       <th style="width:8%">Driver</th>
       <th style="width:20%">Username</th>
       <th style="width:10%">Password</th>
       <th style="width:47%">Notes</th>
-    </tr></thead>
-<tbody>
-<tr>
-<td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
         <strong>mock</strong>
       </td>
       <td>mock</td>
@@ -478,8 +490,8 @@ The following table gives details about the credentials that must be provided fo
       <td>mockpassword</td>
       <td>The mock driver does not communicate with any cloud; it just pretends to be a cloud.</td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Amazon EC2/S3</strong>
       </td>
       <td>ec2</td>
@@ -487,8 +499,8 @@ The following table gives details about the credentials that must be provided fo
       <td>Secret Access Key</td>
       <td>Retrieve neccessary information from the <a href="http://aws-portal.amazon.com/gp/aws/developer/account/index.html?action=access-key">Security Credentials</a> page in your AWS account.</td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Eucalyptus</strong>
       </td>
       <td>eucalyptus</td>
@@ -496,8 +508,8 @@ The following table gives details about the credentials that must be provided fo
       <td>Secret Access Key</td>
       <td></td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Fujitsu FGCP</strong>
       </td>
       <td>fgcp</td>
@@ -511,8 +523,8 @@ The following table gives details about the credentials that must be provided fo
           in Windows. Then use Username to authenticate.
       </td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>GoGrid</strong>
       </td>
       <td>gogrid</td>
@@ -522,8 +534,8 @@ The following table gives details about the credentials that must be provided fo
       Go to <span style="font-size:small">My Account &gt; API Keys</span> for <a href="https://my.gogrid.com/gogrid/com.servepath.gogrid.GoGrid/index.html">your account</a> and click on the key you want to use to find the Shared Secret.
       </td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>IBM SmartCloud</strong>
       </td>
       <td>sbc</td>
@@ -531,8 +543,8 @@ The following table gives details about the credentials that must be provided fo
       <td>Password</td>
       <td></td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Microsoft Azure (Storage Account only)</strong>
       </td>
       <td>azure</td>
@@ -542,8 +554,8 @@ The following table gives details about the credentials that must be provided fo
       The Storage Account Name is chosen when you create the service (e.g. name in <a href="http://name.blob.core.windows.net/">name.blob.core.windows.net</a>). The name and the access key are available from the service control panel.
       </td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>OpenNebula</strong>
       </td>
       <td>opennebula</td>
@@ -551,8 +563,8 @@ The following table gives details about the credentials that must be provided fo
       <td>OpenNebula password</td>
       <td>Set the environment variable OCCI_URL to the address on which OpenNebula's OCCI server is listening.</td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>OpenStack</strong>
       </td>
       <td>openstack</td>
@@ -560,8 +572,8 @@ The following table gives details about the credentials that must be provided fo
       <td>The username is OpenStack user name and tenant_name concatenated with a '+' and password is your openstack service password.</td>
       <td>Set the environment variable API_PROVIDER to the URL of Keystone Identity service. Alternatively use the '-P' option when starting the Deltacloud server. See <a href="drivers.html#open">notes</a> for more info.</td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Rackspace Cloud Servers/Cloud Files</strong>
       </td>
       <td>rackspace</td>
@@ -569,8 +581,8 @@ The following table gives details about the credentials that must be provided fo
       <td>API Key</td>
       <td>Obtain the key from the <a href="https://manage.rackspacecloud.com/APIAccess.do">API Access</a> page in your control panel.</td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>RHEV-M</strong>
       </td>
       <td>rhevm</td>
@@ -580,8 +592,8 @@ The following table gives details about the credentials that must be provided fo
       <td>RHEV-M password</td>
       <td>Set the environment variable API_PROVIDER to the URL of the RHEV-M REST API endpoint. </td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Rimuhosting</strong>
       </td>
       <td>rimuhosting</td>
@@ -589,8 +601,8 @@ The following table gives details about the credentials that must be provided fo
       <td>API Key</td>
       <td></td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Terremark</strong>
       </td>
       <td>terremark</td>
@@ -598,8 +610,8 @@ The following table gives details about the credentials that must be provided fo
       <td>Password</td>
       <td></td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>VMware vSphere</strong>
       </td>
       <td>vsphere</td>
@@ -607,8 +619,8 @@ The following table gives details about the credentials that must be provided fo
       <td>vSphere user password</td>
       <td>Set the environment variable API_PROVIDER to the hostname of the vSphere server and the Datastore.</td>
     </tr>
-<tr>
-<td>
+    <tr>
+      <td>
         <strong>Arubacloud</strong>
       </td>
       <td>arubacloud</td>
@@ -616,8 +628,11 @@ The following table gives details about the credentials that must be provided fo
       <td>Password</td>
       <td></td>
     </tr>
-</tbody>
-</table><p><br></p>
+
+  </tbody>
+</table>
+
+<p><br></p>
 
 <h3 id="notes">Notes on specific drivers</h3>
 
@@ -713,11 +728,12 @@ The OpenNebula driver has been updated to support v3.x of the OpenNebula API. Th
       FGCP virtual systems and networks are both mapped to realms:
       </p>
 <ul>
-<li>Creating a firewall is equivalent to creating a FGCP virtual system. Specify a system descriptor ID as firewall description (e.g. "1-tier Skeleton").</li>
+      <li>Creating a firewall is equivalent to creating a FGCP virtual system. Specify a system descriptor ID as firewall description (e.g. "1-tier Skeleton").</li>
       <li>Destroying a firewall destroys the virtual system. All instances in it need to be in the STOPPED state. This operation first stops the firewall and therefore it can take five minutes until the firewall actually disappears.</li>
       <li>When creating an instance, specify a network segment realm as target location.</li>
       </ul>
-</div>
+
+      </div>
     </div>
   </div>
   <div class="accordion-group">
@@ -817,6 +833,7 @@ The username and password in 401 challenge should be the same as you use in the 
     </div>
   </div>
 </div>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

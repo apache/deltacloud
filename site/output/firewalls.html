@@ -107,7 +107,7 @@ Firewalls represent sets of rules that govern the accessibility of a running ins
 </p>
 
 <ul>
-<li>a <strong>name</strong>
+  <li>a <strong>name</strong>
 </li>
   <li>a <strong>description</strong>
 </li>
@@ -116,6 +116,7 @@ Firewalls represent sets of rules that govern the accessibility of a running ins
   <li>set of <strong>rules</strong>
 </li>
 </ul>
+
 <p>
 For Amazon EC2, an instance is launched into a firewall by specifying the <strong>firewalls1 ... firewallsN</strong> parameters in the <strong>POST /api/instances</strong> operation (see the <a href="instances.html#instance">Create an instance</a> section).
 </p>
@@ -125,22 +126,23 @@ Each <strong>firewall rule</strong> has a number of attributes describing the ac
 </p>
 
 <ul>
-<li>an <strong>allow_protocol</strong> (tcp, udp or icmp);</li>
+  <li>an <strong>allow_protocol</strong> (tcp, udp or icmp);</li>
   <li>a <strong>port_from</strong> and a <strong>port_to</strong> that delimit the port range for access; and</li>
   <li>a <strong>sources</strong> list, which can contain firewalls (i.e. allow instances in another firewall to communicate with instances in the firewall in which this rule exists), or a number of IP addresses in CIDR format, or a mix of both.</li>
 </ul>
-</div>
+
+  </div>
   <div class="span3">
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
   <li><a href="api-entry-point.html">API entry point</a></li>
   <li><a href="compute-resources.html">Compute resources</a></li>
   <ul class="nav nav-list">
-<li><a href="compute-resources.html#realms">Realms</a></li>
+    <li><a href="compute-resources.html#realms">Realms</a></li>
     <li><a href="hardware-profiles.html">Hardware profiles</a></li>
     <li><a href="images.html">Images</a></li>
     <li><a href="instance-states.html">Instance states</a></li>
@@ -150,9 +152,10 @@ Each <strong>firewall rule</strong> has a number of attributes describing the ac
     <li><a href="addresses.html">Addresses</a></li>
     <li><a href="load-balancers.html">Load balancers</a></li>
   </ul>
-<li><a href="storage-resources.html">Storage resources</a></li>
+  <li><a href="storage-resources.html">Storage resources</a></li>
 </ul>
-</div>
+
+  </div>
 </div>
 
 <p>
@@ -184,11 +187,15 @@ By creating the rule identifier abstraction, the Deltacloud API supports deletio
 <p><br></p>
 
 <ul class="nav nav-pills">
-<li class="active"><a href="#tab1" data-toggle="tab">Get a list of all firewalls</a></li>
+  <li class="active"><a href="#tab1" data-toggle="tab">Get a list of all firewalls</a></li>
   <li><a href="#tab2" data-toggle="tab">Get the details of a firewall</a></li>
   <li><a href="#tab3" data-toggle="tab">Create/delete a firewall</a></li>
   <li><a href="#tab4" data-toggle="tab">Create/delete a firewall rule</a></li>
-</ul><hr><div class="tab-content">
+</ul>
+
+<hr>
+
+<div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
 <h4>Get a list of all firewalls</h4>
@@ -532,6 +539,7 @@ Date: Wed, 27 Jul 2011 10:39:52 GMT
 <p><a class="btn btn-inverse btn-large" style="float: right" href="addresses.html">Addresses <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

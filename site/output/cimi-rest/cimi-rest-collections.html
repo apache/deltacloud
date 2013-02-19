@@ -109,7 +109,11 @@ In the following sections, the textual definitions following the title of each r
 </p>
 
 <hr>
-<br><br><h3 id="cimi-machine">Machine</h3>
+
+<br>
+<br>
+
+<h3 id="cimi-machine">Machine</h3>
 <p>
 <strong><em>
 An instantiated compute resource that encapsulates both CPU and Memory.
@@ -122,7 +126,7 @@ A Machine Collection resource represents the collection of Machine resources wit
  <div class="span3">
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     CIMI REST API
   </li>
   <li><a href="../cimi-rest.html">Introduction</a></li>
@@ -133,39 +137,48 @@ A Machine Collection resource represents the collection of Machine resources wit
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
-<li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
       <li><a href="cimi-rest-collections.html">Machine</a></li>
       <li><a href="cimi-rest-volumes.html">Volume</a></li>
     </ul>
-</li>
+  </li>
   <hr>
-<li class="nav-header">
+  <li class="nav-header">
     Machine Resources
   </li>
   <ul class="nav nav-list">
-<li class="active"><a href="cimi-rest-collections.html">Machine</a></li>
+    <li class="active"><a href="cimi-rest-collections.html">Machine</a></li>
     <li><a href="cimi-rest-machine-images.html">MachineImage</a></li>
     <li><a href="cimi-rest-machine-configs.html">MachineConfiguration</a></li>
     <li><a href="cimi-rest-machine-templates.html">MachineTemplate</a></li>
   </ul>
+
 </ul>
-</div>
+
+  </div>
 
 </div>
 
 <ul class="nav nav-pills">
-<li class="active"><a href="#tab1" data-toggle="tab">Retrieve the Machine Collection</a></li>
+  <li class="active"><a href="#tab1" data-toggle="tab">Retrieve the Machine Collection</a></li>
   <li><a href="#single-machine" data-toggle="tab">Retrieve a single Machine</a></li>
   <li><a href="#create-machine" data-toggle="tab">Create a new Machine</a></li>
   <li><a href="#machine-action" data-toggle="tab">Perform a Machine Operation</a></li>
   <li><a href="#machine-volumes" data-toggle="tab">Work with Machine Volumes</a></li>
-</ul><hr><div class="tab-content">
+</ul>
+
+<hr>
+
+<div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
 <h4>Retrieve the Machine Collection</h4>
 
 Note the 'add' URI of the Machine Collection resource in the example response below. This is the URI that is used for creating a new Machine (adding to the Machine Collection).
-<br><br><p>Example request:</p>
+<br>
+<br>
+
+<p>Example request:</p>
 
 <pre>
 GET /cimi/machines HTTP/1.1
@@ -444,8 +457,10 @@ Server: thin 1.5.0 codename Knife
 &lt;/Collection&gt;
   </pre>
 
-<br><hr>
-<p>Attach a Volume to a Machine - aka add a new MachineVolume to the MachineVolumeCollection of a specific Machine resource </p>
+<br>
+<hr>
+
+  <p>Attach a Volume to a Machine - aka add a new MachineVolume to the MachineVolumeCollection of a specific Machine resource </p>
 
   <p>Example request:</p>
   <pre>
@@ -491,8 +506,10 @@ Server: thin 1.5.0 codename Knife
   </pre>
 
 
-<br><hr>
-<p>Detach a Volume from a Machine - aka remove a MachineVolume from the MachineVolumeCollection of a specific Machine resource </p>
+<br>
+<hr>
+
+  <p>Detach a Volume from a Machine - aka remove a MachineVolume from the MachineVolumeCollection of a specific Machine resource </p>
 
   <p>Example request:</p>
   <pre>
@@ -527,6 +544,7 @@ Server: thin 1.5.0 codename Knife
   </div>
 
 </div>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

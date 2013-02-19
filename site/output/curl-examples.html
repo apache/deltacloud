@@ -106,7 +106,7 @@
     <p> The <a href="http://curl.haxx.se/docs/">cURL documentation</a> is pretty comprehensive, but the following are some general points to remember for using cURL against Deltacloud. All the examples on this page assume the deltacloud server is running at localhost:3001: </p>
 
   <ul>
-<li>
+    <li>
       Credentials are specified with <strong> --user "name:password"  </strong>
     </li>
     <li>
@@ -122,12 +122,13 @@ curl -v -X DELETE --user "username:password" -H "Accept: application/xml" http:/
       </pre>
     </li>
   </ul>
-</div>
+
+  </div>
 
   <div class="span4">
 
     <ul class="nav nav-list well">
-<li class="nav-header">cURL as a deltacloud client</li>
+      <li class="nav-header">cURL as a deltacloud client</li>
       <li class="active"><a href="#instances">Work with instances</a></li>
       <li><a href="#images">Work with images</a></li>
       <li><a href="#hardware_profiles">Work with hardware profiles</a></li>
@@ -140,10 +141,13 @@ curl -v -X DELETE --user "username:password" -H "Accept: application/xml" http:/
       <li><a href="#storage_volumes">Work with storage volumes</a></li>
       <li><a href="#storage_snapshots">Work with storage snapshots</a></li>
     </ul>
-</div>
+
+  </div>
 </div>
 
-<hr><h4 id="instances">Working with instances</h4>
+<hr>
+
+<h4 id="instances">Working with instances</h4>
 
 <p>Display a complete list of instances in xml format:</p>
 
@@ -351,6 +355,7 @@ listener_balancer_port=80&amp;listener_instance_port=3001" http://localhost:3001
 
 <p>Delete a storage snapshot:</p>
 <pre>curl -v --user "user:pass" -X DELETE http://localhost:3001/api/storage_snapshots/snap-dda6cebc?format=xml</pre>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

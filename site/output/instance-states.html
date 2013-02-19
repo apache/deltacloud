@@ -110,49 +110,52 @@ Each cloud defines a slightly different lifecycle model for instances. In some c
 Differences between clouds are modelled by expressing the lifecycle of an instance as a finite state machine and capturing it in an instance states entity.The API defines the following states for an instance:</p>
 
 <table class="table table-condensed table-striped">
-<thead><tr>
-<th>State</th>
+  <thead>
+    <tr>
+      <th>State</th>
       <th>Meaning</th>
-    </tr></thead>
-<tbody>
-<tr>
-<td>start</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>start</td>
       <td>an instance state before creation of an instance</td>
     </tr>
-<tr>
-<td>pending</td>
+    <tr>
+      <td>pending</td>
       <td>creation of an instance is in progress</td>
     </tr>
-<tr>
-<td>running</td>
+    <tr>
+      <td>running</td>
       <td>an instance is running</td>
     </tr>
-<tr>
-<td>shutting-down</td>
+    <tr>
+      <td>shutting-down</td>
       <td>an instance is stopped</td>
     </tr>
-<tr>
-<td>stopped</td>
+    <tr>
+      <td>stopped</td>
       <td>an instance is stopped</td>
     </tr>
-<tr>
-<td>finished</td>
+    <tr>
+      <td>finished</td>
       <td>all resources for an instance have now been freed</td>
     </tr>
-</tbody>
+  </tbody>
 </table>
-</div>
+
+  </div>
   <div class="span3">
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
   <li><a href="api-entry-point.html">API entry point</a></li>
   <li><a href="compute-resources.html">Compute resources</a></li>
   <ul class="nav nav-list">
-<li><a href="compute-resources.html">Realms</a></li>
+    <li><a href="compute-resources.html">Realms</a></li>
     <li><a href="hardware-profiles.html">Hardware profiles</a></li>
     <li><a href="images.html">Images</a></li>
     <li class="active"><a href="#instance-states">Instance states</a></li>
@@ -162,9 +165,10 @@ Differences between clouds are modelled by expressing the lifecycle of an instan
     <li><a href="addresses.html">Addresses</a></li>
     <li><a href="load-balancers.html">Load balancers</a></li>
   </ul>
-<li><a href="storage-resources.html">Storage resources</a></li>
+  <li><a href="storage-resources.html">Storage resources</a></li>
 </ul>
-</div>
+
+  </div>
 </div>
 
 <p>
@@ -172,29 +176,33 @@ The details of a particular instance describes also the actions (state transitio
 </p>
 
 <table class="table table-condensed table-striped">
-<thead><tr>
-<th>Action</th>
+ <thead>
+  <tr>
+   <th>Action</th>
    <th>Meaning</th>
-  </tr></thead>
-<tbody>
-<tr>
-<td>start</td>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>start</td>
    <td>starts the instance</td>
   </tr>
-<tr>
-<td>stop</td>
+  <tr>
+   <td>stop</td>
    <td>stops (and for some providers shutdown) the instance</td>
   </tr>
-<tr>
-<td>reboot</td>
+  <tr>
+   <td>reboot</td>
    <td>reboots the instance</td>
   </tr>
-<tr>
-<td>destroy</td>
+  <tr>
+   <td>destroy</td>
    <td>stops the instance and completely destroys it</td>
   </tr>
-</tbody>
-</table><h4>Get an instance states entity</h4>
+ </tbody>
+</table>
+
+<h4>Get an instance states entity</h4>
 
 <p>To retrieve the instance states entity for a back-end cloud use call <strong>GET /api/instance_states</strong>. The instance states entity defines possible transitions between various states of an instance, specific for each back-end cloud. As a result, instance states defines the finite state machine for instances from the given cloud.</p>
 
@@ -240,6 +248,7 @@ Content-Length: 583
 <p><a class="btn btn-inverse btn-large" style="float: right" href="instances.html">Instances <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
