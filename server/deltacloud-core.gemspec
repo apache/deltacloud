@@ -102,7 +102,7 @@ Gem::Specification.new do |s|
 
   # Terremark Vcloud Express
   s.add_dependency('fog', '>= 1.4.0')
-  s.add_dependency('excon', '>= 0.14.2' )
+  s.add_dependency('excon', '>= 0.14.2', '<0.17.0' )
 
   # Rhevm and Condor Cloud
   s.add_dependency('rest-client')
