@@ -8,8 +8,12 @@ else
 end
 
 ENV['RACK_ENV'] = 'development'
+ENV['DB_UPGRADE'] = 'true'
 
-require_relative '../../../lib/db'
+require_relative '../../../lib/initializers/database_initialize'
+
+# Apply database migrations:
+Sequel::Migrator.apply(DATABASE, DATABASE_MIGRATIONS_DIR)
 
 module Deltacloud
   module DatabaseTestHelper
