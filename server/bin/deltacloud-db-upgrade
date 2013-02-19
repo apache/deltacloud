@@ -17,7 +17,12 @@
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-require 'jdbc/sqlite3' if RUBY_PLATFORM == 'java'
+# Fix loading of SQLite3 driver in JDBC
+#
+if RUBY_PLATFORM == 'java'
+  require 'jdbc/sqlite3'
+  Jdbc::SQLite3.load_driver
+end
 
 # Do not exit
 ENV['DB_UPGRADE'] = 'true'
