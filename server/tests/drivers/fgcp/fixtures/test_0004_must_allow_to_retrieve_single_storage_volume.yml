@@ -1,0 +1,118 @@
+--- 
+recorded_with: VCR 2.4.0
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjQ5Nzg4MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVDiskAttributes&Locale=en&Signature=Fq0FpoLXIVbxQgnkKoq3UzfcyWN/fakSoVgCJX7xHFbp3Sqx8hf0gWXA+Iqr%0A6T53zLS6eNZc8JfzWAUqpupP2R3+MWCTAebsmUdWTpGrhKIPiE2nicfPW76V%0AMONgzrRR/L5S+IZmMwNlBlyvQI+GSqXxPpNDbIeLZqjFLvXGYZzIwndiOlgy%0Aw3H1o+eWpGip6zF5oAwo4EtXG1nxbBBLIVslctVLuxjTdjia0Du9PJr8uaIC%0AcCzwHy9M1BkSk5MWgYW+hJyARJG2RflbUELMZoTopYSAzUi7VzmCncLYqPRs%0A3RYQg9AEou2URrPliEvlqzf0o/9KqrTfW5B0fgYUYQ==%0A&Version=2011-01-31&vdiskId=UZXC0GRT-ZG8ZJCJ07-D-0039&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - OViSS-API-CLIENT
+      Accept: 
+      - text/xml
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Tue, 19 Feb 2013 04:56:28 GMT
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=79BE1F2B727C0A9EA4CBD0A6491078A0; Path=/ovisspxy; Secure
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVDiskAttributesResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vdisk>
+            <creator>UZXC0GRT</creator>
+            <size>10.0</size>
+            <vdiskId>UZXC0GRT-ZG8ZJCJ07-D-0039</vdiskId>
+            <vdiskName>DISK1</vdiskName>
+          </vdisk>
+        </GetVDiskAttributesResponse>
+        
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 04:56:29 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjQ5Nzg5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVDiskStatus&Locale=en&Signature=PvKtURF/4t8ibo0jJ4Shr9fKuFHTamwxEulv+Ubz3jKb2QaT/WLUAa19zLMV%0AE5jknFbHQudX4Vx4AONTT30T7DGUy8RqBDy7B3CmqRiixYpcM+0XAPVYdgNs%0Ad30hdhdlaHyItfz20qvkCZVAfu6J9y3jRrRHtIhKhUeCK4/IDMKVWDhgMlrZ%0AXqxLkE2RzLfXlxphyl3ql7aN/UIZ0LJvSLli4DtZ2z8QFsiYD25Qro3GZ5V3%0A6Vfi5fQMY2P2IboBGTRvrYcP7zm1tOJTKZ51Mf+GpeEDgAPatg0ocgxrEoOu%0ACh02ChtDlQX7DiOLL6exOPi5Ju0F10KQCwS5rMgj4g==%0A&Version=2011-01-31&vdiskId=UZXC0GRT-ZG8ZJCJ07-D-0039&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - OViSS-API-CLIENT
+      Accept: 
+      - text/xml
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Tue, 19 Feb 2013 04:56:29 GMT
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=61481EE7E0B625CCDB11DFFC15915884; Path=/ovisspxy; Secure
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVDiskStatusResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vdiskStatus>NORMAL</vdiskStatus>
+        </GetVDiskStatusResponse>
+        
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 04:56:29 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjQ5Nzg5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVDiskAttributes&Locale=en&Signature=PvKtURF/4t8ibo0jJ4Shr9fKuFHTamwxEulv+Ubz3jKb2QaT/WLUAa19zLMV%0AE5jknFbHQudX4Vx4AONTT30T7DGUy8RqBDy7B3CmqRiixYpcM+0XAPVYdgNs%0Ad30hdhdlaHyItfz20qvkCZVAfu6J9y3jRrRHtIhKhUeCK4/IDMKVWDhgMlrZ%0AXqxLkE2RzLfXlxphyl3ql7aN/UIZ0LJvSLli4DtZ2z8QFsiYD25Qro3GZ5V3%0A6Vfi5fQMY2P2IboBGTRvrYcP7zm1tOJTKZ51Mf+GpeEDgAPatg0ocgxrEoOu%0ACh02ChtDlQX7DiOLL6exOPi5Ju0F10KQCwS5rMgj4g==%0A&Version=2011-01-31&vdiskId=unknown&vsysId=
+    body: 
+      string: ""
+    headers: 
+      User-Agent: 
+      - OViSS-API-CLIENT
+      Accept: 
+      - text/xml
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Date: 
+      - Tue, 19 Feb 2013 04:56:29 GMT
+      Connection: 
+      - close
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Set-Cookie: 
+      - JSESSIONID=7EA229A9D9A825F06AF683A1DC248007; Path=/ovisspxy; Secure
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <OViSSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>A wrong value is set.:[vsysId, vdiskId]</responseMessage>
+          <responseStatus>VALIDATION_ERROR</responseStatus>
+        </OViSSResponse>
+        
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 04:56:29 GMT

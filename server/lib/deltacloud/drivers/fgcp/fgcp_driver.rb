@@ -468,7 +468,10 @@ class FgcpDriver < Deltacloud::BaseDriver
         begin
           vdisk = client.get_vdisk_attributes(opts[:id])['vdisk'][0]
         rescue Exception => ex
+          # vdisk doesn't exist
           return [] if ex.message =~ /VALIDATION_ERROR.*t exist./
+          # vsys_id extracted from :id doesn't exist
+          return [] if ex.message =~ /VALIDATION_ERROR.*A wrong value is set/
           raise
         end
         state = client.get_vdisk_status(opts[:id])['vdiskStatus'][0]

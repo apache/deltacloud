@@ -1,0 +1,162 @@
+--- 
+recorded_with: VCR 2.4.0
+http_interactions: 
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjQ5Nzg5MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListVSYS&Locale=en&Signature=PvKtURF/4t8ibo0jJ4Shr9fKuFHTamwxEulv+Ubz3jKb2QaT/WLUAa19zLMV%0AE5jknFbHQudX4Vx4AONTT30T7DGUy8RqBDy7B3CmqRiixYpcM+0XAPVYdgNs%0Ad30hdhdlaHyItfz20qvkCZVAfu6J9y3jRrRHtIhKhUeCK4/IDMKVWDhgMlrZ%0AXqxLkE2RzLfXlxphyl3ql7aN/UIZ0LJvSLli4DtZ2z8QFsiYD25Qro3GZ5V3%0A6Vfi5fQMY2P2IboBGTRvrYcP7zm1tOJTKZ51Mf+GpeEDgAPatg0ocgxrEoOu%0ACh02ChtDlQX7DiOLL6exOPi5Ju0F10KQCwS5rMgj4g==%0A&Version=2011-01-31
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Connection: 
+      - close
+      Set-Cookie: 
+      - JSESSIONID=9C8B4022BCBE86ACD2630933F70971E6; Path=/ovisspxy; Secure
+      Date: 
+      - Tue, 19 Feb 2013 04:56:29 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListVSYSResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vsyss>
+            <vsys>
+              <baseDescriptor>2-tier Skeleton</baseDescriptor>
+              <creator>UZXC0GRT</creator>
+              <description>2-tier Skeleton</description>
+              <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>
+              <vsysName>Dies-DC-test</vsysName>
+            </vsys>
+          </vsyss>
+        </ListVSYSResponse>
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 04:56:30 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjQ5NzkwMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=CreateVDisk&Locale=en&Signature=xyXj1AR0Jp25nRZeXfPBScSMAyawIP+xw91RorQCKsd17CDP1o7zubmc9aXt%0AnyE6nL49wrWZ4hWxUVj9lT1GBHz+u0Pv7vglWVfWCag9bfJKe48an8LSM+pR%0AHCoqcaIXGlXhumoKEaClnGGKYuvE0EEAR8Hw7DIkQH5YLdPTQGX1VsOKFkkv%0Aw/huC8jCUX6i0vZp1fmRTw7DLBg3oIh+TJcXGwY/p8B+1nmJGuCINN5SGzWm%0AO0wZwRXXaZlmw0dye3GOElaOmXrNn0hLQlXs6zDg2q27Xl4wgUiyj360nEKb%0A/ozt9gsH9vtTmochT6Ex0j++RsFnKGFRvnbc99qOpA==%0A&Version=2011-01-31&size=10.0&vdiskName=Test%20Volume&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Connection: 
+      - close
+      Set-Cookie: 
+      - JSESSIONID=67D06D40243ADD32D54DA31AB498D126; Path=/ovisspxy; Secure
+      Date: 
+      - Tue, 19 Feb 2013 04:56:30 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <CreateVDiskResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vdiskId>UZXC0GRT-ZG8ZJCJ07-D-0040</vdiskId>
+        </CreateVDiskResponse>
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 04:56:39 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjUwMzgzMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVDiskAttributes&Locale=en&Signature=CbjigJu5MgcVRG6frY1PBA7ALiX9qvCqac0NdURv5CzkTtldPujCw+9b4K78%0AEZktJzOgqNpVYRwX2nTMEYiY4K2QCK3srvXJlkVAfu41haUBfaj1ohzo/uB/%0ATCZUGbDJLISB3vBUnqP97ckNS/wlyLrqPlAug92gfMXzd9FI3YYyUxw0xKnz%0AMVvRorwNa8jdys9BKrduEJrZ4y0aeUEUp3nnOGq0sBng3hSgP9NCXsIz9HEE%0AY1No2YBDWDMJQIHfu+BEKw+fUA+N1dOEX5TmTVltmGXuKTfGaCXVtrbMsyiI%0A2U1avnjvkQ4OIb/smUwSF4ThxJoriXScX+DUP4nu8Q==%0A&Version=2011-01-31&vdiskId=UZXC0GRT-ZG8ZJCJ07-D-0040&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Set-Cookie: 
+      - JSESSIONID=2E779E78DB9BCD90E97852E2512D3411; Path=/ovisspxy; Secure
+      Connection: 
+      - close
+      Date: 
+      - Tue, 19 Feb 2013 05:06:23 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVDiskAttributesResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vdisk>
+            <creator>UZXC0GRT</creator>
+            <size>10.0</size>
+            <vdiskId>UZXC0GRT-ZG8ZJCJ07-D-0040</vdiskId>
+            <vdiskName>Test Volume</vdiskName>
+          </vdisk>
+        </GetVDiskAttributesResponse>
+        
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 05:06:24 GMT
+- request: 
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYxMjUwMzg0MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVDiskStatus&Locale=en&Signature=akBsWkD1bslXidF+FIn6FPOIPJKtBnPhaVns2+ddTwsBoQ1VoNrdTHeLnm/z%0ATRDU5XB4bA91VJuaNlsjkOOSvuj7Ga+jAJ7W/tyNG0QEV/7+1ifQkHPW+nqs%0AQnzIIIYhRKBWynQTbpUfSzxay8osLudTriT7P/NXl9qYZhljulj3JfbwXp1c%0Au6INgFFYioCnFmOQuR+NVgwGjdiV/wpLf7INMHNHABpmrHtn76mMU95USG1i%0AQuqRee7TM9Hjtr4X4KnwVyVKVc840aLJg70aiSW7Cml01u7H/5TKeOAjRwfv%0ADdtOjf49T4PtK+TxwFrXQ+gFZ8lsoHRZ6jFt/I4J3Q==%0A&Version=2011-01-31&vdiskId=UZXC0GRT-ZG8ZJCJ07-D-0040&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body: 
+      string: ""
+    headers: 
+      Accept: 
+      - text/xml
+      User-Agent: 
+      - OViSS-API-CLIENT
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      Set-Cookie: 
+      - JSESSIONID=74DEB6A34AC4370A0D9FA1EF2331C1DC; Path=/ovisspxy; Secure
+      Connection: 
+      - close
+      Date: 
+      - Tue, 19 Feb 2013 05:06:24 GMT
+      Content-Type: 
+      - text/xml;charset=UTF-8
+      Transfer-Encoding: 
+      - chunked
+    body: 
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetVDiskStatusResponse xmlns="http://apioviss.jp.fujitsu.com">
+          <responseMessage>Processing was completed.</responseMessage>
+          <responseStatus>SUCCESS</responseStatus>
+          <vdiskStatus>NORMAL</vdiskStatus>
+        </GetVDiskStatusResponse>
+        
+
+    http_version: 
+  recorded_at: Tue, 19 Feb 2013 05:06:24 GMT
