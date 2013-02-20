@@ -24,7 +24,7 @@
       - if @storage_volume.instance_id
         %a{ :href => instance_url( @storage_volume.instance_id)}
           = @storage_volume.instance_id
-      - elsif @storage_volume.state == "AVAILABLE"
+      - elsif @storage_volume.state and @storage_volume.state != "IN-USE"
         %p{ :'data-role' => 'fieldcontain'}= 'none (detached)'
       -else
         %p{ :'data-role' => 'fieldcontain'}= 'unknown'

@@ -274,6 +274,44 @@ eoidxml
     request('DestroyVDiskBackup', {'vsysId' => vsys_id, 'backupId' => backup_id})
   end
 
+  def get_vdisk_backup_copy_key(vsys_id, backup_id)
+    @version = '2012-07-20'
+    request('GetVDiskBackupCopyKey', {'vsysId' => vsys_id, 'backupId' => backup_id})
+  end
+
+  def set_vdisk_backup_copy_key(vsys_id, backup_id, contracts)
+    @version = '2012-07-20'
+    contracts_xml = <<-"eoctxml"
+<?xml version="1.0" encoding ="UTF-8"?>
+<Request>
+  <contracts>
+    <contract>
+#{contracts.collect { |c| "      <number>#{c}</number>" }.join("\n")}
+    </contract>
+  </contracts>
+</Request>
+eoctxml
+    request('SetVDiskBackupCopyKey',
+      {
+        'vsysId'   => vsys_id,
+        'backupId' => backup_id
+      },
+      contracts_xml,
+      'contractsXMLFilePath'
+    )
+  end
+
+  def external_restore_vdisk(src_vsys_id, src_backup_id, dst_vsys_id, dst_vdisk_id, key)
+    @version = '2012-07-20'
+    request('ExternalRestoreVDisk', {
+      'srcVsysId'   => src_vsys_id,
+      'srcBackupId' => src_backup_id,
+      'dstVsysId'   => dst_vsys_id,
+      'dstVdiskId'  => dst_vdisk_id,
+      'key'         => key}
+    )
+  end
+
   def list_public_ips(vsys_id=nil)
     if vsys_id.nil?
       request('ListPublicIP')
@@ -318,6 +356,12 @@ eoidxml
   #extract vsysId from vserverId, efmId or networkId
   def extract_vsys_id(id)
     /^(\w+-\w+)\b.*/ =~ id
+    $1
+  end
+
+  #extract contract id from vserverId, efmId or networkId
+  def extract_contract_id(id)
+    /^(\w+)-\w+\b.*/ =~ id
     $1
   end
 

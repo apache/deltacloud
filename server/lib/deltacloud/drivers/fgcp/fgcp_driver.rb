@@ -556,7 +556,43 @@ class FgcpDriver < Deltacloud::BaseDriver
         opts[:realm_id] = xml[0]['vsys'][0]['vsysId'][0] if xml
       end
 
-      vdisk_id = client.create_vdisk(opts[:realm_id], opts[:name], opts[:capacity])['vdiskId'][0]
+      if not opts[:snapshot_id]
+        vdisk_id = client.create_vdisk(opts[:realm_id], opts[:name], opts[:capacity])['vdiskId'][0]
+      else
+        orig_vdisk_id, backup_id = split_snapshot_id(opts[:snapshot_id])
+        orig_vsys_id = client.extract_vsys_id(orig_vdisk_id)
+        # check snapshot size
+        size = client.get_vdisk_attributes(orig_vdisk_id)['vdisk'][0]['size'][0]
+        #set and retrieve key
+        contract_id = client.extract_contract_id(opts[:realm_id])
+        client.set_vdisk_backup_copy_key(orig_vsys_id, backup_id, [contract_id])
+        key = client.get_vdisk_backup_copy_key(opts[:realm_id], backup_id)['keyInfo'][0]['key'][0]
+        # create vdisk with same size as snapshot
+        size = client.get_vdisk_attributes(orig_vdisk_id)['vdisk'][0]['size'][0]
+        vdisk_id = client.create_vdisk(opts[:realm_id], opts[:name], size)['vdiskId'][0]
+        # try a restore straight away. It will likely fail (as the vdisk creation has not
+        # completed yet), but at least the parameters will be validated straight away.
+        begin
+          client.external_restore_vdisk(orig_vsys_id, backup_id, opts[:realm_id], vdisk_id, key)
+        rescue Exception => ex
+          # ignore expected error that destination vdisk is not ready yet
+          raise unless ex.message =~ /ILLEGAL_STATE_DST.*/
+        end
+        #wait until creation completes in a separate thread
+        Thread.new {
+          attempts = 0
+          begin
+            sleep 10
+            # this fails if the destination vdisk is still being deployed
+            client.external_restore_vdisk(orig_vsys_id, backup_id, opts[:realm_id], vdisk_id, key)
+          rescue Exception => ex
+            raise unless attempts < 30 and ex.message =~ /ILLEGAL_STATE_DST.*/
+            # Deployment takes a few minutes, so keep trying for a while
+            attempts += 1
+            retry
+          end
+        }
+      end
 
       StorageVolume.new(
         :id          => vdisk_id,
