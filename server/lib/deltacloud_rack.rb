@@ -57,7 +57,7 @@ module Deltacloud
     @default_frontend || config[:deltacloud]
   end
 
-  def self.generate_routes_for(frontends)
+  def self.generate_routes
     frontends.inject({}) do |result, frontend|
       frontend = frontend.strip
       if Deltacloud[frontend.to_sym].nil?
@@ -68,6 +68,11 @@ module Deltacloud
       result[Deltacloud[frontend].root_url] = Deltacloud[frontend].klass
       result
     end
+  end
+
+  def self.frontends
+    ENV['API_FRONTEND'] ||= 'deltacloud'
+    ENV['API_FRONTEND'].split(',')
   end
 
   require 'sinatra/base'

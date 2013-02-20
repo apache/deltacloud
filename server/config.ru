@@ -35,7 +35,7 @@ static_files = {
 # The 'generate_routes_for' also require the frontend
 # servers and all dependencies.
 #
-routes = Deltacloud.generate_routes_for(frontends)
+routes = Deltacloud.generate_routes
 
 run Rack::Builder.new {
   use Rack::MatrixParams

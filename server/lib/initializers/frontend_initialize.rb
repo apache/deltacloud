@@ -23,13 +23,6 @@ require_relative './../deltacloud_rack'
 
 # This will configure the URL mapping, verions and different servers
 # that multiple frontends require. You might not need to change this :)
-
-def frontends
-  ENV['API_FRONTEND'] ||= 'deltacloud'
-  ENV['API_FRONTEND'].split(',').size > 1 ?
-    ENV['API_FRONTEND'].split(',') : [ENV['API_FRONTEND']]
-end
-
 Deltacloud::configure do |server|
   server.root_url '/api'
   server.version Deltacloud::API_VERSION
