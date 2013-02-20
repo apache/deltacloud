@@ -29,6 +29,8 @@ rescue LoadError
   exit(1)
 end
 
+require 'require_relative' if RUBY_VERSION < '1.9'
+
 $top_srcdir = File.dirname(__FILE__)
 $:.unshift File.join($top_srcdir, 'lib')
 
