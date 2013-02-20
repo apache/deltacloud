@@ -75,6 +75,10 @@ module Deltacloud
     ENV['API_FRONTEND'].split(',')
   end
 
+  def self.need_database?
+    frontends.include?('cimi') || ENV['RACK_ENV'] == 'test'
+  end
+
   require 'sinatra/base'
   require_relative './deltacloud/helpers/deltacloud_helper'
   require_relative './sinatra/rack_accept'

@@ -23,5 +23,6 @@ require_relative './initializers/mock_initialize'
 # Configure available frontends
 require_relative './initializers/frontend_initialize'
 
-# If CIMI is enabled, then initialize database stuff
-require_relative './initializers/database_initialize' if frontends.include? 'cimi'
+if Deltacloud::need_database?
+  require_relative './initializers/database_initialize'
+end
