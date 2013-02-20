@@ -1,4 +1,4 @@
-- @title=@machine_templates.description
+- @title=collection_name @machine_templates
 
 - content_for :breadcrumb do
   %ul.breadcrumb
@@ -7,7 +7,6 @@
       %span.divider="/"
     %li.active
       MachineTemplateCollection
-
 
 %blockquote
   %p
@@ -19,9 +18,8 @@
 %ul
   - @machine_templates.machine_templates.each do |temp|
     %li
-      %a{ :href => "/cimi/machine_templates/#{temp.href.split('/').last}"}=temp.href.split('/').last
+      %a{ :href => "/cimi/machine_templates/#{href_to_id(temp.id)}"}=href_to_id(temp.id)
 
 -details 'MachineTemplateCollection details' do
   -row 'id',@machine_templates.id
-  -row 'Description',@machine_templates.description
-  -row 'Created',@machine_templates.created
+  -row 'Count',@machine_templates.count
