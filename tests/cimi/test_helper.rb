@@ -137,7 +137,7 @@ module CIMI::Test::Methods
       unless rmd_coll.json["resourceMetadata"][collection_index][rmd_type].nil?()
         rmd_index = rmd_coll.json["resourceMetadata"][collection_index][rmd_type].index {|rmd| rmd["uri"] == rmd_uri}
       end
-      raise "Couldn't discover the #{rmd_uri} URI" if rmd_index.nil?() || rmd_index.empty?()
+      raise "Couldn't discover the #{rmd_uri} URI" unless rmd_index
     end
 
     def get_a(cep, item)

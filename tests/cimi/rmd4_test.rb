@@ -137,11 +137,11 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
       it "should have a state equal to the specified initial state" do
         machine = get(@@rmd4_created_machines[chosen_initial_state], :accept=>:json)
         5.times do |j|
-          machine = get(@@rmd4_created_machines[chosen_initial_state], :accept=>:json)
           break if machine.json["state"].upcase.eql?(chosen_initial_state.upcase)
           puts machine.json["state"]
           puts 'waiting for machine to be: ' + chosen_initial_state
           sleep(5)
+          machine = get(@@rmd4_created_machines[chosen_initial_state], :accept=>:json)
         end unless machine.json["state"].upcase.eql?(chosen_initial_state.upcase)
 
         machine.json["state"].upcase.must_equal chosen_initial_state
