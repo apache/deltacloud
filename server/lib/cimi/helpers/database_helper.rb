@@ -24,10 +24,6 @@ module Deltacloud
       DATABASE_COLLECTIONS = [ "machine_template", "address_template",
         "volume_configuration", "volume_template" ]
 
-      def test_environment?
-        Deltacloud.test_environment?
-      end
-
      def provides?(entity)
        return true if DATABASE_COLLECTIONS.include? entity
        return false
