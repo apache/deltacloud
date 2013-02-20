@@ -32,7 +32,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
       :description => json['description'],
       :format => json['format'],
       :capacity => json['capacity'],
-      :ent_properties => json['properties'] ? json['properties'].to_json : {}
+      :ent_properties => (json['properties'] || {}).to_json
     )
     from_db(new_config, context)
   end
@@ -45,7 +45,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
       :description => xml['description'].first,
       :format => xml['format'].first,
       :capacity => xml['capacity'].first,
-      :ent_properties => xml['property'] ? JSON::dump(xml['property'].inject({}) { |r, p| r[p['key']]=p['content']; r }) : {}
+      :ent_properties =>  JSON::dump((xml['property'] || {}).inject({}){ |r, p| r[p['key']]=p['content']; r })
     )
     from_db(new_config, context)
   end
