@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
     'lib/**/*.rb',
     'lib/**/*.yml',
     'lib/**/*.haml',
+    'db/**/*.rb',
     'tests/**/*.rb',
     'views/**/*.haml',
     'views/instance_states/*.erb',
@@ -61,7 +62,7 @@ Gem::Specification.new do |s|
   ].map { |f| Dir[f] }.flatten
 
   s.bindir = 'bin'
-  s.executables = 'deltacloudd'
+  s.executables = ['deltacloudd', 'deltacloud-db-upgrade']
   s.test_files= Dir.glob("tests/**/*_test.rb")
   s.extra_rdoc_files = Dir["LICENSE", "DISCLAIMER", "NOTICE"]
   s.required_ruby_version = '>= 1.8.6'
