@@ -96,7 +96,8 @@ desc "List the routes defined by Rabbit"
     desc "Print all routes defined for #{frontend.to_s.capitalize}"
     task :routes do
       ENV['API_FRONTEND'] = frontend.to_s
-      load File.join(File.dirname(__FILE__), 'config.ru')
+      require_relative './lib/initialize'
+      Deltacloud.generate_routes
       f_class = (frontend == :cimi) ? CIMI : Deltacloud
       f_class.collections.each do |c|
         puts "\033[1;32;m#{c.name}\33[0m"
