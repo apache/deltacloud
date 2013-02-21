@@ -44,6 +44,7 @@ module CIMI
       cimi_modules << cimi_module_class
       unless cimi_module_class.collections.nil?
         cimi_module_class.collections.each do |c|
+          raise "ERROR: CIMI collection #{c} already registred" if CIMI.collections.include? c
           CIMI.collections << c
         end
       else

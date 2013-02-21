@@ -43,6 +43,9 @@ module Deltacloud
       deltacloud_module_class = Deltacloud::Collections.const_get(base_collection_name.camelize)
       deltacloud_modules << deltacloud_module_class
       deltacloud_module_class.collections.each do |c|
+        if Deltacloud.collections.include? c
+          raise "ERROR: Deltacloud collection #{c} already registred"
+        end
         Deltacloud.collections << c
       end unless deltacloud_module_class.collections.nil?
     end
