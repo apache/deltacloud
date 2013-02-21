@@ -24,9 +24,9 @@ describe Deltacloud do
     end
 
     it 'must provide access to Deltacloud Sinatra modules' do
-      Deltacloud::Collections.must_respond_to :deltacloud_modules
-      Deltacloud::Collections.deltacloud_modules.wont_be_empty
-      Deltacloud::Collections.deltacloud_modules.must_include Deltacloud::Collections::Drivers
+      Deltacloud::Collections.must_respond_to :modules
+      Deltacloud::Collections.modules(:deltacloud).wont_be_empty
+      Deltacloud::Collections.modules(:deltacloud).must_include Deltacloud::Collections::Drivers
     end
 
   end

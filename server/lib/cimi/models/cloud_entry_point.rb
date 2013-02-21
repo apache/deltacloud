@@ -51,7 +51,7 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
   # Return an Hash of the CIMI root entities used in CloudEntryPoint
   def self.entities(context)
-    CIMI::Collections.cimi_modules.inject({}) do |supported_entities, m|
+    CIMI::Collections.modules(:cimi).inject({}) do |supported_entities, m|
       m.collections.each do |c|
         index_operation_capability = c.operation(:index).required_capability
         next if m.settings.respond_to?(:capability) and !m.settings.capability(index_operation_capability)

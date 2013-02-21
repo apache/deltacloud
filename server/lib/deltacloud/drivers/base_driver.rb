@@ -156,7 +156,7 @@ module Deltacloud
 
     def supported_collections(credentials)
       collection_arr = []
-      Deltacloud::Collections.deltacloud_modules.each do |m|
+      Deltacloud::Collections.modules(:deltacloud).each do |m|
         m.collections.each do |c|
           # Get the required capability for the :index operation (like 'realms' or 'instance_state_machine')
           index_operation_capability = c.operation(:index).required_capability

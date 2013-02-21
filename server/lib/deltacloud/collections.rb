@@ -15,44 +15,18 @@
 # under the License.
 
 require_relative './collections/base'
+require_relative './helpers/collection_helper'
 
 module Deltacloud
 
-  def self.collection_names
-    @collections.map { |c| c.collection_name }
-  end
-
-  def self.collections
-    @collections ||= []
-  end
-
   module Collections
+    extend Deltacloud::CollectionHelper
 
-    def self.collection(name)
-      Deltacloud.collections.find { |c| c.collection_name == name }
-    end
-
-    def self.deltacloud_modules
-      @deltacloud_modules ||= []
-    end
-
-    Dir[File.join(File::dirname(__FILE__), "collections", "*.rb")].each do |collection|
-      base_collection_name = File.basename(collection).gsub('.rb', '')
-      next if base_collection_name == 'base'
-      require collection
-      deltacloud_module_class = Deltacloud::Collections.const_get(base_collection_name.camelize)
-      deltacloud_modules << deltacloud_module_class
-      deltacloud_module_class.collections.each do |c|
-        if Deltacloud.collections.include? c
-          raise "ERROR: Deltacloud collection #{c} already registred"
-        end
-        Deltacloud.collections << c
-      end unless deltacloud_module_class.collections.nil?
-    end
+    load_collections_for :deltacloud, :from => File.join(File.dirname(__FILE__), 'collections')
 
     def self.included(klass)
       klass.class_eval do
-        Deltacloud::Collections.deltacloud_modules.each do |collection_class|
+        Deltacloud::Collections.modules(:deltacloud).each do |collection_class|
           use collection_class
         end
       end
