@@ -189,7 +189,7 @@ class CIMI::Model::Schema
       if CIMI::Model::const_defined?(refname)
         @klass = CIMI::Model::const_get(refname)
       else
-        @klass = Class.new(opts[:class]) do
+        @klass = Class.new(opts[:class]) do |m|
           scalar :href
 
           def ref_id(ctx)
@@ -199,7 +199,11 @@ class CIMI::Model::Schema
           end
 
           def find(ctx)
-            opts[:class].find(ref_id(ctx), ctx)
+            klass.find(ref_id(ctx), ctx)
+          end
+
+          def klass
+            self.class.superclass
           end
         end
         CIMI::Model::const_set(refname, @klass)
