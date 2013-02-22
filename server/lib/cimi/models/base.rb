@@ -141,13 +141,6 @@ module CIMI::Model
       self
     end
 
-    def validate!(format=:xml)
-      failed_attrs = self.class.required_attributes.map do |attr|
-        attr.send("#{format}_name") unless attr.valid?(send(attr.name))
-      end.compact
-      raise CIMI::Model::ValidationError.new(failed_attrs, format) unless failed_attrs.empty?
-    end
-
     # FIXME: Kludge around the fact that we do not have proper *Create
     # objects that deserialize properties by themselves
     def extract_properties!(data)
