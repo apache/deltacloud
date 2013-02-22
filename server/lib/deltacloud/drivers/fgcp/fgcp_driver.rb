@@ -17,6 +17,7 @@
 
 require_relative 'fgcp_client'
 require_relative '../../runner'
+require_relative 'fgcp_driver_cimi_methods'
 require 'openssl'
 require 'xmlsimple'
 

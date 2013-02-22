@@ -25,30 +25,28 @@ module Deltacloud::Drivers::Mock
       check_credentials(credentials)
       if opts[:id].nil?
         systems = @client.load_all_cimi(:system).map{|sys| CIMI::Model::System.from_json(sys)}
-        systems.map{|sys|convert_cimi_mock_urls(:system, sys ,opts[:env])}.flatten
       else
         begin
-          system = CIMI::Model::System.from_json(@client.load_cimi(:system, opts[:id]))
-          convert_cimi_mock_urls(:system, system, opts[:env])
+          systems = [CIMI::Model::System.from_json(@client.load_cimi(:system, opts[:id]))]
         rescue Errno::ENOENT
-          nil
+          return []
         end
       end
+      systems.map{|sys|convert_cimi_mock_urls(:system, sys ,opts[:env])}.flatten
     end
 
     def system_templates(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
         system_templates = @client.load_all_cimi(:system_template).map{|sys_templ| CIMI::Model::SystemTemplate.from_json(sys_templ)}
-        system_templates.map{|sys_templ|convert_cimi_mock_urls(:system_template, sys_templ, opts[:env])}.flatten
       else
         begin
-          system_template = CIMI::Model::SystemTemplate.from_json(@client.load_cimi(:system_template, opts[:id]))
-          convert_cimi_mock_urls(:system_template, system_template, opts[:env])
+          system_templates = [CIMI::Model::SystemTemplate.from_json(@client.load_cimi(:system_template, opts[:id]))]
         rescue Errno::ENOENT
-          nil
+          return []
         end
       end
+      system_templates.map{|sys_templ|convert_cimi_mock_urls(:system_template, sys_templ, opts[:env])}.flatten
     end
 
     def networks(credentials, opts={})

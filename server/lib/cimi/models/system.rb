@@ -39,13 +39,12 @@ class CIMI::Model::System < CIMI::Model::Base
   end
 
   def self.find(id, context)
-    systems = []
     if id == :all
       systems = context.driver.systems(context.credentials, {:env=>context})
     else
-      system = context.driver.systems(context.credentials, {:env=>context, :id=>id})
-      raise CIMI::Model::NotFound unless system
-      system
+      systems = context.driver.systems(context.credentials, {:env=>context, :id=>id})
+      raise CIMI::Model::NotFound unless systems.first
+      systems.first
     end
   end
 
