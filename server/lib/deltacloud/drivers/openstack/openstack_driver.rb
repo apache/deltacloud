@@ -203,7 +203,7 @@ module Deltacloud
           end
           safely do
             server = os.create_server(params)
-            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os), os.connection.region)
+            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os))
           end
           result
         end
@@ -538,7 +538,7 @@ private
                     })
         end
 
-        def convert_from_server(server, owner, attachments=[], region=nil)
+        def convert_from_server(server, owner, attachments=[])
           op = (server.class == Hash)? :fetch : :send
           image = server.send(op, :image)
           flavor = server.send(op, :flavor)
@@ -549,7 +549,7 @@ private
           end
           inst = Instance.new(
             :id => server.send(op, :id).to_s,
-            :realm_id => region || "n/a",
+            :realm_id => "default",
             :owner_id => owner,
             :description => server.send(op, :name),
             :name => server.send(op, :name),
