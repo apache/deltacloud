@@ -39,14 +39,18 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
   # 4.1: Query the ResourceMetadata entry
   cep_json = cep(:accept => :json)
   rmd_coll = get cep_json.json[ROOTS[1]]["href"], :accept => :json
-  machine_index = rmd_coll.json["resourceMetadata"].index {|rmd| rmd["typeUri"] ==  RESOURCE_URI}
-  unless  machine_index.nil?() || rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].nil?()
-    initial_states_index = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].index {|rmd| rmd["uri"] == INITIAL_STATES_CAPABILITY_URI}
-    unless initial_states_index.nil?()
-      initial_states_value = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"][initial_states_index]["value"]
+  machine_rmd = rmd_coll.json["resourceMetadata"].find do |rmd|
+    rmd["typeUri"] ==  RESOURCE_URI
+  end
+  if  machine_rmd && machine_rmd["capabilities"]
+    initial_states_cap = machine_rmd["capabilities"].find do |rmd|
+      rmd["uri"] == INITIAL_STATES_CAPABILITY_URI
+    end
+    if initial_states_cap
+      initial_states_value = initial_states_cap["value"]
 
       model :resource_metadata_machine do |fmt|
-        get rmd_coll.json["resourceMetadata"][machine_index]["id"], :accept => fmt
+        get machine_rmd["id"], :accept => fmt
       end
     end
   end
@@ -57,21 +61,23 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
   end
 
   it "should return the InitialStates capability", :only => :json do
-    resource_metadata_machine
-    unless last_response.json["capabilities"].nil?()
-      log.info("Testing resource metadata: " + last_response.json["capabilities"].to_s())
-      (last_response.json["capabilities"].any?{ |capability| capability["name"].include? "InitialStates"}).must_equal true
+    md = resource_metadata_machine
+    if md.capabilities
+      log.info("Testing resource metadata: " + md.capabilities.to_s)
+      (md.capabilities.any? { |capability| capability["name"].include? "InitialStates"} ).must_equal true
       log.info(last_response.json["capabilities"])
     end
   end
 
   # 4.2: Inspect the capability
   it "should contain name, uri (unique), description, value(s)", :only => :json do
-    resource_metadata_machine
+    md = resource_metadata_machine
 
-    elements = ["name", "uri", "description", "value"]
-    (elements.all? { |element| last_response.json["capabilities"][initial_states_index].include? element}).must_equal true
-
+    cap = md.capabilities.find { |c| c.uri == INITIAL_STATES_CAPABILITY_URI }
+    cap.wont_be_nil
+    cap.name.wont_be_nil
+    cap.description.wont_be_nil
+    cap.value.wont_be_nil
   end
 
   # 4.3 Put collection member in state to verify capability
@@ -84,27 +90,25 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
   # Specify a desired initial state which is different from
   # the default value (see DefaultInitalState capability)
 
-  unless rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].nil?()
-    default_initial_state_value = rmd_coll.json["resourceMetadata"][machine_index]["capabilities"].inject([]){|res, cur| res = cur["value"] if cur["uri"] == DEFAULT_INITIAL_STATE_CAPABILITY_URI; res}
+  if machine_rmd["capabilities"]
+    default_initial_state_value = machine_rmd["capabilities"].inject([]){|res, cur| res = cur["value"] if cur["uri"] == DEFAULT_INITIAL_STATE_CAPABILITY_URI; res}
   end
 
-  unless initial_states_value.nil?() || default_initial_state_value.nil?()
+  if initial_states_value && default_initial_state_value
     @@rmd4_created_machines = {}
-    (0..(initial_states_value.split(",").size() - 1)).each do |i|
-      chosen_initial_state = initial_states_value.split(',')[i]
-
-      if !chosen_initial_state.eql? default_initial_state_value
-        puts "Testing initial state value: " + chosen_initial_state
+    initial_states_value.split(",").each do |state|
+      if state != default_initial_state_value
+        puts "Testing initial state value: " + state
       else
         puts "Testing initial state value - " +
-        " equal to the default initial state: " + chosen_initial_state
+        " equal to the default initial state: " + state
       end
 
       resp = post(add_uri,
       "<Machine>" +
-      "<name>cimi_machine_" + i.to_s + "</name>" +
+      "<name>cimi_machine_initial:" + state + "</name>" +
       "<machineTemplate>" +
-      "<initialState>" + chosen_initial_state + "</initialState>" +
+      "<initialState>" + state + "</initialState>" +
       "<machineConfig " +
       "href=\"" + get_a(cep_json, "machineConfig")+ "\"/>" +
       "<machineImage " +
@@ -112,7 +116,7 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
       "</machineTemplate>" +
       "</Machine>", :accept => :json, :content_type => :xml)
 
-      @@rmd4_created_machines.merge!(chosen_initial_state => resp.json["id"])
+      @@rmd4_created_machines[state] = resp.json["id"]
 
       model :machine do |fmt|
         get resp.json["id"], :accept => fmt
@@ -135,16 +139,16 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
       # Execute a GET /machines/new_machine_id operation to return the machine
       # stable initial state
       it "should have a state equal to the specified initial state" do
-        machine = get(@@rmd4_created_machines[chosen_initial_state], :accept=>:json)
+        machine = get(@@rmd4_created_machines[state], :accept=>:json)
         5.times do |j|
-          break if machine.json["state"].upcase.eql?(chosen_initial_state.upcase)
+          break if machine.json["state"].upcase.eql?(state.upcase)
           puts machine.json["state"]
-          puts 'waiting for machine to be: ' + chosen_initial_state
+          puts 'waiting for machine to be: ' + state
           sleep(5)
-          machine = get(@@rmd4_created_machines[chosen_initial_state], :accept=>:json)
-        end unless machine.json["state"].upcase.eql?(chosen_initial_state.upcase)
+          machine = get(@@rmd4_created_machines[state], :accept=>:json)
+        end unless machine.json["state"].upcase.eql?(state.upcase)
 
-        machine.json["state"].upcase.must_equal chosen_initial_state
+        machine.json["state"].upcase.must_equal state
       end
 
       # 4.5: Cleanup
