@@ -58,7 +58,7 @@ class CIMI::Model::Schema
     end
 
     def valid?(value)
-      !value.nil? and !value.empty?
+      !value.nil? and !value.to_s.empty?
     end
   end
 
