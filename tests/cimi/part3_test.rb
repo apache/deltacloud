@@ -67,11 +67,11 @@ class CreateNewMachineFromMachineTemplate < CIMI::Test::Spec
   end
 
   it "should have a machineConfig" do
-    machineTemplate.machine_config["href"].wont_be_empty
+    machineTemplate.machine_config.href.wont_be_empty
   end
 
   it "should have a machineImage" do
-    machineTemplate.machine_image["href"].wont_be_empty
+    machineTemplate.machine_image.href.wont_be_empty
   end
 
   it "allows creation of a machine from a template (step 3.3)",
