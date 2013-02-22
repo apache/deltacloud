@@ -165,6 +165,10 @@ module CIMI::Model
       property.merge!(h)
     end
 
+    def ref_id(ref_url)
+      ref_url.split('/').last if ref_url
+    end
+
     private
 
     # Load an existing database entity for this object, or create a new one
