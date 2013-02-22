@@ -18,8 +18,7 @@ class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
   acts_as_root_entity :as => "volumeConfigs"
 
   text :format
-
-  text :capacity
+  text :capacity, :required => true
 
   array :operations do
     scalar :rel, :href

@@ -17,8 +17,8 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
 
   acts_as_root_entity
 
-  href :volume_config
-  href :volume_image
+  ref :volume_config, :required => true
+  ref :volume_image, :required => true
 
   array :meter_templates do
   end

@@ -1,8 +1,10 @@
 <VolumeCreate>
-  <name>myVolume1</name>
+  <name>myVolume2</name>
   <description>Description of my new volume</description>
   <volumeTemplate>
-    <volumeConfig href="http://localhost:3001/cimi/volume_configurations/1" />
+    <volumeConfig>
+      <capacity>9999</capacity>
+    </volumeConfig>
     <volumeImage href="http://localhost:3001/cimi/volume_images/snap1" />
   </volumeTemplate>
 </VolumeCreate>
