@@ -16,5 +16,5 @@
           =link_to_action 'Disassociate', "#{address_url(@address.id)}/disassociate", :post
         - else
           - if driver.respond_to?(:associate_address)
-            =link_to_action 'Associate',"#{address_url(@address.id)}/associate", :get
+            =link_to_action 'Associate...',"#{address_url(@address.id)}/associate", :get
         =link_to_action "Destroy", destroy_address_url(@address.id), :delete

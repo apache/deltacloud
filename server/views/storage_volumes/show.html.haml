@@ -35,9 +35,9 @@
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
         - if ["AVAILABLE", "IN-USE"].include?(@storage_volume.state)
-          =link_to_action "Snapshot", url_for("storage_snapshots/new?volume_id=#{@storage_volume.id}"), :get
+          =link_to_action "Snapshot...", url_for("storage_snapshots/new?volume_id=#{@storage_volume.id}"), :get
           - unless @storage_volume.instance_id
             =link_to_action "Delete", url_for("storage_volumes/#{@storage_volume.id}"), :delete
-            =link_to_action "Attach", url_for("storage_volumes/#{@storage_volume.id}/attach_instance"), :get
+            =link_to_action "Attach...", url_for("storage_volumes/#{@storage_volume.id}/attach_instance"), :get
           - if @storage_volume.instance_id
             =link_to_action "Detach", url_for("storage_volumes/#{@storage_volume.id}/detach"), :post

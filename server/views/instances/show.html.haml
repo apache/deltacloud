@@ -60,8 +60,8 @@
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
         - @instance.actions.each do |action|
-          =link_to_action action, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
+          =link_to_action action.to_s.capitalize, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
         - if @instance.state=="RUNNING" and driver.respond_to?(:run_on_instance)
-          =link_to_action 'run command', url_for('instances/%s/run' % @instance.id), :get
+          =link_to_action 'Run command...', url_for('instances/%s/run' % @instance.id), :get
         - if @instance.can_create_image?
-          =link_to_action 'Create Image', url_for("images/new?instance_id=#{@instance.id}"), :get
+          =link_to_action 'Create image...', url_for("images/new?instance_id=#{@instance.id}"), :get
