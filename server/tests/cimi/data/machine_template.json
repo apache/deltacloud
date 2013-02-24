@@ -8,8 +8,7 @@
   "machineImage": { "href": "http://cimi.example.org/machine_images/1" },
   "volumes": [{
     "href": "http://cimi.example.org/volumes/1",
-    "attachmentPoint": "/dev/sda",
-    "protocol": "nfs"
+    "initialLocation": "/dev/sda"
   }],
   "networkInterfaces": [{
     "vsp": { "href": "http://cimi.example.org/vsps/1" },

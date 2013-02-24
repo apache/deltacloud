@@ -11,10 +11,10 @@
   <disk>
     <capacity quantity="200" units="gigabyte" />
     <format>ntgs</format>
-    <attachmentPoint>/dev/sdb0</attachmentPoint>
+    <initialLocation>/dev/sdb0</initialLocation>
     <guestInterface>SATA</guestInterface>
   </disk>
-  <volume href="http://host:port/volume/vol01" attachmentPoint="/dev/sdc01" protocol="NFS" />
+  <volume href="http://host:port/volume/vol01" initialLocation="/dev/sdc01" />
   <networkInterface>
     <vsp href="http://host:port/vsp/vsp01" />
     <hostname>example host name</hostname>

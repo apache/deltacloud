@@ -77,13 +77,13 @@ class CIMI::Model::Volume < CIMI::Model::Base
   def self.find_to_attach_from_json(json_in, context)
     json = JSON.parse(json_in)
     json["volumes"].map{|v| {:volume=>self.find(v["volume"]["href"].split("/volumes/").last, context),
-                             :attachment_point=>v["attachmentPoint"]  }}
+                             :initial_location=>v["initialLocation"]  }}
   end
 
   def self.find_to_attach_from_xml(xml_in, context)
     xml = XmlSimple.xml_in(xml_in)
     xml["volume"].map{|v| {:volume => self.find(v["href"].split("/volumes/").last, context),
-                           :attachment_point=>v["attachmentPoint"] }}
+                           :initial_location=>v["initialLocation"] }}
   end
 
   private

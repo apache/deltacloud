@@ -25,13 +25,11 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
     :constraints => lambda { |c| c.driver.realms(c.credentials).map { |r| r.id }}
 
   array :volumes do
-    scalar :href
-    scalar :protocol
-    scalar :attachment_point
+    scalar :href, :initial_location
   end
 
   array :volume_templates do
-    scalar :href, :attachment_point, :protocol
+    scalar :href, :initial_location
   end
 
   array :network_interfaces do

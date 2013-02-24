@@ -30,7 +30,7 @@ require_relative '../helpers/database_helper'
 #     text :status
 #     href :meter
 #     array :volumes do
-#       scalar :href, :attachment_point, :protocol
+#       scalar :href, :initial_location
 #     end
 #   end
 #
@@ -42,7 +42,7 @@ require_relative '../helpers/database_helper'
 #   if machine.status == "UP"
 #     ...
 #   end
-#   sda = machine.volumes.find { |v| v.attachment_point == "/dev/sda" }
+#   sda = machine.volumes.find { |v| v.initial_location == "/dev/sda" }
 #   handle_meter(machine.meter.href)
 #
 # The keywords for the DSL are

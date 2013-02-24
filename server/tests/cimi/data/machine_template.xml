@@ -6,7 +6,7 @@
   <machineConfig href="http://cimi.example.org/machine_configs/1"/>
   <machineImage href="http://cimi.example.org/machine_images/1"/>
   <volume href="http://cimi.example.org/volumes/1"
-          attachmentPoint="/dev/sda" protocol="nfs" />
+          initialLocation="/dev/sda" />
   <networkInterface>
     <vsp href="http://cimi.example.org/vsps/1"/>
     <hostname>host.cimi.example.org</hostname>

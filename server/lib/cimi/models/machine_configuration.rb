@@ -23,7 +23,7 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
   array :disks do
     text :capacity
     text :format
-    text :attachment_point
+    text :initial_location
   end
 
   array :operations do
