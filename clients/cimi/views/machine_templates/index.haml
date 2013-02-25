@@ -8,6 +8,38 @@
     %li.active
       MachineTemplateCollection
 
+- content_for :actions do
+
+  %p
+    %a{ :href => '#machineTemplateModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Machine Template
+
+  %div{ :id => :machineTemplateModal, :class => 'modal hide fade' }
+    .modal-header
+      %h3 Create new Machine Template
+    .modal-body
+      %form{ :action => "/cimi/machine_templates", :method => :post }
+        %fieldset
+          .control-group
+            %label.control-label{ :for => 'machine_template[name]' } Machine Template Name
+            .controls
+              %input{ :type => :text, :name => 'machine_template[name]' }
+            %label.control-label{ :for => 'machine_template[machine_image]' } Machine Image
+            .controls
+              %select{ :name => 'machine_template[machine_image]' }
+                - @machine_images.machine_images.each do |image|
+                  %option{ :value => image.id }=href_to_id(image.id)
+            %label.control-label{ :for => 'machine_template[machine_config]' } Machine Configuration
+            .controls
+              %select{ :name => 'machine_template[machine_config]' }
+                - @machine_configurations.machine_configurations.each do |configuration|
+                  %option{ :value => configuration.id }=href_to_id(configuration.id)
+    .modal-footer
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating MachineTemplate...', :onclick => "postModalForm(this, 'machineTemplateModal')"} Continue
+      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+  %p{:style => 'text-align:right;'}
+    %a{ :href => "#{@machine_templates.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@machine_templates.id}?format=json", :class => 'label warning' } JSON
+
 %blockquote
   %p
     A Machine Template Collection entity represents the collection of

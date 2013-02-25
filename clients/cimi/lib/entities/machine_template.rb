@@ -22,9 +22,32 @@ class CIMI::Frontend::MachineTemplate < CIMI::Frontend::Entity
   end
 
   get '/cimi/machine_templates' do
+    machine_image_xml = get_entity_collection('machine_images', credentials)
+    @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
+    machine_conf_xml = get_entity_collection('machine_configurations', credentials)
+    @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
     machine_template_xml = get_entity_collection('machine_templates', credentials)
     @machine_templates = CIMI::Model::MachineTemplateCollection.from_xml(machine_template_xml)
     haml :'machine_templates/index'
+  end
+
+  post '/cimi/machine_templates' do
+    machine_template_xml = Nokogiri::XML::Builder.new do |xml|
+      xml.MachineTemplate(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+        xml.name params[:machine_template][:name]
+        xml.description params[:machine_template][:description]
+        xml.machineConfig( :href => params[:machine_template][:machine_config] )
+        xml.machineImage( :href => params[:machine_template][:machine_image] )
+      }
+    end.to_xml
+    begin
+      result = create_entity('machine_templates', machine_template_xml, credentials)
+      machine_template = CIMI::Model::MachineTemplateCollection.from_xml(result)
+      flash[:success] = "Machine Template was successfully created."
+      redirect "/cimi/machine_templates/#{machine_template.name}", 302
+    rescue => e
+      flash[:error] = "Machine Template cannot be created: #{e.message}"
+    end
   end
 
 end

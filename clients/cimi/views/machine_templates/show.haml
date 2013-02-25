@@ -6,19 +6,15 @@
       %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
       %span.divider="/"
     %li
-      %a{ :href => "/cimi/machine_templates"} MachineConfigurationCollection
+      %a{ :href => "/cimi/machine_templates"} MachineTemplateCollection
       %span.divider="/"
     %li.active
       = @machine_template.name
 
-%blockquote
-  %p
-    The Machine Configuration entity represents the set of configuration values
-    that define the (virtual) hardware resources of a to-be-realized Machine
-    Instance. Machine Configurations are created by Providers and MAY, at the
-    Providers discretion, be created by Consumers.
-
 -details 'MachineTemplate details' do
   -row 'id',@machine_template.id
+  -row 'Name',@machine_template.name
   -row 'Description',@machine_template.description
   -row 'Created',@machine_template.created
+  -row 'Machine Image', url("/cimi/machine_images/#{href_to_id @machine_template.machine_image.href}")
+  -row 'Machine Configuration', url("/cimi/machine_configurations/#{href_to_id @machine_template.machine_config.href}")
