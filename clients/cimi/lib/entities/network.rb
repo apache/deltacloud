@@ -22,9 +22,34 @@ class CIMI::Frontend::Network < CIMI::Frontend::Entity
   end
 
   get '/cimi/networks' do
+    forwarding_groups_xml = get_entity_collection('forwarding_groups', credentials)
+    @forwarding_groups = CIMI::Model::ForwardingGroupCollection.from_xml(forwarding_groups_xml)
+    network_config_xml = get_entity_collection('network_configurations', credentials)
+    @network_configurations = CIMI::Model::NetworkConfigurationCollection.from_xml(network_config_xml)
     networks_xml = get_entity_collection('networks', credentials)
     @networks = CIMI::Model::NetworkCollection.from_xml(networks_xml)
     haml :'networks/index'
+  end
+
+  post '/cimi/networks' do
+    network_xml = Nokogiri::XML::Builder.new do |xml|
+      xml.Network(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+        xml.name params[:network][:name]
+        xml.description params[:network][:description]
+        xml.networkTemplate {
+          xml.networkConfig( :href => params[:network][:network_configuration] )
+          xml.forwardingGroup( :href => params[:network][:forwarding_group] )
+        }
+      }
+    end.to_xml
+    begin
+      result = create_entity('networks', network_xml, credentials)
+      network = CIMI::Model::NetworkCollection.from_xml(result)
+      flash[:success] = "Network was successfully created."
+      redirect "/cimi/networks/#{network.name}", 302
+    rescue => e
+      flash[:error] = "Network cannot be created: #{e.message}"
+    end
   end
 
 end
