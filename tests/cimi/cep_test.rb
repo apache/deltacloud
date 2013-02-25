@@ -26,12 +26,10 @@ class CloundEntryPointBehavior < CIMI::Test::Spec
             "volumes", "volumeTemplates", "volumeConfigs", "volumeImages",
             "networks", "networkTemplates", "networkConfigs", "networkPorts",
             "networkPortTemplates", "networkPortConfigs",
-# FIXME: accessing this collection errors
+# FIXME: addresses exposes a Rabbit bug
 #            "addresses",
             "addressTemplates", "forwardingGroups",
-# FIXME: accessing this collection causes the thin process to take
-#        all available memory
-#            "forwardingGroupTemplates",
+            "forwardingGroupTemplates",
             "jobs", "meters", "meterTemplates", "meterConfigs",
             "eventLogs", "eventLogTemplates" ]
 
