@@ -76,7 +76,7 @@ module Deltacloud::Helpers
           format.json { JSON::dump({ model => @elements.map { |el| el.to_hash(self) }}) }
         end
       else
-        report_error(@exception.respond_to?(:code) ? @exception.code : 500)
+        report_error(@exception.respond_to?(:code) ? @exception.code : nil)
       end
     end
 
