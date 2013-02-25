@@ -21,7 +21,7 @@ class CIMI::Model::AddressCreate < CIMI::Model::Base
     validate!
 
     if address_template.href?
-      template = address_template.find(ctx)
+      template = address_template.find(context)
     end
 
     params = {
