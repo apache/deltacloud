@@ -13,20 +13,22 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::VolumeTemplate < CIMI::Model::Base
+class CIMI::Service::SystemAddress < CIMI::Service::Base
 
-  acts_as_root_entity
-
-  ref :volume_config, :required => true, :class => CIMI::Model::VolumeConfiguration
-  ref :volume_image
-
-  array :meter_templates do
+  def self.find(system_id, context, id=:all)
+    if id == :all
+      addresses = context.driver.system_addresses(context.credentials, {:env=>context, :system_id=>system_id})
+    else
+      addresses = context.driver.system_addresses(context.credentials, {:env=>context, :system_id=>system_id, :id=>id})
+      raise CIMI::Model::NotFound if addresses.empty?
+      addresses.first
+    end
   end
 
-  href :event_log_template
-
-  array :operations do
-    scalar :rel, :href
+  def self.collection_for_system(system_id, context)
+    system_addresses = self.find(system_id, context)
+    addresses_url = context.url("/system/#{system_id}/addresses") if context.driver.has_capability? :add_addresses_to_system
+    CIMI::Model::SystemAddress.list(addresses_url, system_addresses, :add_url => addresses_url)
   end
 
 end

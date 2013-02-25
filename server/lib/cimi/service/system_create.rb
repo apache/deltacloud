@@ -13,20 +13,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::VolumeTemplate < CIMI::Model::Base
+class CIMI::Service::SystemCreate < CIMI::Service::Base
 
-  acts_as_root_entity
-
-  ref :volume_config, :required => true, :class => CIMI::Model::VolumeConfiguration
-  ref :volume_image
-
-  array :meter_templates do
-  end
-
-  href :event_log_template
-
-  array :operations do
-    scalar :rel, :href
+  def create
+    if system_template.href?
+      template = resolve(system_template)
+    else
+      # FIXME: What if this href isn't there ? What if the user
+      # tries to override some aspect of the system template ?
+    end
+    params = {
+      :system_template => system_template,
+      :name => name,
+      :description => description,
+      :env => context
+    }
+    result = context.driver.create_system(context.credentials, params)
+    result.name = name if name
+    result.description = description if description
+    result.property = property if property
+#    result.save
+    result
   end
 
 end

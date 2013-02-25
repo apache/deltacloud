@@ -13,33 +13,22 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Service::System < CIMI::Service::Base
+class CIMI::Service::SystemForwardingGroup < CIMI::Service::Base
 
-  def self.find(id, context)
+  def self.find(system_id, context, id=:all)
     if id == :all
-      systems = context.driver.systems(context.credentials, {:env=>context})
+      groups = context.driver.system_forwarding_groups(context.credentials, {:env=>context, :system_id=>system_id})
     else
-      systems = context.driver.systems(context.credentials, {:env=>context, :id=>id})
-      raise CIMI::Model::NotFound unless systems.first
-      systems.first
+      groups = context.driver.system_forwarding_groups(context.credentials, {:env=>context, :system_id=>system_id, :id=>id})
+      raise CIMI::Model::NotFound if groups.empty?
+      groups.first
     end
   end
 
-  def perform(action, context, &block)
-    begin
-      if context.driver.send(:"#{action.name}_system", context.credentials, self.id.split("/").last)
-        block.callback :success
-      else
-        raise "Operation failed to execute on given System"
-      end
-    rescue => e
-      block.callback :failure, e.message
-    end
+  def self.collection_for_system(system_id, context)
+    system_forwarding_groups = self.find(system_id, context)
+    forwarding_groups_url = context.url("/system/#{system_id}/forwarding_groups") if context.driver.has_capability? :add_forwarding_groups_to_system
+    CIMI::Model::SystemForwardingGroup.list(forwarding_groups_url, system_forwarding_groups, :add_url => forwarding_groups_url)
   end
-
-  def self.delete!(id, context)
-    context.driver.destroy_system(context.credentials, {:id=>id})
-  end
-
 
 end

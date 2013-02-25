@@ -1,0 +1,8 @@
+{ "id": "http://cimi.example.org/systems/system1/forwarding_groups/group1",
+  "name": "sysforwardinggroup1",
+  "created": "Fri Feb 08 12:15:15 EET 2013",
+  "forwarding_group": { "href": "http://cimi.example.org/forwarding_groups/group1" },
+  "operations": [
+    { "rel": "delete", "href": "http://cimi.example.org/systems/system1/forwarding_groups/group1" }
+  ]
+}

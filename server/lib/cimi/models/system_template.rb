@@ -20,19 +20,17 @@ class CIMI::Model::SystemTemplate < CIMI::Model::Base
   array :component_descriptors do
     text :name, :description
     hash_map :properties
-    text :type
-
-    # FIXME: Any reasons for these comments?
+    text :type, :required => true
 
     #component_template, comprises:
-    #    struct :machine_template, :class => CIMI::Model::MachineTemplate
-    #    struct :system_template, :class => CIMI::Model::SystemTemplate
-    #    struct :credential_template, :class => CIMI::Model::CredentialTemplate
-    #    struct :volume_template, :class => CIMI::Model::VolumeTemplate
-    #    struct :network_template, :class => CIMI::Model::NetworkTemplate
-    #    struct :network_port_template, :class => CIMI::Model::NetworkPortTemplate
-    #    struct :forwarding_group_template, :class => CIMI::Model::ForwardingGroupTemplate
-    #    struct :address_template, :class => CIMI::Model::AddressTemplate
+    ref :machine_template, :class => CIMI::Model::MachineTemplate
+    ref :system_template, :class => CIMI::Model::SystemTemplate
+    ref :credential_template, :class => CIMI::Model::CredentialTemplate
+    ref :volume_template, :class => CIMI::Model::VolumeTemplate
+    ref :network_template, :class => CIMI::Model::NetworkTemplate
+    ref :network_port_template, :class => CIMI::Model::NetworkPortTemplate
+    ref :forwarding_group_template, :class => CIMI::Model::ForwardingGroupTemplate
+    ref :address_template, :class => CIMI::Model::AddressTemplate
     text :quantity
   end
 

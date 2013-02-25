@@ -13,20 +13,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::VolumeTemplate < CIMI::Model::Base
+class CIMI::Model::SystemCreate < CIMI::Model::Base
 
-  acts_as_root_entity
-
-  ref :volume_config, :required => true, :class => CIMI::Model::VolumeConfiguration
-  ref :volume_image
-
-  array :meter_templates do
-  end
-
-  href :event_log_template
-
-  array :operations do
-    scalar :rel, :href
-  end
+  ref :system_template, :required => true
 
 end

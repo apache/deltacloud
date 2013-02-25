@@ -4,20 +4,43 @@
   "created": "Fri Feb 08 12:15:15 EET 2013",
   "componentDescriptors": [
     { "name": "my machine",
-      "type": "http://schemas.dmtf.org/cimi/1/Machine",
       "description": "an inline mock machine template",
+      "type": "http://schemas.dmtf.org/cimi/1/Machine",
       "machineTemplate": {
         "name": "machine in mock system",
         "description": "machine in system",
         "machineConfig": { "href": "http://example.com/configs/m1-small" },
-        "machineImage": { "href": "http://example.com/images/img1" }
+        "machineImage": { "href": "http://example.com/images/img1" },
+        "volumeTemplates": [
+	  { "href": "http://example.com/volumes/sysvol1" }
+	]
       }
     },
+    { "name": "my second machine",
+      "description": "another inline mock machine template",
+      "type": "http://schemas.dmtf.org/cimi/1/Machine",
+      "machineTemplate": {
+        "name": "machine in mock system",
+        "description": "machine in system",
+        "machineConfig": { "href": "http://example.com/configs/m1-small" },
+        "machineImage": { "href": "http://example.com/images/img1" },
+        "volumeTemplates": [
+	  { "volumeConfig": {"capacity": 10485760} }
+	]
+      }
+    },
+    { "name": "my third machine",
+      "description": "a reference to a mock machine template",
+      "type": "http://schemas.dmtf.org/cimi/1/Machine",
+      "machineTemplate": { "href" : "http://example.com/machine_templates/template1" }
+    },
     { "name": "my network",
+      "description": "an inline network template",
       "type": "http://schemas.dmtf.org/cimi/1/Network",
-      "description": "a reference to an existing mock network template",
       "networkTemplate": {
-        "href": "http://cimi.example.org/network_templates/template1"
+        "name": "network in mock system",
+        "description": "network in system",
+        "networkConfig": { "networkType": "PRIVATE", "classOfService": "GOLD" }
       }
     }
   ],

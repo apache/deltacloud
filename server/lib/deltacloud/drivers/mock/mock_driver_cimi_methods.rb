@@ -35,6 +35,115 @@ module Deltacloud::Drivers::Mock
       systems.map{|sys|convert_cimi_mock_urls(:system, sys ,opts[:env])}.flatten
     end
 
+    def create_system(credentials, opts={})
+      check_credentials(credentials)
+      id = "#{opts[:env].send("systems_url")}/#{opts[:name]}"
+      sys_hsh = { "id"=> id,
+                  "name" => opts[:name],
+                  "description" => opts[:description],
+                  "created" => Time.now,
+                  "state" => "STOPPED",
+                  "systemTemplate"=> { "href" => opts[:system_template].id },
+                  "operations" => [{"rel"=>"edit", "href"=> id},
+                                   {"rel"=>"delete", "href"=> id}]    }
+      system = CIMI::Model::System.from_json(JSON.generate(sys_hsh))
+
+      @client.store_cimi(:system, system)
+      system
+    end
+
+    def destroy_system(credentials, id)
+      check_credentials(credentials)
+      @client.destroy_cimi(:system, id)
+    end
+
+    def start_system(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "System", "STARTED")
+    end
+
+    def stop_system(credentials, id)
+      check_credentials(credentials)
+      update_object_state(id, "System", "STOPPED")
+    end
+
+    def system_machines(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        machines = @client.load_all_cimi(:system_machine).map{|mach| CIMI::Model::SystemMachine.from_json(mach)}
+      else
+        begin
+          machines = [CIMI::Model::SystemMachine.from_json(@client.load_cimi(:system_machine, opts[:id]))]
+        rescue Errno::ENOENT
+          return []
+        end
+      end
+      #FIXME: with ":machines", delete url becomes 'http://localhost:3001/cimi/machines?id=sysmach1'
+      #with ":system_machine"/":system_machines", undefined method `system_machine_url' for #<CIMI::Collections::Systems:0x44fe338> in mock_driver_cimi_methods.rb:261
+      machines.map{|mach|convert_cimi_mock_urls(:machines, mach, opts[:env])}.flatten
+    end
+
+    def system_volumes(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        volumes = @client.load_all_cimi(:system_volume).map{|vol| CIMI::Model::SystemVolume.from_json(vol)}
+      else
+        begin
+          volumes = [CIMI::Model::SystemVolume.from_json(@client.load_cimi(:system_volume, opts[:id]))]
+        rescue Errno::ENOENT
+          return []
+        end
+      end
+      #FIXME: with ":volumes", delete url becomes 'http://localhost:3001/cimi/volumes?id=sysvol1'
+      #with ":system_volume"/":system_volumes", undefined method `system_volume_url' for #<CIMI::Collections::Systems:0x44fe338> in mock_driver_cimi_methods.rb:261
+      volumes.map{|vol|convert_cimi_mock_urls(:volumes, vol, opts[:env])}.flatten
+    end
+
+    def system_networks(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        networks = @client.load_all_cimi(:system_network).map{|net| CIMI::Model::SystemNetwork.from_json(net)}
+      else
+        begin
+          networks = [CIMI::Model::SystemNetwork.from_json(@client.load_cimi(:system_network, opts[:id]))]
+        rescue Errno::ENOENT
+          return []
+        end
+      end
+      #FIXME
+      networks.map{|vol|convert_cimi_mock_urls(:networks, vol, opts[:env])}.flatten
+    end
+
+    def system_addresses(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        addresses = @client.load_all_cimi(:system_address).map{|a| CIMI::Model::SystemAddress.from_json(a)}
+      else
+        begin
+          addresses = [CIMI::Model::SystemVolume.from_json(@client.load_cimi(:system_address, opts[:id]))]
+        rescue Errno::ENOENT
+          return []
+        end
+      end
+      #FIXME
+      addresses.map{|a|convert_cimi_mock_urls(:addresses, a, opts[:env])}.flatten
+    end
+
+    def system_forwarding_groups(credentials, opts={})
+      check_credentials(credentials)
+      if opts[:id].nil?
+        groups = @client.load_all_cimi(:system_forwarding_group).map{|group| CIMI::Model::SystemForwardingGroup.from_json(group)}
+      else
+        begin
+          groups = [CIMI::Model::SystemForwardingGroup.from_json(@client.load_cimi(:system_forwarding_group, opts[:id]))]
+        rescue Errno::ENOENT
+          return []
+        end
+      end
+      #FIXME
+      groups.map{|group|convert_cimi_mock_urls(:forwarding_groups, group, opts[:env])}.flatten
+    end
+
     def system_templates(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?

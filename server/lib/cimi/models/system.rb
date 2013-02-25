@@ -17,18 +17,18 @@ class CIMI::Model::System < CIMI::Model::Base
 
   acts_as_root_entity
 
-  text :state
+  text :state, :required => true
 
-  # FIXME: Any reason for these comments?
+  collection :systems, :class => CIMI::Model::SystemSystem
+  collection :machines, :class => CIMI::Model::SystemMachine
+  collection :credentials, :class => CIMI::Model::SystemCredential
+  collection :volumes, :class => CIMI::Model::SystemVolume
+  collection :networks, :class => CIMI::Model::SystemNetwork
+  collection :network_ports, :class => CIMI::Model::SystemNetworkPort
+  collection :addresses, :class => CIMI::Model::SystemAddress
+  collection :forwarding_groups, :class => CIMI::Model::SystemForwardingGroup
 
-  #  collection :systems, :class => CIMI::Model::SystemSystem
-  #  collection :machines, :class => CIMI::Model::SystemMachine
-  #  collection :credentials, :class => CIMI::Model::SystemCredential
-  #  collection :volumes, :class => CIMI::Model::SystemVolume
-  #  collection :networks, :class => CIMI::Model::SystemNetwork
-  #  collection :network_ports, :class => CIMI::Model::SystemNetworkPort
-  #  collection :addresses, :class => CIMI::Model::SystemAddress
-  #  collection :forwarding_groups, :class => CIMI::Model::SystemForwardingGroup
+  #TODO: implement the attributes commented out
 
   #  array :meters do
   #    scalar :href

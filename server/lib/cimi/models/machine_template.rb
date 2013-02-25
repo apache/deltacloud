@@ -28,9 +28,11 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
     scalar :href, :initial_location
   end
 
-  array :volume_templates do
-    scalar :href, :initial_location
+  class CIMI::Model::VolumeTemplateWithLocation < CIMI::Model::VolumeTemplate
+    text :initial_location
   end
+
+  array :volume_templates, :ref => CIMI::Model::VolumeTemplateWithLocation
 
   array :network_interfaces do
     href :vsp
