@@ -115,7 +115,6 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
       redirect "/cimi/machines/#{machine.name}", 302
     rescue => e
       flash[:error] = "Machine cannot be created: #{e.message}"
-      redirect :back
     end
   end
 
