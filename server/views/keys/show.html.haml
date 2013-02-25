@@ -6,6 +6,9 @@
     %li{ :'data-role' => 'list-divider'} Identifier
     %li
       %p{ :'data-role' => 'fieldcontain'}=@key.id
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@key.name
     - if @key.is_password?
       %li{ :'data-role' => 'list-divider'} Username
       %li
@@ -14,13 +17,14 @@
       %li
         %p{ :'data-role' => 'fieldcontain'}=@key.password
     - else
-      %li{ :'data-role' => 'list-divider'} Fingerprint
-      %li
-        %p{ :'data-role' => 'fieldcontain'}=@key.fingerprint
+      - if @key.fingerprint
+        %li{ :'data-role' => 'list-divider'} Fingerprint
+        %li
+          %p{ :'data-role' => 'fieldcontain'}=@key.fingerprint
       %li{ :'data-role' => 'list-divider'} PEM key
       %li
         %p{ :'data-role' => 'fieldcontain'}
-          %pre=@key.pem_rsa_key
+          %pre{:style=> 'width:600px;overflow:auto;'}=@key.pem_rsa_key
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }

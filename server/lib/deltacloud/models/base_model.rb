@@ -17,6 +17,8 @@
 
 class BaseModel
 
+  attr_accessor :name, :description
+
   def initialize(init=nil)
     if ( init )
       @id=init[:id]

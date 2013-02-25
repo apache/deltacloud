@@ -8,6 +8,7 @@
         %a{ :href => key_url(key.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/key.png'}
           %h3=key.id
+          %p=key.name
           %p
             - if key.credential_type.eql?(:key)
               = key.fingerprint

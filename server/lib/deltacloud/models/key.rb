@@ -24,7 +24,7 @@ class Key < BaseModel
   attr_accessor :state
 
   def name
-    @name || @id
+    super || @id
   end
 
   def is_password?

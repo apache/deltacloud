@@ -20,7 +20,7 @@ module Deltacloud
     module Digitalocean
       class DigitaloceanDriver < Deltacloud::BaseDriver
 
-        feature :instances, :user_name
+        feature :instances, :user_name, :authentication_key
         feature :images, :owner_id
 
         define_instance_states do
@@ -45,7 +45,7 @@ module Deltacloud
               size = do_client.get("sizes/#{opts[:id]}")["size"]
               results << hardware_profile_from(size)
             else
-              sizes = do_client.get("sizes")["sizes"].each do |s|
+              do_client.get("sizes")["sizes"].each do |s|
                 size = do_client.get("sizes/#{s['id']}")["size"]
                 results << hardware_profile_from(size)
               end
@@ -136,6 +136,7 @@ module Deltacloud
             args.merge!(:region_id => opts[:realm_id]) if opts[:realm_id]
             args.merge!(:size_id => opts[:hwp_id]) if opts[:hwp_id]
             args.merge!(:name => opts[:name] || "inst#{Time.now.to_i}")
+            args.merge!(:ssh_key_ids => opts[:keyname]) if opts[:keyname]
             convert_instance(
               credentials.user,
               client.get("droplets/new", args)['droplet']
@@ -165,6 +166,42 @@ module Deltacloud
           safely do
             new_client(credentials).get("droplets/#{instance_id}/reboot/")
           end
+        end
+
+        def keys(credentials, opts={})
+          client = new_client(credentials)
+          safely do
+            client.get('ssh_keys')['ssh_keys'].map do |k|
+              convert_key(k)
+            end
+          end
+        end
+
+        def key(credentials, opts={})
+          client = new_client(credentials)
+          safely do
+            convert_key(client.get("ssh_keys/#{opts[:id]}")["ssh_key"])
+          end
+        end
+
+        def destroy_key(credentials, opts={})
+          client = new_client(credentials)
+          original_key = key(credentials, opts)
+          safely do
+            client.get("ssh_keys/#{opts[:id]}/destroy")
+            original_key.state = 'deleted'
+            original_key
+          end
+        end
+
+        def create_key(credentials, opts={})
+          client = new_client(credentials)
+          convert_key(
+            client.get(
+              "ssh_keys/new",
+              :name => opts[:key_name],
+              :ssh_pub_key => opts[:public_key])['ssh_key']
+          )
         end
 
         exceptions do
@@ -219,6 +256,16 @@ module Deltacloud
         def extract_arch_from_name(name)
           return 'x86_64' if name.include? 'x64'
           return 'i386' if name.include? 'x32'
+        end
+
+        def convert_key(k)
+          Key.new(
+            :id => k['id'],
+            :name => k['name'],
+            :credential_type => :key,
+            :pem_rsa_key => k['ssh_pub_key'],
+            :state => 'available'
+          )
         end
 
         def convert_state(status)
