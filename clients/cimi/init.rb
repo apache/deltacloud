@@ -28,6 +28,12 @@ require 'entities'
 
 $:.unshift File.join('..', '..','server', 'lib')
 require 'deltacloud/core_ext'
+
+# This is absolutely horrendous, but CIMI::Model::Base triggers
+# Database lookups, which require JSON at some point.
+# FIXME: split out a real client from the CIMI::Model classes
+require 'json/pure'
+
 require 'initializers/mock_initialize'
 require 'initializers/database_initialize'
 require 'cimi/models'
