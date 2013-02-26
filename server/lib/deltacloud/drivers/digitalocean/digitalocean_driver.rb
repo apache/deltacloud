@@ -206,6 +206,10 @@ module Deltacloud
 
         exceptions do
 
+          on (/ERROR Unable to verify credentials.*/) do
+            status 401
+          end
+
           on(/InternalServerError/) do
             status 502
           end
@@ -218,6 +222,17 @@ module Deltacloud
             status 400
           end
 
+        end
+
+        def valid_credentials?(credentials)
+          begin
+            hardware_profile_ids(credentials)
+          rescue  Deltacloud::Exceptions::AuthenticationFailure
+            return false
+          rescue => e
+            safely { raise e }
+          end
+          true
         end
 
         private
@@ -241,7 +256,7 @@ module Deltacloud
             json_result = JSON::parse(result)
             if json_result['status'] != 'OK'
               p result
-              error_message = json_result['error_message'] || json_result['status']
+              error_message = json_result['error_message'] || "#{json_result['status']} #{json_result['description']}"
               raise error_message
             end
             json_result
