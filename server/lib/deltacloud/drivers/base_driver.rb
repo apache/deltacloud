@@ -286,6 +286,18 @@ module Deltacloud
     def configured_providers
       []
     end
+
+    def valid_credentials?(credentials)
+      begin
+        new_client(credentials)
+      rescue  Deltacloud::Exceptions::AuthenticationFailure
+        return false
+      rescue => e
+        safely { raise e }
+      end
+      true
+    end
+
   end
 
 end

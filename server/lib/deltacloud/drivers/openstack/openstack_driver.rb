@@ -237,15 +237,6 @@ module Deltacloud
 
         alias_method :stop_instance, :destroy_instance
 
-        def valid_credentials?(credentials)
-          begin
-            new_client(credentials)
-          rescue
-            return false
-          end
-          true
-        end
-
         def buckets(credentials, opts={})
           os = new_client(credentials, "object-store")
           buckets = []

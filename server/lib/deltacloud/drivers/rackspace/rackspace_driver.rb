@@ -181,15 +181,6 @@ class RackspaceDriver < Deltacloud::BaseDriver
     insts
   end
 
-  def valid_credentials?(credentials)
-    begin
-      new_client(credentials)
-    rescue
-      return false
-    end
-    true
-  end
-
   define_instance_states do
     start.to( :pending )          .on( :create )
     pending.to( :running )        .automatically

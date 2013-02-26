@@ -61,15 +61,6 @@ class ArubacloudDriver < Deltacloud::BaseDriver
     architecture ['x86_64', 'i386']
   end
 
-  def valid_credentials?(credentials)
-    begin
-      new_client(credentials)
-    rescue
-      return false
-    end
-    true
-  end
-
   def realms(credentials, opts=nil)
     client = new_client(credentials)
     safely do

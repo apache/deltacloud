@@ -390,18 +390,6 @@ module Deltacloud::Drivers::Vsphere
 
     end
 
-    def valid_credentials?(credentials)
-      begin
-        RbVmomi::VIM.connect(:host => host_endpoint, :user => credentials.user, :password => credentials.password, :insecure => true) && true
-      rescue RbVmomi::Fault::InvalidLogin
-        return false
-      rescue => e
-        safely do
-          raise e
-        end
-      end
-    end
-
     #######
     private
     #######

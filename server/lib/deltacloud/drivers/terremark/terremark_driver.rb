@@ -197,14 +197,6 @@ def destroy_instance(credentials, id)
   end
 end
 
-def valid_credentials?(credentials)
-  begin
-    new_client(credentials)
-  rescue
-    return false
-  end
-  true
-end
 
 #--
 # PRIVATE METHODS:

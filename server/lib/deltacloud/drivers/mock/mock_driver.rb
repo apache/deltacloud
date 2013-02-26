@@ -578,15 +578,6 @@ module Deltacloud::Drivers::Mock
       metric
     end
 
-    def valid_credentials?(credentials)
-      begin
-        check_credentials(credentials)
-        return true
-      rescue
-      end
-      return false
-    end
-
     private
 
     def check_credentials(credentials)
@@ -596,6 +587,7 @@ module Deltacloud::Drivers::Mock
         end
       end
     end
+    alias :new_client :check_credentials
 
     #Mock allocation of 'new' address
     #There is a synchronization problem (but it's the mock driver,
