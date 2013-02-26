@@ -44,7 +44,7 @@ class Metric < BaseModel
   def to_hash(context)
     {
       :id => self.id,
-      :href => context.matric_url(self.id),
+      :href => context.metric_url(self.id),
       :entity => entity,
       :properties => properties.map { |p| p.to_hash(context) }
     }
