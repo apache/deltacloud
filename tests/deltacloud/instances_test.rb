@@ -295,6 +295,13 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     (res.xml/'instance/state').text.must_match /RUNNING/
     #check if created instance allows creating image
     instance_actions = (res.xml/'actions/link').to_a.inject([]){|actions, current| actions << current[:rel]; actions}
+    #check if the create_image action is available for stopped instances
+    unless instance_actions.include?("create_image")
+      stop_res = post(INSTANCES+"/"+@@my_instance_id+"/stop", "")
+      res = get(INSTANCES+"/"+@@my_instance_id)
+      wait_until_running_or_stopped(res, @@my_instance_id)
+      instance_actions = (res.xml/'actions/link').to_a.inject([]){|actions, current| actions << current[:rel]; actions}
+    end
     skip "no create image support for instance #{@@my_instance_id}" unless instance_actions.include?("create_image")
     #create image
     res = post("/images", :instance_id => @@my_instance_id, :name => random_name)
@@ -302,7 +309,15 @@ puts "CLEANUP attempt finished... resources looks like: #{@@created_resources.in
     my_image_id = (res.xml/'image')[0][:id]
     #mark for deletion later:
     @@created_resources[:images] << my_image_id
+    res = get(INSTANCES+"/"+@@my_instance_id)
+    #start instance if it was stopped
+    if (res.xml/'instance/state').text  == "STOPPED"
+      start_res = post(INSTANCES+"/"+@@my_instance_id+"/start", "")
+      res = get(INSTANCES+"/"+@@my_instance_id)
+      wait_until_running_or_stopped(res, @@my_instance_id)
+    end
   end
+
 #
 #create with key
 
