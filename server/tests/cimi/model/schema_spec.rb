@@ -232,6 +232,43 @@ describe "Schema" do
       @schema.to_xml(obj).must_equal sample_xml
     end
 
+    describe "of references" do
+      class RefTarget < CIMI::Model::Base
+        text :name
+      end
+
+      class RefArray < CIMI::Model::Base
+        array :things, :ref => RefTarget
+      end
+
+      before do
+        @json = { "things" =>
+          [ { "name" => "first", "href" => "/things/1" },
+            { "name" => "second", "href" => "/things/2" },
+            { "href" => "/things/3" } ]}.to_json
+      end
+
+      it "should convert from JSON" do
+        model = RefArray.from_json(@json)
+        check_model(model)
+      end
+
+      it "should convert from XML" do
+        xml = RefArray.from_json(@json).to_xml
+        model = RefArray.from_xml(xml)
+        check_model(model)
+      end
+
+      def check_model(model)
+        model.things.size.must_equal 3
+        model.things.first.must_respond_to :name
+        model.things.first.href.must_equal "/things/1"
+        model.things.first.name.must_equal "first"
+        model.things.last.name.must_be_nil
+        model.things.last.href.must_equal "/things/3"
+      end
+    end
+
     def check_structs(obj)
       obj.wont_be_nil
       obj[:structs].size.must_equal 2

@@ -28,11 +28,21 @@ require_relative '../helpers/database_helper'
 #
 #   class Machine < CIMI::Model::Base
 #     text :status
-#     href :meter
+#     collection :meters
 #     array :volumes do
 #       scalar :href, :initial_location
 #     end
+#     ref :latest_snapshot, CIMI::Model::MachineImage
 #   end
+#
+#   class SystemTemplate < CIMI::Model::Base
+#     array component_descriptors do
+#       text :name
+#       ...
+#     end
+#     array :meter_templates, :ref => CIMI::Model::MeterTemplate
+#   end
+#
 #
 # The DSL automatically takes care of converting identifiers from their
 # underscored form to the camel-cased form used by CIMI. The above class
@@ -69,9 +79,10 @@ require_relative '../helpers/database_helper'
 #     A structured subobject; the block defines the schema of the
 #     subobject. The +:content+ option can be used to specify the attribute
 #     that should receive the content of the corresponding XML element
-#   [array(name, opts, &block)]
-#     An array of structured subobjects; the block defines the schema of
-#     the subobjects.
+#   [array(name, opts, &block)] An array of structured subobjects; the
+#     block defines the schema of the subobjects. If the entries are
+#     references to other resources, instead of passing a block, pass the
+#     class of the target of the references with the +:ref+ option
 #   [collection(name, opts)]
 #     A collection of associated objects; use the +:class+ option to
 #     specify the type of the collection entries

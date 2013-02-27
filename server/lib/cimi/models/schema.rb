@@ -233,8 +233,15 @@ class CIMI::Model::Schema
       unless opts[:xml_name]
         opts[:xml_name] = name.to_s.singularize.camelize.uncapitalize
       end
+      if opts[:ref] && block_given?
+        raise "Provide only one of :ref or a block"
+      end
       super(name, opts)
-      @struct = Struct.new(name, opts, &block)
+      if opts[:ref]
+        @struct = Ref.new(name, :class=> opts[:ref])
+      else
+        @struct = Struct.new(name, opts, &block)
+      end
     end
 
     def from_xml(xml, model)
