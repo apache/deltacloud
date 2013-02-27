@@ -1,0 +1,7 @@
+<VolumeImageCreate>
+  <name>myVolumeImage</name>
+  <description>My very first VolumeImage</description>
+  <imageLocation href="http://localhost:3001/cimi/volumes/vo1"/>
+  <bootable>false</bootable>
+  <property key="foo">bar</property>
+</VolumeImageCreate>

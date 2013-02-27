@@ -46,7 +46,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_storage_snapshot do
         description "Create a new volume image."
         control do
-          volume_image = CIMI::Model::VolumeImage.create(request.body, self)
+          img = CIMI::Model::VolumeImageCreate.parse(request.body, request.content_type)
+          volume_image = img.create(self)
           headers_for_create volume_image
           respond_to do |format|
             format.xml { volume_image.to_xml }

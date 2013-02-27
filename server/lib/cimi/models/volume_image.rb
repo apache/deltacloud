@@ -20,6 +20,7 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   href :image_location
   text :image_data
   text :bootable
+
   array :operations do
     scalar :rel, :href
   end
@@ -38,29 +39,19 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
 
   def self.all(context); find(:all, context); end
 
-  def self.create(request_body, context)
-    type = context.current_content_type
-    input = (type == :xml)? XmlSimple.xml_in(request_body.read, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(request_body.read)
-    params = {:volume_id => context.href_id(input["imageLocation"]["href"], :volumes), :name=>input["name"], :description=>input["description"]}
-    vol_image = context.driver.create_storage_snapshot(context.credentials, params)
-    from_storage_snapshot(vol_image, context)
-  end
-
   def self.delete!(vol_image_id, context)
     context.driver.destroy_storage_snapshot(context.credentials, {:id=>vol_image_id})
   end
 
-  private
-
   def self.from_storage_snapshot(snapshot, context)
     self.new( {
-               :name => snapshot.name || snapshot.id,
-               :description => snapshot.description || snapshot.id,
-               :created => snapshot.created.nil? ? nil : Time.parse(snapshot.created).xmlschema,
-               :id => context.volume_image_url(snapshot.id),
-               :image_location => {:href=>context.volume_url(snapshot.storage_volume_id)},
-               :bootable => "false"  #FIXME
-            } )
+      :name => snapshot.name,
+      :description => snapshot.description,
+      :created => snapshot.created.nil? ? nil : Time.parse(snapshot.created).xmlschema,
+      :id => context.volume_image_url(snapshot.id),
+      :image_location => {:href=>context.volume_url(snapshot.storage_volume_id)},
+      :bootable => "false"  #FIXME
+    } )
   end
 
 end
