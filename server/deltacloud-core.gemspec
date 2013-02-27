@@ -70,7 +70,7 @@ Gem::Specification.new do |s|
   s.add_dependency('rake', '>= 0.8.7')
   s.add_dependency('haml', '>= 2.2.17')
   s.add_dependency('sinatra', '>= 1.3.0')
-  s.add_dependency('sinatra-rabbit', '>= 1.0.11')
+  s.add_dependency('sinatra-rabbit', '>= 1.1.5')
   s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('rack-accept')
   s.add_dependency('json_pure', '>= 1.5.0')

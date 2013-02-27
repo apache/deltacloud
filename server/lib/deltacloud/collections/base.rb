@@ -16,6 +16,10 @@
 module Deltacloud::Collections
   class Base < Sinatra::Base
 
+    Sinatra::Rabbit.configure do
+      enable :use_namespace
+    end
+
     include Sinatra::Rabbit
     include Sinatra::Rabbit::Features
 
