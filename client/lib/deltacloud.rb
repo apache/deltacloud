@@ -366,10 +366,12 @@ module DeltaCloud
         DeltaCloud::HTTPError.client_error(response.code)
       else
         opts = {
-          :driver => (xml/'backend').first[:driver],
-          :provider => (xml/'backend').first[:provider],
           :params => (xml/'request/param').inject({}) { |r,p| r[:"#{p[:name]}"] = p.text; r }
         }
+        if backend_node = xml.at_xpath('/error/backend')
+          opts[:driver]   = backend_node[:driver]
+          opts[:provider] = backend_node[:provider]
+        end
         backtrace = (xml/'backtrace').empty? ? nil : (xml/'backtrace').first.text.split("\n")[1..10].map { |l| l.strip }
         DeltaCloud::HTTPError.server_error(xml.root[:status] || response.code,
                                            (xml/'message').first.text, opts, backtrace)
