@@ -1,0 +1,7 @@
+<VolumeTemplateCreate>
+  <name>myXMLVolumeTemplate</name>
+  <description>Description of VolumeTemplate</description>
+  <property key="test">value</property>
+  <volumeConfig href="http://localhost:3001/cimi/volume_configurations/1"/>
+  <volumeImage href="http://localhost:3001/cimi/volume_images/snap1"/>
+</VolumeTemplateCreate>

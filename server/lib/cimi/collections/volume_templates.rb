@@ -45,9 +45,9 @@ module CIMI::Collections
       operation :create, :with_capability => :create_storage_volume do
         description "Create new VolumeTemplate"
         control do
-          new_template = CIMI::Model::VolumeTemplate.create(
-            request.body.read, self, current_content_type
-          )
+          puts request.body
+          vol = CIMI::Model::VolumeTemplateCreate.parse(request.body, request.content_type)
+          new_template = vol.create(self)
           headers_for_create new_template
           respond_to do |format|
             format.json { new_template.to_json }

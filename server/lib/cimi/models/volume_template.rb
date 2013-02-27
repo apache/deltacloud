@@ -47,25 +47,9 @@ class CIMI::Model::VolumeTemplate < CIMI::Model::Base
     end
   end
 
-  def self.create(body, context, type)
-    input = (type == :xml)? XmlSimple.xml_in(body, {"ForceArray"=>false,"NormaliseSpace"=>2}) : JSON.parse(body)
-    input['property'] ||= []
-    vol_image = input['volumeImage']['href'] if input['volumeImage']
-    new_template = current_db.add_volume_template(
-      :name => input['name'],
-      :description => input['description'],
-      :volume_config => input['volumeConfig']['href'],
-      :volume_image => vol_image,
-      :ent_properties => type == :xml ? JSON::dump((xml['property'] || {}).inject({}){ |r, p| r[p['key']]=p['content']; r })  : (json['properties'] || {}).to_json
-    )
-    from_db(new_template, context)
-  end
-
   def self.delete!(id, context)
     current_db.volume_templates.first(:id => id).destroy
   end
-
-private
 
   def self.from_db(model, context)
     self.new(
@@ -76,7 +60,10 @@ private
       :volume_image => {:href => model.volume_image},
       :property => (model.ent_properties ? JSON::parse(model.ent_properties) :  nil),
       :operations => [
-        { :href => context.destroy_volume_template_url(model.id), :rel => 'http://schemas.dmtf.org/cimi/1/action/delete' }
+        {
+          :href => context.destroy_volume_template_url(model.id),
+          :rel => 'http://schemas.dmtf.org/cimi/1/action/delete'
+        }
       ]
     )
   end
