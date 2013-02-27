@@ -25,9 +25,7 @@ module CIMI::Collections
       operation :index, :with_capability => :addresses do
         description 'List all Addresses in the AddressCollection'
         control do
-          puts "GET ADDRESSES"
           addresses = Address.list(self).select_by(params['$select'])
-          puts "GOT #{addresses.size}"
           respond_to do |format|
             format.xml {addresses.to_xml}
             format.json {addresses.to_json}
