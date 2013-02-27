@@ -127,12 +127,17 @@ class RhevmDriver < Deltacloud::BaseDriver
     inst_arr = []
     safely do
       if opts[:id]
-        vms = client.vms(:id => opts[:id])
+        begin
+          vm = client.vm(opts[:id])
+          inst_arr << convert_instance(client, vm)
+        rescue => e
+          raise e unless e.message =~ /Resource Not Found/
+        end
       else
         vms = client.vms
-      end
-      vms.each do |vm|
-        inst_arr << convert_instance(client, vm)
+        vms.each do |vm|
+          inst_arr << convert_instance(client, vm)
+        end
       end
     end
     inst_arr = filter_on( inst_arr, :id, opts )
@@ -286,7 +291,7 @@ class RhevmDriver < Deltacloud::BaseDriver
   # UNASSIGNED, DOWN, UP, POWERING_UP, POWERED_DOWN, PAUSED, MIGRATING_FROM,
   # MIGRATING_TO, UNKNOWN, NOT_RESPONDING, WAIT_FOR_LAUNCH, REBOOT_IN_PROGRESS,
   # SAVING_STATE, RESTORING_STATE, SUSPENDED, IMAGE_ILLEGAL,
-  # IMAGE_LOCKED or POWERING_DOWN
+  # IMAGE_LOCKED, MIGRATING or POWERING_DOWN
   #
   def convert_state(state)
     unless state.respond_to?(:upcase)
@@ -295,7 +300,7 @@ class RhevmDriver < Deltacloud::BaseDriver
     state = state.gsub('\\', '').strip.upcase
     return 'PENDING' if ['WAIT_FOR_LAUNCH', 'REBOOT_IN_PROGRESS', 'SAVING_STATE',
                         'RESTORING_STATE', 'POWERING_UP', 'IMAGE_LOCKED', 'SAVING_STATE'].include? state
-    return 'STOPPING' if state == 'POWERING_DOWN'
+    return 'STOPPING' if ['POWERING_DOWN', 'MIGRATING'].include? state
     return 'STOPPED' if ['UNASSIGNED', 'DOWN', 'NOT_RESPONDING',
                          'IMAGE_ILLEGAL', 'UNKNOWN'].include? state
     return 'RUNNING' if ['UP', 'MIGRATING_TO', 'MIGRATING_FROM'].include? state

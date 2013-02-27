@@ -79,6 +79,17 @@ module Deltacloud
         end
       end
 
+      # Read credentials from ${HOME/.deltacloud/config if found.
+      # e.g.:
+      # cat ${HOME/.deltacloud/config
+      # rhevm:
+      #   user:     'user@domain'
+      #   password: 'mypassword'
+      #   provider: 'https://16.0.0.7/api;b9bb11c2-f397-4f41-a57b-7ac15a894779'
+      # mock:
+      #   user: mockuser
+      #   password: mockpassword
+      #   provider: compute
       def credentials(driver)
         driver = driver.to_s
         if @hash.has_key?(driver)
@@ -90,6 +101,20 @@ module Deltacloud
         end
         { :user => user, :password => password }
       end
+
+      def driver(driver, provider = nil)
+        if @hash.has_key?(driver.to_s)
+          user = @hash[driver.to_s]["user"]
+          password = @hash[driver.to_s]["password"]
+          provider = @hash[driver.to_s]["provider"] unless provider
+          params = {:user => user, :password => password, :provider => provider}
+        else
+          provider = "fakeprovider" unless provider
+          params = { :user => "fakeuser", :password => "fakepassword", :provider => provider }
+        end
+        Deltacloud::new(driver, params)
+      end
+
     end
 
     def self.config
