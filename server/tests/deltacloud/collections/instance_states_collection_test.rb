@@ -12,7 +12,7 @@ describe Deltacloud::Collections::InstanceStates do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::InstanceStatesCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::InstanceStatesCollection::IndexOperation
   end
 
   it 'returns list of states for current driver in various formats with index operation' do

@@ -43,7 +43,7 @@ describe Deltacloud::API do
   it 'must return list of collections on OPTIONS' do
     options root_url
     headers['Allow'].wont_be_nil
-    headers['Allow'].split(',').must_include 'Sinatra::Rabbit::DriversCollection'
+    headers['Allow'].split(',').must_include 'Deltacloud::Rabbit::DriversCollection'
   end
 
   it 'must support setting driver and provider using POST' do

@@ -12,7 +12,7 @@ describe Deltacloud::Collections::Instances do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::InstancesCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::InstancesCollection::IndexOperation
   end
 
   it 'provides URL to specify new instance' do

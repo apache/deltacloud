@@ -12,11 +12,11 @@ describe CIMI::Collections::Systems do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::SystemsCollection::IndexOperation
+    @collection.operation(:index).must_equal CIMI::Rabbit::SystemsCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::SystemsCollection::ShowOperation
+    @collection.operation(:show).must_equal CIMI::Rabbit::SystemsCollection::ShowOperation
   end
 
   it 'returns list of systems in various formats with index operation' do

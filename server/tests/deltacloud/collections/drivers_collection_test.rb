@@ -11,11 +11,11 @@ describe Deltacloud::Collections::Drivers do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::DriversCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::DriversCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::DriversCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::DriversCollection::ShowOperation
   end
 
   it 'returns list of drivers in various formats with index operation' do

@@ -12,11 +12,11 @@ describe CIMI::Collections::MachineImages do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::MachineImagesCollection::IndexOperation
+    @collection.operation(:index).must_equal CIMI::Rabbit::MachineImagesCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::MachineImagesCollection::ShowOperation
+    @collection.operation(:show).must_equal CIMI::Rabbit::MachineImagesCollection::ShowOperation
   end
 
   it 'returns list of images in various formats with index operation' do

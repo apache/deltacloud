@@ -12,7 +12,7 @@ describe Deltacloud::Collections::Buckets do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::BucketsCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::BucketsCollection::IndexOperation
   end
 
   it 'provides URL to specify new bucket' do

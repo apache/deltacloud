@@ -12,11 +12,11 @@ describe Deltacloud::Collections::StorageVolumes do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::StorageVolumesCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::StorageVolumesCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::StorageVolumesCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::StorageVolumesCollection::ShowOperation
   end
 
   it 'returns list of storage_volumes in various formats with index operation' do

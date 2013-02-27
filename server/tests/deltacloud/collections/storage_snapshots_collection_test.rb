@@ -12,11 +12,11 @@ describe Deltacloud::Collections::StorageSnapshots do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::StorageSnapshotsCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::StorageSnapshotsCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::StorageSnapshotsCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::StorageSnapshotsCollection::ShowOperation
   end
 
   it 'returns list of storage_snapshots in various formats with index operation' do

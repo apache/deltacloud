@@ -12,11 +12,11 @@ describe Deltacloud::Collections::Images do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::ImagesCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::ImagesCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::ImagesCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::ImagesCollection::ShowOperation
   end
 
   it 'returns list of images in various formats with index operation' do

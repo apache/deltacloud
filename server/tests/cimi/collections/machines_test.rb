@@ -14,11 +14,11 @@ describe CIMI::Collections::Machines do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::MachinesCollection::IndexOperation
+    @collection.operation(:index).must_equal CIMI::Rabbit::MachinesCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::MachinesCollection::ShowOperation
+    @collection.operation(:show).must_equal CIMI::Rabbit::MachinesCollection::ShowOperation
   end
 
   it 'returns list of machines in various formats with index operation' do

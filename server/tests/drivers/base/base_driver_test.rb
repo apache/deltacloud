@@ -41,7 +41,7 @@ describe Deltacloud::BaseDriver do
       def supported_collections(credentials)
         collections = super
         #lets add images/instances just for testing of method override from base
-        collections + [Sinatra::Rabbit::ImagesCollection, Sinatra::Rabbit::InstancesCollection]
+        collections + [Deltacloud::Rabbit::ImagesCollection, Deltacloud::Rabbit::InstancesCollection]
       end
     end
 
@@ -57,13 +57,13 @@ describe Deltacloud::BaseDriver do
       Thread.current[:driver] = 'test'
       credentials = OpenStruct.new(:user => 'unkown', :password => 'wrong')
       @driver.supported_collections(credentials).wont_be_empty
-      @driver.supported_collections(credentials).must_include Sinatra::Rabbit::InstancesCollection
+      @driver.supported_collections(credentials).must_include Deltacloud::Rabbit::InstancesCollection
       #check override of supported_collections, we added Images above
-      @driver.supported_collections(credentials).must_include Sinatra::Rabbit::ImagesCollection
-      @driver.supported_collections(credentials).wont_include Sinatra::Rabbit::KeysCollection
+      @driver.supported_collections(credentials).must_include Deltacloud::Rabbit::ImagesCollection
+      @driver.supported_collections(credentials).wont_include Deltacloud::Rabbit::KeysCollection
       #switch driver, check supported_collections
       Thread.current[:driver] = 'mock'
-      @driver.supported_collections(credentials).must_include Sinatra::Rabbit::KeysCollection
+      @driver.supported_collections(credentials).must_include Deltacloud::Rabbit::KeysCollection
       #restore driver to not impact other tests
       Thread.current[:driver] = current_driver
     end

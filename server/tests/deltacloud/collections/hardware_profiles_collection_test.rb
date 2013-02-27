@@ -12,11 +12,11 @@ describe Deltacloud::Collections::HardwareProfiles do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::HardwareProfilesCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::HardwareProfilesCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::HardwareProfilesCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::HardwareProfilesCollection::ShowOperation
   end
 
   it 'returns list of hardware profiles in various formats with index operation' do

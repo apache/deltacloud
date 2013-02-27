@@ -12,11 +12,11 @@ describe Deltacloud::Collections::Keys do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::KeysCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::KeysCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::KeysCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::KeysCollection::ShowOperation
   end
 
   it 'returns list of keys in various formats with index operation' do

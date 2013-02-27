@@ -12,11 +12,11 @@ describe CIMI::Collections::SystemTemplates do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::SystemTemplatesCollection::IndexOperation
+    @collection.operation(:index).must_equal CIMI::Rabbit::SystemTemplatesCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::SystemTemplatesCollection::ShowOperation
+    @collection.operation(:show).must_equal CIMI::Rabbit::SystemTemplatesCollection::ShowOperation
   end
 
   it 'returns list of system templates in various formats with index operation' do

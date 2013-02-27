@@ -50,17 +50,17 @@ module Deltacloud
           begin
             new_client(credentials, "compute")
           rescue Deltacloud::Exceptions::NotImplemented
-            super_collections = super_collections - [Sinatra::Rabbit::ImagesCollection, Sinatra::Rabbit::InstancesCollection, Sinatra::Rabbit::InstanceStatesCollection,Sinatra::Rabbit::KeysCollection,Sinatra::Rabbit::RealmsCollection, Sinatra::Rabbit::HardwareProfilesCollection]
+            super_collections = super_collections - [Deltacloud::Rabbit::ImagesCollection, Deltacloud::Rabbit::InstancesCollection, Deltacloud::Rabbit::InstanceStatesCollection,Deltacloud::Rabbit::KeysCollection,Deltacloud::Rabbit::RealmsCollection, Deltacloud::Rabbit::HardwareProfilesCollection]
           end
           begin
              new_client(credentials, "object-store")
           rescue Deltacloud::Exceptions::NotImplemented #OpenStack::Exception::NotImplemented...
-             super_collections = super_collections - [Sinatra::Rabbit::BucketsCollection]
+             super_collections = super_collections - [Deltacloud::Rabbit::BucketsCollection]
           end
           begin
               new_client(credentials, "volume")
           rescue Deltacloud::Exceptions::NotImplemented
-              super_collections = super_collections - [Sinatra::Rabbit::StorageVolumesCollection, Sinatra::Rabbit::StorageSnapshotsCollection]
+              super_collections = super_collections - [Deltacloud::Rabbit::StorageVolumesCollection, Deltacloud::Rabbit::StorageSnapshotsCollection]
           end
           super_collections
         end

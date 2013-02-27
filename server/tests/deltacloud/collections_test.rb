@@ -12,7 +12,7 @@ describe Deltacloud do
 
   it 'must provide access to collection classes' do
     Deltacloud.collections.wont_be_empty
-    Deltacloud.collections.must_include Sinatra::Rabbit::DriversCollection
+    Deltacloud.collections.must_include Deltacloud::Rabbit::DriversCollection
   end
 
   describe Deltacloud::Collections do
@@ -20,7 +20,7 @@ describe Deltacloud do
     it 'must return collection by name' do
       Deltacloud::Collections.must_respond_to :collection
       Deltacloud::Collections.collection(:drivers).wont_be_nil
-      Deltacloud::Collections.collection(:drivers).must_equal Sinatra::Rabbit::DriversCollection
+      Deltacloud::Collections.collection(:drivers).must_equal Deltacloud::Rabbit::DriversCollection
     end
 
     it 'must provide access to Deltacloud Sinatra modules' do

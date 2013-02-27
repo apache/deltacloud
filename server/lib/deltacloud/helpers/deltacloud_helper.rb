@@ -53,12 +53,12 @@ module Deltacloud::Helpers
     end
 
     def instance_action_method(action)
-      action_method(action, Sinatra::Rabbit::InstancesCollection)
+      action_method(action, Deltacloud::Rabbit::InstancesCollection)
     end
 
     def action_method(action, collection)
       http_method = collection.operation(action).http_method
-      http_method || Sinatra::Rabbit::BaseCollection.http_method_for(action)
+      http_method || Deltacloud::Rabbit::BaseCollection.http_method_for(action)
     end
 
     def filter_all(model)

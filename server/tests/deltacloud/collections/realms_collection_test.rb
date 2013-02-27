@@ -12,11 +12,11 @@ describe Deltacloud::Collections::Realms do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::RealmsCollection::IndexOperation
+    @collection.operation(:index).must_equal Deltacloud::Rabbit::RealmsCollection::IndexOperation
   end
 
   it 'has show operation' do
-    @collection.operation(:show).must_equal Sinatra::Rabbit::RealmsCollection::ShowOperation
+    @collection.operation(:show).must_equal Deltacloud::Rabbit::RealmsCollection::ShowOperation
   end
 
   it 'returns list of realms in various formats with index operation' do

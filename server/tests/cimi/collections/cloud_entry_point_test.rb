@@ -12,7 +12,7 @@ describe CIMI::Collections::CloudEntryPoint do
   end
 
   it 'has index operation' do
-    @collection.operation(:index).must_equal Sinatra::Rabbit::CloudentrypointCollection::IndexOperation
+    @collection.operation(:index).must_equal CIMI::Rabbit::CloudentrypointCollection::IndexOperation
   end
 
   it 'advertise CIMI collections in XML format' do
