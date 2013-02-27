@@ -85,27 +85,3 @@ module CIMI
 
   end
 end
-
-class Array
-  def to_xml_cimi_collection(_self)
-    model_name = first.class.xml_tag_name
-    XmlSimple.xml_out({
-      "xmlns" => "http://schemas.dmtf.org/cimi/1",
-      "uri" => [ _self.send(:"#{model_name.underscore.pluralize}_url") ],
-      "name" => [ "default" ],
-      "created" => [ Time.now.to_s ],
-      model_name => map { |model| { 'href' => model.uri } }
-    }, :root_name => "#{model_name}Collection")
-  end
-
-  def to_json_cimi_collection(_self)
-    model_name = first.class.xml_tag_name
-    {
-      "uri" => _self.send(:"#{model_name.underscore.pluralize}_url"),
-      "name" => "default",
-      "created" => Time.now.to_s,
-      model_name.pluralize.uncapitalize => map { |model| { 'href' => model.uri } }
-    }.to_json
-  end
-
-end
