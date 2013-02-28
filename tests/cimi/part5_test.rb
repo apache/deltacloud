@@ -35,7 +35,7 @@ class ManipulateAMachine < CIMI::Test::Spec
   #discover machine create URI:
   machine_add_uri = discover_uri_for("add", "machines")
   machine_created = post(machine_add_uri,
-    "<Machine>" +
+    "<MachineCreate>" +
       "<name>cimi_machine_part5</name>" +
       "<description> created as part of tests/cimi/part5_test  </description>" +
       "<machineTemplate>" +
@@ -44,7 +44,7 @@ class ManipulateAMachine < CIMI::Test::Spec
         "<machineImage " +
           "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
       "</machineTemplate>" +
-    "</Machine>",
+    "</MachineCreate>",
     :accept => :json, :content_type => :xml)
 
   model :machine do |fmt|

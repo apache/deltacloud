@@ -105,7 +105,7 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
       end
 
       resp = post(add_uri,
-      "<Machine>" +
+      "<MachineCreate>" +
       "<name>cimi_machine_initial:" + state + "</name>" +
       "<machineTemplate>" +
       "<initialState>" + state + "</initialState>" +
@@ -114,7 +114,7 @@ class MachinesRMDInitialStates < CIMI::Test::Spec
       "<machineImage " +
       "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
       "</machineTemplate>" +
-      "</Machine>", :accept => :json, :content_type => :xml)
+      "</MachineCreate>", :accept => :json, :content_type => :xml)
 
       @@rmd4_created_machines[state] = resp.json["id"]
 

@@ -44,12 +44,12 @@ class MachineBehavior < CIMI::Test::Spec
     capture_uri = discover_uri_for("capture", "machines", machine.json["operations"])
     #now create the image:
     resp = post(capture_uri,
-        "<MachineImage>"+
+        "<MachineImageCreate>"+
           "<name>image_from_#{machine_id.split("/").last}</name>"+
           "<description>my new machine image for machine_test.rb</description>"+
           "<type>IMAGE</type>"+
           "<imageLocation>#{machine_id}</imageLocation>"+
-        "</MachineImage>", {:accept=> :json, :content_type => :xml})
+        "</MachineImageCreate>", {:accept=> :json, :content_type => :xml})
     #checks:
     resp.code.must_equal 201
     resp.headers[:location].must_be_uri

@@ -82,7 +82,7 @@ class MachinesRMDDefaultInitialState < CIMI::Test::Spec
     # discover the 'addURI' for creating Machine
     add_uri = discover_uri_for("add", "machines")
     resp = post(add_uri,
-    "<Machine>" +
+    "<MachineCreate>" +
     "<name>cimi_machine_" + rand(6).to_s + "</name>" +
     "<machineTemplate>" +
     "<machineConfig " +
@@ -90,7 +90,7 @@ class MachinesRMDDefaultInitialState < CIMI::Test::Spec
     "<machineImage " +
     "href=\"" + get_a(cep_json, "machineImage") + "\"/>" +
     "</machineTemplate>" +
-    "</Machine>", :accept => :json, :content_type => :xml)
+    "</MachineCreate>", :accept => :json, :content_type => :xml)
 
     model :machine do |fmt|
       get resp.json["id"], :accept => fmt
