@@ -17,7 +17,7 @@
 $:.unshift File.join(File.dirname(__FILE__), '..')
 require "deltacloud/test_setup.rb"
 
-describe 'Deltacloud API keys collection' do
+describe 'Deltacloud API drivers collection' do
   include Deltacloud::Test::Methods
 
   need_collection :drivers
