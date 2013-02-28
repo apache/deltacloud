@@ -39,7 +39,7 @@ module CommonCollectionsTest
       end
 
       it "must require authentication to access the #{test_collection} collection" do
-        skip "Skipping for #{test_collection} as auth may not be required here" if ["hardware_profiles", "instance_states"].include?(test_collection)
+        skip "Skipping for #{test_collection} as auth may not be required here" if ["hardware_profiles", "instance_states", "drivers"].include?(test_collection)
         proc {  get(test_collection, :noauth => true) }.must_raise RestClient::Request::Unauthorized
       end
 
@@ -101,7 +101,7 @@ module CommonCollectionsTest
       end
 
       it "must have the \"name\" element defined for each #{test_collection.singularize} in collection" do
-        skip "Skipping for #{test_collection} as name may not be required here" if ["metrics", "load_balancers"].include?(test_collection)
+        skip "Skipping for #{test_collection} as name may not be required here" if ["metrics", "load_balancers", "addresses"].include?(test_collection)
         res = get(test_collection)
         (res.xml/"#{test_collection}/#{test_collection.singularize}").each do |r|
           (r/'name').wont_be_nil
@@ -118,7 +118,7 @@ module CommonCollectionsTest
       end
 
       it "must have the \"name\" element for the #{test_collection.singularize} and it should match with the one in collection" do
-        skip "Skipping for #{test_collection} as name may not be required here" if ["metrics", "load_balancers"].include?(test_collection)
+        skip "Skipping for #{test_collection} as name may not be required here" if ["metrics", "load_balancers", "addresses"].include?(test_collection)
         res = get(test_collection)
         (res.xml/"#{test_collection}/#{test_collection.singularize}").each do |r|
           element = get(test_collection+"/#{r[:id]}")

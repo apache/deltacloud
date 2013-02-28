@@ -23,7 +23,7 @@ namespace :test do
   end
 
   namespace :deltacloud do
-    ["base_api", "buckets", "images", "instances", "instance_states", "keys", "realms", "storage_volumes", "storage_snapshots", "hardware_profiles"].each do |col|
+    ["addresses", "base_api", "buckets", "drivers", "firewalls", "images", "instances", "instance_states", "keys", "load_balancers", "metrics", "realms", "storage_volumes", "storage_snapshots", "hardware_profiles"].each do |col|
       Rake::TestTask.new(col) do |t|
         t.test_files = FileList["deltacloud/#{col}_test.rb"]
       end
