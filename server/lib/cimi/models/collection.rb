@@ -120,26 +120,15 @@ module CIMI::Model
     end
 
     # Return a collection of entities
-    def list(context)
-      entries = find(:all, context)
-      desc = "#{self.name.split("::").last} Collection for the #{context.driver.name.capitalize} driver"
-      acts_as_root_entity unless collection_class
-      id = context.send("#{collection_class.entry_name}_url")
-      ops = []
-      cimi_entity = collection_class.entry_name.to_s.singularize
-      cimi_create = "create_#{cimi_entity}_url"
-      dcloud_create = context.deltacloud_create_method_for(cimi_entity)
-      if(context.respond_to?(cimi_create) &&
-         context.driver.respond_to?(dcloud_create)) ||
-      provides?(cimi_entity)
-        url = context.send(cimi_create)
-        ops << { :rel => "add", :href => url }
+    def list(id, entries, params = {})
+      params[:id] = id
+      params[:entries] = entries
+      params[:count] = params[:entries].size
+      if params[:add_url]
+        params[:operations] ||= []
+        params[:operations] << { :rel => "add", :href => params.delete(:add_url) }
       end
-      collection_class.new(:id => id,
-                           :count => entries.size,
-                           :entries => entries,
-                           :operations => ops,
-                           :description => desc)
+      collection_class.new(params)
     end
 
     def all(context)

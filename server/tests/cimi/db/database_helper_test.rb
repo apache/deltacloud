@@ -16,7 +16,8 @@ describe Deltacloud::Helpers::Database do
   before do
     @provider = Deltacloud::Database::Provider
     @entity = Deltacloud::Database::Entity
-    @baseModel = CIMI::Model::Base
+    @baseService = CIMI::Service::Base
+    @baseModel = @baseService.model_class
 
     @db = DatabaseHelper.new
     @prov = @provider::lookup
@@ -98,7 +99,7 @@ describe Deltacloud::Helpers::Database do
     check_entity_base_attrs new_entity, @entity, @prov
 
     base = @baseModel.new(:id => 'base1')
-    base.destroy
+    @baseService.new(nil, :model => base).destroy
     entity = @entity.retrieve(base)
     entity.wont_be_nil
     entity.exists?.must_equal false
@@ -123,10 +124,12 @@ describe Deltacloud::Helpers::Database do
   }
 }
     '
-    machine = CIMI::Model::Machine.from_json(json)
+
+    model = CIMI::Model::Machine.from_json(json)
+    machine = CIMI::Service::Machine.new(nil, :model => model)
     machine.save
 
-    m2 = CIMI::Model::Machine.new(:id => machine.id)
+    m2 = CIMI::Service::Machine.new(nil, :values => { :id => machine.id })
     m2.name.must_equal 'myDatabaseMachine'
     m2.description.must_equal 'This is a demo machine'
     m2.property.must_be_kind_of Hash

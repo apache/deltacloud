@@ -15,8 +15,6 @@
 
 require 'xmlsimple'
 
-require_relative '../helpers/database_helper'
-
 # The base class for any CIMI object that we either read from a request or
 # write as a response. This class handles serializing/deserializing XML and
 # JSON into a common form.
@@ -109,86 +107,16 @@ module CIMI::Model
 
   class Base < Resource
 
-    # Extend the base model with database methods
-    extend Deltacloud::Helpers::Database
-
     # Extend the base model with the collection handling methods
     extend CIMI::Model::CollectionMethods
 
     # Include methods needed to handle the $select query parameter
     include CIMI::Helpers::SelectBaseMethods
+
     #
     # Common attributes for all resources
     #
     text :id, :name, :description, :created, :updated
     hash_map :property
-
-    def initialize(values = {})
-      super(values)
-      retrieve_entity
-    end
-
-    def []=(a, v)
-      v = super
-      retrieve_entity if a == :id
-      v
-    end
-
-    # Save the common attributes name, description, and properties to the
-    # database
-    def save
-      if @entity
-        @entity.name = name
-        @entity.description = description
-        @entity.properties = property
-        @entity.save
-      end
-      self
-    end
-
-    # Destroy the database attributes for this model
-    def destroy
-      @entity.destroy
-      self
-    end
-
-    # FIXME: Kludge around the fact that we do not have proper *Create
-    # objects that deserialize properties by themselves
-    def extract_properties!(data)
-      h = {}
-      if data['property']
-        # Data came from XML
-        h = data['property'].inject({}) do |r,v|
-          r[v['key']] = v['content']
-          r
-        end
-      elsif data['properties']
-        h = data['properties']
-      end
-      property ||= {}
-      property.merge!(h)
-    end
-
-    def ref_id(ref_url)
-      ref_url.split('/').last if ref_url
-    end
-
-    private
-
-    # Load an existing database entity for this object, or create a new one
-    def retrieve_entity
-      if self.id
-        @entity = Deltacloud::Database::Entity::retrieve(self)
-        if @entity.exists?
-          self.name = @entity.name
-          self.description = @entity.description
-          self.property ||= {}
-          self.property.merge!(@entity.properties)
-        end
-      else
-        @entity = nil
-      end
-    end
-
   end
 end

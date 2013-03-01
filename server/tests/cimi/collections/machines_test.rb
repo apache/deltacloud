@@ -35,6 +35,13 @@ describe CIMI::Collections::Machines do
     xml.root.name.must_equal 'Machine'
   end
 
+  it 'should have an "add" operation for the machine collection' do
+    get root_url + '/machines'
+    model.operations.wont_be_empty
+    add_ops = model.operations.select { |op| op.rel == "add" }
+    add_ops.size.must_equal 1
+  end
+
   describe "$expand" do
     def machine(*expand)
       url = '/machines/inst1'

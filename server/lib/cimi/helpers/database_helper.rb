@@ -25,8 +25,7 @@ module Deltacloud
         "volume_configuration", "volume_template" ]
 
      def provides?(entity)
-       return true if DATABASE_COLLECTIONS.include? entity
-       return false
+       DATABASE_COLLECTIONS.include? entity.to_s
      end
 
       def current_provider

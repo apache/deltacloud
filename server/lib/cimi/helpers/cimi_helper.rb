@@ -72,7 +72,7 @@ module CIMI
     end
 
     def deltacloud_create_method_for(cimi_entity)
-      case cimi_entity
+      case cimi_entity.to_s
         when "machine"                then "create_instance"
         when "machine_configuration"  then "create_hardware_profile"
         when "machine_image"          then "create_image"

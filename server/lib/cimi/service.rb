@@ -7,35 +7,22 @@
 #
 #       http://www.apache.org/licenses/LICENSE-2.0
 #
-# Unless required by applicable law or agreed to in writing, software
+# Unless require_relatived by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 # License for the specific language governing permissions and limitations
 # under the License.
+#
 
-class CIMI::Model::Machine < CIMI::Model::Base
+module CIMI::Service; end
 
-  acts_as_root_entity
+require_relative './models'
+require_relative './../db/provider'
+require_relative './../db/entity'
+require_relative './../db/machine_template'
+require_relative './../db/address_template'
+require_relative './../db/volume_configuration'
+require_relative './../db/volume_template'
 
-  resource_attr :realm, :required => false,
-    :constraints => lambda { |c| c.driver.realms(c.credentials).map { |r| r.id } }
-
-  resource_attr :machine_image, :required => false, :type => :href
-
-  text :state
-  text :cpu
-
-  text :memory
-
-  collection :disks, :class => CIMI::Model::Disk
-  collection :volumes, :class => CIMI::Model::MachineVolume
-
-  array :meters do
-    scalar :href
-  end
-
-  array :operations do
-    scalar :rel, :href
-  end
-
-end
+require_relative './service/base'
+require_relative './service/machine'

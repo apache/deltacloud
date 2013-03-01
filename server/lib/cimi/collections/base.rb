@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require_relative '../models'
+require_relative '../service'
 
 module CIMI::Collections
   class Base < Sinatra::Base
@@ -24,7 +24,7 @@ module CIMI::Collections
 
     include Sinatra::Rabbit
     include Sinatra::Rabbit::Features
-    include CIMI::Model
+    include CIMI::Service
 
     helpers Deltacloud::Helpers::Drivers
     helpers Deltacloud::Helpers::Database
