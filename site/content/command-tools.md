@@ -36,7 +36,7 @@ The deltacloud core developers use (almost exclusively) <a href="http://curl.hax
   </dd>
   <dt>Options</dt>
   <dd>
-  are listed by invoking <strong>deltacloudc -h</strong>. The important option is <strong>-u</strong>, which specifies the API_URL, where the Deltacloud server is running. The API_URL takes the form of <strong>http://[user]:[password]@[api_url]:[port]/[api]</strong>. Alternatively, you can set the API_URL environment variable (e.g., export API_URL=http://mockuser:mockpassword@localhost:3001/api). If your username or your password contains special characters, it's necessary to use options <strong>-U</strong> and <strong>-P</strong> in addition to the option <strong>-u</strong>. Check the <a href="/supported-providers.html#credentials"> list of credentials</a> you need for each back-end cloud provider.
+  are listed by invoking <strong>deltacloudc -h</strong>. The important option is <strong>-u</strong>, which specifies the API_URL, where the Deltacloud server is running. The API_URL takes the form of <strong>http://[user]:[password]@[api_url]:[port]/[api]</strong>. Alternatively, you can set the API_URL environment variable (e.g., export API_URL=http://mockuser:mockpassword@localhost:3001/api). If your username or your password contains special characters, it's necessary to use options <strong>-U</strong> and <strong>-P</strong> in addition to the option <strong>-u</strong>. Check the <a href="/drivers.html#credentials"> list of credentials</a> you need for each back-end cloud provider.
   </dd>
 </dl>
 

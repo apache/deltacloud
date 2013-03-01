@@ -44,7 +44,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
     <ul class="dropdown-menu">
       <li><a href="/about.html">What is Deltacloud?</a></li>
-      <li><a href="/supported-providers.html">Supported Providers</a></li>
+      <li><a href="/drivers.html#drivers">Supported Providers</a></li>
     </ul>
   </li>
   <li><a href="/download.html">Download</a></li>
@@ -107,12 +107,11 @@ Storage resources are divided into two groups:
 </p>
 
 <ul>
-  <li>
+<li>
 <strong>storage volumes</strong>, which can be attached to a running instance (accessible by the instance OS)</li>
   <li>
 <strong>blob storage</strong>, which represents a generic 'key &lt;−−&gt; value' based data store, as implemented by Rackspace CloudFiles or Amazon S3</li>
 </ul>
-
 <p>
 <strong>Storage snapshots</strong> represent a storage volume, a backup which is created at a particular point of time (a snapshot).
 </p>
@@ -127,7 +126,7 @@ A storage volume has
   <div class="span3">
 
 <ul class="nav nav-list well">
-  <li class="nav-header">
+<li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
@@ -135,24 +134,21 @@ A storage volume has
   <li><a href="compute-resources.html">Compute resources</a></li>
   <li class="active"><a href="#resources">Storage resources</a></li>
   <ul class="nav nav-list">
-    <li><a href="#volumes">Storage volumes</a></li>
+<li><a href="#volumes">Storage volumes</a></li>
     <li><a href="storage-snapshots.html">Storage snapshots</a></li>
     <li><a href="blob-storage.html">Blob storage</a></li>
   </ul>
 </ul>
-
-  </div>
+</div>
 </div>
 
 <ul>
-  <li>a <strong>capacity</strong> expressed in Gigabytes;</li>
+<li>a <strong>capacity</strong> expressed in Gigabytes;</li>
   <li>a <strong>created</strong> timestamp;</li>
   <li>a <strong>realm_id</strong> specifying the realm in which the volume exists;</li>
   <li>a <strong>state</strong> (for Amazon EC2 this is one of creating, available, in-use, deleting, deleted, error); and </li>
   <li>a set of <strong>actions</strong>.</li>
-</ul>
-
-<p>
+</ul><p>
 When attached to an instance, a storage volume will also expose a <strong>mount</strong> element
 which contains the attributes <strong>instance </strong>and <strong>device</strong>, specifying the instance, to which the volume is attached, and the mount point (e.g. /dev/sdh), respectively.
 </p>
@@ -160,15 +156,11 @@ which contains the attributes <strong>instance </strong>and <strong>device</stro
 <p><br></p>
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#tab1" data-toggle="tab">Get a list of all volumes</a></li>
+<li class="active"><a href="#tab1" data-toggle="tab">Get a list of all volumes</a></li>
   <li><a href="#tab2" data-toggle="tab">Get the details of volume</a></li>
   <li><a href="#tab3" data-toggle="tab">Create/delete a volume</a></li>
   <li><a href="#tab4" data-toggle="tab">Attach/detach a volume</a></li>
-</ul>
-
-<hr>
-
-<div class="tab-content">
+</ul><hr><div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
 <h4>Get a list of all storage volumes</h4>
@@ -477,7 +469,6 @@ Content-Length: 709
 <p><a class="btn btn-inverse btn-large" style="float: right" href="storage-snapshots.html">Storage snapshots <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
-
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

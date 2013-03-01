@@ -44,7 +44,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
     <ul class="dropdown-menu">
       <li><a href="/about.html">What is Deltacloud?</a></li>
-      <li><a href="/supported-providers.html">Supported Providers</a></li>
+      <li><a href="/drivers.html#drivers">Supported Providers</a></li>
     </ul>
   </li>
   <li><a href="/download.html">Download</a></li>
@@ -112,24 +112,22 @@ Any part of the official API can be reached through the main entry point, by def
 <li>images</li>
 <li>realms</li>
 </ul>
-
-  </div>
+</div>
   <div class="span3">
 
 <ul class="nav nav-list well">
-  <li class="nav-header">
+<li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
   <li class="active"><a href="#api-entry">API entry point</a></li>
     <ul class="nav nav-list">
-      <li><a href="#feature">Features</a></li>
+<li><a href="#feature">Features</a></li>
     </ul>
-  <li><a href="compute-resources.html">Compute resources</a></li>
+<li><a href="compute-resources.html">Compute resources</a></li>
   <li><a href="storage-resources.html">Storage resources</a></li>
 </ul>
-
-  </div>
+</div>
 </div>
 
 <ul style="margin-top:0px">
@@ -141,9 +139,7 @@ Any part of the official API can be reached through the main entry point, by def
 <li>load balancers</li>
 <li>addresses</li>
 <li>firewalls</li>
-</ul>
-
-<p>Example request:</p>
+</ul><p>Example request:</p>
 
 <pre>
 GET /api?format=xml HTTP/1.1
@@ -231,94 +227,89 @@ These features are available to each collection in the Deltacloud API:
 </p>
 
 <table class="table table-striped table-condensed">
-  <thead>
-    <tr>
-      <th>Feature</th>
+<thead><tr>
+<th>Feature</th>
       <th>Collection</th>
       <th>Operation</th>
       <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>owner_id</td>
+    </tr></thead>
+<tbody>
+<tr>
+<td>owner_id</td>
       <td>Images</td>
       <td>GET /api/images</td>
       <td>allows filtering of the image list by owner_id</td>
     </tr>
-    <tr>
-      <td>user_name</td>
+<tr>
+<td>user_name</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>accepts a user-defined name on instance creation</td>
     </tr>
-    <tr>
-      <td>user_data</td>
+<tr>
+<td>user_data</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>provide user-defined data that is accessible by the running instance</td>
     </tr>
-    <tr>
-      <td>user_iso</td>
+<tr>
+<td>user_iso</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>provides a base64 encoded gzipped ISO file accessible as CD-ROM drive by the running instnace</td>
     </tr>
-    <tr>
-      <td>user_files</td>
+<tr>
+<td>user_files</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>accept files that will be placed into the launched instance</td>
     </tr>
-    <tr>
-      <td>firewalls</td>
+<tr>
+<td>firewalls</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>put the instance into one or more firewalls on launch</td>
     </tr>
-    <tr>
-      <td>authentication_key</td>
+<tr>
+<td>authentication_key</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>provides the authentication key to access the instance</td>
     </tr>
-    <tr>
-      <td>authentication_password</td>
+<tr>
+<td>authentication_password</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>provides the password to access the running instance</td>
     </tr>
-    <tr>
-      <td>instance_count</td>
+<tr>
+<td>instance_count</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>specifies the number of instances to launch in one operation</td>
     </tr>
-    <tr>
-      <td>attach_snapshot</td>
+<tr>
+<td>attach_snapshot</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>attaches a storage snapshot to an instance as a storage volume</td>
     </tr>
-    <tr>
-      <td>sandboxing</td>
+<tr>
+<td>sandboxing</td>
       <td>Instances</td>
       <td>POST /api/instances</td>
       <td>launches an instance from a sandbox image (Gogrid specific)</td>
     </tr>
-    <tr>
-      <td>bucket_location</td>
+<tr>
+<td>bucket_location</td>
       <td>Buckets</td>
       <td>POST /api/buckets</td>
       <td>specifies a location that the bucket should be created in (e.g. specific cloud-provider datacenter)</td>
     </tr>
-  </tbody>
-</table>
-
-<p><a class="btn btn-inverse btn-large" style="float: right" href="compute-resources.html">Compute resources <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
+</tbody>
+</table><p><a class="btn btn-inverse btn-large" style="float: right" href="compute-resources.html">Compute resources <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
-
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

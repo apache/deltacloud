@@ -44,7 +44,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
     <ul class="dropdown-menu">
       <li><a href="/about.html">What is Deltacloud?</a></li>
-      <li><a href="/supported-providers.html">Supported Providers</a></li>
+      <li><a href="/drivers.html#drivers">Supported Providers</a></li>
     </ul>
   </li>
   <li><a href="/download.html">Download</a></li>
@@ -98,19 +98,16 @@
       <p><br></p>
 
 <ul class="breadcrumb">
-  <li>
+<li>
     <a href="how-to-contribute.html#how">How to contribute?</a> <span class="divider">/</span>
   </li>
   <li class="active">Write a provider driver</li>
-</ul>
-
-<h3 id="driver">Write a provider driver</h3>
+</ul><h3 id="driver">Write a provider driver</h3>
 
 <p>The deltacloud drivers are stored in <strong>deltacloud/server/lib/deltacloud/drivers</strong>.</p>
 
 <ol>
-
-  <li>
+<li>
 
   <p>
   To add a driver for a hypotetical <strong>Foo</strong> cloud, add a directory into /drivers/ and then add a file for a driver itself:
@@ -149,9 +146,7 @@ end
   </p>
   
   </li>
-</ol>
-
-<p>Thus, your driver for the cloud provider Foo may look like:</p>
+</ol><p>Thus, your driver for the cloud provider Foo may look like:</p>
 
 <pre>
 require 'deltacloud/base_driver'
@@ -218,30 +213,26 @@ The voodoo used here (i.e. definition of .to and .on etc) is defined in <strong>
 <p>Valid states are:</p>
 
 <ul>
-  <li><strong>:begin</strong></li>
+<li><strong>:begin</strong></li>
   <li><strong>:pending</strong></li>
   <li><strong>:running</strong></li>
   <li><strong>:shutting_down</strong></li>
   <li><strong>:stopped</strong></li>
   <li><strong>:end</strong></li>
-</ul>
-
-<p>The instance is located in the<strong>:begin</strong> state before being created. Immediately after being destroyed the instance is removed to the <strong>:end</strong> state.</p>
+</ul><p>The instance is located in the<strong>:begin</strong> state before being created. Immediately after being destroyed the instance is removed to the <strong>:end</strong> state.</p>
 
 <p>Valid transition actions are:</p>
 
 <ul>
-  <li><strong>:stop</strong></li>
+<li><strong>:stop</strong></li>
   <li><strong>:start</strong></li>
   <li><strong>:reboot</strong></li>
-</ul>
-
-<p>The action <strong>:automatically</strong> may be used to indicate a tranisition that may occur without an action being triggered (see the example above).</p>
+</ul><p>The action <strong>:automatically</strong> may be used to indicate a tranisition that may occur without an action being triggered (see the example above).</p>
 
 <p>You can implement some other methods according to the collections you will be supporting:</p>
 
 <ul>
-  <li><strong>hardware_profiles(credentials, opts=nil)</strong></li>
+<li><strong>hardware_profiles(credentials, opts=nil)</strong></li>
   <li><strong>images(credentials, opts=nil)</strong></li>
   <li><strong>realms(credentials, opts=nil)</strong></li>
   <li><strong>instances(credentials, opts=nil)</strong></li>
@@ -249,9 +240,7 @@ The voodoo used here (i.e. definition of .to and .on etc) is defined in <strong>
   <li><strong>reboot_instance(credentials, id)</strong></li>
   <li><strong>stop_instance(credentials, id)</strong></li>
   <li><strong>destroy_instance(credentials, id)</strong></li>
-</ul>
-
-<p>
+</ul><p>
 The <strong>hardware_profiles(...)</strong> method should return an array of HardwareProfile objects. The <strong>opts</strong> hash, if present, must be inspected for <strong>:id</strong> and <strong>:architecture</strong> keys. If these keys are available, the results should be filtered by the value associated with each key. The <strong>filter_on(...)</strong> helper method is used for the filtering and as you can see from existing driver method definitions, is invoked in many of the driver collection methods:
 </p>
 
@@ -335,7 +324,6 @@ $ cucumber ../tests/ec2
     <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
   </div>
 </div>
-
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

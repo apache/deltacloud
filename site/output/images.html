@@ -44,7 +44,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
     <ul class="dropdown-menu">
       <li><a href="/about.html">What is Deltacloud?</a></li>
-      <li><a href="/supported-providers.html">Supported Providers</a></li>
+      <li><a href="/drivers.html#drivers">Supported Providers</a></li>
     </ul>
   </li>
   <li><a href="/download.html">Download</a></li>
@@ -107,7 +107,7 @@ Images are used to launch instances. Each image represents a virtual machine ima
 </p>
 
 <ul>
-  <li>a human-readable <strong>name</strong>
+<li>a human-readable <strong>name</strong>
 </li>
   <li>a <strong>description</strong>
 </li>
@@ -118,7 +118,6 @@ Images are used to launch instances. Each image represents a virtual machine ima
   <li>a <strong>state</strong>
 </li>
 </ul>
-
 <p>
 The <strong>owner_id</strong> identifies the user account to which the image belongs. The <strong>architecture</strong> attribute refers to whether the image will create an instance with 32 or 64-bit processor. The values that the Deltacloud server returns for this attribute are thus i386 and x86_64 respectively. The state attribute varies between back-end clouds (it depends on a cloud provider). For example, AWS EC2 image state can be one of AVAILABLE, PENDING or FAILED, whereas Rackspace Cloudservers image state can be one of UNKNOWN, PREPARING, ACTIVE, QUEUED or FAILED. Finally, each image also contains an <code>&lt;actions&gt;</code> attribute which specifies the URI to which a client may issue a <strong>HTTP POST</strong> for creation of an instance from the given image.
 </p>
@@ -127,14 +126,14 @@ The <strong>owner_id</strong> identifies the user account to which the image bel
   <div class="span3">
 
 <ul class="nav nav-list well">
-  <li class="nav-header">
+<li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
   <li><a href="api-entry-point.html">API entry point</a></li>
   <li><a href="compute-resources.html">Compute resources</a></li>
   <ul class="nav nav-list">
-    <li><a href="compute-resources.html#realms">Realms</a></li>
+<li><a href="compute-resources.html#realms">Realms</a></li>
     <li><a href="hardware-profiles.html">Hardware profiles</a></li>
     <li class="active"><a href="#images">Images</a></li>
     <li><a href="instance-states.html">Instance states</a></li>
@@ -144,23 +143,18 @@ The <strong>owner_id</strong> identifies the user account to which the image bel
     <li><a href="addresses.html">Addresses</a></li>
     <li><a href="load-balancers.html">Load balancers</a></li>
   </ul>
-  <li><a href="storage-resources.html">Storage resources</a></li>
+<li><a href="storage-resources.html">Storage resources</a></li>
 </ul>
-
-  </div>
+</div>
 </div>
 
 <p><br></p>
 
 <ul class="nav nav-pills">
-  <li class="active"><a href="#tab1" data-toggle="tab">Get a list of all images</a></li>
+<li class="active"><a href="#tab1" data-toggle="tab">Get a list of all images</a></li>
   <li><a href="#tab2" data-toggle="tab">Get the details of an image</a></li>
   <li><a href="#tab3" data-toggle="tab">Create/delete an image</a></li>
-</ul>
-
-<hr>
-
-<div class="tab-content">
+</ul><hr><div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
 <h4>Get the list of all images</h4>
@@ -384,7 +378,6 @@ HTTP/1.1 204 No Content
 <p><a class="btn btn-inverse btn-large" style="float: right" href="instance-states.html">Instance states <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
-
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

@@ -275,6 +275,20 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
+    <tr>
+      <td class='provider'>
+        <strong>DigitalOcean</strong>
+      </td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+    </tr>
   </tbody>
 </table>
 
@@ -353,6 +367,17 @@ The driver and provider can be selected through the request headers <strong> X-D
     <tr>
       <td class='provider'>
         <strong>Google Storage</strong>
+      </td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+    </tr>
+    <tr>
+      <td class='provider'>
+        <strong>Openstack object-store (swift)</strong>
       </td>
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
@@ -536,7 +561,15 @@ The following table gives details about the credentials that must be provided fo
       <td>Password</td>
       <td></td>
     </tr>
-
+    <tr>
+      <td>
+        <strong>DigitalOcean</strong>
+      </td>
+      <td>digitalocean</td>
+      <td>Client Key</td>
+      <td>API Key</td>
+      <td>Obtain these credentials from the <a href="https://www.digitalocean.com/api_access">API access</a> page of your digitalocean account.</td>
+    </tr>
   </tbody>
 </table>
 

@@ -44,7 +44,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
     <ul class="dropdown-menu">
       <li><a href="/about.html">What is Deltacloud?</a></li>
-      <li><a href="/supported-providers.html">Supported Providers</a></li>
+      <li><a href="/drivers.html#drivers">Supported Providers</a></li>
     </ul>
   </li>
   <li><a href="/download.html">Download</a></li>
@@ -103,14 +103,10 @@
 
 <p>The deltacloud core developers use (almost exclusively) <a href="http://curl.haxx.se/">cURL</a> as a command line client for working with a deltacloud server. You can find more information on working with cURL against deltacloud <a href="curl-examples.html">here</a>.</p>
 
-<hr>
-
-<p><br></p>
+<hr><p><br></p>
 <h1> /deprecated: </h1>
 <p><br></p>
-<hr>
-
-<p><br></p>
+<hr><p><br></p>
 
 <h3 id="command">Using Deltacloud command tool</h3>
 
@@ -119,7 +115,7 @@
 </p><pre>$ deltacloudc collection operation [options]</pre>
 
 <dl>
-  <dt>Collection</dt>
+<dt>Collection</dt>
   <dd>
   refers to the Deltacloud object collections, such as Instances, Images, Buckets, Realms etc., as described in a greater detail in the <a href="rest-api.html">Deltacloud REST API documentation</a>.
   </dd>
@@ -129,11 +125,9 @@
   </dd>
   <dt>Options</dt>
   <dd>
-  are listed by invoking <strong>deltacloudc -h</strong>. The important option is <strong>-u</strong>, which specifies the API_URL, where the Deltacloud server is running. The API_URL takes the form of <strong>http://[user]:[password]@[api_url]:[port]/[api]</strong>. Alternatively, you can set the API_URL environment variable (e.g., export API_URL=http://mockuser:mockpassword@localhost:3001/api). If your username or your password contains special characters, it's necessary to use options <strong>-U</strong> and <strong>-P</strong> in addition to the option <strong>-u</strong>. Check the <a href="supported-providers.html#credentials"> list of credentials</a> you need for each back-end cloud provider.
+  are listed by invoking <strong>deltacloudc -h</strong>. The important option is <strong>-u</strong>, which specifies the API_URL, where the Deltacloud server is running. The API_URL takes the form of <strong>http://[user]:[password]@[api_url]:[port]/[api]</strong>. Alternatively, you can set the API_URL environment variable (e.g., export API_URL=http://mockuser:mockpassword@localhost:3001/api). If your username or your password contains special characters, it's necessary to use options <strong>-U</strong> and <strong>-P</strong> in addition to the option <strong>-u</strong>. Check the <a href="drivers.html#credentials"> list of credentials</a> you need for each back-end cloud provider.
   </dd>
-</dl>
-
-<p>
+</dl><p>
 The following examples assume that the Deltacloud server is running on your local machine port 3001 (the <strong>deltacloudd</strong> server daemon defaults to 'localhost:3001') and that it was started with the 'mock' provider (i.e. deltacloudd -i mock ).</p>
 
 <p> List all <strong>collections</strong> available in the current driver:</p>
@@ -151,8 +145,6 @@ The following examples assume that the Deltacloud server is running on your loca
 <p>Create a new <strong>blob</strong> in the bucket called 'bucket1':</p>
 
 <pre>$ deltacloudc blob create -i 'my_new_blob' -b 'bucket1' -f /home/marios/file.txt</pre>
-
-
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
