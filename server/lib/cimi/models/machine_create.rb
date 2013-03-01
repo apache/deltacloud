@@ -14,36 +14,8 @@
 # under the License.
 
 class CIMI::Model::MachineCreate < CIMI::Model::Base
+
   ref :machine_template
   text :realm
 
-  def create(ctx)
-    params = {}
-    if machine_template.href
-      template = machine_template.find(ctx)
-      params[:hwp_id] = template.machine_config.ref_id(ctx)
-      params[:initial_state] = template.initial_state
-      image_id = template.machine_image.ref_id(ctx)
-    else
-      # FIXME: What if either of these href's isn't there ? What if the user
-      # tries to override some aspect of the machine_config/machine_image ?
-      params[:hwp_id] = machine_template.machine_config.href.split('/').last
-      params[:initial_state] = machine_template.initial_state
-      image_id = machine_template.machine_image.href.split('/').last
-      if machine_template.credential.href
-        params[:keyname] = machine_template.credential.href.split('/').last
-      end
-    end
-
-    params[:name] = name if name
-    params[:realm_id] = realm if realm
-    instance = ctx.driver.create_instance(ctx.credentials, image_id, params)
-
-    result = CIMI::Model::Machine::from_instance(instance, ctx)
-    result.name = name if name
-    result.description = description if description
-    result.property = property if property
-    result.save
-    result
-  end
 end

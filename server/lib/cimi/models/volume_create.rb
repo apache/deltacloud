@@ -17,42 +17,4 @@ class CIMI::Model::VolumeCreate < CIMI::Model::Base
 
   ref :volume_template, :required => true
 
-  def create(context)
-    validate!
-
-    if volume_template.href?
-      template = volume_template.find(context)
-    else
-      template = CIMI::Model::VolumeTemplate.from_xml(volume_template.to_xml)
-    end
-
-    volume_image = template.volume_image.href? ?
-      template.volume_image.find(context) : template.volume_image
-
-    volume_config = template.volume_config.href? ?
-      template.volume_config.find(context) : template.volume_config
-
-    params = {
-      :name => name,
-      :capacity => volume_config.capacity,
-      :snapshot_id => ref_id(volume_image.id),
-    }
-
-    unless context.driver.respond_to? :create_storage_volume
-       raise Deltacloud::Exceptions.exception_from_status(
-         501,
-         "Creating Volume is not supported by the current driver"
-       )
-    end
-
-    volume = context.driver.create_storage_volume(context.credentials, params)
-
-    result = CIMI::Model::Volume.from_storage_volume(volume, context)
-    result.name = name if result.name.nil?
-    result.description = description if description
-    result.property = property if property
-    result.save
-    result
-  end
-
 end

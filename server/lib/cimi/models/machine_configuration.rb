@@ -30,35 +30,4 @@ class CIMI::Model::MachineConfiguration < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    profiles = []
-    if id == :all
-      profiles = context.driver.hardware_profiles(context.credentials)
-      profiles.map { |profile| from_hardware_profile(profile, context) }.compact
-    else
-      profile = context.driver.hardware_profile(context.credentials, id)
-      from_hardware_profile(profile, context)
-    end
-  end
-
-  private
-  def self.from_hardware_profile(profile, context)
-    # We accept just profiles with all properties set
-    return unless profile.memory or profile.cpu or profile.storage
-    memory = profile.memory ? context.to_kibibyte((profile.memory.value || profile.memory.default), profile.memory.unit) : nil
-    cpu = (profile.cpu ? (profile.cpu.value || profile.cpu.default) : nil )
-    storage = profile.storage ? context.to_kibibyte((profile.storage.value || profile.storage.default), profile.storage.unit) :  nil
-    machine_hash = {
-      :name => profile.name,
-      :description => "Machine Configuration with #{memory} KiB "+
-        "of memory and #{cpu} CPU",
-      :cpu => ( cpu.to_i.to_s if cpu ) ,
-      :created => Time.now.xmlschema,  # FIXME: DC hardware_profile has no mention about created_at
-      :memory => (memory if memory),
-      :disks => (  [ { :capacity => storage, :format => (profile.storage.respond_to?(:format) ? profile.storage.format : "unknown")  } ] if storage ), #no format attr for hwp - may be added if providers support...,
-      :id => context.machine_configuration_url(profile.id)
-    }
-    self.new(machine_hash)
-  end
-
 end

@@ -19,49 +19,25 @@ class CIMI::Model::System < CIMI::Model::Base
 
   text :state
 
-#  collection :systems, :class => CIMI::Model::SystemSystem
-#  collection :machines, :class => CIMI::Model::SystemMachine
-#  collection :credentials, :class => CIMI::Model::SystemCredential
-#  collection :volumes, :class => CIMI::Model::SystemVolume
-#  collection :networks, :class => CIMI::Model::SystemNetwork
-#  collection :network_ports, :class => CIMI::Model::SystemNetworkPort
-#  collection :addresses, :class => CIMI::Model::SystemAddress
-#  collection :forwarding_groups, :class => CIMI::Model::SystemForwardingGroup
+  # FIXME: Any reason for these comments?
 
-#  array :meters do
-#    scalar :href
-#  end
+  #  collection :systems, :class => CIMI::Model::SystemSystem
+  #  collection :machines, :class => CIMI::Model::SystemMachine
+  #  collection :credentials, :class => CIMI::Model::SystemCredential
+  #  collection :volumes, :class => CIMI::Model::SystemVolume
+  #  collection :networks, :class => CIMI::Model::SystemNetwork
+  #  collection :network_ports, :class => CIMI::Model::SystemNetworkPort
+  #  collection :addresses, :class => CIMI::Model::SystemAddress
+  #  collection :forwarding_groups, :class => CIMI::Model::SystemForwardingGroup
 
-#  href :event_log
+  #  array :meters do
+  #    scalar :href
+  #  end
+
+  #  href :event_log
 
   array :operations do
     scalar :rel, :href
-  end
-
-  def self.find(id, context)
-    if id == :all
-      systems = context.driver.systems(context.credentials, {:env=>context})
-    else
-      systems = context.driver.systems(context.credentials, {:env=>context, :id=>id})
-      raise CIMI::Model::NotFound unless systems.first
-      systems.first
-    end
-  end
-
-  def perform(action, context, &block)
-    begin
-      if context.driver.send(:"#{action.name}_system", context.credentials, self.id.split("/").last)
-        block.callback :success
-      else
-        raise "Operation failed to execute on given System"
-      end
-    rescue => e
-      block.callback :failure, e.message
-    end
-  end
-
-  def self.delete!(id, context)
-    context.driver.destroy_system(context.credentials, id)
   end
 
 end

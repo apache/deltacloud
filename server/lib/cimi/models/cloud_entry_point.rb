@@ -37,34 +37,6 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     href coll.underscore
   end
 
-  def self.create(context)
-    self.new(entities(context).merge({
-      :name => context.driver.name,
-      :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
-      :driver => context.driver.name,
-      :provider => context.current_provider,
-      :id => context.cloudEntryPoint_url,
-      :base_uri => context.base_uri + "/",
-      :created => Time.now.xmlschema
-    }))
-  end
-
-  # Return an Hash of the CIMI root entities used in CloudEntryPoint
-  def self.entities(context)
-    CIMI::Collections.modules(:cimi).inject({}) do |supported_entities, m|
-      m.collections.each do |c|
-        index_operation_capability = c.operation(:index).required_capability
-        next if m.settings.respond_to?(:capability) and !m.settings.capability(index_operation_capability)
-        supported_entities[c.collection_name.to_s] = { :href => context.send(:"#{c.collection_name}_url") }
-      end
-      supported_entities
-    end
-  end
-
-  def entities
-    @attribute_values.clone.delete_if { |key, value| !value.respond_to? :href }
-  end
-
   private
 
   def self.href_defined?(resource)

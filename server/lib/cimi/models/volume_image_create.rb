@@ -19,29 +19,4 @@ class CIMI::Model::VolumeImageCreate < CIMI::Model::Base
   text :image_data
   text :bootable, :required => true
 
-  def create(context)
-    validate!
-
-    params = {
-      :volume_id => context.href_id(image_location.href, :volumes),
-      :name => name,
-      :description => description
-    }
-
-    unless context.driver.respond_to? :create_storage_snapshot
-      raise Deltacloud::Exceptions.exception_from_status(
-        501,
-        'Creating VolumeImage is not supported by the current driver'
-      )
-    end
-
-    new_snapshot = context.driver.create_storage_snapshot(context.credentials, params)
-    result = CIMI::Model::VolumeImage.from_storage_snapshot(new_snapshot, context)
-    result.name= name unless new_snapshot.name
-    result.description = description unless new_snapshot.description
-    result.property = property if property
-    result.save
-    result
-  end
-
 end

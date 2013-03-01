@@ -18,16 +18,4 @@ class CIMI::Model::MachineTemplateCreate < CIMI::Model::Base
   href :machine_config, :required => true
   href :machine_image, :required => true
 
-  def create(context)
-    validate!
-    new_template = self.class.current_db.add_machine_template(
-      :name => name,
-      :description => description,
-      :machine_config => machine_config.href,
-      :machine_image => machine_image.href,
-      :ent_properties => property.to_json
-    )
-    CIMI::Model::MachineTemplate.from_db(new_template, context)
-  end
-
 end

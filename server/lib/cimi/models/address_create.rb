@@ -17,35 +17,4 @@ class CIMI::Model::AddressCreate < CIMI::Model::Base
 
   ref :address_template, :required => true
 
-  def create(context)
-    validate!
-
-    if address_template.href?
-      template = address_template.find(context)
-    end
-
-    params = {
-      :name => name,
-      :description => description,
-      :address_template => template,
-      :env => context # FIXME: We should not pass the context to the driver (!)
-    }
-
-    unless context.driver.respond_to? :create_address
-       raise Deltacloud::Exceptions.exception_from_status(
-         501,
-         "Creating Address is not supported by the current driver"
-       )
-    end
-
-    address = context.driver.create_address(context.credentials, params)
-
-    result = CIMI::Model::Address.from_address(address, context)
-    result.name = name if name
-    result.description = description if description
-    result.property = property if property
-    result.save
-    result
-  end
-
 end

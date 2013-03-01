@@ -25,20 +25,4 @@ class CIMI::Model::AddressTemplateCreate < CIMI::Model::Base
 
   href :network
 
-  def create(context)
-    validate!
-    new_template = context.current_db.add_address_template(
-      :name => name,
-      :description => description,
-      :hostname => hostname,
-      :ip => ip,
-      :allocation => allocation,
-      :default_gateway => default_gateway,
-      :dns => dns,
-      :protocol => protocol,
-      :mask => mask,
-      :ent_properties => property.to_json
-    )
-    CIMI::Model::AddressTemplate.from_db(new_template, context)
-  end
 end

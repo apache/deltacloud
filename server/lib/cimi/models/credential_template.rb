@@ -19,6 +19,4 @@ class CIMI::Model::CredentialTemplate < CIMI::Model::Base
   text :password, :required => true
   text :key, :required => true
 
-  # TODO: tbd
-
 end

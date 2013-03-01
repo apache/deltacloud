@@ -24,14 +24,4 @@ class CIMI::Model::NetworkTemplate < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    network_templates = []
-    if id==:all
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context})
-    else
-      network_templates = context.driver.network_templates(context.credentials, {:env=>context, :id=>id})
-    end
-    network_templates
-  end
-
 end

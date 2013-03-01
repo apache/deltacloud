@@ -19,23 +19,4 @@ class CIMI::Model::MachineImageCreate < CIMI::Model::Base
   text :image_location, :required => true
   href :related_image
 
-  def create(context)
-    validate!
-
-    params = {
-      :id => context.href_id(image_location, :machines),
-      :name => name,
-      :description => description
-    }
-
-    img = context.driver.create_image(context.credentials, params)
-
-    result = CIMI::Model::MachineImage.from_image(img, context)
-    result.name = name if name
-    result.description = description if description
-    result.property = property if property
-    result.save
-    result
-  end
-
 end

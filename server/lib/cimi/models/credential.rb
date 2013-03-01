@@ -25,38 +25,4 @@ class CIMI::Model::Credential < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    if id == :all
-      return [] unless context.driver.respond_to?(:keys)
-      keys = context.driver.keys(context.credentials)
-      keys.map { |key| from_key(key, context) }
-    else
-      key = context.driver.key(context.credentials, :id => id)
-      from_key(key, context)
-    end
-  end
-
-  def self.create_from_xml(body, context)
-    credential = Credential.from_xml(body)
-    key = context.driver.create_key(context.credentials, :key_name => credential.name)
-    from_key(key, context)
-  end
-
-  def self.delete!(id, context)
-    context.driver.destroy_key(context.credentials, :id => id)
-  end
-
-  private
-
-  def self.from_key(key, context)
-    self.new(
-      :name => key.id,
-      :username => key.username,
-      :password => key.is_password? ? key.password : key.fingerprint,
-      :key => key.is_key? ? key.pem_rsa_key : nil,
-      :id => context.credential_url(key.id),
-      :created => Time.now.xmlschema
-    )
-  end
-
 end

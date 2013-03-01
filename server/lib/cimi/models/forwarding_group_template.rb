@@ -25,12 +25,4 @@ class CIMI::Model::ForwardingGroupTemplate < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    if id==:all
-      context.driver.forwarding_group_templates(context.credentials, {:env=>context})
-    else
-      context.driver.forwarding_group_templates(context.credentials, {:env=>context, :id=>id})
-    end
-  end
-
 end

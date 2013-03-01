@@ -17,30 +17,4 @@ class CIMI::Model::CredentialCreate < CIMI::Model::Base
 
   ref :credential_template, :required => true
 
-  def create(context)
-    validate!
-
-    unless context.driver.respond_to? :create_key
-       raise Deltacloud::Exceptions.exception_from_status(
-         501,
-         "Creating Credential is not supported by the current driver"
-       )
-    end
-
-    if credential_template.href?
-      template = credential_template.find(ctx)
-    else
-      template = credential_template
-    end
-
-    key = context.driver.create_key(context.credentials, :key_name => name)
-
-    result = CIMI::Model::Credential.from_key(key, context)
-    result.name = name if name
-    result.description = description if description
-    result.property = property if property
-    result.save
-    result
-
-  end
 end

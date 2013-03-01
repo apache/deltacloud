@@ -21,43 +21,29 @@ class CIMI::Model::SystemTemplate < CIMI::Model::Base
     text :name, :description
     hash_map :properties
     text :type
+
+    # FIXME: Any reasons for these comments?
+
     #component_template, comprises:
-#    struct :machine_template, :class => CIMI::Model::MachineTemplate
-#    struct :system_template, :class => CIMI::Model::SystemTemplate
-#    struct :credential_template, :class => CIMI::Model::CredentialTemplate
-#    struct :volume_template, :class => CIMI::Model::VolumeTemplate
-#    struct :network_template, :class => CIMI::Model::NetworkTemplate
-#    struct :network_port_template, :class => CIMI::Model::NetworkPortTemplate
-#    struct :forwarding_group_template, :class => CIMI::Model::ForwardingGroupTemplate
-#    struct :address_template, :class => CIMI::Model::AddressTemplate
+    #    struct :machine_template, :class => CIMI::Model::MachineTemplate
+    #    struct :system_template, :class => CIMI::Model::SystemTemplate
+    #    struct :credential_template, :class => CIMI::Model::CredentialTemplate
+    #    struct :volume_template, :class => CIMI::Model::VolumeTemplate
+    #    struct :network_template, :class => CIMI::Model::NetworkTemplate
+    #    struct :network_port_template, :class => CIMI::Model::NetworkPortTemplate
+    #    struct :forwarding_group_template, :class => CIMI::Model::ForwardingGroupTemplate
+    #    struct :address_template, :class => CIMI::Model::AddressTemplate
     text :quantity
   end
 
-#  array :meter_templates do
-#    scalar :href
-#  end
+  #  array :meter_templates do
+  #    scalar :href
+  #  end
 
-#  href :event_log_template
+  #  href :event_log_template
 
   array :operations do
     scalar :rel, :href
-  end
-
-  class << self
-    def find(id, context)
-      if id == :all
-        templates = context.driver.system_templates(context.credentials, {:env=>context})
-      else
-        templates = context.driver.system_templates(context.credentials, {:env=>context, :id=>id})
-        raise CIMI::Model::NotFound unless templates.first
-        templates.first
-      end
-    end
-
-    def delete!(id, context)
-      context.driver.destroy_system_template(context.credentials, id)
-    end
-
   end
 
 end

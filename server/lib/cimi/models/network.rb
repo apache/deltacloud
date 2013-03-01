@@ -37,36 +37,4 @@ class CIMI::Model::Network < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    networks=[]
-    if id==:all
-      networks = context.driver.networks(context.credentials, {:env=>context})
-    else
-      networks = context.driver.networks(context.credentials, {:id=>id, :env=>context})
-    end
-    if context.expand? :networkPorts
-      networks.each do |network|
-        network.network_ports = CIMI::Model::NetworkPort.collection_for_network(network.id, context)
-      end
-    end
-    networks
-  end
-
-
-  def self.delete!(id, context)
-    context.driver.delete_network(context.credentials, id)
-  end
-
-  def perform(action, context, &block)
-    begin
-      if context.driver.send(:"#{action.name}_network", context.credentials, self.name)
-        block.callback :success
-      else
-        raise "Operation #{action.name} failed to execute on the Network #{self.name} "
-      end
-    rescue => e
-      block.callback :failure, e.message
-    end
-  end
-
 end

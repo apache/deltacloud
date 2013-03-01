@@ -52,19 +52,19 @@ class CIMI::Service::Machine < CIMI::Service::Base
   def self.attach_volume(volume, location, context)
     context.driver.attach_storage_volume(context.credentials,
      {:id=>volume, :instance_id=>context.params[:id], :device=>location})
-    CIMI::Model::MachineVolume.find(context.params[:id], context, volume)
+    CIMI::Service::MachineVolume.find(context.params[:id], context, volume)
   end
 
   #returns the machine_volume_collection for the given machine
   def self.detach_volume(volume, location, context)
     context.driver.detach_storage_volume(context.credentials,
      {:id=>volume, :instance_id=>context.params[:id], :device=>location})
-    CIMI::Model::MachineVolume.collection_for_instance(context.params[:id], context)
+    CIMI::Service::MachineVolume.collection_for_instance(context.params[:id], context)
   end
 
   def self.from_instance(instance, context)
     cpu =  memory = (instance.instance_profile.id == "opaque")? "n/a" : nil
-    machine_conf = CIMI::Model::MachineConfiguration.find(instance.instance_profile.name, context)
+    machine_conf = CIMI::Service::MachineConfiguration.find(instance.instance_profile.name, context)
     machine_spec = {
       :name => instance.name,
       :created => instance.launch_time.nil? ? Time.now.xmlschema : Time.parse(instance.launch_time.to_s).xmlschema,
@@ -78,10 +78,10 @@ class CIMI::Service::Machine < CIMI::Service::Base
       :operations => convert_instance_actions(instance, context)
     }
     if context.expand? :disks
-      machine_spec[:disks] = CIMI::Model::Disk.find(instance, machine_conf, context, :all)
+      machine_spec[:disks] = CIMI::Service::Disk.find(instance, machine_conf, context, :all)
     end
     if context.expand? :volumes
-      machine_spec[:volumes] = CIMI::Model::MachineVolume.find(instance.id, context, :all)
+      machine_spec[:volumes] = CIMI::Service::MachineVolume.find(instance.id, context, :all)
     end
     machine_spec[:realm] = instance.realm_id if instance.realm_id
     machine_spec[:machine_image] = { :href => context.machine_image_url(instance.image_id) } if instance.image_id
@@ -102,14 +102,14 @@ class CIMI::Service::Machine < CIMI::Service::Base
   def self.convert_instance_cpu(profile, context)
     cpu_override = profile.overrides.find { |p, v| p == :cpu }
     if cpu_override.nil?
-      CIMI::Model::MachineConfiguration.find(profile.id, context).cpu
+      CIMI::Service::MachineConfiguration.find(profile.id, context).cpu
     else
       cpu_override[1]
     end
   end
 
   def self.convert_instance_memory(profile, context)
-    machine_conf = CIMI::Model::MachineConfiguration.find(profile.name, context)
+    machine_conf = CIMI::Service::MachineConfiguration.find(profile.name, context)
     memory_override = profile.overrides.find { |p, v| p == :memory }
     memory_override.nil? ? machine_conf.memory.to_i : context.to_kibibyte(memory_override[1].to_i,"MB")
   end

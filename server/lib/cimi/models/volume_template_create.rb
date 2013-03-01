@@ -18,16 +18,4 @@ class CIMI::Model::VolumeTemplateCreate < CIMI::Model::Base
   ref :volume_config, :required => true
   ref :volume_image, :required => true
 
-  def create(context)
-    validate!
-    new_template = self.class.current_db.add_volume_template(
-      :name => name,
-      :description => description,
-      :volume_config => volume_config.href,
-      :volume_image => volume_image.href,
-      :ent_properties => property.to_json
-    )
-    CIMI::Model::VolumeTemplate.from_db(new_template, context)
-  end
-
 end

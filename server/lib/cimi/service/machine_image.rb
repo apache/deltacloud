@@ -15,10 +15,6 @@
 
 class CIMI::Service::MachineImage < CIMI::Service::Base
 
-  def initialize(ctx, opts)
-    super
-  end
-
   def self.find(id, context)
     images = []
     if id == :all
@@ -44,7 +40,7 @@ class CIMI::Service::MachineImage < CIMI::Service::Base
 
   def self.delete!(image_id, context)
     context.driver.destroy_image(context.credentials, image_id)
-    new(:id => image_id).destroy
+    self.new(context, :values => { :id => image_id }).destroy
   end
 
 

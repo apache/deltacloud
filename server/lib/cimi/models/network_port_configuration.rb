@@ -25,12 +25,4 @@ class CIMI::Model::NetworkPortConfiguration < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    if id==:all
-      context.driver.network_port_configurations(context.credentials, {:env=>context})
-    else
-      context.driver.network_port_configurations(context.credentials, {:env=>context, :id=>id})
-    end
-  end
-
 end

@@ -24,34 +24,4 @@ class CIMI::Model::VolumeImage < CIMI::Model::Base
   array :operations do
     scalar :rel, :href
   end
-
-  def self.find(id, context)
-    creds = context.credentials
-    if id == :all
-      snapshots = context.driver.storage_snapshots(creds)
-      snapshots.collect{ |snapshot| from_storage_snapshot(snapshot, context) }
-    else
-      snapshot = context.driver.storage_snapshots(creds, id => :id).first
-      raise CIMI::Model::NotFound unless snapshot
-      from_storage_snapshot(snapshot, context)
-    end
-  end
-
-  def self.all(context); find(:all, context); end
-
-  def self.delete!(vol_image_id, context)
-    context.driver.destroy_storage_snapshot(context.credentials, {:id=>vol_image_id})
-  end
-
-  def self.from_storage_snapshot(snapshot, context)
-    self.new( {
-      :name => snapshot.name,
-      :description => snapshot.description,
-      :created => snapshot.created.nil? ? nil : Time.parse(snapshot.created).xmlschema,
-      :id => context.volume_image_url(snapshot.id),
-      :image_location => {:href=>context.volume_url(snapshot.storage_volume_id)},
-      :bootable => "false"  #FIXME
-    } )
-  end
-
 end
