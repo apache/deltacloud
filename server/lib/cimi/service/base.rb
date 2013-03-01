@@ -50,6 +50,13 @@ module CIMI::Service
           define_method(:"#{name}=") { |newval| self[name] = newval }
         end
       end
+
+      def parse(context)
+        req = context.request
+        model = model_class.parse(req.body, req.content_type)
+        new(context, :model => model)
+      end
+
     end
 
     def initialize(context, opts)
