@@ -70,7 +70,6 @@ describe CIMI::Collections::MachineTemplates do
     post root_url('/machine_templates'), xml_body
     status.must_equal 400
     xml.at('/error/message').text.must_equal "Required attributes not set: machineImage"
-    xml.at('/error/parameter').text.must_equal "machineImage"
   end
 
 end
