@@ -26,7 +26,7 @@ end
 begin
   require 'turn'
 rescue LoadError => e
-  warn "[WARN] The 'turn' gem is not available. (#{e.message})"
+  # We'll be fine
 end
 
 begin
