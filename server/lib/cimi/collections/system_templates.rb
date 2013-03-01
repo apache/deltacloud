@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :system_templates do
         description "List all system templates"
         control do
-          system_templates = CIMI::Model::SystemTemplate.list(self).select_by(params['$select'])
+          system_templates = SystemTemplate.list(self).select_by(params['$select'])
           respond_to do |format|
             format.xml { system_templates.to_xml }
             format.json { system_templates.to_json }
@@ -34,7 +34,7 @@ module CIMI::Collections
       operation :show, :with_capability => :system_templates do
         description "Show specific system template"
         control do
-          system_template = CIMI::Model::SystemTemplate.find(params[:id], self)
+          system_template = SystemTemplate.find(params[:id], self)
           respond_to do |format|
             format.xml { system_template.to_xml }
             format.json { system_template.to_json }
@@ -46,9 +46,9 @@ module CIMI::Collections
         description "Create new system template"
         control do
           if grab_content_type(request.content_type, request.body) == :json
-            new_system_template = CIMI::Model::SystemTemplate.create_from_json(request.body.read, self)
+            new_system_template = SystemTemplate.create_from_json(request.body.read, self)
           else
-            new_system_template = CIMI::Model::SystemTemplate.create_from_xml(request.body.read, self)
+            new_system_template = SystemTemplate.create_from_xml(request.body.read, self)
           end
           headers_for_create new_system_template
           respond_to do |format|
@@ -61,7 +61,7 @@ module CIMI::Collections
       operation :destroy, :with_capability => :destroy_system_template do
         description "Delete a specified system template"
         control do
-          CIMI::Model::SystemTemplate.delete!(params[:id], self)
+          SystemTemplate.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

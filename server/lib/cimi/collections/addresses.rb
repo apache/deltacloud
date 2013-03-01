@@ -36,7 +36,7 @@ module CIMI::Collections
       operation :show, :with_capability => :address do
         description 'Show a specific Address'
         control do
-          address = CIMI::Model::Address.find(params[:id], self)
+          address = Address.find(params[:id], self)
           respond_to do |format|
             format.xml {address.to_xml}
             format.json {address.to_json}
@@ -47,8 +47,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_address do
         description "Create a new Address"
         control do
-          addr = CIMI::Model::AddressCreate.parse(request.body, request.content_type)
-          address = addr.create(self)
+          addr = AddressCreate.parse(self)
+          address = addr.create
           respond_to do |format|
             format.xml { address.to_xml }
             format.json { address.to_json }
@@ -60,7 +60,7 @@ module CIMI::Collections
         description "Delete a specified Address"
         param :id, :string, :required
         control do
-          CIMI::Model::Address.delete!(params[:id], self)
+          Address.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

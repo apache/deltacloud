@@ -46,8 +46,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_instance do
         description "Create a new Machine entity."
         control do
-          mc = MachineCreate.parse(request.body, request.content_type)
-          new_machine = mc.create(self)
+          mc = MachineCreate.parse(self)
+          new_machine = mc.create
           headers_for_create new_machine
           respond_to do |format|
             format.json { new_machine.to_json }
@@ -69,12 +69,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if current_content_type == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          machine.perform(action, self) do |operation|
+          action = Action.parse(self)
+          machine.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -86,12 +82,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if current_content_type == :json
-            action = Action.from_json(request.body.read.gsub("restart", "reboot"))
-          else
-            action = Action.from_xml(request.body.read.gsub("restart", "reboot"))
-          end
-          machine.perform(action, self) do |operation|
+          action = Action.parse(self)
+          machine.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -103,12 +95,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           machine = Machine.find(params[:id], self)
-          if current_content_type == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          machine.perform(action, self) do |operation|
+          action = Action.parse(self)
+          machine.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -119,7 +107,7 @@ module CIMI::Collections
         description "Retrieve the Machine's DiskCollection"
         param :id,          :string,    :required
         control do
-          disks = CIMI::Model::Disk.collection_for_instance(params[:id], self)
+          disks = Disk.collection_for_instance(params[:id], self)
           respond_to do |format|
             format.json {disks.to_json}
             format.xml  {disks.to_xml}
@@ -133,7 +121,7 @@ module CIMI::Collections
         operation :index, :with_capability => :storage_volumes do
           description "Retrieve the Machine's MachineVolumeCollection"
           control do
-            volumes = CIMI::Model::MachineVolume.collection_for_instance(params[:id], self)
+            volumes = MachineVolume.collection_for_instance(params[:id], self)
             respond_to do |format|
               format.json {volumes.to_json}
               format.xml  {volumes.to_xml}
@@ -144,7 +132,7 @@ module CIMI::Collections
         operation :show, :with_capability => :storage_volumes do
           description "Retrieve a Machine's specific MachineVolume"
           control do
-            volume = CIMI::Model::MachineVolume.find(params[:id], self, params[:vol_id])
+            volume = MachineVolume.find(params[:id], self, params[:vol_id])
             respond_to do |format|
               format.json {volume.to_json}
               format.xml  {volume.to_xml}
@@ -155,7 +143,7 @@ module CIMI::Collections
         operation :destroy, :with_capability => :detach_storage_volume do
           description "Remove/detach a volume from the Machine's MachineVolumeCollection"
           control do
-            machine_volume = CIMI::Model::MachineVolume.find(params[:id], self, params[:vol_id])
+            machine_volume = MachineVolume.find(params[:id], self, params[:vol_id])
             location = machine_volume.initial_location
             machine_volumes = Machine.detach_volume(params[:vol_id], location, self)
             respond_to do |format|

@@ -46,8 +46,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_network do
         description "Create a new Network"
         control do
-          n = CIMI::Model::NetworkCreate.parse(request.body, request.content_type)
-          network = n.create(self)
+          n = NetworkCreate.parse(self)
+          network = n.create
           respond_to do |format|
             format.xml { network.to_xml}
             format.json { network.to_json }

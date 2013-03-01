@@ -34,7 +34,7 @@ module CIMI::Collections
       operation :show do
         description 'Show a specific AddressTemplate'
         control do
-          address_template = CIMI::Model::AddressTemplate.find(params[:id], self)
+          address_template = AddressTemplate.find(params[:id], self)
           respond_to do |format|
             format.xml {address_template.to_xml}
             format.json {address_template.to_json}
@@ -45,8 +45,8 @@ module CIMI::Collections
       operation :create do
         description "Create new AddressTemplate"
         control do
-          addr_templ = CIMI::Model::AddressTemplateCreate.parse(request.body, request.content_type)
-          new_address_template = addr_templ.create(self)
+          addr_templ = AddressTemplateCreate.parse(self)
+          new_address_template = addr_templ.create
           headers_for_create new_address_template
           respond_to do |format|
             format.json { new_address_template.to_json }
@@ -58,7 +58,7 @@ module CIMI::Collections
       operation :destroy do
         description "Delete a specified AddressTemplate"
         control do
-          CIMI::Model::AddressTemplate.delete!(params[:id], self)
+          AddressTemplate.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

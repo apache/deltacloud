@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index do
         description "List all machine templates"
         control do
-          machine_templates = CIMI::Model::MachineTemplate.list(self).select_by(params['$select'])
+          machine_templates = MachineTemplate.list(self)
           respond_to do |format|
             format.xml { machine_templates.to_xml }
             format.json { machine_templates.to_json }
@@ -34,7 +34,7 @@ module CIMI::Collections
       operation :show do
         description "Show specific machine template"
         control do
-          machine_template = CIMI::Model::MachineTemplate.find(params[:id], self)
+          machine_template = MachineTemplate.find(params[:id], self)
           respond_to do |format|
             format.xml { machine_template.to_xml }
             format.json { machine_template.to_json }
@@ -45,8 +45,8 @@ module CIMI::Collections
       operation :create do
         description "Create new machine template"
         control do
-          mt = CIMI::Model::MachineTemplateCreate.parse(request.body, request.content_type)
-          new_machine_template = mt.create(self)
+          mt = MachineTemplateCreate.parse(self)
+          new_machine_template = mt.create
           headers_for_create new_machine_template
           respond_to do |format|
             format.json { new_machine_template.to_json }
@@ -58,7 +58,7 @@ module CIMI::Collections
       operation :destroy do
         description "Delete a specified machine template"
         control do
-          CIMI::Model::MachineTemplate.delete!(params[:id], self)
+          MachineTemplate.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

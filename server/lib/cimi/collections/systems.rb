@@ -72,8 +72,7 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           system = System.find(params[:id], self)
-          action = Action.parse(request.body,
-          request.content_type)
+          action = Action.parse(self)
           system.perform(action, self) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
@@ -155,7 +154,7 @@ module CIMI::Collections
         operation :index, :with_capability => :storage_volumes do
           description "Retrieve the System's SystemVolumeCollection"
           control do
-            volumes = CIMI::Model::SystemVolume.collection_for_system(params[:id], self)
+            volumes = SystemVolume.collection_for_system(params[:id], self)
             respond_to do |format|
               format.json {volumes.to_json}
               format.xml  {volumes.to_xml}
@@ -166,7 +165,7 @@ module CIMI::Collections
         operation :show, :with_capability => :storage_volumes do
           description "Retrieve a System's specific SystemVolume"
           control do
-            volume = CIMI::Model::SystemVolume.find(params[:id], self, params[:vol_id])
+            volume = SystemVolume.find(params[:id], self, params[:vol_id])
             respond_to do |format|
               format.json {volume.to_json}
               format.xml  {volume.to_xml}
@@ -177,7 +176,7 @@ module CIMI::Collections
         operation :destroy, :with_capability => :detach_storage_volume do
           description "Remove/detach a volume from the System's SystemVolumeCollection"
           control do
-            system_volume = CIMI::Model::SystemVolume.find(params[:id], self, params[:vol_id])
+            system_volume = SystemVolume.find(params[:id], self, params[:vol_id])
             location = system_volume.initial_location
             system_volumes = System.detach_volume(params[:vol_id], location, self)
             respond_to do |format|

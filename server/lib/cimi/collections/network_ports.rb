@@ -48,9 +48,9 @@ module CIMI::Collections
         description "Create a new NetworkPort"
         control do
           if current_content_type == :json
-            network_port = CIMI::Model::NetworkPort.create(request.body.read, self, :json)
+            network_port = NetworkPort.create(request.body.read, self, :json)
           else
-            network_port = CIMI::Model::NetworkPort.create(request.body.read, self, :xml)
+            network_port = NetworkPort.create(request.body.read, self, :xml)
           end
           respond_to do |format|
             format.xml { network_port.to_xml }
@@ -62,7 +62,7 @@ module CIMI::Collections
       operation :destroy, :with_capability => :delete_network_port do
         description "Delete a specified NetworkPort"
         control do
-          CIMI::Model::NetworkPort.delete!(params[:id], self)
+          NetworkPort.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

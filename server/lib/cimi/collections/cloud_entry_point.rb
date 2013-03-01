@@ -28,7 +28,7 @@ module CIMI::Collections
           if params[:force_auth]
             halt 401 unless driver.valid_credentials?(credentials)
           end
-          entry_point = CIMI::Model::CloudEntryPoint.create(self)
+          entry_point = CIMI::Service::CloudEntryPoint.create(self)
           respond_to do |format|
             format.xml { entry_point.to_xml }
             format.json { entry_point.to_json }

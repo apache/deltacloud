@@ -46,8 +46,8 @@ module CIMI::Collections
       operation :create, :with_capability => :create_key do
         description "Show specific machine admin"
         control do
-          c = CIMI::Model::CredentialCreate.parse(request.body, request.content_type)
-          new_admin = c.create(self)
+          c = CredentialCreate.parse(self)
+          new_admin = c.create
           headers_for_create new_admin
           respond_to do |format|
             format.json { new_admin.to_json }

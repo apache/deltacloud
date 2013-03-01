@@ -46,8 +46,8 @@ module CIMI::Collections
         description "Create new VolumeTemplate"
         control do
           puts request.body
-          vol = CIMI::Model::VolumeTemplateCreate.parse(request.body, request.content_type)
-          new_template = vol.create(self)
+          vol = VolumeTemplateCreate.parse(self)
+          new_template = vol.create
           headers_for_create new_template
           respond_to do |format|
             format.json { new_template.to_json }
@@ -59,7 +59,7 @@ module CIMI::Collections
       operation :destroy, :with_capability => :destroy_storage_volume do
         description "Delete a specified VolumeTemplate"
         control do
-          CIMI::Model::VolumeTemplate.delete!(params[:id], self)
+          VolumeTemplate.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end

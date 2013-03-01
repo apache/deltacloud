@@ -23,7 +23,7 @@ module CIMI::Collections
       operation :index, :with_capability => :storage_volumes do
         description "Get list all VolumeConfigurations"
         control do
-          volume_configuration = VolumeConfiguration.list(self).select_by(params['$select'])
+          volume_configuration = VolumeConfiguration.list(self)
           respond_to do |format|
             format.xml { volume_configuration.to_xml }
             format.json { volume_configuration.to_json }
@@ -46,9 +46,9 @@ module CIMI::Collections
         description "Create new VolumeConfiguration"
         control do
           if current_content_type == :json
-            new_config = CIMI::Model::VolumeConfiguration.create_from_json(request.body.read, self)
+            new_config = VolumeConfiguration.create_from_json(request.body.read, self)
           else
-            new_config = CIMI::Model::VolumeConfiguration.create_from_xml(request.body.read, self)
+            new_config = VolumeConfiguration.create_from_xml(request.body.read, self)
           end
           headers_for_create new_config
           respond_to do |format|
@@ -61,7 +61,7 @@ module CIMI::Collections
       operation :destroy, :with_capability => :destroy_storage_volume do
         description "Delete a specified VolumeConfiguration"
         control do
-          CIMI::Model::VolumeConfiguration.delete!(params[:id], self)
+          VolumeConfiguration.delete!(params[:id], self)
           no_content_with_status(200)
         end
       end
