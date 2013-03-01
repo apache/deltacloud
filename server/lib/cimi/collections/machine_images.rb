@@ -24,7 +24,7 @@ module CIMI::Collections
       operation :index, :with_capability => :images do
         description "List all machine configurations"
         control do
-          machine_images = MachineImage.list(self).select_by(params['$select'])
+          machine_images = MachineImage.list(self)
           respond_to do |format|
             format.xml { machine_images.to_xml }
             format.json { machine_images.to_json }
@@ -46,7 +46,7 @@ module CIMI::Collections
       operation :create, :with_capability => :create_image do
         description "Create a new machine image."
         control do
-          mi = CIMI::Model::MachineImageCreate.parse(request.body, request.content_type)
+          mi = MachineImageCreate.parse(request.body, request.content_type)
           machine_image = mi.create(self)
           headers_for_create machine_image
           respond_to do |format|
@@ -59,7 +59,7 @@ module CIMI::Collections
       operation :destroy, :with_capability => :destroy_image do
         description "Delete a specified MachineImage"
         control do
-          CIMI::Model::MachineImage.delete!(params[:id], self)
+          MachineImage.delete!(params[:id], self)
           no_content_with_status 200
         end
       end

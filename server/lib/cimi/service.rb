@@ -26,3 +26,4 @@ require_relative './../db/volume_template'
 
 require_relative './service/base'
 require_relative './service/machine'
+require_relative './service/machine_image'

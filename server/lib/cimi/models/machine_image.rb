@@ -26,32 +26,4 @@ class CIMI::Model::MachineImage < CIMI::Model::Base
     scalar :rel, :href
   end
 
-  def self.find(id, context)
-    images = []
-    if id == :all
-      images = context.driver.images(context.credentials)
-      images.map { |image| from_image(image, context) }
-    else
-      image = context.driver.image(context.credentials, :id => id)
-      from_image(image, context)
-    end
-  end
-
-  def self.from_image(image, context)
-    self.new(
-      :id => context.machine_image_url(image.id),
-      :name => image.id,
-      :description => image.description,
-      :state => image.state || 'UNKNOWN',
-      :type => "IMAGE",
-      :created => image.creation_time.nil? ?
-        Time.now.xmlschema : Time.parse(image.creation_time.to_s).xmlschema
-    )
-  end
-
-  def self.delete!(image_id, context)
-    context.driver.destroy_image(context.credentials, image_id)
-    new(:id => image_id).destroy
-  end
-
 end
