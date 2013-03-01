@@ -44,8 +44,8 @@ module CIMI::Collections
     set :root_path, config.root_url
     set :version, config.version
     set :root, File.join(File.dirname(__FILE__), '..', '..', '..')
-    set :views, root + '/views/cimi'
-    set :public_folder, root + '/public'
+    set :views, File.join(root, 'views')
+    set :public_folder, File.join(root, 'public')
     set :documentation_class, CIMI
     set :haml, :format => :xhtml
 
