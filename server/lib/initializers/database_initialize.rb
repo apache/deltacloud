@@ -43,6 +43,11 @@ sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
 DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
   "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
 
+if RUBY_PLATFORM == 'java'
+  require 'jdbc/sqlite3'
+  Jdbc::SQLite3.load_driver
+end
+
 DATABASE = Deltacloud::initialize_database
 
 # Detect if there are some pending migrations to run.
