@@ -15,9 +15,7 @@
 
 class CIMI::Service::MachineTemplate < CIMI::Service::Base
 
-  def initialize(ctx, opts)
-    super
-  end
+  metadata :realm, :constraints => lambda { |c| c.driver.realms(c.credentials).map { |r| r.id }}
 
   class << self
     def find(id, context)

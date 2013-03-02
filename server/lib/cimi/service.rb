@@ -14,7 +14,15 @@
 # under the License.
 #
 
-module CIMI::Service; end
+module CIMI
+  module Service
+    def self.root_entities
+      CIMI::Model::root_entities.map do |m|
+        CIMI::Service.const_get(m.name.split('::').last)
+      end
+    end
+  end
+end
 
 require_relative './models'
 require_relative './../db/provider'

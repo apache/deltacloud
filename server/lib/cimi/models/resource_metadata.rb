@@ -51,14 +51,4 @@ class CIMI::Model::ResourceMetadata < CIMI::Model::Base
   array :operations do
     scalar :rel, :href
   end
-
-  def self.add_resource_attribute!(klass, name, opts={})
-    resource_attributes[klass.name] ||= {}
-    resource_attributes[klass.name][name] = opts
-  end
-
-  def self.resource_attributes
-    @resource_attributes ||= {}
-  end
-
 end

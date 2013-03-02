@@ -136,6 +136,64 @@ module CIMI::Service
       end
     end
 
+    #
+    # Resource metadata
+    #
+    METADATA_TYPES = [ 'text', 'URI', 'string', 'boolean' ]
+
+    # A hash of the attributes that need to be mentioned in the given
+    # context
+    def self.resource_attributes(context)
+      metadata.keys.map do |k|
+        a = model_class.schema.attributes.find { |a| a.name == k }
+        raise "No attribute named #{k} defined" unless a
+        constr = metadata[k][:constraints].call(context)
+        {
+          :name => a.name,
+          :namespace => "http://deltacloud.org/cimi/#{model_name}/#{a.name}",
+          :type => metadata[k][:type],
+          :required => a.required? ? 'true' : 'false',
+          :constraints => constr.map { |v| { :value => v } }
+        }
+      end
+    end
+
+    def self.resource_capabilities(context)
+      cimi_object = model_name.to_s.pluralize.to_sym
+      driver_class = context.driver.class
+      (driver_class.features[cimi_object] || []).map do |cur|
+        feat = CIMI::FakeCollection.feature(cur)
+        values = driver_class.constraints[cimi_object][feat.name][:values] || []
+        { :name => feat.name.to_s.camelize,
+          :uri => CMWG_NAMESPACE+"/capability/#{cimi_object.to_s.camelize.singularize}/#{feat.name.to_s.camelize}",
+          :description => feat.description,
+          :value => values.join(",")
+        }
+      end
+    end
+
+    # Define the metadata for an attribute; +opts+ must be a Hash that can
+    # contain the following entries:
+    #   :type : one of METADATA_TYPES
+    #   :constraints : a proc that is passed the current context and
+    #                  must return a list of values
+    def self.metadata(attr_name = nil, opts = nil)
+      @metadata ||= {}
+      return @metadata if attr_name.nil? && opts.nil?
+
+      opts[:type] ||= 'text'
+      opts[:type] = opts[:type].to_s
+      opts[:constraints] ||= lambda { |_| [] }
+      unless METADATA_TYPES.include?(opts[:type])
+        raise "Metadata type must be one of #{METADATA_TYPES.join(",")}"
+      end
+      metadata[attr_name] = opts
+    end
+
+    #
+    # Database interactions
+    #
+
     # Save the common attributes name, description, and properties to the
     # database
     def save

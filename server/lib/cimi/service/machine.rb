@@ -15,6 +15,13 @@
 
 class CIMI::Service::Machine < CIMI::Service::Base
 
+  metadata :realm,
+    :constraints => lambda { |c|
+      c.driver.realms(c.credentials).map { |r| r.id }
+  }
+
+  metadata :machine_image, :type => 'URI'
+
   def self.find(id, context)
     instances = []
     if id == :all

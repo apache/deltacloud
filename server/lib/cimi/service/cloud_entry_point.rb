@@ -15,6 +15,9 @@
 
 class CIMI::Service::CloudEntryPoint < CIMI::Service::Base
 
+  metadata :driver, :type => 'text'
+  metadata :provider, :type => 'text'
+
   def self.create(context)
     self.new(context, :values => entities(context).merge({
       :name => context.driver.name,

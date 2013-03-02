@@ -22,8 +22,7 @@ class CIMI::Model::MachineTemplate < CIMI::Model::Base
   ref :machine_image
   ref :credential
 
-  resource_attr :realm, :required => false,
-    :constraints => lambda { |c| c.driver.realms(c.credentials).map { |r| r.id }}
+  text :realm, :required => false
 
   array :volumes do
     scalar :href, :initial_location

@@ -425,15 +425,6 @@ class CIMI::Model::Schema
   # +add_attributes!+ method
   module DSL
 
-    def resource_attr(name, opts={})
-      CIMI::Model::ResourceMetadata.add_resource_attribute!(self, name, opts)
-      if opts[:type]
-        send(opts[:type], name)
-      else
-        text name
-      end
-    end
-
     def href(*args)
       opts = args.extract_opts!
       args.each { |arg| struct(arg, opts) { scalar :href, :required => opts[:required] } }
