@@ -29,7 +29,9 @@ class CIMI::Service::MachineTemplate < CIMI::Service::Base
     end
 
     def delete!(id, context)
-      current_db.machine_templates.first(:id => id).destroy
+      if mt = current_db.machine_templates_dataset.first(:id => id)
+          mt.destroy
+      end
     end
 
     def from_db(model, context)
