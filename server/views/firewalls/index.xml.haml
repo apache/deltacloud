@@ -17,12 +17,12 @@
           %rule{:id => rule.id}
             %actions
               %link{ :rel => :rule, :href => "#{firewall_url(firewall.name)}/#{rule.id}", :method => :delete, :id =>rule.id, :rel => :destroy }
-              - rule.attributes.select{|attr| attr != :sources && attr != :id}.each do |rule_attrib|
-                - haml_tag("#{rule_attrib}".tr('-', '_'), :<) do
-                  - haml_concat rule.send(rule_attrib)
-              %sources
-                - rule.sources.each do |source|
-                  - if source[:type] == "group"
-                    %source{:name => source[:name], :type=> source[:type], :owner=> source[:owner]}
-                  - else
-                    %source{:prefix => source[:prefix], :address=> source[:address], :family=>source[:family], :type => source[:type]}
+            - rule.attributes.select{|attr| attr != :sources && attr != :id}.each do |rule_attrib|
+              - haml_tag("#{rule_attrib}".tr('-', '_'), :<) do
+                - haml_concat rule.send(rule_attrib)
+            %sources
+              - rule.sources.each do |source|
+                - if source[:type] == "group"
+                  %source{:name => source[:name], :type=> source[:type], :owner=> source[:owner]}
+                - else
+                  %source{:prefix => source[:prefix], :address=> source[:address], :family=>source[:family], :type => source[:type]}
