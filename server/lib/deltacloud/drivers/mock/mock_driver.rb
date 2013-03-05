@@ -499,6 +499,7 @@ module Deltacloud::Drivers::Mock
           :content => blob_data
         })
       end
+      update_bucket_size(bucket_id, :plus)
       Blob.new(@client.store(:blobs, blob))
     end
 
@@ -509,6 +510,7 @@ module Deltacloud::Drivers::Mock
       check_credentials(credentials)
       safely do
         raise "NotExistentBlob" unless @client.load_collection(:blobs, blob_id)
+        update_bucket_size(bucket_id, :minus)
         @client.destroy(:blobs, blob_id)
       end
     end
@@ -606,6 +608,18 @@ module Deltacloud::Drivers::Mock
       @client.store(:storage_volumes, volume)
       @client.store(:instances, instance)
       StorageVolume.new(volume)
+    end
+
+    def update_bucket_size(id, change)
+      bucket = @client.load_collection(:buckets, id)
+      raise 'BucketNotExist' if bucket.nil?
+      bucket[:size] = case change
+        when :plus then bucket[:size].to_i + 1
+        when :minus then  bucket[:size].to_i - 1
+        else
+          raise "unkown update operation for bucket!"
+      end
+      @client.store(:buckets, bucket)
     end
 
     exceptions do
