@@ -13,25 +13,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::Network < CIMI::Model::Base
+class CIMI::Model::NetworkCreate < CIMI::Model::Base
 
   ref :network_template, :required => true
 
   def create(context)
     validate!
-
     if network_template.href?
       template = network_template.find(context)
+      network_config = template.network_config.find(context)
+      forwarding_group = template.forwarding_group.find(context)
+    else
+      network_config = CIMI::Model::NetworkConfiguration.find(context.href_id(network_template.network_config.href, :network_configurations), context)
+      forwarding_group = CIMI::Model::ForwardingGroup.find(context.href_id(network_template.forwarding_group.href, :forwarding_groups), context)
     end
-
     params = {
-      :network_config => template.network_config.find(context),
-      :forwarding_group => template.forwarding_group.find(context),
+      :network_config => network_config,
+      :forwarding_group => forwarding_group,
       :name => name,
       :description => description,
       :env => context # FIXME: We should not pass the context to the driver (!)
     }
-
     network = context.driver.create_network(context.credentials, params)
     network.property = property if property
     network.save
