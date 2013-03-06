@@ -191,20 +191,6 @@ class CIMI::Model::Schema
       else
         @klass = Class.new(opts[:class]) do |m|
           scalar :href
-
-          def ref_id(ctx)
-            # FIXME: We should use ctx's routes to split
-            # out the :id
-            href.split('/').last
-          end
-
-          def find(ctx)
-            klass.find(ref_id(ctx), ctx)
-          end
-
-          def klass
-            self.class.superclass
-          end
         end
         CIMI::Model::const_set(refname, @klass)
       end
