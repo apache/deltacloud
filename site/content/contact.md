@@ -30,6 +30,12 @@ For now we're using an <a href="http://openetherpad.org/DeltacloudCall">etherpad
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/89bu_Rf_t9Y">Deltacloud Community Call #14</a>
+
+Using the Create models in CIMI, Split CIMI models to Model/Service, deltacloud-client revamp <br/>
+Notes@http://openetherpad.org/DeltacloudCall
+
+<br>
 <a href="http://youtu.be/74KvoLUOmYw">Deltacloud Community Call #13</a>
 
 Regions support in the Deltacloud Openstack driver.
