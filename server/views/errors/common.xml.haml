@@ -9,7 +9,8 @@
     - else
       =translate_error_code(response.status)
   - if @error.respond_to? :backtrace
-    %backtrace=@error.backtrace.nil? ? '' : @error.backtrace.join("\n")
+    %backtrace
+      =cdata @error.backtrace.nil? ? '' : @error.backtrace.join("\n")
     %request
       - if params
         -params.each do |name, value|
