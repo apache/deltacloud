@@ -7,7 +7,6 @@ else
   ENV['DATABASE_LOCATION'] = 'sqlite:/'
 end
 
-ENV['RACK_ENV'] = 'development'
 ENV['DB_UPGRADE'] = 'true'
 
 require_relative '../../../lib/initializers/database_initialize'

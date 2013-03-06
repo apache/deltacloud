@@ -12,7 +12,6 @@ describe "Deltacloud::Database::Entity" do
     @provider = Deltacloud::Database::Provider
     @entity = Deltacloud::Database::Entity
     @baseModel = CIMI::Model::Base
-    ENV['RACK_ENV'] = 'development'
     @prov = @provider::lookup
   end
 
