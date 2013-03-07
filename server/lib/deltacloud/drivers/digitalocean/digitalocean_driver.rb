@@ -134,9 +134,15 @@ module Deltacloud
           safely do
             client = new_client(credentials)
             args = { :image_id => image_id }
-            args.merge!(:region_id => opts[:realm_id]) if opts[:realm_id]
-            args.merge!(:size_id => opts[:hwp_id]) if opts[:hwp_id]
-            args.merge!(:name => opts[:name] || "inst#{Time.now.to_i}")
+            # Defaults to first realm if realm_id not set
+            opts[:realm_id] ||= '1'
+            args.merge!(:region_id => opts[:realm_id])
+            # Defaults to first size if hwp_id not set
+            opts[:hwp_id] ||= '66'
+            args.merge!(:size_id => opts[:hwp_id])
+            # Default to 'inst-timestamp if name is not set'
+            opts[:name] ||= "inst-#{Time.now.to_i}"
+            args.merge!(:name => opts[:name])
             args.merge!(:ssh_key_ids => opts[:keyname]) if opts[:keyname]
             convert_instance(
               credentials.user,
