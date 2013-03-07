@@ -15,28 +15,22 @@
 
 class String
 
-  unless method_defined?(:classify)
-    # Create a class name from string
-    def classify
-      self.singularize.camelize
-    end
+  # Used to automagically convert any XML in String
+  # (like HTTP response body) to Nokogiri::XML object
+  #
+  # If Nokogiri::XML fails, InvalidXMLError is returned.
+  #
+  def to_xml
+    Nokogiri::XML(self)
   end
 
-  unless method_defined?(:camelize)
-    # Camelize converts strings to UpperCamelCase
+  unless method_defined? :camelize
     def camelize
-      self.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
+      split('_').map { |w| w.capitalize }.join
     end
   end
 
-  unless method_defined?(:singularize)
-    # Strip 's' character from end of string
-    def singularize
-      self.gsub(/s$/, '')
-    end
-  end
-
-  unless method_defined?(:pluralize)
+  unless method_defined? :pluralize
     def pluralize
       return self + 'es' if self =~ /ess$/
       return self[0, self.length-1] + "ies" if self =~ /ty$/
@@ -45,15 +39,11 @@ class String
     end
   end
 
-  # Convert string to float if string value seems like Float
-  def convert
-    return self.to_f if self.strip =~ /^([\d\.]+$)/
-    self
+  unless method_defined? :singularize
+    def singularize
+      return self.gsub(/ies$/, 'y') if self =~ /ies$/
+      return self.gsub(/es$/, '') if self =~ /sses$/
+      self.gsub(/s$/, '')
+    end
   end
-
-  # Simply converts whitespaces and - symbols to '_' which is safe for Ruby
-  def sanitize
-    self.strip.gsub(/(\W+)/, '_')
-  end
-
 end

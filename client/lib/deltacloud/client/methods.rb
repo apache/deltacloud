@@ -13,32 +13,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module DeltaCloud
-  module InstanceState
-
-    class State
-      attr_reader :name
-      attr_reader :transitions
-
-      def initialize(name)
-        @name, @transitions = name, []
-      end
-    end
-
-    class Transition
-      attr_reader :to
-      attr_reader :action
-
-      def initialize(to, action)
-        @to = to
-        @action = action
-      end
-
-      def auto?
-        @action.nil?
-      end
-    end
-
-  end
-
-end
+require_relative './methods/common'
+require_relative './methods/driver'
+require_relative './methods/realm'
+require_relative './methods/hardware_profile'
+require_relative './methods/image'
+require_relative './methods/instance'
+require_relative './methods/instance_state'
+require_relative './methods/storage_volume'
+require_relative './methods/storage_snapshot'
+require_relative './methods/key'
+require_relative './methods/address'
+require_relative './methods/bucket'
+require_relative './methods/blob'
+require_relative './methods/firewall'

@@ -20,14 +20,19 @@ Gem::Specification.new do |s|
   s.homepage = "http://www.deltacloud.org"
   s.email = 'dev@deltacloud.apache.org'
   s.name = 'deltacloud-client'
-  s.description = %q{Deltacloud REST Client for API}
+  s.description = %q{A REST client for the Deltacloud API}
   s.version = Deltacloud::API_VERSION
   s.summary = %q{Deltacloud REST Client}
   s.files = Dir['Rakefile', 'lib/**/*.rb']
   s.test_files= Dir.glob("tests/**/**")
-  s.extra_rdoc_files = Dir["LICENSE", "NOTICE", "DISCLAIMER"]
+  s.extra_rdoc_files = Dir["LICENSE", "NOTICE", "README.md"]
 
-  s.add_dependency('rest-client', '>= 1.6.1')
+  s.add_dependency('faraday', '>=0.8.6')
   s.add_dependency('nokogiri', '>= 1.4.3')
-  s.add_development_dependency('rspec', '>= 2.0.0')
+
+  s.add_development_dependency('minitest')
+  s.add_development_dependency('simplecov')
+  s.add_development_dependency('vcr')
+  s.add_development_dependency('rake')
+  s.add_development_dependency('pry')
 end

@@ -1,4 +1,19 @@
-spec_report.html
-*.swp
-tmp/
 *.gem
+*.rbc
+.bundle
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+*.lock
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
