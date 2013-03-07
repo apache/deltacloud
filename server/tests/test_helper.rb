@@ -45,6 +45,14 @@ def record_retries(name='', opts = {})
   opts
 end
 
+def vcr_record_mode
+  (ENV['VCR_RECORD'] || :none).to_sym
+end
+
+def vcr_recording?
+  vcr_record_mode != :none
+end
+
 include Rack::Test::Methods
 
 def run_frontend(frontend=:deltacloud)
