@@ -30,18 +30,27 @@ Sequel::Model.plugin :validation_class_methods
 # Enable Sequel migrations extension
 Sequel.extension :migration
 
-# For JRuby we need to different Sequel driver
-#
-sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
-
-# The default sqlite3 database could be override by 'DATABASE_LOCATION'
+# The default sqlite3 database can be overridden with the 'DATABASE_LOCATION'
 # environment variable.
 #
 # For more details about possible values see:
 # http://sequel.rubyforge.org/rdoc/files/doc/opening_databases_rdoc.html
 #
-DATABASE_LOCATION = ENV['DATABASE_LOCATION'] ||
-  "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
+if ENV['DATABASE_LOCATION']
+  DATABASE_LOCATION = ENV['DATABASE_LOCATION']
+else
+  if ENV['RACK_ENV'] == 'test'
+    if RUBY_PLATFORM=='java'
+      DATABASE_LOCATION = 'jdbc:sqlite::memory'
+    else
+      DATABASE_LOCATION = 'sqlite:/'
+    end
+  else
+    sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
+    DATABASE_LOCATION =
+      "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
+  end
+end
 
 if RUBY_PLATFORM == 'java'
   require 'jdbc/sqlite3'
@@ -61,7 +70,9 @@ unless Sequel::Migrator.is_current?(DATABASE, DATABASE_MIGRATIONS_DIR)
   # Do not exit when this intitializer is included from deltacloud-db-upgrade
   # script
   #
-  unless ENV['DB_UPGRADE']
+  if ENV['RACK_ENV'] == 'test' || ENV['DB_UPGRADE']
+    Sequel::Migrator.apply(DATABASE, DATABASE_MIGRATIONS_DIR)
+  else
     warn "WARNING: The database needs to be upgraded. Run: 'deltacloud-db-upgrade' command."
     exit(1)
   end

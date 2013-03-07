@@ -1,18 +1,4 @@
-# Memory database
-if RUBY_PLATFORM == 'java'
-  require 'jdbc/sqlite3'
-  Jdbc::SQLite3.load_driver
-  ENV['DATABASE_LOCATION'] = 'jdbc:sqlite::memory:'
-else
-  ENV['DATABASE_LOCATION'] = 'sqlite:/'
-end
-
-ENV['DB_UPGRADE'] = 'true'
-
-require_relative '../../../lib/initializers/database_initialize'
-
-# Apply database migrations:
-Sequel::Migrator.apply(DATABASE, DATABASE_MIGRATIONS_DIR)
+require_relative '../../test_helper'
 
 module Deltacloud
   module DatabaseTestHelper

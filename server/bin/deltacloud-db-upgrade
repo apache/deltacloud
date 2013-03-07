@@ -17,17 +17,8 @@
 require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
-# Fix loading of SQLite3 driver in JDBC
-#
-if RUBY_PLATFORM == 'java'
-  require 'jdbc/sqlite3'
-  Jdbc::SQLite3.load_driver
-end
-
-# Do not exit
+# Force DB upgrade
 ENV['DB_UPGRADE'] = 'true'
 
 require_relative './../lib/initializers/mock_initialize'
 require_relative './../lib/initializers/database_initialize'
-
-Sequel::Migrator.apply(DATABASE, DATABASE_MIGRATIONS_DIR)
