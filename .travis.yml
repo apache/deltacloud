@@ -10,7 +10,13 @@ install:
   - cd server
   - bundle install
   - bin/deltacloud-db-upgrade
+  - cd ../client
+  - bundle install
+  - cd ..
 script:
+  - cd server
+  - bundle exec rake test
+  - cd ../client
   - bundle exec rake test
 notifications:
   email:
