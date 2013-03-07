@@ -1,0 +1,262 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1368'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - e43d25244dc2b8ce1da6fa91131507ee
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 16:03:14 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<api driver='mock' version='1.1.1'>\n  <link href='http://localhost:3001/api/instance_states'
+        rel='instance_states'>\n  </link>\n  <link href='http://localhost:3001/api/storage_volumes'
+        rel='storage_volumes'>\n  </link>\n  <link href='http://localhost:3001/api/metrics'
+        rel='metrics'>\n  </link>\n  <link href='http://localhost:3001/api/hardware_profiles'
+        rel='hardware_profiles'>\n  </link>\n  <link href='http://localhost:3001/api/instances'
+        rel='instances'>\n    <feature name='metrics' rel='create'>\n      <param
+        name='metrics' />\n    </feature>\n    <feature name='realm_filter' rel='index'>\n
+        \     <param name='realm_id' />\n    </feature>\n    <feature name='user_name'
+        rel='create'>\n      <param name='name' />\n    </feature>\n    <feature name='authentication_key'
+        rel='create'>\n      <param name='keyname' />\n    </feature>\n  </link>\n
+        \ <link href='http://localhost:3001/api/realms' rel='realms'>\n  </link>\n
+        \ <link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/images' rel='images'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/addresses' rel='addresses'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/drivers' rel='drivers'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/buckets' rel='buckets'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/keys' rel='keys'>\n  </link>\n</api>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 16:03:14 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/images/img1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0011546611785888672'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1195'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 78fce4b6967945208246f8ec7ccba460
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 16:03:14 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<image href='http://localhost:3001/api/images/img1'
+        id='img1'>\n  <name>img1</name>\n  <description>Fedora 10</description>\n
+        \ <owner_id>fedoraproject</owner_id>\n  <architecture>x86_64</architecture>\n
+        \ <state>AVAILABLE</state>\n  <creation_time>Thu Oct 25 14:27:53 CEST 2012</creation_time>\n
+        \ <hardware_profiles>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small' rel='hardware_profile'></hardware_profile>\n    <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-large' id='m1-large'
+        rel='hardware_profile'></hardware_profile>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-xlarge'
+        id='m1-xlarge' rel='hardware_profile'></hardware_profile>\n    <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/opaque' id='opaque' rel='hardware_profile'></hardware_profile>\n
+        \ </hardware_profiles>\n  <root_type>transient</root_type>\n  <actions>\n
+        \   <link href='http://localhost:3001/api/instances;image_id=img1' method='post'
+        rel='create_instance' />\n    <link href='http://localhost:3001/api/images/img1'
+        method='delete' rel='destroy_image' />\n  </actions>\n</image>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 16:03:14 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/hardware_profiles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '3.7670135498046875e-05'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '2513'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 6fb008e6971780cc37ce300cb7ede981
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 16:03:14 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<hardware_profiles>\n  <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-small' id='m1-small'>\n
+        \   <id>m1-small</id>\n    <name>m1-small</name>\n    <property kind='fixed'
+        name='cpu' unit='count' value='1' />\n    <property kind='fixed' name='memory'
+        unit='MB' value='1740.8' />\n    <property kind='fixed' name='storage' unit='GB'
+        value='160' />\n    <property kind='fixed' name='architecture' unit='label'
+        value='i386' />\n  </hardware_profile>\n  <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n    <id>m1-large</id>\n    <name>m1-large</name>\n    <property
+        kind='range' name='cpu' unit='count' value='1'>\n      <param href='http://localhost:3001/api/instances'
+        method='post' name='hwp_cpu' operation='create' />\n      <range first='1'
+        last='6' />\n    </property>\n    <property kind='range' name='memory' unit='MB'
+        value='10240'>\n      <param href='http://localhost:3001/api/instances' method='post'
+        name='hwp_memory' operation='create' />\n      <range first='7680' last='15360'
+        />\n    </property>\n    <property kind='enum' name='storage' unit='GB' value='850'>\n
+        \     <param href='http://localhost:3001/api/instances' method='post' name='hwp_storage'
+        operation='create' />\n      <enum>\n        <entry value='850' />\n        <entry
+        value='1024' />\n      </enum>\n    </property>\n    <property kind='fixed'
+        name='architecture' unit='label' value='x86_64' />\n  </hardware_profile>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-xlarge'
+        id='m1-xlarge'>\n    <id>m1-xlarge</id>\n    <name>m1-xlarge</name>\n    <property
+        kind='fixed' name='cpu' unit='count' value='4' />\n    <property kind='range'
+        name='memory' unit='MB' value='12288'>\n      <param href='http://localhost:3001/api/instances'
+        method='post' name='hwp_memory' operation='create' />\n      <range first='12288'
+        last='32768' />\n    </property>\n    <property kind='enum' name='storage'
+        unit='GB' value='1024'>\n      <param href='http://localhost:3001/api/instances'
+        method='post' name='hwp_storage' operation='create' />\n      <enum>\n        <entry
+        value='1024' />\n        <entry value='2048' />\n        <entry value='4096'
+        />\n      </enum>\n    </property>\n    <property kind='fixed' name='architecture'
+        unit='label' value='x86_64' />\n  </hardware_profile>\n  <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/opaque' id='opaque'>\n    <id>opaque</id>\n
+        \   <name>opaque</name>\n  </hardware_profile>\n</hardware_profiles>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 16:03:14 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/hardware_profiles
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '9.989738464355469e-05'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '2513'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 6fb008e6971780cc37ce300cb7ede981
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 16:03:14 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<hardware_profiles>\n  <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-small' id='m1-small'>\n
+        \   <id>m1-small</id>\n    <name>m1-small</name>\n    <property kind='fixed'
+        name='cpu' unit='count' value='1' />\n    <property kind='fixed' name='memory'
+        unit='MB' value='1740.8' />\n    <property kind='fixed' name='storage' unit='GB'
+        value='160' />\n    <property kind='fixed' name='architecture' unit='label'
+        value='i386' />\n  </hardware_profile>\n  <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n    <id>m1-large</id>\n    <name>m1-large</name>\n    <property
+        kind='range' name='cpu' unit='count' value='1'>\n      <param href='http://localhost:3001/api/instances'
+        method='post' name='hwp_cpu' operation='create' />\n      <range first='1'
+        last='6' />\n    </property>\n    <property kind='range' name='memory' unit='MB'
+        value='10240'>\n      <param href='http://localhost:3001/api/instances' method='post'
+        name='hwp_memory' operation='create' />\n      <range first='7680' last='15360'
+        />\n    </property>\n    <property kind='enum' name='storage' unit='GB' value='850'>\n
+        \     <param href='http://localhost:3001/api/instances' method='post' name='hwp_storage'
+        operation='create' />\n      <enum>\n        <entry value='850' />\n        <entry
+        value='1024' />\n      </enum>\n    </property>\n    <property kind='fixed'
+        name='architecture' unit='label' value='x86_64' />\n  </hardware_profile>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-xlarge'
+        id='m1-xlarge'>\n    <id>m1-xlarge</id>\n    <name>m1-xlarge</name>\n    <property
+        kind='fixed' name='cpu' unit='count' value='4' />\n    <property kind='range'
+        name='memory' unit='MB' value='12288'>\n      <param href='http://localhost:3001/api/instances'
+        method='post' name='hwp_memory' operation='create' />\n      <range first='12288'
+        last='32768' />\n    </property>\n    <property kind='enum' name='storage'
+        unit='GB' value='1024'>\n      <param href='http://localhost:3001/api/instances'
+        method='post' name='hwp_storage' operation='create' />\n      <enum>\n        <entry
+        value='1024' />\n        <entry value='2048' />\n        <entry value='4096'
+        />\n      </enum>\n    </property>\n    <property kind='fixed' name='architecture'
+        unit='label' value='x86_64' />\n  </hardware_profile>\n  <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/opaque' id='opaque'>\n    <id>opaque</id>\n
+        \   <name>opaque</name>\n  </hardware_profile>\n</hardware_profiles>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 16:03:14 GMT
+recorded_with: VCR 2.4.0

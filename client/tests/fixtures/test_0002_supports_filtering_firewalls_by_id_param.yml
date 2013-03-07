@@ -1,0 +1,207 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      X-Deltacloud-Driver:
+      - ec2
+      Authorization:
+      - Basic QUtJQUpZT1FZTExPSVdONUxRM0E6UmEyVmlZYVlnb2NBSnFQQVFIeE1WVS9sMnNHR1UycGlmbVdUNHEzSA==
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - ec2
+      content-length:
+      - '2150'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 7b1418b5852df20853f413124d4ff440
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 15:30:05 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<api driver='ec2' version='1.1.1'>\n  <link href='http://localhost:3001/api/instance_states'
+        rel='instance_states'>\n  </link>\n  <link href='http://localhost:3001/api/storage_volumes'
+        rel='storage_volumes'>\n  </link>\n  <link href='http://localhost:3001/api/firewalls'
+        rel='firewalls'>\n  </link>\n  <link href='http://localhost:3001/api/metrics'
+        rel='metrics'>\n  </link>\n  <link href='http://localhost:3001/api/hardware_profiles'
+        rel='hardware_profiles'>\n  </link>\n  <link href='http://localhost:3001/api/instances'
+        rel='instances'>\n    <feature name='metrics' rel='create'>\n      <param
+        name='metrics' />\n    </feature>\n    <feature name='user_data' rel='create'>\n
+        \     <param name='user_data' />\n    </feature>\n    <feature name='firewalls'
+        rel='create'>\n      <param name='firewalls' />\n    </feature>\n    <feature
+        name='authentication_key' rel='create'>\n      <param name='keyname' />\n
+        \   </feature>\n    <feature name='instance_count' rel='create'>\n      <param
+        name='instance_count' />\n    </feature>\n    <feature name='attach_snapshot'
+        rel='create'>\n      <param name='snapshot_id' />\n      <param name='device_name'
+        />\n    </feature>\n  </link>\n  <link href='http://localhost:3001/api/realms'
+        rel='realms'>\n  </link>\n  <link href='http://localhost:3001/api/storage_snapshots'
+        rel='storage_snapshots'>\n  </link>\n  <link href='http://localhost:3001/api/images'
+        rel='images'>\n    <feature name='owner_id' rel='index'>\n      <param name='owner_id'
+        />\n    </feature>\n    <feature name='image_name' rel='create'>\n      <param
+        name='name' />\n    </feature>\n    <feature name='image_description' rel='create'>\n
+        \     <param name='description' />\n    </feature>\n  </link>\n  <link href='http://localhost:3001/api/addresses'
+        rel='addresses'>\n  </link>\n  <link href='http://localhost:3001/api/drivers'
+        rel='drivers'>\n  </link>\n  <link href='http://localhost:3001/api/buckets'
+        rel='buckets'>\n    <feature name='bucket_location' rel='create'>\n      <param
+        name='location' />\n    </feature>\n  </link>\n  <link href='http://localhost:3001/api/keys'
+        rel='keys'>\n  </link>\n  <link href='http://localhost:3001/api/load_balancers'
+        rel='load_balancers'>\n  </link>\n</api>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 15:30:05 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/firewalls?id=img1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      X-Deltacloud-Driver:
+      - ec2
+      Authorization:
+      - Basic QUtJQUpZT1FZTExPSVdONUxRM0E6UmEyVmlZYVlnb2NBSnFQQVFIeE1WVS9sMnNHR1UycGlmbVdUNHEzSA==
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - ec2
+      content-length:
+      - '306'
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 15:30:06 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<error status='404' url='/api/firewalls'>\n
+        \ <backend driver='ec2' provider='default'></backend>\n  <code>404</code>\n
+        \ <message><![CDATA[Not Found]]></message>\n  <backtrace></backtrace>\n  <request>\n
+        \   <param name='id'><![CDATA[\"img1\"]]></param>\n  </request>\n</error>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 15:30:06 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/firewalls?id=mfojtik
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      X-Deltacloud-Driver:
+      - ec2
+      Authorization:
+      - Basic QUtJQUpZT1FZTExPSVdONUxRM0E6UmEyVmlZYVlnb2NBSnFQQVFIeE1WVS9sMnNHR1UycGlmbVdUNHEzSA==
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.6615643501281738'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - ec2
+      content-length:
+      - '557'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 01ae612b52f3f38e824cbe2d53e510b9
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 15:30:52 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<firewalls>\n  <firewall
+        href='http://localhost:3001/api/firewalls/mfojtik' id='mfojtik'>\n    <actions>\n
+        \     <link href='http://localhost:3001/api/firewalls/mfojtik' id='mfojtik'
+        method='delete' rel='destroy' />\n      <link href='http://localhost:3001/api/firewalls/mfojtik/rules'
+        id='mfojtik' method='post' rel='add_rule' />\n    </actions>\n    <name><![CDATA[mfojtik]]></name>\n
+        \   <description><![CDATA[test1]]></description>\n    <owner_id>293787749884</owner_id>\n
+        \   <rules>\n    </rules>\n  </firewall>\n</firewalls>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 15:30:52 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/firewalls?id=unknown
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      X-Deltacloud-Driver:
+      - ec2
+      Authorization:
+      - Basic QUtJQUpZT1FZTExPSVdONUxRM0E6UmEyVmlZYVlnb2NBSnFQQVFIeE1WVS9sMnNHR1UycGlmbVdUNHEzSA==
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 404
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - ec2
+      content-length:
+      - '309'
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 15:30:52 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<error status='404' url='/api/firewalls'>\n
+        \ <backend driver='ec2' provider='default'></backend>\n  <code>404</code>\n
+        \ <message><![CDATA[Not Found]]></message>\n  <backtrace></backtrace>\n  <request>\n
+        \   <param name='id'><![CDATA[\"unknown\"]]></param>\n  </request>\n</error>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 15:30:52 GMT
+recorded_with: VCR 2.4.0

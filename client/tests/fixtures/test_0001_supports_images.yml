@@ -1,0 +1,224 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1368'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - e43d25244dc2b8ce1da6fa91131507ee
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<api driver='mock' version='1.1.1'>\n  <link href='http://localhost:3001/api/instance_states'
+        rel='instance_states'>\n  </link>\n  <link href='http://localhost:3001/api/storage_volumes'
+        rel='storage_volumes'>\n  </link>\n  <link href='http://localhost:3001/api/metrics'
+        rel='metrics'>\n  </link>\n  <link href='http://localhost:3001/api/hardware_profiles'
+        rel='hardware_profiles'>\n  </link>\n  <link href='http://localhost:3001/api/instances'
+        rel='instances'>\n    <feature name='metrics' rel='create'>\n      <param
+        name='metrics' />\n    </feature>\n    <feature name='realm_filter' rel='index'>\n
+        \     <param name='realm_id' />\n    </feature>\n    <feature name='user_name'
+        rel='create'>\n      <param name='name' />\n    </feature>\n    <feature name='authentication_key'
+        rel='create'>\n      <param name='keyname' />\n    </feature>\n  </link>\n
+        \ <link href='http://localhost:3001/api/realms' rel='realms'>\n  </link>\n
+        \ <link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/images' rel='images'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/addresses' rel='addresses'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/drivers' rel='drivers'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/buckets' rel='buckets'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/keys' rel='keys'>\n  </link>\n</api>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/images
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0017576217651367188'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '3625'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - fb76b11edef9b2b39a729fe308f606d8
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<images>\n  <image href='http://localhost:3001/api/images/img1'
+        id='img1'>\n    <name>img1</name>\n    <description>Fedora 10</description>\n
+        \   <owner_id>fedoraproject</owner_id>\n    <architecture>x86_64</architecture>\n
+        \   <state>AVAILABLE</state>\n    <creation_time>Thu Oct 25 14:27:53 CEST
+        2012</creation_time>\n    <hardware_profiles>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-large' id='m1-large'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-xlarge'
+        id='m1-xlarge' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/opaque' id='opaque' rel='hardware_profile'></hardware_profile>\n
+        \   </hardware_profiles>\n    <root_type>transient</root_type>\n    <actions>\n
+        \     <link href='http://localhost:3001/api/instances;image_id=img1' method='post'
+        rel='create_instance' />\n      <link href='http://localhost:3001/api/images/img1'
+        method='delete' rel='destroy_image' />\n    </actions>\n  </image>\n  <image
+        href='http://localhost:3001/api/images/img2' id='img2'>\n    <name>img2</name>\n
+        \   <description>Fedora 10</description>\n    <owner_id>fedoraproject</owner_id>\n
+        \   <architecture>i386</architecture>\n    <state>AVAILABLE</state>\n    <creation_time>Thu
+        Oct 25 14:27:53 CEST 2012</creation_time>\n    <hardware_profiles>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-small' id='m1-small'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-xlarge' id='m1-xlarge'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/opaque'
+        id='opaque' rel='hardware_profile'></hardware_profile>\n    </hardware_profiles>\n
+        \   <root_type>transient</root_type>\n    <actions>\n      <link href='http://localhost:3001/api/instances;image_id=img2'
+        method='post' rel='create_instance' />\n      <link href='http://localhost:3001/api/images/img2'
+        method='delete' rel='destroy_image' />\n    </actions>\n  </image>\n  <image
+        href='http://localhost:3001/api/images/img3' id='img3'>\n    <name>img3</name>\n
+        \   <description>JBoss</description>\n    <owner_id>mockuser</owner_id>\n
+        \   <architecture>i386</architecture>\n    <state>AVAILABLE</state>\n    <creation_time>Thu
+        Oct 25 14:27:53 CEST 2012</creation_time>\n    <hardware_profiles>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-small' id='m1-small'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-xlarge' id='m1-xlarge'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/opaque'
+        id='opaque' rel='hardware_profile'></hardware_profile>\n    </hardware_profiles>\n
+        \   <root_type>transient</root_type>\n    <actions>\n      <link href='http://localhost:3001/api/instances;image_id=img3'
+        method='post' rel='create_instance' />\n      <link href='http://localhost:3001/api/images/img3'
+        method='delete' rel='destroy_image' />\n    </actions>\n  </image>\n</images>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/images
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0018177032470703125'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '3625'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - fb76b11edef9b2b39a729fe308f606d8
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<images>\n  <image href='http://localhost:3001/api/images/img1'
+        id='img1'>\n    <name>img1</name>\n    <description>Fedora 10</description>\n
+        \   <owner_id>fedoraproject</owner_id>\n    <architecture>x86_64</architecture>\n
+        \   <state>AVAILABLE</state>\n    <creation_time>Thu Oct 25 14:27:53 CEST
+        2012</creation_time>\n    <hardware_profiles>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-large' id='m1-large'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-xlarge'
+        id='m1-xlarge' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/opaque' id='opaque' rel='hardware_profile'></hardware_profile>\n
+        \   </hardware_profiles>\n    <root_type>transient</root_type>\n    <actions>\n
+        \     <link href='http://localhost:3001/api/instances;image_id=img1' method='post'
+        rel='create_instance' />\n      <link href='http://localhost:3001/api/images/img1'
+        method='delete' rel='destroy_image' />\n    </actions>\n  </image>\n  <image
+        href='http://localhost:3001/api/images/img2' id='img2'>\n    <name>img2</name>\n
+        \   <description>Fedora 10</description>\n    <owner_id>fedoraproject</owner_id>\n
+        \   <architecture>i386</architecture>\n    <state>AVAILABLE</state>\n    <creation_time>Thu
+        Oct 25 14:27:53 CEST 2012</creation_time>\n    <hardware_profiles>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-small' id='m1-small'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-xlarge' id='m1-xlarge'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/opaque'
+        id='opaque' rel='hardware_profile'></hardware_profile>\n    </hardware_profiles>\n
+        \   <root_type>transient</root_type>\n    <actions>\n      <link href='http://localhost:3001/api/instances;image_id=img2'
+        method='post' rel='create_instance' />\n      <link href='http://localhost:3001/api/images/img2'
+        method='delete' rel='destroy_image' />\n    </actions>\n  </image>\n  <image
+        href='http://localhost:3001/api/images/img3' id='img3'>\n    <name>img3</name>\n
+        \   <description>JBoss</description>\n    <owner_id>mockuser</owner_id>\n
+        \   <architecture>i386</architecture>\n    <state>AVAILABLE</state>\n    <creation_time>Thu
+        Oct 25 14:27:53 CEST 2012</creation_time>\n    <hardware_profiles>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-small' id='m1-small'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large' rel='hardware_profile'></hardware_profile>\n      <hardware_profile
+        href='http://localhost:3001/api/hardware_profiles/m1-xlarge' id='m1-xlarge'
+        rel='hardware_profile'></hardware_profile>\n      <hardware_profile href='http://localhost:3001/api/hardware_profiles/opaque'
+        id='opaque' rel='hardware_profile'></hardware_profile>\n    </hardware_profiles>\n
+        \   <root_type>transient</root_type>\n    <actions>\n      <link href='http://localhost:3001/api/instances;image_id=img3'
+        method='post' rel='create_instance' />\n      <link href='http://localhost:3001/api/images/img3'
+        method='delete' rel='destroy_image' />\n    </actions>\n  </image>\n</images>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+recorded_with: VCR 2.4.0

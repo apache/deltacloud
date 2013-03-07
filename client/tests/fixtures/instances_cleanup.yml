@@ -1,0 +1,681 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0015072822570800781'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1175'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 45aa1a1069561afacf53bfa0617937c2
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst12'
+        id='inst12'>\n  <name>i-1362560177</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>RUNNING</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst12/reboot'
+        method='post' rel='reboot' />\n    <link href='http://localhost:3001/api/instances/inst12/stop'
+        method='post' rel='stop' />\n    <link href='http://localhost:3001/api/instances/inst12/run;id=inst12'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst12'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst12.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst12.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: post
+    uri: http://localhost:3001/api/instances/inst12/stop
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 202
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.002788543701171875'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst12'
+        id='inst12'>\n  <name>i-1362560177</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst12/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst12'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst12/run;id=inst12'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst12'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst12.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst12.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0014603137969970703'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - cfc0f8b702e021b8e93e29504c3c401c
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst12'
+        id='inst12'>\n  <name>i-1362560177</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst12/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst12'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst12/run;id=inst12'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst12'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst12.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst12.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: delete
+    uri: http://localhost:3001/api/instances/inst12
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      x-backend-runtime:
+      - '0.0002741813659667969'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst13
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0006051063537597656'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 6ec7c01758e348e28df8260a21e38f23
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:17 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst13'
+        id='inst13'>\n  <name>i-1362560177</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst13/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst13'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst13/run;id=inst13'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst13'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst13.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst13.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:17 GMT
+- request:
+    method: delete
+    uri: http://localhost:3001/api/instances/inst13
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      x-backend-runtime:
+      - '0.00011873245239257812'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0006017684936523438'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1175'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 846e96034593a904f856ed5c0ef1ba97
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst14'
+        id='inst14'>\n  <name>i-1362560178</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>RUNNING</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst14/reboot'
+        method='post' rel='reboot' />\n    <link href='http://localhost:3001/api/instances/inst14/stop'
+        method='post' rel='stop' />\n    <link href='http://localhost:3001/api/instances/inst14/run;id=inst14'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst14'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst14.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst14.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: post
+    uri: http://localhost:3001/api/instances/inst14/stop
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 202
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0015385150909423828'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst14'
+        id='inst14'>\n  <name>i-1362560178</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst14/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst14'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst14/run;id=inst14'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst14'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst14.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst14.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0008783340454101562'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - 54d0a41fbd97cc4f1148c50786e26996
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst14'
+        id='inst14'>\n  <name>i-1362560178</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst14/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst14'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst14/run;id=inst14'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst14'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst14.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst14.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: delete
+    uri: http://localhost:3001/api/instances/inst14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      x-backend-runtime:
+      - '0.0003466606140136719'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst15
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0005993843078613281'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1175'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - a5154912c43a70a5f96dc590a26784d4
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst15'
+        id='inst15'>\n  <name>i-1362560178</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>RUNNING</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst15/reboot'
+        method='post' rel='reboot' />\n    <link href='http://localhost:3001/api/instances/inst15/stop'
+        method='post' rel='stop' />\n    <link href='http://localhost:3001/api/instances/inst15/run;id=inst15'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst15'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst15.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst15.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: post
+    uri: http://localhost:3001/api/instances/inst15/stop
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 202
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.002899169921875'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst15'
+        id='inst15'>\n  <name>i-1362560178</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst15/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst15'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst15/run;id=inst15'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst15'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst15.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst15.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances/inst15
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0008769035339355469'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1173'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - e26f940538d1f016eca99e233ada5800
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instance href='http://localhost:3001/api/instances/inst15'
+        id='inst15'>\n  <name>i-1362560178</name>\n  <owner_id>mockuser</owner_id>\n
+        \ <image href='http://localhost:3001/api/images/img1' id='img1'></image>\n
+        \ <realm href='http://localhost:3001/api/realms/us' id='us'></realm>\n  <state>STOPPED</state>\n
+        \ <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n  </hardware_profile>\n  <actions>\n    <link href='http://localhost:3001/api/instances/inst15/start'
+        method='post' rel='start' />\n    <link href='http://localhost:3001/api/instances/inst15'
+        method='delete' rel='destroy' />\n    <link href='http://localhost:3001/api/instances/inst15/run;id=inst15'
+        method='post' rel='run' />\n    <link href='http://localhost:3001/api/images;instance_id=inst15'
+        method='post' rel='create_image' />\n  </actions>\n  <public_addresses><address
+        type='hostname'>img1.inst15.public.com</address></public_addresses>\n  <private_addresses><address
+        type='hostname'>img1.inst15.private.com</address></private_addresses>\n  <storage_volumes></storage_volumes>\n
+        \ <authentication type='key'>\n  </authentication>\n</instance>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: delete
+    uri: http://localhost:3001/api/instances/inst15
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 204
+      message: 
+    headers:
+      x-backend-runtime:
+      - '0.00020003318786621094'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      x-content-type-options:
+      - nosniff
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ''
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+recorded_with: VCR 2.4.0

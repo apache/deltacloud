@@ -1,0 +1,486 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1368'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - e43d25244dc2b8ce1da6fa91131507ee
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<api driver='mock' version='1.1.1'>\n  <link href='http://localhost:3001/api/instance_states'
+        rel='instance_states'>\n  </link>\n  <link href='http://localhost:3001/api/storage_volumes'
+        rel='storage_volumes'>\n  </link>\n  <link href='http://localhost:3001/api/metrics'
+        rel='metrics'>\n  </link>\n  <link href='http://localhost:3001/api/hardware_profiles'
+        rel='hardware_profiles'>\n  </link>\n  <link href='http://localhost:3001/api/instances'
+        rel='instances'>\n    <feature name='metrics' rel='create'>\n      <param
+        name='metrics' />\n    </feature>\n    <feature name='realm_filter' rel='index'>\n
+        \     <param name='realm_id' />\n    </feature>\n    <feature name='user_name'
+        rel='create'>\n      <param name='name' />\n    </feature>\n    <feature name='authentication_key'
+        rel='create'>\n      <param name='keyname' />\n    </feature>\n  </link>\n
+        \ <link href='http://localhost:3001/api/realms' rel='realms'>\n  </link>\n
+        \ <link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/images' rel='images'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/addresses' rel='addresses'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/drivers' rel='drivers'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/buckets' rel='buckets'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/keys' rel='keys'>\n  </link>\n</api>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.005411386489868164'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '16539'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - f155d58829533df9216e29d06b3e73b3
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instances>\n  <instance
+        href='http://localhost:3001/api/instances/inst6' id='inst6'>\n    <name>i-1362499468</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>STOPPED</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst6/start'
+        method='post' rel='start' />\n      <link href='http://localhost:3001/api/instances/inst6'
+        method='delete' rel='destroy' />\n      <link href='http://localhost:3001/api/instances/inst6/run;id=inst6'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst6'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst6.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst6.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst9' id='inst9'>\n    <name>i-1362560139</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst9/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst9/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst9/run;id=inst9'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst9'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst9.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst9.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst7' id='inst7'>\n    <name>i-1362499468</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst7/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst7/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst7/run;id=inst7'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst7'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst7.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst7.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst1' id='inst1'>\n    <name>MockUserInstance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img3'
+        id='img3'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst1/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst1/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst1/run;id=inst1'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst1'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst1.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst1.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst4' id='inst4'>\n    <name>test_instance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst4/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst4/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst4/run;id=inst4'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst4'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst4.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst4.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst0' id='inst0'>\n    <name>Mock
+        Instance With Profile Change</name>\n    <owner_id>mockuser</owner_id>\n    <image
+        href='http://localhost:3001/api/images/img1' id='img1'></image>\n    <realm
+        href='http://localhost:3001/api/realms/us' id='us'></realm>\n    <state>RUNNING</state>\n
+        \   <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n      <property kind='fixed' name='memory' unit='MB' value='12288'></property>\n
+        \   </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst0/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst0/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst0/run;id=inst0'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst0'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst0.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst0.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst3' id='inst3'>\n    <name>i-1362499363</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst3/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst3/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst3/run;id=inst3'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst3'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst3.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst3.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst8' id='inst8'>\n    <name>i-1362499469</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst8/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst8/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst8/run;id=inst8'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst8'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst8.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst8.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst11' id='inst11'>\n    <name>i-1362560140</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst11/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst11/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst11/run;id=inst11'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst11'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst11.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst11.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst12' id='inst12'>\n    <name>i-1362560177</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst12/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst12/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst12/run;id=inst12'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst12'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst12.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst12.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst5' id='inst5'>\n    <name>i-1362499364</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst5/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst5/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst5/run;id=inst5'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst5'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst5.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst5.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst10' id='inst10'>\n    <name>test_instance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst10/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst10/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst10/run;id=inst10'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst10'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst10.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst10.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst14' id='inst14'>\n    <name>test_instance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst14/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst14/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst14/run;id=inst14'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst14'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst14.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst14.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst13' id='inst13'>\n    <name>i-1362560178</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst13/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst13/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst13/run;id=inst13'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst13'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst13.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst13.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n</instances>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/instances
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.015678882598876953'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '16539'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - f155d58829533df9216e29d06b3e73b3
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:18 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<instances>\n  <instance
+        href='http://localhost:3001/api/instances/inst6' id='inst6'>\n    <name>i-1362499468</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>STOPPED</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst6/start'
+        method='post' rel='start' />\n      <link href='http://localhost:3001/api/instances/inst6'
+        method='delete' rel='destroy' />\n      <link href='http://localhost:3001/api/instances/inst6/run;id=inst6'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst6'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst6.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst6.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst9' id='inst9'>\n    <name>i-1362560139</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst9/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst9/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst9/run;id=inst9'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst9'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst9.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst9.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst7' id='inst7'>\n    <name>i-1362499468</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst7/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst7/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst7/run;id=inst7'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst7'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst7.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst7.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst1' id='inst1'>\n    <name>MockUserInstance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img3'
+        id='img3'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst1/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst1/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst1/run;id=inst1'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst1'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst1.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst1.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst4' id='inst4'>\n    <name>test_instance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst4/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst4/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst4/run;id=inst4'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst4'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst4.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst4.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst0' id='inst0'>\n    <name>Mock
+        Instance With Profile Change</name>\n    <owner_id>mockuser</owner_id>\n    <image
+        href='http://localhost:3001/api/images/img1' id='img1'></image>\n    <realm
+        href='http://localhost:3001/api/realms/us' id='us'></realm>\n    <state>RUNNING</state>\n
+        \   <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-large'
+        id='m1-large'>\n      <property kind='fixed' name='memory' unit='MB' value='12288'></property>\n
+        \   </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst0/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst0/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst0/run;id=inst0'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst0'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst0.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst0.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst3' id='inst3'>\n    <name>i-1362499363</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst3/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst3/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst3/run;id=inst3'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst3'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst3.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst3.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst8' id='inst8'>\n    <name>i-1362499469</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst8/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst8/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst8/run;id=inst8'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst8'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst8.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst8.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst11' id='inst11'>\n    <name>i-1362560140</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst11/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst11/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst11/run;id=inst11'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst11'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst11.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst11.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst12' id='inst12'>\n    <name>i-1362560177</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst12/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst12/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst12/run;id=inst12'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst12'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst12.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst12.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst5' id='inst5'>\n    <name>i-1362499364</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/us'
+        id='us'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst5/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst5/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst5/run;id=inst5'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst5'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst5.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst5.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst10' id='inst10'>\n    <name>test_instance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst10/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst10/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst10/run;id=inst10'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst10'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst10.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst10.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst14' id='inst14'>\n    <name>test_instance</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst14/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst14/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst14/run;id=inst14'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst14'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst14.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst14.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n  <instance
+        href='http://localhost:3001/api/instances/inst13' id='inst13'>\n    <name>i-1362560178</name>\n
+        \   <owner_id>mockuser</owner_id>\n    <image href='http://localhost:3001/api/images/img1'
+        id='img1'></image>\n    <realm href='http://localhost:3001/api/realms/eu'
+        id='eu'></realm>\n    <state>RUNNING</state>\n    <hardware_profile href='http://localhost:3001/api/hardware_profiles/m1-small'
+        id='m1-small'>\n    </hardware_profile>\n    <actions>\n      <link href='http://localhost:3001/api/instances/inst13/reboot'
+        method='post' rel='reboot' />\n      <link href='http://localhost:3001/api/instances/inst13/stop'
+        method='post' rel='stop' />\n      <link href='http://localhost:3001/api/instances/inst13/run;id=inst13'
+        method='post' rel='run' />\n      <link href='http://localhost:3001/api/images;instance_id=inst13'
+        method='post' rel='create_image' />\n    </actions>\n    <public_addresses><address
+        type='hostname'>img1.inst13.public.com</address></public_addresses>\n    <private_addresses><address
+        type='hostname'>img1.inst13.private.com</address></private_addresses>\n    <storage_volumes></storage_volumes>\n
+        \   <authentication type='key'>\n    </authentication>\n  </instance>\n</instances>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:18 GMT
+recorded_with: VCR 2.4.0

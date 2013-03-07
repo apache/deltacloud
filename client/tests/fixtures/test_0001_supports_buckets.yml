@@ -1,0 +1,160 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1368'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - e43d25244dc2b8ce1da6fa91131507ee
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:16 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<api driver='mock' version='1.1.1'>\n  <link href='http://localhost:3001/api/instance_states'
+        rel='instance_states'>\n  </link>\n  <link href='http://localhost:3001/api/storage_volumes'
+        rel='storage_volumes'>\n  </link>\n  <link href='http://localhost:3001/api/metrics'
+        rel='metrics'>\n  </link>\n  <link href='http://localhost:3001/api/hardware_profiles'
+        rel='hardware_profiles'>\n  </link>\n  <link href='http://localhost:3001/api/instances'
+        rel='instances'>\n    <feature name='metrics' rel='create'>\n      <param
+        name='metrics' />\n    </feature>\n    <feature name='realm_filter' rel='index'>\n
+        \     <param name='realm_id' />\n    </feature>\n    <feature name='user_name'
+        rel='create'>\n      <param name='name' />\n    </feature>\n    <feature name='authentication_key'
+        rel='create'>\n      <param name='keyname' />\n    </feature>\n  </link>\n
+        \ <link href='http://localhost:3001/api/realms' rel='realms'>\n  </link>\n
+        \ <link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/images' rel='images'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/addresses' rel='addresses'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/drivers' rel='drivers'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/buckets' rel='buckets'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/keys' rel='keys'>\n  </link>\n</api>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/buckets
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0019044876098632812'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '739'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - db70c6b7bfca53f9b1396c30c62817c1
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:16 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<buckets>\n  <bucket href='http://localhost:3001/api/buckets/bucket1'
+        id='bucket1'>\n    <name>bucket1</name>\n    <size>3</size>\n    <blob href='http://localhost:3001/api/buckets/bucket1/blob1'
+        id='blob1'></blob>\n    <blob href='http://localhost:3001/api/buckets/bucket1/blob3'
+        id='blob3'></blob>\n    <blob href='http://localhost:3001/api/buckets/bucket1/blob2'
+        id='blob2'></blob>\n  </bucket>\n  <bucket href='http://localhost:3001/api/buckets/bucket2'
+        id='bucket2'>\n    <name>bucket2</name>\n    <size>2</size>\n    <blob href='http://localhost:3001/api/buckets/bucket2/blob5'
+        id='blob5'></blob>\n    <blob href='http://localhost:3001/api/buckets/bucket2/blob4'
+        id='blob4'></blob>\n  </bucket>\n</buckets>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:16 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/buckets
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.00443577766418457'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '739'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - db70c6b7bfca53f9b1396c30c62817c1
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:16 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<buckets>\n  <bucket href='http://localhost:3001/api/buckets/bucket1'
+        id='bucket1'>\n    <name>bucket1</name>\n    <size>3</size>\n    <blob href='http://localhost:3001/api/buckets/bucket1/blob1'
+        id='blob1'></blob>\n    <blob href='http://localhost:3001/api/buckets/bucket1/blob3'
+        id='blob3'></blob>\n    <blob href='http://localhost:3001/api/buckets/bucket1/blob2'
+        id='blob2'></blob>\n  </bucket>\n  <bucket href='http://localhost:3001/api/buckets/bucket2'
+        id='bucket2'>\n    <name>bucket2</name>\n    <size>2</size>\n    <blob href='http://localhost:3001/api/buckets/bucket2/blob5'
+        id='blob5'></blob>\n    <blob href='http://localhost:3001/api/buckets/bucket2/blob4'
+        id='blob4'></blob>\n  </bucket>\n</buckets>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:16 GMT
+recorded_with: VCR 2.4.0

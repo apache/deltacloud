@@ -1,0 +1,198 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '1368'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - e43d25244dc2b8ce1da6fa91131507ee
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:19 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<api driver='mock' version='1.1.1'>\n  <link href='http://localhost:3001/api/instance_states'
+        rel='instance_states'>\n  </link>\n  <link href='http://localhost:3001/api/storage_volumes'
+        rel='storage_volumes'>\n  </link>\n  <link href='http://localhost:3001/api/metrics'
+        rel='metrics'>\n  </link>\n  <link href='http://localhost:3001/api/hardware_profiles'
+        rel='hardware_profiles'>\n  </link>\n  <link href='http://localhost:3001/api/instances'
+        rel='instances'>\n    <feature name='metrics' rel='create'>\n      <param
+        name='metrics' />\n    </feature>\n    <feature name='realm_filter' rel='index'>\n
+        \     <param name='realm_id' />\n    </feature>\n    <feature name='user_name'
+        rel='create'>\n      <param name='name' />\n    </feature>\n    <feature name='authentication_key'
+        rel='create'>\n      <param name='keyname' />\n    </feature>\n  </link>\n
+        \ <link href='http://localhost:3001/api/realms' rel='realms'>\n  </link>\n
+        \ <link href='http://localhost:3001/api/storage_snapshots' rel='storage_snapshots'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/images' rel='images'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/addresses' rel='addresses'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/drivers' rel='drivers'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/buckets' rel='buckets'>\n
+        \ </link>\n  <link href='http://localhost:3001/api/keys' rel='keys'>\n  </link>\n</api>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:19 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/keys
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0026090145111083984'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '2299'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - b5777985297c503ddf06535a89966e7c
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:19 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<keys>\n  <key href='http://localhost:3001/api/keys/test-key'
+        id='test-key' type='key'>\n    <name>test-key</name>\n    <actions>\n      <link
+        href='http://localhost:3001/api/keys/test-key' method='delete' rel='destroy'
+        />\n    </actions>\n    <fingerprint>5e:ce:b6:dc:59:3b:5c:93:f8:2e:9d:20:ce:60:ca:f5:0b:8a:66:93</fingerprint>\n
+        \   <pem>\n      <![CDATA[-----BEGIN RSA PRIVATE KEY-----\n      P9mRXOY7p2SmMzTGA6dwKxUp1NB8LNCIJ7sMGgAljsf=ToAi9qn9myx0EQJkE8FZ8FigUIMHS/T\n
+        \     8EwP7Ayjztb8dczbC6sb/Ep2UWcegNUVHimyHstaEaO/3dCaFwLJ/kw=laAfLQAVj4sIr8EHDTg\n
+        \     /BFkgmwTAYlS/ybkEfO9J7AJlY6/agwYzDWp+VGAD9rMsl2EkkbkWdoTX4Aob9RqyHaFi2m1AAw\n
+        \     2nhhqYpa1W4H=PJvyBcsXT3JynowSI8rTvo41oVwgSzv7YofGP0yV7BePm5pXZUUP2ZMByxbAUv\n
+        \     jvYRN/cMHbC6RW1ezR3uehCKdKFRXLTkoivoGj4ugrKgOwQP0HWI2orx/NW+6vYBxyCKiTJPZcK\n
+        \     x4BlRrlgvPST/7eaFv7/5Pqc3jWcp+bRC0qyYqQT9iq3gGNoc4ABFTI7zCeZ3p9tK8oje5fWo5m\n
+        \     54P32hVGeBjfqT/MrEYbY5gbJU6LejCj7x6Ozlp4iHQtrYNhiZ0iP0W3nRhVFQHamKx9aoBXyeg\n
+        \     LLGxBOr+TfaeeBXRkXiaMuWoyPSzUQwWmaJhm0sjHf7e/iKiUggZkOHQ/eF9MWI4M+4wvyepfS0\n
+        \     5vl2Ql/2rXv+Mx+c4cx1fjBhRrMPcGKmHGjNMjPyamTrlqueFRJYP45AYABP2U2AsNxoPfEG0qu\n
+        \     ki3DJOeC5x/03nODd=hQLzfdiQ3Yyt0GMw1EQN96cPaRtnjr3U4/ngxt0Fi6o7Z8E2+Uh5t4n8D\n
+        \     h0exXCOlOi9BDsJJz677mga/=5Sin/4Cw8=D8O1FHrWoA4ZQbWFE71F=/29PM90RHJf2bjgk2WF\n
+        \     piltKwVfGAxPOTcpmf=J+V3NHgT/EawMPHuEmwgNvx6smDBUgJaw0QYX/XG5xuiQ7HTkffJN6Cm\n
+        \     6D4WCJPZUvO1r+v=T9v7Qu4j9ue/l2WwVZuvQsVD67jpzq2R72EHna6rcwwyMcdAlwikP9nzJIL\n
+        \     Ale7hQAWHIEeAvAxtwxEMSfTkuLQcD=i0ORysmInDxdORw4ue2YThj2Id/jmUy6IiEqMYeVpiRq\n
+        \     6spq2ukt=+HHn6aBcYWbsD=e8/wOk0X0=ixZ0HF+xqYgsiiAk==rA4QEgrf+5djbIRZk1wegeIO\n
+        \     po/HZdF4qk32cKBjrrel2AzxfZeGxWNX7ObAE4HACXi3eSdcnm1fIHsoSC+1eDqFkfAIve3Dj/a\n
+        \     afZxrda6zzp3g6IPcHAqleCn7XNcS0v5tk4Fag8Wr5Wq7IipRfixAs+GESGiyugeRvZWN2mtDOL\n
+        \     CGHGGAbpvplw2vjdryVyj7P6bVcwLNgl0t1ufZBaGRBpyontJ1/UQQMew7e2lW=EZr/GxHke8HN\n
+        \     X5vIw9ssx8=LL00fxAuX9SRdcrtVyTYGXORXe9NnldXjBXmLPgwqJAjoBTjTBQxzrQOtdla=/yw\n
+        \     MsDlFWumPz1HAFw7R5zS2VCHrwkLDm=h7k3y+fUvYOx6IYf+MmevANuJT+2qY6s/ilTBNDYq6jJ\n
+        \     8LYpsBo4XpQm1ZleFCIyRldHfmaC5EMxkVQVqCV7X9I6JgzDEetUre25LQTpDa31M=ucVHNWlT+\n
+        \     6rjiLETNeMTWGcuIkLPe/PElmp4llKeFi6g2=E2AKeSDzNycr5eXHEnBuKfEnENXXo6n-----END
+        RSA PRIVATE KEY-----]]>\n    </pem>\n    <state></state>\n  </key>\n</keys>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:19 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/keys
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic bW9ja3VzZXI6bW9ja3Bhc3N3b3Jk
+      User-Agent:
+      - Faraday v0.8.6
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - application/xml
+      x-backend-runtime:
+      - '0.0010156631469726562'
+      server:
+      - Apache-Deltacloud/1.1.1
+      x-deltacloud-driver:
+      - mock
+      content-length:
+      - '2299'
+      x-content-type-options:
+      - nosniff
+      etag:
+      - b5777985297c503ddf06535a89966e7c
+      cache-control:
+      - max-age=0, private, must-revalidate
+      date:
+      - Wed, 06 Mar 2013 08:56:19 GMT
+      connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version='1.0' encoding='utf-8' ?>\n<keys>\n  <key href='http://localhost:3001/api/keys/test-key'
+        id='test-key' type='key'>\n    <name>test-key</name>\n    <actions>\n      <link
+        href='http://localhost:3001/api/keys/test-key' method='delete' rel='destroy'
+        />\n    </actions>\n    <fingerprint>5e:ce:b6:dc:59:3b:5c:93:f8:2e:9d:20:ce:60:ca:f5:0b:8a:66:93</fingerprint>\n
+        \   <pem>\n      <![CDATA[-----BEGIN RSA PRIVATE KEY-----\n      P9mRXOY7p2SmMzTGA6dwKxUp1NB8LNCIJ7sMGgAljsf=ToAi9qn9myx0EQJkE8FZ8FigUIMHS/T\n
+        \     8EwP7Ayjztb8dczbC6sb/Ep2UWcegNUVHimyHstaEaO/3dCaFwLJ/kw=laAfLQAVj4sIr8EHDTg\n
+        \     /BFkgmwTAYlS/ybkEfO9J7AJlY6/agwYzDWp+VGAD9rMsl2EkkbkWdoTX4Aob9RqyHaFi2m1AAw\n
+        \     2nhhqYpa1W4H=PJvyBcsXT3JynowSI8rTvo41oVwgSzv7YofGP0yV7BePm5pXZUUP2ZMByxbAUv\n
+        \     jvYRN/cMHbC6RW1ezR3uehCKdKFRXLTkoivoGj4ugrKgOwQP0HWI2orx/NW+6vYBxyCKiTJPZcK\n
+        \     x4BlRrlgvPST/7eaFv7/5Pqc3jWcp+bRC0qyYqQT9iq3gGNoc4ABFTI7zCeZ3p9tK8oje5fWo5m\n
+        \     54P32hVGeBjfqT/MrEYbY5gbJU6LejCj7x6Ozlp4iHQtrYNhiZ0iP0W3nRhVFQHamKx9aoBXyeg\n
+        \     LLGxBOr+TfaeeBXRkXiaMuWoyPSzUQwWmaJhm0sjHf7e/iKiUggZkOHQ/eF9MWI4M+4wvyepfS0\n
+        \     5vl2Ql/2rXv+Mx+c4cx1fjBhRrMPcGKmHGjNMjPyamTrlqueFRJYP45AYABP2U2AsNxoPfEG0qu\n
+        \     ki3DJOeC5x/03nODd=hQLzfdiQ3Yyt0GMw1EQN96cPaRtnjr3U4/ngxt0Fi6o7Z8E2+Uh5t4n8D\n
+        \     h0exXCOlOi9BDsJJz677mga/=5Sin/4Cw8=D8O1FHrWoA4ZQbWFE71F=/29PM90RHJf2bjgk2WF\n
+        \     piltKwVfGAxPOTcpmf=J+V3NHgT/EawMPHuEmwgNvx6smDBUgJaw0QYX/XG5xuiQ7HTkffJN6Cm\n
+        \     6D4WCJPZUvO1r+v=T9v7Qu4j9ue/l2WwVZuvQsVD67jpzq2R72EHna6rcwwyMcdAlwikP9nzJIL\n
+        \     Ale7hQAWHIEeAvAxtwxEMSfTkuLQcD=i0ORysmInDxdORw4ue2YThj2Id/jmUy6IiEqMYeVpiRq\n
+        \     6spq2ukt=+HHn6aBcYWbsD=e8/wOk0X0=ixZ0HF+xqYgsiiAk==rA4QEgrf+5djbIRZk1wegeIO\n
+        \     po/HZdF4qk32cKBjrrel2AzxfZeGxWNX7ObAE4HACXi3eSdcnm1fIHsoSC+1eDqFkfAIve3Dj/a\n
+        \     afZxrda6zzp3g6IPcHAqleCn7XNcS0v5tk4Fag8Wr5Wq7IipRfixAs+GESGiyugeRvZWN2mtDOL\n
+        \     CGHGGAbpvplw2vjdryVyj7P6bVcwLNgl0t1ufZBaGRBpyontJ1/UQQMew7e2lW=EZr/GxHke8HN\n
+        \     X5vIw9ssx8=LL00fxAuX9SRdcrtVyTYGXORXe9NnldXjBXmLPgwqJAjoBTjTBQxzrQOtdla=/yw\n
+        \     MsDlFWumPz1HAFw7R5zS2VCHrwkLDm=h7k3y+fUvYOx6IYf+MmevANuJT+2qY6s/ilTBNDYq6jJ\n
+        \     8LYpsBo4XpQm1ZleFCIyRldHfmaC5EMxkVQVqCV7X9I6JgzDEetUre25LQTpDa31M=ucVHNWlT+\n
+        \     6rjiLETNeMTWGcuIkLPe/PElmp4llKeFi6g2=E2AKeSDzNycr5eXHEnBuKfEnENXXo6n-----END
+        RSA PRIVATE KEY-----]]>\n    </pem>\n    <state></state>\n  </key>\n</keys>\n"
+    http_version: 
+  recorded_at: Wed, 06 Mar 2013 08:56:19 GMT
+recorded_with: VCR 2.4.0
