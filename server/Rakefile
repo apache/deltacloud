@@ -66,7 +66,8 @@ namespace :mock do
     task 'setup' => :initialize do
       srcdir = File::join(File::dirname(__FILE__), "lib", "deltacloud", "drivers", "mock", "data")
       data = Dir::glob(File::join(srcdir, "*"))
-      srcdir.gsub!(/^#{ENV["PWD"]}/, ".").gsub!(/^#{ENV["HOME"]}/, "~")
+      srcdir.gsub!(/^#{ENV["PWD"]}/, ".")
+      srcdir.gsub!(/^#{ENV["HOME"]}/, "~")
       puts "Copy mock data to #{MOCK_STORAGE_DIR}"
       puts "  (from #{srcdir})"
       FileUtils::cp_r(data, MOCK_STORAGE_DIR, :verbose => false)
