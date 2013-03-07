@@ -14,111 +14,109 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'timeout'
+module Deltacloud
+  class Instance < BaseModel
 
-class Instance < BaseModel
+    attr_accessor :owner_id
+    attr_accessor :image_id
+    attr_accessor :name
+    attr_accessor :realm_id
+    attr_accessor :state
+    attr_accessor :actions
+    attr_accessor :public_addresses
+    attr_accessor :private_addresses
+    attr_accessor :instance_profile
+    attr_accessor :launch_time
+    attr_accessor :keyname
+    attr_accessor :authn_error
+    attr_accessor :username
+    attr_accessor :password
+    attr_accessor :create_image
+    attr_accessor :firewalls
+    attr_accessor :storage_volumes
 
-  include Timeout
-
-  attr_accessor :owner_id
-  attr_accessor :image_id
-  attr_accessor :name
-  attr_accessor :realm_id
-  attr_accessor :state
-  attr_accessor :actions
-  attr_accessor :public_addresses
-  attr_accessor :private_addresses
-  attr_accessor :instance_profile
-  attr_accessor :launch_time
-  attr_accessor :keyname
-  attr_accessor :authn_error
-  attr_accessor :username
-  attr_accessor :password
-  attr_accessor :create_image
-  attr_accessor :firewalls
-  attr_accessor :storage_volumes
-
-  def to_hash(context)
-    r = {
-      :id => self.id,
-      :href => context.instance_url(self.id),
-      :name => name,
-      :state => state,
-      :owner => owner_id,
-      :image => { :href => context.image_url(image_id), :id => image_id, :rel => :image },
-      :realm => { :href => context.realm_url(realm_id), :id => realm_id, :rel => :realm },
-      :actions => actions.compact.map { |a|
-        {
-          :href => context.send("#{a}_instance_url", self.id),
-          :rel => "#{a}",
-          :method => context.instance_action_method(a)
-        }
-      },
-      :hardware_profile => {
-        :id => instance_profile.id,
-        :href => context.hardware_profile_url(instance_profile.id),
-        :rel => :hardware_profile,
-        :properties => instance_profile.overrides
-      },
-      :public_addresses => public_addresses.map { |addr| addr.to_hash(context) },
-      :private_addresses => private_addresses.map { |addr| addr.to_hash(context) }
-    }
-    if context.driver.respond_to? :run_on_instance
-      r[:actions] << { :href => "#{context.run_instance_url(self.id)};id=#{self.id}", :rel => 'run', :method => 'post'}
+    def to_hash(context)
+      r = {
+        :id => self.id,
+        :href => context.instance_url(self.id),
+        :name => name,
+        :state => state,
+        :owner => owner_id,
+        :image => { :href => context.image_url(image_id), :id => image_id, :rel => :image },
+        :realm => { :href => context.realm_url(realm_id), :id => realm_id, :rel => :realm },
+        :actions => actions.compact.map { |a|
+          {
+            :href => context.send("#{a}_instance_url", self.id),
+            :rel => "#{a}",
+            :method => context.instance_action_method(a)
+          }
+        },
+        :hardware_profile => {
+          :id => instance_profile.id,
+          :href => context.hardware_profile_url(instance_profile.id),
+          :rel => :hardware_profile,
+          :properties => instance_profile.overrides
+        },
+        :public_addresses => public_addresses.map { |addr| addr.to_hash(context) },
+        :private_addresses => private_addresses.map { |addr| addr.to_hash(context) }
+      }
+      if context.driver.respond_to? :run_on_instance
+        r[:actions] << { :href => "#{context.run_instance_url(self.id)};id=#{self.id}", :rel => 'run', :method => 'post'}
+      end
+      if can_create_image?
+        r[:actions] << { :href => "#{context.create_image_url};instance_id=#{self.id}", :rel => 'create_image', :method => 'post'}
+      end
+      r.merge!(:create_time => launch_time) if launch_time
+      r.merge!(:create_image => create_image) if create_image
+      r.merge!(:firewalls => firewalls.map { |f| { :id => f, :href => context.firewall_url(f), :rel => :firewall }}) if firewalls
+      if storage_volumes
+        r.merge!(:storage_volumes => storage_volumes.map { |v| { :id => v.keys.first, :href => context.storage_volume_url(v.keys.first), :rel => :storage_volume }})
+      end
+      if context.driver.class.has_feature?(:instances, :authentication_key)
+        r.merge!(:authentication_type => 'key' )
+        r.merge!(:authentication => { :keyname => keyname }) if keyname
+      end
+      if context.driver.class.has_feature?(:instances, :authentication_password)
+        r[:authentication] && username ? r[:authentication].merge!({ :user => username, :password => password }) :
+                (username ? r.merge!(:authentication => { :user => username, :password => password }) : nil)
+      end
+      r
     end
-    if can_create_image?
-      r[:actions] << { :href => "#{context.create_image_url};instance_id=#{self.id}", :rel => 'create_image', :method => 'post'}
+
+    def storage_volumes
+      @storage_volumes || []
     end
-    r.merge!(:create_time => launch_time) if launch_time
-    r.merge!(:create_image => create_image) if create_image
-    r.merge!(:firewalls => firewalls.map { |f| { :id => f, :href => context.firewall_url(f), :rel => :firewall }}) if firewalls
-    if storage_volumes
-      r.merge!(:storage_volumes => storage_volumes.map { |v| { :id => v.keys.first, :href => context.storage_volume_url(v.keys.first), :rel => :storage_volume }})
+
+    def can_create_image?
+      self.create_image
     end
-    if context.driver.class.has_feature?(:instances, :authentication_key)
-      r.merge!(:authentication_type => 'key' )
-      r.merge!(:authentication => { :keyname => keyname }) if keyname
+
+    def hardware_profile
+      instance_profile
     end
-    if context.driver.class.has_feature?(:instances, :authentication_password)
-      r[:authentication] && username ? r[:authentication].merge!({ :user => username, :password => password }) :
-              (username ? r.merge!(:authentication => { :user => username, :password => password }) : nil)
+
+    def hardware_profile=(profile)
+      @instance_profile = profile
     end
-    r
-  end
 
-  def storage_volumes
-    @storage_volumes || []
-  end
-
-  def can_create_image?
-    self.create_image
-  end
-
-  def hardware_profile
-    instance_profile
-  end
-
-  def hardware_profile=(profile)
-    @instance_profile = profile
-  end
-
-  def initialize(init=nil)
-    super(init)
-    self.actions = [] if self.actions.nil?
-    self.public_addresses = [] if self.public_addresses.nil?
-    self.private_addresses = [] if self.private_addresses.nil?
-  end
-
-  def method_missing(name, *args)
-    if name.to_s =~ /is_(\w+)\?/
-      self.state.downcase.eql?($1)
-    else
-      raise NoMethodError.new(name.to_s)
+    def initialize(init=nil)
+      super(init)
+      self.actions = [] if self.actions.nil?
+      self.public_addresses = [] if self.public_addresses.nil?
+      self.private_addresses = [] if self.private_addresses.nil?
     end
-  end
 
-  def authn_feature_failed?
-    return true unless authn_error.nil?
-  end
+    def method_missing(name, *args)
+      if name.to_s =~ /is_(\w+)\?/
+        self.state.downcase.eql?($1)
+      else
+        raise NoMethodError.new(name.to_s)
+      end
+    end
 
+    def authn_feature_failed?
+      return true unless authn_error.nil?
+    end
+
+  end
 end

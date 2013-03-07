@@ -14,27 +14,29 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class Blob < BaseModel
+module Deltacloud
+  class Blob < BaseModel
 
-  #already has an id from basemodel (for the key)
-  attr_accessor :bucket
-  attr_accessor :content_length
-  attr_accessor :content_type
-  attr_accessor :last_modified
-  attr_accessor :content
-  attr_accessor :user_metadata
+    #already has an id from basemodel (for the key)
+    attr_accessor :bucket
+    attr_accessor :content_length
+    attr_accessor :content_type
+    attr_accessor :last_modified
+    attr_accessor :content
+    attr_accessor :user_metadata
 
-  def to_hash(context)
-    {
-      :id => self.id,
-      :href => context.bucket_url(bucket) + '/' + self.id,
-      :bucket => { :rel => :bucket, :href => context.bucket_url(bucket), :id => bucket },
-      :content_length => content_length,
-      :content_type => content_type,
-      :last_modified => last_modified,
-      :content => content,
-      :user_metadata => user_metadata
-    }
+    def to_hash(context)
+      {
+        :id => self.id,
+        :href => context.bucket_url(bucket) + '/' + self.id,
+        :bucket => { :rel => :bucket, :href => context.bucket_url(bucket), :id => bucket },
+        :content_length => content_length,
+        :content_type => content_type,
+        :last_modified => last_modified,
+        :content => content,
+        :user_metadata => user_metadata
+      }
+    end
+
   end
-
 end

@@ -16,20 +16,22 @@
 # Model to store the hardware profile applied to an instance together with
 # any instance-specific overrides
 
-class Provider < BaseModel
-  attr_accessor :url
-  attr_accessor :name
+module Deltacloud
+  class Provider < BaseModel
+    attr_accessor :url
+    attr_accessor :name
 
-  def initialize(opts={})
-    super(opts)
+    def initialize(opts={})
+      super(opts)
+    end
+
+    def to_hash(context)
+      {
+        :id => self.id,
+        :name => name,
+        :url => url
+      }
+    end
+
   end
-
-  def to_hash(context)
-    {
-      :id => self.id,
-      :name => name,
-      :url => url
-    }
-  end
-
 end

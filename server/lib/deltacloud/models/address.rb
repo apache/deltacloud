@@ -14,25 +14,27 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class Address < BaseModel
-  attr_accessor :instance_id
+module Deltacloud
+  class Address < BaseModel
+    attr_accessor :instance_id
 
-  def initialize(init=nil)
-    super(init)
+    def initialize(init=nil)
+      super(init)
+    end
+
+    def associated?
+      !self.instance_id.nil?
+    end
+
+    def to_hash(context)
+      r = {
+        :id => self.id,
+        :href => context.address_url(self.id),
+        :associated => associated?
+      }
+      r[:instance_id] = instance_id if associated?
+      r
+    end
+
   end
-
-  def associated?
-    !self.instance_id.nil?
-  end
-
-  def to_hash(context)
-    r = {
-      :id => self.id,
-      :href => context.address_url(self.id),
-      :associated => associated?
-    }
-    r[:instance_id] = instance_id if associated?
-    r
-  end
-
 end

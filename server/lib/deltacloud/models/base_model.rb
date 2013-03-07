@@ -14,40 +14,41 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+module Deltacloud
+  class BaseModel
 
-class BaseModel
+    attr_accessor :name, :description
 
-  attr_accessor :name, :description
-
-  def initialize(init=nil)
-    if ( init )
-      @id=init[:id]
-      init.each{|k,v|
-        self.send( "#{k}=", v ) if ( self.respond_to?( "#{k}=" ) )
-      }
+    def initialize(init=nil)
+      if ( init )
+        @id=init[:id]
+        init.each{|k,v|
+          self.send( "#{k}=", v ) if ( self.respond_to?( "#{k}=" ) )
+        }
+      end
     end
-  end
 
-  def self.attr_accessor(*vars)
-    @attributes ||= [:id]
-    @attributes.concat vars
-    super
-  end
+    def self.attr_accessor(*vars)
+      @attributes ||= [:id]
+      @attributes.concat vars
+      super
+    end
 
-  def self.attributes
-    @attributes
-  end
+    def self.attributes
+      @attributes
+    end
 
-  def attributes
-    self.class.attributes
-  end
+    def attributes
+      self.class.attributes
+    end
 
-  def id
-    @id
-  end
+    def id
+      @id
+    end
 
-  def to_entity
-    self.class.name.downcase
-  end
+    def to_entity
+      self.class.name.downcase
+    end
 
+  end
 end

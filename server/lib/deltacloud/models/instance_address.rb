@@ -16,54 +16,56 @@
 # Model to store the hardware profile applied to an instance together with
 # any instance-specific overrides
 
-class InstanceAddress
-  attr_accessor :address
-  attr_accessor :port
-  attr_accessor :address_type
+module Deltacloud
+  class InstanceAddress
+    attr_accessor :address
+    attr_accessor :port
+    attr_accessor :address_type
 
-  def initialize(address, opts={})
-    self.address = address
-    self.port = opts[:port] if opts[:port]
-    self.address_type = opts[:type] || :ipv4
-    self
+    def initialize(address, opts={})
+      self.address = address
+      self.port = opts[:port] if opts[:port]
+      self.address_type = opts[:type] || :ipv4
+      self
+    end
+
+    def address_type
+      (address and !address.strip.empty?) ? @address_type : :unavailable
+    end
+
+    def to_s
+      return ['VNC', address, port].join(':') if is_vnc?
+      address
+    end
+
+    def to_hash(context)
+      r = {
+        :address => address,
+        :type => address_type
+      }
+      r.merge!(:port => port) if !port.nil?
+      r
+    end
+
+    def is_mac?
+      address_type == :mac
+    end
+
+    def is_ipv4?
+      address_type == :ipv4
+    end
+
+    def is_ipv6?
+      address_type == :ipv6
+    end
+
+    def is_hostname?
+      address_type == :hostname
+    end
+
+    def is_vnc?
+      address_type == :vnc
+    end
+
   end
-
-  def address_type
-    (address and !address.strip.empty?) ? @address_type : :unavailable
-  end
-
-  def to_s
-    return ['VNC', address, port].join(':') if is_vnc?
-    address
-  end
-
-  def to_hash(context)
-    r = {
-      :address => address,
-      :type => address_type
-    }
-    r.merge!(:port => port) if !port.nil?
-    r
-  end
-
-  def is_mac?
-    address_type == :mac
-  end
-
-  def is_ipv4?
-    address_type == :ipv4
-  end
-
-  def is_ipv6?
-    address_type == :ipv6
-  end
-
-  def is_hostname?
-    address_type == :hostname
-  end
-
-  def is_vnc?
-    address_type == :vnc
-  end
-
 end

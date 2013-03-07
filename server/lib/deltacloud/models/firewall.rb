@@ -14,22 +14,24 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class Firewall < BaseModel
-  attr_accessor :name
-  attr_accessor :description
-  attr_accessor :owner_id
-  attr_accessor :rules
+module Deltacloud
+  class Firewall < BaseModel
+    attr_accessor :name
+    attr_accessor :description
+    attr_accessor :owner_id
+    attr_accessor :rules
 
-  def to_hash(context)
-    r = {
-      :id => self.id,
-      :href => context.firewall_url(self.id),
-      :name => name,
-      :description => description,
-      :owner_id => owner_id,
-      :rules => []
-    }
-    r[:rules] = rules.map { |rule| rule.to_hash(context) } if rules and !rules.empty?
-    r
+    def to_hash(context)
+      r = {
+        :id => self.id,
+        :href => context.firewall_url(self.id),
+        :name => name,
+        :description => description,
+        :owner_id => owner_id,
+        :rules => []
+      }
+      r[:rules] = rules.map { |rule| rule.to_hash(context) } if rules and !rules.empty?
+      r
+    end
   end
 end

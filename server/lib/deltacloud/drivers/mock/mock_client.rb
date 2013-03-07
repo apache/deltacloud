@@ -23,6 +23,9 @@ module Deltacloud::Drivers::Mock
   require 'fileutils'
 
   class Client
+
+    include Deltacloud
+
     def initialize(storage_root)
       @storage_root = storage_root
       @collections = []
@@ -121,13 +124,10 @@ module Deltacloud::Drivers::Mock
       File::join(@storage_root, "cimi", collection.to_s)
     end
 
-
-
-
     private
 
     def collection_name(klass)
-      klass.name.underscore.pluralize
+      klass.name.split('::').last.underscore.pluralize
     end
   end
 

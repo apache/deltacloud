@@ -14,37 +14,38 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+module Deltacloud
+  class Image < BaseModel
 
-class Image < BaseModel
+    attr_accessor :name
+    attr_accessor :owner_id
+    attr_accessor :description
+    attr_accessor :architecture
+    attr_accessor :state
+    attr_accessor :hardware_profiles
+    attr_accessor :creation_time
+    attr_accessor :root_type
 
-  attr_accessor :name
-  attr_accessor :owner_id
-  attr_accessor :description
-  attr_accessor :architecture
-  attr_accessor :state
-  attr_accessor :hardware_profiles
-  attr_accessor :creation_time
-  attr_accessor :root_type
+    def root_type
+      @root_type || 'transient'
+    end
 
-  def root_type
-    @root_type || 'transient'
-  end
-
-  def to_hash(context)
-    {
-      :id => self.id,
-      :href => context.image_url(self.id),
-      :name => name,
-      :description => description,
-      :owner => owner_id,
-      :architecture => architecture,
-      :state => state,
-      :root_type => root_type,
-      :creation_time => creation_time,
-      :hardware_profiles => hardware_profiles.map { |p|
-        { :id => p.id, :href => context.hardware_profile_url(p.id), :rel => :hardware_profile }
+    def to_hash(context)
+      {
+        :id => self.id,
+        :href => context.image_url(self.id),
+        :name => name,
+        :description => description,
+        :owner => owner_id,
+        :architecture => architecture,
+        :state => state,
+        :root_type => root_type,
+        :creation_time => creation_time,
+        :hardware_profiles => hardware_profiles.map { |p|
+          { :id => p.id, :href => context.hardware_profile_url(p.id), :rel => :hardware_profile }
+        }
       }
-    }
-  end
+    end
 
+  end
 end

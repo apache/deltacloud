@@ -1,14 +1,14 @@
 ---
-:instance_profile: !ruby/object:InstanceProfile
+:instance_profile: !ruby/object:Deltacloud::InstanceProfile
   id: m1-large
 :realm_id: us
 :owner_id: anotheruser
 :public_addresses:
-- !ruby/object:InstanceAddress
+- !ruby/object:Deltacloud::InstanceAddress
   address: img1.inst2.public.com
   address_type: :hostname
 :private_addresses:
-- !ruby/object:InstanceAddress
+- !ruby/object:Deltacloud::InstanceAddress
   address: img1.inst2.private.com
   address_type: :hostname
 :create_image: true

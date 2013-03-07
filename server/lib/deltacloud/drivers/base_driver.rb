@@ -25,6 +25,7 @@ module Deltacloud
   class BaseDriver
 
     include Exceptions
+    include Deltacloud
 
     STATE_MACHINE_OPTS = {
       :all_states => [:start, :pending, :running, :stopping, :stopped, :finish, :error],

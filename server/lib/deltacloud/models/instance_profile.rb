@@ -17,39 +17,41 @@
 # Model to store the hardware profile applied to an instance together with
 # any instance-specific overrides
 
-class InstanceProfile < BaseModel
-  attr_accessor :memory
-  attr_accessor :storage
-  attr_accessor :architecture
-  attr_accessor :cpu
+module Deltacloud
+  class InstanceProfile < BaseModel
+    attr_accessor :memory
+    attr_accessor :storage
+    attr_accessor :architecture
+    attr_accessor :cpu
 
-  def initialize(hwp_name, args = {})
-    opts = args.inject({ :id => hwp_name.to_s }) do |m, e|
-      k, v = e
-      m[$1] = v if k.to_s =~ /^hwp_(.*)$/
-      m
-    end
-    super(opts)
-  end
-
-  def name
-    id
-  end
-
-  def to_s
-    name
-  end
-
-  def override?(property)
-    overrides.find { |p, v| p == property }
-  end
-
-  def overrides
-    [:memory, :storage, :architecture, :cpu].inject({}) do |h, p|
-      if v = instance_variable_get("@#{p}")
-        h[p] = v
+    def initialize(hwp_name, args = {})
+      opts = args.inject({ :id => hwp_name.to_s }) do |m, e|
+        k, v = e
+        m[$1] = v if k.to_s =~ /^hwp_(.*)$/
+        m
       end
-      h
+      super(opts)
+    end
+
+    def name
+      id
+    end
+
+    def to_s
+      name
+    end
+
+    def override?(property)
+      overrides.find { |p, v| p == property }
+    end
+
+    def overrides
+      [:memory, :storage, :architecture, :cpu].inject({}) do |h, p|
+        if v = instance_variable_get("@#{p}")
+          h[p] = v
+        end
+        h
+      end
     end
   end
 end

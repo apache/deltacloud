@@ -14,45 +14,46 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+module Deltacloud
+  class LoadBalancer < BaseModel
 
-class LoadBalancer < BaseModel
+    attr_accessor :realms
+    attr_accessor :listeners
+    attr_accessor :instances
+    attr_accessor :public_addresses
+    attr_accessor :created_at
 
-  attr_accessor :realms
-  attr_accessor :listeners
-  attr_accessor :instances
-  attr_accessor :public_addresses
-  attr_accessor :created_at
-
-  def add_listener(opts)
-    @listeners << Listener.new(opts)
-  end
-
-  def to_hash(context)
-    {
-      :id => self.id,
-      :href => context.load_balancer_url(self.id),
-      :realms => realms,
-      :listeners => listeners.map { |l| l.to_hash(context) },
-      :instances => instances.map { |i| i.to_hash(context) },
-      :public_addresses => public_addresses,
-      :created_at => created_at
-    }
-  end
-
-  class Listener < BaseModel
-    attr_accessor :protocol
-    attr_accessor :load_balancer_port
-    attr_accessor :instance_port
+    def add_listener(opts)
+      @listeners << Listener.new(opts)
+    end
 
     def to_hash(context)
       {
         :id => self.id,
-        :protocol => protocol,
-        :load_balancer_port => load_balancer_port,
-        :instance_port => instance_port
+        :href => context.load_balancer_url(self.id),
+        :realms => realms,
+        :listeners => listeners.map { |l| l.to_hash(context) },
+        :instances => instances.map { |i| i.to_hash(context) },
+        :public_addresses => public_addresses,
+        :created_at => created_at
       }
     end
+
+    class Listener < BaseModel
+      attr_accessor :protocol
+      attr_accessor :load_balancer_port
+      attr_accessor :instance_port
+
+      def to_hash(context)
+        {
+          :id => self.id,
+          :protocol => protocol,
+          :load_balancer_port => load_balancer_port,
+          :instance_port => instance_port
+        }
+      end
+    end
+
   end
 
 end
-

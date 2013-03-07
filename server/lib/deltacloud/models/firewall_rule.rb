@@ -14,26 +14,28 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class FirewallRule < BaseModel
-  attr_accessor :allow_protocol # tcp/udp/icmp
-  attr_accessor :port_from
-  attr_accessor :port_to
-  attr_accessor :sources
-  attr_accessor :direction #ingress egress
-  attr_accessor :rule_action #Accept/Deny - initially added for FGCP
-  attr_accessor :log_rule #log when rule triggered true/false - added for FGCP
+module Deltacloud
+  class FirewallRule < BaseModel
+    attr_accessor :allow_protocol # tcp/udp/icmp
+    attr_accessor :port_from
+    attr_accessor :port_to
+    attr_accessor :sources
+    attr_accessor :direction #ingress egress
+    attr_accessor :rule_action #Accept/Deny - initially added for FGCP
+    attr_accessor :log_rule #log when rule triggered true/false - added for FGCP
 
-  def to_hash(context)
-    {
-      :id => self.id,
-      :allow_protocol => allow_protocol,
-      :port_from => port_from,
-      :port_to => port_to,
-      :sources => sources,
-      :direction => direction,
-      :rule_action => rule_action,
-      :log_rule => log_rule
-    }.delete_if { |k, v| v.nil? }
+    def to_hash(context)
+      {
+        :id => self.id,
+        :allow_protocol => allow_protocol,
+        :port_from => port_from,
+        :port_to => port_to,
+        :sources => sources,
+        :direction => direction,
+        :rule_action => rule_action,
+        :log_rule => log_rule
+      }.delete_if { |k, v| v.nil? }
+    end
+
   end
-
 end

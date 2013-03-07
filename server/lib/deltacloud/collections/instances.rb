@@ -22,10 +22,10 @@ module Deltacloud::Collections
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
     new_route_for(:instances) do
-      @instance = Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
+      @instance = Deltacloud::Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
       @image   = driver.image(credentials, :id => params[:image_id])
       @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
-      @realms = [Realm.new(:id => params[:realm_id])] if params[:realm_id]
+      @realms = [Deltacloud::Realm.new(:id => params[:realm_id])] if params[:realm_id]
       @realms ||= driver.realms(credentials)
       @firewalls = driver.firewalls(credentials) if driver.class.has_feature? :instances, :firewalls
       @keys = driver.keys(credentials) if driver.class.has_feature? :instances, :authentication_key

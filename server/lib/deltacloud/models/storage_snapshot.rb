@@ -14,28 +14,32 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+module Deltacloud
+  class StorageSnapshot < BaseModel
 
+    attr_accessor :state
+    attr_accessor :storage_volume_id
+    attr_accessor :created
+    attr_accessor :name
+    attr_accessor :description
 
-class StorageSnapshot < BaseModel
+    def is_completed?
+      state == 'completed'
+    end
 
-  attr_accessor :state
-  attr_accessor :storage_volume_id
-  attr_accessor :created
-  attr_accessor :name
-  attr_accessor :description
+    def to_hash(context)
+      {
+        :id => self.id,
+        :href => context.storage_snapshot_url(self.id),
+        :state => state,
+        :storage_volume => {
+          :id => storage_volume_id,
+          :href => context.storage_volume_url(storage_volume_id),
+          :rel => :storage_volume 
+        },
+        :created => created
+      }
+    end
 
-  def is_completed?
-    state == 'completed'
   end
-
-  def to_hash(context)
-    {
-      :id => self.id,
-      :href => context.storage_snapshot_url(self.id),
-      :state => state,
-      :storage_volume => { :id => storage_volume_id, :href => context.storage_volume_url(storage_volume_id), :rel => :storage_volume },
-      :created => created
-    }
-  end
-
 end

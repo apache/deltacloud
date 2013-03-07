@@ -14,24 +14,29 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class Bucket < BaseModel
+module Deltacloud
+  class Bucket < BaseModel
 
-  attr_accessor :name
-  attr_accessor :size
-  attr_accessor :blob_list
+    attr_accessor :name
+    attr_accessor :size
+    attr_accessor :blob_list
 
-  def blob_list
-    @blob_list || []
+    def blob_list
+      @blob_list || []
+    end
+
+    def to_hash(context)
+      {
+        :id => self.id,
+        :href => context.bucket_url(self.id),
+        :name => name,
+        :size => size,
+        :blob_list => blob_list.map { |b| {
+          :rel => :blob,
+          :href => context.url("/buckets/#{self.id}/#{b}"), :id => b }
+        }
+      }
+    end
+
   end
-
-  def to_hash(context)
-    {
-      :id => self.id,
-      :href => context.bucket_url(self.id),
-      :name => name,
-      :size => size,
-      :blob_list => blob_list.map { |b| { :rel => :blob, :href => context.url("/buckets/#{self.id}/#{b}"), :id => b }}
-    }
-  end
-
 end

@@ -14,22 +14,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+module Deltacloud
+  class Realm < BaseModel
 
-class Realm < BaseModel
+    attr_accessor :name
+    attr_accessor :limit
+    attr_accessor :state
 
-  attr_accessor :name
-  attr_accessor :limit
-  attr_accessor :state
+    def to_hash(context)
+      r = {
+        :id => self.id,
+        :href => context.realm_url(self.id),
+        :name => name,
+        :state => state,
+        :limit => limit
+      }
+      r
+    end
 
-  def to_hash(context)
-    r = {
-      :id => self.id,
-      :href => context.realm_url(self.id),
-      :name => name,
-      :state => state,
-      :limit => limit
-    }
-    r
   end
-
 end

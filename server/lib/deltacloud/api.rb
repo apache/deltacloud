@@ -39,7 +39,7 @@ module TestPoller
     opts[:retries] ||= 10
     opts[:time_between_retry] ||= 10
     opts[:timeout] ||= 60
-    opts[:method] ||= self.class.name.downcase.to_sym
+    opts[:method] ||= self.class.name.split('::').last.downcase.to_sym
     opts[:retries].downto(0) do |r|
       result = begin
         timeout(opts[:timeout]) do
@@ -62,11 +62,12 @@ module TestPoller
   end
 end
 
-class Instance; include TestPoller; end
-class Image; include TestPoller; end
-class StorageSnapshot; include TestPoller; end
-
 module Deltacloud
+
+  class Instance; include TestPoller; end
+  class Image; include TestPoller; end
+  class StorageSnapshot; include TestPoller; end
+
 
   def self.drivers
     Drivers.driver_config
