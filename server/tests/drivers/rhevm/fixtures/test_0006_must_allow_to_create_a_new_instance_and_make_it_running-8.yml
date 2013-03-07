@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://fakeuser:fakepassword@10.16.120.71/api/vms/cb844493-857d-4238-88a5-597d82396a7f
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67
     body:
       encoding: US-ASCII
       string: ''
@@ -21,7 +21,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 27 Feb 2013 22:30:55 GMT
+      - Thu, 07 Mar 2013 21:52:20 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -29,57 +29,56 @@ http_interactions:
       Expires:
       - Wed, 31 Dec 1969 19:00:00 EST
       Set-Cookie:
-      - JSESSIONID=rqoZRpOdJHp6N705oumSInps; Path=/api; Secure
+      - JSESSIONID=7a-4KUO2WuLcTgNJ5+mxzWCt; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '3192'
+      - '3115'
       Connection:
       - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<vm
-        href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f\" id=\"cb844493-857d-4238-88a5-597d82396a7f\">\n
-        \   <actions>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/ticket\"
-        rel=\"ticket\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/migrate\"
-        rel=\"migrate\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/cancelmigration\"
-        rel=\"cancelmigration\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/shutdown\"
-        rel=\"shutdown\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/start\"
-        rel=\"start\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/stop\"
-        rel=\"stop\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/suspend\"
-        rel=\"suspend\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/detach\"
-        rel=\"detach\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/export\"
-        rel=\"export\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/move\"
-        rel=\"move\"/>\n    </actions>\n    <name>i-1362004223</name>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/disks\"
-        rel=\"disks\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics\"
-        rel=\"nics\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/cdroms\"
-        rel=\"cdroms\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/snapshots\"
-        rel=\"snapshots\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/tags\"
-        rel=\"tags\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/permissions\"
-        rel=\"permissions\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/statistics\"
+        href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67\" id=\"e31463c6-adf3-4f1f-b6c8-ae6e45803c67\">\n
+        \   <actions>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/ticket\"
+        rel=\"ticket\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/migrate\"
+        rel=\"migrate\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/cancelmigration\"
+        rel=\"cancelmigration\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/shutdown\"
+        rel=\"shutdown\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/start\"
+        rel=\"start\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/stop\"
+        rel=\"stop\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/suspend\"
+        rel=\"suspend\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/detach\"
+        rel=\"detach\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/export\"
+        rel=\"export\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/move\"
+        rel=\"move\"/>\n    </actions>\n    <name>i-1362693110</name>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/disks\"
+        rel=\"disks\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics\"
+        rel=\"nics\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/cdroms\"
+        rel=\"cdroms\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/snapshots\"
+        rel=\"snapshots\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/tags\"
+        rel=\"tags\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/statistics\"
         rel=\"statistics\"/>\n    <type>server</type>\n    <status>\n        <state>down</state>\n
         \   </status>\n    <memory>1073741824</memory>\n    <cpu>\n        <topology
-        sockets=\"1\" cores=\"1\"/>\n    </cpu>\n    <os type=\"rhel_6x64\">\n        <boot
-        dev=\"network\"/>\n        <boot dev=\"hd\"/>\n        <kernel></kernel>\n
-        \       <initrd></initrd>\n        <cmdline></cmdline>\n    </os>\n    <high_availability>\n
-        \       <enabled>false</enabled>\n        <priority>1</priority>\n    </high_availability>\n
+        sockets=\"1\" cores=\"1\"/>\n    </cpu>\n    <os type=\"other_linux\">\n        <boot
+        dev=\"network\"/>\n        <boot dev=\"hd\"/>\n    </os>\n    <high_availability>\n
+        \       <enabled>false</enabled>\n        <priority>0</priority>\n    </high_availability>\n
         \   <display>\n        <type>spice</type>\n        <monitors>1</monitors>\n
         \       <allow_override>false</allow_override>\n    </display>\n    <cluster
         href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n
-        \   <template href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3\"
-        id=\"3cd2891a-9a0f-44c8-8dec-6280efa278e3\"/>\n    <creation_time>2013-02-27T17:30:32.542-05:00</creation_time>\n
+        \   <template href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"
+        id=\"da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"/>\n    <creation_time>2013-03-07T16:51:51.680-05:00</creation_time>\n
         \   <origin>rhev</origin>\n    <stateless>false</stateless>\n    <payloads>\n
         \       <payload type=\"floppy\">\n            <file name=\"deltacloud-user-data.txt\">\n
         \               <content></content>\n            </file>\n        </payload>\n
         \   </payloads>\n    <placement_policy>\n        <affinity>migratable</affinity>\n
         \   </placement_policy>\n    <memory_policy>\n        <guaranteed>1073741824</guaranteed>\n
-        \       <ballooning>true</ballooning>\n    </memory_policy>\n    <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <ballooning>false</ballooning>\n    </memory_policy>\n    <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
         \   <usb>\n        <enabled>false</enabled>\n    </usb>\n</vm>\n"
     http_version: 
-  recorded_at: Wed, 27 Feb 2013 22:30:46 GMT
+  recorded_at: Thu, 07 Mar 2013 21:52:21 GMT
 - request:
     method: get
-    uri: https://fakeuser:fakepassword@10.16.120.71/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics
     body:
       encoding: US-ASCII
       string: ''
@@ -98,7 +97,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 27 Feb 2013 22:30:55 GMT
+      - Thu, 07 Mar 2013 21:52:21 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -106,7 +105,7 @@ http_interactions:
       Expires:
       - Wed, 31 Dec 1969 19:00:00 EST
       Set-Cookie:
-      - JSESSIONID=h3qoQe+PQQmxeBsaKtpqXq0n; Path=/api; Secure
+      - JSESSIONID=uWCAH0Hgf-zxy6wA618NGD6B; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
@@ -116,17 +115,17 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd\"
-        id=\"1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd\">\n        <actions>\n            <link
-        href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f\"
-        id=\"cb844493-857d-4238-88a5-597d82396a7f\"/>\n        <network href=\"/api/networks/75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"
+        \   <nic href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da\"
+        id=\"7035fac8-222c-48bc-bbbc-bf8fadfd19da\">\n        <actions>\n            <link
+        href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>eth0</name>\n        <link
+        href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67\"
+        id=\"e31463c6-adf3-4f1f-b6c8-ae6e45803c67\"/>\n        <network href=\"/api/networks/75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"
         id=\"75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:10:56:6d\"/>\n        <active>true</active>\n
+        \       <mac address=\"00:1a:4a:10:56:89\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 27 Feb 2013 22:30:47 GMT
+  recorded_at: Thu, 07 Mar 2013 21:52:22 GMT
 recorded_with: VCR 2.4.0

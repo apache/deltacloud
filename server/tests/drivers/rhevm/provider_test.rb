@@ -6,7 +6,8 @@ require_relative 'common.rb'
 describe 'RHEV-M provider test' do
 
   before do
-    @driver = Deltacloud::new(:rhevm, credentials)
+    @config = Deltacloud::Test::config
+    @driver = @config.driver(:rhevm)
     VCR.insert_cassette __name__
   end
 
@@ -15,7 +16,9 @@ describe 'RHEV-M provider test' do
   end
 
   it 'must throw error when using wrong provider' do
-    wrong_driver = Deltacloud::new(:rhevm, credentials.merge(:provider => 'unknown'))
+    creds = @config.credentials(:rhevm).merge(:provider => 'unknown')
+    creds[:provider] = 'unknown'
+    wrong_driver = Deltacloud::new(:rhevm, creds)
     Proc.new {
       wrong_driver.realms
     }.must_raise Deltacloud::Exceptions::BackendError
@@ -30,12 +33,15 @@ describe 'RHEV-M provider test' do
   end
 
   it 'must switch realms when switching between different clusters' do
-
-    provider1 = @driver.provider(:id => '9df72b84-0234-11e2-9b87-9386d9b09d4a')
+    provs = @driver.providers
+    if provs.size < 2
+      skip "We need at least two providers (clusters)"
+    end
+    provider1 = provs[0]
     provider1.wont_be_nil
     provider1.url.wont_be_empty
 
-    provider2 = @driver.provider(:id => '9df72b84-0234-11e2-9b87-9386d9b09d4a')
+    provider2 = provs[1]
     provider2.wont_be_nil
     provider2.url.wont_be_empty
 

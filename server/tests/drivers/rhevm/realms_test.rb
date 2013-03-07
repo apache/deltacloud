@@ -6,7 +6,10 @@ require_relative 'common.rb'
 describe 'RhevmDriver Realms' do
 
   before do
-    @driver = Deltacloud::new(:rhevm, credentials)
+    prefs = Deltacloud::Test::config.preferences(:rhevm)
+    @dc_id = prefs["datacenter"]
+
+    @driver = Deltacloud::Test::config.driver(:rhevm)
     VCR.insert_cassette __name__
   end
 
@@ -21,21 +24,24 @@ describe 'RhevmDriver Realms' do
   end
 
   it 'must return list of realms' do
-    @driver.realms.wont_be_empty
-    @driver.realms.first.must_be_kind_of Realm
+    realms = @driver.realms
+    realms.wont_be_empty
+    realms.first.must_be_kind_of Realm
   end
 
   it 'must allow to filter realms' do
-    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').wont_be_empty
-    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').must_be_kind_of Array
-    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').size.must_equal 1
-    @driver.realms(:id => '99408929-82cf-4dc7-a532-9d998063fa95').first.id.must_equal '99408929-82cf-4dc7-a532-9d998063fa95'
+    realms = @driver.realms(:id => @dc_id)
+    realms.wont_be_empty
+    realms.must_be_kind_of Array
+    realms.size.must_equal 1
+    realms.first.id.must_equal @dc_id
     @driver.realms(:id => 'unknown').must_be_empty
   end
 
   it 'must allow to retrieve single realm' do
-    @driver.realm(:id => '99408929-82cf-4dc7-a532-9d998063fa95').wont_be_nil
-    @driver.realm(:id => '99408929-82cf-4dc7-a532-9d998063fa95').must_be_kind_of Realm
+    realm = @driver.realm(:id => @dc_id)
+    realm.wont_be_nil
+    realm.must_be_kind_of Realm
     @driver.realm(:id => 'unknown').must_be_nil
   end
 

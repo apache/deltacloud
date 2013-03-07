@@ -1,868 +1,611 @@
---- 
-recorded_with: VCR 2.3.0
-http_interactions: 
-- request: 
+---
+http_interactions:
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=ZMJmT7Uv4914rVzd2se805pH; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:26:43 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=m1xrxrspgtiYxKhLV2He1GMn; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '864'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+        \   <data_center href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\"
+        id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n        <name>iscsi</name>\n
+        \       <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>iscsi</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:26:43 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/clusters?search=datacenter=iscsi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "1232"
-      Set-Cookie: 
-      - JSESSIONID=jx4+1KNy0M7de+XaHFrL7x7T; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:26:44 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=hsBvS0ej2plNx64sA1K95+A7; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <clusters>
-            <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95">
-                <name>Default</name>
-                <description>The default server cluster</description>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks" rel="networks"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions" rel="permissions"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes" rel="glustervolumes"/>
-                <cpu id="Intel Westmere Family"/>
-                <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a"/>
-                <memory_policy>
-                    <overcommit percent="150"/>
-                    <transparent_hugepages>
-                        <enabled>true</enabled>
-                    </transparent_hugepages>
-                </memory_policy>
-                <scheduling_policy/>
-                <version major="3" minor="1"/>
-                <error_handling>
-                    <on_error>migrate</on_error>
-                </error_handling>
-                <virt_service>true</virt_service>
-                <gluster_service>false</gluster_service>
-            </cluster>
-        </clusters>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\">\n
+        \       <name>iscsi</name>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/networks\"
+        rel=\"networks\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/glustervolumes\"
+        rel=\"glustervolumes\"/>\n        <cpu id=\"Intel Nehalem Family\"/>\n        <data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\"/>\n
+        \       <memory_policy>\n            <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>true</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version major=\"3\"
+        minor=\"1\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n        <virt_service>true</virt_service>\n        <gluster_service>false</gluster_service>\n
+        \   </cluster>\n</clusters>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:26:44 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=LrXESKHxT9S7hu569G0dH6Eo; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:26:45 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=9I-QZDTC3LMKubflRSFMgAZ+; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '773'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n
+        \   <name>iscsi</name>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>iscsi</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:26:45 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=SFY4xpcxjD1sSw2xOueY9XXu; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:26:46 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=2GrnIqc5Z85WOmjDIOEqyZA2; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '864'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+        \   <data_center href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\"
+        id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n        <name>iscsi</name>\n
+        \       <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>iscsi</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:26:46 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/clusters?search=datacenter=iscsi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "1232"
-      Set-Cookie: 
-      - JSESSIONID=hKb7HOfszYEoExjWJ9Lj1gln; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:26:47 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=h0bR+Vm+7Grct9kopSuoPeGF; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <clusters>
-            <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95">
-                <name>Default</name>
-                <description>The default server cluster</description>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks" rel="networks"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions" rel="permissions"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes" rel="glustervolumes"/>
-                <cpu id="Intel Westmere Family"/>
-                <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a"/>
-                <memory_policy>
-                    <overcommit percent="150"/>
-                    <transparent_hugepages>
-                        <enabled>true</enabled>
-                    </transparent_hugepages>
-                </memory_policy>
-                <scheduling_policy/>
-                <version major="3" minor="1"/>
-                <error_handling>
-                    <on_error>migrate</on_error>
-                </error_handling>
-                <virt_service>true</virt_service>
-                <gluster_service>false</gluster_service>
-            </cluster>
-        </clusters>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\">\n
+        \       <name>iscsi</name>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/networks\"
+        rel=\"networks\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/glustervolumes\"
+        rel=\"glustervolumes\"/>\n        <cpu id=\"Intel Nehalem Family\"/>\n        <data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\"/>\n
+        \       <memory_policy>\n            <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>true</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version major=\"3\"
+        minor=\"1\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n        <virt_service>true</virt_service>\n        <gluster_service>false</gluster_service>\n
+        \   </cluster>\n</clusters>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:26:47 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=F1h9TP37tJ1MdjQb8DIYCHpF; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:26:48 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=CBHH+5d9wKuKc68lZtgyN9d4; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '773'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n
+        \   <name>iscsi</name>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>iscsi</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:26:48 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=m2s1PR+6K+mdb+nE12-NgYVH; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:29:14 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=YQxGWrBP+O-UU98fvchS8h1f; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '864'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+        \   <data_center href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\"
+        id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n        <name>iscsi</name>\n
+        \       <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>iscsi</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:29:15 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/clusters?search=datacenter=iscsi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "1232"
-      Set-Cookie: 
-      - JSESSIONID=DalME3qWUy5XsbsvjgaBlWWw; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:29:16 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=M72PRy-ZTFxcbDlcyAxkbFRL; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <clusters>
-            <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95">
-                <name>Default</name>
-                <description>The default server cluster</description>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks" rel="networks"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions" rel="permissions"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes" rel="glustervolumes"/>
-                <cpu id="Intel Westmere Family"/>
-                <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a"/>
-                <memory_policy>
-                    <overcommit percent="150"/>
-                    <transparent_hugepages>
-                        <enabled>true</enabled>
-                    </transparent_hugepages>
-                </memory_policy>
-                <scheduling_policy/>
-                <version major="3" minor="1"/>
-                <error_handling>
-                    <on_error>migrate</on_error>
-                </error_handling>
-                <virt_service>true</virt_service>
-                <gluster_service>false</gluster_service>
-            </cluster>
-        </clusters>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\">\n
+        \       <name>iscsi</name>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/networks\"
+        rel=\"networks\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/glustervolumes\"
+        rel=\"glustervolumes\"/>\n        <cpu id=\"Intel Nehalem Family\"/>\n        <data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\"/>\n
+        \       <memory_policy>\n            <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>true</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version major=\"3\"
+        minor=\"1\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n        <virt_service>true</virt_service>\n        <gluster_service>false</gluster_service>\n
+        \   </cluster>\n</clusters>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:29:16 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=enXUhSJ25H1ajaspjgNek4L1; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:29:17 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=Bptkvvl42R9eJLeOA8pZ0YRE; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '773'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n
+        \   <name>iscsi</name>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>iscsi</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:29:17 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=ZAFkOZ1y3sJjcFfYxNRpGhxB; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:29:18 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=Thz8rN8ONKkg9f9o6FmIN6F9; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '864'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+        \   <data_center href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\"
+        id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n        <name>iscsi</name>\n
+        \       <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>iscsi</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:29:18 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/clusters?search=datacenter=iscsi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "1232"
-      Set-Cookie: 
-      - JSESSIONID=ua3h3ZLGvYMxdzVvOk5zc1U6; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:29:19 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=NlYlgyRT2nHol3H-EjR4QGDF; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1167'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <clusters>
-            <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95">
-                <name>Default</name>
-                <description>The default server cluster</description>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks" rel="networks"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions" rel="permissions"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes" rel="glustervolumes"/>
-                <cpu id="Intel Westmere Family"/>
-                <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a"/>
-                <memory_policy>
-                    <overcommit percent="150"/>
-                    <transparent_hugepages>
-                        <enabled>true</enabled>
-                    </transparent_hugepages>
-                </memory_policy>
-                <scheduling_policy/>
-                <version major="3" minor="1"/>
-                <error_handling>
-                    <on_error>migrate</on_error>
-                </error_handling>
-                <virt_service>true</virt_service>
-                <gluster_service>false</gluster_service>
-            </cluster>
-        </clusters>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<clusters>\n
+        \   <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\">\n
+        \       <name>iscsi</name>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/networks\"
+        rel=\"networks\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d/glustervolumes\"
+        rel=\"glustervolumes\"/>\n        <cpu id=\"Intel Nehalem Family\"/>\n        <data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\"/>\n
+        \       <memory_policy>\n            <overcommit percent=\"100\"/>\n            <transparent_hugepages>\n
+        \               <enabled>true</enabled>\n            </transparent_hugepages>\n
+        \       </memory_policy>\n        <scheduling_policy/>\n        <version major=\"3\"
+        minor=\"1\"/>\n        <error_handling>\n            <on_error>migrate</on_error>\n
+        \       </error_handling>\n        <virt_service>true</virt_service>\n        <gluster_service>false</gluster_service>\n
+        \   </cluster>\n</clusters>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:29:19 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=iMI1SVElQUzrd9jFPRjvB4Hy; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:29:20 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
-      - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
-      - application/xml
-      Accept-Encoding: 
-      - gzip, deflate
-      Accept: 
-      - application/xml
-  response: 
-    status: 
-      code: 200
-      message: OK
-    headers: 
-      Cache-Control: 
+      Cache-Control:
       - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=VxhaAoYt-bWUw3sPFUUv4EpS; Path=/api; Secure
-      Content-Type: 
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=c15KbQUryoM6lYaEorJIDp9R; Path=/api; Secure
+      Content-Type:
       - application/xml
-      Pragma: 
-      - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Content-Length:
+      - '773'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
+        href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\" id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n
+        \   <name>iscsi</name>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n    <storage_type>iscsi</storage_type>\n    <storage_format>v3</storage_format>\n
+        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
+        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
+        \   </status>\n</data_center>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/clusters?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
-      - application/xml
-      Accept-Encoding: 
-      - gzip, deflate
-      Accept: 
-      - application/xml
-  response: 
-    status: 
-      code: 200
-      message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "1232"
-      Set-Cookie: 
-      - JSESSIONID=mcxzyb6Y8YZNcJl-2sfNiMYy; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
-      - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
-      - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <clusters>
-            <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95">
-                <name>Default</name>
-                <description>The default server cluster</description>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/networks" rel="networks"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/permissions" rel="permissions"/>
-                <link href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95/glustervolumes" rel="glustervolumes"/>
-                <cpu id="Intel Westmere Family"/>
-                <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a"/>
-                <memory_policy>
-                    <overcommit percent="150"/>
-                    <transparent_hugepages>
-                        <enabled>true</enabled>
-                    </transparent_hugepages>
-                </memory_policy>
-                <scheduling_policy/>
-                <version major="3" minor="1"/>
-                <error_handling>
-                    <on_error>migrate</on_error>
-                </error_handling>
-                <virt_service>true</virt_service>
-                <gluster_service>false</gluster_service>
-            </cluster>
-        </clusters>
-
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
-- request: 
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
-      - application/xml
-      Accept-Encoding: 
-      - gzip, deflate
-      Accept: 
-      - application/xml
-  response: 
-    status: 
-      code: 200
-      message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=jjAQ0Rz9vk3HtgtmL0iA9cxs; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
-      - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:41:04 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
-      - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:41:04 GMT
+  recorded_at: Thu, 07 Mar 2013 22:29:20 GMT
+recorded_with: VCR 2.4.0

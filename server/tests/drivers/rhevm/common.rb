@@ -2,16 +2,28 @@ require 'vcr'
 
 require_relative '../../test_helper'
 
-# Credentials used to access RHEV-M server
+# The configuration for RHEVM in ~/.deltacloud/config should look like
+# this:
+#    rhevm:
+#      user: USERNAME
+#      password: PASSWORD
+#      provider: https://rhevm.example.com/api
+#      preferred:
+#        datacenter: UUID of a datacenter/realm
+#        vm: UUID of an existing instance
+#        template: UUID of an existing template
 #
-# NOTE: If these are changed, the VCR fixtures need to be re-recorded
-#
-def credentials
-  {
-    :user => 'admin@internal',
-    :password => 'redhat',
-    :provider => 'https://dell-per610-02.lab.eng.brq.redhat.com/api;9df72b84-0234-11e2-9b87-9386d9b09d4a'
-  }
+# Anything in the preferred part of the config is also written into
+# ./fixtures/preferences.yml and used when playing back fixtures
+
+if vcr_recording?
+  Deltacloud::Test::config.save(:rhevm, File.dirname(__FILE__)) do |h|
+    u = URI::parse(h["provider"])
+    u.host = "rhevm.example.com"
+    h["provider"] = u.to_s
+  end
+else
+  Deltacloud::Test::config.load(:rhevm, File.dirname(__FILE__))
 end
 
 VCR.configure do |c|

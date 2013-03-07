@@ -1,675 +1,923 @@
---- 
-recorded_with: VCR 2.3.0
-http_interactions: 
-- request: 
+---
+http_interactions:
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=OJn2u3cFhULQw9UZTwhhGKLh; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:05:18 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:38:26 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=6LeueCVweqP5gXfOj5yQB2nn; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '864'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+        \   <data_center href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\"
+        id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n        <name>iscsi</name>\n
+        \       <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>iscsi</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:05:18 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/templates?search=datacenter=iscsi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Set-Cookie: 
-      - JSESSIONID=FFM4fDToibZuyTHhq32lp6BC; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:05:19 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:38:26 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=XTB22DMcTEDWwzEqepBNVHbm; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Connection:
       - close
-      Transfer-Encoding: 
+      Transfer-Encoding:
       - chunked
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <templates>
-            <template href="/api/templates/00000000-0000-0000-0000-000000000000" id="00000000-0000-0000-0000-000000000000">
-                <actions>
-                    <link href="/api/templates/00000000-0000-0000-0000-000000000000/export" rel="export"/>
-                </actions>
-                <name>Blank</name>
-                <description>Blank template</description>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/disks" rel="disks"/>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/nics" rel="nics"/>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/cdroms" rel="cdroms"/>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/permissions" rel="permissions"/>
-                <type>desktop</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>536870912</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="unassigned">
-                    <boot dev="hd"/>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2008-04-01T00:00:00.000+02:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>0</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0" id="d0083bdc-74d5-464e-8907-31ab4d7788e0">
-                <actions>
-                    <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/export" rel="export"/>
-                </actions>
-                <name>centos63</name>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/disks" rel="disks"/>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/nics" rel="nics"/>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/cdroms" rel="cdroms"/>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>2147483648</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="rhel_6x64">
-                    <boot dev="cdrom"/>
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-11-09T14:35:55.488+01:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505" id="fe9dcb11-a035-4d80-89b4-a4092a892505">
-                <actions>
-                    <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/export" rel="export"/>
-                </actions>
-                <name>e55f531b-500d-4f7b-aff3-39cd9edda6f7</name>
-                <description>Template by iwhd</description>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/disks" rel="disks"/>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/nics" rel="nics"/>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/cdroms" rel="cdroms"/>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>536870912</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="other_linux">
-                    <boot dev="cdrom"/>
-                    <boot dev="hd"/>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-09-24T13:07:37.000+02:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>0</priority>
-                </high_availability>
-                <display>
-                    <type>vnc</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e" id="645d60b1-9555-4b15-8e2e-01d408572c4e">
-                <actions>
-                    <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/export" rel="export"/>
-                </actions>
-                <name>f17-minimal</name>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/disks" rel="disks"/>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/nics" rel="nics"/>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/cdroms" rel="cdroms"/>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>2147483648</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="other_linux">
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-11-08T14:35:17.671+01:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329" id="ce7de898-38cb-4851-b5dc-1f4f0940a329">
-                <actions>
-                    <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/export" rel="export"/>
-                </actions>
-                <name>mrgqe6i_template</name>
-                <description>MRGQE RHEL6/i386 template</description>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/disks" rel="disks"/>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/nics" rel="nics"/>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/cdroms" rel="cdroms"/>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>805306368</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="rhel_6">
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-11-21T19:41:41.462+01:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5" id="5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5">
-                <actions>
-                    <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/export" rel="export"/>
-                </actions>
-                <name>rhel63server</name>
-                <description>RHEL 6.3 Server Default</description>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/disks" rel="disks"/>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/nics" rel="nics"/>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/cdroms" rel="cdroms"/>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>1073741824</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="rhel_6x64">
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-09-19T15:20:10.740+02:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>vnc</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-        </templates>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<templates>\n
+        \   <template href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"
+        id=\"da12fc7e-8f0c-4ebb-a524-5e99b3214d75\">\n        <actions>\n            <link
+        href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/export\" rel=\"export\"/>\n
+        \       </actions>\n        <name>07ef6eb0-2e43-43a2-b3f0-cb1f15882f13</name>\n
+        \       <description>Template name (RHEL63) from base image (3ee78645-5d04-4584-9d35-fe93dde38ed5)</description>\n
+        \       <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-25T08:04:46.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615\" id=\"7a416135-25a8-427c-82fd-db4756aad615\">\n
+        \       <actions>\n            <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>0ad2eb45-fbbf-4483-a5fc-622101356f7e</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-04T03:50:20.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c\" id=\"481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c\">\n
+        \       <actions>\n            <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>14e9888e-8e7b-4042-83e8-fbd3ccd15f4d</name>\n
+        \       <description>Template name (RHEL6.3) from base image (cc58a519-b644-4c4d-bdef-f8e70b398d54)</description>\n
+        \       <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-03-01T13:41:47.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c\" id=\"e8d3def2-bde4-43b1-9d4f-de708ec25d1c\">\n
+        \       <actions>\n            <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>15b8a82e-9a7d-452b-a9a7-397170f0a519</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-19T10:53:12.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e\" id=\"6d1ae1e2-374f-43ad-bd62-f5b79922bb8e\">\n
+        \       <actions>\n            <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>25212c56-366a-47c7-8bdd-afc43a206cea</name>\n
+        \       <description>Template name (RHEL63) from base image (1723b6b6-cdc1-478f-8278-feb84496dedc)</description>\n
+        \       <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-25T11:48:45.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb\" id=\"32ba3507-52c6-460c-b644-a8c39d5bbbeb\">\n
+        \       <actions>\n            <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>9cc4d8b4-f9b1-402b-a9f1-766b166157fa</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T13:26:54.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04\" id=\"ec795b43-e978-40fb-8331-f36373530a04\">\n
+        \       <actions>\n            <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>a771450e-c17a-486d-807b-a1fc9628081e</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-20T09:32:22.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965\" id=\"72671851-6506-4351-92da-1afcb48c0965\">\n
+        \       <actions>\n            <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>AutoImageImport</name>\n
+        \       <description>donotdelete</description>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
+        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-23T16:59:26.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf\" id=\"0305c865-0d49-4140-976f-3bfe2c38dbcf\">\n
+        \       <actions>\n            <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>b3e402bd-7bca-4ca7-a4ba-bb7c3f3a2f48</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T23:09:05.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669\" id=\"13ea3cf8-7708-49f9-96d8-ddd8372b6669\">\n
+        \       <actions>\n            <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>b62a2f13-f2b7-4887-a80d-e99d61774f53</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T15:47:33.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592\" id=\"5917adb8-3c73-4024-944b-01ea7853b592\">\n
+        \       <actions>\n            <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>c55d16d1-d00c-4d13-a623-abf84d411bde</name>\n
+        \       <description>Template name (RHEL62) from base image (4119e12b-c2d4-4c11-8840-eafa09e2e936)</description>\n
+        \       <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-25T12:03:11.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465\" id=\"d25438a8-8473-422a-8b6c-1e6d66c4c465\">\n
+        \       <actions>\n            <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>c96dd2d6-1531-4a6e-9835-a35a0ec5d4f6</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T15:47:33.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884\" id=\"51f96ec3-607e-41ec-833d-9f2895ee5884\">\n
+        \       <actions>\n            <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>ede7b032-19de-4628-aad5-46c53b10aa29</name>\n
+        \       <description>doNotDelete</description>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
+        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-18T15:23:46.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf\" id=\"7b9d0d79-06b3-419e-b221-59e3d873e1cf\">\n
+        \       <actions>\n            <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>f26c525b-56f5-4be6-b382-77b59ae7df0d</name>\n
+        \       <description>Template name (RHEL6.3) from base image (815bbb5e-6cbb-4dac-88fb-108759b83b54)</description>\n
+        \       <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-03-01T21:39:52.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e\" id=\"967c908b-a413-4728-a2ed-22b9934bcc0e\">\n
+        \       <actions>\n            <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>f96841ba-784a-4680-a100-4d6dbc32a246</name>\n
+        \       <description>Template name (RHEL6-3Basic) from base image (ed8ebbd3-9c7b-457d-91c4-4bcacfa91f9b)</description>\n
+        \       <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-21T19:46:27.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e\" id=\"752fa3a7-e27b-43a3-a9d7-ed5b60770d4e\">\n
+        \       <actions>\n            <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>ManageIQv5-DoNotDelete</name>\n
+        \       <description>EVM appliance v5.0.0.25</description>\n        <link
+        href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/disks\" rel=\"disks\"/>\n
+        \       <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
+        sockets=\"2\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_5x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2012-12-18T16:59:24.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0\" id=\"99b903e1-0106-41ae-b08c-96131fc016a0\">\n
+        \       <actions>\n            <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>MIQ-v50029-2-DND</name>\n
+        \       <description>EVM-R-5.0.0.29</description>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"2\"/>\n        </cpu>\n        <os type=\"rhel_5x64\">\n
+        \           <boot dev=\"hd\"/>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-20T23:26:14.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9\" id=\"26751f41-3db9-4be3-a233-7f96f90d4ed9\">\n
+        \       <actions>\n            <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>MIQ-v50029-DND</name>\n
+        \       <description>EVM-R-5.0.0.29</description>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"2\"/>\n        </cpu>\n        <os type=\"rhel_5x64\">\n
+        \           <boot dev=\"hd\"/>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-20T23:26:14.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3\" id=\"3cd2891a-9a0f-44c8-8dec-6280efa278e3\">\n
+        \       <actions>\n            <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>rhel63-donotdelete</name>\n
+        \       <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-10T23:15:04.286-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af\" id=\"ba1df8b8-11db-43c7-ac59-55be3b7526af\">\n
+        \       <actions>\n            <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>rhel63-jenkinskey-donotdelete</name>\n
+        \       <description>plain rhel63 with jenkins' pubkey added to root acct</description>\n
+        \       <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-11T16:35:43.777-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n</templates>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:05:20 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/datacenters?search=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Content-Length: 
-      - "828"
-      Set-Cookie: 
-      - JSESSIONID=HLqVbGbkN948892xqMFzL2kh; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:05:21 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:38:26 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=PoESPBmaZdyGhg1XOhFWJiwm; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '864'
+      Connection:
       - close
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <data_center href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a" id="9df72b84-0234-11e2-9b87-9386d9b09d4a">
-            <name>Default</name>
-            <description>The default Data Center</description>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains" rel="storagedomains"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions" rel="permissions"/>
-            <link href="/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas" rel="quotas"/>
-            <storage_type>nfs</storage_type>
-            <storage_format>v3</storage_format>
-            <version major="3" minor="1"/>
-            <supported_versions>
-                <version major="3" minor="1"/>
-            </supported_versions>
-            <status>
-                <state>up</state>
-            </status>
-        </data_center>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_centers>\n
+        \   <data_center href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779\"
+        id=\"b9bb11c2-f397-4f41-a57b-7ac15a894779\">\n        <name>iscsi</name>\n
+        \       <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/storagedomains\"
+        rel=\"storagedomains\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/permissions\"
+        rel=\"permissions\"/>\n        <link href=\"/api/datacenters/b9bb11c2-f397-4f41-a57b-7ac15a894779/quotas\"
+        rel=\"quotas\"/>\n        <storage_type>iscsi</storage_type>\n        <storage_format>v3</storage_format>\n
+        \       <version major=\"3\" minor=\"1\"/>\n        <supported_versions>\n
+        \           <version major=\"3\" minor=\"1\"/>\n        </supported_versions>\n
+        \       <status>\n            <state>up</state>\n        </status>\n    </data_center>\n</data_centers>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
-- request: 
+  recorded_at: Thu, 07 Mar 2013 22:05:21 GMT
+- request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/templates?search=datacenter=Default
-    body: 
-      string: ""
-    headers: 
-      Content-Type: 
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/templates?search=datacenter=iscsi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
       - application/xml
-      Accept-Encoding: 
+      Accept-Encoding:
       - gzip, deflate
-      Accept: 
+      Content-Type:
       - application/xml
-  response: 
-    status: 
+      User-Agent:
+      - Ruby
+  response:
+    status:
       code: 200
       message: OK
-    headers: 
-      Cache-Control: 
-      - no-cache
-      Set-Cookie: 
-      - JSESSIONID=y9-pHpTiULHTYEd1BPwXjTjg; Path=/api; Secure
-      Content-Type: 
-      - application/xml
-      Pragma: 
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:05:22 GMT
+      Pragma:
       - No-cache
-      Date: 
-      - Thu, 22 Nov 2012 11:38:26 GMT
-      Expires: 
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Connection: 
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=fofHfxm+0it5P13gesJK-ef6; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Connection:
       - close
-      Transfer-Encoding: 
+      Transfer-Encoding:
       - chunked
-    body: 
-      string: |
-        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-        <templates>
-            <template href="/api/templates/00000000-0000-0000-0000-000000000000" id="00000000-0000-0000-0000-000000000000">
-                <actions>
-                    <link href="/api/templates/00000000-0000-0000-0000-000000000000/export" rel="export"/>
-                </actions>
-                <name>Blank</name>
-                <description>Blank template</description>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/disks" rel="disks"/>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/nics" rel="nics"/>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/cdroms" rel="cdroms"/>
-                <link href="/api/templates/00000000-0000-0000-0000-000000000000/permissions" rel="permissions"/>
-                <type>desktop</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>536870912</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="unassigned">
-                    <boot dev="hd"/>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2008-04-01T00:00:00.000+02:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>0</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0" id="d0083bdc-74d5-464e-8907-31ab4d7788e0">
-                <actions>
-                    <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/export" rel="export"/>
-                </actions>
-                <name>centos63</name>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/disks" rel="disks"/>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/nics" rel="nics"/>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/cdroms" rel="cdroms"/>
-                <link href="/api/templates/d0083bdc-74d5-464e-8907-31ab4d7788e0/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>2147483648</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="rhel_6x64">
-                    <boot dev="cdrom"/>
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-11-09T14:35:55.488+01:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505" id="fe9dcb11-a035-4d80-89b4-a4092a892505">
-                <actions>
-                    <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/export" rel="export"/>
-                </actions>
-                <name>e55f531b-500d-4f7b-aff3-39cd9edda6f7</name>
-                <description>Template by iwhd</description>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/disks" rel="disks"/>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/nics" rel="nics"/>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/cdroms" rel="cdroms"/>
-                <link href="/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>536870912</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="other_linux">
-                    <boot dev="cdrom"/>
-                    <boot dev="hd"/>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-09-24T13:07:37.000+02:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>0</priority>
-                </high_availability>
-                <display>
-                    <type>vnc</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e" id="645d60b1-9555-4b15-8e2e-01d408572c4e">
-                <actions>
-                    <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/export" rel="export"/>
-                </actions>
-                <name>f17-minimal</name>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/disks" rel="disks"/>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/nics" rel="nics"/>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/cdroms" rel="cdroms"/>
-                <link href="/api/templates/645d60b1-9555-4b15-8e2e-01d408572c4e/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>2147483648</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="other_linux">
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-11-08T14:35:17.671+01:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329" id="ce7de898-38cb-4851-b5dc-1f4f0940a329">
-                <actions>
-                    <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/export" rel="export"/>
-                </actions>
-                <name>mrgqe6i_template</name>
-                <description>MRGQE RHEL6/i386 template</description>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/disks" rel="disks"/>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/nics" rel="nics"/>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/cdroms" rel="cdroms"/>
-                <link href="/api/templates/ce7de898-38cb-4851-b5dc-1f4f0940a329/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>805306368</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="rhel_6">
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-11-21T19:41:41.462+01:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>spice</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-            <template href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5" id="5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5">
-                <actions>
-                    <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/export" rel="export"/>
-                </actions>
-                <name>rhel63server</name>
-                <description>RHEL 6.3 Server Default</description>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/disks" rel="disks"/>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/nics" rel="nics"/>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/cdroms" rel="cdroms"/>
-                <link href="/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5/permissions" rel="permissions"/>
-                <type>server</type>
-                <status>
-                    <state>ok</state>
-                </status>
-                <memory>1073741824</memory>
-                <cpu>
-                    <topology sockets="1" cores="1"/>
-                </cpu>
-                <os type="rhel_6x64">
-                    <boot dev="hd"/>
-                    <kernel></kernel>
-                    <initrd></initrd>
-                    <cmdline></cmdline>
-                </os>
-                <cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
-                <creation_time>2012-09-19T15:20:10.740+02:00</creation_time>
-                <origin>rhev</origin>
-                <high_availability>
-                    <enabled>false</enabled>
-                    <priority>1</priority>
-                </high_availability>
-                <display>
-                    <type>vnc</type>
-                    <monitors>1</monitors>
-                    <allow_override>false</allow_override>
-                </display>
-                <stateless>false</stateless>
-                <usb>
-                    <enabled>false</enabled>
-                </usb>
-            </template>
-        </templates>
-
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<templates>\n
+        \   <template href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"
+        id=\"da12fc7e-8f0c-4ebb-a524-5e99b3214d75\">\n        <actions>\n            <link
+        href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/export\" rel=\"export\"/>\n
+        \       </actions>\n        <name>07ef6eb0-2e43-43a2-b3f0-cb1f15882f13</name>\n
+        \       <description>Template name (RHEL63) from base image (3ee78645-5d04-4584-9d35-fe93dde38ed5)</description>\n
+        \       <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-25T08:04:46.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615\" id=\"7a416135-25a8-427c-82fd-db4756aad615\">\n
+        \       <actions>\n            <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>0ad2eb45-fbbf-4483-a5fc-622101356f7e</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/7a416135-25a8-427c-82fd-db4756aad615/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-04T03:50:20.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c\" id=\"481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c\">\n
+        \       <actions>\n            <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>14e9888e-8e7b-4042-83e8-fbd3ccd15f4d</name>\n
+        \       <description>Template name (RHEL6.3) from base image (cc58a519-b644-4c4d-bdef-f8e70b398d54)</description>\n
+        \       <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/481b4e5d-c6e1-41c3-9a4d-5b3c9856b78c/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-03-01T13:41:47.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c\" id=\"e8d3def2-bde4-43b1-9d4f-de708ec25d1c\">\n
+        \       <actions>\n            <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>15b8a82e-9a7d-452b-a9a7-397170f0a519</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/e8d3def2-bde4-43b1-9d4f-de708ec25d1c/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-19T10:53:12.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e\" id=\"6d1ae1e2-374f-43ad-bd62-f5b79922bb8e\">\n
+        \       <actions>\n            <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>25212c56-366a-47c7-8bdd-afc43a206cea</name>\n
+        \       <description>Template name (RHEL63) from base image (1723b6b6-cdc1-478f-8278-feb84496dedc)</description>\n
+        \       <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/6d1ae1e2-374f-43ad-bd62-f5b79922bb8e/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-25T11:48:45.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb\" id=\"32ba3507-52c6-460c-b644-a8c39d5bbbeb\">\n
+        \       <actions>\n            <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>9cc4d8b4-f9b1-402b-a9f1-766b166157fa</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/32ba3507-52c6-460c-b644-a8c39d5bbbeb/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T13:26:54.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04\" id=\"ec795b43-e978-40fb-8331-f36373530a04\">\n
+        \       <actions>\n            <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>a771450e-c17a-486d-807b-a1fc9628081e</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/ec795b43-e978-40fb-8331-f36373530a04/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-20T09:32:22.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965\" id=\"72671851-6506-4351-92da-1afcb48c0965\">\n
+        \       <actions>\n            <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>AutoImageImport</name>\n
+        \       <description>donotdelete</description>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/72671851-6506-4351-92da-1afcb48c0965/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
+        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-23T16:59:26.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf\" id=\"0305c865-0d49-4140-976f-3bfe2c38dbcf\">\n
+        \       <actions>\n            <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>b3e402bd-7bca-4ca7-a4ba-bb7c3f3a2f48</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/0305c865-0d49-4140-976f-3bfe2c38dbcf/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T23:09:05.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669\" id=\"13ea3cf8-7708-49f9-96d8-ddd8372b6669\">\n
+        \       <actions>\n            <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>b62a2f13-f2b7-4887-a80d-e99d61774f53</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/13ea3cf8-7708-49f9-96d8-ddd8372b6669/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T15:47:33.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592\" id=\"5917adb8-3c73-4024-944b-01ea7853b592\">\n
+        \       <actions>\n            <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>c55d16d1-d00c-4d13-a623-abf84d411bde</name>\n
+        \       <description>Template name (RHEL62) from base image (4119e12b-c2d4-4c11-8840-eafa09e2e936)</description>\n
+        \       <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/5917adb8-3c73-4024-944b-01ea7853b592/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-25T12:03:11.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465\" id=\"d25438a8-8473-422a-8b6c-1e6d66c4c465\">\n
+        \       <actions>\n            <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>c96dd2d6-1531-4a6e-9835-a35a0ec5d4f6</name>\n
+        \       <description>Template by iwhd</description>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/d25438a8-8473-422a-8b6c-1e6d66c4c465/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-18T15:47:33.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884\" id=\"51f96ec3-607e-41ec-833d-9f2895ee5884\">\n
+        \       <actions>\n            <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>ede7b032-19de-4628-aad5-46c53b10aa29</name>\n
+        \       <description>doNotDelete</description>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/51f96ec3-607e-41ec-833d-9f2895ee5884/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
+        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-18T15:23:46.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf\" id=\"7b9d0d79-06b3-419e-b221-59e3d873e1cf\">\n
+        \       <actions>\n            <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>f26c525b-56f5-4be6-b382-77b59ae7df0d</name>\n
+        \       <description>Template name (RHEL6.3) from base image (815bbb5e-6cbb-4dac-88fb-108759b83b54)</description>\n
+        \       <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/7b9d0d79-06b3-419e-b221-59e3d873e1cf/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-03-01T21:39:52.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e\" id=\"967c908b-a413-4728-a2ed-22b9934bcc0e\">\n
+        \       <actions>\n            <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>f96841ba-784a-4680-a100-4d6dbc32a246</name>\n
+        \       <description>Template name (RHEL6-3Basic) from base image (ed8ebbd3-9c7b-457d-91c4-4bcacfa91f9b)</description>\n
+        \       <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/967c908b-a413-4728-a2ed-22b9934bcc0e/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
+        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
+        \       <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-21T19:46:27.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>vnc</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e\" id=\"752fa3a7-e27b-43a3-a9d7-ed5b60770d4e\">\n
+        \       <actions>\n            <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>ManageIQv5-DoNotDelete</name>\n
+        \       <description>EVM appliance v5.0.0.25</description>\n        <link
+        href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/disks\" rel=\"disks\"/>\n
+        \       <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/752fa3a7-e27b-43a3-a9d7-ed5b60770d4e/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
+        sockets=\"2\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_5x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2012-12-18T16:59:24.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0\" id=\"99b903e1-0106-41ae-b08c-96131fc016a0\">\n
+        \       <actions>\n            <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>MIQ-v50029-2-DND</name>\n
+        \       <description>EVM-R-5.0.0.29</description>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/99b903e1-0106-41ae-b08c-96131fc016a0/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"2\"/>\n        </cpu>\n        <os type=\"rhel_5x64\">\n
+        \           <boot dev=\"hd\"/>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-20T23:26:14.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9\" id=\"26751f41-3db9-4be3-a233-7f96f90d4ed9\">\n
+        \       <actions>\n            <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>MIQ-v50029-DND</name>\n
+        \       <description>EVM-R-5.0.0.29</description>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/26751f41-3db9-4be3-a233-7f96f90d4ed9/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"2\"/>\n        </cpu>\n        <os type=\"rhel_5x64\">\n
+        \           <boot dev=\"hd\"/>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-02-20T23:26:14.000-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>0</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3\" id=\"3cd2891a-9a0f-44c8-8dec-6280efa278e3\">\n
+        \       <actions>\n            <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>rhel63-donotdelete</name>\n
+        \       <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-10T23:15:04.286-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n    <template
+        href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af\" id=\"ba1df8b8-11db-43c7-ac59-55be3b7526af\">\n
+        \       <actions>\n            <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/export\"
+        rel=\"export\"/>\n        </actions>\n        <name>rhel63-jenkinskey-donotdelete</name>\n
+        \       <description>plain rhel63 with jenkins' pubkey added to root acct</description>\n
+        \       <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/disks\"
+        rel=\"disks\"/>\n        <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/nics\"
+        rel=\"nics\"/>\n        <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/cdroms\"
+        rel=\"cdroms\"/>\n        <link href=\"/api/templates/ba1df8b8-11db-43c7-ac59-55be3b7526af/permissions\"
+        rel=\"permissions\"/>\n        <type>server</type>\n        <status>\n            <state>ok</state>\n
+        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
+        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
+        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
+        \           <cmdline></cmdline>\n        </os>\n        <cluster href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"
+        id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n        <creation_time>2013-01-11T16:35:43.777-05:00</creation_time>\n
+        \       <origin>rhev</origin>\n        <high_availability>\n            <enabled>false</enabled>\n
+        \           <priority>1</priority>\n        </high_availability>\n        <display>\n
+        \           <type>spice</type>\n            <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
+        \       </display>\n        <stateless>false</stateless>\n        <usb>\n
+        \           <enabled>false</enabled>\n        </usb>\n    </template>\n</templates>\n"
     http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:38:26 GMT
+  recorded_at: Thu, 07 Mar 2013 22:05:23 GMT
+recorded_with: VCR 2.4.0

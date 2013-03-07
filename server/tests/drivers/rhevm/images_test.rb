@@ -6,7 +6,10 @@ require_relative 'common'
 describe 'RhevmDriver Images' do
 
   before do
-    @driver = Deltacloud::new(:rhevm, credentials)
+    prefs = Deltacloud::Test::config.preferences(:rhevm)
+    @template_id = prefs["template"]
+
+    @driver = Deltacloud::Test::config.driver(:rhevm)
     VCR.insert_cassette __name__
   end
 
@@ -26,12 +29,14 @@ describe 'RhevmDriver Images' do
   end
 
   it 'must allow to filter images' do
-    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').wont_be_empty
-    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').must_be_kind_of Array
-    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').size.must_equal 1
-    @driver.images(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').first.id.must_equal '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5'
-    @driver.images(:owner_id => 'admin@internal').each do |img|
-      img.owner_id.must_equal 'admin@internal'
+    imgs = @driver.images(:id => @template_id)
+    imgs.wont_be_empty
+    imgs.must_be_kind_of Array
+    imgs.size.must_equal 1
+    imgs.first.id.must_equal @template_id
+    owner_id = imgs.first.owner_id
+    @driver.images(:owner_id => owner_id).each do |img|
+      img.owner_id.must_equal owner_id
     end
     @driver.images(:id => 'ami-aaaaaaaa').must_be_empty
     @driver.images(:id => 'unknown').must_be_empty
@@ -42,9 +47,10 @@ describe 'RhevmDriver Images' do
     # of YAML under Ruby 1.8.
     #
     if RUBY_VERSION =~ /^1\.9/
-      @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').wont_be_nil
-      @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').must_be_kind_of Image
-      @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5').id.must_equal '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5'
+      img = @driver.image(:id => @template_id)
+      img.wont_be_nil
+      img.must_be_kind_of Image
+      img.id.must_equal @template_id
       @driver.image(:id => 'ami-aaaaaaaa').must_be_nil
       @driver.image(:id => 'unknown').must_be_nil
     end
@@ -52,7 +58,7 @@ describe 'RhevmDriver Images' do
 
   it 'must throw proper exception when destroying used image' do
     if RUBY_VERSION =~ /^1\.9/
-      image = @driver.image(:id => '5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5')
+      image = @driver.image(:id => @template_id)
       image.wont_be_nil
       image.state.must_equal 'OK'
       Proc.new {
@@ -62,6 +68,8 @@ describe 'RhevmDriver Images' do
   end
 
   it 'must support destroying images' do
+    skip "Depends on hardcoded image"
+    # FIXME: we need to create a new image here, and then destroy it
     image = @driver.image(:id => '5472e759-dee1-4e90-a2bf-79b61a601e80')
     image.wont_be_nil
     image.state.must_equal 'OK'

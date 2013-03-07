@@ -1,0 +1,8 @@
+---
+user: fakeuser
+password: fakepassword
+provider: https://rhevm.example.com/api
+preferred:
+  datacenter: b91b0346-4ba3-11e2-a3ac-0050568c6b2d
+  vm: 4b4f9b94-3f85-45f3-9284-adf3deb72601
+  template: da12fc7e-8f0c-4ebb-a524-5e99b3214d75

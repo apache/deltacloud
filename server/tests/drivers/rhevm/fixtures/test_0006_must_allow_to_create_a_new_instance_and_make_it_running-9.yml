@@ -2,979 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '828'
-      Set-Cookie:
-      - JSESSIONID=qD6zOuQOpPHpqHq2EptJA2uv; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<data_center
-        href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a\" id=\"9df72b84-0234-11e2-9b87-9386d9b09d4a\">\n
-        \   <name>Default</name>\n    <description>The default Data Center</description>\n
-        \   <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/storagedomains\"
-        rel=\"storagedomains\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/permissions\"
-        rel=\"permissions\"/>\n    <link href=\"/api/datacenters/9df72b84-0234-11e2-9b87-9386d9b09d4a/quotas\"
-        rel=\"quotas\"/>\n    <storage_type>nfs</storage_type>\n    <storage_format>v3</storage_format>\n
-        \   <version major=\"3\" minor=\"1\"/>\n    <supported_versions>\n        <version
-        major=\"3\" minor=\"1\"/>\n    </supported_versions>\n    <status>\n        <state>up</state>\n
-        \   </status>\n</data_center>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms?search=datacenter=Default
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Set-Cookie:
-      - JSESSIONID=MJscxc6ehCHsaFm5hwpvdaSS; Path=/api; Secure
-      Connection:
-      - close
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<vms>\n
-        \   <vm href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6\" id=\"9ad3f286-3baf-4f53-b901-eb0062b180b6\">\n
-        \       <actions>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/migrate\"
-        rel=\"migrate\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>aeolus-jruby</name>\n        <link
-        href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/disks\" rel=\"disks\"/>\n
-        \       <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>4294967296</memory>\n        <cpu>\n            <topology
-        sockets=\"4\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>true</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5904</port>\n
-        \           <secure_port>5905</secure_port>\n            <monitors>1</monitors>\n
-        \           <allow_override>true</allow_override>\n        </display>\n        <host
-        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
-        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-11-19T20:23:10.065+01:00</start_time>\n
-        \       <creation_time>2012-11-19T19:51:17.585+01:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1431306240</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.37.232\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864\"
-        id=\"0a0ad2fb-1296-464a-8b2e-d97791a39864\">\n        <actions>\n            <link
-        href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>dc-centos-test</name>\n
-        \       <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>2147483648</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"cdrom\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
-        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5906</port>\n
-        \           <secure_port>5907</secure_port>\n            <monitors>1</monitors>\n
-        \           <allow_override>true</allow_override>\n        </display>\n        <host
-        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
-        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-11-09T14:37:47.384+01:00</start_time>\n
-        \       <creation_time>2012-11-09T14:36:58.573+01:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1431306240</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.33.163\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190\"
-        id=\"de048029-c4f8-4e90-ac7b-67cf06102190\">\n        <actions>\n            <link
-        href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>dc-node01</name>\n        <description>Deltacloud
-        Builder and GIT mirror</description>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>2147483648</memory>\n        <cpu>\n            <topology
-        sockets=\"4\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>true</enabled>\n            <priority>100</priority>\n
-        \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>dell-per610-02.lab.eng.brq.redhat.com</address>\n            <port>5901</port>\n
-        \           <monitors>1</monitors>\n            <allow_override>true</allow_override>\n
-        \       </display>\n        <host href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\"
-        id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-09-25T11:03:18.519+02:00</start_time>\n
-        \       <creation_time>2012-09-19T15:57:10.513+02:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>2147483648</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.33.233\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3\"
-        id=\"a949192d-55eb-465c-9ef1-d59581a562a3\">\n        <actions>\n            <link
-        href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>dc-node02</name>\n        <description>Deltacloud
-        RHEL RPM repo</description>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>2147483648</memory>\n        <cpu>\n            <topology
-        sockets=\"2\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5908</port>\n
-        \           <secure_port>5909</secure_port>\n            <monitors>1</monitors>\n
-        \           <allow_override>true</allow_override>\n        </display>\n        <host
-        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
-        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-11-12T13:34:52.823+01:00</start_time>\n
-        \       <creation_time>2012-11-12T13:33:40.107+01:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1431306240</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.37.200\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8\"
-        id=\"8e4cea09-8a52-47b5-9ed5-34b4e293bdd8\">\n        <actions>\n            <link
-        href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>dc-node03</name>\n        <description>Testing
-        server for RHEL6</description>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5910</port>\n
-        \           <monitors>1</monitors>\n            <allow_override>true</allow_override>\n
-        \       </display>\n        <host href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\"
-        id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-11-12T15:50:19.283+01:00</start_time>\n
-        \       <creation_time>2012-11-12T15:49:21.373+01:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>715128832</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.37.208\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7\"
-        id=\"4e5dbb0f-a295-4679-842d-c152ea2eeaa7\">\n        <actions>\n            <link
-        href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>i-1353583125</name>\n        <link
-        href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/disks\" rel=\"disks\"/>\n
-        \       <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>down</state>\n
-        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
-        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
-        \       </display>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"
-        id=\"5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"/>\n        <creation_time>2012-11-22T12:18:45.395+01:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
-        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
-        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
-        \   <vm href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7\" id=\"a841ff8e-1b13-432e-9f37-0df71b6041d7\">\n
-        \       <actions>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/migrate\"
-        rel=\"migrate\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>JoeV_06112012_01</name>\n
-        \       <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n            <kernel></kernel>\n
-        \           <initrd></initrd>\n            <cmdline></cmdline>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5902</port>\n
-        \           <secure_port>5903</secure_port>\n            <monitors>1</monitors>\n
-        \           <allow_override>false</allow_override>\n        </display>\n        <host
-        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
-        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"
-        id=\"5558c5b6-9dd6-41b7-87f9-7cbce4fd40c5\"/>\n        <start_time>2012-11-06T19:53:43.277+01:00</start_time>\n
-        \       <creation_time>2012-11-06T19:53:08.804+01:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.37.230\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1\"
-        id=\"2942d4be-57e4-4751-a5ac-b334567125b1\">\n        <actions>\n            <link
-        href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>mfojtik-perses</name>\n
-        \       <description>mfojtik private machine</description>\n        <link
-        href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/disks\" rel=\"disks\"/>\n
-        \       <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>1073741824</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6x64\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>vnc</type>\n
-        \           <address>dell-per610-02.lab.eng.brq.redhat.com</address>\n            <port>5900</port>\n
-        \           <monitors>1</monitors>\n            <allow_override>true</allow_override>\n
-        \       </display>\n        <host href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\"
-        id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-09-25T11:03:16.547+02:00</start_time>\n
-        \       <creation_time>2012-09-19T17:35:47.578+02:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>1073741824</guaranteed>\n
-        \       </memory_policy>\n        <guest_info>\n            <ips>\n                <ip
-        address=\"10.34.32.90\"/>\n            </ips>\n        </guest_info>\n        <quota
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <usb>\n            <enabled>false</enabled>\n
-        \       </usb>\n    </vm>\n    <vm href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093\"
-        id=\"58c3c864-ede3-4a74-8908-6ab5e134b093\">\n        <actions>\n            <link
-        href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/migrate\" rel=\"migrate\"/>\n
-        \           <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>mrgqe6i</name>\n        <description>MRGQE
-        test (rhel6/x86)</description>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>up</state>\n
-        \       </status>\n        <memory>805306368</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"rhel_6\">\n
-        \           <boot dev=\"hd\"/>\n            <kernel></kernel>\n            <initrd></initrd>\n
-        \           <cmdline></cmdline>\n        </os>\n        <high_availability>\n
-        \           <enabled>false</enabled>\n            <priority>1</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <address>10.34.32.183</address>\n            <port>5911</port>\n
-        \           <secure_port>5912</secure_port>\n            <monitors>1</monitors>\n
-        \           <allow_override>true</allow_override>\n        </display>\n        <host
-        href=\"/api/hosts/ca36391a-0234-11e2-ae20-773923039d67\" id=\"ca36391a-0234-11e2-ae20-773923039d67\"/>\n
-        \       <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/00000000-0000-0000-0000-000000000000\"
-        id=\"00000000-0000-0000-0000-000000000000\"/>\n        <start_time>2012-11-21T20:11:07.565+01:00</start_time>\n
-        \       <creation_time>2012-11-21T18:52:29.985+01:00</creation_time>\n        <origin>rhev</origin>\n
-        \       <stateless>false</stateless>\n        <placement_policy>\n            <affinity>migratable</affinity>\n
-        \       </placement_policy>\n        <memory_policy>\n            <guaranteed>536870912</guaranteed>\n
-        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
-        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n
-        \   <vm href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c\" id=\"a921bfe6-9ba6-4761-9e95-42737768ff8c\">\n
-        \       <actions>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/migrate\"
-        rel=\"migrate\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/ticket\"
-        rel=\"ticket\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/cancelmigration\"
-        rel=\"cancelmigration\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/shutdown\"
-        rel=\"shutdown\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/start\"
-        rel=\"start\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/stop\"
-        rel=\"stop\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/suspend\"
-        rel=\"suspend\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/detach\"
-        rel=\"detach\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/export\"
-        rel=\"export\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/move\"
-        rel=\"move\"/>\n        </actions>\n        <name>rhevm1-jprovazn-09-rhevm1</name>\n
-        \       <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/disks\"
-        rel=\"disks\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics\"
-        rel=\"nics\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/cdroms\"
-        rel=\"cdroms\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/snapshots\"
-        rel=\"snapshots\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/tags\"
-        rel=\"tags\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/permissions\"
-        rel=\"permissions\"/>\n        <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/statistics\"
-        rel=\"statistics\"/>\n        <type>server</type>\n        <status>\n            <state>down</state>\n
-        \       </status>\n        <memory>536870912</memory>\n        <cpu>\n            <topology
-        sockets=\"1\" cores=\"1\"/>\n        </cpu>\n        <os type=\"other_linux\">\n
-        \           <boot dev=\"network\"/>\n            <boot dev=\"hd\"/>\n        </os>\n
-        \       <high_availability>\n            <enabled>false</enabled>\n            <priority>0</priority>\n
-        \       </high_availability>\n        <display>\n            <type>spice</type>\n
-        \           <monitors>1</monitors>\n            <allow_override>false</allow_override>\n
-        \       </display>\n        <cluster href=\"/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95\"
-        id=\"99408929-82cf-4dc7-a532-9d998063fa95\"/>\n        <template href=\"/api/templates/fe9dcb11-a035-4d80-89b4-a4092a892505\"
-        id=\"fe9dcb11-a035-4d80-89b4-a4092a892505\"/>\n        <creation_time>2012-10-29T14:06:27.378+01:00</creation_time>\n
-        \       <origin>rhev</origin>\n        <stateless>false</stateless>\n        <placement_policy>\n
-        \           <affinity>migratable</affinity>\n        </placement_policy>\n
-        \       <memory_policy>\n            <guaranteed>536870912</guaranteed>\n
-        \       </memory_policy>\n        <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
-        \       <usb>\n            <enabled>false</enabled>\n        </usb>\n    </vm>\n</vms>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=N-jSjHjQ41d4g72rj91cX4kk; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/nics/5e299a6d-9f51-4a1f-b46f-314c7f8fd404\"
-        id=\"5e299a6d-9f51-4a1f-b46f-314c7f8fd404\">\n        <actions>\n            <link
-        href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/nics/5e299a6d-9f51-4a1f-b46f-314c7f8fd404/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/nics/5e299a6d-9f51-4a1f-b46f-314c7f8fd404/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6/nics/5e299a6d-9f51-4a1f-b46f-314c7f8fd404/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/9ad3f286-3baf-4f53-b901-eb0062b180b6\"
-        id=\"9ad3f286-3baf-4f53-b901-eb0062b180b6\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:13\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=j+D7XKTr64tpxXT2qXxLy6WW; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/nics/7f279be9-be29-4b3d-a607-2e156cf3c21c\"
-        id=\"7f279be9-be29-4b3d-a607-2e156cf3c21c\">\n        <actions>\n            <link
-        href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/nics/7f279be9-be29-4b3d-a607-2e156cf3c21c/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/nics/7f279be9-be29-4b3d-a607-2e156cf3c21c/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864/nics/7f279be9-be29-4b3d-a607-2e156cf3c21c/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/0a0ad2fb-1296-464a-8b2e-d97791a39864\"
-        id=\"0a0ad2fb-1296-464a-8b2e-d97791a39864\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:00\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=5svw6oiNdhGAFOhhuRscWu0E; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics/8c38a848-648c-4852-8ba7-925451170e65\"
-        id=\"8c38a848-648c-4852-8ba7-925451170e65\">\n        <actions>\n            <link
-        href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics/8c38a848-648c-4852-8ba7-925451170e65/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics/8c38a848-648c-4852-8ba7-925451170e65/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190/nics/8c38a848-648c-4852-8ba7-925451170e65/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/de048029-c4f8-4e90-ac7b-67cf06102190\"
-        id=\"de048029-c4f8-4e90-ac7b-67cf06102190\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:18\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=u4CxoepcZ2nzj0Cv6RybVNLu; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/nics/74ff6b8c-c33c-418b-b3d8-eabd106a4e16\"
-        id=\"74ff6b8c-c33c-418b-b3d8-eabd106a4e16\">\n        <actions>\n            <link
-        href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/nics/74ff6b8c-c33c-418b-b3d8-eabd106a4e16/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/nics/74ff6b8c-c33c-418b-b3d8-eabd106a4e16/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3/nics/74ff6b8c-c33c-418b-b3d8-eabd106a4e16/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/a949192d-55eb-465c-9ef1-d59581a562a3\"
-        id=\"a949192d-55eb-465c-9ef1-d59581a562a3\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:16\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=3Ium5+InnJrYViaAC3MEoDhW; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/nics/04c1c675-245e-449d-9b5d-b9fef4a87742\"
-        id=\"04c1c675-245e-449d-9b5d-b9fef4a87742\">\n        <actions>\n            <link
-        href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/nics/04c1c675-245e-449d-9b5d-b9fef4a87742/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/nics/04c1c675-245e-449d-9b5d-b9fef4a87742/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8/nics/04c1c675-245e-449d-9b5d-b9fef4a87742/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/8e4cea09-8a52-47b5-9ed5-34b4e293bdd8\"
-        id=\"8e4cea09-8a52-47b5-9ed5-34b4e293bdd8\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:14\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=hiykyj5Ihu6ds0Lc2vKb1q+W; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/nics/f86740fb-6368-4c44-ab9d-ff66b73ef841\"
-        id=\"f86740fb-6368-4c44-ab9d-ff66b73ef841\">\n        <actions>\n            <link
-        href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/nics/f86740fb-6368-4c44-ab9d-ff66b73ef841/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/nics/f86740fb-6368-4c44-ab9d-ff66b73ef841/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7/nics/f86740fb-6368-4c44-ab9d-ff66b73ef841/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/4e5dbb0f-a295-4679-842d-c152ea2eeaa7\"
-        id=\"4e5dbb0f-a295-4679-842d-c152ea2eeaa7\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:12\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:56 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:56 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=c2xAu0CY4wevtMzgTArTeClX; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee\"
-        id=\"2463f06a-ec92-411f-8c42-04ea1aaba6ee\">\n        <actions>\n            <link
-        href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7/nics/2463f06a-ec92-411f-8c42-04ea1aaba6ee/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/a841ff8e-1b13-432e-9f37-0df71b6041d7\"
-        id=\"a841ff8e-1b13-432e-9f37-0df71b6041d7\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:15\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:57 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:57 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=LcHP+OpMPVxLZWNj71PJL17d; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics/5f11e307-b28a-4d17-9e3c-d5c7c71da700\"
-        id=\"5f11e307-b28a-4d17-9e3c-d5c7c71da700\">\n        <actions>\n            <link
-        href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics/5f11e307-b28a-4d17-9e3c-d5c7c71da700/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics/5f11e307-b28a-4d17-9e3c-d5c7c71da700/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1/nics/5f11e307-b28a-4d17-9e3c-d5c7c71da700/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/2942d4be-57e4-4751-a5ac-b334567125b1\"
-        id=\"2942d4be-57e4-4751-a5ac-b334567125b1\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:a8:7a:0a\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:57 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:57 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=UhXKAkVwmbkCGxnSHoqeYtvo; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/nics/19eef4c7-a3a6-4693-b24a-19e6c934550e\"
-        id=\"19eef4c7-a3a6-4693-b24a-19e6c934550e\">\n        <actions>\n            <link
-        href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/nics/19eef4c7-a3a6-4693-b24a-19e6c934550e/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/nics/19eef4c7-a3a6-4693-b24a-19e6c934550e/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093/nics/19eef4c7-a3a6-4693-b24a-19e6c934550e/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/58c3c864-ede3-4a74-8908-6ab5e134b093\"
-        id=\"58c3c864-ede3-4a74-8908-6ab5e134b093\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:17\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:57 GMT
-- request:
-    method: get
-    uri: https://admin%40internal:redhat@dell-per610-02.lab.eng.brq.redhat.com/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics
-    body:
-      encoding: UTF-8
-      string: ''
-    headers:
-      Accept:
-      - application/xml
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Thu, 22 Nov 2012 11:18:57 GMT
-      Pragma:
-      - No-cache
-      Expires:
-      - Thu, 01 Jan 1970 01:00:00 CET
-      Content-Length:
-      - '1052'
-      Set-Cookie:
-      - JSESSIONID=VekOcLjJi557vHYgu853PibY; Path=/api; Secure
-      Connection:
-      - close
-      Content-Type:
-      - application/xml
-      Cache-Control:
-      - no-cache
-    body:
-      encoding: UTF-8
-      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56\"
-        id=\"25512ddd-4671-4613-9793-88fe3e76cd56\">\n        <actions>\n            <link
-        href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>eth0</name>\n        <link
-        href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c/nics/25512ddd-4671-4613-9793-88fe3e76cd56/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/a921bfe6-9ba6-4761-9e95-42737768ff8c\"
-        id=\"a921bfe6-9ba6-4761-9e95-42737768ff8c\"/>\n        <network href=\"/api/networks/00000000-0000-0000-0000-000000000009\"
-        id=\"00000000-0000-0000-0000-000000000009\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:22:20:19\"/>\n        <active>true</active>\n
-        \   </nic>\n</nics>\n"
-    http_version: 
-  recorded_at: Thu, 22 Nov 2012 11:18:57 GMT
-- request:
-    method: get
-    uri: https://fakeuser:fakepassword@10.16.120.71/api/vms/cb844493-857d-4238-88a5-597d82396a7f
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67
     body:
       encoding: US-ASCII
       string: ''
@@ -993,7 +21,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 27 Feb 2013 22:30:45 GMT
+      - Thu, 07 Mar 2013 21:52:08 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -1001,57 +29,56 @@ http_interactions:
       Expires:
       - Wed, 31 Dec 1969 19:00:00 EST
       Set-Cookie:
-      - JSESSIONID=oAxMGMHMInhYCGwh56rwbPIy; Path=/api; Secure
+      - JSESSIONID=YA4YSl8NGGTusbrPIb6tXX2X; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
-      - '3200'
+      - '3123'
       Connection:
       - close
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<vm
-        href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f\" id=\"cb844493-857d-4238-88a5-597d82396a7f\">\n
-        \   <actions>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/ticket\"
-        rel=\"ticket\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/migrate\"
-        rel=\"migrate\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/cancelmigration\"
-        rel=\"cancelmigration\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/shutdown\"
-        rel=\"shutdown\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/start\"
-        rel=\"start\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/stop\"
-        rel=\"stop\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/suspend\"
-        rel=\"suspend\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/detach\"
-        rel=\"detach\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/export\"
-        rel=\"export\"/>\n        <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/move\"
-        rel=\"move\"/>\n    </actions>\n    <name>i-1362004223</name>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/disks\"
-        rel=\"disks\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics\"
-        rel=\"nics\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/cdroms\"
-        rel=\"cdroms\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/snapshots\"
-        rel=\"snapshots\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/tags\"
-        rel=\"tags\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/permissions\"
-        rel=\"permissions\"/>\n    <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/statistics\"
+        href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67\" id=\"e31463c6-adf3-4f1f-b6c8-ae6e45803c67\">\n
+        \   <actions>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/ticket\"
+        rel=\"ticket\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/migrate\"
+        rel=\"migrate\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/cancelmigration\"
+        rel=\"cancelmigration\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/shutdown\"
+        rel=\"shutdown\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/start\"
+        rel=\"start\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/stop\"
+        rel=\"stop\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/suspend\"
+        rel=\"suspend\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/detach\"
+        rel=\"detach\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/export\"
+        rel=\"export\"/>\n        <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/move\"
+        rel=\"move\"/>\n    </actions>\n    <name>i-1362693110</name>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/disks\"
+        rel=\"disks\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics\"
+        rel=\"nics\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/cdroms\"
+        rel=\"cdroms\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/snapshots\"
+        rel=\"snapshots\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/tags\"
+        rel=\"tags\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/statistics\"
         rel=\"statistics\"/>\n    <type>server</type>\n    <status>\n        <state>image_locked</state>\n
         \   </status>\n    <memory>1073741824</memory>\n    <cpu>\n        <topology
-        sockets=\"1\" cores=\"1\"/>\n    </cpu>\n    <os type=\"rhel_6x64\">\n        <boot
-        dev=\"network\"/>\n        <boot dev=\"hd\"/>\n        <kernel></kernel>\n
-        \       <initrd></initrd>\n        <cmdline></cmdline>\n    </os>\n    <high_availability>\n
-        \       <enabled>false</enabled>\n        <priority>1</priority>\n    </high_availability>\n
+        sockets=\"1\" cores=\"1\"/>\n    </cpu>\n    <os type=\"other_linux\">\n        <boot
+        dev=\"network\"/>\n        <boot dev=\"hd\"/>\n    </os>\n    <high_availability>\n
+        \       <enabled>false</enabled>\n        <priority>0</priority>\n    </high_availability>\n
         \   <display>\n        <type>spice</type>\n        <monitors>1</monitors>\n
         \       <allow_override>false</allow_override>\n    </display>\n    <cluster
         href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n
-        \   <template href=\"/api/templates/3cd2891a-9a0f-44c8-8dec-6280efa278e3\"
-        id=\"3cd2891a-9a0f-44c8-8dec-6280efa278e3\"/>\n    <creation_time>2013-02-27T17:30:32.542-05:00</creation_time>\n
+        \   <template href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"
+        id=\"da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"/>\n    <creation_time>2013-03-07T16:51:51.680-05:00</creation_time>\n
         \   <origin>rhev</origin>\n    <stateless>false</stateless>\n    <payloads>\n
         \       <payload type=\"floppy\">\n            <file name=\"deltacloud-user-data.txt\">\n
         \               <content></content>\n            </file>\n        </payload>\n
         \   </payloads>\n    <placement_policy>\n        <affinity>migratable</affinity>\n
         \   </placement_policy>\n    <memory_policy>\n        <guaranteed>1073741824</guaranteed>\n
-        \       <ballooning>true</ballooning>\n    </memory_policy>\n    <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \       <ballooning>false</ballooning>\n    </memory_policy>\n    <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
         \   <usb>\n        <enabled>false</enabled>\n    </usb>\n</vm>\n"
     http_version: 
-  recorded_at: Wed, 27 Feb 2013 22:30:36 GMT
+  recorded_at: Thu, 07 Mar 2013 21:52:08 GMT
 - request:
     method: get
-    uri: https://fakeuser:fakepassword@10.16.120.71/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics
     body:
       encoding: US-ASCII
       string: ''
@@ -1070,7 +97,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 27 Feb 2013 22:30:45 GMT
+      - Thu, 07 Mar 2013 21:52:09 GMT
       Pragma:
       - No-cache
       Cache-Control:
@@ -1078,7 +105,7 @@ http_interactions:
       Expires:
       - Wed, 31 Dec 1969 19:00:00 EST
       Set-Cookie:
-      - JSESSIONID=TKaX0wH5G8TTHsqVSaOB8Qf0; Path=/api; Secure
+      - JSESSIONID=ymh-OThzp-86RtuDlUq5qCK0; Path=/api; Secure
       Content-Type:
       - application/xml
       Content-Length:
@@ -1088,17 +115,145 @@ http_interactions:
     body:
       encoding: US-ASCII
       string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
-        \   <nic href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd\"
-        id=\"1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd\">\n        <actions>\n            <link
-        href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd/deactivate\"
-        rel=\"deactivate\"/>\n            <link href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd/activate\"
-        rel=\"activate\"/>\n        </actions>\n        <name>nic1</name>\n        <link
-        href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f/nics/1bd2f5e8-9b50-4a02-9f6a-f967bf99dfdd/statistics\"
-        rel=\"statistics\"/>\n        <vm href=\"/api/vms/cb844493-857d-4238-88a5-597d82396a7f\"
-        id=\"cb844493-857d-4238-88a5-597d82396a7f\"/>\n        <network href=\"/api/networks/75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"
+        \   <nic href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da\"
+        id=\"7035fac8-222c-48bc-bbbc-bf8fadfd19da\">\n        <actions>\n            <link
+        href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>eth0</name>\n        <link
+        href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67/nics/7035fac8-222c-48bc-bbbc-bf8fadfd19da/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/e31463c6-adf3-4f1f-b6c8-ae6e45803c67\"
+        id=\"e31463c6-adf3-4f1f-b6c8-ae6e45803c67\"/>\n        <network href=\"/api/networks/75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"
         id=\"75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"/>\n        <interface>virtio</interface>\n
-        \       <mac address=\"00:1a:4a:10:56:6d\"/>\n        <active>true</active>\n
+        \       <mac address=\"00:1a:4a:10:56:89\"/>\n        <active>true</active>\n
         \   </nic>\n</nics>\n"
     http_version: 
-  recorded_at: Wed, 27 Feb 2013 22:30:36 GMT
+  recorded_at: Thu, 07 Mar 2013 21:52:09 GMT
+- request:
+    method: get
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/vms/9fd66242-1247-4740-bd78-9684b4016caf
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:43:56 GMT
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=JFj1z+h194N6ks3TtaxKasks; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '3115'
+      Connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<vm
+        href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf\" id=\"9fd66242-1247-4740-bd78-9684b4016caf\">\n
+        \   <actions>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/ticket\"
+        rel=\"ticket\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/migrate\"
+        rel=\"migrate\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/cancelmigration\"
+        rel=\"cancelmigration\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/shutdown\"
+        rel=\"shutdown\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/start\"
+        rel=\"start\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/stop\"
+        rel=\"stop\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/suspend\"
+        rel=\"suspend\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/detach\"
+        rel=\"detach\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/export\"
+        rel=\"export\"/>\n        <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/move\"
+        rel=\"move\"/>\n    </actions>\n    <name>i-1362696218</name>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/disks\"
+        rel=\"disks\"/>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/nics\"
+        rel=\"nics\"/>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/cdroms\"
+        rel=\"cdroms\"/>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/snapshots\"
+        rel=\"snapshots\"/>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/tags\"
+        rel=\"tags\"/>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/permissions\"
+        rel=\"permissions\"/>\n    <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/statistics\"
+        rel=\"statistics\"/>\n    <type>server</type>\n    <status>\n        <state>down</state>\n
+        \   </status>\n    <memory>1073741824</memory>\n    <cpu>\n        <topology
+        sockets=\"1\" cores=\"1\"/>\n    </cpu>\n    <os type=\"other_linux\">\n        <boot
+        dev=\"network\"/>\n        <boot dev=\"hd\"/>\n    </os>\n    <high_availability>\n
+        \       <enabled>false</enabled>\n        <priority>0</priority>\n    </high_availability>\n
+        \   <display>\n        <type>spice</type>\n        <monitors>1</monitors>\n
+        \       <allow_override>false</allow_override>\n    </display>\n    <cluster
+        href=\"/api/clusters/b91b0346-4ba3-11e2-a3ac-0050568c6b2d\" id=\"b91b0346-4ba3-11e2-a3ac-0050568c6b2d\"/>\n
+        \   <template href=\"/api/templates/da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"
+        id=\"da12fc7e-8f0c-4ebb-a524-5e99b3214d75\"/>\n    <creation_time>2013-03-07T17:43:40.043-05:00</creation_time>\n
+        \   <origin>rhev</origin>\n    <stateless>false</stateless>\n    <payloads>\n
+        \       <payload type=\"floppy\">\n            <file name=\"deltacloud-user-data.txt\">\n
+        \               <content></content>\n            </file>\n        </payload>\n
+        \   </payloads>\n    <placement_policy>\n        <affinity>migratable</affinity>\n
+        \   </placement_policy>\n    <memory_policy>\n        <guaranteed>1073741824</guaranteed>\n
+        \       <ballooning>false</ballooning>\n    </memory_policy>\n    <quota id=\"00000000-0000-0000-0000-000000000000\"/>\n
+        \   <usb>\n        <enabled>false</enabled>\n    </usb>\n</vm>\n"
+    http_version: 
+  recorded_at: Thu, 07 Mar 2013 22:43:56 GMT
+- request:
+    method: get
+    uri: https://fakeuser:fakepassword@rhevm.example.com/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/nics
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/xml
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/xml
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 07 Mar 2013 22:43:57 GMT
+      Pragma:
+      - No-cache
+      Cache-Control:
+      - no-cache
+      Expires:
+      - Wed, 31 Dec 1969 19:00:00 EST
+      Set-Cookie:
+      - JSESSIONID=B2UUnqB4H4Sld0VgKFTl8dEf; Path=/api; Secure
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '1052'
+      Connection:
+      - close
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<nics>\n
+        \   <nic href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/nics/0993ac11-ddd5-41fb-ad49-5a09b92e2bc4\"
+        id=\"0993ac11-ddd5-41fb-ad49-5a09b92e2bc4\">\n        <actions>\n            <link
+        href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/nics/0993ac11-ddd5-41fb-ad49-5a09b92e2bc4/deactivate\"
+        rel=\"deactivate\"/>\n            <link href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/nics/0993ac11-ddd5-41fb-ad49-5a09b92e2bc4/activate\"
+        rel=\"activate\"/>\n        </actions>\n        <name>eth0</name>\n        <link
+        href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf/nics/0993ac11-ddd5-41fb-ad49-5a09b92e2bc4/statistics\"
+        rel=\"statistics\"/>\n        <vm href=\"/api/vms/9fd66242-1247-4740-bd78-9684b4016caf\"
+        id=\"9fd66242-1247-4740-bd78-9684b4016caf\"/>\n        <network href=\"/api/networks/75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"
+        id=\"75d153fb-3e33-4319-9d6a-1f4cb20b26b0\"/>\n        <interface>virtio</interface>\n
+        \       <mac address=\"00:1a:4a:10:56:7c\"/>\n        <active>true</active>\n
+        \   </nic>\n</nics>\n"
+    http_version: 
+  recorded_at: Thu, 07 Mar 2013 22:43:58 GMT
 recorded_with: VCR 2.4.0
