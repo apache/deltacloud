@@ -5,7 +5,7 @@ title: How Can I Contribute?
 <br/>
 
 <h3 id="contribute">Contribute to Deltacloud</h3>
-Deltacloud project is a free open source software licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software Foundation</a> license. The developers community is open to anyone who wants to contribute. Contributors are required to sign an individual contributor <a href="http://www.apache.org/licenses/icla.txt">license agreement</a>. Do not hesitate to <a href="/contact.html">contact us</a> if you have any questions about contributing to the Deltacloud project. 
+Deltacloud project is a free open source software licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software Foundation</a> license. The developers community is open to anyone who wants to contribute. Contributors are required to sign an individual contributor <a href="http://www.apache.org/licenses/icla.txt">license agreement</a>. Do not hesitate to <a href="/contact.html">contact us</a> if you have any questions about contributing to the Deltacloud project.
 
 <h4 id="how">How can I contribute?</h4>
 
@@ -25,6 +25,9 @@ Deltacloud project is a free open source software licensed under the <a href="ht
   </li>
   <li>
     <a href="#documentation">Write documentation</a>
+  </li>
+  <li>
+    <a href="/white-box-tests.html">Validate contributions using the white box tests</a>
   </li>
 </ul>
 

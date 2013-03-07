@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>How Can I Contribute?</title>
+    <title>Updating VCR Fixtures Example</title>
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -97,91 +97,188 @@
 
       <p><br></p>
 
-<h3 id="contribute">Contribute to Deltacloud</h3>
-<p>Deltacloud project is a free open source software licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software Foundation</a> license. The developers community is open to anyone who wants to contribute. Contributors are required to sign an individual contributor <a href="http://www.apache.org/licenses/icla.txt">license agreement</a>. Do not hesitate to <a href="contact.html">contact us</a> if you have any questions about contributing to the Deltacloud project.</p>
+<ul class="breadcrumb">
+<li>
+    <a href="white-box-tests.html">White Box Tests?</a> <span class="divider">/</span>
+  </li>
+  <li class="active">Updating VCR Fixtures Example</li>
+</ul><h3>An Example of Re-recording the VCR test fixtures.</h3>
 
-<h4 id="how">How can I contribute?</h4>
+<p>
+Below is an example of recording new fixtures for the test:
+<i><u><b>server/tests/drivers/rhevm/instance_test.rb</b></u></i>
+tests.
+</p>
 
-<ul class="nav nav-list">
-<li class="nav-header">
+<p>
+More information can be found on the past recording of the
+<a href="http://youtu.be/zTCGRDO_3dU">Deltacloud Community Call #12</a>
+</p>
+
+<ol>
+<li>
+    <p> Create ${HOME}/.deltacloud/config</p>
+
+    <pre>
+    rhevm:
+      user:     'admin@internal'
+      password: 'localpassword'
+      provider: 'https://16.1.1.3/api;b9bb11c2-f397-4f41-a57b-7ac15a894779'
+    mock:
+      user: mockuser
+      password: mockpassword
+      provider: compute
+  
+
+  </pre>
+</li>
+<li>
+    <p>Modify the test source to have the realm, instance, image &amp; provider
+       for a live cloud provider.</p>
+
+    <pre>
+    % vim server/tests/drivers/rhevm/instance_test.rb
+    ...
+    TST_REALM    = '12345678-123a-123b-123c-123456789abc'
+    TST_INSTANCE = '23456781-23a1-23b1-23c1-23456789abce'
+    TST_IMAGE    = '34567812-3a12-3b12-3c12-3456789abcef'
+    ...
+        @driver = Deltacloud::Test::config.driver(:rhevm,
+          provider="https://16.1.1.3/api;b9bb11c2-f397-4f41-a57b-7ac15a894779")
+    </pre>
+
+  </li>
+
+  <li>
+    <p>Set the VCR record mode to :record =&gt; :all</p>
+
+    <pre>
+    % vim server/tests/drivers/rhevm/common.rb
+    ...
+    # Set :record to :all, when re-recording and between re-record attemps
+    # be sure to clear fixtures/*.yml files which can be done with "git checkout".
+    # e.g.:
+    c.default_cassette_options = { :record =&gt; :all }
+    # c.default_cassette_options = { :record =&gt; :none }
+    ...
+    </pre>
+
+  </li>
+
+
+  <li>
+    <p>Run the test in record mode</p>
+
+    <pre>
+    % cd YOUR-REPO/deltacloud/server
+
+    # Record only the single test
+    % ruby tests/drivers/rhevm/instance_test.rb
+
+    or
+
+    # Record the drivers:rhevm tests:
+    % rake test:drivers:rhevm
+
+    or
+
+    # Record all the tests:
+    % rake test
+    </pre>
+
+  </li>
+
+  <li>
+    <p>Remove the user:password creds from the fixture.</p>
+
+    <p>
+    The recorded fixture will contain live creds. For security reasons
+    it is best to either change the credentials on the cloud provider or
+    remove them from the fixture YAML file. Removing them from the fixture
+    YAML file can easily be accomplished using sed.
+    </p>
+
+    <pre>
+    e.g.:
+    for i in $(ls tests/drivers/rhevm/fixtures/test_0*.yml); do \
+      echo $i; \
+      cat $i | sed s/admin%40internal:localpassword/fakeuser:fakepassword/ &gt; $i.new; \
+      mv $i.new $i; \
+    done
+    </pre>
+
+  </li>
+
+  <li>
+    <p>Remove ${HOME}/.deltacloud/config</p>
+
+    <p>
+    This is done to avoid using the credentials from the config file
+    during non-recording test runs.
+    </p>
+
+    <pre>
+    e.g.: (note it might be best to save it in ".ORIG" for future re-recordings.)
+    mv ${HOME}/.deltacloud/config ${HOME}/.deltacloud/config.ORIG
+    </pre>
+  </li>
+
+  <li>
+    <p>Turn off record mode.
+
+    </p>
+<p>To turn off record mode set the record mode to { :record =&gt; :none }</p>
+
+    <pre>
+    % vim server/tests/drivers/rhevm/common.rb
+    ...
+    # Set :record to :all, when re-recording and between re-record attemps
+    # be sure to clear fixtures/*.yml files which can be done with "git checkout".
+    # e.g.:
+    # c.default_cassette_options = { :record =&gt; :all }
+    c.default_cassette_options = { :record =&gt; :none }
+    ...
+    </pre>
+
+  
+
   </li>
 <li>
-    <a href="send-patch.html">Send a patch</a>
+    <p>Remove trailing white space from the fixtures YAML files.</p>
+
+    <p>
+    Recording can place trailing white space in the fixtures YAML files
+    which can be removed or ignored.
+    </p>
+
+    <p>There are many ways to accomplish this.</p>
   </li>
+
   <li>
-    <a href="write-new-driver.html">Write a provider driver</a>
-  </li>
-  <li>
-    <a href="#bug">Report a bug</a>
-  </li>
-  <li>
-    <a href="#idea">Propose an idea</a>
-  </li>
-  <li>
-    <a href="#documentation">Write documentation</a>
-  </li>
-  <li>
-    <a href="white-box-tests.html">Validate contributions using the white box tests</a>
-  </li>
-</ul><p><br></p>
+    <p>Confirm all tests run in mock mode</p>
 
-<h3>Overview of the Deltacloud directory structure</h3>
+    <pre>
+    % cd <repo>/deltacloud/server
 
-<p>The following list contains paths to essential files and directories for developers. It is intended as a help with orientation in the project directory - for example to quickly identify where the Deltacloud cloud provider drivers are stored:</p>
+    # Run only the single tests that had been re-recorded
+    % ruby tests/drivers/rhevm/instance_test.rb
 
-<div class="row">
-  <div class="span1"></div>
-  <div class="span10 offset1">
-<pre>
-deltacloud
-|-----------------------------------------------------------------------------------
-|-d--&gt;tests                           Contains Cucumber tests
-|-----------------------------------------------------------------------------------
-|-d--&gt;site                            Files for this website
-|-----------------------------------------------------------------------------------
-|-d--&gt;client                          Contains the Deltacloud ruby client
-|-----------------------------------------------------------------------------------
-|-d--&gt;clients                         Contains other Deltacloud clients (e.g. java)
-|-----------------------------------------------------------------------------------
-|-d--&gt; server
-       |----------------------------------------------------------------------------
-       |-d--&gt;bin                      Contains the Deltacloud executable deltacloudd
-       |----------------------------------------------------------------------------
-       |-d--&gt;views                    Contains haml views for each collection
-       |----------------------------------------------------------------------------
-       |-d--&gt;tests                    Contains unit tests for drivers
-       |----------------------------------------------------------------------------
-       |-d--&gt;lib
-             |----------------------------------------------------------------------
-             |-d--&gt;sinatra            Contains rabbit DSL and various helpers
-             |----------------------------------------------------------------------
-             |-d--&gt;deltacloud
-                   |----------------------------------------------------------------
-                   |-d--&gt;models       Definition of each collection model
-                   |----------------------------------------------------------------
-                   |-d--&gt;drivers      Contains the drivers for each cloud provider
-                   |----------------------------------------------------------------
-                   |-d--&gt;helpers      Various helper methods used by the drivers
-                   |----------------------------------------------------------------
-                   |-d--&gt;base_driver  Contains the Deltacloud base driver
-                   |----------------------------------------------------------------
-                   |-f--&gt;server.rb                Contains the sinatra routes
-                   |----------------------------------------------------------------
-</pre>
+      and
 
-  </div>
-</div>
+    # Run all tests in that section:
+    % rake test:drivers:rhevm
 
-<p><br></p>
+      and
 
-<h3 id="bug">Reporting a bug</h3>
-<p>We track bugs in <a href="https://issues.apache.org/jira/browse/DTACLOUD">Apache JIRA</a>. When you discover a problem with Deltacloud functionality, check JIRA if someone has already reported the issue to the Deltacloud developers. Otherwise, <a href="https://issues.apache.org/jira/secure/CreateIssue!default.jspa">report it</a>.</p>
+    # Record all the tests:
+    % rake test
+    
+  
 
-<h3 id="idea">Proposing an idea</h3>
-<p>Have you found a way how to improve Deltacloud project? Do you miss a feature or a tool, which we could include into Deltacloud? Our <a href="http://teambox.com/projects/deltacloud">Teambox</a> page is a place where we keep the latest task lists and where you can add comments or suggest new features for the project.</p>
 
-<h3 id="documentation">Writing documentation</h3>
-<p>You can also contribute with a piece of documentation. There are still things which needs to be described. If you found one like that and you are interested in writing a couple of sentences about the particular issue, please, don’t hesitate to do it and <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/">send us</a> your contribution. We really appreciate your help.</p>
+</repo></pre>
+</li>
+</ol>
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

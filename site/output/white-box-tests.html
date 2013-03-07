@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>How Can I Contribute?</title>
+    <title>White Box Tests</title>
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -97,91 +97,52 @@
 
       <p><br></p>
 
-<h3 id="contribute">Contribute to Deltacloud</h3>
-<p>Deltacloud project is a free open source software licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software Foundation</a> license. The developers community is open to anyone who wants to contribute. Contributors are required to sign an individual contributor <a href="http://www.apache.org/licenses/icla.txt">license agreement</a>. Do not hesitate to <a href="contact.html">contact us</a> if you have any questions about contributing to the Deltacloud project.</p>
+<ul class="breadcrumb">
+<li>
+    <a href="how-to-contribute.html#how">How to contribute?</a> <span class="divider">/</span>
+  </li>
+  <li class="active">Validate Contributions Using the White Box Tests</li>
+</ul><h3>Validate Contributions Using the White Box Tests</h3>
 
-<h4 id="how">How can I contribute?</h4>
+<p>
+Deltacloud contains automated API tests, that are driven using pre-recorded
+<a href="https://github.com/vcr/vcr">VCR</a> YAML files called <i>fixtures</i>.
+The test source and fixtures are maintained in the deltacloud source tree
+under: <i><b>REPO/deltacloud/server/tests
+
+
+</b></i></p><p>
+In some cases it might be necessarey to re-record the VCR fixtures for
+particular tests. For example, this could become necessarey, if new
+functionality or a bug fix alters the exchange with the backend cloud
+provider.
+</p>
+
+<p>
+The process for updating the test data involves exercising the tests against a live
+cloud provider and recording the live API exchange into the VCR fixtures YAML files.
+After which the tests can more quickly and easily be run using the recorded VCR
+fixtures without the need to accessess a live cloud provider.
+</p>
+
+<h4 id="how">Dealing With the White Box Test</h4>
 
 <ul class="nav nav-list">
 <li class="nav-header">
   </li>
 <li>
-    <a href="send-patch.html">Send a patch</a>
+    <a href="white-box-tests-layout.html">White Box Tests Source Description</a>
   </li>
   <li>
-    <a href="write-new-driver.html">Write a provider driver</a>
+    <a href="running-the-white-box-tests.html">Running The White Box Tests</a>
   </li>
   <li>
-    <a href="#bug">Report a bug</a>
+    <a href="why-update-vcr-test-fixtures-data.html">Why Update The VCR Fixtures?</a>
   </li>
   <li>
-    <a href="#idea">Propose an idea</a>
+    <a href="update-vcr-test-fixtures-data-example.html">Updating VCR Fixtures Example</a>
   </li>
-  <li>
-    <a href="#documentation">Write documentation</a>
-  </li>
-  <li>
-    <a href="white-box-tests.html">Validate contributions using the white box tests</a>
-  </li>
-</ul><p><br></p>
-
-<h3>Overview of the Deltacloud directory structure</h3>
-
-<p>The following list contains paths to essential files and directories for developers. It is intended as a help with orientation in the project directory - for example to quickly identify where the Deltacloud cloud provider drivers are stored:</p>
-
-<div class="row">
-  <div class="span1"></div>
-  <div class="span10 offset1">
-<pre>
-deltacloud
-|-----------------------------------------------------------------------------------
-|-d--&gt;tests                           Contains Cucumber tests
-|-----------------------------------------------------------------------------------
-|-d--&gt;site                            Files for this website
-|-----------------------------------------------------------------------------------
-|-d--&gt;client                          Contains the Deltacloud ruby client
-|-----------------------------------------------------------------------------------
-|-d--&gt;clients                         Contains other Deltacloud clients (e.g. java)
-|-----------------------------------------------------------------------------------
-|-d--&gt; server
-       |----------------------------------------------------------------------------
-       |-d--&gt;bin                      Contains the Deltacloud executable deltacloudd
-       |----------------------------------------------------------------------------
-       |-d--&gt;views                    Contains haml views for each collection
-       |----------------------------------------------------------------------------
-       |-d--&gt;tests                    Contains unit tests for drivers
-       |----------------------------------------------------------------------------
-       |-d--&gt;lib
-             |----------------------------------------------------------------------
-             |-d--&gt;sinatra            Contains rabbit DSL and various helpers
-             |----------------------------------------------------------------------
-             |-d--&gt;deltacloud
-                   |----------------------------------------------------------------
-                   |-d--&gt;models       Definition of each collection model
-                   |----------------------------------------------------------------
-                   |-d--&gt;drivers      Contains the drivers for each cloud provider
-                   |----------------------------------------------------------------
-                   |-d--&gt;helpers      Various helper methods used by the drivers
-                   |----------------------------------------------------------------
-                   |-d--&gt;base_driver  Contains the Deltacloud base driver
-                   |----------------------------------------------------------------
-                   |-f--&gt;server.rb                Contains the sinatra routes
-                   |----------------------------------------------------------------
-</pre>
-
-  </div>
-</div>
-
-<p><br></p>
-
-<h3 id="bug">Reporting a bug</h3>
-<p>We track bugs in <a href="https://issues.apache.org/jira/browse/DTACLOUD">Apache JIRA</a>. When you discover a problem with Deltacloud functionality, check JIRA if someone has already reported the issue to the Deltacloud developers. Otherwise, <a href="https://issues.apache.org/jira/secure/CreateIssue!default.jspa">report it</a>.</p>
-
-<h3 id="idea">Proposing an idea</h3>
-<p>Have you found a way how to improve Deltacloud project? Do you miss a feature or a tool, which we could include into Deltacloud? Our <a href="http://teambox.com/projects/deltacloud">Teambox</a> page is a place where we keep the latest task lists and where you can add comments or suggest new features for the project.</p>
-
-<h3 id="documentation">Writing documentation</h3>
-<p>You can also contribute with a piece of documentation. There are still things which needs to be described. If you found one like that and you are interested in writing a couple of sentences about the particular issue, please, don’t hesitate to do it and <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/">send us</a> your contribution. We really appreciate your help.</p>
+</ul>
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

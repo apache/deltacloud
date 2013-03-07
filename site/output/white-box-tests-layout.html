@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>How Can I Contribute?</title>
+    <title>White Box Tests Source Description</title>
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -97,76 +97,47 @@
 
       <p><br></p>
 
-<h3 id="contribute">Contribute to Deltacloud</h3>
-<p>Deltacloud project is a free open source software licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache Software Foundation</a> license. The developers community is open to anyone who wants to contribute. Contributors are required to sign an individual contributor <a href="http://www.apache.org/licenses/icla.txt">license agreement</a>. Do not hesitate to <a href="contact.html">contact us</a> if you have any questions about contributing to the Deltacloud project.</p>
-
-<h4 id="how">How can I contribute?</h4>
-
-<ul class="nav nav-list">
-<li class="nav-header">
-  </li>
+<ul class="breadcrumb">
 <li>
-    <a href="send-patch.html">Send a patch</a>
+    <a href="white-box-tests.html">White Box Tests?</a> <span class="divider">/</span>
   </li>
-  <li>
-    <a href="write-new-driver.html">Write a provider driver</a>
-  </li>
-  <li>
-    <a href="#bug">Report a bug</a>
-  </li>
-  <li>
-    <a href="#idea">Propose an idea</a>
-  </li>
-  <li>
-    <a href="#documentation">Write documentation</a>
-  </li>
-  <li>
-    <a href="white-box-tests.html">Validate contributions using the white box tests</a>
-  </li>
-</ul><p><br></p>
+  <li class="active">White Box Tests Source Description</li>
+</ul><h3>Where Are The White Box Tests:</h3>
 
-<h3>Overview of the Deltacloud directory structure</h3>
-
-<p>The following list contains paths to essential files and directories for developers. It is intended as a help with orientation in the project directory - for example to quickly identify where the Deltacloud cloud provider drivers are stored:</p>
-
+<p>The following depicts where in the deltacloud directory source structure the
+white box tests are located:</p>
 <div class="row">
   <div class="span1"></div>
   <div class="span10 offset1">
 <pre>
 deltacloud
-|-----------------------------------------------------------------------------------
-|-d--&gt;tests                           Contains Cucumber tests
-|-----------------------------------------------------------------------------------
-|-d--&gt;site                            Files for this website
-|-----------------------------------------------------------------------------------
-|-d--&gt;client                          Contains the Deltacloud ruby client
-|-----------------------------------------------------------------------------------
-|-d--&gt;clients                         Contains other Deltacloud clients (e.g. java)
-|-----------------------------------------------------------------------------------
+|-----------------------------------------------------------------------------
 |-d--&gt; server
-       |----------------------------------------------------------------------------
-       |-d--&gt;bin                      Contains the Deltacloud executable deltacloudd
-       |----------------------------------------------------------------------------
-       |-d--&gt;views                    Contains haml views for each collection
-       |----------------------------------------------------------------------------
-       |-d--&gt;tests                    Contains unit tests for drivers
-       |----------------------------------------------------------------------------
-       |-d--&gt;lib
-             |----------------------------------------------------------------------
-             |-d--&gt;sinatra            Contains rabbit DSL and various helpers
-             |----------------------------------------------------------------------
-             |-d--&gt;deltacloud
-                   |----------------------------------------------------------------
-                   |-d--&gt;models       Definition of each collection model
-                   |----------------------------------------------------------------
-                   |-d--&gt;drivers      Contains the drivers for each cloud provider
-                   |----------------------------------------------------------------
-                   |-d--&gt;helpers      Various helper methods used by the drivers
-                   |----------------------------------------------------------------
-                   |-d--&gt;base_driver  Contains the Deltacloud base driver
-                   |----------------------------------------------------------------
-                   |-f--&gt;server.rb                Contains the sinatra routes
-                   |----------------------------------------------------------------
+  |---------------------------------------------------------------------------
+  |-d--&gt;tests               Contains unit tests for drivers
+  |---------------------------------------------------------------------------
+    |-d--&gt;cimi              Contains Frontend CIMI tests
+    |-------------------------------------------------------------------------
+    |-d--&gt;deltacloud        Contains Frontend deltacloud tests
+    |-------------------------------------------------------------------------
+    |-d--&gt;ec2               Contains Frontend ec2 tests
+    |-------------------------------------------------------------------------
+    |-d--&gt;drivers           Contains Backend driver gem tests
+    |-------------------------------------------------------------------------
+      |-d--&gt;base
+      |-d--&gt;ec2
+      |-d--&gt;fgcp
+      |-d--&gt;gogrid
+      |-d--&gt;google          Contains the varios driver tests
+      |-d--&gt;mock                and
+      |-d--&gt;models          VCR YAML fixtures
+      |-d--&gt;openstack
+      |-d--&gt;rhevm
+    |-------------------------------------------------------------------------
+    |-d--&gt;helpers           Contains helper code common to multiple tests
+    |-------------------------------------------------------------------------
+    |-f--&gt;test_helper.rb    Contains the common test helper routes
+    |-------------------------------------------------------------------------
 </pre>
 
   </div>
@@ -174,14 +145,89 @@ deltacloud
 
 <p><br></p>
 
-<h3 id="bug">Reporting a bug</h3>
-<p>We track bugs in <a href="https://issues.apache.org/jira/browse/DTACLOUD">Apache JIRA</a>. When you discover a problem with Deltacloud functionality, check JIRA if someone has already reported the issue to the Deltacloud developers. Otherwise, <a href="https://issues.apache.org/jira/secure/CreateIssue!default.jspa">report it</a>.</p>
+<h3>Driver tests</h3>
 
-<h3 id="idea">Proposing an idea</h3>
-<p>Have you found a way how to improve Deltacloud project? Do you miss a feature or a tool, which we could include into Deltacloud? Our <a href="http://teambox.com/projects/deltacloud">Teambox</a> page is a place where we keep the latest task lists and where you can add comments or suggest new features for the project.</p>
+<u><b>REPO</b>/deltacloud/server/tests/drivers</u>
 
-<h3 id="documentation">Writing documentation</h3>
-<p>You can also contribute with a piece of documentation. There are still things which needs to be described. If you found one like that and you are interested in writing a couple of sentences about the particular issue, please, don’t hesitate to do it and <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/">send us</a> your contribution. We really appreciate your help.</p>
+<p><br></p>
+
+<p>
+This directory provides all the <i><b>driver</b></i> tests. Each driver tests is
+placed into a separate directory with the driver name.  Everything that touchs
+the driver API goes here as well. It is good practice to divide the tests into
+logical collections, in this case driver methods.
+</p>
+
+<p>
+Driver tests use the Deltacloud::new method to create new instance of a driver.
+This method is usually called in a <i>before</i> block and takes two parameters:
+<i>driver name</i> and <i>credentials</i>. The driver methods can be called
+directly on the instance of Deltacloud::new.
+</p>
+
+<p>
+Some driver tests may use the <a href="https://github.com/vcr/vcr">VCR</a> gem
+to record and then mock the real communication with the backend server. The fixtures
+are maintained in the <i>tests/drivers/<b>DRIVER</b>/fixtures</i> directory.
+</p>
+
+<p>
+For more informations about recording, look at the file: <i>tests/drivers/ec2/common.rb</i>,
+<a href="why-update-vcr-test-fixtures-data.html">Why Updating the VCR Fixtures</a>
+and <a href="update-vcr-test-fixtures-data-example.html">Updating VCR Fixtures Example</a>
+</p>
+
+<h3>Test Helpers</h3>
+
+<u><b>REPO</b>/deltacloud/server/tests/helpers</u>
+
+<p><br></p>
+
+<p>
+The <i>base</i> directory contain tests for Deltacloud::Driver class and the Library
+class.
+</p>
+
+<h3>Frontend tests</h3>
+
+<p>
+In addition to the default <i>deltacloud</i> frontend Deltacloud may also
+operate using different frontends. In this case, instead of exposing the
+DC API specification to the client, Deltacloud will provide its drivers
+API through different frontends (like CIMI or Amazon EC2).
+</p>
+
+<p>
+Some tests might use the Mock driver to call the <i>control</i> blocks in Rabbit
+collections.  These tests are <b>not</b> driver tests, they just use the mock
+driver to make sure the Rabbit operation <i>control blocks</i> works as expected
+and they provide expected output.
+</p>
+
+<u><b>REPO</b>/deltacloud/server/tests/deltacloud</u>
+
+<p>
+This directory provides tests for Deltacloud API frontend. It contains tests
+for collections that this frontend provides and also tests helpers that this
+frontend use.
+</p>
+
+<u><b>REPO</b>/deltacloud/server/tests/ec2</u>
+
+<p>
+This directory provides tests for the EC2 frontend. Tests make sure that mapping
+between EC2 actions and Deltacloud driver API works correctly. All tests
+relevant to EC2 frontend tests should go here. **NOTE** this directory does not
+provide Amazon EC2 driver tests.
+</p>
+
+<u><b>REPO</b>/deltacloud/server/tests/cimi</u>
+
+<p>
+This directory provides tests for the CIMI frotend. They make sure that
+JSON/XML serialization of the CIMI models works correctly. Also there are tests
+to make sure the output provided by CIMI collections is correct.
+</p>
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>
