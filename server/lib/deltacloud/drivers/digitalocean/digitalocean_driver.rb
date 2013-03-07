@@ -30,6 +30,7 @@ module Deltacloud
           running.to( :stopping )       .on( :stop )
           running.to( :finish )         .on( :destroy )
           stopped.to( :running )        .on( :start )
+          stopped.to( :finish)          .on( :destroy )
           stopping.to( :stopped )       .automatically
           stopped.to( :finish )         .automatically
           error.from(:running, :pending, :stopping)
