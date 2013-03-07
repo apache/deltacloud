@@ -15,17 +15,21 @@
 # under the License.
 
 class Integer
+
   # Turn integers into strings +1st+, +2nd+, +3rd+ etc.
-  def ordinalize
-    if (11..13).include?(self % 100)
-      "#{self}th"
-    else
-      case self % 10
-      when 1; "#{self}st"
-      when 2; "#{self}nd"
-      when 3; "#{self}rd"
-      else    "#{self}th"
+  unless method_defined? 'ordinalize'
+    def ordinalize
+      if (11..13).include?(self % 100)
+        "#{self}th"
+      else
+        case self % 10
+        when 1; "#{self}st"
+        when 2; "#{self}nd"
+        when 3; "#{self}rd"
+        else    "#{self}th"
+        end
       end
     end
   end
+
 end

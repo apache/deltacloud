@@ -15,10 +15,13 @@
 # under the License.
 
 class String
+
   # Rails defines this for a number of other classes, including Object
   # see activesupport/lib/active_support/core_ext/object/blank.rb
-  def blank?
+  unless method_defined? 'blank?'
+    def blank?
       self !~ /\S/
+    end
   end
 
   # Title case.
@@ -28,49 +31,63 @@ class String
   #
   # CREDIT: Eliazar Parra
   # Copied from facets
-  def titlecase
-    gsub(/\b\w/){ $`[-1,1] == "'" ? $& : $&.upcase }
+  unless method_defined? 'titlecase'
+    def titlecase
+      gsub(/\b\w/){ $`[-1,1] == "'" ? $& : $&.upcase }
+    end
   end
 
-  def pluralize
-    return self + 'es' if self =~ /ess$/
-    return self[0, self.length-1] + "ies" if self =~ /ty$/
-    return self if self =~ /data$/
-    self + "s"
+  unless method_defined? 'pluralize'
+    def pluralize
+      return self + 'es' if self =~ /ess$/
+      return self[0, self.length-1] + "ies" if self =~ /ty$/
+      return self if self =~ /data$/
+      self + "s"
+    end
   end
 
-  def singularize
-    return self.gsub(/ies$/, 'y') if self =~ /ies$/
-    return self.gsub(/es$/, '') if self =~ /sses$/
-    self.gsub(/s$/, '')
+  unless method_defined? 'singularize'
+    def singularize
+      return self.gsub(/ies$/, 'y') if self =~ /ies$/
+      return self.gsub(/es$/, '') if self =~ /sses$/
+      self.gsub(/s$/, '')
+    end
   end
 
-  def underscore
-    return self.downcase if self =~ /VSPs$/i
-    gsub(/::/, '/').
-    gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-    gsub(/([a-z\d])([A-Z])/,'\1_\2').
-    tr("-", "_").
-    downcase
+  unless method_defined? 'underscore'
+    def underscore
+      return self.downcase if self =~ /VSPs$/i
+      gsub(/::/, '/').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
+    end
   end
 
-  def camelize(lowercase_first_letter=nil)
-    s = split('_').map { |w| w.capitalize }.join
-    lowercase_first_letter ? s.uncapitalize : s
+  unless method_defined? 'camelize'
+    def camelize(lowercase_first_letter=nil)
+      s = split('_').map { |w| w.capitalize }.join
+      lowercase_first_letter ? s.uncapitalize : s
+    end
   end
 
-  def uncapitalize
-    self[0, 1].downcase + self[1..-1]
+  unless method_defined? 'uncapitalize'
+    def uncapitalize
+      self[0, 1].downcase + self[1..-1]
+    end
   end
 
   def upcase_first
     self[0, 1].upcase + self[1..-1]
   end
 
-  def truncate(length = 10)
-    return self if self.length <= length
-    end_string = "...#{self[(self.length-(length/2))..self.length]}"
-    "#{self[0..(length/2)]}#{end_string}"
+  unless method_defined? 'truncate'
+    def truncate(length = 10)
+      return self if self.length <= length
+      end_string = "...#{self[(self.length-(length/2))..self.length]}"
+      "#{self[0..(length/2)]}#{end_string}"
+    end
   end
 
   def remove_matrix_params

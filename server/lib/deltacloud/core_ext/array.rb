@@ -14,6 +14,7 @@
 # under the License.
 
 class Array
+
   def expand_opts!(more_opts)
     self << {} unless last.is_a?(Hash)
     last.update(more_opts)
