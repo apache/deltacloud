@@ -67,14 +67,15 @@ module Deltacloud
 
         def realms(credentials, opts={})
           safely do
-            new_client(credentials).get('regions')['regions'].map do |r|
+            realms = new_client(credentials).get('regions')['regions'].map do |r|
               Realm.new(
-                :id => r['id'],
+                :id => r['id'].to_s,
                 :name => r['name'],
                 :state => 'AVAILABLE',
                 :limit => :unlimited
               )
             end
+            filter_on(realms, opts, :id)
           end
         end
 
