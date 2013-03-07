@@ -124,6 +124,9 @@ module Deltacloud
         Deltacloud::new(driver, params)
       end
 
+      def preferences(driver)
+        @hash[driver.to_s]["preferred"]
+      end
     end
 
     def self.config
