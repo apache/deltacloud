@@ -22,5 +22,5 @@ VCR.configure do |c|
   # be sure to clear fixtures/*.yml files which can be done with "git checkout".
   # e.g.:
   # c.default_cassette_options = { :record => :all }
-  c.default_cassette_options = { :record => :none }
+  c.default_cassette_options = { :record => :none, :match_requests_on => [ :method, :path, :query ] }
 end
