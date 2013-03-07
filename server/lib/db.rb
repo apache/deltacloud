@@ -15,19 +15,23 @@
 
 module Deltacloud
 
-  def self.database(opts={})
+  def self.connect(location)
     if ENV['API_VERBOSE']
       if Deltacloud.respond_to? :config
-        opts[:logger] = Deltacloud.config[:cimi].logger
+        logger = Deltacloud.config[:cimi].logger
       else
-        opts[:logger] = ::Logger.new($stdout)
+        logger = ::Logger.new($stdout)
       end
     end
-    @db ||=  Sequel.connect(DATABASE_LOCATION, opts)
+    @db =  Sequel.connect(location, :logger => logger)
   end
 
-  def self.initialize_database
-    db = database
+  def self.database
+    @db
+  end
+
+  def self.initialize_database(location)
+    db = connect(location)
 
     db.create_table?(:providers) {
       primary_key :id

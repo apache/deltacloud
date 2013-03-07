@@ -36,19 +36,16 @@ Sequel.extension :migration
 # For more details about possible values see:
 # http://sequel.rubyforge.org/rdoc/files/doc/opening_databases_rdoc.html
 #
-if ENV['DATABASE_LOCATION']
-  DATABASE_LOCATION = ENV['DATABASE_LOCATION']
-else
+unless location = ENV['DATABASE_LOCATION']
   if ENV['RACK_ENV'] == 'test'
     if RUBY_PLATFORM=='java'
-      DATABASE_LOCATION = 'jdbc:sqlite::memory'
+      location = 'jdbc:sqlite::memory'
     else
-      DATABASE_LOCATION = 'sqlite:/'
+      location = 'sqlite:/'
     end
   else
     sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
-    DATABASE_LOCATION =
-      "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
+    location = "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
   end
 end
 
@@ -57,7 +54,7 @@ if RUBY_PLATFORM == 'java'
   Jdbc::SQLite3.load_driver
 end
 
-DATABASE = Deltacloud::initialize_database
+database = Deltacloud::initialize_database(location)
 
 # Detect if there are some pending migrations to run.
 # We don't actually run migrations during server startup, just print
@@ -66,12 +63,12 @@ DATABASE = Deltacloud::initialize_database
 
 DATABASE_MIGRATIONS_DIR = File.join(File.dirname(__FILE__), '..', '..', 'db', 'migrations')
 
-unless Sequel::Migrator.is_current?(DATABASE, DATABASE_MIGRATIONS_DIR)
+unless Sequel::Migrator.is_current?(database, DATABASE_MIGRATIONS_DIR)
   # Do not exit when this intitializer is included from deltacloud-db-upgrade
   # script
   #
   if ENV['RACK_ENV'] == 'test' || ENV['DB_UPGRADE']
-    Sequel::Migrator.apply(DATABASE, DATABASE_MIGRATIONS_DIR)
+    Sequel::Migrator.apply(database, DATABASE_MIGRATIONS_DIR)
   else
     warn "WARNING: The database needs to be upgraded. Run: 'deltacloud-db-upgrade' command."
     exit(1)
