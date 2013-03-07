@@ -22,7 +22,7 @@ describe 'Ec2Driver Instances' do
 
   it 'must return list of instances' do
     @driver.instances.wont_be_empty
-    @driver.instances.first.must_be_kind_of Instance
+    @driver.instances.first.must_be_kind_of Deltacloud::Instance
   end
 
   it 'must allow to filter instances' do
@@ -40,7 +40,7 @@ describe 'Ec2Driver Instances' do
 
   it 'must allow to retrieve single instance' do
     @driver.instance(:id => 'i-4d15f036').wont_be_nil
-    @driver.instance(:id => 'i-4d15f036').must_be_kind_of Instance
+    @driver.instance(:id => 'i-4d15f036').must_be_kind_of Deltacloud::Instance
     @driver.instance(:id => 'i-4d15f036').id.must_equal 'i-4d15f036'
     @driver.instance(:id => 'i-00000000').must_be_nil
     @driver.instance(:id => 'unknown').must_be_nil
@@ -55,7 +55,7 @@ describe 'Ec2Driver Instances' do
                                        :'firewalls1' => 'default'
                                       )
     instance = instance.wait_for!(@driver, record_retries) { |i| i.is_running? }
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.is_running?.must_equal true
     @driver.instance(:id => instance.id).wont_be_nil
     @driver.instance(:id => instance.id).id.must_equal instance.id
@@ -82,7 +82,7 @@ describe 'Ec2Driver Instances' do
                                       )
     instances.wont_be_empty
     instances.size.must_equal 2
-    instances.each { |i| i.must_be_kind_of Instance }
+    instances.each { |i| i.must_be_kind_of Deltacloud::Instance }
     instances = instances.map { |instance| instance.wait_for!(@driver, record_retries("#{instance.id}-running")) { |i| i.is_running? } }
     instances.each { |i| i.is_running?.must_equal true }
     instances.each { |i| @driver.destroy_instance(i.id) }
@@ -95,7 +95,7 @@ describe 'Ec2Driver Instances' do
     instance = @driver.create_instance('ami-aecd60c7',
                                        :realm_id => realm_id,
                                        :hwp_id => 'm1.small')
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.realm_id.must_equal realm_id
     @driver.destroy_instance(instance.id)
   end
@@ -103,7 +103,7 @@ describe 'Ec2Driver Instances' do
   it 'must allow to reboot instance in running state' do
     instance = @driver.create_instance('ami-aecd60c7', :realm_id => 'us-east-1a', :hwp_id => 't1.micro')
     instance = instance.wait_for!(@driver, record_retries) { |i| i.is_running? }
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.is_running?.must_equal true
     @driver.reboot_instance(instance.id)
     @driver.instance(:id => instance.id).state.must_equal 'RUNNING'

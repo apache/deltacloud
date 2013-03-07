@@ -17,7 +17,7 @@ describe 'MockDriver Realms' do
 
   it 'must return list of realms' do
     @driver.realms.wont_be_empty
-    @driver.realms.first.must_be_kind_of Realm
+    @driver.realms.first.must_be_kind_of Deltacloud::Realm
   end
 
   it 'must allow to filter realms' do
@@ -30,7 +30,7 @@ describe 'MockDriver Realms' do
 
   it 'must allow to retrieve single realm' do
     @driver.realm(:id => 'us').wont_be_nil
-    @driver.realm(:id => 'us').must_be_kind_of Realm
+    @driver.realm(:id => 'us').must_be_kind_of Deltacloud::Realm
     @driver.realm(:id => 'us').id.must_equal 'us'
     @driver.realm(:id => 'unknown').must_be_nil
   end

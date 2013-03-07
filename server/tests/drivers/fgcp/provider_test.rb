@@ -17,7 +17,7 @@ describe 'FgcpDriver Providers' do
   it 'must support listing of available providers' do
     providers = @driver.providers
     providers.wont_be_empty
-    providers.each { |p| p.must_be_kind_of Provider }
+    providers.each { |p| p.must_be_kind_of Deltacloud::Provider }
     providers.each { |p| p.name.wont_be_empty }
     providers.each { |p| p.url.wont_be_empty }
     providers.each { |p| p.id.wont_be_empty }

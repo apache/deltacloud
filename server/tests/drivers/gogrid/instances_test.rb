@@ -63,7 +63,7 @@ describe 'GoGridDriver Instances' do
 
   it 'must return list of instances' do
     @driver.instances.wont_be_empty
-    @driver.instances.first.must_be_kind_of Instance
+    @driver.instances.first.must_be_kind_of Deltacloud::Instance
   end
 
   it 'must allow to filter instances' do
@@ -85,7 +85,7 @@ describe 'GoGridDriver Instances' do
   it 'must allow to retrieve single instance' do
     by_id = @driver.instance(:id => instance.id)
     by_id.wont_be_nil
-    by_id.must_be_kind_of Instance
+    by_id.must_be_kind_of Deltacloud::Instance
     by_id.id.must_equal instance.id
     @driver.instance(:id => "unknown").must_be_nil
   end

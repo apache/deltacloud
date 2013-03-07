@@ -3,10 +3,10 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'common'
 
-describe Instance do
+describe Deltacloud::Instance do
 
   before do
-    @instance = Instance.new(
+    @instance = Deltacloud::Instance.new(
       :id => 'inst1',
       :create_image => true,
       :name => 'Instance',

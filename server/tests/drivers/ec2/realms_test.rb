@@ -22,7 +22,7 @@ describe 'Ec2Driver Realms' do
 
   it 'must return list of realms' do
     @driver.realms.wont_be_empty
-    @driver.realms.first.must_be_kind_of Realm
+    @driver.realms.first.must_be_kind_of Deltacloud::Realm
   end
 
   it 'must allow to filter realms' do
@@ -35,7 +35,7 @@ describe 'Ec2Driver Realms' do
 
   it 'must allow to retrieve single realm' do
     @driver.realm(:id => 'us-east-1a').wont_be_nil
-    @driver.realm(:id => 'us-east-1a').must_be_kind_of Realm
+    @driver.realm(:id => 'us-east-1a').must_be_kind_of Deltacloud::Realm
     @driver.realm(:id => 'us-east-1b').id.must_equal 'us-east-1b'
     @driver.realm(:id => 'unknown').must_be_nil
   end

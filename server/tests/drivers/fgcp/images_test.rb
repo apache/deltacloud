@@ -23,7 +23,7 @@ describe 'FgcpDriver Images' do
   it 'must return list of images' do
     imgs = @driver.images
     imgs.wont_be_empty
-    imgs.first.must_be_kind_of Image
+    imgs.first.must_be_kind_of Deltacloud::Image
   end
 
   it 'must allow to filter images' do
@@ -38,7 +38,7 @@ describe 'FgcpDriver Images' do
   it 'must allow to retrieve single image' do
     img = @driver.image(:id => 'IMG_3c9820_S24FWXU0Q9VH0JK')
     img.wont_be_nil
-    img.must_be_kind_of Image
+    img.must_be_kind_of Deltacloud::Image
     img.id.must_equal 'IMG_3c9820_S24FWXU0Q9VH0JK'
     @driver.image(:id => 'unknown').must_be_nil
   end

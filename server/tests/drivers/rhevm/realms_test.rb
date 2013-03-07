@@ -26,7 +26,7 @@ describe 'RhevmDriver Realms' do
   it 'must return list of realms' do
     realms = @driver.realms
     realms.wont_be_empty
-    realms.first.must_be_kind_of Realm
+    realms.first.must_be_kind_of Deltacloud::Realm
   end
 
   it 'must allow to filter realms' do
@@ -41,7 +41,7 @@ describe 'RhevmDriver Realms' do
   it 'must allow to retrieve single realm' do
     realm = @driver.realm(:id => @dc_id)
     realm.wont_be_nil
-    realm.must_be_kind_of Realm
+    realm.must_be_kind_of Deltacloud::Realm
     @driver.realm(:id => 'unknown').must_be_nil
   end
 

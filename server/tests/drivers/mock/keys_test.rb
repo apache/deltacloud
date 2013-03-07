@@ -17,7 +17,7 @@ describe 'MockDriver Keys' do
 
   it 'must return list of keys' do
     @driver.keys.wont_be_empty
-    @driver.keys.first.must_be_kind_of Key
+    @driver.keys.first.must_be_kind_of Deltacloud::Key
   end
 
   it 'must allow to filter keys' do
@@ -30,7 +30,7 @@ describe 'MockDriver Keys' do
 
   it 'must allow to retrieve single key' do
     @driver.key(:id => 'test-key').wont_be_nil
-    @driver.key(:id => 'test-key').must_be_kind_of Key
+    @driver.key(:id => 'test-key').must_be_kind_of Deltacloud::Key
     @driver.key(:id => 'test-key').id.must_equal 'test-key'
     @driver.key(:id => 'unknown').must_be_nil
   end
@@ -38,7 +38,7 @@ describe 'MockDriver Keys' do
   it 'must allow to create a new key' do
     key = @driver.create_key(:key_name => 'test1')
     key.wont_be_nil
-    key.must_be_kind_of Key
+    key.must_be_kind_of Deltacloud::Key
     Proc.new { @driver.create_key(:key_name => 'test1') }.must_raise Deltacloud::Exceptions::ForbiddenError, 'KeyExist'
     @driver.destroy_key :id => key.id
     @driver.key(:id => key.id).must_be_nil

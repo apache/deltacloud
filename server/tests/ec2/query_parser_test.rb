@@ -77,7 +77,7 @@ describe Deltacloud::EC2 do
       result.must_respond_to :'perform!'
       realms = result.perform!(@driver.credentials, @driver.backend)
       realms.wont_be_empty
-      realms.first.must_be_kind_of Realm
+      realms.first.must_be_kind_of Deltacloud::Realm
       realms.first.id.must_equal 'us'
     end
 

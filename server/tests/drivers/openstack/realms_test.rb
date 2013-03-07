@@ -22,7 +22,7 @@ describe 'OpenStackDriver Realms' do
 
   it 'must return list of realms' do
     @driver.realms.wont_be_empty
-    @driver.realms.first.must_be_kind_of Realm
+    @driver.realms.first.must_be_kind_of Deltacloud::Realm
   end
 
   it 'must allow to retrieve single realm' do

@@ -37,6 +37,8 @@ describe Deltacloud::Collections::Instances do
     end
   end
 
+  require 'pry'
+
   it 'allow to create and execute actions on created instance' do
     post root_url + '/instances', { :image_id => 'img1', :name => 'test', }
     status.must_equal 201
@@ -47,6 +49,7 @@ describe Deltacloud::Collections::Instances do
     # You can't remove RUNNING instance
     (xml/'error/message').first.text.strip.must_equal 'Method Not Allowed'
     post root_url + '/instances/' + instance_id + '/reboot'
+    binding.pry
     status.must_equal 202
     (xml/'instance/state').first.text.strip.must_equal 'RUNNING'
     post root_url + '/instances/' + instance_id + '/stop'
@@ -70,7 +73,7 @@ describe Deltacloud::Collections::Instances do
     get root_url + "/instances/inst1"
     status.must_equal 200
     json['instance'].wont_be_empty
-    Instance.attributes.each do |attr|
+    Deltacloud::Instance.attributes.each do |attr|
       attr = attr.to_s.gsub(/_id$/,'') if attr.to_s =~ /_id$/
       next if ['launch_time', 'authn_error', 'firewalls', 'keyname', 'username', 'password', 'instance_profile'].include?(attr.to_s)
       json['instance'].keys.must_include attr.to_s

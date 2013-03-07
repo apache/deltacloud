@@ -17,7 +17,7 @@ describe 'MockDriver StorageVolumes' do
 
   it 'must return list of storage_volumes' do
     @driver.storage_volumes.wont_be_empty
-    @driver.storage_volumes.first.must_be_kind_of StorageVolume
+    @driver.storage_volumes.first.must_be_kind_of Deltacloud::StorageVolume
   end
 
   it 'must allow to filter storage_volumes' do
@@ -30,14 +30,14 @@ describe 'MockDriver StorageVolumes' do
 
   it 'must allow to retrieve single storage_volume' do
     @driver.storage_volume(:id => 'vol1').wont_be_nil
-    @driver.storage_volume(:id => 'vol1').must_be_kind_of StorageVolume
+    @driver.storage_volume(:id => 'vol1').must_be_kind_of Deltacloud::StorageVolume
     @driver.storage_volume(:id => 'vol1').id.must_equal 'vol1'
     @driver.storage_volume(:id => 'unknown').must_be_nil
   end
 
   it 'must allow to create and destroy the storage volume' do
     volume = @driver.create_storage_volume(:name => 'Test Volume', :capacity => '100')
-    volume.must_be_kind_of StorageVolume
+    volume.must_be_kind_of Deltacloud::StorageVolume
     volume.name.must_equal 'Test Volume'
     volume.capacity.must_equal '100'
     @driver.destroy_storage_volume(:id => volume.id)
@@ -46,7 +46,7 @@ describe 'MockDriver StorageVolumes' do
 
   it 'must allow to attach and detach storage volume to instance' do
     volume = @driver.create_storage_volume(:name => 'Test Volume', :capacity => '100')
-    volume.must_be_kind_of StorageVolume
+    volume.must_be_kind_of Deltacloud::StorageVolume
     @driver.attach_storage_volume(:id => volume.id, :device => '/dev/sda', :instance_id => 'inst1')
     @driver.storage_volume(:id => volume.id).instance_id.must_equal 'inst1'
     @driver.storage_volume(:id => volume.id).device.must_equal '/dev/sda'

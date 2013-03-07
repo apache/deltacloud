@@ -29,7 +29,7 @@ describe 'OpenStackDriver Instances' do
 
   it 'must return list of instances' do
     @driver.instances.wont_be_empty
-    @driver.instances.first.must_be_kind_of Instance
+    @driver.instances.first.must_be_kind_of Deltacloud::Instance
   end
 
   it 'must allow to filter instances' do

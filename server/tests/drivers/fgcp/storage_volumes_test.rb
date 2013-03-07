@@ -22,7 +22,7 @@ describe 'FgcpDriver StorageVolumes' do
 
   it 'must return list of storage_volumes' do
     @driver.storage_volumes.wont_be_empty
-    @driver.storage_volumes.first.must_be_kind_of StorageVolume
+    @driver.storage_volumes.first.must_be_kind_of Deltacloud::StorageVolume
   end
 
   it 'must allow to filter storage_volumes' do
@@ -37,19 +37,19 @@ describe 'FgcpDriver StorageVolumes' do
   it 'must allow to retrieve single storage_volume' do
     storage_volume = @driver.storage_volume(:id => 'UZXC0GRT-ZG8ZJCJ07-D-0039')
     storage_volume.wont_be_nil
-    storage_volume.must_be_kind_of StorageVolume
+    storage_volume.must_be_kind_of Deltacloud::StorageVolume
     storage_volume.id.must_equal 'UZXC0GRT-ZG8ZJCJ07-D-0039'
     @driver.storage_volume(:id => 'unknown').must_be_nil
   end
 
   it 'must allow to create the storage volume' do
     volume = @driver.create_storage_volume(:name => 'Test Volume', :capacity => '2')
-    volume.must_be_kind_of StorageVolume
+    volume.must_be_kind_of Deltacloud::StorageVolume
     volume.name.must_equal 'Test Volume'
     volume.capacity.must_equal '10.0' # note that it's rounded up to a multiple of ten
     volume2 = @driver.storage_volume(:id => volume.id)
     volume2.wont_be_nil
-    volume2.must_be_kind_of StorageVolume
+    volume2.must_be_kind_of Deltacloud::StorageVolume
     volume2.id.must_equal volume.id
     volume2.name.must_equal volume.name
     volume2.capacity.must_equal volume.capacity

@@ -26,7 +26,7 @@ describe 'RHEV-M provider test' do
 
   it 'must support listing of available providers' do
     @driver.providers.wont_be_empty
-    @driver.providers.each { |p| p.must_be_kind_of Provider }
+    @driver.providers.each { |p| p.must_be_kind_of Deltacloud::Provider }
     @driver.providers.each { |p| p.name.wont_be_empty }
     @driver.providers.each { |p| p.id.wont_be_empty }
     @driver.providers.each { |p| p.url.wont_be_empty }

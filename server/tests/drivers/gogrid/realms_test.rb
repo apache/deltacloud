@@ -22,7 +22,7 @@ describe 'GoGridDriver Realms' do
 
   it 'must return list of realms' do
     @driver.realms.wont_be_empty
-    @driver.realms.first.must_be_kind_of Realm
+    @driver.realms.first.must_be_kind_of Deltacloud::Realm
   end
 
   it 'must allow to filter realms' do
@@ -36,7 +36,7 @@ describe 'GoGridDriver Realms' do
 
   it 'must allow to retrieve single realm' do
     @driver.realm(:id => '1').wont_be_nil
-    @driver.realm(:id => '1').must_be_kind_of Realm
+    @driver.realm(:id => '1').must_be_kind_of Deltacloud::Realm
     @driver.realm(:id => '1').id.must_equal '1'
     @driver.realm(:id => '1').name.must_equal 'US-West-1'
     @driver.realm(:id => 'unknown').must_be_nil

@@ -17,7 +17,7 @@ describe 'MockDriver Instances' do
 
   it 'must return list of instances' do
     @driver.instances.wont_be_empty
-    @driver.instances.first.must_be_kind_of Instance
+    @driver.instances.first.must_be_kind_of Deltacloud::Instance
   end
 
   it 'must allow to filter instances' do
@@ -32,14 +32,14 @@ describe 'MockDriver Instances' do
 
   it 'must allow to retrieve single instance' do
     @driver.instance(:id => 'inst1').wont_be_nil
-    @driver.instance(:id => 'inst1').must_be_kind_of Instance
+    @driver.instance(:id => 'inst1').must_be_kind_of Deltacloud::Instance
     @driver.instance(:id => 'inst1').id.must_equal 'inst1'
     @driver.instance(:id => 'unknown').must_be_nil
   end
 
   it 'must allow to create a new instance if instance supported' do
     instance = @driver.create_instance('img1', :name => 'inst1-test', :realm_id => 'us', :hwp_id => 'm1-small')
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     @driver.instance(:id => instance.id).wont_be_nil
     @driver.instance(:id => instance.id).id.must_equal instance.id
     @driver.instance(:id => instance.id).name.must_equal 'inst1-test'
@@ -62,14 +62,14 @@ describe 'MockDriver Instances' do
 
   it 'must allow to destroy created instance' do
     instance = @driver.create_instance('img1', :name => 'inst1-test-destroy')
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     @driver.destroy_instance(instance.id)
     @driver.instance(:id => instance.id).must_be_nil
   end
 
   it 'must allow to stop instance in running state' do
     instance = @driver.create_instance('img1', :name => 'inst1-test-destroy')
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.state.must_equal 'RUNNING'
     @driver.stop_instance(instance.id)
     @driver.instance(:id => instance.id).state.must_equal 'STOPPED'
@@ -79,7 +79,7 @@ describe 'MockDriver Instances' do
 
   it 'must allow to start instance in stopped state' do
     instance = @driver.create_instance('img1', :name => 'inst1-test-destroy')
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.state.must_equal 'RUNNING'
     @driver.stop_instance(instance.id)
     @driver.instance(:id => instance.id).state.must_equal 'STOPPED'
@@ -91,7 +91,7 @@ describe 'MockDriver Instances' do
 
   it 'must allow to reboot instance in running state' do
     instance = @driver.create_instance('img1', :name => 'inst1-test-destroy')
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.state.must_equal 'RUNNING'
     @driver.reboot_instance(instance.id)
     @driver.instance(:id => instance.id).state.must_equal 'RUNNING'

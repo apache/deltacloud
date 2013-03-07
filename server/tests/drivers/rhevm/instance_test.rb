@@ -27,7 +27,7 @@ describe 'RhevmDriver Instances' do
 
   it 'must return list of instances' do
     @driver.instances.wont_be_empty
-    @driver.instances.first.must_be_kind_of Instance
+    @driver.instances.first.must_be_kind_of Deltacloud::Instance
   end
 
   it 'must allow to filter instances' do
@@ -43,7 +43,7 @@ describe 'RhevmDriver Instances' do
   it 'must allow to retrieve single instance' do
     inst = @driver.instance(:id => @vm_id)
     inst.wont_be_nil
-    inst.must_be_kind_of Instance
+    inst.must_be_kind_of Deltacloud::Instance
     inst.id.must_equal @vm_id
     @driver.instance(:id => 'i-00000000').must_be_nil
     @driver.instance(:id => 'unknown').must_be_nil
@@ -57,7 +57,7 @@ describe 'RhevmDriver Instances' do
                                        :user_data => 'test user data'
                                       )
     instance = instance.wait_for!(@driver, record_retries('', :timeout => 60)) { |i| i.is_stopped? }
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.is_running?.must_equal false
 
     inst = @driver.instance(:id => instance.id)
@@ -84,7 +84,7 @@ describe 'RhevmDriver Instances' do
                                       )
     instance = instance.wait_for!(@driver, record_retries('', :timeout => 60)) { |i| i.is_stopped? }
     skip "Skip this test due to RHEVm bug: https://bugzilla.redhat.com/show_bug.cgi?id=910741"
-    instance.must_be_kind_of Instance
+    instance.must_be_kind_of Deltacloud::Instance
     instance.is_running?.must_equal false
 
     inst = @driver.instance(:id => instance.id)

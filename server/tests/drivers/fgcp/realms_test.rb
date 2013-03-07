@@ -23,7 +23,7 @@ describe 'FgcpDriver Realms' do
   it 'must return list of realms' do
     realms = @driver.realms
     realms.wont_be_empty
-    realms.first.must_be_kind_of Realm
+    realms.first.must_be_kind_of Deltacloud::Realm
     # assume at least one vsys has been created, with at least 1 tier network
     realms.size.wont_be :<, 2
   end
@@ -42,7 +42,7 @@ describe 'FgcpDriver Realms' do
   it 'must allow to retrieve single realm' do
     realm = @driver.realm(:id => 'UZXC0GRT-ZG8ZJCJ07-N-DMZ')
     realm.wont_be_nil
-    realm.must_be_kind_of Realm
+    realm.must_be_kind_of Deltacloud::Realm
     realm.state.must_equal 'AVAILABLE'
     realm.id.must_equal 'UZXC0GRT-ZG8ZJCJ07-N-DMZ'
     realm.name.must_equal 'Dies-DC-test [DMZ]'

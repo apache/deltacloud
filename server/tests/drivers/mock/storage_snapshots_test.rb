@@ -17,7 +17,7 @@ describe 'MockDriver StorageSnapshots' do
 
   it 'must return list of storage_snapshots' do
     @driver.storage_snapshots.wont_be_empty
-    @driver.storage_snapshots.first.must_be_kind_of StorageSnapshot
+    @driver.storage_snapshots.first.must_be_kind_of Deltacloud::StorageSnapshot
   end
 
   it 'must allow to filter storage_snapshots' do
@@ -30,7 +30,7 @@ describe 'MockDriver StorageSnapshots' do
 
   it 'must allow to retrieve single storage_snapshot' do
     @driver.storage_snapshot(:id => 'snap1').wont_be_nil
-    @driver.storage_snapshot(:id => 'snap1').must_be_kind_of StorageSnapshot
+    @driver.storage_snapshot(:id => 'snap1').must_be_kind_of Deltacloud::StorageSnapshot
     @driver.storage_snapshot(:id => 'snap1').id.must_equal 'snap1'
     @driver.storage_snapshot(:id => 'unknown').must_be_nil
   end

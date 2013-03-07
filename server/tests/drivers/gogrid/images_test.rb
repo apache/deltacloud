@@ -29,7 +29,7 @@ describe 'GoGridDriver Images' do
 
   it 'must return list of images' do
     @driver.images.wont_be_empty
-    @driver.images.first.must_be_kind_of Image
+    @driver.images.first.must_be_kind_of Deltacloud::Image
   end
 
   it 'must allow to filter images' do
@@ -54,7 +54,7 @@ describe 'GoGridDriver Images' do
     by_id = @driver.image(:id => some_img.id)
 
     by_id.wont_be_nil
-    by_id.must_be_kind_of Image
+    by_id.must_be_kind_of Deltacloud::Image
     by_id.id.must_equal some_img.id
   end
 

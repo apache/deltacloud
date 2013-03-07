@@ -21,7 +21,7 @@ describe 'Ec2Driver StorageSnapshots' do
 
   it 'must return list of storage snapshots' do
     @driver.storage_snapshots.wont_be_empty
-    @driver.storage_snapshots.first.must_be_kind_of StorageSnapshot
+    @driver.storage_snapshots.first.must_be_kind_of Deltacloud::StorageSnapshot
   end
 
   it 'must allow to filter storage snapshots' do

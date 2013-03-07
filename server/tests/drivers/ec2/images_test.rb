@@ -22,7 +22,7 @@ describe 'Ec2Driver Images' do
 
   it 'must return list of images' do
     @driver.images.wont_be_empty
-    @driver.images.first.must_be_kind_of Image
+    @driver.images.first.must_be_kind_of Deltacloud::Image
   end
 
   it 'must allow to filter images' do
@@ -39,7 +39,7 @@ describe 'Ec2Driver Images' do
 
   it 'must allow to retrieve single image' do
     @driver.image(:id => 'ami-aecd60c7').wont_be_nil
-    @driver.image(:id => 'ami-aecd60c7').must_be_kind_of Image
+    @driver.image(:id => 'ami-aecd60c7').must_be_kind_of Deltacloud::Image
     @driver.image(:id => 'ami-aecd60c7').id.must_equal 'ami-aecd60c7'
     @driver.image(:id => 'ami-aaaaaaaa').must_be_nil
     @driver.image(:id => 'unknown').must_be_nil

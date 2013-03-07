@@ -36,7 +36,7 @@ describe 'Ec2Driver Buckets' do
     @dcloud_other_provider = Deltacloud::new(:ec2, credentials.merge!(:provider=>"eu-west-1"))
     #get the bucket and check
     retrieved_bucket = @dcloud_other_provider.bucket(:id=>bucket.name)
-    retrieved_bucket.must_be_kind_of Bucket
+    retrieved_bucket.must_be_kind_of Deltacloud::Bucket
     retrieved_bucket.name.must_equal bucket.name
     #delete the bucket
     @driver.delete_bucket(bucket.id)

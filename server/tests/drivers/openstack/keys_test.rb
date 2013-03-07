@@ -22,7 +22,7 @@ describe 'OpenStackDriver Keys' do
 
   it 'must return list of keys' do
     @driver.keys.wont_be_empty
-    @driver.keys.first.must_be_kind_of Key
+    @driver.keys.first.must_be_kind_of Deltacloud::Key
   end
 
   it 'must allow to filter keys' do
