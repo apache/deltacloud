@@ -53,7 +53,7 @@ describe "deltacloudd" do
     pid = Process.fork
     if pid.nil? then
       Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
-      exec("./bin/deltacloudd -i mock -p 3011")
+      exec("./bin/deltacloudd -e test -i mock -p 3011")
     else
       Process.detach(pid) && @pids << pid
       wait_for_port_open(3011).must_equal true
@@ -67,7 +67,7 @@ describe "deltacloudd" do
     pid = Process.fork
     if pid.nil? then
       Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
-      exec("./bin/deltacloudd -i mock -f deltacloud,cimi,ec2 -p 3011")
+      exec("./bin/deltacloudd -e test -i mock -f deltacloud,cimi,ec2 -p 3011")
     else
       Process.detach(pid) && @pids << pid
       wait_for_port_open(3011).must_equal true
@@ -82,7 +82,7 @@ describe "deltacloudd" do
     pid = Process.fork
     if pid.nil? then
       Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
-      exec("./bin/deltacloudd -w -i mock -p 3011")
+      exec("./bin/deltacloudd -e test -w -i mock -p 3011")
     else
       Process.detach(pid) && @pids << pid
       wait_for_port_open(3011).must_equal true
