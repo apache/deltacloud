@@ -72,10 +72,21 @@ module Deltacloud
 
       def initialize
         fname = ENV["CONFIG"] || File::expand_path("~/.deltacloud/config")
+        @hash = Hash.new do |hash, driver|
+          if hash.has_key?(driver.to_s)
+            hash[driver] = hash[driver.to_s]
+          else
+            hash[driver] = {
+              "user" => "fakeuser",
+              "password" => "fakepassword",
+              "provider" => "fakeprovider"
+            }
+          end
+        end
         begin
-          @hash = YAML.load(File::open(fname))
+          @hash.merge!(YAML.load(File::open(fname)))
         rescue Errno::ENOENT
-          @hash = {}
+          # Ignore
         end
       end
 
@@ -92,26 +103,16 @@ module Deltacloud
       #   provider: compute
       def credentials(driver)
         driver = driver.to_s
-        if @hash.has_key?(driver)
-          user = @hash[driver]["user"]
-          password = @hash[driver]["password"]
-        else
-          user = "fakeuser"
-          password = "fakepassword"
-        end
+        user = @hash[driver]["user"]
+        password = @hash[driver]["password"]
         { :user => user, :password => password }
       end
 
-      def driver(driver, provider = nil)
-        if @hash.has_key?(driver.to_s)
-          user = @hash[driver.to_s]["user"]
-          password = @hash[driver.to_s]["password"]
-          provider = @hash[driver.to_s]["provider"] unless provider
-          params = {:user => user, :password => password, :provider => provider}
-        else
-          provider = "fakeprovider" unless provider
-          params = { :user => "fakeuser", :password => "fakepassword", :provider => provider }
-        end
+      def driver(driver)
+        user = @hash[driver.to_s]["user"]
+        password = @hash[driver.to_s]["password"]
+        provider = @hash[driver.to_s]["provider"]
+        params = {:user => user, :password => password, :provider => provider}
         Deltacloud::new(driver, params)
       end
 
