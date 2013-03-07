@@ -18,6 +18,14 @@ VCR.configure do |c|
   # NOTE: Empty this directory before re-recording
   c.cassette_library_dir = File.join(File.dirname(__FILE__), 'fixtures')
   c.hook_into :webmock
+  # Rewrite sensitive information before recording
+  c.before_record do |i|
+    u = URI::parse(i.request.uri)
+    u.host = "rhevm.example.com"
+    u.user = "fakeuser"
+    u.password = "fakepassword"
+    i.request.uri = u.to_s
+  end
   # Set :record to :all, when re-recording and between re-record attemps
   # be sure to clear fixtures/*.yml files which can be done with "git checkout".
   # e.g.:
