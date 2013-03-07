@@ -156,6 +156,11 @@ task :test do
   puts "\n[ \033[1;37;mrake test:cimi\33[0m ]\n"
   Rake::Task["test:cimi"].invoke
   DRIVERS.each do |driver|
+    #
+    # FIXME: Skip FGCP tests under jRuby as jRuby openssl lacks
+    #        the OpenSSL::PKCS12::PKCS12Error class
+    #
+    next if RUBY_PLATFORM == 'java' and driver == :fgcp
     puts "\n[ \033[1;37;mrake drivers:#{driver}\33[0m ]\n"
     Rake::Task["test:drivers:#{driver}"].invoke
   end
