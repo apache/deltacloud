@@ -25,6 +25,7 @@ end
 #
 begin
   require 'turn'
+  Turn.config.format = :dot
 rescue LoadError => e
   # We'll be fine
 end
