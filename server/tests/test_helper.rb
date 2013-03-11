@@ -127,6 +127,23 @@ module Deltacloud
       def preferences(driver)
         @hash[driver.to_s]["preferred"]
       end
+
+      def save(driver, dir, &block)
+        h = @hash[driver.to_s].dup
+        h["user"] = "fakeuser"
+        h["password"] = "fakepassword"
+        yield(h) if block_given?
+        File::open(prefs_file(dir), "w") { |f| f.write(h.to_yaml) }
+      end
+
+      def load(driver, dir)
+        @hash[driver.to_s] = YAML::load(File::open(prefs_file(dir), "r"))
+      end
+
+      private
+      def prefs_file(dir)
+        File.join(dir, 'fixtures', 'preferences.yml')
+      end
     end
 
     def self.config
