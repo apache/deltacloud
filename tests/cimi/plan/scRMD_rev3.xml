@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:sc2html.xsl" title="scenario"?>
+<scenario xmlns="http://www.wstf.org">
+
+ <metadata>
+  <number>Entity Metadata</number>
+  <title>Capabilities, Attributes, Actions</title>
+  <date>2013/02/01</date>
+  <status>Draft</status>
+  <nowstf/>
+ </metadata>
+
+ <abstract>
+  These scenarios will test the Resource Metadata as defined in the CIMI specification. Relevant spec quotes:
+
+  <item>
+   “Implementations of this specification SHOULD allow for
+Consumers to discover the metadata associated with each supported
+entity. Doing so allows for the discovery of Provider defined
+constraints on the CIMI defined attributes as well as discovery of
+any new extension attributes or operations that the Provider may have
+defined. EntityMetadata can also be used to express any Provider
+specific capabilities or features. The mechanism by which this
+metadata is made available will be protocol specific.”
+  </item>
+  <item> “ A set of Provider defined metadata that can be used by
+Consumer to discover any capability or feature provided by this
+Provider.”
+  </item>
+ <p/>
+ </abstract>
+
+ <section title="Dependencies">
+  <scope>
+   <technology name="CIMI" url="http://dmtf.org/sites/default/files/standards/documents/DSP0263_1.0.0.pdf"/>
+  </scope>
+
+  <namespaces>
+   <namespace prefix="cimi" ns="http://schemas.dmtf.org/cimi/1" name="CIMI"/>
+   <namespace prefix="xs" ns="http://www.w3.org/2001/XMLSchema"
+                           name="XML Schema"/>
+   <namespace prefix="scRMD" ns="http://www.wstf.org/docs/scenarios/scRMD"
+                           name="SCRMD (this scenario)"/>
+  </namespaces>
+ </section>
+
+ <section title="Testcases">
+  The testcases are ordered by:
+	<item>Resource Metadata Collection</item>
+	<item>Resource Metadata Entry within the collection</item>
+	<item>Capabilty/Attribute/Action associated with the Resource Metadata Entry</item>
+
+  <part title="Resource Metadata Collection">
+   <note> Test for the Resource Metadata collection. This test should only
+  	be run once – not with every capability, attribute or action
+  	tested. </note>
+  <tests>
+    <test name="Query the CEP">
+
+      <desc>
+       Consumer queries the CEP to determine the URLs
+       of the ResourceMetadata collection
+      </desc>
+
+      <succ>A serialization of a CEP is
+	returned. This test must adhere to the "Query the CEP"
+	test detailed in:
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+
+        <note> CEP.ReourceMetadata must be set </note>
+	<p/>
+
+      <popup title="Sample">
+      <xml>GET /CEP HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/CloudEntryPoint",
+  "id": "http://example.com/CEP",
+  "baseURI": "http://example.com/",
+  "resourceMetadata": { "href": "http://example.com/resourceMetadata" },
+  "machines": { "href": "http://example.com/machines" }
+}</xml>
+      </popup>
+
+     </succ>
+    </test>
+
+    <test name="Query the CEP.resourceMetadata collection">
+     <desc>GET request is sent
+	to CEP.resourceMetadata collection to query the metadata (attributes,
+	capabilities, actions) supported by the Cloud Provider. The
+	response can be returned in either format, XML or JSON.
+     </desc>
+
+     <succ>A representation of the CEP.resourceMetadata collection is
+	returned – using either JSON or XML serialization.
+
+      <note> HTTP response code must be "200 OK" </note>
+      <note> Content-Type header must be either "application/json"
+	or "application/xml" </note>
+      <note> id must be set to the URL of the resource metadata
+	collection</note>
+      <note> resourceURI must be set to point to
+	ResourceMetadataCollection</note>
+      <note> count must match value the number of ResourceMetadata
+	elements returned</note>
+      <note> ResourceMetadata elements must be listed (if they exist
+	for the provider)</note>
+      <note> For each collection appearing in the
+        CEP there should be a ResourceMetadata entry with the corresponding typeURI in the
+        ResourceMetadata collection </note>
+      <note> At least one of the capabilities/attributes/actions must be listed within
+	the Resource Metadata resource. Note that a collection Resource
+	Metadata resource does not have to have all three
+	(capabilities, attributes and actions) necessarily, but at least one
+	capability/attribute/action must be present. </note>
+     <note> All metadata for a given resource type will be included within the
+      ResourceMetadata representation for the resource type </note>
+
+    <p/>
+
+      <popup title="Sample">
+      <xml>GET /resourceMetadata HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/ResourceMetadataCollection",
+  "id":"http://example.com/cimi/CEP.resourceMetadata",
+  "count": 1,
+  "resourceMetadata":
+    "id": "http://example.com/cimi/CEP.resourceMetadata/collection",
+    "name": "Collection",
+    "typeUri": "http://schemas.dmtf.org/cimi/1/Collection",
+    [{"capabilities":
+      [{"name":"Capability1",
+        "uri":"http://schemas.dmtf.org/cimi/1/capabilityCollection/Capability1",
+        "description":"Description of Capability 1",
+        "value":"valueOfCapability1"},
+      {"name":"Capability2",
+       "uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability2",
+       "description":"Description of Capability 2",
+       "value":"valueOfCapability2A, valueOfCapability2B"}]
+    }],
+}
+       </xml>
+      </popup>
+
+     </succ>
+    </test>
+
+   </tests>
+  </part>
+
+<part title="Machines Resource Metadata">
+   <note>
+    This test applies only if the CEP.machines collection is present and the CEP.ResourceMetadata
+ collection contains an entry corresponding to the Machine resource.
+   </note>
+  <tests>
+    <test name="Query the CEP.resourceMetadata collection">
+     <desc> GET request is sent to CEP.resourceMetadata collection to query the metadata associated
+	with the 'Machine' entry
+     </desc>
+
+     <succ>A representation of the CEP.resourceMetadata collection is
+      returned – using either JSON or XML serialization.
+
+       <note> HTTP response code must be "200 OK" </note>
+       <note>ResourceMetadata.id must be set </note>
+       <note> ResourceMetadata.name must be set to Machine </note>
+       <note> ResourceMetadata.typeUri must be set </note>
+       <note> At least one of the capabilities/attributes/actions must be listed within
+	the Machine Resource Metadata resource. Note that a Machine Resource
+	Metadata resource does not have to have all three
+	(capabilities, attributes and actions) necessarily, but at least one
+	capability/attribute/action must be returned.  </note>
+
+      <p/>
+
+      <popup title="Sample">
+      <xml>GET /resourceMetadata HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/ResourceMetadataCollection",
+  "id":"http://example.com/cimi/CEP.resourceMetadata",
+  "count": 1,
+  "resourceMetadata":
+    "id": "http://example.com/cimi/CEP.resourceMetadata/collection",
+    "name": "Collection",
+    "typeUri": "http://schemas.dmtf.org/cimi/1/Collection",
+    [{"capabilities":
+      [{"name":"Capability1",
+        "uri":"http://schemas.dmtf.org/cimi/1/capabilityCollection/Capability1",
+        "description":"Description of Capability 1",
+        "value":"valueOfCapability1"},
+      {"name":"Capability2",
+       "uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability2",
+       "description":"Description of Capability 2",
+       "value":"valueOfCapability2A, valueOfCapability2B"}]
+    }],
+}
+      </xml>
+     </popup>
+     </succ>
+    </test>
+
+    <test name="Query the ResourceMetadata entry">
+     <desc> Issue a specific GET
+	request to return the capabilities, attributes and actions
+	associated with the Machine ResourceMetadata entry only
+     </desc>
+
+     <succ>
+     <note> HTTP response code must be "200 OK". </note>
+     <note> Each capability advertised must contain:
+	<note> name </note>
+	<note> uri (unique)</note>
+	<note> description </note>
+	<note> value </note>
+     </note>
+     <note> Each attribute advertised must contain:
+	<note> name </note>
+	<note> namespace (unique)</note>
+	<note> type </note>
+	<note> required </note>
+        <note> constraints (optional) </note>
+     </note>
+      <p/>
+      <popup title="Sample">
+      <xml>GET /resourceMetadata/machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+"resourceURI": "http://schemas.dmtf.org/cimi/1/ResourceMetadata",
+"id": "http://example.com/cimi/CEP.resourceMetadata/machine",
+"name": "Machine",
+"typeUri": "http://schemas.dmtf.org/cimi/1/Machine",
+"capabilities":
+    [{"name":"Capability1",
+      "uri":"http://schemas.dmtf.org/cimi/1/capabilityCollection/Capability1",
+      "description":"Description of Capability 1",
+      "value":"valueOfCapability1"},
+    {"name":"Capability2",
+     "uri":"http://schemas.dmtf.org/cimi/1/capability/Collection/Capability2",
+     "description":"Description of Capability 2",
+     "value":"valueOfCapability2A, valueOfCapability2B"}]
+}
+      </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+<part title="Default Initial State – Machine Capability">
+ <note> This test applies only if the ResourceMetadata
+ corresponding to the Machine resource contains a DefaultInitialState capability. </note>
+  <tests>
+    <test name="Query the ResourceMetadata entry">
+     <desc>
+	Consumer queries Machine
+	ResourceMetadata to find the DefaultInitialState capability
+     </desc>
+
+     <succ>
+	A serialization of the CEP.resourceMetadata collection is returned
+	– using either JSON or XML serialization.  This test must adhere
+	to one of the "Query the ResourceMetadata entry" tests in
+	the previous section.
+
+	<note> The  DefaultInitialState capability must be returned </note>
+        <note>The capability advertised must contain:
+          <note> name </note>
+          <note> uri (unique)</note>
+          <note> description </note>
+          <note> a single value </note>
+       </note>
+
+      <p/>
+      <popup title="Sample">
+      <xml>GET /resourceMetadata/machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/xml
+
+&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1"
+ resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
+&lt;id>http://example.com/cimi/CEP.resourceMetadata/machine&lt;/id>
+&lt;name>Machine&lt;/name>
+&lt;typeUri>http://schemas.dmtf.org/cimi/1/Machine&lt;/typeUri>
+&lt;capability name="DefaultInitialState"
+uri="http://schemas.dmtf.org/cimi/1/capability/Machine/DefaultInitialState"
+description="Indicates what the default initial state of a new Machine">
+STARTED&lt;/capability>
+&lt;/ResourceMetadata>
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Put collection member in state to verify capability">
+     <desc>
+	Create a
+	new machine using either a single machineTemplate or a
+	machineImage and a machineConfig – without specifying a desired
+	initial state
+     </desc>
+
+
+     <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "machineTemplate": {
+    "machineConfig": { "href": " http://example.com/machine_configurations/small" },
+    "machineImage": { "href": " http://example.com/machine_images/img2" },
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId12345
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Execute a query/action to expose the capability">
+     <desc>
+	Execute a
+	GET on the id of the new machine to return the
+	machine stable initial state
+     </desc>
+
+     <succ>
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The state reported by the response to the GET operation
+	might be a 'PENDING', 'CREATING' or other intermediate state
+	before the machine can be placed into a stable initial state. If
+	an intermediate state is returned, poll for the machine state to
+	change to a stable initial state </note>
+     <note> After the machine is in a stable initial state, the value
+	returned in the STATE entry of the response must match the value
+	advertised in the DefaultInitialState capability </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId12345",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "created": "2013-01-02T10:04:00Z",
+  "updated": "2013-01-22T10:04:00Z",
+  "state": "STARTED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId12345/disks",
+  "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
+  "networkInterfaces": { "href": "http://example.com/machines/machineId12345/NIs",
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" }
+  ]
+}
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created in test above
+     </desc>
+
+     <succ>
+
+      <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+
+  <part title="Initial States – Machine Capability">
+   <note> This test applies only if the ResourceMetadata
+ corresponding to the Machine resource contains an InitialStates capability. </note>
+   <tests>
+    <test name="Query the ResourceMetadata entry">
+     <desc>
+	Consumer queries Machine
+	ResourceMetadata to find the InitialStates capability
+     </desc>
+
+     <succ>
+	A serialization of the CEP.resourceMetadata collection is returned
+	– using either JSON or XML serialization.  This test must adhere
+	to one of the "Query the ResourceMetadata entry" test in
+	the section.
+
+      <note>The InitialStates capability must be returned </note>
+      <note> The capability advertised must contain:
+      <note> name </note>
+      <note> uri (unique)</note>
+      <note> description </note>
+      <note> value(s) </note>
+      </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>GET /resourceMetadata/machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+
+Content-Type: application/xml
+
+&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1"
+resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
+&lt;id>http://example.com/cimi/CEP.resourceMetadata/machine&lt;/id>
+&lt;name>Machine&lt;/name>
+&lt;typeUri>http://schemas.dmtf.org/cimi/1/Machine&lt;/typeUri>
+&lt;capability name="InitialStates"
+uri="http://schemas.dmtf.org/cimi/1/capability/Machine/InitialStates"
+description="Indicates the list of allowable initial states">
+STARTED,STOPPED&lt;/capability>
+&lt;/ResourceMetadata>
+      </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Put collection member in state to verify capability">
+     <desc>
+	Create a
+	new machine using either a single machineTemplate or a
+	machineImage and a machineConfig – specifying a desired initial
+	state which is different from the default value (see
+	DefaultInitalState capability)
+    </desc>
+
+    <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+    <note> HTTP response code must be "201 Created" </note>
+    <note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state. </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineInitialStateStopped",
+  "description": "Machine to test initial states",
+  "machineTemplate": {
+    "initialState": "STOPPED"
+    "machineConfig": { "href": "http://example.com/machine_configurations/small" },
+    "machineImage": { "href": "http://example.com/machine_images/img2" },
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId123456
+
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Execute a query/action to expose the capability">
+     <desc>
+	Execute a
+	GET /machines/new machine id operation to return the
+	machine stable initial state
+     </desc>
+
+     <succ>
+
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The state reported by the response to the GET operation
+	might be a 'PENDING', 'CREATING' or other intermediate state
+	before the machine can be placed into a stable initial state. If
+	an intermediate state is returned, poll for the machine state to
+	change to a stable initial state </note>
+      <note> After the machine is in a stable initial state, the value
+	returned in the STATE entry of the response must match the value
+	specified when the machine was created in test step above </note>
+      <note> The machine response must advertise operations that match
+	the state initial stable state (for example, a machine created
+	with a STOPPED initial state should advertise 'start' as an
+	available operation) </note>
+
+      <p/>
+      <popup title="Sample">
+      <xml>GET /machines HTTP/1.1</xml>
+      <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId123456",
+  "name": "machineInitialStateStopped",
+  "description": "Machine to test initial states",
+  "created": "2013-01-02T11:04:00Z",
+  "updated": "2013-01-22T11:04:00Z",
+  "state": "STOPPED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId123456/disks",
+  "volumes": { "href": "http://example.com/machines/machineId123456/volumes" },
+  "networkInterfaces": { "href": "http://example.com/machines/machineId123456/NIs",
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/start",
+    "href": "http://example.com/machines/machineId123456/start" }
+  ]
+}
+      </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created.
+     </desc>
+
+    <succ>
+     <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Repeat the test for initial states advertised (if there are
+			more states to test)">
+     <desc>
+	Repeat steps to exercise and
+	verify the responses when a machine is created with each of the
+	possible initial states advertised in the capability.
+
+	<note> This test only applies if their are more than one InitialStates. </note>
+     </desc>
+
+     <succ>
+	The output results should adhere to the success criteria
+	specified for each step – making adjustments relative to the
+	initial state under test.
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+
+<part title="Machine Image – Machine Attribute">
+ <note> This test applies only if the ResourceMetadata
+ corresponding to the Machine resource contains a machine_image attribute. </note>
+  <tests>
+    <test name="Query the ResourceMetadata entry">
+     <desc>
+	Consumer queries Machine
+	ResourceMetadata to find the machine_image attribute
+     </desc>
+
+     <succ>
+	A serialization of the CEP.resourceMetadata collection is returned
+	– using either JSON or XML serialization.  This test must adhere
+	to one of the "Query the ResourceMetadata entry" tests in
+	the sections above.
+
+	<note> The machine_image attribute must be returned </note>
+        <note>The attribute advertised must contain:
+          <note> name </note>
+          <note> namespace (unique)</note>
+          <note> type </note>
+          <note> required </note>
+       </note>
+
+      <p/>
+      <popup title="Sample">
+      <xml>GET /resourceMetadata/machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/xml
+
+&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1"
+ resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
+&lt;id>http://example.com/cimi/CEP.resourceMetadata/machine&lt;/id>
+&lt;name>Machine&lt;/name>
+&lt;typeUri>http://schemas.dmtf.org/cimi/1/Machine&lt;/typeUri>
+&lt;attribute name="machine_image"
+namespace="http://deltacloud.org/cimi/Machine/machine_image"
+type="URI"
+required="false">
+&lt;/ResourceMetadata>
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Put collection member in state to verify attribute">
+     <desc>
+	Create a
+	new machine using either a single machineTemplate or a
+	machineImage and a machineConfig
+     </desc>
+
+
+     <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "machineTemplate": {
+    "machineConfig": { "href": "http://example.com/machine_configurations/small" },
+    "machineImage": { "href": "http://example.com/machine_images/img2" },
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId12345
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Execute a query/action to verify the attribute">
+     <desc>
+	Execute a
+	GET on the id of the new machine
+     </desc>
+
+     <succ>
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The machine_image attribute must be returned </note>
+      <note> If a machine_image href was passed in the operation to create the machine above, the same href should be returned in the GET output</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>GET /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId12345",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "created": "2013-01-02T10:04:00Z",
+  "updated": "2013-01-22T10:04:00Z",
+  "machineImage": {"href":"http://example.com/machine_images/img2"}
+  "state": "STARTED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId12345/disks",
+  "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
+  "networkInterfaces": { "href": "http://example.com/machines/machineId12345/NIs",
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" }
+  ]
+}
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created in test above
+     </desc>
+
+     <succ>
+
+      <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+<part title="Realm – Machine Attribute">
+ <note> This test applies only if the ResourceMetadata
+ corresponding to the Machine resource contains a realm attribute. </note>
+  <tests>
+    <test name="Query the ResourceMetadata entry">
+     <desc>
+	Consumer queries Machine
+	ResourceMetadata to find the realm attribute
+     </desc>
+
+     <succ>
+	A serialization of the CEP.resourceMetadata collection is returned
+	– using either JSON or XML serialization.  This test must adhere
+	to one of the "Query the ResourceMetadata entry" tests in
+	the sections above.
+
+	<note> The machine_image attribute must be returned </note>
+        <note>The attribute advertised must contain:
+          <note> name </note>
+          <note> namespace (unique)</note>
+          <note> type </note>
+          <note> required </note>
+          <note> constraints </note>
+       </note>
+
+      <p/>
+      <popup title="Sample">
+      <xml>GET /resourceMetadata/machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/xml
+
+&lt;ResourceMetadata xmlns="http://schemas.dmtf.org/cimi/1"
+ resourceURI="http://schemas.dmtf.org/cimi/1/ResourceMetadata">
+&lt;id>http://example.com/cimi/CEP.resourceMetadata/machine&lt;/id>
+&lt;name>Machine&lt;/name>
+&lt;typeUri>http://schemas.dmtf.org/cimi/1/Machine&lt;/typeUri>
+&lt;attribute name="realm"
+namespace="http://deltacloud.org/cimi/Machine/realm"
+type="text"
+required="false">
+&lt;constraint>
+&lt;value>location1&lt;/value>
+&lt;/constraint>
+&lt;constraint>
+&lt;value>location2&lt;/value>
+&lt;/constraint>
+&lt;/attribute>
+&lt;/ResourceMetadata>
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Put collection member in state to verify attribute">
+     <desc>
+	Create a
+	new machine using either a single machineTemplate or a
+	machineImage and a machineConfig
+     </desc>
+
+
+     <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "machineTemplate": {
+    "machineConfig": { "href": "http://example.com/machine_configurations/small" },
+    "machineImage": { "href": "http://example.com/machine_images/img2" },
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId12345
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Execute a query/action to verify the attribute">
+     <desc>
+	Execute a
+	GET on the id of the new machine
+     </desc>
+
+     <succ>
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The realm attribute must be returned </note>
+      <note> The value of the realm returned in the GET must match one of the constraint values</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>GET /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId12345",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "created": "2013-01-02T10:04:00Z",
+  "updated": "2013-01-22T10:04:00Z",
+  "realm": "location2"
+  "state": "STARTED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId12345/disks",
+  "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
+  "networkInterfaces": { "href": "http://example.com/machines/machineId12345/NIs",
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" }
+  ]
+}
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created in test above
+     </desc>
+
+     <succ>
+
+      <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+  </section>
+
+ <section title="Findings">
+   <num>
+
+   </num>
+ </section>
+
+ <section title="Change History">
+  <changes>
+   <change date="2013/01/03" who="Ronelle Landy">Initial Draft</change>
+  </changes>
+ </section>
+
+</scenario>
+

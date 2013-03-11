@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:sc2html.xsl" title="scenario"?>
+<scenario xmlns="http://www.wstf.org">
+
+ <metadata>
+  <number>CIMI Machines</number>
+  <title>Extended Scenarios</title>
+  <date>2013/03/06</date>
+  <status>Draft</status>
+  <nowstf/>
+ </metadata>
+
+ <abstract>
+  These scenarios will test Machines collection as defined in the CIMI specification. These scenarios were not included in the initial CIMI-Basics plan (http://members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html).
+ </abstract>
+
+ <section title="Dependencies">
+  <scope>
+   <technology name="CIMI" url="http://dmtf.org/sites/default/files/standards/documents/DSP0263_1.0.0.pdf"/>
+  </scope>
+
+  <namespaces>
+   <namespace prefix="cimi" ns="http://schemas.dmtf.org/cimi/1" name="CIMI"/>
+   <namespace prefix="xs" ns="http://www.w3.org/2001/XMLSchema"
+                           name="XML Schema"/>
+   <namespace prefix="scMACHEX" ns="http://www.wstf.org/docs/scenarios/scMACHEX"
+                           name="SCMACHEX (this scenario)"/>
+  </namespaces>
+ </section>
+
+ <section title="Testcases">
+  The testcases are ordered by:
+	<item>Capturing a Machine</item>
+	<item>Restarting a Machine</item>
+	<item>Adding user_data when Creating a Machine</item>
+
+   <note>Testing of the CEP and Creation of a Machine are included in the CIMI-Basics scenarios and are not repeated here. Since these scenarios are machines related, the tests will require a Machine to be created at the start of each test. For steps to verify a machine was created as required, see the CIMI-Basics plan. </note>
+
+  <part title="Capturing a Machine">
+   <note> From spec: This operation will create a new Machine Image from an existing Machine. This operation is defined
+within the Machine Image resource; see 5.14.7.1 for more details. Note that while this operation is
+performed against a Machine Image, its presence in the Machine serialization is used to advertise
+support for the operation.</note>
+  <tests>
+    <test name="Query the CEP">
+
+      <desc>
+       Consumer queries the CEP to determine the URLs
+       of the Machine and machineImage collection
+      </desc>
+
+      <succ>A serialization of a CEP is
+	returned. This test must adhere to the "Query the CEP"
+	test detailed in:
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+
+        <note> CEP.machines, CEP.machineConfigs and CEP.machineImages must be set </note>
+	<p/>
+
+      <popup title="Sample">
+      <xml>GET /CEP HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/CloudEntryPoint",
+  "id": "http://example.com/CEP",
+  "baseURI": "http://example.com/",
+  "machineConfigs": { "href": "http://example.com/machineConfigs" },
+  "machineImages": { "href": "http://example.com/machineImages" },
+  "machines": { "href": "http://example.com/machines" }
+}</xml>
+      </popup>
+
+     </succ>
+    </test>
+
+    <test name="Create a new machine">
+      <desc>
+	Create a
+	new machine using either a single machineTemplate or a
+	machineImage and a machineConfig
+     </desc>
+
+     <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "machineTemplate": {
+    "machineConfig": { "href": " http://example.com/machine_configurations/small" },
+    "machineImage": { "href": " http://example.com/machine_images/img2" },
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId12345
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Find the capture operation">
+     <desc>
+	Execute a
+	GET on the id of the new machine to return the
+	available operations
+     </desc>
+
+     <succ>
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The state reported by the response to the GET operation
+	might be a 'PENDING', 'CREATING' or other intermediate state
+	before the machine can be placed into a stable initial state. If
+	an intermediate state is returned, poll for the machine state to
+	change to a stable state where the capture operation can be found. </note>
+     <note> Some providers allow for creating a machineImage from a machine
+        in a STARTED/RUNNING state while other providers support creation of a
+        machineImage from a machine in a STOPPED state.
+        If, after the machine is in a stable initial state, the capture
+        operation is not advertised, the test should change the machine's state
+        by stopping or starting the machine and then check the operations
+        advertised to see if the capture operation is supported by a
+        machine in this changed state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId12345",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "created": "2013-01-02T10:04:00Z",
+  "updated": "2013-01-22T10:04:00Z",
+  "state": "STARTED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId12345/disks",
+  "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
+  "networkInterfaces": { "href": "http://example.com/machines/machineId12345/NIs",
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" }
+  ]
+}
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Create a machineImage from the machine">
+      <desc>
+	Create a new machineImage from the machine create above using
+	the capture operation
+     </desc>
+
+     <succ>
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The machineImage must have:
+          <item> id? </item>
+          <item> state </item>
+          <item> type </item>
+          <item> imageLocation </item> </note>
+
+      <p/>
+      <popup title="Sample">
+      <xml>POST /CEP.machineImages HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/machineImageCreate",
+  "name": "machineImageTest",
+  "description": "machineImage created from test machine",
+  "type": "IMAGE",
+  "imageLocation": "http://example.com/machines/machineId12345"
+}
+
+<hr/>HTTP/1.1 201 Created
+{
+  "id":"http://localhost:3001/cimi/machine_images/machineImageTest",
+  "name":"machineImageTest",
+  "state":"AVAILABLE",
+  "type":"IMAGE",
+  "resourceURI":"http://schemas.dmtf.org/cimi/1/MachineImage"
+}
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created above.
+         DELETE the machineImage created above.
+     </desc>
+
+     <succ>
+
+      <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+
+  <part title="Restarting a Machine">
+   <note> This test applies only if the Machines Collection exists and the restart operation is supported. </note>
+   <note> From spec: This operation will restart a Machine. If the Machine is in the "STARTED" state, this operation will have the semantic effect of executing the "stop" and then "start" operations. If the Machine is in the
+"STOPPED" state, this operation will have the semantic effect of executing the "start" operation.</note>
+   <tests>
+    <test name="Query the CEP">
+
+      <desc>
+       Consumer queries the CEP to determine the URLs
+       of the Machine collection
+      </desc>
+
+      <succ>A serialization of a CEP is
+	returned. This test must adhere to the "Query the CEP"
+	test detailed in:
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+
+        <note> CEP.machines, CEP.machineConfigs and CEP.machineImages must be set </note>
+	<p/>
+
+      <popup title="Sample">
+      <xml>GET /CEP HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/CloudEntryPoint",
+  "id": "http://example.com/CEP",
+  "baseURI": "http://example.com/",
+  "machineConfigs": { "href": "http://example.com/machineConfigs" },
+  "machineImages": { "href": "http://example.com/machineImages" },
+  "machines": { "href": "http://example.com/machines" }
+}</xml>
+      </popup>
+
+     </succ>
+    </test>
+
+    <test name="Create a new machine">
+      <desc>
+	Create a
+	new machine using either a single machineTemplate or a
+	machineImage and a machineConfig
+     </desc>
+
+     <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "machineTemplate": {
+    "machineConfig": { "href": " http://example.com/machine_configurations/small" },
+    "machineImage": { "href": " http://example.com/machine_images/img2" },
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId12345
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Find the restart operation">
+     <desc>
+	Execute a
+	GET on the id of the new machine to return the
+	available operations
+     </desc>
+
+     <succ>
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The state reported by the response to the GET operation
+	might be a 'PENDING', 'CREATING' or other intermediate state
+	before the machine can be placed into a stable initial state. If
+	an intermediate state is returned, poll for the machine state to
+	change to a stable state where the restart operation can be found. </note>
+     <note> Some providers allow for restarting a machine
+        in a RUNNING/STARTED state while other providers support
+        restarting a machine in a STOPPED state.
+        If, after the machine is in a stable initial state, the restart
+        operation is not advertised, the test should change the machine's state
+        by stopping or starting the machine and then check the operations
+        advertised to see if the restart operation is supported by a
+        machine in this changed state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId12345",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "created": "2013-01-02T10:04:00Z",
+  "updated": "2013-01-22T10:04:00Z",
+  "state": "STARTED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId12345/disks",
+  "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
+  "networkInterfaces": { "href": "http://example.com/machines/machineId12345/NIs",
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/restart",
+     "href": "http://example.com/machines/machineId12345/restart" }
+  ]
+}
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Restart the Machine">
+     <desc>
+      Execute a POST /machines/machineId/restart
+      <note> If the provider under test supports the 'restart' action from both the STOPPED and RUNNING/STARTED states, both should be tested. </note>
+    </desc>
+
+    <succ>
+    <note> The response to the restart operation must be either "200 OK" or "202 Accepted". </note>
+    <note> The state reported by the response to the 'restart machine'
+	operation might be a 'STOPPING' (if the machine was initially in a STARTED/RUNNING state), and then 'STARTING' or other intermediate
+	state before the machine can be placed into a stable
+	RUNNING/STARTED state. </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST x/machines/machineId HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/Action",
+  "action": "http://schemas.dmtf.org/cimi/1/action/restart"
+}
+
+<hr/>HTTP/1.1 200 OK
+
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created.
+     </desc>
+
+    <succ>
+     <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+
+  <part title="Adding user_data when Creating a Machine">
+   <note> This test applies only if the Machines Collection exists and if user_data is supported. Check the Machine Resource metadata to confirm if user_data is supported.</note>
+   <note> From spec: To simplify the customization of individual Machines, it is possible to pass arbitrary data into the new
+Machine by using the userData parameter. The value of this parameter shall be the Base64-encoded
+payload. The Provider shall arrange for this data to be available from inside the Machine by using one of
+the following three methods: Metadata server, Disk or Image Modification.</note>
+   <tests>
+    <test name="Query the CEP">
+
+      <desc>
+       Consumer queries the CEP to determine the URLs
+       of the Machine collection
+      </desc>
+
+      <succ>A serialization of a CEP is
+	returned. This test must adhere to the "Query the CEP"
+	test detailed in:
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+
+        <note> CEP.machines, CEP.machineConfigs and CEP.machineImages must be set </note>
+	<p/>
+
+      <popup title="Sample">
+      <xml>GET /CEP HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/CloudEntryPoint",
+  "id": "http://example.com/CEP",
+  "baseURI": "http://example.com/",
+  "machineConfigs": { "href": "http://example.com/machineConfigs" },
+  "machineImages": { "href": "http://example.com/machineImages" },
+  "machines": { "href": "http://example.com/machines" }
+}</xml>
+      </popup>
+
+     </succ>
+    </test>
+
+    <test name="Create a new machine with user_data">
+      <desc>
+	Create a new machine with user_data. The user_data may be included in a single machineTemplate or passed directly in the operation to create the machine using a machineImage and a machineConfig.
+     </desc>
+
+     <succ>
+	The response returned must adhere to the success criteria
+	described in
+	members.dmtf.org/apps/org/workgroup/vcmf/download.php/68964/cimiTest.html
+	(Creating a new Machine section)
+
+	<note> HTTP response code must be "201 Created" </note>
+	<note> The state reported by the response to the 'create machine'
+	operation might be a 'PENDING', 'CREATING' or other intermediate
+	state before the machine can be placed into a stable initial
+	state.</note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>POST /machines HTTP/1.1
+Content-Type: application/json
+
+{ "resourceURI": "http://schemas.dmtf.org/cimi/1/MachineCreate",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "machineTemplate": {
+    "machineConfig": { "href": " http://example.com/machine_configurations/small" },
+    "machineImage": { "href": " http://example.com/machine_images/img2" },
+    "userData": "QmFzZS02NCBlbmNvZGVkIGRhdGE="
+    "credential": { "href": "http://example.com/creds/12345" }
+  }
+}
+
+<hr/>HTTP/1.1 201 Created
+Location: http://example.com/machines/machineId12345
+</xml>
+      </popup>
+     </succ>
+    </test>
+
+
+   <test name="Find the address for the machine">
+     <desc>
+	Execute a
+	GET on the id of the new machine to return the
+	available ip address required to SSH to the machine.
+     </desc>
+
+     <succ>
+      <note> HTTP response code must be "200 OK" </note>
+      <note> The state reported by the response to the GET operation
+	might be a 'PENDING', 'CREATING' or other intermediate state
+	before the machine can be placed into a stable initial state. If
+	an intermediate state is returned, poll for the machine state to
+	change to a stable state where the ip address can be found.
+        This may require starting a STOPPED machine </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "resourceType": "http://schemas.dmtf.org/cimi/1/Machine",
+  "id": "http://example.com/machines/machineId12345",
+  "name": "machineDefaultInitialState",
+  "description": "Machine to test the default initial state",
+  "created": "2013-01-02T10:04:00Z",
+  "updated": "2013-01-22T10:04:00Z",
+  "state": "STARTED",
+  "cpu": "1",
+  "memory": 10485760,
+  "disks" : { "href": "http://example.com/machines/machineId12345/disks" },
+  "volumes": { "href": "http://example.com/machines/machineId12345/volumes" },
+  "networkInterfaces": {
+     "addresses": {"href": "http://example.com/machines/machineId12345/1.2.3.4"},
+  }
+  "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/capture",
+    "href": "http://example.com/cimi/machine_images" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/stop",
+     "href": "http://example.com/machines/machineId12345/stop" }
+  ]
+}
+     </xml>
+      </popup>
+     </succ>
+    </test>
+
+    <test name="Check that the user_data is available from the machine">
+     <desc>
+	 The user_data may be available from inside the Machine using one of
+the following three methods: Metadata server, Disk or Image Modification - depending on the provider under test. SSH to the machine using the address found the step above and use the user_data access method supported by the provider to check that the user_data is accessible from the machine.
+     </desc>
+
+    <succ>
+     <note> Should be able to SSH to the machine using the credentials or password provided. </note>
+     <note> The Base-64 encoded user_data string passed to the machine should be accessible </note>
+     <note> The user_data accessed from the machine should match the exact string passed in the machine create operation above.</note>
+      <p/>
+      <popup title="Sample">
+       <xml> ssh root@1.2.3.4</xml>
+       <p/>
+       <xml> GET http://169.254.169.254/cimi/latest/user-data.
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+
+    <test name="Cleanup">
+     <desc>
+	(STOP and) DELETE the machine created.
+     </desc>
+
+    <succ>
+     <note> HTTP response code must be one of (200-207) </note>
+
+      <p/>
+      <popup title="Sample">
+       <xml>DELETE /machine HTTP/1.1</xml>
+       <p/>
+       <xml>HTTP/1.1 200 OK
+Content-Type: application/json
+       </xml>
+      </popup>
+     </succ>
+    </test>
+
+   </tests>
+
+  </part>
+
+  </section>
+
+ <section title="Findings">
+   <num>
+
+   </num>
+ </section>
+
+ <section title="Change History">
+  <changes>
+   <change date="2013/03/06" who="Ronelle Landy">Initial Draft</change>
+  </changes>
+ </section>
+
+</scenario>
+
