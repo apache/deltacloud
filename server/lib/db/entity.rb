@@ -44,6 +44,7 @@ module Deltacloud
       end
 
       def after_initialize
+        super
         if ent_properties
           self.properties = JSON::parse(ent_properties)
         else
@@ -61,9 +62,23 @@ module Deltacloud
         entity = Provider::lookup.entities_dataset.first(h)
         unless entity
           h[:provider_id] = Provider::lookup.id
-          entity = Entity.new(h)
+          entity = @@model_entity_map[model.class].new(h)
         end
         entity
+      end
+
+      def self.inherited(subclass)
+        super
+        # Build a map from CIMI::Model class to Entity subclass. This only
+        # works if the two classes have the same name in their respective
+        # modules.
+        # The map is used to determine what Entity subclass to instantiate
+        # for a given model in +retrieve+
+        @@model_entity_map ||= Hash.new(Entity)
+        n = subclass.name.split('::').last
+        if k = CIMI::Model::const_get(n)
+          @@model_entity_map[k] = subclass
+        end
       end
 
       private
