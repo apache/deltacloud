@@ -34,7 +34,7 @@ class CIMI::Frontend::Address < CIMI::Frontend::Entity
       xml.Address(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:address][:name]
         xml.description params[:address][:description]
-        xml.machineTemplate( :href => params[:address][:address_template] )
+        xml.addressTemplate( :href => params[:address][:address_template] )
       }
     end.to_xml
     begin
