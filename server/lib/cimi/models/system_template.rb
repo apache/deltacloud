@@ -19,7 +19,7 @@ class CIMI::Model::SystemTemplate < CIMI::Model::Base
 
   array :component_descriptors do
     text :name, :description
-    hash :properties
+    hash_map :properties
     text :type
     #component_template, comprises:
 #    struct :machine_template, :class => CIMI::Model::MachineTemplate

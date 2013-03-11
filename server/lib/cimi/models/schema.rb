@@ -461,7 +461,7 @@ class CIMI::Model::Schema
       add_attributes!([name, opts], Ref)
     end
 
-    def hash(name)
+    def hash_map(name)
       add_attributes!([name, {}], Hash)
     end
 

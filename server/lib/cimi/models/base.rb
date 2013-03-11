@@ -121,7 +121,7 @@ module CIMI::Model
     # Common attributes for all resources
     #
     text :id, :name, :description, :created, :updated
-    hash :property
+    hash_map :property
 
     def initialize(values = {})
       super(values)
