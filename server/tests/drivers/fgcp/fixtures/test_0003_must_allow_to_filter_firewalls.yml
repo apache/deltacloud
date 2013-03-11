@@ -1,0 +1,169 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint
+    body:
+      encoding: US-ASCII
+      string: ! "--BOUNDARY1362972234\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Disposition:
+        form-data; name=\"Document\"\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<OViSSRequest>\n
+        \ <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>\n  <efmId>UZXC0GRT-ZG8ZJCJ07-S-0001</efmId>\n
+        \ <configurationName>FW_POLICY</configurationName>\n  <Version>2011-01-31</Version>\n
+        \ <Locale>en</Locale>\n  <Action>GetEFMConfiguration</Action>\n  <AccessKeyId>QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYyOTcyMjM0MDAwJjEuMCZT\nSEExd2l0aFJTQQ==\n</AccessKeyId>\n
+        \ <Signature>bGTWfJJz+bvX4yEVptlkDnt1/yHYjI+qQnjk7ZZJzZpfKiTDh2+40oe7nJY2\n3kNm6OAm56+AGc6SXO0CQV61JRlRGhrzvZzfTHsdE8x/40jxoTmzRQvLetxk\nmvs4aX77GV1gWJW2VifXZfGkyjmdbgRntfIBk4RWELt6cK97toMfc+q6O5Wb\n7wEz76JNvjO8JJ+zqUobI2VJHZnjXi/haVksvaVgjJ1/NTF8XW73nNQwHH6p\n3H2JEbw1+XI3Nsd6GdoG593MLXS5+UzxaX6V5jczLOjV2CLEoTg72unAwFPH\nEdOx7ldQ7qvo+r3CxS/U7qC5Uj3no3Wjd6zRheN3eA==\n</Signature>\n</OViSSRequest>\r\n--BOUNDARY1362972234\r\nContent-Type:
+        application/octet-stream\r\nContent-Disposition: form-data; name=\"configurationXMLFilePath\";
+        filename=\"configurationXMLFilePath.xml\"\r\n\r\n<?xml version=\"1.0\" encoding
+        =\"UTF-8\"?>\n<Request>\n  <configuration>\n    <firewall_policy>\n    </firewall_policy>\n
+        \ </configuration>\n</Request>\n\r\n--BOUNDARY1362972234--"
+    headers:
+      Accept:
+      - text/xml
+      User-Agent:
+      - OViSS-API-CLIENT
+      Content-Type:
+      - multipart/form-data; boundary=BOUNDARY1362972234
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 Mar 2013 03:23:54 GMT
+      Set-Cookie:
+      - JSESSIONID=002BCC90C583CEECE599EC1A7DA9C4FE; Path=/ovisspxy; Secure
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<GetEFMConfigurationResponse
+        xmlns=\"http://apioviss.jp.fujitsu.com\">\r\n  <efm>\r\n    <creator>UZXC0GRT</creator>\r\n
+        \   <efmId>UZXC0GRT-ZG8ZJCJ07-S-0001</efmId>\r\n    <efmName>Firewall</efmName>\r\n
+        \   <efmType>FW</efmType>\r\n    <firewall>\r\n      <directions>\r\n        <direction>\r\n
+        \         <from>UZXC0GRT-ZG8ZJCJ07-N-DMZ</from>\r\n          <policies>\r\n
+        \           <policy>\r\n              <action>Deny</action>\r\n              <dst
+        />\r\n              <dstPort />\r\n              <dstService />\r\n              <dstType
+        />\r\n              <id>50000</id>\r\n              <log>On</log>\r\n              <protocol
+        />\r\n              <src />\r\n              <srcPort />\r\n              <srcType
+        />\r\n            </policy>\r\n          </policies>\r\n        </direction>\r\n
+        \       <direction>\r\n          <from>UZXC0GRT-ZG8ZJCJ07-N-DMZ</from>\r\n
+        \         <policies>\r\n            <policy>\r\n              <action>Accept</action>\r\n
+        \             <dst>any</dst>\r\n              <dstPort>80</dstPort>\r\n              <dstService>NONE</dstService>\r\n
+        \             <dstType>IP</dstType>\r\n              <id>45001</id>\r\n              <log>On</log>\r\n
+        \             <protocol>tcp</protocol>\r\n              <src>any</src>\r\n
+        \             <srcPort>any</srcPort>\r\n              <srcType>IP</srcType>\r\n
+        \           </policy>\r\n            <policy>\r\n              <action>Accept</action>\r\n
+        \             <dst>any</dst>\r\n              <dstPort>53</dstPort>\r\n              <dstService>NONE</dstService>\r\n
+        \             <dstType>IP</dstType>\r\n              <id>45002</id>\r\n              <log>On</log>\r\n
+        \             <protocol>tcp-udp</protocol>\r\n              <src>any</src>\r\n
+        \             <srcPort>any</srcPort>\r\n              <srcType>IP</srcType>\r\n
+        \           </policy>\r\n          </policies>\r\n          <to>UZXC0GRT-ZG8ZJCJ07-N-INTERNET</to>\r\n
+        \       </direction>\r\n        <direction>\r\n          <from>UZXC0GRT-ZG8ZJCJ07-N-INTERNET</from>\r\n
+        \         <policies>\r\n            <policy>\r\n              <action>Deny</action>\r\n
+        \             <dst />\r\n              <dstPort />\r\n              <dstService
+        />\r\n              <dstType />\r\n              <id>50000</id>\r\n              <log>On</log>\r\n
+        \             <protocol />\r\n              <src />\r\n              <srcPort
+        />\r\n              <srcType />\r\n            </policy>\r\n          </policies>\r\n
+        \       </direction>\r\n        <direction>\r\n          <from>UZXC0GRT-ZG8ZJCJ07-N-INTRANET</from>\r\n
+        \         <policies>\r\n            <policy>\r\n              <action>Deny</action>\r\n
+        \             <dst />\r\n              <dstPort />\r\n              <dstService
+        />\r\n              <dstType />\r\n              <id>50000</id>\r\n              <log>On</log>\r\n
+        \             <protocol />\r\n              <src />\r\n              <srcPort
+        />\r\n              <srcType />\r\n            </policy>\r\n          </policies>\r\n
+        \       </direction>\r\n        <direction>\r\n          <from>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</from>\r\n
+        \         <policies>\r\n            <policy>\r\n              <action>Deny</action>\r\n
+        \             <dst />\r\n              <dstPort />\r\n              <dstService
+        />\r\n              <dstType />\r\n              <id>50000</id>\r\n              <log>On</log>\r\n
+        \             <protocol />\r\n              <src />\r\n              <srcPort
+        />\r\n              <srcType />\r\n            </policy>\r\n          </policies>\r\n
+        \       </direction>\r\n      </directions>\r\n      <status>RUNNING</status>\r\n
+        \   </firewall>\r\n  </efm>\r\n  <responseMessage>Processing was completed.</responseMessage>\r\n
+        \ <responseStatus>SUCCESS</responseStatus>\r\n</GetEFMConfigurationResponse>\r\n\r\n"
+    http_version: 
+  recorded_at: Mon, 11 Mar 2013 03:23:55 GMT
+- request:
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYyOTcyMjM1MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSAttributes&Locale=en&Signature=kICIL/L+kVdyxszZmkJRcQIJ45gwfO8VBDUTjcT6zS9Q8Jx4zwhyunRzQUHq%0AG4uK+17rT/B+4Eo/q7ycrWiYcIFcOEmhAREbd0iRhEAfBm7Q96bNPClckL7l%0APnpFUcAaFMp+j0F62A7ezDwwoSMV18xX2cMmTAtIntJcbwvspJOp2NXdze7e%0AgMK2v7Jbwf/Z05l6hkq2yOMY7TS+CSPB/dl8bbTwRv8vlHIiczjYxlvZ6tm2%0AQweVWsS6YE5bR2tO0vpGQrLIr3Wg6EsnezxVHLkmDwnxfUlGMSeBWV2+/R+c%0AaJVG1WuLVc/sd9qd4amMXs5QKiqsGoINfi4pn+ydyg==%0A&Version=2011-01-31&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - text/xml
+      User-Agent:
+      - OViSS-API-CLIENT
+      Content-Type:
+      - multipart/form-data; boundary=BOUNDARY1362972234
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 Mar 2013 03:23:55 GMT
+      Set-Cookie:
+      - JSESSIONID=3DCFFF9FEC9B4EDFCAFC2566FF42E171; Path=/ovisspxy; Secure
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<GetVSYSAttributesResponse
+        xmlns=\"http://apioviss.jp.fujitsu.com\">\r\n  <responseMessage>Processing
+        was completed.</responseMessage>\r\n  <responseStatus>SUCCESS</responseStatus>\r\n
+        \ <vsys>\r\n    <baseDescriptor>2-tier Skeleton</baseDescriptor>\r\n    <creator>UZXC0GRT</creator>\r\n
+        \   <description>2-tier Skeleton</description>\r\n    <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>\r\n
+        \   <vsysName>Dies-DC-test</vsysName>\r\n  </vsys>\r\n</GetVSYSAttributesResponse>\r\n\r\n"
+    http_version: 
+  recorded_at: Mon, 11 Mar 2013 03:23:55 GMT
+- request:
+    method: post
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint
+    body:
+      encoding: US-ASCII
+      string: ! "--BOUNDARY1362972235\r\nContent-Type: text/xml; charset=UTF-8\r\nContent-Disposition:
+        form-data; name=\"Document\"\r\n\r\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<OViSSRequest>\n
+        \ <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>\n  <efmId>UZXC0GRT-ZG8ZJCJ07-S-0000</efmId>\n
+        \ <configurationName>FW_POLICY</configurationName>\n  <Version>2011-01-31</Version>\n
+        \ <Locale>en</Locale>\n  <Action>GetEFMConfiguration</Action>\n  <AccessKeyId>QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYyOTcyMjM1MDAwJjEuMCZT\nSEExd2l0aFJTQQ==\n</AccessKeyId>\n
+        \ <Signature>kICIL/L+kVdyxszZmkJRcQIJ45gwfO8VBDUTjcT6zS9Q8Jx4zwhyunRzQUHq\nG4uK+17rT/B+4Eo/q7ycrWiYcIFcOEmhAREbd0iRhEAfBm7Q96bNPClckL7l\nPnpFUcAaFMp+j0F62A7ezDwwoSMV18xX2cMmTAtIntJcbwvspJOp2NXdze7e\ngMK2v7Jbwf/Z05l6hkq2yOMY7TS+CSPB/dl8bbTwRv8vlHIiczjYxlvZ6tm2\nQweVWsS6YE5bR2tO0vpGQrLIr3Wg6EsnezxVHLkmDwnxfUlGMSeBWV2+/R+c\naJVG1WuLVc/sd9qd4amMXs5QKiqsGoINfi4pn+ydyg==\n</Signature>\n</OViSSRequest>\r\n--BOUNDARY1362972235\r\nContent-Type:
+        application/octet-stream\r\nContent-Disposition: form-data; name=\"configurationXMLFilePath\";
+        filename=\"configurationXMLFilePath.xml\"\r\n\r\n<?xml version=\"1.0\" encoding
+        =\"UTF-8\"?>\n<Request>\n  <configuration>\n    <firewall_policy>\n    </firewall_policy>\n
+        \ </configuration>\n</Request>\n\r\n--BOUNDARY1362972235--"
+    headers:
+      Accept:
+      - text/xml
+      User-Agent:
+      - OViSS-API-CLIENT
+      Content-Type:
+      - multipart/form-data; boundary=BOUNDARY1362972235
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 Mar 2013 03:23:55 GMT
+      Set-Cookie:
+      - JSESSIONID=BD00ACE8D2F7EC042CB4B1566CE89CBA; Path=/ovisspxy; Secure
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<GetEFMConfigurationResponse
+        xmlns=\"http://apioviss.jp.fujitsu.com\">\r\n  <responseMessage>Resource[SERVER-ID:UZXC0GRT-ZG8ZJCJ07-S-0000]
+        doesnt exist.</responseMessage>\r\n  <responseStatus>RESOURCE_NOT_FOUND</responseStatus>\r\n</GetEFMConfigurationResponse>\r\n\r\n"
+    http_version: 
+  recorded_at: Mon, 11 Mar 2013 03:23:56 GMT
+recorded_with: VCR 2.4.0

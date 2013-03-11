@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gRGF5bGlnaHQgVGltZSYxMzYyOTcyMjM2MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=ListVSYS&Locale=en&Signature=RMD9Fz3nak2FcHF991/IpoAfbJ+F9sMDQne/E0u23FRw9SZV3i73lDCfCDDR%0A+D2waxySqq4wc/cZ9E1QE255/kY4uQgCxM2IOmU1+YAsEkI2pffLsC9bTnFW%0Ac43bv22HPMwOw6EFjqcmPlXQSRuAfh8auqomo157/sGt2GRZPcnHV0rdpP7L%0A1rSmuMwJ90GoTgHa0bLHXtW221Jao8453gpspJsYdmX31XdVApRtO6sE3pUk%0AkvabNpaXy2Esa73j0jF8hZVAiSW3nu5RoV3CA3rnqbJv+EWs47fC53fB+IB5%0AhZwAFpk4darpvAaDvkhkAMtnVw3y16PggACJSvZSsA==%0A&Version=2011-01-31
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - text/xml
+      User-Agent:
+      - OViSS-API-CLIENT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 11 Mar 2013 03:23:56 GMT
+      Set-Cookie:
+      - JSESSIONID=87B27AAFC84A487D5F3CA6AF090BF143; Path=/ovisspxy; Secure
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<ListVSYSResponse xmlns=\"http://apioviss.jp.fujitsu.com\">\r\n
+        \ <responseMessage>Processing was completed.</responseMessage>\r\n  <responseStatus>SUCCESS</responseStatus>\r\n
+        \ <vsyss>\r\n    <vsys>\r\n      <baseDescriptor>2-tier Skeleton</baseDescriptor>\r\n
+        \     <creator>UZXC0GRT</creator>\r\n      <description>2-tier Skeleton</description>\r\n
+        \     <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>\r\n      <vsysName>Dies-DC-test</vsysName>\r\n
+        \   </vsys>\r\n  </vsyss>\r\n</ListVSYSResponse>\r\n\r\n"
+    http_version: 
+  recorded_at: Mon, 11 Mar 2013 03:23:56 GMT
+recorded_with: VCR 2.4.0
