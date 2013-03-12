@@ -69,7 +69,6 @@ Gem::Specification.new do |s|
   s.has_rdoc = 'false'
   s.add_dependency('rake', '>= 0.8.7')
   s.add_dependency('haml', '>= 2.2.17')
-  s.add_dependency('sinatra', '>= 1.3.0')
   s.add_dependency('sinatra-rabbit', '>= 1.1.6')
   s.add_dependency('rack', '>= 1.0.0')
   s.add_dependency('rack-accept')
@@ -77,8 +76,14 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh', '>= 2.0.0')
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
-
   s.add_dependency('sequel', '<= 3.42.0')
+
+  # FIXME: These dependencies are locked due to bugs that
+  #        we will not address in this release.
+  #
+  s.add_dependency('tilt', '<=1.3.3')
+  s.add_dependency('sinatra', '<=1.3.5')
+
 
   if RUBY_PLATFORM == 'java'
     s.add_dependency('jdbc-sqlite3')

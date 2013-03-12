@@ -2,8 +2,6 @@ source "http://rubygems.org"
 
 gemspec
 
-gem 'tilt', '=1.3.3'
-
 platforms :jruby do
   gem 'jruby-openssl'
   gem 'puma'
