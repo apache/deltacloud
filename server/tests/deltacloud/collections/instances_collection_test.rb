@@ -47,7 +47,6 @@ describe Deltacloud::Collections::Instances do
     # You can't remove RUNNING instance
     (xml/'error/message').first.text.strip.must_equal 'Method Not Allowed'
     post root_url + '/instances/' + instance_id + '/reboot'
-    binding.pry
     status.must_equal 202
     (xml/'instance/state').first.text.strip.must_equal 'RUNNING'
     post root_url + '/instances/' + instance_id + '/stop'
