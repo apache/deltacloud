@@ -37,8 +37,6 @@ describe Deltacloud::Collections::Instances do
     end
   end
 
-  require 'pry'
-
   it 'allow to create and execute actions on created instance' do
     post root_url + '/instances', { :image_id => 'img1', :name => 'test', }
     status.must_equal 201

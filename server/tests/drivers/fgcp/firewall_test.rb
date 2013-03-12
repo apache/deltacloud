@@ -23,7 +23,7 @@ describe 'FgcpDriver Firewalls' do
   it 'must return list of firewalls' do
     fws = @driver.firewalls
     fws.wont_be_empty
-    fws.each { |fw| fw.must_be_kind_of Firewall }
+    fws.each { |fw| fw.must_be_kind_of Deltacloud::Firewall }
     fws.each { |fw| fw.id.wont_be_nil }
   end
 
@@ -39,7 +39,7 @@ describe 'FgcpDriver Firewalls' do
   it 'must allow to retrieve single firewall' do
     fw = @driver.firewall(:id => 'UZXC0GRT-ZG8ZJCJ07-S-0001')
     fw.wont_be_nil
-    fw.must_be_kind_of Firewall
+    fw.must_be_kind_of Deltacloud::Firewall
     fw.id.must_equal 'UZXC0GRT-ZG8ZJCJ07-S-0001'
     @driver.firewall(:id => 'UZXC0GRT-ZG8ZJCJ07-S-0000').must_be_nil
   end
@@ -57,7 +57,7 @@ describe 'FgcpDriver Firewalls' do
     fw = @driver.firewall(:id => 'UZXC0GRT-ZG8ZJCJ07-S-0001')
     fw.wont_be_nil
     fw.rules.wont_be_empty
-    fw.rules.first.must_be_kind_of FirewallRule
+    fw.rules.first.must_be_kind_of Deltacloud::FirewallRule
     fw.rules.first.allow_protocol.wont_be_nil
     fw.rules.first.port_from.wont_be_nil
     fw.rules.first.port_to.wont_be_nil
