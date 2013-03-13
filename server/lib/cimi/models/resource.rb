@@ -89,12 +89,6 @@ module CIMI
           end
         end
 
-        # Return Array of links to current CIMI object
-        #
-        def all_uri(context)
-          self.all(context).map { |e| { :href => e.id } }
-        end
-
         # Construct a new object from the XML representation +xml+
         def from_xml(text)
           xml = XmlSimple.xml_in(text, :force_content => true)

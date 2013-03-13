@@ -130,11 +130,5 @@ module CIMI::Model
       end
       collection_class.new(params)
     end
-
-    def all(context)
-      find :all, context
-    end
-
   end
-
 end
