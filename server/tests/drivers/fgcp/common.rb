@@ -23,8 +23,7 @@ VCR.configure do |c|
   c.cassette_library_dir = File.join(File.dirname(__FILE__), 'fixtures')
   c.hook_into :webmock
   c.default_cassette_options = {
-    :record => :new_episodes,
-#    :record => :none,
+    :record => vcr_record_mode,
     :match_requests_on => [:method,
     VCR.request_matchers.uri_without_param(:Signature, :AccessKeyId)]
   }

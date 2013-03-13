@@ -16,5 +16,5 @@ end
 VCR.configure do |c|
   c.cassette_library_dir = "#{File.dirname(__FILE__)}/fixtures/"
   c.hook_into :excon
-  c.default_cassette_options = { :record => :new_episodes }
+  c.default_cassette_options = { :record => vcr_record_mode }
 end

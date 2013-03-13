@@ -25,7 +25,10 @@ VCR.configure do |c|
   matcher = VCR.request_matchers.uri_without_param("AWSAccessKeyId",
                                                    "Signature", "Timestamp")
   c.register_request_matcher(:ec2_matcher, &matcher)
-  c.default_cassette_options = { :record => :none, :match_requests_on => [:method, :ec2_matcher] }
+  c.default_cassette_options = {
+    :record => vcr_record_mode,
+    :match_requests_on => [:method, :ec2_matcher]
+  }
 end
 
 # Setup resources we need for the tests

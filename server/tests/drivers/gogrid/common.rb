@@ -18,7 +18,6 @@ VCR.configure do |c|
   c.hook_into :webmock
   matcher = VCR.request_matchers.uri_without_param("api_key", "sig")
   c.register_request_matcher(:gogrid_matcher, &matcher)
-  # Set this to :new_episodes to rerecord
-  c.default_cassette_options[:record] =:none
+  c.default_cassette_options[:record] = vcr_record_mode
   c.default_cassette_options[:match_requests_on] = [:method, :gogrid_matcher]
 end
