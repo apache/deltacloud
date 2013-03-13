@@ -44,9 +44,6 @@ to = dev@deltacloud.apache.org
 
 [core]
 whitespace = trailing-space,space-before-tab
-
-[apply]
-whitespace = error-all
 </pre>
 
   </li>

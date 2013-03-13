@@ -14,8 +14,9 @@ title: Running the Whitebox Tests
 
 <h3>Running the white box tests</h3>
 
-<p>The tests can be executed in groups, using tasks in the Rakefile, or
-   individually.</p>
+<p>After getting the source and <a href="getting-sources.html"> setting
+up the development environment</a>, the tests can be executed in groups,
+using tasks in the Rakefile, or individually using ruby directly.</p>
 
 <ul>
   <li>
@@ -32,24 +33,30 @@ title: Running the Whitebox Tests
     </li>
 
     <li>
-      <p>Rake task to run the various <b><u><i>Frontend </i></u></b> tests: </p>
+      <p>Example of listing the available subtasks have available tests: </p>
       <pre>
       % cd <b>REPO</b>/deltacloud/server
-      % rake test:base            # Run tests for base
-      % rake test:cimi:models     # Run tests for models
+      % rake -T test
+      <i>output list or available tests</i>
+      </pre>
+    </li>
+
+    <li>
+      <p>Example rake task to run ec2 <b><u><i>frontend </i></u></b> tests: </p>
+      <pre>
+      % cd <b>REPO</b>/deltacloud/server
       % rake test:ec2             # Run tests for ec2
       </pre>
     </li>
 
     <li>
-      <p>Rake task to run the various <b><u><i>Driver </i></u></b>  tests: </p>
+      <p>Example rake task to run the rhevm <b><u><i>driver </i></u></b>  tests: </p>
       <pre>
       % cd <b>REPO</b>/deltacloud/server
-      % rake test:drivers:ec2     # Run tests for ec2
-      % rake test:drivers:mock    # Run tests for mock
       % rake test:drivers:rhevm   # Run tests for rhevm
       </pre>
-     </li>
+    </li>
+
   </ul>
 
   <li>
