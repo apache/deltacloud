@@ -15,6 +15,6 @@
 # under the License.
 
 module Deltacloud
-  API_VERSION = '1.1.1'
+  API_VERSION = '1.1.2'
   CIMI_API_VERSION = '1.0.1'
 end
