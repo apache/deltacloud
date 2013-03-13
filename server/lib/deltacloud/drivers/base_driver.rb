@@ -147,7 +147,7 @@ module Deltacloud
     end
 
     def has_capability?(method)
-      method = (RUBY_VERSION =~ /^1\.9/) ? method : method.to_s
+      method = (RUBY_VERSION < '1.9') ? method.to_s : method
       # Prevent has_capability fail when driver is inherited from another
       # driver, like Eucalyptus
       superclass_methods = self.class.superclass.name == 'Deltacloud::BaseDriver' ?
