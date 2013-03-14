@@ -302,7 +302,10 @@ class CIMI::Model::Schema
         raise "Specify the class of collection entries using :class"
       end
       params[:embedded] = true
-      @collection_class = CIMI::Model::Collection.generate(opts[:class], params)
+      unless opts[:class].collection_class
+        opts[:class].collection_class = CIMI::Model::Collection.generate(opts[:class], params)
+      end
+      @collection_class = opts[:class].collection_class
     end
 
     def from_xml(xml, model)
@@ -466,7 +469,7 @@ class CIMI::Model::Schema
     end
 
     def collection(name, opts={})
-      opts[:scope] = self.class
+      opts[:scope] = self
       add_attributes!([name, opts], Collection)
     end
   end
