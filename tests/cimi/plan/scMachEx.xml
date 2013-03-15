@@ -38,9 +38,8 @@
 
   <part title="Capturing a Machine">
    <note> From spec: This operation will create a new Machine Image from an existing Machine. This operation is defined
-within the Machine Image resource; see 5.14.7.1 for more details. Note that while this operation is
-performed against a Machine Image, its presence in the Machine serialization is used to advertise
-support for the operation.</note>
+within the Machine Image resource; see 5.14.7.1 for more details. Note that while the HTTP request which will perform this
+ operation is sent to the MachineImageCollection resource, it is present in the Machine resource's serialization."</note>
   <tests>
     <test name="Query the CEP">
 
@@ -178,10 +177,9 @@ Content-Type: application/json
 
 	<note> HTTP response code must be "201 Created" </note>
 	<note> The machineImage must have:
-          <item> id? </item>
           <item> state </item>
           <item> type </item>
-          <item> imageLocation </item> </note>
+          <item> name </item> </note>
 
       <p/>
       <popup title="Sample">
@@ -328,7 +326,7 @@ Location: http://example.com/machines/machineId12345
 	an intermediate state is returned, poll for the machine state to
 	change to a stable state where the restart operation can be found. </note>
      <note> Some providers allow for restarting a machine
-        in a RUNNING/STARTED state while other providers support
+        in a STARTED state while other providers support
         restarting a machine in a STOPPED state.
         If, after the machine is in a stable initial state, the restart
         operation is not advertised, the test should change the machine's state
@@ -369,16 +367,17 @@ Content-Type: application/json
 
     <test name="Restart the Machine">
      <desc>
-      Execute a POST /machines/machineId/restart
-      <note> If the provider under test supports the 'restart' action from both the STOPPED and RUNNING/STARTED states, both should be tested. </note>
+      Send a HTTP POST request to the URI corresponding to the restart operation - as
+      discovered in 2.3 above
+      <note> If the provider under test supports the 'restart' action from both the STOPPED and STARTED states, both should be tested. </note>
     </desc>
 
     <succ>
     <note> The response to the restart operation must be either "200 OK" or "202 Accepted". </note>
     <note> The state reported by the response to the 'restart machine'
-	operation might be a 'STOPPING' (if the machine was initially in a STARTED/RUNNING state), and then 'STARTING' or other intermediate
+	operation might be a 'STOPPING' (if the machine was initially in a STARTED state), and then 'STARTING' or other intermediate
 	state before the machine can be placed into a stable
-	RUNNING/STARTED state. </note>
+	STARTED state. </note>
 
       <p/>
       <popup title="Sample">
@@ -552,6 +551,8 @@ Content-Type: application/json
      <desc>
 	 The user_data may be available from inside the Machine using one of
 the following three methods: Metadata server, Disk or Image Modification - depending on the provider under test. SSH to the machine using the address found the step above and use the user_data access method supported by the provider to check that the user_data is accessible from the machine.
+You can discover the specific mechanism in use for this provider by querying the capabilities
+attribute of the Machine ResourceMetadata resource.
      </desc>
 
     <succ>
