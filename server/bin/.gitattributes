@@ -1,1 +1,2 @@
 deltacloudd -crlf
+deltacloud-db-upgrade -crlf
