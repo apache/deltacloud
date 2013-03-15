@@ -23,8 +23,8 @@ class CIMI::Service::AddressTemplate < CIMI::Service::Base
         current_db.address_templates.map { |t| from_db(t, context) }
       end
     else
-      if context.driver.respond_to? :address_template
-        context.driver.address_template(context.credentials, :id => id, :env=>context)
+      if context.driver.respond_to? :address_templates
+        context.driver.address_templates(context.credentials, :id => id, :env=>context)
       else
         template = current_db.address_templates_dataset.first(:id => id)
         raise CIMI::Model::NotFound unless template
