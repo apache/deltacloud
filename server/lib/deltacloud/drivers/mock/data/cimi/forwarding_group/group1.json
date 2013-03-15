@@ -1,4 +1,4 @@
-{ "id": "http://cimi.example.org/routing_groups/group1",
+{ "id": "http://cimi.example.org/forwarding_groups/group1",
   "name": "group1",
   "description": "a mock routing group",
   "created": "Thu Jan 12 16:02:56 EET 2012",
@@ -7,7 +7,7 @@
     { "href": "http://cimi.example.org/networks/network2"}
   ],
   "operations": [
-    { "rel": "edit", "href": "http://cimi.example.org/routing_groups/group1" },
-    { "rel": "delete", "href": "http://cimi.example.org/routing_groups/group1" }
+    { "rel": "edit", "href": "http://cimi.example.org/forwarding_groups/group1" },
+    { "rel": "delete", "href": "http://cimi.example.org/forwarding_groups/group1" }
   ]
 }
