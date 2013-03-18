@@ -111,11 +111,12 @@ This collection is not supported by all back-end cloud providers and at present,
 </p>
 
 <ul>
-<li>a <strong>list of instances</strong>;</li>
+  <li>a <strong>list of instances</strong>;</li>
   <li>a <strong>public address</strong> representing the IP address that the balancer will respond on to client requests;</li>
   <li>a <strong>created_at</strong> timestamp; and</li>
   <li>a list of <strong>listeners</strong>.</li>
 </ul>
+
 <p>
 Each <strong>listener</strong> has a <strong>protocol</strong> (e.g. TCP), a <strong>load balancer port</strong> and an <strong>instance port</strong>. The load balancer represents the port on which the balancer accepts connections. The instance port represents the port on which network traffic is forwarded to instances in the <strong>instance list</strong>.
 </p>
@@ -124,14 +125,14 @@ Each <strong>listener</strong> has a <strong>protocol</strong> (e.g. TCP), a <st
   <div class="span3">
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
   <li><a href="api-entry-point.html">API entry point</a></li>
   <li><a href="compute-resources.html">Compute resources</a></li>
   <ul class="nav nav-list">
-<li><a href="realms.html">Realms</a></li>
+    <li><a href="realms.html">Realms</a></li>
     <li><a href="hardware-profiles.html">Hardware profiles</a></li>
     <li><a href="images.html">Images</a></li>
     <li><a href="instance-states.html">Instance states</a></li>
@@ -141,19 +142,24 @@ Each <strong>listener</strong> has a <strong>protocol</strong> (e.g. TCP), a <st
     <li><a href="addresses.html">Addresses</a></li>
     <li class="active"><a href="#load">Load balancers</a></li>
   </ul>
-<li><a href="storage-resources.html">Storage resources</a></li>
+  <li><a href="storage-resources.html">Storage resources</a></li>
 </ul>
-</div>
+
+  </div>
 </div>
 
 <p><br></p>
 
 <ul class="nav nav-pills">
-<li class="active"><a href="#tab1" data-toggle="tab">Get the details of all load balancers</a></li>
+  <li class="active"><a href="#tab1" data-toggle="tab">Get the details of all load balancers</a></li>
   <li><a href="#tab2" data-toggle="tab">Get the details for a load balancer</a></li>
   <li><a href="#tab3" data-toggle="tab">Create/delete a load balancer</a></li>
   <li><a href="#tab4" data-toggle="tab">Register/unregister an instance</a></li>
-</ul><hr><div class="tab-content">
+</ul>
+
+<hr>
+
+<div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
 
@@ -417,6 +423,7 @@ Date: Thu, 28 Jul 2011 19:09:17 GMT
 <p><a class="btn btn-inverse btn-large" style="float: right" href="storage-resources.html">Storage resources <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

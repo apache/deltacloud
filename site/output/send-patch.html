@@ -98,18 +98,20 @@
       <p><br></p>
 
 <ul class="breadcrumb">
-<li>
+  <li>
     <a href="how-to-contribute.html#how">How to contribute?</a> <span class="divider">/</span>
   </li>
   <li class="active">Send a patch</li>
-</ul><h3>Formatting and sending patches</h3>
+</ul>
+
+<h3>Formatting and sending patches</h3>
 
 <p>
 The Deltacloud community works with <a href="http://book.git-scm.com/">Git</a>. The process of contributing to the project we prefer contains these steps: <strong>local_branch → patch → review → accept → commit</strong> process for contributing to the project. This is how the typical workflow used by the core developers looks like:
 </p>
 
 <ol>
-<li>
+  <li>
   <p>
   Set the following settings inside the git configuration file. The config file is located in the root of the Deltacloud project in a hidden <strong>.git</strong> directory. Open the config file with your preferred editor:
   </p>
@@ -236,12 +238,14 @@ $ git send-email --compose --subject 'some subject'
   The other members of the community will review your patches. The patch has to receive at least one <strong>ACK </strong>and no <strong>NACK</strong> to be approved. Then the patch will be committed by one of the Deltacloud developers with commit rights to the Apache repo. If noone is responding to your patch sent to mailing list, feel free to remind yourself after few days.
   </p>
   </li>
-</ol><p>
+</ol>
+
+<p>
 You can also contribute to the project by reviewing patches sent by other contributors:
 </p>
 
 <ol>
-<li>
+  <li>
   <p>
   Make a new branch where you will apply the patches and test:
   </p>
@@ -277,7 +281,9 @@ $ git am /path/to/patches/0001-name-of-patch.eml
 If you think the patches are working correctly, send an <strong>ACK</strong> to the Deltacloud <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/">mailing list</a>. Similarly, if you think the patches could cause a problem, send a <strong>NACK</strong> and explain the issue you have found.
 </p>
   </li>
-</ol><p>
+</ol>
+
+<p>
   <a class="btn btn-inverse btn-large" style="float: right" data-toggle="modal" href="#tests">Test the patch</a>
   <a class="btn btn-inverse btn-large" href="how-to-contribute.html"><i class="icon-arrow-left icon-white" style="vertical-align:baseline"> </i> Back</a>
 </p>
@@ -332,6 +338,7 @@ $ cucumber ../tests/ec2
     <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
   </div>
 </div>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

@@ -120,7 +120,7 @@ Apache Deltacloud exposes the DMTF <a href="http://dmtf.org/cloud">Cloud Infrast
 
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     CIMI REST API
   </li>
   <li class="active"><a href="cimi-rest.html">Introduction</a></li>
@@ -131,14 +131,15 @@ Apache Deltacloud exposes the DMTF <a href="http://dmtf.org/cloud">Cloud Infrast
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
-<li><a href="cimi-rest/cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
+      <li><a href="cimi-rest/cimi-rest-resource-metadata.html">ResourceMetadata</a></li>
       <li><a href="cimi-rest/cimi-rest-collections.html">Machine</a></li>
       <li><a href="cimi-rest/cimi-rest-volumes.html">Volume</a></li>
     </ul>
-</li>
+  </li>
 
 </ul>
-</div>
+
+  </div>
 
 </div>
 <p>
@@ -149,10 +150,13 @@ This page shows examples of interactions with the CIMI interface exposed by a De
 In the following sections, the textual definitions following the title of each resource (e.g. "Machine") that are rendered in <strong><em>bold and italic type</em></strong> are taken from the CIMI 1.0.1 specification, available from the DMTF <a href="http://dmtf.org/cloud">Cloud Management Initiative</a> (DSP0263).
 </p>
 
-<hr><h3 id="cimi_rest_introduction">Starting Deltacloud with the CIMI interface</h3>
+<hr>
+
+<h3 id="cimi_rest_introduction">Starting Deltacloud with the CIMI interface</h3>
 
 <p>The <strong> –frontends (-f)</strong> flag is used to specify which frontends a deltacloud server should expose:
-<br><br></p>
+<br>
+<br></p>
 <pre>
 
 [user@name ~]$ deltacloudd -i ec2 -f cimi
@@ -168,6 +172,7 @@ Starting Deltacloud API :: ec2 :: http://localhost:3001/cimi/cloudEntryPoint
 The example above shows the deltacloud server with the CIMI interface and the EC2 driver. You can even expose both the deltacloud and the CIMI frontends with a single server, e.g. <strong> -f cimi,deltacloud </strong>.</p>
 
 <p>As can be seen above, starting deltacloud in this way will expose the CIMI <a href="cimi-rest-entry-point.html">cloud entry point</a> at localhost:3001/cimi/cloudEntryPoint.</p>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

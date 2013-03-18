@@ -98,11 +98,13 @@
       <p><br></p>
 
 <ul class="breadcrumb">
-<li>
+  <li>
     <a href="white-box-tests.html">White Box Tests?</a> <span class="divider">/</span>
   </li>
   <li class="active">Why Update The VCR Fixtures</li>
-</ul><p>
+</ul>
+
+<p>
 Deltacloud uses pre-recorded <a href="https://github.com/vcr/vcr">VCR</a> YAML
 files called <i>fixtures</i> to allow test execution without the need for a live
 cloud provider.
@@ -137,12 +139,12 @@ test does not yet exercise. <b>For Example:</b>
 </p>
 
 <ul>
-<li>
+  <li>
     <p>
     A bug is fixed in the EC2 driver, where <i>images()</i> method had not work properly.
     </p>
     <ol>
-<li>
+      <li>
         <p>Open <i>tests/drivers/ec2/images_tests.rb</i></p>
       </li>
       <li>
@@ -155,14 +157,14 @@ test does not yet exercise. <b>For Example:</b>
         </pre>
       </li>
     </ol>
-</li>
+  </li>
 
   <li>
     <p>
     Scenario: You added new collection <i>oranges()</i> into RHEV-M driver.
     </p>
     <ol>
-<li>
+      <li>
         <p>Write all driver methods tests here: <i>tests/drivers/rhevm/oranges_tests.rb</i></p>
       </li>
       <li>
@@ -172,7 +174,7 @@ test does not yet exercise. <b>For Example:</b>
         <p>Write all collection operations tests here ^^</p>
       </li>
     </ol>
-</li>
+  </li>
 
   <li>
     <p>
@@ -180,7 +182,7 @@ test does not yet exercise. <b>For Example:</b>
     operation does not provide correct status code. You corrected it.
     </p>
     <ol>
-<li>
+      <li>
         <p>Open 'tests/deltacloud/collections/images_collection_test.rb'</p>
       </li>
       <li>
@@ -193,9 +195,10 @@ test does not yet exercise. <b>For Example:</b>
         <p>Provide the correct value into 'status.must_equal' method</p>
       </li>
     </ol>
-</li>
+  </li>
 
 </ul>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

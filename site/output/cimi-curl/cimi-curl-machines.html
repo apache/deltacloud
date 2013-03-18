@@ -104,28 +104,31 @@
     <h3 id="command">cURL examples for CIMI Machine resources</h3>
 
 <ul class="nav nav-pills">
-<li class="active"><a href="#machines" data-toggle="tab">Working with Machines</a></li>
+  <li class="active"><a href="#machines" data-toggle="tab">Working with Machines</a></li>
   <li><a href="#machine-images" data-toggle="tab">Working with MachineImages</a></li>
   <li><a href="#machine-configs" data-toggle="tab">Working with MachineConfigurations</a></li>
   <li><a href="#machine-templates" data-toggle="tab">Working with MachineTemplates</a></li>
   <li><a href="#machine-volumes" data-toggle="tab">Working with Machine Volumes</a></li>
 </ul>
-</div>
+
+
+  </div>
 
   <div class="span4">
 
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     <a href="../cimi-curl.html">curl for CIMI Resources</a>
   </li>
   <ul class="nav nav-list">
-<li class="active"><a href="cimi-curl-machines.html">Machine</a></li>
+    <li class="active"><a href="cimi-curl-machines.html">Machine</a></li>
     <li><a href="cimi-curl-volumes.html">Volume</a></li>
     <li><a href="cimi-curl-resource_metadata.html">ResourceMetadata</a></li>
   </ul>
-<br>
+  <br>
 </ul>
-</div>
+
+  </div>
 
 </div>
 
@@ -134,6 +137,7 @@
   <div class="tab-pane active" id="machines">
 
 <hr>
+
 <h4 id="machines">Working with Machines</h4>
 
 <p>Retrieve the Machine Collection in json format:</p>
@@ -162,7 +166,10 @@ curl -v -X POST --user "mockuser:mockpassword" -H "Content-Type: application/xml
  curl -v -X POST --user "user:password" -H "Accept: application/json" -H "Content-Type: application/json" -d '{"resourceURI": "http://www.dmtf.org/cimi/1/Action", "action":"http://www.dmtf.org/cimi/action/stop"}' http://localhost:3001/cimi/machines/i-5feb7c20/stop
 </pre>
 
-<br><hr>
+<br>
+
+<hr>
+
 </div>
 
 <div class="tab-pane" id="machine-images">
@@ -192,7 +199,10 @@ curl -v --user "mockuser:mockpassword" -H "Content-Type: application/xml" -H "Ac
 
 <pre>curl -X DELETE --user "user:pass" http://localhost:3001/cimi/machine_images/my_image </pre>
 
-<br><hr>
+<br>
+
+<hr>
+
 </div>
 
 <div class="tab-pane" id="machine-configs">
@@ -260,7 +270,7 @@ curl -v --user "mockuser:mockpassword" -H "Accept: application/xml" http://local
 <p>Attach a Volume to a Machine, with XML body:</p>
 
 <pre>
-curl -v --user "mockuser:mockpassword" -H "Content-Type: application/xml" -H "Accept: application/xml" -X POST -d '<machinevolume xmlns="http://schemas.dmtf.org/cimi/1/MachineVolume"><initiallocation> /dev/sdf </initiallocation><volume href="http://localhost:3001/cimi/volumes/vol3"></volume></machinevolume>'  http://localhost:3001/cimi/machines/inst1/volume_attach
+curl -v --user "mockuser:mockpassword" -H "Content-Type: application/xml" -H "Accept: application/xml" -X POST -d '<machinevolume xmlns="http://schemas.dmtf.org/cimi/1/MachineVolume"><initiallocation> /dev/sdf </initiallocation> <volume href="http://localhost:3001/cimi/volumes/vol3"></volume></machinevolume>'  http://localhost:3001/cimi/machines/inst1/volume_attach
 </pre>
 
 <p>Attach a Volume to a Machine, with JSON body:</p>
@@ -277,6 +287,7 @@ curl -v --user "mockuser:mockpassword" -H "Accept: application/xml" -X DELETE ht
 
 </div>
 </div>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

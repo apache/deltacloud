@@ -107,81 +107,84 @@ An instance represents the core of all cloud compute activity: a running virtual
 </p>
 
 <table class="table table-condensed table-striped">
-<thead><tr>
-<th>Attribute</th>
+  <thead>
+    <tr>
+      <th>Attribute</th>
       <th>Meaning</th>
-    </tr></thead>
-<tbody>
-<tr>
-<td>owner_id</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+     <td>owner_id</td>
      <td>the id of the cloud provider account that launched the instance</td>
     </tr>
-<tr>
-<td>image_id</td>
+    <tr>
+      <td>image_id</td>
       <td>the id of the image from which the instance was launched</td>
     </tr>
-<tr>
-<td>name</td>
+    <tr>
+      <td>name</td>
       <td>a human readable name for the instance given at launch time</td>
     </tr>
-<tr>
-<td>realm_id</td>
+    <tr>
+      <td>realm_id</td>
       <td>realm into which the instance was launched</td>
     </tr>
-<tr>
-<td>state</td>
+    <tr>
+      <td>state</td>
       <td>current state of the instance (e.g. 'running')</td>
     </tr>
-<tr>
-<td>actions</td>
+    <tr>
+      <td>actions</td>
       <td>actions that a client may effect on the instance, based on current state</td>
     </tr>
-<tr>
-<td>public_addresses</td>
+    <tr>
+      <td>public_addresses</td>
       <td>the globally routable IP address of the instance</td>
     </tr>
-<tr>
-<td>private_addresses</td>
+    <tr>
+      <td>private_addresses</td>
       <td>the private IP address of the instance, routable within its private network</td>
     </tr>
-<tr>
-<td>instance_profile</td>
+    <tr>
+      <td>instance_profile</td>
       <td>the specific values of memory, cpu, storage</td>
     </tr>
-<tr>
-<td>launch_time</td>
+    <tr>
+      <td>launch_time</td>
       <td>timestamp at which the instance was launched</td>
     </tr>
-<tr>
-<td>keyname</td>
+    <tr>
+      <td>keyname</td>
       <td>name of authentication key, if this method is used for authentication (e.g. EC2)</td>
     </tr>
-<tr>
-<td>username</td>
+    <tr>
+      <td>username</td>
       <td>the username for authentication when connecting to the instance</td>
     </tr>
-<tr id="instance">
-<td>password</td>
+    <tr id="instance">
+      <td>password</td>
       <td>the password used together with username above</td>
     </tr>
-<tr>
-<td>firewalls</td>
+    <tr>
+      <td>firewalls</td>
       <td>the firewalls that this instance was launched into (EC2 specific)</td>
     </tr>
-</tbody>
+  </tbody>
 </table>
-</div>
+
+  </div>
   <div class="span3">
   
 <ul class="nav nav-list well">
-<li class="nav-header">
+  <li class="nav-header">
     REST API
   </li>
   <li><a href="rest-api.html">Introduction</a></li>
   <li><a href="api-entry-point.html">API entry point</a></li>
   <li><a href="compute-resources.html">Compute resources</a></li>
   <ul class="nav nav-list">
-<li><a href="compute-resources.html">Realms</a></li>
+    <li><a href="compute-resources.html">Realms</a></li>
     <li><a href="hardware-profiles.html">Hardware profiles</a></li>
     <li><a href="images.html">Images</a></li>
     <li><a href="instance-states.html">Instance states</a></li>
@@ -191,17 +194,22 @@ An instance represents the core of all cloud compute activity: a running virtual
     <li><a href="addresses.html">Addresses</a></li>
     <li><a href="load-balancers.html">Load balancers</a></li>
   </ul>
-<li><a href="storage-resources.html">Storage resources</a></li>
+  <li><a href="storage-resources.html">Storage resources</a></li>
 </ul>
-</div>
+
+  </div>
 </div>
 
 <ul class="nav nav-pills">
-<li id="instance1" class="active"><a href="#tab1" data-toggle="tab">Get a list of all instances</a></li>
+  <li id="instance1" class="active"><a href="#tab1" data-toggle="tab">Get a list of all instances</a></li>
   <li id="instance2"><a href="#tab2" data-toggle="tab">Get the details of an instance</a></li>
   <li id="instance3"><a href="#tab3" data-toggle="tab">Launch an action</a></li>
   <li id="instance4"><a href="#tab4" data-toggle="tab">Create an instance</a></li>
-</ul><hr><div class="tab-content">
+</ul>
+
+<hr>
+
+<div class="tab-content">
   <div class="tab-pane active" id="tab1">
 
   <h4 id="list">Get a list of all current instances</h4>
@@ -713,6 +721,7 @@ Content-Length: 883
 <p><a class="btn btn-inverse btn-large" style="float: right" href="keys.html">Keys <i class="icon-arrow-right icon-white" style="vertical-align:baseline"> </i></a></p>
 
 <p><br></p>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

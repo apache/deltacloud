@@ -98,11 +98,13 @@
       <p><br></p>
 
 <ul class="breadcrumb">
-<li>
+  <li>
     <a href="white-box-tests.html">White Box Tests?</a> <span class="divider">/</span>
   </li>
   <li class="active">Updating VCR Fixtures Example</li>
-</ul><h3>An Example of Re-recording the VCR test fixtures.</h3>
+</ul>
+
+<h3>An Example of Re-recording the VCR test fixtures.</h3>
 
 <p>
 Below is an example of recording new fixtures for the test:
@@ -116,9 +118,10 @@ More information can be found on the past recording of the
 </p>
 
 <ol>
-<li>
+  <li>
     <p> Create ${HOME}/.deltacloud/config</p>
-    <br><p> Create the deltacloud config file: ${HOME}/.deltacloud/config</p>
+    <br>
+    <p> Create the deltacloud config file: ${HOME}/.deltacloud/config</p>
     to contain the credentials and provider resource UUIDs
 
     <pre>
@@ -140,7 +143,8 @@ More information can be found on the past recording of the
 </li>
 <li>
     <p>Set the VCR record mode to <i>all</i></p>
-    <br><p> Note: This does not cause <i>all</i> tests to be recorded.
+    <br>
+    <p> Note: This does not cause <i>all</i> tests to be recorded.
     It instructs VCR to record new fixtures data for the test to
     be run in the next step.</p>
 
@@ -174,7 +178,8 @@ More information can be found on the past recording of the
 
   <li>
     <p>Disable record mode.
-    <br></p>
+    <br>
+    </p>
 <p>This will allow the test to be run in playback mode using the
     recorded  fixtures data.</p>
 
@@ -209,6 +214,7 @@ More information can be found on the past recording of the
 </repo></pre>
 </li>
 </ol>
+
 
       <footer class="footer">
         <p class="pull-right"><span class='icon-circle-arrow-up'>&nbsp;</span><a href="#">Back to top</a></p>

@@ -5,7 +5,7 @@ title: Download
 <br/>
 <h3>Download</h3>
 <p>
-  Version <b>1.1.1</b> of Apache Deltacloud is available. See the
+  Version <b>1.1.2</b> of Apache Deltacloud is available. See the
   <a href="https://git-wip-us.apache.org/repos/asf?p=deltacloud.git;a=blob;f=NEWS">release notes</a>.
 </p>
 <p>
@@ -21,44 +21,44 @@ title: Download
     <tr>
       <td><strong>server-gem</strong></td>
       <td>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.gem">deltacloud-core-1.1.1.gem</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.gem">deltacloud-core-1.1.2.gem</a>
         (
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.gem.asc">PGP</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.gem.md5">MD5</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.gem.sha1">SHA1</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.gem.asc">PGP</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.gem.md5">MD5</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.gem.sha1">SHA1</a>
         )
       </td>
     </tr>
     <tr>
       <td><strong>server-sources</strong></td>
       <td>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.tgz">deltacloud-core-1.1.1.tgz</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.tgz">deltacloud-core-1.1.2.tgz</a>
         (
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.tgz.asc">PGP</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.tgz.md5">MD5</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.1.tgz.sha1">SHA1</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.tgz.asc">PGP</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.tgz.md5">MD5</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-core-1.1.2.tgz.sha1">SHA1</a>
         )
       </td>
     </tr>
     <tr>
       <td><strong>client-gem</strong></td>
       <td>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.gem">deltacloud-client-1.1.1.gem</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.gem">deltacloud-client-1.1.2.gem</a>
         (
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.gem.asc">PGP</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.gem.md5">MD5</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.gem.sha1">SHA1</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.gem.asc">PGP</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.gem.md5">MD5</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.gem.sha1">SHA1</a>
         )
       </td>
     </tr>
     <tr>
       <td><strong>client-sources</strong></td>
       <td>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.tgz">deltacloud-client-1.1.1.tgz</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.tgz">deltacloud-client-1.1.2.tgz</a>
         (
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.tgz.asc">PGP</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.tgz.md5">MD5</a>
-        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.1.tgz.sha1">SHA1</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.tgz.asc">PGP</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.tgz.md5">MD5</a>
+        <a href="http://www.apache.org/dyn/closer.cgi?path=deltacloud/stable/deltacloud-client-1.1.2.tgz.sha1">SHA1</a>
         )
       </td>
     </tr>
@@ -104,15 +104,15 @@ title: Download
 </p>
 <pre>
 $ pgpk -a KEYS
-$ pgpv deltacloud-core-1.1.1.tar.gz.asc
+$ pgpv deltacloud-core-1.1.2.tar.gz.asc
 </pre>
 or
 <pre>
 $ pgp -ka KEYS
-$ pgp deltacloud-core-1.1.1.tar.gz.asc
+$ pgp deltacloud-core-1.1.2.tar.gz.asc
 </pre>
 or
 <pre>
 $ gpg --import KEYS
-$ gpg --verify deltacloud-core-1.1.1.tar.gz.asc
+$ gpg --verify deltacloud-core-1.1.2.tar.gz.asc
 </pre>
