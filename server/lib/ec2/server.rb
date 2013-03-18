@@ -29,7 +29,7 @@ module Deltacloud::EC2
     extend Deltacloud::Helpers::Drivers
 
     use Rack::ETag
-    use Deltacloud[:ec2].logger
+    use Deltacloud[:ec2].logger unless RUBY_PLATFORM == 'java'
 
     helpers Sinatra::AuthHelper
     helpers Deltacloud::Helpers::Drivers
@@ -38,6 +38,7 @@ module Deltacloud::EC2
     enable :xhtml
     enable :dump_errors
     enable :show_errors
+    enable :logging
     disable :show_exceptions
 
     set :config, Deltacloud[:ec2]
