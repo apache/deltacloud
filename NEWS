@@ -1,3 +1,54 @@
+1.1.2 - 2013-03-13
+  * Deltacloud
+    + Introducing the 'deltacloud-db-upgrade' command for CIMI database
+    + Introducing the 'initializers'
+    + Fixed various JRuby issues, Deltacloud now runs on Puma web server
+    + Added possibility to defined multiple features in drivers per one-line
+    + Fixed Deltacloud logging when running as a daemon
+    + Improvements in how we load sinatra-rabbit collections
+    + Fixed JSON/XML serialization of 'realms'
+    + Fixed improper exception handling (DTACLOUD-489)
+    + Fixed namespacing issues in sinatra-rabbit
+    + Improved the 'filter_on' helper we use in drivers
+    + Improved compatibility with upcoming Ruby 2.0
+    + Deltacloud models now live in Deltacloud:: namespace (DTACLOUD-507)
+  * CIMI
+    + Introducing the CIMI 'create' entities (MachineCreate, MachineTemplateCreate, etc.)
+    + CIMI models are now properly validated when they are created
+    + General improvements in database support
+    + Introducing initial System entity support
+    + The 'rake cimi:routes' now display all CIMI entities and their routes
+    + Added support for 'referenced' entities in CIMI models
+    + (VolumeConfig): add missing type attribute
+    + (MachineCreate): pass initialState to driver
+    + Added possibility to use 'references' in 'array'
+  * Drivers:
+    + Mock
+      - General cleanup in Mock driver code, removed unused requires/etc
+      - Restored previously removed Network operations
+      - Initial import of CIMI System entities (dkoper)
+      - Create/delete blobs - update bucket size (DTACLOUD-498)
+    + FGCP
+      - Added code to exclude resources that were deleted during retrieval
+      - Added support for storage_volume creation from snapshot (DTACLOUD-492)
+      - Added mapping for GET system and system_templates (CIMI)
+      - Added many unit tests
+    + OpenStack
+      - Remaped 'regions' to 'providers' (DTACLOUD-488)
+      - Remove realm<->region mapping for created Instances (DTACLOUD-477)
+    + DigitalOcean
+      - Added :authentication_key feature to instances
+      - Added 'valid_credentials?' method for digital_ocean driver
+      - Fix filtering of realms (DTACLOUD-503)
+      - Define default :realm_id and :hwp_id for create_instance
+      - Advertise :destroy operation when instance is STOPPED
+    + RHEV-M
+      - Avoid failure of GET instance details (DTACLOUD-462)
+    + VSphere
+      - Added support for StoragePod
+    + Opennebula
+      - Fix when computehash['INSTANCE_TYPE'] is nil
+
 1.1.1 - 2013-02-13
  * Deltacloud
   + API CHANGES
