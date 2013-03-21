@@ -162,24 +162,53 @@ module Deltacloud
 
         def instances(credentials, opts={})
           os = new_client(credentials)
-          insts = attachments = []
+          insts = attachments = ports = []
           safely do
+            if quantum = have_quantum?(credentials)
+              ports = quantum.ports
+            end
             if opts[:id]
               begin
                 server = os.get_server(opts[:id])
-                insts << convert_from_server(server, os.connection.authuser, get_attachments(opts[:id], os))
+                net_bind = get_net_bindings_for(server.id, ports)
+                insts << convert_from_server(server, os.connection.authuser, get_attachments(opts[:id], os), net_bind)
               rescue => e
                 raise e unless e.message =~ /The resource could not be found/
                 insts = []
               end
             else
               insts = os.list_servers_detail.collect do |s|
-                convert_from_server(s, os.connection.authuser,get_attachments(s[:id], os))
+                net_bind = get_net_bindings_for(s[:id], ports)
+                convert_from_server(s, os.connection.authuser,get_attachments(s[:id], os), net_bind)
               end
             end
           end
           insts = filter_on( insts, :state, opts )
           insts
+        end
+
+        #le port:
+        #=> #<OpenStack::Network::Port:0x95a833c @id="d601db9e-c936-4811-904a-bb5a27d105f3", @network_id="c4dfe90e-a7ce-41f7-b9b2-2f9773f42a6b", @name="", @admin_state_up=true, @status="ACTIVE", @mac_address="fa:16:3e:f4:e8:bc", @fixed_ips=[{"subnet_id"=>"f78bfc05-ead0-40a6-8325-a35eb2b535c3", "ip_address"=>"10.0.0.4"}], @device_id="fe4022fa-a77c-4adf-be45-6e069fb3a314", @device_owner="", @tenant_id="7be215d541ea4db4a23b3a84b0882408">
+        def get_net_bindings_for(server_id, ports)
+          return [] if ports.empty?
+          net_bind = []
+          ports.each do |port|
+            if port.device_id == server_id
+              port.fixed_ips.each do |fix_ip|
+                net_bind << {:network=> port.network_id, :subnet=>fix_ip["subnet_id"] , :ip_address=>fix_ip["ip_address"]}
+              end
+            end
+          end
+          net_bind
+        end
+
+        def have_quantum?(credentials)
+          begin
+            quantum = new_client(credentials, "network")
+          rescue => e
+            return nil
+          end
+          quantum
         end
 
         def create_instance(credentials, image_id, opts)
@@ -203,7 +232,13 @@ module Deltacloud
           end
           safely do
             server = os.create_server(params)
-            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os))
+            net_bind = []
+            if opts[:network_id] && opts[:subnet_id] && (quantum=have_quantum?(credentials)) #place instance into a network
+              port = quantum.create_port(opts[:network_id], {"fixed_ips"=>[{"subnet_id"=>opts[:subnet_id]}], "device_id"=>server.id})
+              net_bind = [{:network=>opts[:network], :subnet=>opts[:subnet_id], :ip_address=>port.fixed_ips.first["ip_address"]}]
+              server.refresh
+            end
+            result = convert_from_server(server, os.connection.authuser, get_attachments(server.id, os), net_bind)
           end
           result
         end
@@ -224,6 +259,13 @@ module Deltacloud
           safely do
             server = os.get_server(instance_id)
             server.delete!
+            if quantum = have_quantum?(credentials) #destroy ports if any
+              quantum.ports.each do |port|
+                if port.device_id == server.id
+                  quantum.delete_port(port.id)
+                end
+              end
+            end
           end
           begin
             server.populate
@@ -473,6 +515,160 @@ module Deltacloud
           end
         end
 
+        def networks(credentials, opts={})
+          os = new_client(credentials, "network")
+          networks = []
+          safely do
+            subnets = os.subnets
+            os.networks.each do |net|
+              addr_blocks = get_address_blocks_for(net.id, subnets)
+              networks << convert_network(net, addr_blocks)
+            end
+          end
+          networks = filter_on(networks, :id, opts)
+        end
+
+        def get_address_blocks_for(network_id, subnets)
+          return [] if subnets.empty?
+          addr_blocks = []
+          subnets.each do |sn|
+            if sn.network_id == network_id
+              addr_blocks << sn.cidr
+            end
+          end
+          addr_blocks
+        end
+
+
+        def convert_network(net, addr_blocks)
+          Network.new({ :id => net.id,
+                        :name => net.name,
+                        :subnets => net.subnets,
+                        :state => (net.admin_state_up ? "UP" : "DOWN"),
+                        :address_blocks => addr_blocks
+                        #NOT USED :address_block, :ports
+          })
+        end
+
+        #require params for openstack: {:name}
+        def create_network(credentials, opts={})
+          os = new_client(credentials, "network")
+          safely do
+            net = os.create_network(opts[:name] || "net_#{Time.now.to_i}")
+            convert_network(net)
+          end
+        end
+
+        def destroy_network(credentials, id)
+          os = new_client(credentials, "network")
+          safely do
+            os.delete_network(id)
+          end
+        end
+
+        #can update name or admin_state_up (true/false)
+        def update_network(credentials, opts={})
+          os = new_client(credentials, "network")
+          safely do
+            os.update_network(opts)
+          end
+        end
+
+        #you can list all subnets - don't need to supply network_id
+        #each subnet returned 'knows' its parent network_id
+        #no opts - could use opts for filtering = e.g. ?name=foo
+        def subnets(credentials, opts={})
+          os = new_client(credentials, "network")
+          subnets = []
+          safely do
+            os.subnets.each do |subnet|
+              subnets << convert_subnet(subnet)
+            end
+          end
+          subnets = filter_on(subnets, :id, opts)
+        end
+
+        def convert_subnet(subnet)
+          Subnet.new({  :id => subnet.id,
+                        :name => subnet.name,
+                        :network => subnet.network_id,
+                        :address_block => subnet.cidr,  #or allocation_pools? start..end
+                        #  :state :type
+                        # in quantum, ports have a 'network_id'
+          })
+        end
+
+        #required params:  :network_id, cidr_block
+        #optional params:  :ip_version, :gateway_ip, :allocation_pools
+        def create_subnet(credentials, opts={})
+          os = new_client(credentials, "network")
+          safely do
+            convert_subnet(os.create_subnet(opts[:network_id], opts[:address_block]))
+          end
+        end
+
+        #can update gateway_ip, name
+        def update_subnet(credentials, opts={})
+          os = new_client(credentials, "network")
+          safely do
+            os.update_subnet()
+          end
+        end
+
+        def destroy_subnet(credentials, subnet_id)
+          os = new_client(credentials, "network")
+          safely do
+            os.delete_subnet(subnet_id)
+          end
+        end
+
+#        def ports(credentials, opts={})
+#          os = new_client(credentials, "network")
+#          ports = []
+#          safely do
+#            os.ports.each do |port|
+#              ports << convert_port(port)
+#            end
+#          end
+#          ports
+#        end
+#
+#        def convert_port(port)
+#          Port.new({  :id => port.id,
+#                      :attachment => port.device_id,
+#                      :network => port.network_id, #network, not subnet
+#                      :mac_address => port.mac_address,
+#                      :state => (port.admin_state_up ? "UP" : "DOWN" ), # true/false
+#                      :ip_address => port.fixed_ips # this is a structure; like  [{"subnet_id": "f45087fa-a673-4c98-ba9e-e21642448997", "ip_address": "10.0.0.5"}] - COULD BE >1 address here...
+#                      # UNUSED/no mapping for :type,  :attachment (can be inferred from IP address(es)?)
+#          })
+#        end
+#
+#        #required params: network_id
+#        #optional params: name, mac_address, state, fixedIP (subnet_id AND/OR IP)
+#        def create_port(credentials, opts={})
+#          os = new_client(credentials, "network")
+#          safely do
+#            convert_port(os.create_port(opts))
+#          end
+#        end
+#
+#
+#        #can update name, device_id, state (what else? not clear from API docs)
+#        def update_port(credentials, opts={})
+#          os = new_client(credentials, "network")
+#          safely do
+#            os.update_port(opts[:id], opts)
+#          end
+#        end
+#
+#        def destroy_port(credentials, port_id)
+#          os = new_client(credentials, "network")
+#          safely do
+#            os.delete_port(port_id)
+#          end
+#        end
+#
 private
         #for v2 authentication credentials.name == "username+tenant_name"
         def new_client(credentials, type="compute", ignore_provider=false)
@@ -495,7 +691,7 @@ private
           connection_params.merge!({:region => region}) if region && !ignore_provider # hack needed for 'def providers'
           safely do
             raise ValidationFailure.new(Exception.new("Error: tried to initialise Openstack connection using" +
-                    " an unknown service_type: #{type}")) unless ["volume", "compute", "object-store"].include? type
+                    " an unknown service_type: #{type}")) unless ["volume", "compute", "object-store", "network"].include? type
             OpenStack::Connection.create(connection_params)
            end
         end
@@ -529,7 +725,7 @@ private
                     })
         end
 
-        def convert_from_server(server, owner, attachments=[])
+        def convert_from_server(server, owner, attachments=[], net_bind=[])
           op = (server.class == Hash)? :fetch : :send
           image = server.send(op, :image)
           flavor = server.send(op, :flavor)
@@ -538,7 +734,7 @@ private
             rescue IndexError
               password = ""
           end
-          inst = Instance.new(
+          inst_params = {
             :id => server.send(op, :id).to_s,
             :realm_id => "default",
             :owner_id => owner,
@@ -555,7 +751,11 @@ private
             :keyname => server.send(op, :key_name),
             :launch_time => server.send(op, :created),
             :storage_volumes => attachments.inject([]){|res, cur| res << {cur[:volumeId] => cur[:device]} ;res}
-          )
+          }
+          unless net_bind.empty?
+            inst_params.merge!(:network_bindings=>net_bind)
+          end
+          inst = Instance.new(inst_params)
           inst.actions = instance_actions_for(inst.state)
           inst.create_image = 'RUNNING'.eql?(inst.state)
           inst
