@@ -1,0 +1,4 @@
+!!!XML
+%networks
+  - @elements.each do |c|
+    = haml :'networks/show', :locals => { :@network => c, :partial => true }
