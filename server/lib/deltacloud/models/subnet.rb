@@ -1,3 +1,4 @@
+#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.  The
@@ -13,24 +14,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require_relative 'models/base_model'
-require_relative 'models/address'
-require_relative 'models/blob'
-require_relative 'models/bucket'
-require_relative 'models/firewall'
-require_relative 'models/firewall_rule'
-require_relative 'models/hardware_profile'
-require_relative 'models/image'
-require_relative 'models/instance'
-require_relative 'models/instance_address'
-require_relative 'models/instance_profile'
-require_relative 'models/key'
-require_relative 'models/load_balancer'
-require_relative 'models/metric'
-require_relative 'models/provider'
-require_relative 'models/realm'
-require_relative 'models/state_machine'
-require_relative 'models/storage_snapshot'
-require_relative 'models/storage_volume'
-require_relative 'models/network'
-require_relative 'models/subnet'
+module Deltacloud
+class Subnet < BaseModel
+
+  attr_accessor :name
+  attr_accessor :network
+  attr_accessor :address_block
+  attr_accessor :state
+  attr_accessor :type
+
+end
+end
