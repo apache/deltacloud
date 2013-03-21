@@ -23,17 +23,34 @@ title: Contact
 
 We have weekly community calls that are open to anyone that is interested in Deltacloud - please contact us if you'd like to join the next call.
 
-For now we're using an <a href="http://openetherpad.org/DeltacloudCall">etherpad</a> to keep track of the agenda and meeting times. Feel free to add items there that you'd like to see addressed in future calls. Calls and agenda are announced on the  <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/">dev@deltacloud.apache.org</a> mailing list.
+For now we're using an <a href="http://etherpad.deltacloud.org/p/Weekly">etherpad</a> to keep track of the agenda and meeting times. Feel free to add items there that you'd like to see addressed in future calls. Calls and agenda are announced on the  <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/">dev@deltacloud.apache.org</a> mailing list.
 
 <br>
 
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://www.youtube.com/watch?v=_2j6v4qwfzM">Deltacloud Community Call #16</a>
+
+<ul>
+<li>Released 1.1.2</li>
+<li>A high level overview of: "Complete rewrite of deltacloud-client"</li>
+</ul>
+
+<br>
+<a href="http://youtu.be/e6AAJXSxR1U">Deltacloud Community Call #15</a>
+
+<ul>
+<li>Awesome features of the new deltacloud-client</li>
+<li>Deltacloud upstream contributions showcase</li>
+<li>Validate Contributions Using the White Box Tests</li>
+</ul>
+
+<br>
 <a href="http://youtu.be/89bu_Rf_t9Y">Deltacloud Community Call #14</a>
 
 Using the Create models in CIMI, Split CIMI models to Model/Service, deltacloud-client revamp <br/>
-Notes@http://openetherpad.org/DeltacloudCall
+Notes@<a href="http://etherpad.deltacloud.org/p/Weekly">http://etherpad.deltacloud.org/p/Weekly</a>
 
 <br>
 <a href="http://youtu.be/74KvoLUOmYw">Deltacloud Community Call #13</a>
