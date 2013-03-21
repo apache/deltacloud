@@ -19,10 +19,9 @@ module Deltacloud::Client
 
       # Retrieve list of all realms
       #
-      # Filter options:
-      #
-      # - :id -> Filter realms using their 'id'
-      # - :state -> Filter realms  by their 'state'
+      # - filter_opts:
+      #   - :id -> Filter realms using their 'id'
+      #   - :state -> Filter realms  by their 'state'
       #
       def realms(filter_opts={})
         from_collection :realms,

@@ -19,9 +19,8 @@ module Deltacloud::Client
 
       # Retrieve list of all bucket entities
       #
-      # Filter options:
-      #
-      # - :id -> Filter entities using 'id' attribute
+      # - filter_opts:
+      #   - :id -> Filter entities using 'id' attribute
       #
       def buckets(filter_opts={})
         from_collection :buckets,
@@ -39,7 +38,7 @@ module Deltacloud::Client
 
       # Create a new bucket
       #
-      # - create_opts
+      # - name: Bucket name
       #
       def create_bucket(name)
         create_resource :bucket, :name => name

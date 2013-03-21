@@ -19,10 +19,9 @@ module Deltacloud::Client
 
       # Retrieve list of all drivers
       #
-      # Filter options:
-      #
-      # - :id -> Filter drivers using their 'id'
-      # - :state -> Filter drivers  by their 'state'
+      # - filter_opt:
+      #   - :id -> Filter drivers using their 'id'
+      #   - :state -> Filter drivers  by their 'state'
       #
       def drivers(filter_opts={})
         from_collection(

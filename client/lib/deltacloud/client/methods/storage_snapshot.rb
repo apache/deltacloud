@@ -19,9 +19,8 @@ module Deltacloud::Client
 
       # Retrieve list of all storage_snapshot entities
       #
-      # Filter options:
-      #
-      # - :id -> Filter entities using 'id' attribute
+      # - filter_options:
+      #   - :id -> Filter entities using 'id' attribute
       #
       def storage_snapshots(filter_opts={})
         from_collection :storage_snapshots,
@@ -41,8 +40,8 @@ module Deltacloud::Client
       #
       # - volume_id -> ID of the +StorageVolume+ to create snapshot from
       # - create_opts ->
-      #   :name -> Name of the StorageSnapshot
-      #   :description -> Description of the StorageSnapshot
+      #   - :name -> Name of the StorageSnapshot
+      #   - :description -> Description of the StorageSnapshot
       #
       def create_storage_snapshot(volume_id, create_opts={})
         create_resource :storage_snapshot, create_opts.merge(:volume_id => volume_id)

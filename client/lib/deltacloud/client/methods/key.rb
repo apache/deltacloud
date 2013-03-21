@@ -19,9 +19,8 @@ module Deltacloud::Client
 
       # Retrieve list of all key entities
       #
-      # Filter options:
-      #
-      # - :id -> Filter entities using 'id' attribute
+      # - filter_opts:
+      #   - :id -> Filter entities using 'id' attribute
       #
       def keys(filter_opts={})
         from_collection :keys,

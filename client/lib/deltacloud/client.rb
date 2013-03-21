@@ -39,7 +39,7 @@ module Deltacloud
     require_relative './client/methods/backward_compatiblity'
 
     # Extend Client module with methods that existed in old client
-    # and we want to keep them.
+    # that need to be kept.
     # Deprecation warnings should be provided to users if they use something
     # from these modules.
     #

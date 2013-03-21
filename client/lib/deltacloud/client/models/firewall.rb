@@ -26,12 +26,6 @@ module Deltacloud::Client
     attr_reader :owner_id
     attr_reader :rules
 
-    # Firewall model methods
-    #
-    # def reboot!
-    #   firewall_reboot(_id)
-    # end
-
     # Parse the Firewall entity from XML body
     #
     # - xml_body -> Deltacloud API XML representation of the firewall

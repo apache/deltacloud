@@ -22,19 +22,19 @@ module Deltacloud
     # In case there is no error returned in body, it will try to use
     # the generic error reporting.
     #
-    # - klass -> Deltacloud::Client::+Class+
+    # - name    -> Deltacloud::Client::+Class+
+    # - error   -> Deltacloud XML error representation
     # - message -> Exception message (overiden by error body message if
     #              present)
-    # - error -> Deltacloud XML error representation
     #
     def client_error(name, error, message=nil)
       args = {
         :message => message,
         :status => error ? error[:status] : '500'
       }
-      # If Deltacloud API send error in response body, parse it.
-      # Otherwise, when DC API send just plain text error, use
-      # it as exception message.
+      # If Deltacloud API sends an error in the response body, parse it.
+      # Otherwise, when DC API sends just plain text error, use
+      # it as the exception message.
       # If DC API does not send anything back, then fallback to
       # the 'message' attribute.
       #
@@ -52,7 +52,8 @@ module Deltacloud
       @app.call(env).on_complete do |e|
         case e[:status].to_s
         when '401'
-          raise client_error(:authentication_error, e, 'Invalid :api_user or :api_password')
+          raise client_error(:authentication_error, e,
+            'Invalid :api_user or :api_password')
         when '405'
           raise client_error(
             :invalid_state, e, 'Resource state does not permit this action'

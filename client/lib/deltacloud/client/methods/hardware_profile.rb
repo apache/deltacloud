@@ -19,9 +19,8 @@ module Deltacloud::Client
 
       # Retrieve list of all hardware_profiles
       #
-      # Filter options:
-      #
-      # - :id -> Filter hardware_profiles using their 'id'
+      # - filter_opts:
+      #   - :id -> Filter hardware_profiles using their 'id'
       #
       def hardware_profiles(filter_opts={})
         from_collection :hardware_profiles,
@@ -30,7 +29,7 @@ module Deltacloud::Client
 
       # Retrieve the given hardware_profile
       #
-      # - hardware_profile_id -> hardware_profile to retrieve
+      # - hwp_id -> hardware_profile to retrieve
       #
       def hardware_profile(hwp_id)
         from_resource :hardware_profile,

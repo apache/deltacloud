@@ -38,14 +38,14 @@ module Deltacloud::Client
     end
 
     # Add a new blob to the bucket.
-    # See: +create_blob+
+    # See: methods/blob.rb +create_blob+
     #
     def add_blob(blob_name, blob_data, blob_create_opts={})
       create_blob(_id, blob_name, blob_data, create_opts)
     end
 
     # Remove a blob from the bucket
-    # See: +destroy_blob+
+    # See: methods/blob.rb +destroy_blob+
     #
     def remove_blob(blob_id)
       destroy_blob(_id, blob_id)

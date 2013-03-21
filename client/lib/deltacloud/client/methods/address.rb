@@ -19,8 +19,7 @@ module Deltacloud::Client
 
       # Retrieve list of all address entities
       #
-      # Filter options:
-      #
+      # filter_opts:
       # - :id -> Filter entities using 'id' attribute
       #
       def addresses(filter_opts={})

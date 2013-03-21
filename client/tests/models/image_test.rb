@@ -57,7 +57,7 @@ describe Deltacloud::Client::Image do
 
   it 'supports #id' do
     img = @client.image('img1')
-    lambda { img.id.must_equal 'img1' }.must_output nil, "[DEPRECATION] `id` is deprecated because of possible conflict with Object#id. Use `_id` instead.\n"
+    lambda { img.id.must_equal 'img1' }.must_output nil, "[DEPRECATION] `id` is deprecated because of a possible conflict with Object#id. Use `_id` instead.\n"
   end
 
 end

@@ -31,7 +31,7 @@ module Deltacloud::Client
     attr_reader :description
 
     # The Base class that other models should inherit from
-    # To initialize, you need to suply these mandatory params:
+    # To initialize, you need to supply these mandatory params:
     #
     # - :_client -> Reference to Client instance
     # - :_id     -> The 'id' of resource. The '_' is there to avoid conflicts
@@ -49,7 +49,7 @@ module Deltacloud::Client
     alias_method :_id, :obj_id
 
     # Populate instance variables in model
-    # This method could be also used to update the variables for already
+    # This method could also be used to update the variables for already
     # initialized models. Look at +Instance#reload!+ method.
     #
     def update_instance_variables!(opts={})
@@ -92,11 +92,11 @@ module Deltacloud::Client
       @original_body
     end
 
-    # The model#id is the old way how to get the Deltacloud API resource
+    # The model#id is the old way for getting the Deltacloud API resource
     # 'id'. However this collide with the Ruby Object#id.
     #
     def id
-      warn '[DEPRECATION] `id` is deprecated because of possible conflict with Object#id. Use `_id` instead.'
+      warn '[DEPRECATION] `id` is deprecated because of a possible conflict with Object#id. Use `_id` instead.'
       _id
     end
 

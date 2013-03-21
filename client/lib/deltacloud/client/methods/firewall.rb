@@ -19,9 +19,8 @@ module Deltacloud::Client
 
       # Retrieve list of all firewall entities
       #
-      # Filter options:
-      #
-      # - :id -> Filter entities using 'id' attribute
+      # - filter_opts:
+      #   - :id -> Filter entities using 'id' attribute
       #
       def firewalls(filter_opts={})
         from_collection :firewalls,
@@ -39,7 +38,9 @@ module Deltacloud::Client
 
       # Create a new firewall
       #
+      # - name - Name to associate with new firewall
       # - create_opts
+      #   :name -> Name of firewall
       #
       def create_firewall(name, create_opts={})
         create_resource :firewall, { :name => name }.merge(create_opts)

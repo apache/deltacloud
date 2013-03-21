@@ -23,26 +23,24 @@ module Deltacloud::Client
 
     include Deltacloud::Client::Helpers::Model
 
-    include Deltacloud::Client::Methods::Common
+    include Deltacloud::Client::Methods::Address
     include Deltacloud::Client::Methods::Api
     include Deltacloud::Client::Methods::BackwardCompatibility
+    include Deltacloud::Client::Methods::Blob
+    include Deltacloud::Client::Methods::Bucket
+    include Deltacloud::Client::Methods::Common
     include Deltacloud::Client::Methods::Driver
-    include Deltacloud::Client::Methods::Realm
+    include Deltacloud::Client::Methods::Firewall
     include Deltacloud::Client::Methods::HardwareProfile
     include Deltacloud::Client::Methods::Image
     include Deltacloud::Client::Methods::Instance
     include Deltacloud::Client::Methods::InstanceState
     include Deltacloud::Client::Methods::Key
-    include Deltacloud::Client::Methods::StorageVolume
+    include Deltacloud::Client::Methods::Realm
     include Deltacloud::Client::Methods::StorageSnapshot
-    include Deltacloud::Client::Methods::Address
-    include Deltacloud::Client::Methods::Bucket
-    include Deltacloud::Client::Methods::Blob
-    include Deltacloud::Client::Methods::Firewall
+    include Deltacloud::Client::Methods::StorageVolume
 
     def initialize(opts={})
-      @request_driver = opts[:driver]
-      @request_provider = opts[:provider]
       @connection = Faraday.new(:url => opts[:url]) do |f|
         # NOTE: The order of this is somehow important for VCR
         #       recording.
@@ -53,8 +51,8 @@ module Deltacloud::Client
         f.adapter :net_http
       end
       cache_entrypoint!
-      @request_driver ||= current_driver
-      @request_provider ||= current_provider
+      @request_driver = opts[:driver] ||= current_driver
+      @request_provider = opts[:provider] ||= current_provider
     end
 
     # Change the current driver and return copy of the client
@@ -126,8 +124,10 @@ module Deltacloud::Client
     def deltacloud_request_headers
       headers = {}
       headers['Accept'] = 'application/xml'
-      headers['X-Deltacloud-Driver'] = @request_driver.to_s if @request_driver
-      headers['X-Deltacloud-Provider'] = @request_provider.to_s if @request_provider
+      headers['X-Deltacloud-Driver'] = @request_driver.to_s \
+        if @request_driver
+      headers['X-Deltacloud-Provider'] = @request_provider.to_s \
+        if @request_provider
       headers
     end
 

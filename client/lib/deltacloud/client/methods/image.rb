@@ -19,11 +19,10 @@ module Deltacloud::Client
 
       # Retrieve list of all images
       #
-      # Filter options:
-      #
-      # - :id -> Filter images using their 'id'
-      # - :state -> Filter images  by their 'state'
-      # - :architecture -> Filter images  by their 'architecture'
+      # - filter_opts:
+      #   - :id -> Filter images using their 'id'
+      #   - :state -> Filter images  by their 'state'
+      #   - :architecture -> Filter images  by their 'architecture'
       #
       def images(filter_opts={})
         from_collection :images,

@@ -19,10 +19,9 @@ module Deltacloud::Client
 
       # Retrieve list of all storage_volumes
       #
-      # Filter options:
-      #
-      # - :id -> Filter storage_volumes using their 'id'
-      # - :state -> Filter storage_volumes  by their 'state'
+      # - filter_opts:
+      #   - :id -> Filter storage_volumes using their 'id'
+      #   - :state -> Filter storage_volumes  by their 'state'
       #
       def storage_volumes(filter_opts={})
         from_collection :storage_volumes,

@@ -19,11 +19,10 @@ module Deltacloud::Client
 
       # Retrieve list of all instances
       #
-      # Filter options:
-      #
-      # - :id -> Filter instances using their 'id'
-      # - :state -> Filter instances by their 'state'
-      # - :realm_id -> Filter instances based on their 'realm_id'
+      # - filter_opts:
+      #   - :id -> Filter instances using their 'id'
+      #   - :state -> Filter instances by their 'state'
+      #   - :realm_id -> Filter instances based on their 'realm_id'
       #
       def instances(filter_opts={})
         from_collection(
@@ -45,7 +44,8 @@ module Deltacloud::Client
 
       # Create a new instance
       #
-      # - image_id ->    Image to use for instance creation (img1, ami-12345, etc...)
+      # - image_id ->    Image to use for instance creation
+      #                  (img1, ami-12345, etc...)
       # - create_opts -> Various options that DC support for the current
       #                  provider.
       #

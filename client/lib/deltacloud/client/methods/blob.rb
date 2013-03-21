@@ -17,7 +17,7 @@ module Deltacloud::Client
   module Methods
     module Blob
 
-      # Retrieve list of all blob entities from given bucket
+      # Retrieve a list of all blob entities from given bucket
       #
       def blobs(bucket_id=nil)
         raise error.new("The :bucket_id cannot be nil.") if bucket_id.nil?

@@ -24,6 +24,7 @@ module Deltacloud::Client
     attr_reader :driver
     attr_reader :provider
     attr_reader :status
+    attr_reader :original_error
 
     def initialize(opts={})
       if opts.is_a? Hash
@@ -36,11 +37,6 @@ module Deltacloud::Client
       else
         super(opts)
       end
-    end
-
-    # Return the original XML error message received from Deltacloud API
-    def original_error
-      @original_error
     end
 
     # If the Deltacloud API server error response contain backtrace from
