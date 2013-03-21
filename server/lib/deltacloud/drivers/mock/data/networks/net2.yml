@@ -1,0 +1,9 @@
+---
+:id: net2
+:name: network2
+:subnets:
+- subnet3
+- subnet4
+:address_blocks:
+- 10.0.0.0/8
+:state: UP
