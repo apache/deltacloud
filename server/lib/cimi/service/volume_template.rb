@@ -34,7 +34,7 @@ class CIMI::Service::VolumeTemplate < CIMI::Service::Base
   end
 
   def self.delete!(id, context)
-    current_db.volume_templates.first(:id => id).destroy
+    current_db.volume_templates_dataset.first(:id => id).destroy
   end
 
   def self.from_db(model, context)
