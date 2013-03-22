@@ -43,7 +43,7 @@ class CIMI::Service::VolumeConfiguration < CIMI::Service::Base
   end
 
   def self.delete!(id, context)
-    current_db.volume_configurations.first(:id => id).destroy
+    current_db.volume_configurations_dataset.first(:id => id).destroy
   end
 
   def self.find(id, context)
