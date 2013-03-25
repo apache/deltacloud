@@ -5,7 +5,7 @@
   %img{ :src => url_for('instance_states?format=png') }
 
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-theme' => 'a'}
-    - @machine.states.each do |state|
+    - machine.states.each do |state|
       %li{ :'data-role' => 'list-divider', :'class' => 'ui-bar-a', :'data-theme' => 'a'}=state
       - if state.transitions.empty?
         %li{ :'data-role' => 'list-divider'} Action

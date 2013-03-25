@@ -1,43 +1,43 @@
 =header "Storage volume"
-=subheader @storage_volume.id
+=subheader storage_volume.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Name
-    %p{ :'data-role' => 'fieldcontain'}=@storage_volume.id
+    %p{ :'data-role' => 'fieldcontain'}=storage_volume.id
     %li
-      %p{ :'data-role' => 'fieldcontain'}=(@storage_volume.name ? @storage_volume.name : @storage_volume.id)
+      %p{ :'data-role' => 'fieldcontain'}=(storage_volume.name ? storage_volume.name : storage_volume.id)
     %li{ :'data-role' => 'list-divider'} Created
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.created
+      %p{ :'data-role' => 'fieldcontain'}=storage_volume.created
     %li{ :'data-role' => 'list-divider'} Capacity
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.capacity
+      %p{ :'data-role' => 'fieldcontain'}=storage_volume.capacity
     %li{ :'data-role' => 'list-divider'} Realm
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.realm_id
+      %p{ :'data-role' => 'fieldcontain'}=storage_volume.realm_id
     %li{ :'data-role' => 'list-divider'} State
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@storage_volume.state
+      %p{ :'data-role' => 'fieldcontain'}=storage_volume.state
     %li{ :'data-role' => 'list-divider'} Attached to
     %li
-      - if @storage_volume.instance_id
-        %a{ :href => instance_url( @storage_volume.instance_id)}
-          = @storage_volume.instance_id
-      - elsif @storage_volume.state and @storage_volume.state != "IN-USE"
+      - if storage_volume.instance_id
+        %a{ :href => instance_url( storage_volume.instance_id)}
+          = storage_volume.instance_id
+      - elsif storage_volume.state and storage_volume.state != "IN-USE"
         %p{ :'data-role' => 'fieldcontain'}= 'none (detached)'
       -else
         %p{ :'data-role' => 'fieldcontain'}= 'unknown'
     %li{ :'data-role' => 'list-divider'} Device
     %li
-      %p{ :'data-role' => 'fieldcontain'}= @storage_volume.device
+      %p{ :'data-role' => 'fieldcontain'}= storage_volume.device
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        - if ["AVAILABLE", "IN-USE"].include?(@storage_volume.state)
-          =link_to_action "Snapshot...", url_for("storage_snapshots/new?volume_id=#{@storage_volume.id}"), :get
-          - unless @storage_volume.instance_id
-            =link_to_action "Delete", url_for("storage_volumes/#{@storage_volume.id}"), :delete
-            =link_to_action "Attach...", url_for("storage_volumes/#{@storage_volume.id}/attach_instance"), :get
-          - if @storage_volume.instance_id
-            =link_to_action "Detach", url_for("storage_volumes/#{@storage_volume.id}/detach"), :post
+        - if ["AVAILABLE", "IN-USE"].include?(storage_volume.state)
+          =link_to_action "Snapshot...", url_for("storage_snapshots/new?volume_id=#{storage_volume.id}"), :get
+          - unless storage_volume.instance_id
+            =link_to_action "Delete", url_for("storage_volumes/#{storage_volume.id}"), :delete
+            =link_to_action "Attach...", url_for("storage_volumes/#{storage_volume.id}/attach_instance"), :get
+          - if storage_volume.instance_id
+            =link_to_action "Detach", url_for("storage_volumes/#{storage_volume.id}/detach"), :post

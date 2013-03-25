@@ -19,7 +19,7 @@ module Deltacloud::Collections
     set :capability, lambda { |m| driver.respond_to? m }
 
     new_route_for :load_balancers do
-      @realms = driver.realms(credentials)
+      @opts[:realms] = driver.realms(credentials)
     end
 
     collection :load_balancers do

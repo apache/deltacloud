@@ -324,10 +324,11 @@ module Deltacloud::Helpers
 
       def new_route_for(route, &block)
         get '/%s/new' % route.to_s do
+          @opts = {}
           instance_eval(&block) if block_given?
           respond_to do |format|
             format.html do
-              haml :"#{route}/new"
+              haml :"#{route}/new", :locals => @opts
             end
           end
         end

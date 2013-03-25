@@ -1,9 +1,9 @@
 =header Metric
-=subheader @metric.id
+=subheader metric.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %div{ :'data-role' => :'collapsible-set'}
-    - @metric.properties.each do |p|
+    - metric.properties.each do |p|
       %div{ :'data-role' => :'collapsible', :'data-collapse' => 'true'}
         %h3=p.name
         %table{ :summary => "#{p.name} values"}

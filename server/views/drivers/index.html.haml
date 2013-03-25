@@ -3,7 +3,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
-    - @drivers.each do |id, details|
+    - drivers.each do |id, details|
       %li
         %a{ :href => driver_url(id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/cloud.png'}

@@ -4,12 +4,12 @@
   %p
     %label
       Instance ID:
-    - if @instances.empty?
+    - if instances.empty?
       %select
         %option There are no instances
     - else
       %select{ :name => 'instance_id' }
-        - @instances.each do |i|
+        - instances.each do |i|
           %option{ :value => "#{i.id}"} #{i.name}
   %p
     %label

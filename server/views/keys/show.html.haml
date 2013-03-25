@@ -1,31 +1,31 @@
 =header "Key"
-=subheader @key.id
+=subheader key.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Identifier
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@key.id
+      %p{ :'data-role' => 'fieldcontain'}=key.id
     %li{ :'data-role' => 'list-divider'} Name
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@key.name
-    - if @key.is_password?
+      %p{ :'data-role' => 'fieldcontain'}=key.name
+    - if key.is_password?
       %li{ :'data-role' => 'list-divider'} Username
       %li
-        %p{ :'data-role' => 'fieldcontain'}=@key.username
+        %p{ :'data-role' => 'fieldcontain'}=key.username
       %li{ :'data-role' => 'list-divider'} Password
       %li
-        %p{ :'data-role' => 'fieldcontain'}=@key.password
+        %p{ :'data-role' => 'fieldcontain'}=key.password
     - else
-      - if @key.fingerprint
+      - if key.fingerprint
         %li{ :'data-role' => 'list-divider'} Fingerprint
         %li
-          %p{ :'data-role' => 'fieldcontain'}=@key.fingerprint
+          %p{ :'data-role' => 'fieldcontain'}=key.fingerprint
       %li{ :'data-role' => 'list-divider'} PEM key
       %li
         %p{ :'data-role' => 'fieldcontain'}
-          %pre{:style=> 'width:600px;overflow:auto;'}=@key.pem_rsa_key
+          %pre{:style=> 'width:600px;overflow:auto;'}=key.pem_rsa_key
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        =link_to_action "Destroy", destroy_key_url(@key.id), :delete
+        =link_to_action "Destroy", destroy_key_url(key.id), :delete

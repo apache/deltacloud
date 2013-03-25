@@ -17,8 +17,8 @@
   %body
     %div{ 'data-role' => :page, :'data-theme' => 'e', :class => :error }
       =header "#{response.status} - #{translate_error_code(response.status)[:message]}"
-      - if @error
-        =subheader @error.message
+      - if err
+        =subheader err.message
       - elsif response.status.to_s =~ /4(\d{2})/
         =subheader request.env['REQUEST_URI']
       = yield

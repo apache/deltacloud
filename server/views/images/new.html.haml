@@ -1,9 +1,9 @@
 =header "Create new image"
-=subheader "#{@instance.id}"
+=subheader "#{instance.id}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
   %form{ :action => images_url, :method => :post}
-    %input{ :type => :hidden, :name => :instance_id, :value => @instance.id}
+    %input{ :type => :hidden, :name => :instance_id, :value => instance.id}
     %div{ 'data-role' => :fieldcontain }
       %label{ :for => :name} Name:
       %input{ :type => :text, :id => :name, :name => :name, :value => '' }

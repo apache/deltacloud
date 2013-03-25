@@ -4,7 +4,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
-    - @elements.each do |balancer|
+    - elements.each do |balancer|
       %li
         %a{ :href => load_balancer_url(balancer.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/balancer.png'}

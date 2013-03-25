@@ -1,12 +1,12 @@
 =header "Associate to instance"
-=subheader @address.id
+=subheader address.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => "#{address_url(@address.id)}/associate", :method => :post}
+  %form{ :action => "#{address_url(address.id)}/associate", :method => :post}
     %div{ 'data-role' => :fieldcontain }
       %label{ :for => :name} Instance:
       %select{:name => 'instance_id'}
         %option
-          - @instances.each do |inst|
+          - instances.each do |inst|
             %option{ :value => inst.id } #{inst.id} - #{inst.name}
     %button{ :type => :submit} Associate

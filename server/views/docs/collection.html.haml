@@ -1,5 +1,5 @@
 =header "Deltacloud API #{settings.version} documentation", :back => 'false'
-=subheader @collection.name.to_s.titlecase
+=subheader collection.name.to_s.titlecase
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
@@ -8,18 +8,18 @@
         Collection description:
     %li
       %br
-      %p{ :'data-role' => 'fieldcontain'}=@collection.description
+      %p{ :'data-role' => 'fieldcontain'}=collection.description
     %li{ :'data-role' => 'list-divider', :'data-divider-theme' => 'a'}
       %h3 Operations:
-    - @operations.keys.sort_by { |k| k.to_s }.each do |operation|
+    - operations.keys.sort_by { |k| k.to_s }.each do |operation|
       %li{ :'data-role' => 'list-divider'}
-        %a{:href => url_for("docs/#{@collection.name.to_s}/#{operation}"), :'data-ajax' => 'false'} #{operation}
+        %a{:href => url_for("docs/#{collection.name.to_s}/#{operation}"), :'data-ajax' => 'false'} #{operation}
       %li
         %br
-        %p=@operations[operation].description
+        %p=operations[operation].description
     %li{ :'data-role' => 'list-divider', :'data-divider-theme' => 'a'}
       %h3 Defined features:
-    - @features.sort_by { |f| f.name.to_s }.each do |feature|
+    - features.sort_by { |f| f.name.to_s }.each do |feature|
       %li{ :'data-role' => 'list-divider'}=feature.name
       %li
         %br

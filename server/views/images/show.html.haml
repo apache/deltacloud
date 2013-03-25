@@ -1,40 +1,40 @@
 =header "Image"
-=subheader @image.id
+=subheader image.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Name
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@image.name
+      %p{ :'data-role' => 'fieldcontain'}=image.name
     %li{ :'data-role' => 'list-divider'} Description
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@image.description
+      %p{ :'data-role' => 'fieldcontain'}=image.description
     %li{ :'data-role' => 'list-divider'} Owner
     %li
       %p{ :'data-role' => 'fieldcontain'}
-        %a{ :href => images_url + "?owner_id=#{@image.owner_id}"}
-          =@image.owner_id
+        %a{ :href => images_url + "?owner_id=#{image.owner_id}"}
+          =image.owner_id
     %li{ :'data-role' => 'list-divider'} State
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@image.state
-    - if @image.creation_time
+      %p{ :'data-role' => 'fieldcontain'}=image.state
+    - if image.creation_time
       %li{ :'data-role' => 'list-divider'} Creation Time
       %li
-        %p{ :'data-role' => 'fieldcontain'}=@image.creation_time
+        %p{ :'data-role' => 'fieldcontain'}=image.creation_time
     %li{ :'data-role' => 'list-divider'} Root Device Type
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@image.root_type
+      %p{ :'data-role' => 'fieldcontain'}=image.root_type
     %li{ :'data-role' => 'list-divider'} Architecture
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@image.architecture
-    - if @image.hardware_profiles
+      %p{ :'data-role' => 'fieldcontain'}=image.architecture
+    - if image.hardware_profiles
       %li{ :'data-role' => 'list-divider'} Compatible Hardware Profiles
       %li
         %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-          - @image.hardware_profiles.each do |hwp|
+          - image.hardware_profiles.each do |hwp|
             %a{ :href => url_for("hardware_profiles/#{hwp.id}"), :'data-role' => "button", :'data-ajax' => 'false'} #{hwp.name}
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        %a{ :href => url_for("instances/new?image_id=#{@image.id}"), :'data-role' => "button", :'data-ajax' => 'false'} Launch...
-        = link_to_action 'Destroy', destroy_image_url(@image.id), :delete
+        %a{ :href => url_for("instances/new?image_id=#{image.id}"), :'data-role' => "button", :'data-ajax' => 'false'} Launch...
+        = link_to_action 'Destroy', destroy_image_url(image.id), :delete

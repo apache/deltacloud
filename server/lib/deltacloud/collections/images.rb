@@ -23,7 +23,7 @@ module Deltacloud::Collections
 
     new_route_for :images do
       halt 404 unless params[:instance_id]
-      @instance = Deltacloud::Instance.new( :id => params[:instance_id] )
+      @opts[:instance] = Deltacloud::Instance.new( :id => params[:instance_id] )
     end
 
     collection :images do

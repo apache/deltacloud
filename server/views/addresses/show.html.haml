@@ -1,20 +1,20 @@
 =header "Address"
-=subheader @address.id
+=subheader address.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Address
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@address.id
+      %p{ :'data-role' => 'fieldcontain'}=address.id
     %li{ :'data-role' => 'list-divider'} Associated to instance
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@address.instance_id || "Not associated yet"
+      %p{ :'data-role' => 'fieldcontain'}=address.instance_id || "Not associated yet"
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        - if @address.associated?
-          =link_to_action 'Disassociate', "#{address_url(@address.id)}/disassociate", :post
+        - if address.associated?
+          =link_to_action 'Disassociate', "#{address_url(address.id)}/disassociate", :post
         - else
           - if driver.respond_to?(:associate_address)
-            =link_to_action 'Associate...',"#{address_url(@address.id)}/associate", :get
-        =link_to_action "Destroy", destroy_address_url(@address.id), :delete
+            =link_to_action 'Associate...',"#{address_url(address.id)}/associate", :get
+        =link_to_action "Destroy", destroy_address_url(address.id), :delete

@@ -22,7 +22,7 @@
 - unless driver.configured_providers.empty?
   %div{ :'data-role' => :footer, :'data-theme' => 'a'}
     %form{ :action => settings.root_url, :method => :post, :'data-ajax' => 'false'}
-      - if @driver_name
+      - if driver_name
         %input{ :name => :driver, :type => :hidden, :value => driver.name }/
       %fieldset{ :'data-type' => "horizontal", :'data-role' => "controlgroup", :id => "providers" }
         %select{:name => 'provider', :'data-inline' => 'true', :'data-native-menu' => 'false'}

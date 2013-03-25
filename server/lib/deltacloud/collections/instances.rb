@@ -22,13 +22,22 @@ module Deltacloud::Collections
     check_features :for => lambda { |c, f| driver.class.has_feature?(c, f) }
 
     new_route_for(:instances) do
-      @instance = Deltacloud::Instance.new( { :id=>params[:id], :image_id=>params[:image_id] } )
-      @image   = driver.image(credentials, :id => params[:image_id])
-      @hardware_profiles = driver.hardware_profiles(credentials, :architecture => @image.architecture )
-      @realms = [Deltacloud::Realm.new(:id => params[:realm_id])] if params[:realm_id]
-      @realms ||= driver.realms(credentials)
-      @firewalls = driver.firewalls(credentials) if driver.class.has_feature? :instances, :firewalls
-      @keys = driver.keys(credentials) if driver.class.has_feature? :instances, :authentication_key
+      @opts = {
+        :instance => Deltacloud::Instance.new(:id=>params[:id], :image_id=>params[:image_id]),
+      }
+      @opts[:image] = driver.image(credentials, :id => params[:image_id])
+      @opts[:hardware_profiles] = @opts[:image].hardware_profiles
+      if params[:realm_id]
+        @opts[:realms] = [ Deltacloud::Realm.new(:id => params[:realm_id]) ] if params[:realm_id]
+      else
+        @opts[:realms] = driver.realms(credentials)
+      end
+      if driver.class.has_feature?(:instances, :firewalls)
+        @opts[:firewalls] = driver.firewalls(credentials)
+      end
+      if driver.class.has_feature?(:instances, :authentication_key)
+        @opts[:keys] = driver.keys(credentials)
+      end
     end
 
     get '/instances/:id/run' do

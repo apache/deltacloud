@@ -4,7 +4,7 @@
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     %li{ :'data-role' => 'list-divider'}=driver_symbol
-    - @storage_volumes.each do |volume|
+    - elements.each do |volume|
       %li
         %a{ :href => storage_volume_url(volume.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/volume.png'}

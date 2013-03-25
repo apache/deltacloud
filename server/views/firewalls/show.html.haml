@@ -1,27 +1,27 @@
 =header "Firewall"
-=subheader @firewall.id
+=subheader firewall.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Identifier
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@firewall.id
+      %p{ :'data-role' => 'fieldcontain'}=firewall.id
     %li{ :'data-role' => 'list-divider'} Description
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@firewall.description
+      %p{ :'data-role' => 'fieldcontain'}=firewall.description
     %li{ :'data-role' => 'list-divider'} Owner
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@firewall.owner_id
+      %p{ :'data-role' => 'fieldcontain'}=firewall.owner_id
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        =link_to_action "Destroy", destroy_firewall_url(@firewall.id), :delete
+        =link_to_action "Destroy", destroy_firewall_url(firewall.id), :delete
 
 =header "Rules", :back => 'false' do
-  %a{ :href => url_for("firewalls/#{@firewall.id}/new_rule"), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => 'false'} Add new rule
+  %a{ :href => url_for("firewalls/#{firewall.id}/new_rule"), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right', :'data-ajax' => 'false'} Add new rule
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
-  - @firewall.rules.each do |rule|
+  - firewall.rules.each do |rule|
     %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
       %li{ :'data-role' => 'list-divider'}
         %strong=rule.id
@@ -39,4 +39,4 @@
       %li{ :'data-role' => 'list-divider'} Actions
       %li
         %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-          =link_to_action "Delete", "#{firewall_url(@firewall.id)}/#{rule.id}", :delete
+          =link_to_action "Delete", "#{firewall_url(firewall.id)}/#{rule.id}", :delete

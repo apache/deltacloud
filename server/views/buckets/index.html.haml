@@ -3,7 +3,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
-    - @buckets.each do |bucket|
+    - elements.each do |bucket|
       %li
         %a{ :href => bucket_url(bucket.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/bucket.png'}

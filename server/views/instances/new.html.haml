@@ -1,8 +1,8 @@
 =header "Launch new instance"
-=subheader "#{@image.id}"
+=subheader "#{image.id}"
 
 .hidden_content
-  - @image.hardware_profiles.each do |profile|
+  - hardware_profiles.each do |profile|
     %div{ :'data-role' => :fieldcontain, :id => "hwp_properties_#{profile.name}", :class => 'property_block'}
       - profile.properties.reject { |prop| prop.fixed? }.each do |prop|
         %label{ :for => "#{prop.param}_#{profile.name}", :class => 'ui-input-text' }=prop.name
@@ -19,7 +19,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
   %form{ :action => instances_url, :method => :post, :class => :new_instance, :enctype => 'multipart/form-data', :'data-ajax' => 'false'}
-    %input{ :name => :image_id, :type => :hidden, :value => @instance.image_id }/
+    %input{ :name => :image_id, :type => :hidden, :value => instance.image_id }/
 
     - if driver.class.has_feature?(:instances, :user_name)
       %div{ 'data-role' => :fieldcontain }
@@ -52,7 +52,7 @@
             %label{ :for => :keyname, :class => 'ui-input-text'} Instance SSH key:
             %select{:name => 'keyname', :'data-native-menu' => "true" }
               %option{ :value => ''} None
-              - @keys.each do |key|
+              - keys.each do |key|
                 %option{ :value => key.id } #{key.id}
 
         - if driver.class.has_feature?(:instances, :register_to_load_balancer)
@@ -60,20 +60,20 @@
             %label{ :for => :load_balancer_id, :class => 'ui-input-text'} Register to loadbalancer:
             %select{:name => 'load_balancer_id', :'data-native-menu' => "true" }
               %option{ :value => ''} None
-              - @load_balancers.each do |load_balancer|
+              - load_balancers.each do |load_balancer|
                 %option{:value => load_balancer.id} #{load_balancer.id}
 
         - if driver.class.has_feature?(:instances, :firewalls)
           %div{ 'data-role' => :fieldcontain }
             %fieldset{ :'data-role' => 'controlgroup'}
               %legend Register to firewall:
-              - @firewalls.each_index do |i|
-                - if @firewalls[i].name == 'default'
-                  %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :checked => :true, :id => "firewalls#{i}"}/
+              - firewalls.each_index do |i|
+                - if firewalls[i].name == 'default'
+                  %input{:type => :checkbox, :value => firewalls[i].name, :name => "firewalls#{i}", :checked => :true, :id => "firewalls#{i}"}/
                   %label{:for => "firewalls#{i}"} Default
                 - else
-                  %input{:type => :checkbox, :value => @firewalls[i].name, :name => "firewalls#{i}", :id => "firewalls#{i}"}/
-                  %label{:for => "firewalls#{i}"}=@firewalls[i].name
+                  %input{:type => :checkbox, :value => firewalls[i].name, :name => "firewalls#{i}", :id => "firewalls#{i}"}/
+                  %label{:for => "firewalls#{i}"}=firewalls[i].name
 
         - if driver.class.has_feature?(:instances, :user_files)
           %div{ 'data-role' => :fieldcontain }
@@ -84,21 +84,21 @@
               %input{ :type => :text, :id => "path#{i}", :name => "path#{i}", :value => ""} Path #{i}
               %input{ :type => "file", :name => "content#{i}", :size => 50 }
 
-    - if !@hardware_profiles.empty?
+    - if !hardware_profiles.empty?
       %div{ 'data-role' => :fieldcontain }
         %h3 Instance profile
         %fieldset{ :'data-role' => :fieldcontain}
-          - @hardware_profiles.each do |profile|
+          - hardware_profiles.each do |profile|
             %input{ :type => :radio, :name => 'hwp_id', :value => profile.id, :id => profile.name, :'data-theme' => 'b'}/
             %label{ :for => profile.name, :onclick => "expandHWP('#{profile.name}');"}="#{profile.name} - #{profile.memory} MB"
             %div{ :'data-role' => :fieldcontain, :id => "property_container_#{profile.name}", :class => 'hwp_properties'}
 
-    - if !@realms.empty?
+    - if !realms.empty?
       %div{ 'data-role' => :fieldcontain }
         %h3 Where do you want it?
         %fieldset{ :'data-role' => :fieldcontain}
           %legend
-          - @realms.each do |realm|
+          - realms.each do |realm|
             %div{ :'data-role' => :fieldcontain}
               %label{ :for => realm.id }= "#{realm.name}, #{realm.limit}"
               %input{ :type => :radio, :name => 'realm_id', :value => realm.id, :id => realm.id, :'data-theme' => 'b' }/

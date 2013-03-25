@@ -4,7 +4,7 @@
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     %li{ :'data-role' => 'list-divider'}=driver_symbol
-    - @metrics.each do |metric|
+    - metrics.each do |metric|
       %li
         %a{ :href => metric_url(metric.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/metric.png'}

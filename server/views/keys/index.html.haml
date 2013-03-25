@@ -3,7 +3,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
-    - @elements.each do |key|
+    - elements.each do |key|
       %li
         %a{ :href => key_url(key.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/key.png'}

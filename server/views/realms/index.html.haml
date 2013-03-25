@@ -4,7 +4,7 @@
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     %li{ :'data-role' => 'list-divider'}=driver_symbol
-    - @realms.each do |realm|
+    - elements.each do |realm|
       %li
         %a{ :href => realm_url(realm.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/realm.png'}

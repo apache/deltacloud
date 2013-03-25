@@ -1,39 +1,39 @@
 =header "Load balancer"
-=subheader @load_balancer.id
+=subheader load_balancer.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Created at
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@load_balancer.created_at
+      %p{ :'data-role' => 'fieldcontain'}=load_balancer.created_at
     %li{ :'data-role' => 'list-divider'} Public addresses
-    - @load_balancer.public_addresses.each do |address|
+    - load_balancer.public_addresses.each do |address|
       %li
         %p{ :'data-role' => 'fieldcontain'}=address
     %li{ :'data-role' => 'list-divider'} Realms
-    - @load_balancer.realms.each do |realm|
+    - load_balancer.realms.each do |realm|
       %li
         %a{ :href => realm_url(realm.id), :'data-ajax' => 'false'}
           %h3=realm.name
     %li{ :'data-role' => 'list-divider'} Registered Instances
-    - @registered_instances.each do |instance|
+    - registered_instances.each do |instance|
       %li
         %a{ :href => instance_url(instance[:id]), :'data-ajax' => 'false'}
           %h3=instance[:name]
-          =link_to_action "Unregister", url_for("load_balancers/#{@load_balancer.id}/unregister?instance_id=#{instance[:id]}"), :post
+          =link_to_action "Unregister", url_for("load_balancers/#{load_balancer.id}/unregister?instance_id=#{instance[:id]}"), :post
     %li{ :'data-role' => 'list-divider'} Unregistered Instances
-    - @unregistered_instances.each do |instance|
+    - unregistered_instances.each do |instance|
       %li
         %a{:href => instance_url(instance[:id]), :'data-ajax' => 'false'}
           %h3=instance[:name]
-          =link_to_action "Register", url_for("load_balancers/#{@load_balancer.id}/register?instance_id=#{instance[:id]}"), :post
+          =link_to_action "Register", url_for("load_balancers/#{load_balancer.id}/register?instance_id=#{instance[:id]}"), :post
     %li{ :'data-role' => 'list-divider'} Actions
     %li
-      =link_to_action "Destroy", url_for("load_balancers/#{@load_balancer.id}"), :delete
+      =link_to_action "Destroy", url_for("load_balancers/#{load_balancer.id}"), :delete
 
   =header "Listeners", :back => 'false'
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
-    - @load_balancer.listeners.each do |listener|
+    - load_balancer.listeners.each do |listener|
       %li{ :'data-role' => 'list-divider'} Load balancer port
       %li
         %p{ :'data-role' => 'fieldcontain'}=listener.load_balancer_port

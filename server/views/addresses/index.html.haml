@@ -5,5 +5,5 @@
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul#address_list{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     %li{ :'data-role' => 'list-divider'}=driver_symbol
-    - @elements.each do |address|
-      = haml :"addresses/_address", :locals => { :@address => address, :partial => true }
+    - elements.each do |address|
+      = haml :"addresses/_address", :locals => { :address => address, :partial => true }

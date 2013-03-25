@@ -1,7 +1,7 @@
 =header "Create new blob"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => bucket_url(@bucket_id), :method => :post, :enctype => 'multipart/form-data', "data-ajax" => "false"}
+  %form{ :action => bucket_url(bucket_id), :method => :post, :enctype => 'multipart/form-data', "data-ajax" => "false"}
     %div{ 'data-role' => :fieldcontain }
       %label
         Blob Name:
