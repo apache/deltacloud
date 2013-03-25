@@ -92,8 +92,8 @@ module Deltacloud::Helpers
       instance_variable_set("@#{model}", @element)
       if @element
         respond_to do |format|
-          format.html { haml :"#{model.to_s.pluralize}/show" }
-          format.xml { haml :"#{model.to_s.pluralize}/show" }
+          format.html { haml :"#{model.to_s.pluralize}/show", :locals=>{model=>@element} }
+          format.xml { haml :"#{model.to_s.pluralize}/show" , :locals=>{model=>@element}}
           format.json { JSON::dump(model => @element.to_hash(self)) }
         end
       else
