@@ -1,5 +1,5 @@
-%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
-  %capability #{@error.capability}
-  %message< #{cdata @error.message}
+%err{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
+  %capability #{err.capability}
+  %message< #{cdata err.message}
 
 

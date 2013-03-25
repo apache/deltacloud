@@ -1,4 +1,4 @@
 !!! XML
 %hardware_profiles
-  - order_hardware_profiles(@hardware_profiles).each do |prof|
-    = haml :'hardware_profiles/show', :locals => { :@hardware_profile => prof, :partial => true }
+  - order_hardware_profiles(elements).each do |prof|
+    = haml :'hardware_profiles/show', :locals => { :hardware_profile => prof, :partial => true }

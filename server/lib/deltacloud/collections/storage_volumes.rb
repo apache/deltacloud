@@ -46,8 +46,8 @@ module Deltacloud::Collections
           status 201
           response['Location'] = storage_volume_url(@storage_volume.id)
           respond_to do |format|
-            format.xml  { haml :"storage_volumes/show" }
-            format.html { haml :"storage_volumes/show" }
+            format.xml  { haml :"storage_volumes/show", :locals => { :storage_volume => @storage_volume } }
+            format.html { haml :"storage_volumes/show", :locals => { :storage_volume => @storage_volume } }
             format.json { JSON::dump(:storage_volume => @storage_volume.to_hash(self)) }
           end
         end
@@ -62,7 +62,7 @@ module Deltacloud::Collections
           status 202
           respond_to do |format|
             format.html { redirect(storage_volume_url(params[:id]))}
-            format.xml  { haml :"storage_volumes/show" }
+            format.xml  { haml :"storage_volumes/show", :locals => { :storage_volume => @storage_volume } }
             format.json { JSON::dump(:storage_volume => @storage_volume.to_hash(self)) }
           end
         end
@@ -78,7 +78,7 @@ module Deltacloud::Collections
           status 202
           respond_to do |format|
             format.html { redirect(storage_volume_url(params[:id]))}
-            format.xml  { haml :"storage_volumes/show" }
+            format.xml  { haml :"storage_volumes/show", :locals => { :storage_volume => @storage_volume } }
             format.json { JSON::dump(:storage_volume => @storage_volume.to_hash(self)) }
           end
         end

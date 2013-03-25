@@ -1,20 +1,20 @@
 - unless defined?(partial)
   !!! XML
-%image{:href => image_url(@image.id), :id => @image.id}
-  %name=@image.name
-  %description=@image.description
-  %owner_id=@image.owner_id
-  %architecture=@image.architecture
-  - if @image.state
-    %state=@image.state
-  - if @image.creation_time
-    %creation_time=@image.creation_time
-  - if @image.hardware_profiles
+%image{:href => image_url(image.id), :id => image.id}
+  %name=image.name
+  %description=image.description
+  %owner_id=image.owner_id
+  %architecture=image.architecture
+  - if image.state
+    %state=image.state
+  - if image.creation_time
+    %creation_time=image.creation_time
+  - if image.hardware_profiles
     %hardware_profiles
-      - @image.hardware_profiles.each do |profile|
+      - image.hardware_profiles.each do |profile|
         %hardware_profile{ :href => hardware_profile_url(profile.id), :id => profile.id, :rel => :hardware_profile }
-  %root_type=@image.root_type
+  %root_type=image.root_type
   %actions
-    %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{@image.id}"}
+    %link{ :rel => 'create_instance', :method => :post, :href => "#{instances_url};image_id=#{image.id}"}
     - if driver.respond_to? :destroy_image
-      %link{ :rel => 'destroy_image', :method => :delete, :href => "#{destroy_image_url(@image.id)}" }
+      %link{ :rel => 'destroy_image', :method => :delete, :href => "#{destroy_image_url(image.id)}" }

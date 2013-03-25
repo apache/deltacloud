@@ -48,11 +48,11 @@ module Deltacloud
       if params[:force_auth]
         return [401, 'Authentication failed'] unless driver.valid_credentials?(credentials)
       end
-      @collections = driver.supported_collections(credentials)
+      collections = driver.supported_collections(credentials)
       respond_to do |format|
-        format.xml { haml :"api/show" }
-        format.json { collections_to_json(@collections) }
-        format.html { haml :"api/show" }
+        format.xml { haml :"api/show", :locals => { :collections => collections } }
+        format.json { collections_to_json(collections) }
+        format.html { haml :"api/show", :locals => { :collections => collections } }
       end
     end
 

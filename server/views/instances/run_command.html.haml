@@ -1,15 +1,15 @@
-=header "Run command on #{@instance.name}"
-=subheader "#{@instance.id}"
+=header "Run command on #{instance.name}"
+=subheader "#{instance.id}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
-  %form{ :action => url_for('/instances/%s/run' % @instance.id), :method => :post }
+  %form{ :action => url_for('/instances/%s/run' % instance.id), :method => :post }
     %p
       %label{ :for => :cmd } Desired command:
       %input{ :name => :cmd, :value => "", :type => :text}
     %p
       %fieldset{ :'data-role' => :fieldcontain}
         %legend Target instance IP address:
-        - (@instance.public_addresses | @instance.private_addresses).each_with_index do |ip, idx|
+        - (instance.public_addresses | instance.private_addresses).each_with_index do |ip, idx|
           %label{ :for => ip.address }= "#{ip.address}"
           %input{ :name => :ip, :value => ip.address, :id => ip.address, :type => :radio, :'data-theme' => 'b', :checked => idx == 0 || nil}/
     %p

@@ -1,10 +1,10 @@
 - unless defined?(partial)
   !!! XML
-%hardware_profile{ :href => hardware_profile_url(@hardware_profile.id), :id => @hardware_profile.id }
-  %id= @hardware_profile.id
+%hardware_profile{ :href => hardware_profile_url(hardware_profile.id), :id => hardware_profile.id }
+  %id= hardware_profile.id
   %name<
-    = @hardware_profile.name
-  - @hardware_profile.each_property do |prop|
+    = hardware_profile.name
+  - hardware_profile.each_property do |prop|
     - attr = { :name => prop.name, :kind => prop.kind, :unit => prop.unit }
     - if prop.kind == :fixed
       %property{ attr, :value => prop.value }/

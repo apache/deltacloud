@@ -40,9 +40,9 @@ module Deltacloud::Collections
           end
           @unregistered_instances = all_instances - @registered_instances
           respond_to do |format|
-            format.xml { haml :'load_balancers/show' }
+            format.xml { haml :'load_balancers/show', :locals => { :load_balancer => @load_balancer } }
             format.json { JSON::dump(:load_balancer => @load_balancer.to_hash(self)) }
-            format.html { haml :'load_balancers/show' }
+            format.html { haml :'load_balancers/show' } # FIXME: Fix the HTML view + instance variables
           end
         end
       end
@@ -58,7 +58,7 @@ module Deltacloud::Collections
           status 201  # Created
           response['Location'] = load_balancer_url(@load_balancer.id)
           respond_to do |format|
-            format.xml  { haml :"load_balancers/show" }
+            format.xml  { haml :"load_balancers/show", :locals => { :load_balancer => @load_balancer } }
             format.json { JSON::dump(:load_balancer => @load_balancer.to_hash(self)) }
             format.html { redirect load_balancer_url(@load_balancer.id)}
           end
@@ -72,7 +72,7 @@ module Deltacloud::Collections
           driver.lb_register_instance(credentials, params)
           @load_balancer = driver.load_balancer(credentials, :id => params[:id])
           respond_to do |format|
-            format.xml { haml :'load_balancers/show' }
+            format.xml { haml :'load_balancers/show', :locals => { :load_balancer => @load_balancer } }
             format.json { JSON::dump(:load_balancer => @load_balancer.to_hash(self) ) }
             format.html { redirect load_balancer_url(@load_balancer.id)}
           end
@@ -86,7 +86,7 @@ module Deltacloud::Collections
           driver.lb_unregister_instance(credentials, params)
           @load_balancer = driver.load_balancer(credentials, :id => params[:id])
           respond_to do |format|
-            format.xml { haml :'load_balancers/show' }
+            format.xml { haml :'load_balancers/show', :locals => { :load_balancer => @load_balancer } }
             format.json { JSON::dump(:load_balancer => @load_balancer.to_hash(self)) }
             format.html { redirect load_balancer_url(@load_balancer.id) }
           end

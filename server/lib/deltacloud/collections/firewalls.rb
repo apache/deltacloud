@@ -25,7 +25,7 @@ module Deltacloud::Collections
     get '/firewalls/:id/new_rule' do
       @firewall_name = params[:id]
       respond_to do |format|
-        format.html {haml :"firewalls/new_rule" }
+        format.html { haml :"firewalls/new_rule", :locals => { :firewall_name => @firewall_name } }
       end
     end
 
@@ -64,8 +64,8 @@ module Deltacloud::Collections
           status 201  # Created
           response['Location'] = firewall_url(@firewall.id)
           respond_to do |format|
-            format.xml  { haml :"firewalls/show" }
-            format.html { haml :"firewalls/show" }
+            format.xml  { haml :"firewalls/show", :locals => { :firewall => @firewall } }
+            format.html { haml :"firewalls/show", :locals => { :firewall => @firewall } }
             format.json { JSON::dump(:firewall => @firewall.to_hash(self)) }
           end
         end
@@ -107,8 +107,8 @@ module Deltacloud::Collections
           @firewall = driver.firewall(credentials, {:id => params[:id]})
           status 201
           respond_to do |format|
-            format.xml  { haml :"firewalls/show" }
-            format.html { haml :"firewalls/show" }
+            format.xml  { haml :"firewalls/show", :locals => { :firewall => @firewall} }
+            format.html { haml :"firewalls/show", :locals => { :firewall => @firewall} }
             format.json { JSON::dump(:firewall => @firewall.to_hash(self) ) }
           end
         end

@@ -1,4 +1,4 @@
 !!!XML
 %storage_volumes
-  - @elements.each do |volume|
-    = haml :'storage_volumes/show', :locals =>  { :@storage_volume =>  volume, :partial =>  true } 
+  - elements.each do |volume|
+    = haml :'storage_volumes/show', :locals =>  { :storage_volume =>  volume, :partial =>  true }

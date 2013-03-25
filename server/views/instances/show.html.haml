@@ -1,67 +1,67 @@
 =header "Instance"
-=subheader @instance.id
+=subheader instance.id
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Name
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.name
+      %p{ :'data-role' => 'fieldcontain'}=instance.name
     %li{ :'data-role' => 'list-divider'} Owner
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.owner_id
+      %p{ :'data-role' => 'fieldcontain'}=instance.owner_id
     %li{ :'data-role' => 'list-divider'} State
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.state
+      %p{ :'data-role' => 'fieldcontain'}=instance.state
     %li{ :'data-role' => 'list-divider'} Launch Time
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.launch_time
+      %p{ :'data-role' => 'fieldcontain'}=instance.launch_time
     %li{ :'data-role' => 'list-divider'} Image
     %li
-      %a{ :href => image_url(@instance.image_id), :'data-ajax' => 'false' }=@instance.image_id
+      %a{ :href => image_url(instance.image_id), :'data-ajax' => 'false' }=instance.image_id
     %li{ :'data-role' => 'list-divider'} Hardware Profile
     %li
-      - prof = @instance.instance_profile
+      - prof = instance.instance_profile
       %a{ :href => hardware_profile_url(prof.name), :'data-ajax' => 'false'}
         =[prof.name, format_instance_profile(prof)].compact.join(', ')
     %li{ :'data-role' => 'list-divider'} Realm
     %li
-      - if @instance.realm_id
-        %a{ :href => realm_url(@instance.realm_id), :'data-ajax' => 'false' }=@instance.realm_id
+      - if instance.realm_id
+        %a{ :href => realm_url(instance.realm_id), :'data-ajax' => 'false' }=instance.realm_id
       - else
         default
     %li{ :'data-role' => 'list-divider'} Public addresses
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.public_addresses.join(',')
+      %p{ :'data-role' => 'fieldcontain'}=instance.public_addresses.join(',')
     %li{ :'data-role' => 'list-divider'} Private addresses
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@instance.private_addresses.join(',')
-    - if @instance.password or @instance.keyname
+      %p{ :'data-role' => 'fieldcontain'}=instance.private_addresses.join(',')
+    - if instance.password or instance.keyname
       %li{ :'data-role' => 'list-divider'} Authentication
-    - if @instance.password
+    - if instance.password
       %li{ :'data-role' => 'list-divider'} Username
-      %li=@instance.username
+      %li=instance.username
       %li{ :'data-role' => 'list-divider'} Password
-      %li=@instance.password
-    - if @instance.keyname
+      %li=instance.password
+    - if instance.keyname
       %li{ :'data-role' => 'list-divider'} SSH key name
       %li
-        %a{ :href => key_url(@instance.keyname), :'data-ajax' => 'false'}=@instance.keyname
-    - if @instance.firewalls
+        %a{ :href => key_url(instance.keyname), :'data-ajax' => 'false'}=instance.keyname
+    - if instance.firewalls
       %li{ :'data-role' => 'list-divider'} Firewalls
-      - @instance.firewalls.each do |firewall|
+      - instance.firewalls.each do |firewall|
         %li
           %a{ :href => firewall_url(firewall), :'data-ajax' => 'false'}=firewall
-    - if @instance.storage_volumes
+    - if instance.storage_volumes
       %li{ :'data-role' => 'list-divider'} Attached Storage Volumes
-      -@instance.storage_volumes.each do |vol|
+      -instance.storage_volumes.each do |vol|
         %li
           %a{ :href => storage_volume_url("#{vol.keys.first}"), :'data-ajax' => 'false'}=["#{vol.keys.first}", "#{vol.values.first}"].compact.reject{ |e| e.empty? }.join(' <---> ')
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        - @instance.actions.each do |action|
-          =link_to_action action.to_s.capitalize, self.send(:"#{action}_instance_url", @instance.id), instance_action_method(action)
-        - if @instance.state=="RUNNING" and driver.respond_to?(:run_on_instance)
-          =link_to_action 'Run command...', url_for('instances/%s/run' % @instance.id), :get
-        - if @instance.can_create_image?
-          =link_to_action 'Create image...', url_for("images/new?instance_id=#{@instance.id}"), :get
+        - instance.actions.each do |action|
+          =link_to_action action.to_s.capitalize, self.send(:"#{action}_instance_url", instance.id), instance_action_method(action)
+        - if instance.state=="RUNNING" and driver.respond_to?(:run_on_instance)
+          =link_to_action 'Run command...', url_for('instances/%s/run' % instance.id), :get
+        - if instance.can_create_image?
+          =link_to_action 'Create image...', url_for("images/new?instance_id=#{instance.id}"), :get

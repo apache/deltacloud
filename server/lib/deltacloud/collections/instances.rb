@@ -34,7 +34,7 @@ module Deltacloud::Collections
     get '/instances/:id/run' do
       respond_to do |format|
         @instance = driver.instances(credentials, :id => params[:id]).first
-        format.html {haml :"instances/run_command" }
+        format.html {haml :"instances/run_command", :locals => @instance }
       end
     end
 
@@ -59,7 +59,7 @@ module Deltacloud::Collections
           end
           status 201  # Created
           respond_to do |format|
-            format.xml  { haml :"instances/#{action_handler}" }
+            format.xml  { haml :"instances/#{action_handler}", :locals => {:instance=>@instance} }
             format.json do
               if @elements
                 JSON::dump(:instances => @elements.map { |i| i.to_hash(self) })
@@ -69,10 +69,10 @@ module Deltacloud::Collections
             end
             format.html do
               if @elements
-                haml :"instances/index"
+                haml :"instances/index", :locals => { :elements => @elements }
               elsif @instance and @instance.id
                 response['Location'] = instance_url(@instance.id)
-                haml :"instances/show"
+                haml :"instances/show", :locals => { :instance => @instance }
               else
                 redirect instances_url
               end
@@ -113,8 +113,8 @@ module Deltacloud::Collections
         control do
           @output = driver.run_on_instance(credentials, params)
           respond_to do |format|
-            format.xml { haml :"instances/run" }
-            format.html { haml :"instances/run" }
+            format.xml { haml :"instances/run", :locals => { :output => @output } }
+            format.html { haml :"instances/run", :locals => { :output => @output } }
             format.json { JSON::dump({:instance => { :id => params[:id], :public_address => @output.ssh.network.ip, :command => @output.ssh.command, :output => @output.body}})}
           end
         end

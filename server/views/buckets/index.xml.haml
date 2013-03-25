@@ -1,4 +1,4 @@
 !!!XML
 %buckets
-  - @elements.each do |c|
-    = haml :'buckets/show', :locals => { :@bucket => c, :partial => true }
+  - elements.each do |c|
+    = haml :'buckets/show', :locals => { :bucket => c, :partial => true }

@@ -3,7 +3,7 @@
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview, :'data-inset' => 'true'}
-    - @collections.each do |c|
+    - collections.each do |c|
       %li
         %a{ :href => url_for(c.collection_name),  :'data-icon' => "arrow-r"}=c.collection_name.to_s.gsub('_', ' ').titlecase
 

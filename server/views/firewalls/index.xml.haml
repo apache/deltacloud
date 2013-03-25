@@ -1,6 +1,6 @@
 !!! XML
 %firewalls
-  - @firewalls.each do |firewall|
+  - firewalls.each do |firewall|
     %firewall{:href => firewall_url(firewall.id), :id => firewall.id}
       %actions
         %link{ :rel => :destroy, :href => destroy_firewall_url(firewall.id), :method => :delete, :id => firewall.id}

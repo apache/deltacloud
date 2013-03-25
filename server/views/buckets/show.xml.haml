@@ -1,10 +1,10 @@
 - unless defined?(partial)
   !!! XML
-%bucket{:href => bucket_url(@bucket.id), :id => @bucket.id}
-  - @bucket.attributes.select{ |attr| attr!=:id }.each do |attribute|
+%bucket{:href => bucket_url(bucket.id), :id => bucket.id}
+  - bucket.attributes.select{ |attr| attr!=:id }.each do |attribute|
     - unless attribute == :blob_list
       -haml_tag(attribute, :<) do
-        - haml_concat @bucket.send(attribute)
-  - if @bucket.blob_list
-    - @bucket.blob_list.each do |blb|
-      %blob{:id => blb, :href => bucket_url(@bucket.id) +"/#{blb}"}
+        - haml_concat bucket.send(attribute)
+  - if bucket.blob_list
+    - bucket.blob_list.each do |blb|
+      %blob{:id => blb, :href => bucket_url(bucket.id) +"/#{blb}"}

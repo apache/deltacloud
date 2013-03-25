@@ -1,10 +1,10 @@
 - unless defined?(partial)
   !!! XML
-%metric{:href => metric_url(@metric.id), :id => @metric.id}
+%metric{:href => metric_url(metric.id), :id => metric.id}
   -haml_tag(:entity, :<) do
-    -haml_concat @metric.send(:entity) || @metric.send(:id)
+    -haml_concat metric.send(:entity) || metric.send(:id)
   %properties
-    -@metric.properties.each do |prop|
+    -metric.properties.each do |prop|
       -haml_tag(prop.name, :<) do
         - if prop.values
           - prop.values.each do |p|

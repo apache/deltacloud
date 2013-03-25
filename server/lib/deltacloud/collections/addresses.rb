@@ -39,8 +39,8 @@ module Deltacloud::Collections
           status 201    # Created
           response['Location'] = address_url(@address.id)
           respond_to do |format|
-            format.xml  { haml :"addresses/show", :ugly => true }
-            format.html { haml :"addresses/_address", :layout => false }
+            format.xml  { haml :"addresses/show", :ugly => true, :locals => { :address => @address } }
+            format.html { haml :"addresses/_address", :layout => false, :locals => { :address => @address } }
             format.json { JSON::dump(:address => @address.to_hash(self)) }
           end
         end

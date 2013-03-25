@@ -75,8 +75,8 @@ module Deltacloud::Helpers
         headers['X-Backend-Runtime'] = @benchmark.real.to_s
         instance_variable_set(:"@#{model}", @elements)
         respond_to do |format|
-          format.html { haml :"#{model}/index" }
-          format.xml { haml :"#{model}/index" }
+          format.html { haml :"#{model}/index", :locals => { :elements => @elements } }
+          format.xml { haml :"#{model}/index", :locals => { :elements => @elements } }
           format.json { JSON::dump({ model => @elements.map { |el| el.to_hash(self) }}) }
         end
       else
@@ -92,7 +92,7 @@ module Deltacloud::Helpers
       instance_variable_set("@#{model}", @element)
       if @element
         respond_to do |format|
-          format.html { haml :"#{model.to_s.pluralize}/show", :locals=>{model=>@element} }
+          format.html { haml :"#{model.to_s.pluralize}/show", :locals=>{model=>@element}}
           format.xml { haml :"#{model.to_s.pluralize}/show" , :locals=>{model=>@element}}
           format.json { JSON::dump(model => @element.to_hash(self)) }
         end
@@ -109,30 +109,29 @@ module Deltacloud::Helpers
     def report_error(code=nil, message=nil)
 
       if !code.nil?
-        @error = Deltacloud::Exceptions.exception_from_status(code, message || translate_error_code(code)[:message])
-        @code = code
-        message = @error.message
+        error = Deltacloud::Exceptions.exception_from_status(code, message || translate_error_code(code)[:message])
+        message = error.message
       else
-        @error = request.env['sinatra.error'] || @exception
-        @code = @error.respond_to?(:code) ? @error.code : 500
-        message = @error.respond_to?(:message) ? @error.message : translate_error_code(code)[:message]
+        error = request.env['sinatra.error'] || @exception
+        code = error.respond_to?(:code) ? error.code : 500
+        message = error.respond_to?(:message) ? error.message : translate_error_code(code)[:message]
       end
 
-      response.status = @code
+      response.status = code
 
-      backtrace = (@error.respond_to?(:backtrace) and !@error.backtrace.nil?) ?
-        "\n\n#{@error.backtrace[0..20].join("\n")}\n\n" : ''
+      backtrace = (error.respond_to?(:backtrace) and !error.backtrace.nil?) ?
+        "\n\n#{error.backtrace[0..20].join("\n")}\n\n" : ''
 
-      if @code.to_s =~ /5(\d+)/
-        log.error(@code.to_s) { "[#{@error.class.to_s}] #{message}#{backtrace}" }
+      if code.to_s =~ /5(\d+)/
+        log.error(code.to_s) { "[#{error.class.to_s}] #{message}#{backtrace}" }
       end
 
       respond_to do |format|
-        format.xml {  haml :"errors/common", :layout => false }
-        format.json { JSON::dump({ :code => @code || @error.code, :message => message, :error => @error.class.name }) }
+        format.xml {  haml :"errors/common", :layout => false, :locals => { :err => error } }
+        format.json { JSON::dump({ :code => code || error.code, :message => message, :err => error.class.name }) }
         format.html {
           begin
-            haml :"errors/common", :layout => :error
+            haml :"errors/common", :layout => :error, :locals => { :err => error }
           rescue RuntimeError
             # If the HTML representation of error is missing, then try to report
             # it through XML
@@ -171,8 +170,8 @@ module Deltacloud::Helpers
         redirect instance_url(params[:id])
       else
         response = respond_to do |format|
-          format.xml { haml :"instances/show" }
-          format.html { haml :"instances/show" }
+          format.xml { haml :"instances/show", :locals => { :instance => @instance } }
+          format.html { haml :"instances/show", :locals => { :instance => @instance } }
           format.json { JSON::dump(@instance.to_hash(self)) }
         end
         halt 202, response

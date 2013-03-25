@@ -27,7 +27,7 @@ module Deltacloud::Collections
     get '/buckets/:bucket/%s' % NEW_BLOB_FORM_ID do
       @bucket_id = params[:bucket]
       respond_to do |format|
-        format.html {haml :"blobs/new"}
+        format.html {haml :"blobs/new", :locals=>{:bucket_id => @bucket_id} }
       end
     end
 
@@ -65,14 +65,12 @@ module Deltacloud::Collections
             report_error(400) # likely blob size < 112 KB (didn't hit streaming patch)
           end
         when "finalize" then
-          bucket_id = params[:bucket]
-          blob_id = params[:blob]
           segmented_blob_manifest = BlobHelper.extract_segmented_blob_manifest(request)
           segmented_blob_id = BlobHelper.segmented_blob_id(request)
           @blob = driver.create_blob(credentials, params[:bucket], params[:blob], nil, {:segment_manifest=>segmented_blob_manifest, :segmented_blob_id=>segmented_blob_id})
           respond_to do |format|
-            format.xml { haml :"blobs/show" }
-            format.html { haml :"blobs/show" }
+            format.xml { haml :"blobs/show", :locals => { :blob => @blob } }
+            format.html { haml :"blobs/show", :locals => { :blob => @blob } }
             format.json { xml_to_json 'blobs/show' }
           end
         else
@@ -89,8 +87,8 @@ module Deltacloud::Collections
         @blob = driver.blob(credentials, {:id => params[:blob],
                                           'bucket' => params[:bucket]})
         respond_to do |format|
-          format.xml { haml :"blobs/show" }
-          format.html { haml :"blobs/show" }
+          format.xml { haml :"blobs/show", :locals => { :blob => @blob } }
+          format.html { haml :"blobs/show", :locals => { :blob => @blob } }
           format.json { JSON::dump(:blob => @blob.to_hash(self) ) }
         end
       elsif(env["BLOB_FAIL"])
@@ -108,8 +106,8 @@ module Deltacloud::Collections
         @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
         temp_file.delete
         respond_to do |format|
-          format.xml { haml :"blobs/show" }
-          format.html { haml :"blobs/show" }
+          format.xml  { haml :"blobs/show", :locals => { :blob => @blob } }
+          format.html { haml :"blobs/show", :locals => { :blob => @blob } }
           format.json { JSON::dump(:blob => @blob.to_hash(self)) }
         end
       end
@@ -128,7 +126,7 @@ module Deltacloud::Collections
           status 201
           response['Location'] = bucket_url(@bucket.id)
           respond_to do |format|
-            format.xml  { haml :"buckets/show" }
+            format.xml  { haml :"buckets/show", :locals=> { :bucket => @bucket } }
             format.json { JSON::dump(:bucket => @bucket.to_hash(self)) }
             format.html do
               redirect bucket_url(@bucket.id) if @bucket and @bucket.id
@@ -158,8 +156,8 @@ module Deltacloud::Collections
             @blob = driver.blob(credentials, { :id => params[:blob_id], 'bucket' => params[:id]} )
             if @blob
               respond_to do |format|
-                format.xml { haml :"blobs/show" }
-                format.html { haml :"blobs/show" }
+                format.xml { haml :"blobs/show", :locals => { :blob => @blob } }
+                format.html { haml :"blobs/show", :locals => { :blob => @blob } }
                 format.json { JSON::dump(:blob => @blob.to_hash(self)) }
               end
             else
@@ -192,8 +190,8 @@ module Deltacloud::Collections
             @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
             status 201
             respond_to do |format|
-              format.xml { haml :"blobs/show" }
-              format.html { haml :"blobs/show"}
+              format.xml { haml :"blobs/show", :locals => { :blob => @blob } }
+              format.html { haml :"blobs/show", :locals => { :blob => @blob }}
               format.json { JSON::dump(:blob => @blob.to_hash(self)) }
             end
           end
@@ -225,8 +223,8 @@ module Deltacloud::Collections
               @blob = driver.blob(credentials, {:id => params[:blob],
                                                 'bucket' => params[:bucket]})
               respond_to do |format|
-                format.xml { haml :"blobs/show" }
-                format.html { haml :"blobs/show" }
+                format.xml { haml :"blobs/show", :locals => { :blob => @blob } }
+                format.html { haml :"blobs/show", :locals => { :blob => @blob } }
                 format.json { JSON::dump(@blob.to_hash(self)) }
               end
             elsif(env["BLOB_FAIL"])
@@ -244,8 +242,8 @@ module Deltacloud::Collections
               @blob = driver.create_blob(credentials, bucket_id, blob_id, blob_data, user_meta)
               temp_file.delete
               respond_to do |format|
-                format.xml { haml :"blobs/show" }
-                format.html { haml :"blobs/show" }
+                format.xml { haml :"blobs/show", :locals => { :blob => @blob } }
+                format.html { haml :"blobs/show", :locals => { :blob => @blob } }
                 format.json { JSON::dump(@blob.to_hash(self)) }
               end
             end

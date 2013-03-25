@@ -1,12 +1,12 @@
-%driver{ :href => driver_url(@name), :id => @name }
+%driver{ :href => driver_url(name), :id => name }
   %name<
-    = @driver[:name]
-  - if @providers.nil?
-    - driver_provider(@driver).each do |prov, details|
+    = driver[:name]
+  - if providers.nil?
+    - driver_provider(driver).each do |prov, details|
       %provider{ :id => prov }
         - details.each do |kind, url|
           %entrypoint{ :kind => kind }<=cdata(url)
   - else
-    - @providers.each do |p|
+    - providers.each do |p|
       %provider{ :id => p.id }
         %entrypoint{ :kind => p.name }<=p.url

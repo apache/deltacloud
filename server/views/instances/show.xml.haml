@@ -1,60 +1,60 @@
 - unless defined?(partial)
   !!! XML
-%instance{:href => instance_url(@instance.id), :id => @instance.id}
-  - if @instance.name
+%instance{:href => instance_url(instance.id), :id => instance.id}
+  - if instance.name
     %name<
-      =@instance.name
-  - if @instance.owner_id
+      =instance.name
+  - if instance.owner_id
     %owner_id<
-      =@instance.owner_id
-  - if @instance.image_id
-    %image{:href => image_url(@instance.image_id), :id => @instance.image_id }
-  - if @instance.realm_id
-    %realm{:href => realm_url(@instance.realm_id), :id => @instance.realm_id }
-  - if @instance.state
+      =instance.owner_id
+  - if instance.image_id
+    %image{:href => image_url(instance.image_id), :id => instance.image_id }
+  - if instance.realm_id
+    %realm{:href => realm_url(instance.realm_id), :id => instance.realm_id }
+  - if instance.state
     %state<
-      =@instance.state
-  - if @instance.instance_profile
-    - haml_tag :"hardware_profile", {:id => @instance.instance_profile.id, :href => hardware_profile_url(@instance.instance_profile.id)} do
-      - @instance.instance_profile.overrides.each do |p, v|
+      =instance.state
+  - if instance.instance_profile
+    - haml_tag :"hardware_profile", {:id => instance.instance_profile.id, :href => hardware_profile_url(instance.instance_profile.id)} do
+      - instance.instance_profile.overrides.each do |p, v|
         %property{:kind => 'fixed', :name => p, :value => v, :unit => Deltacloud::HardwareProfile::unit(p)}
-  - if @instance.actions
+  - if instance.actions
     %actions
-      - @instance.actions.compact.each do |instance_action|
-        %link{:rel => instance_action, :method => instance_action_method(instance_action), :href => self.send("#{instance_action}_instance_url", @instance.id)}
+      - instance.actions.compact.each do |instance_action|
+        %link{:rel => instance_action, :method => instance_action_method(instance_action), :href => self.send("#{instance_action}_instance_url", instance.id)}
       - if driver.respond_to?(:run_on_instance)
-        %link{:rel => 'run', :method => :post, :href => "#{run_instance_url(@instance.id)};id=#{@instance.id}"}
-      - if @instance.can_create_image?
-        %link{:rel => 'create_image', :method => :post, :href => "#{create_image_url};instance_id=#{@instance.id}"}
-  - if @instance.launch_time
+        %link{:rel => 'run', :method => :post, :href => "#{run_instance_url(instance.id)};id=#{instance.id}"}
+      - if instance.can_create_image?
+        %link{:rel => 'create_image', :method => :post, :href => "#{create_image_url};instance_id=#{instance.id}"}
+  - if instance.launch_time
     %launch_time<
-      =@instance.launch_time
-  - if @instance.public_addresses
+      =instance.launch_time
+  - if instance.public_addresses
     %public_addresses<
-      - @instance.public_addresses.each do |a|
+      - instance.public_addresses.each do |a|
         %address{ :type => a.address_type, :port => a.port }=a.address
-  - if @instance.private_addresses
+  - if instance.private_addresses
     %private_addresses<
-      - @instance.private_addresses.each do |a|
+      - instance.private_addresses.each do |a|
         %address{ :type => a.address_type, :port => a.port }=a.address
-  - if @instance.firewalls
+  - if instance.firewalls
     %firewalls<
-      - @instance.firewalls.each do |firewall|
+      - instance.firewalls.each do |firewall|
         %firewall{:href => firewall_url(firewall), :id => firewall }
-  - if @instance.storage_volumes
+  - if instance.storage_volumes
     %storage_volumes<
-      - @instance.storage_volumes.each do |volume|
+      - instance.storage_volumes.each do |volume|
         %storage_volume{:href=> storage_volume_url(volume.keys.first), :id => volume.keys.first, :device => volume.values.first}
   - if driver.class.has_feature?(:instances, :authentication_key) or driver.class.has_feature?(:instances, :authentication_password)
     %authentication{ :type => auth_feature_name }
-      - if @instance.authn_feature_failed?
-        %error  #{@instance.authn_error}
+      - if instance.authn_feature_failed?
+        %error  #{instance.authn_error}
       - else
-        - if @instance.password
+        - if instance.password
           %login
-            %username #{@instance.username}
-            %password=cdata(@instance.password)
-        - if @instance.keyname
+            %username #{instance.username}
+            %password=cdata(instance.password)
+        - if instance.keyname
           %login
-            %keyname #{@instance.keyname}
+            %keyname #{instance.keyname}
 

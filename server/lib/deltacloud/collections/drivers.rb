@@ -22,9 +22,9 @@ module Deltacloud::Collections
         control do
           @drivers = Deltacloud::Drivers.driver_config
           respond_to do |format|
-            format.xml { haml :"drivers/index" }
+            format.xml { haml :"drivers/index", :locals => { :drivers => @drivers } }
             format.json { @drivers.to_json }
-            format.html { haml :"drivers/index" }
+            format.html { haml :"drivers/index", :locals => { :drivers => @drivers } }
           end
         end
       end
@@ -38,9 +38,9 @@ module Deltacloud::Collections
           @driver = Deltacloud::Drivers.driver_config[@name]
           halt 404 unless @driver
           respond_to do |format|
-            format.xml { haml :"drivers/show" }
+            format.xml { haml :"drivers/show", :locals => { :driver => @driver, :name => @name, :providers => @providers } }
             format.json { { :driver => @driver.merge(:id => params[:id]) }.to_json }
-            format.html { haml :"drivers/show" }
+            format.html { haml :"drivers/show",  :locals => { :driver => @driver, :name => @name, :providers => @providers }}
           end
         end
       end

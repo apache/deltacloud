@@ -26,7 +26,7 @@ module Deltacloud::Collections
         control do
           @machine = driver.instance_state_machine
           respond_to do |format|
-            format.xml { haml :'instance_states/show', :layout => false }
+            format.xml { haml :'instance_states/show', :layout => false, :locals => { :machine => @machine } }
             format.json do
               out = []
               @machine.states.each do |state|
@@ -37,12 +37,12 @@ module Deltacloud::Collections
               end
               out.to_json
             end
-            format.html { haml :'instance_states/show'}
-            format.gv { erb :"instance_states/show" }
+            format.html { haml :'instance_states/show', :locals => { :machine => @machine }}
+            format.gv { erb :"instance_states/show", :locals => { :machine => @machine } }
             format.png do
               # Trick respond_to into looking up the right template for the
               # graphviz file
-              gv = erb(:"instance_states/show")
+              gv = erb(:"instance_states/show", :locals => { :machine => @machine })
               png =  ''
               cmd = 'dot -Kdot -Gpad="0.2,0.2" -Gsize="5.0,8.0" -Gdpi="180" -Tpng'
               ::Open3.popen3( cmd ) do |stdin, stdout, stderr|

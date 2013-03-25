@@ -34,9 +34,9 @@ module Deltacloud::Collections
           status 201  # Created
           response['Location'] = storage_snapshot_url(@storage_snapshot.id)
           respond_to do |format|
-            format.xml { haml :"storage_snapshots/show" }
-            format.html { haml :"storage_snapshots/show" }
-            format.json { xml_to_json "storage_snapshots/show" }
+            format.xml { haml :"storage_snapshots/show", :locals => { :storage_snapshot => @storage_snapshot } }
+            format.html { haml :"storage_snapshots/show", :locals => { :storage_snapshot => @storage_snapshot } }
+            format.json { JSON::dump(:storage_snapshot => @storage_snapshot.to_hash(self)) }
           end
         end
       end

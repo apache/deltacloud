@@ -1,23 +1,23 @@
 - unless defined?(partial)
   !!! XML
-%key{ :href => key_url(@key.id), :id => @key.id, :type => "#{@key.credential_type}" }
-  %name=@key.name
+%key{ :href => key_url(key.id), :id => key.id, :type => "#{key.credential_type}" }
+  %name=key.name
   %actions
     - if driver.respond_to?(:destroy_key)
-      %link{ :rel => "destroy", :method => "delete", :href => destroy_key_url(@key.id)}
-  - if @key.is_key?
-    - if @key.fingerprint
+      %link{ :rel => "destroy", :method => "delete", :href => destroy_key_url(key.id)}
+  - if key.is_key?
+    - if key.fingerprint
       %fingerprint<
-        =@key.fingerprint
-    - unless @key.pem_rsa_key.nil?
+        =key.fingerprint
+    - unless key.pem_rsa_key.nil?
       %pem
-        ~render_cdata(@key.pem_rsa_key)
-  - if @key.is_password?
+        ~render_cdata(key.pem_rsa_key)
+  - if key.is_password?
     %username<
       =cdata do
-        =@key.username
+        =key.username
     %password<
       =cdata do
-        =@key.password
+        =key.password
   %state<
-    =@key.state
+    =key.state

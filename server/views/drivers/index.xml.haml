@@ -1,5 +1,5 @@
 %drivers
-  - @drivers.each do |id, details|
+  - drivers.each do |id, details|
     %driver{ :href => driver_url(id), :id => id }
       %name<
         =details[:name]

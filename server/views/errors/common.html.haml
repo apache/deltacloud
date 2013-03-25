@@ -2,28 +2,28 @@
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
     %li{ :'data-role' => 'list-divider'} Server message
     %li
-      %h3= h [@error.class.name, @error.message].join(' - ')
+      %h3= h [err.class.name, err.message].join(' - ')
     %li{ :'data-role' => 'list-divider'} Original request URI
     %li
       %a{ :href => request.env['REQUEST_URI'], :'data-ajax' => 'false'}
         %span=request.env['REQUEST_URI']
         %span{ :class => 'ui-li-count'} Retry
-    %li{ :'data-role' => 'list-divider'} Error details
+    %li{ :'data-role' => 'list-divider'} err details
     %li
-      - if @error.class.method_defined? :details
-        %p= h @error.details
+      - if err.class.method_defined? :details
+        %p= h err.details
       - else
         %em No details
     %li{ :'data-role' => 'list-divider'} Backtrace
     %li
-      %pre= bt @error.backtrace
+      %pre= bt err.backtrace
 
-  - if @error.backtrace
+  - if err.backtrace
     %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
       %h3 Backtrace
       %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'e'}
         %li
-          %pre= h @error.backtrace.join("\n")
+          %pre= h err.backtrace.join("\n")
 
   %div{ 'data-role' => :collapsible, 'data-collapsed' => "true"}
     %h3 Parameters

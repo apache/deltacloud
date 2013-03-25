@@ -49,9 +49,9 @@ module Deltacloud::Collections
           status 201  # Created
           response['Location'] = image_url(@image.id)
           respond_to do |format|
-            format.xml  { haml :"images/show" }
+            format.xml  { haml :"images/show", :locals => { :image => @image } }
             format.json { JSON::dump(:image => @image.to_hash(self)) }
-            format.html { haml :"images/show" }
+            format.html { haml :"images/show", :locals => { :image => @image } }
           end
         end
       end

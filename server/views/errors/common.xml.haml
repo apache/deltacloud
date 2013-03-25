@@ -4,13 +4,13 @@
   %backend{ :driver => driver_symbol, :provider => current_provider }
   %code=response.status
   %message<
-    - if @error.respond_to? :message
-      =cdata @error.message
+    - if err.respond_to? :message
+      =cdata err.message
     - else
-      =translate_error_code(response.status)
-  - if @error.respond_to? :backtrace
+      =translate_err_code(response.status)
+  - if err.respond_to? :backtrace
     %backtrace
-      =cdata @error.backtrace.nil? ? '' : @error.backtrace.join("\n")
+      =cdata err.backtrace.nil? ? '' : err.backtrace.join("\n")
     %request
       - if params
         -params.each do |name, value|

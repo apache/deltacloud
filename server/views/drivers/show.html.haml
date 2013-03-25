@@ -1,23 +1,23 @@
-=header @name
+=header name
 =subheader "Deltacloud API #{settings.version}"
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
     %li{ :'data-role' => 'list-divider'} Identifier
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@name
+      %p{ :'data-role' => 'fieldcontain'}=name
     %li{ :'data-role' => 'list-divider'} Name
     %li
-      %p{ :'data-role' => 'fieldcontain'}=@driver[:name]
+      %p{ :'data-role' => 'fieldcontain'}=driver[:name]
     %li{ :'data-role' => 'list-divider'} Provider
     %li
       %p{ :'data-role' => 'fieldcontain'}
-        - if @providers
-          - @providers.each do |p|
+        - if providers
+          - providers.each do |p|
             %h3= p.id
             %p= p.url
         - else
-          - providers = driver_provider(@driver).keys.collect { |k| k.to_s }.sort
+          - providers = driver_provider(driver).keys.collect { |k| k.to_s }.sort
           - if providers.empty?
             None
           - else

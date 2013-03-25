@@ -1,5 +1,5 @@
 - unless defined?(partial)
   !!!XML
 %metrics
-  - @elements.each do |c|
-    = haml :'metrics/show', :locals => { :@metric => c, :partial => true}
+  - elements.each do |c|
+    = haml :'metrics/show', :locals => { :metric => c, :partial => true}

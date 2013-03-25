@@ -40,8 +40,8 @@ module Deltacloud::Collections
           status 201
           response['Location'] = key_url(@key.id)
           respond_to do |format|
-            format.xml  { haml :"keys/show", :ugly => true }
-            format.html { haml :"keys/show" }
+            format.xml  { haml :"keys/show", :ugly => true, :locals => { :key => @key } }
+            format.html { haml :"keys/show", :locals => { :key => @key } }
             format.json { JSON::dump(:key => @key.to_hash(self)) }
           end
         end
