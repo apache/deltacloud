@@ -18,8 +18,6 @@ require 'rubygems/package_task'
 require 'rake'
 require 'rake/testtask'
 
-require 'pry' rescue LoadError
-
 spec = Gem::Specification.load('deltacloud-client.gemspec')
 
 Gem::PackageTask.new(spec) do |pkg|
@@ -91,6 +89,7 @@ end
 
 desc "Open console with client connected to #{ENV['API_URL'] || 'localhost:3002/api'}"
 task :console do
+  require 'pry'
   unless binding.respond_to? :pry
     puts 'To open a console, you need to have "pry" installed (gem install pry)'
     exit(1)
