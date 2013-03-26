@@ -8,5 +8,6 @@ group :development do
   gem 'minitest'
   gem 'vcr'
   gem 'pry'
+  gem 'turn'
   gem 'simplecov', :require => false
 end

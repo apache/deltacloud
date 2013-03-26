@@ -13,12 +13,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'bundler'
-
-Bundler.setup(:default, :development)
+require 'bundler/setup'
 Bundler.require(:default, :development)
 
 require 'require_relative' if RUBY_VERSION < '1.9'
+
+Turn.config.format = :dot
 
 if ENV['COVERAGE']
   require 'simplecov'

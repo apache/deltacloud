@@ -5,7 +5,6 @@ rvm:
   - jruby-head
 jdk:
   - openjdk7
-gemfile: server/Gemfile
 install:
   - cd server
   - bundle install
