@@ -1,7 +1,0 @@
-%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
-  %kind backend_error
-  %backend{ :driver => driver_symbol }
-    %code= @error.code
-    - if @error.respond_to?(:details) && @error.details
-      %details< #{cdata @error.details.join("\n")}
-  %message< #{cdata @error.message}

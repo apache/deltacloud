@@ -1,6 +1,0 @@
-%error{:url => "#{request.env['REQUEST_URI']}", :status => "#{response.status}"}
-  %kind backend_error
-  %message< #{cdata @error.message}
-  %backend{ :driver => driver_symbol }
-    %code=response.status
-  %backtrace< #{h bt(@error.backtrace)}
