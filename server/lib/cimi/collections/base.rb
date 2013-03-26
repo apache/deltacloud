@@ -61,6 +61,10 @@ module CIMI::Collections
       report_error
     end
 
+    error CIMI::Model::NotFound do
+      report_error(404, 'Not found')
+    end
+
     error JSON::ParserError do
       report_error(400, "Bad request (#{request.env['sinatra.error'].message})")
     end

@@ -128,7 +128,7 @@ module Deltacloud::Helpers
 
       respond_to do |format|
         format.xml {  haml :"errors/common", :layout => false, :locals => { :err => error } }
-        format.json { JSON::dump({ :code => code || error.code, :message => message, :err => error.class.name }) }
+        format.json { JSON::dump({ :code => code || error.code, :message => message, :error => error.class.name }) }
         format.html {
           begin
             haml :"errors/common", :layout => :error, :locals => { :err => error }

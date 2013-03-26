@@ -58,6 +58,10 @@ module Deltacloud::EC2
       headers 'Server' => 'Apache-Deltacloud-EC2/' + settings.version
     end
 
+    error Deltacloud::Exceptions::AuthenticationFailure do
+      status 401
+    end
+
     get '/' do
       headers 'Connection' => 'close'
       unless params['Action']
