@@ -78,11 +78,8 @@ Gem::Specification.new do |s|
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
   s.add_dependency('sequel', '<= 3.42.0')
 
-  # FIXME: These dependencies are locked due to bugs that
-  #        we will not address in this release.
-  #
-  s.add_dependency('tilt', '<=1.3.3')
-  s.add_dependency('sinatra', '<=1.3.5')
+  s.add_dependency('tilt')
+  s.add_dependency('sinatra')
 
 
   if RUBY_PLATFORM == 'java'
