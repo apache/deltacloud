@@ -20,51 +20,10 @@ module CIMI::Collections
 
     collection :system_templates do
 
-      operation :index, :with_capability => :system_templates do
-        description "List all system templates"
-        control do
-          system_templates = SystemTemplate.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { system_templates.to_xml }
-            format.json { system_templates.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :system_templates do
-        description "Show specific system template"
-        control do
-          system_template = SystemTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml { system_template.to_xml }
-            format.json { system_template.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_system_template do
-        description "Create new system template"
-        control do
-          if grab_content_type(request.content_type, request.body) == :json
-            new_system_template = SystemTemplate.create_from_json(request.body.read, self)
-          else
-            new_system_template = SystemTemplate.create_from_xml(request.body.read, self)
-          end
-          headers_for_create new_system_template
-          respond_to do |format|
-            format.json { new_system_template.to_json }
-            format.xml { new_system_template.to_xml }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_system_template do
-        description "Delete a specified system template"
-        control do
-          SystemTemplate.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_index_operation :with_capability => :system_templates
+      generate_show_operation :with_capability => :system_templates
+      generate_create_operation :with_capability => :create_system_template
+      generate_delete_operation :with_capability => :destroy_system_template
 
     end
 

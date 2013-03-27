@@ -20,51 +20,12 @@ module CIMI::Collections
 
     collection :volume_templates do
 
-      operation :index, :with_capability => :storage_volumes do
-        description "Retrieve the Volume Template Collection"
-        control do
-          volume_template = VolumeTemplate.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { volume_template.to_xml }
-            format.json { volume_template.to_json }
-          end
-        end
-      end
+      generate_index_operation :with_capability => :storage_volumes
+      generate_show_operation :with_capability => :storage_volume
+      generate_create_operation :with_capability => :create_storage_volume
+      generate_delete_operation :with_capability => :destroy_storage_volume
 
-      operation :show, :with_capability => :storage_volume do
-        description "Get a specific VolumeTemplate"
-        control do
-          volume_template = VolumeTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml { volume_template.to_xml }
-            format.json { volume_template.json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_storage_volume do
-        description "Create new VolumeTemplate"
-        control do
-          puts request.body
-          vol = VolumeTemplateCreate.parse(self)
-          new_template = vol.create
-          headers_for_create new_template
-          respond_to do |format|
-            format.json { new_template.to_json }
-            format.xml { new_template.to_xml }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_storage_volume do
-        description "Delete a specified VolumeTemplate"
-        control do
-          VolumeTemplate.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
-
-    end
+     end
 
   end
 end

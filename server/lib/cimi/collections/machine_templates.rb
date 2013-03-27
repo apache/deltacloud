@@ -20,48 +20,10 @@ module CIMI::Collections
 
     collection :machine_templates do
 
-      operation :index do
-        description "List all machine templates"
-        control do
-          machine_templates = MachineTemplate.list(self)
-          respond_to do |format|
-            format.xml { machine_templates.to_xml }
-            format.json { machine_templates.to_json }
-          end
-        end
-      end
-
-      operation :show do
-        description "Show specific machine template"
-        control do
-          machine_template = MachineTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml { machine_template.to_xml }
-            format.json { machine_template.to_json }
-          end
-        end
-      end
-
-      operation :create do
-        description "Create new machine template"
-        control do
-          mt = MachineTemplateCreate.parse(self)
-          new_machine_template = mt.create
-          headers_for_create new_machine_template
-          respond_to do |format|
-            format.json { new_machine_template.to_json }
-            format.xml { new_machine_template.to_xml }
-          end
-        end
-      end
-
-      operation :destroy do
-        description "Delete a specified machine template"
-        control do
-          MachineTemplate.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_show_operation
+      generate_index_operation
+      generate_create_operation
+      generate_delete_operation
 
     end
 

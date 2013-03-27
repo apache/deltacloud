@@ -21,51 +21,10 @@ module CIMI::Collections
     collection :systems do
       description 'List all systems'
 
-      operation :index, :with_capability => :systems do
-        description "List all systems"
-        control do
-          systems = System.list(self).select_by(params['$select']).filter_by(params['$filter'])
-          respond_to do |format|
-            format.xml { systems.to_xml }
-            format.json { systems.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :systems do
-        description "Show specific system."
-        control do
-          system = System.find(params[:id], self)
-          respond_to do |format|
-            format.xml { system.to_xml }
-            format.json { system.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_system do
-        description "Create a new System entity."
-        control do
-          if grab_content_type(request.content_type, request.body) == :json
-            new_system = System.create_from_json(request.body.read, self)
-          else
-            new_system = System.create_from_xml(request.body.read, self)
-          end
-          headers_for_create new_system
-          respond_to do |format|
-            format.json { new_system.to_json }
-            format.xml { new_system.to_xml }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_system do
-        description "Delete a specified system."
-        control do
-          System.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_index_operation :with_capability => :systems
+      generate_show_operation :with_capability => :systems
+      generate_create_operation :with_capability => :create_system
+      generate_delete_operation :with_capability => :destroy_system
 
       action :stop, :with_capability => :stop_system do
         description "Stop specific system."

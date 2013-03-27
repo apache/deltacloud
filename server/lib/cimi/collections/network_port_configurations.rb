@@ -20,27 +20,8 @@ module CIMI::Collections
 
     collection :network_port_configurations do
 
-      operation :index, :with_capability => :network_port_configurations do
-        description 'List all NetworkPortConfigurations in the NetworkPortConfigurationCollection'
-        control do
-          net_port_configs = NetworkPortConfiguration.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {net_port_configs.to_xml}
-            format.json {net_port_configs.to_json}
-          end
-        end
-      end
-
-      operation :show, :with_capability => :network_port_configurations do
-        description 'Show a specific NetworkPortConfiguration'
-        control do
-          net_port_config = NetworkPortConfiguration.find(params[:id], self)
-          respond_to do |format|
-            format.xml {net_port_config.to_xml}
-            format.json {net_port_config.to_json}
-          end
-        end
-      end
+      generate_index_operation :with_capability => :network_port_configurations
+      generate_show_operation :with_capability => :network_port_configurations
 
     end
 

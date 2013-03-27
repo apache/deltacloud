@@ -21,47 +21,11 @@ module CIMI::Collections
     collection :networks do
       description 'A Network represents an abstraction of a layer 2 broadcast domain'
 
-      operation :index, :with_capability => :networks do
-        description "List all Networks"
-        control do
-          networks = Network.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { networks.to_xml }
-            format.json { networks.to_json }
-          end
-        end
-      end
+      generate_show_operation :with_capability => :network
+      generate_index_operation :with_capability => :networks
+      generate_delete_operation :with_capability => :destroy_network
+      generate_create_operation :with_capability => :create_network
 
-      operation :show, :with_capability => :networks do
-        description "Show a specific Network"
-        control do
-          network = Network.find(params[:id], self)
-          respond_to do |format|
-            format.xml { network.to_xml }
-            format.json { network.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_network do
-        description "Create a new Network"
-        control do
-          n = NetworkCreate.parse(self)
-          network = n.create
-          respond_to do |format|
-            format.xml { network.to_xml}
-            format.json { network.to_json }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :delete_network do
-        description "Delete a specified Network"
-        control do
-          Network.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
 
       action :start, :with_capability => :start_network do
         description "Start specific network."

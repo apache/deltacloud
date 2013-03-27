@@ -20,27 +20,9 @@ module CIMI::Collections
 
     collection :network_configurations do
 
-      operation :index, :with_capability => :network_configurations do
-        description 'List all NetworkConfigurations'
-        control do
-          network_configurations = NetworkConfiguration.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { network_configurations.to_xml  }
-            format.json { network_configurations.to_json }
-          end
-        end
-      end
+      generate_show_operation :with_capability => :network_configurations
+      generate_index_operation :with_capability => :network_configurations
 
-      operation :show, :with_capability => :network_configurations do
-        description 'Show a specific NetworkConfiguration'
-        control do
-          network_config = NetworkConfiguration.find(params[:id], self)
-          respond_to do |format|
-            format.xml { network_config.to_xml }
-            format.json { network_config.to_json }
-          end
-        end
-      end
     end
 
   end

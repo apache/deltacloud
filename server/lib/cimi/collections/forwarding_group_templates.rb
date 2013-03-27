@@ -19,27 +19,9 @@ module CIMI::Collections
 
     collection :forwarding_group_templates do
 
-      operation :index, :with_capability => :forwarding_groups do
-        description 'List all ForwardingGroupTemplates in the ForwardingGroupTemplateCollection'
-        control do
-          forwarding_group_templates = ForwardingGroupTemplate.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {forwarding_group_templates.to_xml}
-            format.json {forwarding_group_templates.to_json}
-          end
-        end
-      end
+      generate_index_operation :with_capability => :forwarding_groups
+      generate_show_operation :with_capability => :forwarding_groups
 
-      operation :show, :with_capability => :forwarding_groups do
-        description 'Show a specific ForwardingGroupTemplate'
-        control do
-          forwarding_group_template = ForwardingGroupTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml {forwarding_group_template.to_xml}
-            format.json {forwarding_group_template.to_json}
-          end
-        end
-      end
     end
 
   end

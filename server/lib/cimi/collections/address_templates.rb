@@ -20,48 +20,10 @@ module CIMI::Collections
 
     collection :address_templates do
 
-      operation :index do
-        description 'List all AddressTemplates in the AddressTemplateCollection'
-        control do
-          address_templates = AddressTemplate.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {address_templates.to_xml}
-            format.json {address_templates.to_json}
-          end
-        end
-      end
-
-      operation :show do
-        description 'Show a specific AddressTemplate'
-        control do
-          address_template = AddressTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml {address_template.to_xml}
-            format.json {address_template.to_json}
-          end
-        end
-      end
-
-      operation :create do
-        description "Create new AddressTemplate"
-        control do
-          addr_templ = AddressTemplateCreate.parse(self)
-          new_address_template = addr_templ.create
-          headers_for_create new_address_template
-          respond_to do |format|
-            format.json { new_address_template.to_json }
-            format.xml { new_address_template.to_xml }
-          end
-        end
-      end
-
-      operation :destroy do
-        description "Delete a specified AddressTemplate"
-        control do
-          AddressTemplate.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_index_operation
+      generate_show_operation
+      generate_create_operation
+      generate_delete_operation
 
     end
 

@@ -20,27 +20,8 @@ module CIMI::Collections
 
     collection :network_templates do
 
-      operation :index, :with_capability => :network_templates do
-        description 'List all Network Templates in the NetworkTemplateCollection'
-        control do
-          network_templates = NetworkTemplate.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {network_templates.to_xml}
-            format.json {network_templates.to_json}
-          end
-        end
-      end
-
-      operation :show, :with_capability => :network_templates do
-        description 'Show a specific Network Template'
-        control do
-          network_template = NetworkTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml {network_template.to_xml}
-            format.json {network_template.to_json}
-          end
-        end
-      end
+      generate_index_operation :with_capability => :network_templates
+      generate_show_operation :with_capability => :network_templates
 
     end
 

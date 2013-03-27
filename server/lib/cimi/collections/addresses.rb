@@ -19,53 +19,15 @@ module CIMI::Collections
     set :capability, lambda { |m| driver.respond_to? m }
 
     collection :addresses do
-
       description 'An Address represents an IP address, and its associated metadata, for a particular Network.'
 
-      operation :index, :with_capability => :addresses do
-        description 'List all Addresses in the AddressCollection'
-        control do
-          addresses = Address.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {addresses.to_xml}
-            format.json {addresses.to_json}
-          end
-        end
-      end
-
-      operation :show, :with_capability => :address do
-        description 'Show a specific Address'
-        control do
-          address = Address.find(params[:id], self)
-          respond_to do |format|
-            format.xml {address.to_xml}
-            format.json {address.to_json}
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_address do
-        description "Create a new Address"
-        control do
-          addr = AddressCreate.parse(self)
-          address = addr.create
-          respond_to do |format|
-            format.xml { address.to_xml }
-            format.json { address.to_json }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :delete_address do
-        description "Delete a specified Address"
-        param :id, :string, :required
-        control do
-          Address.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_index_operation :with_capability => :addresses
+      generate_show_operation :with_capability => :address
+      generate_delete_operation :with_capability => :destroy_address
+      generate_create_operation :with_capability => :create_address
 
     end
+
 
   end
 end

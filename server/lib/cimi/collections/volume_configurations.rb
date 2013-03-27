@@ -20,51 +20,10 @@ module CIMI::Collections
 
     collection :volume_configurations do
 
-      operation :index, :with_capability => :storage_volumes do
-        description "Get list all VolumeConfigurations"
-        control do
-          volume_configuration = VolumeConfiguration.list(self)
-          respond_to do |format|
-            format.xml { volume_configuration.to_xml }
-            format.json { volume_configuration.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :storage_volume do
-        description "Get a specific VolumeConfiguration"
-        control do
-          volume_config = VolumeConfiguration.find(params[:id], self)
-          respond_to do |format|
-            format.xml { volume_config.to_xml }
-            format.json { volume_config.json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_storage_volume do
-        description "Create new VolumeConfiguration"
-        control do
-          if current_content_type == :json
-            new_config = VolumeConfiguration.create_from_json(request.body.read, self)
-          else
-            new_config = VolumeConfiguration.create_from_xml(request.body.read, self)
-          end
-          headers_for_create new_config
-          respond_to do |format|
-            format.json { new_config.to_json }
-            format.xml { new_config.to_xml }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_storage_volume do
-        description "Delete a specified VolumeConfiguration"
-        control do
-          VolumeConfiguration.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_index_operation :with_capability => :storage_volumes
+      generate_show_operation :with_capability => :storage_volume
+      generate_create_operation :with_capability => :create_storage_volume
+      generate_delete_operation :with_capability => :storage_volume
 
     end
 

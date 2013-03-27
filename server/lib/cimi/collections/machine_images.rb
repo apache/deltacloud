@@ -21,48 +21,10 @@ module CIMI::Collections
     collection :machine_images do
       description 'List all machine images'
 
-      operation :index, :with_capability => :images do
-        description "List all machine configurations"
-        control do
-          machine_images = MachineImage.list(self)
-          respond_to do |format|
-            format.xml { machine_images.to_xml }
-            format.json { machine_images.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :image do
-        description "Show specific machine image."
-        control do
-          machine_image = MachineImage.find(params[:id], self)
-          respond_to do |format|
-            format.xml { machine_image.to_xml }
-            format.json { machine_image.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_image do
-        description "Create a new machine image."
-        control do
-          mi = MachineImageCreate.parse(self)
-          machine_image = mi.create
-          headers_for_create machine_image
-          respond_to do |format|
-            format.xml { machine_image.to_xml }
-            format.json { machine_image.to_json }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_image do
-        description "Delete a specified MachineImage"
-        control do
-          MachineImage.delete!(params[:id], self)
-          no_content_with_status 200
-        end
-      end
+      generate_show_operation :with_capability => :image
+      generate_index_operation :with_capability => :images
+      generate_delete_operation :with_capability => :destroy_image
+      generate_create_operation :with_capability => :create_image
 
     end
 

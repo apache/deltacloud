@@ -19,54 +19,10 @@ module CIMI::Collections
     set :capability, lambda { |m| driver.respond_to? m }
 
     collection :volumes do
-
-      operation :index, :with_capability => :storage_volumes do
-        description "List all volumes"
-        control do
-          volumes = Volume.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { volumes.to_xml }
-            format.json { volumes.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :storage_volume do
-        description "Show specific Volume."
-        control do
-          volume = Volume.find(params[:id], self)
-          if volume
-            respond_to do |format|
-              format.xml  { volume.to_xml  }
-              format.json { volume.to_json }
-            end
-          else
-            report_error(404)
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_storage_volume do
-        description "Create a new Volume."
-        control do
-          vol = VolumeCreate.parse(self)
-          new_volume = vol.create
-          headers_for_create new_volume
-          respond_to do |format|
-            format.json { new_volume.to_json }
-            format.xml { new_volume.to_xml }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_storage_volume do
-        description "Delete a specified Volume"
-        control do
-          Volume.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
-
+      generate_index_operation :with_capability => :storage_volumes
+      generate_show_operation :with_capability => :storage_volume
+      generate_create_operation :with_capability => :create_storage_volume
+      generate_delete_operation :with_capability => :destroy_storage_volume
     end
 
 

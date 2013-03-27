@@ -34,6 +34,10 @@ class CIMI::Service::CloudEntryPoint < CIMI::Service::Base
   def self.entities(context)
     CIMI::Collections.modules(:cimi).inject({}) do |supported_entities, m|
       m.collections.each do |c|
+        if c.operation(:index).nil?
+          warn "#{c} does not have :index operation."
+          next
+        end
         index_operation_capability = c.operation(:index).required_capability
         next if m.settings.respond_to?(:capability) and !m.settings.capability(index_operation_capability)
         supported_entities[c.collection_name.to_s] = { :href => context.send(:"#{c.collection_name}_url") }

@@ -19,53 +19,13 @@ module CIMI::Collections
     set :capability, lambda { |m| driver.respond_to? m }
 
     collection :network_ports do
+      description 'A NetworkPort is a realized connection point between a Network'+
+        ' and a resource - such as a Machine.'
 
-      description 'A NetworkPort is a realized connection point between a Network and a resource - such as a Machine.'
-
-      operation :index, :with_capability => :network_ports do
-        description 'List all NetworkPorts in the NetworkPortCollection'
-        control do
-          network_ports = NetworkPort.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {network_ports.to_xml}
-            format.json {network_ports.to_json}
-          end
-        end
-      end
-
-      operation :show, :with_capability => :network_ports do
-        description 'Show a specific NetworkPort'
-        control do
-          network_port = NetworkPort.find(params[:id], self)
-          respond_to do |format|
-            format.xml {network_port.to_xml}
-            format.json {network_port.to_json}
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_network_port do
-        description "Create a new NetworkPort"
-        control do
-          if current_content_type == :json
-            network_port = NetworkPort.create(request.body.read, self, :json)
-          else
-            network_port = NetworkPort.create(request.body.read, self, :xml)
-          end
-          respond_to do |format|
-            format.xml { network_port.to_xml }
-            format.json { network_port.to_json }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :delete_network_port do
-        description "Delete a specified NetworkPort"
-        control do
-          NetworkPort.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_show_operation :with_capability => :network_port
+      generate_index_operation :with_capability => :networks_ports
+      generate_create_operation :with_capability => :create_network_port
+      generate_delete_operation :with_capability => :destroy_network_port
 
       action :start, :with_capability => :start_network_port do
         description "Start specific NetworkPort."

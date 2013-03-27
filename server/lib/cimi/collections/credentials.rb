@@ -21,49 +21,10 @@ module CIMI::Collections
     collection :credentials do
       description 'Machine Admin entity'
 
-      operation :index, :with_capability => :keys do
-        description "List all machine admins"
-        control do
-          credentials = Credential.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { credentials.to_xml }
-            format.json { credentials.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :key do
-        description "Show specific machine admin"
-        control do
-          credential = Credential.find(params[:id], self)
-          respond_to do |format|
-            format.xml { credential.to_xml }
-            format.json { credential.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_key do
-        description "Show specific machine admin"
-        control do
-          c = CredentialCreate.parse(self)
-          new_admin = c.create
-          headers_for_create new_admin
-          respond_to do |format|
-            format.json { new_admin.to_json }
-            format.xml { new_admin.to_xml }
-          end
-        end
-      end
-
-      operation :delete, :with_capability => :destroy_key do
-        description "Delete specified Credential entity"
-        control do
-          Credential.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
-
+      generate_show_operation :with_capability => :keys
+      generate_index_operation :with_capability => :keys
+      generate_create_operation :with_capability => :create_key
+      generate_delete_operation :with_capability => :delete_key
     end
 
   end

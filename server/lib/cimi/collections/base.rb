@@ -22,6 +22,10 @@ module CIMI::Collections
       enable :use_namespace
     end
 
+    helpers Sinatra::Rabbit::URLHelper
+
+    Sinatra::Rabbit::Collection.extend(CIMI::RabbitHelper)
+
     include Sinatra::Rabbit
     include Sinatra::Rabbit::Features
     include CIMI::Service
@@ -29,7 +33,7 @@ module CIMI::Collections
     helpers Deltacloud::Helpers::Drivers
     helpers Deltacloud::Helpers::Database
     helpers Sinatra::AuthHelper
-    helpers Sinatra::Rabbit::URLHelper
+
     helpers Deltacloud::Helpers::Application
     helpers CIMI::Helper
 

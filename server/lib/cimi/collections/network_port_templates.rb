@@ -20,29 +20,8 @@ module CIMI::Collections
 
     collection :network_port_templates do
 
-      description 'The NetworkPort Template is a set of Configuration values for realizing a NetworkPort. A NetworkPort Template may be used to create multiple NetworkPorts'
-
-      operation :index, :with_capability => :network_port_templates do
-        description 'List all NetworkPortTemplates in the NetworkPortTemplateCollection'
-        control do
-          network_port_templates = NetworkPortTemplate.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml {network_port_templates.to_xml}
-            format.json {network_port_templates.to_json}
-          end
-        end
-      end
-
-      operation :show, :with_capability => :network_port_templates do
-        description 'Show a specific NetworkPortTemplate'
-        control do
-          network_port_template = NetworkPortTemplate.find(params[:id], self)
-          respond_to do |format|
-            format.xml {network_port_template.to_xml}
-            format.json {network_port_template.to_json}
-          end
-        end
-      end
+      generate_show_operation :with_capability => :network_port_templates
+      generate_index_operation :with_capability => :network_port_templates
 
     end
 

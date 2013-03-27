@@ -21,48 +21,10 @@ module CIMI::Collections
     collection :machines do
       description 'List all machine'
 
-      operation :index, :with_capability => :instances do
-        description "List all machines"
-        control do
-          machines = Machine.list(self)
-          respond_to do |format|
-            format.xml { machines.to_xml }
-            format.json { machines.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :instance do
-        description "Show specific machine."
-        control do
-          machine = Machine.find(params[:id], self)
-          respond_to do |format|
-            format.xml { machine.to_xml }
-            format.json { machine.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_instance do
-        description "Create a new Machine entity."
-        control do
-          mc = MachineCreate.parse(self)
-          new_machine = mc.create
-          headers_for_create new_machine
-          respond_to do |format|
-            format.json { new_machine.to_json }
-            format.xml { new_machine.to_xml }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_instance do
-        description "Delete a specified machine."
-        control do
-          Machine.delete!(params[:id], self)
-          no_content_with_status(200)
-        end
-      end
+      generate_show_operation :with_capability => :instance
+      generate_index_operation :with_capability => :instances
+      generate_delete_operation :with_capability => :destroy_instance
+      generate_create_operation :with_capability => :create_instance
 
       action :stop, :with_capability => :stop_instance do
         description "Stop specific machine."

@@ -21,48 +21,10 @@ module CIMI::Collections
     collection :volume_images do
       description 'This entity represents an image that could be place on a pre-loaded volume.'
 
-      operation :index, :with_capability => :storage_snapshots do
-        description "List all volumes images"
-        control do
-          volume_images = VolumeImage.list(self).select_by(params['$select'])
-          respond_to do |format|
-            format.xml { volume_images.to_xml }
-            format.json { volume_images.to_json }
-          end
-        end
-      end
-
-      operation :show, :with_capability => :storage_snapshot do
-        description "Show a specific volume image"
-        control do
-          volume_image = VolumeImage.find(params[:id], self)
-          respond_to do |format|
-            format.xml { volume_image.to_xml }
-            format.json { volume_image.to_json }
-          end
-        end
-      end
-
-      operation :create, :with_capability => :create_storage_snapshot do
-        description "Create a new volume image."
-        control do
-          img = VolumeImageCreate.parse(self)
-          volume_image = img.create
-          headers_for_create volume_image
-          respond_to do |format|
-            format.xml { volume_image.to_xml }
-            format.json { volume_image.to_json }
-          end
-        end
-      end
-
-      operation :destroy, :with_capability => :destroy_storage_snapshot do
-        description "Delete a specified VolumeImage"
-        control do
-          VolumeImage.delete!(params[:id], self)
-          no_content_with_status 200
-        end
-      end
+      generate_index_operation :with_capability => :storage_snapshots
+      generate_show_operation :with_capability => :storage_snapshot
+      generate_create_operation :with_capability => :create_storage_snapshot
+      generate_delete_operation :with_capability => :destroy_storage_snapshot
 
     end
 

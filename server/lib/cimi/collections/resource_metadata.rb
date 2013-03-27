@@ -18,27 +18,8 @@ module CIMI::Collections
 
     collection :resource_metadata do
 
-      operation :index do
-        description "List all resource metadata defined for this provider"
-        control do
-          resource_metadata = CIMI::Service::ResourceMetadata.list(self)
-          respond_to do |format|
-            format.xml{resource_metadata.to_xml}
-            format.json{resource_metadata.to_json}
-          end
-        end
-      end
-
-      operation :show do
-        description "Get the resource metadata for a specific collection"
-        control do
-          resource_metadata = CIMI::Service::ResourceMetadata.find(params[:id], self)
-          respond_to do |format|
-            format.xml{resource_metadata.to_xml}
-            format.json{resource_metadata.to_json}
-          end
-        end
-      end
+      generate_index_operation
+      generate_show_operation
 
     end
 

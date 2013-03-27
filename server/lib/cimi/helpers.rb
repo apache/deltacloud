@@ -35,4 +35,5 @@ require_relative '../deltacloud/helpers/deltacloud_helper'
 require_relative '../deltacloud/helpers/rabbit_helper'
 
 require_relative './helpers/cimi_helper'
+require_relative './helpers/cimi_rabbit_helper'
 require_relative './helpers/database_helper'
