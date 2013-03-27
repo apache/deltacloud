@@ -124,12 +124,12 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
-      conv = convert_to_xml(model[name])
+      conv = convert_to_xml(extract(model))
       xml[xml_name] = [conv] unless conv.empty?
     end
 
     def to_json(model, json)
-      conv = convert_to_json(model[name])
+      conv = convert_to_json(extract(model))
       json[json_name] = conv unless conv.empty?
     end
 
@@ -179,6 +179,14 @@ class CIMI::Model::Schema
         @struct_class ||= ::Struct.new(nil, *@schema.attribute_names)
       end
     end
+    def extract(model)
+      if model.respond_to?("[]")
+        model[name] || {}
+      else
+        {}
+      end
+    end
+
   end
 
   class Ref < CIMI::Model::Schema::Struct
@@ -268,13 +276,21 @@ class CIMI::Model::Schema
     end
 
     def to_xml(model, xml)
-      ary = (model[name] || {}).map { |k, v| { "key" => k, "content" => v } }
-      xml[xml_name] = ary unless ary.empty?
+      mapped = extract(model).map { |k, v| { "key" => k, "content" => v } }
+      xml[xml_name] = mapped unless mapped.empty?
     end
 
     def to_json(model, json)
-      if model[name] && ! model[name].empty?
-        json[json_name] = model[name]
+      h = extract(model)
+      json[json_name] = h unless h.empty?
+    end
+
+    private
+    def extract(model)
+      if model.respond_to?("[]")
+        model[name] || {}
+      else
+        {}
       end
     end
   end
