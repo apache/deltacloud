@@ -1,0 +1,10 @@
+=header "Create new network"
+
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => networks_url, :method => :post}
+    %div{ 'data-role' => :fieldcontain }
+      %p
+        %label{ :for => :address_block} CIDR Address block (optional):
+      %p
+        %input{ :type => :text, :id => :address_block, :name => :address_block, :value => '' }
+    %button{ :type => :submit} Create network

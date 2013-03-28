@@ -38,6 +38,9 @@ module Deltacloud::Collections
       if driver.class.has_feature?(:instances, :authentication_key)
         @opts[:keys] = driver.keys(credentials)
       end
+      if driver.has_capability? :networks
+        @opts[:networks] = driver.networks(credentials)
+      end
     end
 
     get '/instances/:id/run' do
@@ -57,7 +60,11 @@ module Deltacloud::Collections
         param :realm_id,     :string, :optional
         param :hwp_id,       :string, :optional
         param :keyname,      :string, :optional
+        param :network_id,   :string, :optional
+        param :subnet_id,    :string, :optional
         control do
+          params.merge!({:network_id => params["network_id"].split("+").first}) unless params["network_id"].empty?
+          params.merge!({:subnet_id => params["network_id"].split("+").last}) unless params["network_id"].empty?
           @instance = driver.create_instance(credentials, params[:image_id], params)
           if @instance.kind_of? Array
             @elements = @instance

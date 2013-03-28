@@ -1,0 +1,14 @@
+=header "Create new subnet"
+
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => subnets_url, :method => :post}
+    %div{ 'data-role' => :fieldcontain }
+      %p
+        %label{ :for => :network_id} Network ID:
+      %p
+        %input{ :type => :text, :id => :network_id, :name => :network_id, :value => '' }
+      %p
+        %label{ :for => :address_block} CIDR Address block:
+      %p
+        %input{ :type => :text, :id => :address_block, :name => :address_block, :value => '' }
+    %button{ :type => :submit} Create subnet

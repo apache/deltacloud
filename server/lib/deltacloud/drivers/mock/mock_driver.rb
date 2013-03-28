@@ -227,6 +227,14 @@ module Deltacloud::Drivers::Mock
         :actions => instance_actions_for((initial_state == "STARTED" ? "RUNNING" : initial_state)),
         :user_data => opts[:user_data] ? Base64::decode64(opts[:user_data]) : nil
       }
+      if opts[:network_id] && opts[:subnet_id]
+        net = network(credentials, {:id => opts[:network_id]})
+        snet = subnet(credentials, {:id => opts[:subnet_id]})
+        cidr = IPAddr.new(snet.address_block)
+        address = cidr.to_range.to_a.sample.to_s #sloppy, choose random address - hey it's mock!
+        net_bind = [{:network => net.id, :subnet=>snet.id, :ip_address=>address}]
+        instance.merge!({:network_bindings => net_bind})
+      end
 
       @client.store(:instances, instance)
       Instance.new( instance )
@@ -561,6 +569,67 @@ module Deltacloud::Drivers::Mock
       metric
     end
 
+    #Deltacloud Networks == Amazon VPC
+    def networks(credentials, opts={})
+      check_credentials(credentials)
+      networks = @client.build_all(Network)
+      filter_on(networks, opts, :id)
+    end
+
+    def create_network(credentials, opts={})
+      check_credentials(credentials)
+      id = opts[:name] || "net_#{Time.now.to_i}"
+      net_hash = { :id => id,
+                   :name => id,
+                   :address_blocks => [opts[:address_block]],
+                   :state => "UP"}
+      @client.store(:networks, net_hash)
+      Network.new(net_hash)
+    end
+
+    def destroy_network(credentials, network_id)
+      check_credentials(credentials)
+      net = network(credentials, {:id => network_id})
+      #also destroy subnets:
+      net.subnets.each do |sn|
+        destroy_subnet(credentials, sn)
+      end
+      @client.destroy(:networks, network_id)
+    end
+
+    def subnets(credentials, opts={})
+      check_credentials(credentials)
+      subnets = @client.build_all(Subnet)
+      filter_on(subnets, opts, :id)
+    end
+
+    def create_subnet(credentials, opts={})
+      check_credentials(credentials)
+      id = opts[:name] || "subnet_#{Time.now.to_i}"
+      snet_hash = { :id => id,
+                   :name => id,
+                   :address_block => opts[:address_block],
+                   :network => opts[:network_id],
+                   :state => "UP"}
+      @client.store(:subnets, snet_hash)
+      #also update network:
+      net = @client.load_collection(:networks, opts[:network_id])
+      net[:subnets] ||=[]
+      net[:subnets]  << snet_hash[:id]
+      @client.store(:networks, net)
+      Subnet.new(snet_hash)
+    end
+
+    def destroy_subnet(credentials, subnet_id)
+      check_credentials(credentials)
+      snet = subnet(credentials, {:id => subnet_id})
+      #also update network:
+      net = @client.load_collection(:networks, snet.network)
+      net[:subnets].delete(subnet_id)
+      @client.store(:networks, net)
+      @client.destroy(:subnets, subnet_id)
+    end
+
     private
 
     def check_credentials(credentials)
@@ -647,7 +716,7 @@ module Deltacloud::Drivers::Mock
         status 403
       end
 
-      on /BucketNotExist/ do
+      on /(BucketNotExist || NotFound)/ do
         status 404
       end
 

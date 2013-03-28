@@ -56,6 +56,15 @@
       -instance.storage_volumes.each do |vol|
         %li
           %a{ :href => storage_volume_url("#{vol.keys.first}"), :'data-ajax' => 'false'}=["#{vol.keys.first}", "#{vol.values.first}"].compact.reject{ |e| e.empty? }.join(' <---> ')
+    - if @instance.network_bindings
+      %li{ :'data-role' => 'list-divider'} Network Bindings
+      -@instance.network_bindings.each do |net_bind|
+        %li
+          %a{ :href => network_url("#{net_bind[:network]}"), :'data-ajax' => 'false'}="Network #{net_bind[:network]}"
+        %li
+          %a{ :href => subnet_url("#{net_bind[:subnet]}"), :'data-ajax' => 'false'}="Subnet #{net_bind[:subnet]}"
+        %li="Address #{net_bind[:ip_address]}"
+        %li
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }

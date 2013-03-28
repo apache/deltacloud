@@ -1,0 +1,25 @@
+=header "Network"
+=subheader @network.id
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Identifier
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@network.id
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@network.name
+    %li{ :'data-role' => 'list-divider'} State
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=@network.state
+    %li{ :'data-role' => 'list-divider'} Address Blocks
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=(@network.address_blocks ? @network.address_blocks.join(",") : nil)
+    %li{ :'data-role' => 'list-divider'} Subnets
+    -@network.subnets.each do |sn|
+      %li
+        %a{ :href => subnet_url(sn.strip), :'data-ajax'=>'false' }=sn
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        =link_to_action "Destroy", destroy_network_url(@network.id), :delete

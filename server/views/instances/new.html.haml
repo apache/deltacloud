@@ -84,6 +84,15 @@
               %input{ :type => :text, :id => "path#{i}", :name => "path#{i}", :value => ""} Path #{i}
               %input{ :type => "file", :name => "content#{i}", :size => 50 }
 
+        - if driver.has_capability? :networks
+          %div{ 'data-role' => :fieldcontain }
+            %label{ :for => :network, :class => 'ui-input-text'} Network to Launch Instance into:
+            %select{:name => 'network_id', :'data-native-menu' => "true" }
+              %option{ :value => ''} None
+              - @networks.each do |net|
+                - net.subnets.each do |sn|
+                  %option{ :value => "#{net.id}+#{sn}" } #{net.id}+#{sn}
+
     - if !hardware_profiles.empty?
       %div{ 'data-role' => :fieldcontain }
         %h3 Instance profile

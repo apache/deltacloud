@@ -1,0 +1,10 @@
+=header "Networks" do
+  %a{ :href => url_for('networks/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new network
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    - @elements.each do |net|
+      %li
+        %a{ :href => network_url(net.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/cloud.png'}
+          %h3=net.id
