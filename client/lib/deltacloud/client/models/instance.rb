@@ -26,6 +26,7 @@ module Deltacloud::Client
     attr_reader :owner_id
     attr_reader :image_id
     attr_reader :hardware_profile_id
+    attr_reader :actions
 
     attr_accessor :state
     attr_accessor :public_addresses
@@ -74,6 +75,15 @@ module Deltacloud::Client
       super
     end
 
+    def can_create_image?
+      actions.include? :create_image
+    end
+
+    def create_image(create_opts={})
+      return false unless can_create_image?
+      super(_id, create_opts)
+    end
+
     # Helper for is_STATE?
     #
     # is_running?
@@ -100,7 +110,8 @@ module Deltacloud::Client
           ),
           :private_addresses => InstanceAddress.convert(
             xml_body.xpath('private_addresses/address')
-          )
+          ),
+          :actions => xml_body.xpath('actions/link').map { |a| a['rel'].to_sym }
         }
       end
 
