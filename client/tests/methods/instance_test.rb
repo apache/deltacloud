@@ -50,6 +50,12 @@ describe Deltacloud::Client::Methods::Instance do
     @client.must_respond_to :instance
     result = @client.instance('inst1')
     result.must_be_instance_of Deltacloud::Client::Instance
+    result.public_addresses.wont_be_empty
+    result.public_addresses.first[:type].must_equal :hostname
+    result.public_addresses.first.type.must_equal :hostname
+    result.public_addresses.first[:value].must_equal 'img1.inst1.public.com'
+    result.public_addresses.first.value.must_equal 'img1.inst1.public.com'
+    result.public_addresses.first.to_s.must_equal 'img1.inst1.public.com'
     lambda { @client.instance(nil) }.must_raise Deltacloud::Client::NotFound
     lambda { @client.instance('foo') }.must_raise Deltacloud::Client::NotFound
   end
