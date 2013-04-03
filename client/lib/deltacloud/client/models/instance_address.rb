@@ -14,10 +14,18 @@
 # under the License.
 
 module Deltacloud::Client
-  class InstanceAddress < OpenStruct
+  class InstanceAddress
 
-    attr_reader :type
-    attr_reader :value
+    attr_reader :type, :value
+
+    def initialize(type, value)
+      @type = type
+      @value = value
+    end
+
+    def [](attr)
+      instance_variable_get("@#{attr}")
+    end
 
     def to_s
       @value
@@ -25,10 +33,7 @@ module Deltacloud::Client
 
     def self.convert(address_xml_block)
       address_xml_block.map do |addr|
-        new(
-          :type => addr['type'],
-          :value => addr.text
-        )
+        new(addr['type'].to_sym, addr.text)
       end
     end
   end
