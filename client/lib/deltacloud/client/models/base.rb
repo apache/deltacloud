@@ -27,6 +27,7 @@ module Deltacloud::Client
     # - obj_id -> The :id of Deltacloud API model (eg. instance ID)
     #
     attr_reader :obj_id
+    attr_reader :url
     attr_reader :name
     attr_reader :description
 
@@ -122,6 +123,7 @@ module Deltacloud::Client
         attrs = parse(body)
         attrs.merge!({
           :_id => body['id'],
+          :url => body['href'],
           :_client => client_ref,
           :name => body.text_at(:name),
           :description => body.text_at(:description)
