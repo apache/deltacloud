@@ -114,7 +114,7 @@ module Deltacloud::Drivers::Mock
       results
     end
 
-    def filter_by_owner(images, owner_id)
+    def filter_by_owner(credentials, images, owner_id)
       return images unless owner_id
       if owner_id == 'self'
         images.select { |e| e.owner_id == credentials.user }
@@ -131,7 +131,7 @@ module Deltacloud::Drivers::Mock
       images = @client.build_all(Image)
 
       images = filter_on(images, opts, :id, :architecture)
-      images = filter_by_owner(images, opts[:owner_id])
+      images = filter_by_owner(credentials, images, opts[:owner_id])
 
       # Add hardware profiles to each image
       images = images.map { |i| (i.hardware_profiles = hardware_profiles(nil)) && i }
