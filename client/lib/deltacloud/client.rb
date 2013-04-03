@@ -19,6 +19,7 @@ module Deltacloud
     require 'ostruct'
     require 'nokogiri'
     require 'faraday'
+    require 'base64'
 
     # Core extensions
     require_relative './core_ext'

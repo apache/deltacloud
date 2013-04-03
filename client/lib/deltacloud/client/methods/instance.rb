@@ -52,6 +52,7 @@ module Deltacloud::Client
       # Returns created instance, or list of created instances or all instances.
       #
       def create_instance(image_id, create_opts={})
+        create_opts[:user_data] = Base64::encode64(create_opts[:user_data]) if create_opts[:user_data]
         r = create_resource :instance, create_opts.merge(
           :image_id => image_id,
           :no_convert_model => true
