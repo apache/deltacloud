@@ -23,6 +23,7 @@ module Deltacloud
 class RhevmDriver < Deltacloud::BaseDriver
 
   feature :instances, :user_data
+  feature :instances, :first_boot_dev
   feature :instances, :user_name do
     { :max_length => 50 }
   end
@@ -192,6 +193,7 @@ class RhevmDriver < Deltacloud::BaseDriver
       params[:cores] = opts[:hwp_cpu] if opts[:hwp_cpu]
       params[:user_data] = opts[:user_data].gsub(/\n/,'') if opts[:user_data]
       params[:fileinject_path] = "deltacloud-user-data.txt"
+      params[:first_boot_dev] = opts[:first_boot_dev] if opts[:first_boot_dev]
       convert_instance(client, client.create_vm(params))
     end
   end

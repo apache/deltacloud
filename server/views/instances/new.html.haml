@@ -37,6 +37,14 @@
             %br/
             %a{ :href => "", :onclick => 'encodeb64();', :'data-ajax' => 'false'} Encode data
 
+        - if driver.class.has_feature?(:instances, :first_boot_dev)
+          %fieldset{ :'data-role' => 'controlgroup', 'data-iconpos' => 'right'}
+            %legend First boot device:
+            %input{ :name => 'first_boot_dev', :id => :first_boot_dev_hd, :value => 'hd', :checked => 'checked', :type => 'radio'}
+            %label{ :for => :first_boot_dev_hd} Hard Disk
+            %input{ :name  => 'first_boot_dev', :id => :first_boot_dev_network, :value => 'network', :type => "radio"}
+            %label{ :for => :first_boot_dev_network} Network
+
         - if driver.class.has_feature?(:instances, :instance_count)
           %div{ 'data-role' => :fieldcontain }
             %label{ :for => :instance_count} # of instances to be launched:
