@@ -4,6 +4,7 @@
   "created": "Fri Feb 08 15:25:41 EET 2013",
   "state": "STOPPED",
   "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/start", "href": "http://cimi.example.org/systems/system1/start" },
     { "rel": "edit", "href": "http://cimi.example.org/systems/system1" },
     { "rel": "delete", "href": "http://cimi.example.org/systems/system1" }
   ]
