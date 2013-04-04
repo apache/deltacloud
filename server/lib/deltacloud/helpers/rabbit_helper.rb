@@ -45,6 +45,7 @@ module Sinatra::Rabbit
       c.operations.each do |operation|
         URLHelper.instance_eval(&generate_url_helper_for(c, operation)[0])
       end
+      URLFor(c.collections)
     end
     URLHelper
   end
@@ -52,6 +53,10 @@ module Sinatra::Rabbit
   def self.generate_url_helper_for(collection, operation)
     operation_name = operation.operation_name.to_s
     collection_name = collection.collection_name.to_s
+
+    if collection.subcollection?
+      collection_name = "#{collection.parent_collection.collection_name.to_s.singularize}_#{collection_name}"
+    end
 
     # Construct OPERATION_COLLECTION_URL helper
     # The :index and :create operation does not get any prefix
