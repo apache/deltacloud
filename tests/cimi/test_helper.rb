@@ -346,17 +346,24 @@ module CIMI::Test::Methods
             machine = get(machine.json["id"], :accept => :json)
           end
 
-          while not machine.json["state"].upcase.eql?("STOPPED")
+          cep_json = cep(:accept => :json)
+          while (get(cep_json.json["machines"]["href"], {:accept=>:json}).include?(machine.json["id"]) && (not machine.json["state"].upcase.eql?("STOPPED"))
             puts 'waiting for machine to be STOPPED'
-            sleep(1)
-            machine = get(machine.json["id"], :accept => :json)
+            sleep(3)
+            unless (not get(cep_json.json["machines"]["href"], {:accept=>:json}).include?(machine.json["id"]))
+              machine = get(machine.json["id"], :accept => :json)
+            end
           end
 
-          delete_op = machine.json["operations"].find { |op| op["rel"] =~ /delete$/ }
-          if delete_op
-            delete_res = RestClient.delete( delete_op["href"],
-                {'Authorization' => api_basic_auth, :accept => :json} )
-            @@created_resources[:machines][i] = nil if (200..207).include? delete_res.code
+          if get(cep_json.json["machines"]["href"], {:accept=>:json}).include?(machine.json["id"])
+            delete_op = machine.json["operations"].find { |op| op["rel"] =~ /delete$/ }
+            if delete_op
+              delete_res = RestClient.delete( delete_op["href"],
+                  {'Authorization' => api_basic_auth, :accept => :json} )
+              @@created_resources[:machines][i] = nil if (200..207).include? delete_res.code
+            end
+          else
+            @@created_resources[:machines][i] = nil
           end
         end
 
