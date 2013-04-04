@@ -43,11 +43,12 @@ module Deltacloud::Drivers::Fgcp
             :machines    => { :href => context.system_url("#{vsys_id}/machines") },
             :volumes     => { :href => context.system_url("#{vsys_id}/volumes") },
             :networks    => { :href => context.system_url("#{vsys_id}/networks") },
-            :addresses   => { :href => context.system_url("#{vsys_id}/addresses") }
+            :addresses   => { :href => context.system_url("#{vsys_id}/addresses") },
+            :operations  => []
           )
         end
         systems = systems.select { |s| opts[:id] == s[:id] } if opts[:id]
-        # now add system state
+        # now add system state and advertised operations
         systems.each do |system|
           vservers = client.list_vservers(system[:id])['vservers'][0]['vserver']
           if vservers.nil?
@@ -56,11 +57,18 @@ module Deltacloud::Drivers::Fgcp
             vservers.each do |vserver|
               state = @@MACHINE_STATE_MAP[client.get_vserver_status(vserver['vserverId'][0])['vserverStatus'][0]]
               system[:state] ||= state
+              system[:operations] <<  { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" } if state == 'STOPPED'
+              system[:operations] <<  { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" } if state == 'STARTED'
               if system[:state] != state
                 system[:state] = 'MIXED'
+                # this case could have been caused by one machine in capturing state and one in e.g. creating,
+                # but just advertise both operations to cut it short
+                system[:operations] <<  { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" }
+                system[:operations] <<  { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" }
                 break
               end
             end
+            system[:operations].uniq!
           end
         end
         systems
@@ -81,6 +89,46 @@ module Deltacloud::Drivers::Fgcp
 
     def destroy_system(credentials, opts={})
       delete_firewall(credentials, {:id=>"#{opts[:id]}-S-0001"})
+    end
+
+    def start_system(credentials, opts={})
+      safely do
+        client = new_client(credentials)
+        context = opts[:env]
+        vsys_id = opts[:id]
+        xml = client.list_vservers(vsys_id)['vservers']
+        return unless xml and xml[0]['vserver']
+
+        # FIXME: maybe this should be done in a separate thread (in case of gigantic number of servers)
+        # FIXME: error handling (ok to exit loop? Cleanup?) - at this time the cimi spec is quiet on that
+        xml[0]['vserver'].each do |vserver|
+          begin
+            client.start_vserver(vserver['vserverId'][0])
+          rescue Exception => ex
+            raise ex if not ex.message =~ /(ALREADY_STARTED|ILLEGAL_STATE).*/
+          end
+        end
+      end
+    end
+
+    def stop_system(credentials, opts={})
+      safely do
+        client = new_client(credentials)
+        context = opts[:env]
+        vsys_id = opts[:id]
+        xml = client.list_vservers(vsys_id)['vservers']
+        return unless xml and xml[0]['vserver']
+
+        # FIXME: maybe this should be done in a separate thread (in case of gigantic number of servers)
+        # FIXME: error handling (ok to exit loop? Cleanup?) - at this time the cimi spec is quiet on that
+        xml[0]['vserver'].each do |vserver|
+          begin
+            client.stop_vserver(vserver['vserverId'][0])
+          rescue Exception => ex
+            raise ex if not ex.message =~ /(ALREADY_STOPPED|ILLEGAL_STATE).*/
+          end
+        end
+      end
     end
 
     def system_machines(credentials, opts={})
