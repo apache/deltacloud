@@ -30,6 +30,13 @@ For now we're using an <a href="http://etherpad.deltacloud.org/p/Weekly">etherpa
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/upKJM-eYeqw">Deltacloud Community Call #17</a>
+
+<ul>
+<li>Progress update and discussion around the Deltacloud Networks API</li>
+</ul>
+
+<br>
 <a href="http://www.youtube.com/watch?v=_2j6v4qwfzM">Deltacloud Community Call #16</a>
 
 <ul>
