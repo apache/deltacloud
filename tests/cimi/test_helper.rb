@@ -347,7 +347,7 @@ module CIMI::Test::Methods
           end
 
           cep_json = cep(:accept => :json)
-          while (get(cep_json.json["machines"]["href"], {:accept=>:json}).include?(machine.json["id"]) && (not machine.json["state"].upcase.eql?("STOPPED"))
+          while (get(cep_json.json["machines"]["href"], {:accept=>:json}).include?(machine.json["id"]) && (not machine.json["state"].upcase.eql?("STOPPED")))
             puts 'waiting for machine to be STOPPED'
             sleep(3)
             unless (not get(cep_json.json["machines"]["href"], {:accept=>:json}).include?(machine.json["id"]))
