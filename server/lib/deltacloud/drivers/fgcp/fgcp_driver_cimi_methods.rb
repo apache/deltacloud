@@ -51,11 +51,10 @@ module Deltacloud::Drivers::Fgcp
         systems.each do |system|
           vservers = client.list_vservers(system[:id])['vservers'][0]['vserver']
           if vservers.nil?
-            system[:state] = 'MIXED'
+            system[:state] = client.get_vsys_status(system[:id])['vsysStatus'][0] == 'DEPLOYING' ? 'CREATING' : 'MIXED'
           else
             vservers.each do |vserver|
-              state = @@INSTANCE_STATE_MAP[client.get_vserver_status(vserver['vserverId'][0])['vserverStatus'][0]]
-              state = 'STARTED' if state == 'RUNNING'
+              state = @@MACHINE_STATE_MAP[client.get_vserver_status(vserver['vserverId'][0])['vserverStatus'][0]]
               system[:state] ||= state
               if system[:state] != state
                 system[:state] = 'MIXED'
@@ -91,7 +90,7 @@ module Deltacloud::Drivers::Fgcp
         context = opts[:env]
         vsys_id = opts[:system_id]
         xml = client.list_vservers(vsys_id)['vservers']
-        return [] if xml.nil?
+        return [] unless xml and xml[0]['vserver']
 
         machines = xml[0]['vserver'].collect do |vserver|
           vserver_id = vserver['vserverId'][0]
@@ -112,7 +111,7 @@ module Deltacloud::Drivers::Fgcp
         vsys_id = opts[:system_id]
         #if :expand not specified, list of hrefs only, else convert from :storage_volumes?
         xml = client.list_vdisk(vsys_id)['vdisks']
-        return [] if xml.nil?
+        return [] unless xml and xml[0]['vdisk']
 
         volumes = xml[0]['vdisk'].collect do |vdisk|
           vdisk_id = vdisk['vdiskId'][0]
@@ -155,7 +154,7 @@ module Deltacloud::Drivers::Fgcp
         vsys_id = opts[:system_id]
         #if :expand not specified, list of hrefs only, else ??
         xml = client.list_public_ips(vsys_id)['publicips']
-        return [] if xml.nil?
+        return [] unless xml and xml[0]['publicip']
 
         # retrieve network segment (subnet) info
         addresses = xml[0]['publicip'].collect do |ip|
@@ -245,6 +244,24 @@ module Deltacloud::Drivers::Fgcp
         templates
       end
     end
+
+    # FGCP instance states mapped to CIMI machine states
+    @@MACHINE_STATE_MAP = {
+      'DEPLOYING'       =>  'CREATING',
+      'RUNNING'         =>  'STARTED',
+      'STOPPING'        =>  'STOPPING',
+      'STOPPED'         =>  'STOPPED',
+      'STARTING'        =>  'STARTING', # not sure about this one
+      'FAILOVER'        =>  'STARTED',
+      'UNEXPECTED_STOP' =>  'STOPPED',
+      'RESTORING'       =>  'RESTORING',
+      'BACKUP_ING'      =>  'CAPTURING',
+      'ERROR'           =>  'ERROR',   # allowed actions limited
+      'START_ERROR'     =>  'STOPPED', # allowed actions are same as for STOPPED
+      'STOP_ERROR'      =>  'STARTED', # allowed actions are same as for RUNNING
+      'REGISTERING'     =>  'PENDING',
+      'CHANGE_TYPE'     =>  'PENDING'
+    }
 
   end
 

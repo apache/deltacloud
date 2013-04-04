@@ -82,6 +82,10 @@ class FgcpClient
     request('ListVSYS')
   end
 
+  def get_vsys_status(vsys_id)
+    request('GetVSYSStatus', {'vsysId' => vsys_id})
+  end
+
   def get_vsys_attributes(vsys_id)
     request('GetVSYSAttributes', {'vsysId' => vsys_id})
   end
