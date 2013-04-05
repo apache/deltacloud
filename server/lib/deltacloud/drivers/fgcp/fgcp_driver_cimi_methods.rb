@@ -40,10 +40,10 @@ module Deltacloud::Drivers::Fgcp
             :id          => vsys_id,
             :name        => vsys['vsysName'][0],
             :description => vsys_description_el ? vsys_description_el[0] : nil,
-            :machines    => { :href => context.system_url("#{vsys_id}/machines") },
-            :volumes     => { :href => context.system_url("#{vsys_id}/volumes") },
-            :networks    => { :href => context.system_url("#{vsys_id}/networks") },
-            :addresses   => { :href => context.system_url("#{vsys_id}/addresses") },
+            :machines    => { :href => context.system_machines_url(vsys_id) },
+            :volumes     => { :href => context.system_volumes_url(vsys_id) },
+            :networks    => { :href => context.system_networks_url(vsys_id) },
+            :addresses   => { :href => context.system_addresses_url(vsys_id) },
             :operations  => []
           )
         end
@@ -143,7 +143,7 @@ module Deltacloud::Drivers::Fgcp
         machines = xml[0]['vserver'].collect do |vserver|
           vserver_id = vserver['vserverId'][0]
           CIMI::Model::SystemMachine.new(
-            :id      => context.system_url("#{vsys_id}/machines/#{vserver_id}"),
+            :id      => context.system_machine_url(:id => vsys_id, :ent_id => vserver_id),
             :name    => vserver['vserverName'][0],
             :machine => { :href => context.machine_url(vserver_id)}
           ) unless opts[:id] and opts[:id] != vserver_id
@@ -164,7 +164,7 @@ module Deltacloud::Drivers::Fgcp
         volumes = xml[0]['vdisk'].collect do |vdisk|
           vdisk_id = vdisk['vdiskId'][0]
           CIMI::Model::SystemVolume.new(
-            :id      => context.system_url("#{vsys_id}/volumes/#{vdisk_id}"),
+            :id      => context.system_volume_url(:id => vsys_id, :ent_id => vdisk_id),
             :name    => vdisk['vdiskName'][0],
             :volume  => { :href => context.volume_url(vdisk_id)}
           ) unless opts[:id] and opts[:id] != vdisk_id
@@ -186,7 +186,7 @@ module Deltacloud::Drivers::Fgcp
           network_id = vnet['networkId'][0]
           network_id =~ /.*-(\w)$/
           CIMI::Model::SystemNetwork.new(
-            :id      => context.system_url("#{vsys_id}/networks/#{network_id}"),
+            :id      => context.system_network_url(:id => vsys_id, :ent_id => network_id),
             :name    => "#{$1} for system #{vsys['vsysName'][0]}",
             :network => { :href => context.network_url(network_id)}
           ) unless opts[:id] and opts[:id] != network_id
@@ -208,7 +208,7 @@ module Deltacloud::Drivers::Fgcp
         addresses = xml[0]['publicip'].collect do |ip|
           address = ip['address'][0]
           CIMI::Model::SystemAddress.new(
-            :id      => context.system_url("#{vsys_id}/addresses/#{address}"),
+            :id      => context.system_address_url(:id => vsys_id, :ent_id => address),
             :name    => "Public IP address allocated to system #{ip['vsysId'][0]}",
             :address => { :href => context.address_url(address)}
           ) unless opts[:id] and opts[:id] != address
@@ -225,10 +225,10 @@ module Deltacloud::Drivers::Fgcp
         #if :expand not specified, list of hrefs only, else ??
         vsys = client.get_vsys_configuration(vsys_id)['vsys'][0]
 
-        group_id = "#{vsys_id}-N"
+        group_id = "#{vsys_id}-INTRA"
         groups = []
         groups << CIMI::Model::SystemForwardingGroup.new(
-          :id               => context.system_url("#{vsys_id}/forwarding_groups/#{group_id}"),
+          :id               => context.system_forwarding_group_url(:id => vsys_id, :ent_id => group_id),
           :name             => "Routing group of system #{vsys['vsysName'][0]}",
           :forwarding_group => { :href => context.forwarding_group_url(group_id)}
         ) unless vsys['vnets'][0]['vnet'].size <= 1 or (opts[:id] and opts[:id] != group_id)
