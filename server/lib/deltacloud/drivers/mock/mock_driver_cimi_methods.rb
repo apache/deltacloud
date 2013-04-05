@@ -303,6 +303,8 @@ module Deltacloud::Drivers::Mock
 
     # Convert all attributes that have values of the form
     #   http://cimi.example.org/COLL/ID
+    #   or
+    #   http://cimi.example.org/COLL/ID/SUBCOLL/ENT_ID
     def convert_urls(val, context)
       if val.nil? || val.is_a?(Fixnum)
         # Nothing to do
@@ -330,6 +332,8 @@ module Deltacloud::Drivers::Mock
     #
     # URLs that should be rewritten need to be in the form
     #   http://cimi.example.org/COLLECTION/ID
+    #   or
+    #   http://cimi.example.org/COLLECTION/SYSTEM_ID/SUBCOLLECTION/ENT_ID
     def rewrite_url(s, context)
       begin
         u = URI.parse(s)

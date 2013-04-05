@@ -48,7 +48,8 @@ module Deltacloud::Drivers::Fgcp
           )
         end
         systems = systems.select { |s| opts[:id] == s[:id] } if opts[:id]
-        # now add system state and advertised operations
+
+        # now add system state and advertise operations
         systems.each do |system|
           vservers = client.list_vservers(system[:id])['vservers'][0]['vserver']
           if vservers.nil?
@@ -57,19 +58,23 @@ module Deltacloud::Drivers::Fgcp
             vservers.each do |vserver|
               state = @@MACHINE_STATE_MAP[client.get_vserver_status(vserver['vserverId'][0])['vserverStatus'][0]]
               system[:state] ||= state
-              system[:operations] <<  { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" } if state == 'STOPPED'
-              system[:operations] <<  { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" } if state == 'STARTED'
+              system[:operations] << { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" } if state == 'STOPPED'
+              system[:operations] << { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" } if state == 'STARTED'
               if system[:state] != state
                 system[:state] = 'MIXED'
                 # this case could have been caused by one machine in capturing state and one in e.g. creating,
                 # but just advertise both operations to cut it short
-                system[:operations] <<  { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" }
-                system[:operations] <<  { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" }
+                system[:operations] << { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" }
+                system[:operations] << { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" }
                 break
               end
             end
             system[:operations].uniq!
           end
+          # check for special case: in destroy_system the FW is stopped before the system is deleted
+          system[:state] = 'DELETING' if ((vservers.nil? and system[:state] != 'CREATING') or system[:state] == 'STOPPED') and
+                                         ['STOPPED', 'STOPPING'].include? client.get_efm_status("#{system[:id]}-S-0001")['efmStatus'][0]
+          system[:operations] << { :href => context.system_url(system[:id]), :rel => "delete" } if system[:state] == 'STOPPED'
         end
         systems
       end
