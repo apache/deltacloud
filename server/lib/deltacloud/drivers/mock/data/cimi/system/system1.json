@@ -3,8 +3,6 @@
   "description": "the first system",
   "created": "Fri Feb 08 15:25:41 EET 2013",
   "state": "STOPPED",
-  "machines": { "href": "http://cimi.example.org/systems/system1/machines"},
-  "networks": { "href": "http://cimi.example.org/systems/system1/networks"},
   "operations": [
     { "rel": "edit", "href": "http://cimi.example.org/systems/system1" },
     { "rel": "delete", "href": "http://cimi.example.org/systems/system1" }

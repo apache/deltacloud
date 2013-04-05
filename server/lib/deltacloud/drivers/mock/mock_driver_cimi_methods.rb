@@ -44,7 +44,8 @@ module Deltacloud::Drivers::Mock
                   "created" => Time.now,
                   "state" => "STOPPED",
                   "systemTemplate"=> { "href" => opts[:system_template].id },
-                  "operations" => [{"rel"=>"edit", "href"=> id},
+                  "operations" => [{"rel"=>"http://schemas.dmtf.org/cimi/1/action/start", "href"=> "#{id}/start"},
+                                   {"rel"=>"edit", "href"=> id},
                                    {"rel"=>"delete", "href"=> id}]    }
       system = CIMI::Model::System.from_json(JSON.generate(sys_hsh))
 
@@ -78,9 +79,7 @@ module Deltacloud::Drivers::Mock
           return []
         end
       end
-      #FIXME: with ":machines", delete url becomes 'http://localhost:3001/cimi/machines?id=sysmach1'
-      #with ":system_machine"/":system_machines", undefined method `system_machine_url' for #<CIMI::Collections::Systems:0x44fe338> in mock_driver_cimi_methods.rb:261
-      machines.map{|mach|convert_cimi_mock_urls(:machines, mach, opts[:env])}.flatten
+      machines.map{|m|convert_urls(m, opts[:env])}.flatten
     end
 
     def system_volumes(credentials, opts={})
@@ -94,9 +93,7 @@ module Deltacloud::Drivers::Mock
           return []
         end
       end
-      #FIXME: with ":volumes", delete url becomes 'http://localhost:3001/cimi/volumes?id=sysvol1'
-      #with ":system_volume"/":system_volumes", undefined method `system_volume_url' for #<CIMI::Collections::Systems:0x44fe338> in mock_driver_cimi_methods.rb:261
-      volumes.map{|vol|convert_cimi_mock_urls(:volumes, vol, opts[:env])}.flatten
+      volumes.map{|vol|convert_urls(vol, opts[:env])}.flatten
     end
 
     def system_networks(credentials, opts={})
@@ -110,8 +107,7 @@ module Deltacloud::Drivers::Mock
           return []
         end
       end
-      #FIXME
-      networks.map{|vol|convert_cimi_mock_urls(:networks, vol, opts[:env])}.flatten
+      networks.map{|n|convert_urls(n, opts[:env])}.flatten
     end
 
     def system_addresses(credentials, opts={})
@@ -125,8 +121,7 @@ module Deltacloud::Drivers::Mock
           return []
         end
       end
-      #FIXME
-      addresses.map{|a|convert_cimi_mock_urls(:addresses, a, opts[:env])}.flatten
+      addresses.map{|a|convert_urls(a, opts[:env])}.flatten
     end
 
     def system_forwarding_groups(credentials, opts={})
@@ -140,8 +135,7 @@ module Deltacloud::Drivers::Mock
           return []
         end
       end
-      #FIXME
-      groups.map{|group|convert_cimi_mock_urls(:forwarding_groups, group, opts[:env])}.flatten
+      groups.map{|g|convert_urls(g, opts[:env])}.flatten
     end
 
     def system_templates(credentials, opts={})
@@ -341,10 +335,12 @@ module Deltacloud::Drivers::Mock
         return s
       end
       return s unless u.scheme == 'http' && u.host == 'cimi.example.org'
-      _, coll, id = u.path.split("/")
-      method = "#{coll.singularize}_url"
+      _, coll, id, sub_coll, sub_id = u.path.split("/")
+      method = sub_coll ? "#{coll.singularize}_#{sub_coll.singularize}_url"
+                        : "#{coll.singularize}_url"
       if context.respond_to?(method)
-        context.send(method, id)
+        sub_coll ? context.send(method, :id => id, :ent_id => sub_id)
+                 : context.send(method, id)
       else
         s
       end
