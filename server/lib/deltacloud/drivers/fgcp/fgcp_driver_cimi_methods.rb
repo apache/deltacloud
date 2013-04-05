@@ -92,8 +92,8 @@ module Deltacloud::Drivers::Fgcp
       end
     end
 
-    def destroy_system(credentials, opts={})
-      delete_firewall(credentials, {:id=>"#{opts[:id]}-S-0001"})
+    def destroy_system(credentials, id)
+      delete_firewall(credentials, :id => "#{id}-S-0001")
     end
 
     def start_system(credentials, opts={})

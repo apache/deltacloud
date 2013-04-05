@@ -38,7 +38,7 @@ class CIMI::Service::System < CIMI::Service::Base
   end
 
   def self.delete!(id, context)
-    context.driver.destroy_system(context.credentials, {:id=>id})
+    context.driver.destroy_system(context.credentials, id)
   end
 
 
