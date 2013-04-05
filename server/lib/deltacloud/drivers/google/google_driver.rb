@@ -16,6 +16,12 @@
 require 'fog'
 require_relative '../../helpers/blob_stream_helper.rb'
 
+module Excon
+  class Connection
+    def connection;@data;end
+  end
+end
+
 module Deltacloud
   module Drivers
     module Google
