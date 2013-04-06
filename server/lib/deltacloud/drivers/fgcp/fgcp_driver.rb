@@ -516,7 +516,8 @@ class FgcpDriver < Deltacloud::BaseDriver
               vdisks['vdisk'].each do |vdisk|
 
                 #state requires an additional call per volume. Only set if attached.
-                #exclude system disks as they are not detachable?
+                #exclude system disks as they are instance disks, not volumes
+                kind = determine_storage_type(vdisk['vdiskId'][0])
                 volumes << StorageVolume.new(
                   :id          => vdisk['vdiskId'][0],
                   :name        => vdisk['vdiskName'][0],
@@ -524,9 +525,9 @@ class FgcpDriver < Deltacloud::BaseDriver
                   :instance_id => vdisk['attachedTo'].nil? ? nil : vdisk['attachedTo'][0],
                   :realm_id    => client.extract_vsys_id(vdisk['vdiskId'][0]),
                   # aligning with rhevm, which returns 'system' or 'data'
-                  :kind        => determine_storage_type(vdisk['vdiskId'][0]),
+                  :kind        => kind,
                   :state       => vdisk['attachedTo'].nil? ? 'AVAILABLE' : 'IN-USE'
-                )
+                ) unless kind == 'system'
               end
             end
           rescue Exception => ex # cater for case where vsys was just destroyed since list_vsys call

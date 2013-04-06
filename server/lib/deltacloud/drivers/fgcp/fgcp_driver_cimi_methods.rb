@@ -172,7 +172,7 @@ module Deltacloud::Drivers::Fgcp
             :id      => context.system_volume_url(:id => vsys_id, :ent_id => vdisk_id),
             :name    => vdisk['vdiskName'][0],
             :volume  => { :href => context.volume_url(vdisk_id)}
-          ) unless opts[:id] and opts[:id] != vdisk_id
+          ) unless (opts[:id] and opts[:id] != vdisk_id) or determine_storage_type(vdisk_id) == 'system'
         end
         volumes.compact
       end
