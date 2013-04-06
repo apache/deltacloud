@@ -22,7 +22,7 @@ class CIMI::Service::MachineVolume < CIMI::Service::Base
         id = context.machine_url(instance_id)+"/volumes/#{vol.id}"
         attached <<  self.new(context, :values => {
           :id => id,
-          :name => vol.id,
+          :name => volume.name || vol.id,
           :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
           :created => vol.created.nil? ? nil : Time.parse(vol.created).xmlschema,
           :initial_location => vol.device,
@@ -37,7 +37,7 @@ class CIMI::Service::MachineVolume < CIMI::Service::Base
       raise CIMI::Model::NotFound unless vol.instance_id == instance_id
       self.new(context, :values => {
         :id => id,
-        :name => vol.id,
+        :name => volume.name || vol.id,
         :description => "MachineVolume #{vol.id} for Machine #{instance_id}",
         :created => vol.created.nil? ? nil : Time.parse(vol.created).xmlschema,
         :initial_location => vol.device,

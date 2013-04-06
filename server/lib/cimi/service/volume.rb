@@ -48,7 +48,7 @@ class CIMI::Service::Volume < CIMI::Service::Base
 
   def self.from_storage_volume(volume, context)
     self.new(context, :values => {
-      :name => volume.id,
+      :name => volume.name || volume.id,
       :created => volume.created.nil? ? nil : Time.parse(volume.created).xmlschema,
       :id => context.volume_url(volume.id),
       :capacity => context.to_kibibyte(volume.capacity, 'GB'),
