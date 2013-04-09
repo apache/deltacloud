@@ -42,6 +42,18 @@ describe CIMI::Collections::Machines do
     add_ops.size.must_equal 1
   end
 
+  it "should return the disks collection for a machine" do
+    get root_url + '/machines'
+    model.operations.wont_be_empty
+    href = model.entries.first.disks[:href]
+    href.wont_be_empty
+    get href
+    status.must_equal 200
+    model.must_be_kind_of CIMI::Model::Machine::DiskCollection
+    model.entries.size.must_equal 1
+    model.entries.first.name.must_equal "inst0_disk_0"
+  end
+
   describe "$expand" do
     def machine(*expand)
       url = '/machines/inst1'

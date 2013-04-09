@@ -36,7 +36,13 @@ def model_class
   else
     raise "Unexpected content type #{resp.content_type}"
   end
-  CIMI::Model::const_get(resource)
+  if resource == "DiskCollection"
+    # We scope subcollections within the containing class
+    # CIMI resource_uri's don't
+    CIMI::Model::Machine::DiskCollection
+  else
+    CIMI::Model::const_get(resource)
+  end
 end
 
 def model

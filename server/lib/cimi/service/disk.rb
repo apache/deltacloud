@@ -62,18 +62,13 @@ class CIMI::Service::Disk < CIMI::Service::Base
   def self.collection_for_instance(instance_id, context)
     instance = context.driver.instance(context.credentials, :id => instance_id)
     disks = find(instance, nil, context)
-    unless CIMI::Model.const_defined?('DiskCollection')
-      collection_class = CIMI::Model::Collection.generate(self)
-    else
-      collection_class = CIMI::Model::DiskCollection
-    end
-    collection_class.new(context, :values => {
+    CIMI::Model::Machine::DiskCollection.new(
       :id => context.url("/machines/#{instance_id}/disks"),
       :name => 'default',
       :count => disks.size,
       :description => "Disk collection for Machine #{instance_id}",
       :entries => disks
-    })
+    )
   end
 
 
