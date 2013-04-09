@@ -5,7 +5,7 @@
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
     %li{ :'data-role' => 'list-divider'}=driver_symbol
-    - firewalls.each do |firewall|
+    - elements.each do |firewall|
       %li
         %a{ :href => firewall_url(firewall.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/firewall.png'}
