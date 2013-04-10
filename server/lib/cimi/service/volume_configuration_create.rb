@@ -13,16 +13,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
+class CIMI::Service::VolumeConfigurationCreate < CIMI::Service::Base
 
-  acts_as_root_entity :as => "volumeConfigs"
-
-  href :type
-  text :format
-  text :capacity
-
-  array :operations do
-    scalar :rel, :href
+  def create
+    new_config = self.class.current_db.add_volume_configuration(
+      :name => name,
+      :description => description,
+      :format => format,
+      :capacity => capacity,
+      :ent_properties => property.to_json
+    )
+    CIMI::Service::VolumeConfiguration.from_db(new_config, context)
   end
 
 end

@@ -13,16 +13,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
-
-  acts_as_root_entity :as => "volumeConfigs"
+class CIMI::Model::VolumeConfigurationCreate < CIMI::Model::Base
 
   href :type
   text :format
-  text :capacity
-
-  array :operations do
-    scalar :rel, :href
-  end
+  text :capacity, :required => true
 
 end
