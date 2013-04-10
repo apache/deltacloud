@@ -1,9 +1,5 @@
 # Code from ActiveSupport, https://github.com/rails/rails/tree/3-2-stable/activesupport
 # MIT licensed
-begin
-  require 'psych'
-rescue LoadError
-end
 
 require 'yaml'
 
