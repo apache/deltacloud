@@ -147,7 +147,12 @@ module Deltacloud
       @logger = logger
     end
 
-    def require!
+    # Require the Deltacloud API Rack middleware
+    #
+    # opts[:initialize] = true will require 'initialize.rb'
+    #
+    def require!(opts={})
+      require_relative './initializers/mock_initialize' if opts[:mock_initialize]
       Deltacloud.require_frontend!(@name)
     end
 
