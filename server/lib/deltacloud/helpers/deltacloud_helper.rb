@@ -166,7 +166,7 @@ module Deltacloud::Helpers
         halt 204, response
       end
 
-      unless @instance.class == Instance
+      unless @instance.class == Deltacloud::Instance
         redirect instance_url(params[:id])
       else
         response = respond_to do |format|

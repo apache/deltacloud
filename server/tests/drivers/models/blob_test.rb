@@ -3,10 +3,10 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'common'
 
-describe Address do
+describe Deltacloud::Address do
 
   before do
-    @address = Address.new(:id => 'adr1', :instance_id => 'inst1')
+    @address = Deltacloud::Address.new(:id => 'adr1', :instance_id => 'inst1')
   end
 
   it 'should tell if it is associated to instance' do

@@ -3,10 +3,10 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'common'
 
-describe InstanceProfile do
+describe Deltacloud::InstanceProfile do
 
   before do
-    @instance = InstanceProfile.new(
+    @instance = Deltacloud::InstanceProfile.new(
       'm1-small',
       :hwp_memory => '512',
       :hwp_cpu => '1'

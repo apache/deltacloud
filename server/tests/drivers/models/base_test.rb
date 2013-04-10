@@ -3,10 +3,10 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'common'
 
-describe BaseModel do
+describe Deltacloud::BaseModel do
 
   before do
-    class CustomModel < BaseModel
+    class CustomModel < Deltacloud::BaseModel
       attr_accessor :name
       attr_accessor :custom
     end
