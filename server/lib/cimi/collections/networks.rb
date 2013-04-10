@@ -21,7 +21,7 @@ module CIMI::Collections
     collection :networks do
       description 'A Network represents an abstraction of a layer 2 broadcast domain'
 
-      generate_show_operation :with_capability => :network
+      generate_show_operation :with_capability => :networks
       generate_index_operation :with_capability => :networks
       generate_delete_operation :with_capability => :destroy_network
       generate_create_operation :with_capability => :create_network
