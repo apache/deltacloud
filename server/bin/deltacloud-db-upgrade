@@ -20,5 +20,6 @@ require 'require_relative' if RUBY_VERSION < '1.9'
 # Force DB upgrade
 ENV['DB_UPGRADE'] = 'true'
 
+require_relative './../lib/initializers/dependencies_initialize'
 require_relative './../lib/initializers/mock_initialize'
 require_relative './../lib/initializers/database_initialize'
