@@ -33,10 +33,29 @@ begin
 rescue LoadError
 end
 
-spec = Gem::Specification.load('deltacloud-core.gemspec')
+begin
+  spec = Gem::Specification.load('deltacloud-core.gemspec')
+  Gem::PackageTask.new(spec) do |pkg|
+    pkg.need_tar = true
+  end
+rescue
+end
 
-Gem::PackageTask.new(spec) do |pkg|
-  pkg.need_tar = true
+namespace :generate do
+  desc 'Generate deltacloud-core.gemspec from Bundler'
+  task :gemspec do
+    require 'bundler'
+    require 'erb'
+    deps = {}
+    deps[:runtime] = Bundler.definition.dependencies.select { |d|
+      d.groups.include?(:default) && d.platforms.empty?
+    }
+    deps[:java] = Bundler.definition.dependencies.select { |d| d.platforms.include?(:jruby) }
+    deps[:mri] = Bundler.definition.dependencies.select { |d| d.platforms.include?(:mri) }
+    deps[:dev] = Bundler.definition.dependencies.select { |d| d.groups.include?(:test) }
+    gemspec_tpl = ERB.new(File.read('support/tools/deltacloud-core-gemspec.erb'))
+    puts gemspec_tpl.result(binding)
+  end
 end
 
 # Not meant for enduser consumption; make sure we run our initializers
@@ -171,10 +190,6 @@ namespace :test do
 
     DRIVERS.each do |driver|
       Rake::TestTask.new(driver) do |t|
-        #t.ruby_opts << '-r./tests/test_helper.rb'   # Load SimpleCov when COVERAGE=1 is set
-        unless RUBY_VERSION < '1.9.0'
-          t.loader = :testrb
-        end
         t.test_files = FileList["tests/drivers/#{driver}/*test.rb"]
       end
     end
@@ -194,18 +209,14 @@ namespace :test do
   end
 
   Rake::TestTask.new(:ec2) do |t|
-    unless RUBY_VERSION < '1.9.0'
-      t.loader = :testrb
-    end
+    t.ruby_opts = ['-r./tests/test_helper']
     t.test_files = FileList[
       'tests/ec2/*test.rb',                     # EC2 frontend internal API tests
     ]
   end
 
   Rake::TestTask.new(:cimi) do |t|
-    unless RUBY_VERSION < '1.9.0'
-      t.loader = :testrb
-    end
+    t.ruby_opts = ['-r./tests/test_helper']
     t.test_files = FileList[
       'tests/cimi/db/*test.rb',     # CIMI frontend database tests
       'tests/cimi/model/*spec.rb',  # CIMI frontend serialization API tests

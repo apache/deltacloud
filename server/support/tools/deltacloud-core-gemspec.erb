@@ -1,0 +1,83 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+require File::expand_path(File::join(File::dirname(__FILE__), './lib/deltacloud/version.rb'))
+
+Gem::Specification.new do |s|
+  s.author = 'The Apache Software Foundation'
+  s.homepage = "http://www.deltacloud.org"
+  s.email = 'dev@deltacloud.apache.org'
+  s.name = 'deltacloud-core'
+
+  s.description = <<-EOF
+    The Deltacloud API is built as a service-based REST API.
+    You do not directly link a Deltacloud library into your program to use it.
+    Instead, a client speaks the Deltacloud API over HTTP to a server
+    which implements the REST interface.
+  EOF
+
+  s.version = Deltacloud::API_VERSION
+  s.date = Time.now
+  s.summary = %q{Deltacloud REST API}
+  s.files = [
+    'Rakefile',
+    '*.gemspec',
+    'config.ru',
+    '*.rb',
+    'log',
+    'config/drivers/*.yaml',
+    'config/*.yaml',
+    'config/*.xml',
+    'tmp',
+    'support/fedora/**',
+    'support/condor/bash/**',
+    'support/condor/config/**',
+    'lib/**/*.rb',
+    'lib/**/*.yml',
+    'lib/**/*.haml',
+    'db/**/*.rb',
+    'tests/**/*.rb',
+    'views/**/*.haml',
+    'views/instance_states/*.erb',
+    'public/favicon.ico',
+    'public/images/*.png',
+    'public/javascripts/*.js',
+    'public/stylesheets/*.css',
+    'public/stylesheets/images/*.png',
+    'public/stylesheets/compiled/*.css',
+    'bin/deltacloudd'
+  ].map { |f| Dir[f] }.flatten
+
+  s.bindir = 'bin'
+  s.executables = ['deltacloudd', 'deltacloud-db-upgrade']
+  s.test_files= Dir.glob("tests/**/*_test.rb")
+  s.extra_rdoc_files = Dir["LICENSE", "DISCLAIMER", "NOTICE"]
+  s.required_ruby_version = '>= 1.8.6'
+  s.has_rdoc = 'false'
+
+  <% deps[:runtime].each do |d|%>s.add_dependency('<%=d.name%>', '<%=d.requirement%>')
+  <% end %>
+  if RUBY_PLATFORM == 'java'
+    <% deps[:java].each do |d|%>s.add_dependency('<%=d.name%>', '<%=d.requirement%>')
+    <% end %>
+  else
+    <% deps[:mri].each do |d|%>s.add_dependency('<%=d.name%>', '<%=d.requirement%>')
+    <% end %>
+  end
+  <% deps[:dev].each do |d|%>s.add_development_dependency('<%=d.name%>', '<%=d.requirement%>')
+  <% end %>
+
+end
