@@ -17,7 +17,6 @@
 require_relative './core_ext/array'
 require_relative './core_ext/hash'
 require_relative './core_ext/integer'
-require_relative './core_ext/ordered_hash'
 require_relative './core_ext/proc'
 require_relative './core_ext/string'
 require_relative './core_ext/base'
