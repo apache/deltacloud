@@ -2,7 +2,7 @@
 %firewall{:href => firewall_url(firewall.id), :id => firewall.id}
   %actions
     %link{ :rel => :destroy, :href => destroy_firewall_url(firewall.id), :method => :delete}
-    %link{ :rel => :update, :href => "#{firewall_url(firewall_name)}/rules", :method => :post}
+    %link{ :rel => :update, :href => "#{firewall_url(firewall.id)}/rules", :method => :post}
   - firewall.attributes.select{ |attr| attr != :id && attr!= :rules}.each do |attribute|
     - haml_tag("#{attribute}".tr('-', '_'), :<) do
       - if [:name, :description].include?(attribute)
