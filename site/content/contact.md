@@ -30,6 +30,15 @@ For now we're using an <a href="http://etherpad.deltacloud.org/p/Weekly">etherpa
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/NHUS-mzkd00">Deltacloud Community Call #18</a>
+
+<ul>
+<li>New github pull request model - discussion</li>
+<li>Upcoming release 1.1.3</li>
+<li>Question - how to contribute to the appoxy/aws rubygem (used by Deltacloud EC2 driver)</li>
+</ul>
+
+<br>
 <a href="http://youtu.be/upKJM-eYeqw">Deltacloud Community Call #17</a>
 
 <ul>
