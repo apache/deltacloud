@@ -1,0 +1,7 @@
+---
+:id: nicinst3
+:name: nicinst3
+:instance: inst3
+:network: net1
+:subnet: subnet2
+:ip_address: 192.168.2.189

@@ -21,3 +21,4 @@
 :id: inst0
 :state: RUNNING
 :storage_volumes: []
+:network_interfaces: []

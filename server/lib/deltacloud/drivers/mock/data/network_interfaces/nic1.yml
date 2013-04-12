@@ -1,0 +1,6 @@
+---
+:id: nic1
+:name: nic1
+:network: subnet1
+:instance: inst1
+:ip_address: 192.168.1.2

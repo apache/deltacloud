@@ -1,0 +1,9 @@
+---
+:id: net1
+:name: network1
+:subnets:
+- subnet1
+- subnet2
+:address_blocks:
+- 192.168.0.0/16
+:state: UP

@@ -1,0 +1,26 @@
+---
+:id: inst3
+:name: ''
+:state: RUNNING
+:keyname: ''
+:image_id: img3
+:owner_id: !binary |-
+  bW9ja3VzZXI=
+:public_addresses:
+- !ruby/object:Deltacloud::InstanceAddress
+  address: img3.inst3.public.com
+  address_type: :hostname
+:private_addresses:
+- !ruby/object:Deltacloud::InstanceAddress
+  address: img3.inst3.private.com
+  address_type: :hostname
+:instance_profile: !ruby/object:Deltacloud::InstanceProfile
+  id: m1-small
+:realm_id: eu
+:create_image: true
+:actions:
+- :reboot
+- :stop
+:user_data: 
+:network_interfaces:
+- nicinst3

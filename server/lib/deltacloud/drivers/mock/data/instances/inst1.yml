@@ -20,3 +20,5 @@
 - :reboot
 - :stop
 :storage_volumes: []
+:network_interfaces:
+  - nic1
