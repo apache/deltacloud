@@ -22,6 +22,31 @@ describe 'Deltacloud API load_balancers collection' do
 
   need_collection :load_balancers
 
+  LOAD_BALANCERS = "/load_balancers"
+
+  if collection_supported :load_balancers
+    #Create a load_balancer
+    res = post(LOAD_BALANCERS, :name => "loadBalancerForTest",
+       :listener_protocol => "HTTP",
+       :listener_balancer_port => "80",
+       :listener_instance_port => "3010",
+       :realm_id => get_a("realm"))
+
+    unless res.code == 201
+      raise Exception.new("Failed to create load balancer")
+    end
+  end
+
+  #Delete the load_balancer we created for the tests
+  MiniTest::Unit.after_tests {
+  if collection_supported :load_balancers
+    res = delete(LOAD_BALANCERS + "/loadBalancerForTest")
+    unless res.code == 204
+     raise Exception.new("Failed to delete load balancer")
+    end
+  end
+  }
+
   #Run the 'common' tests for all collections defined in common_tests_collections.rb
   CommonCollectionsTest::run_collection_and_member_tests_for("load_balancers")
 
