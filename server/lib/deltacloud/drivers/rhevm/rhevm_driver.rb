@@ -208,6 +208,71 @@ class RhevmDriver < Deltacloud::BaseDriver
     end
   end
 
+  def networks(credentials, opts={})
+    client = new_client(credentials)
+    networks = []
+    safely do
+      client.networks(opts).each do |n|
+        next unless n.status == "operational" # making network operational is admin task
+        networks << convert_network(n)
+      end
+    end
+    filter_on(networks, :id, opts)
+  end
+
+  #def create_network(credentials, opts={})
+  #  RHEV API supports creation of networks, but network creation is
+  #  admin task, it's not expected to create networks on demand.
+  #  If we want to have this action, it must also be implemented in
+  #  rbovirt at first
+  #end
+
+  #def destroy_network(credentials, opts={})
+  #  RHEV API supports deletion of networks, but network creation is
+  #  admin task, it's not expected to delete networks on demand.
+  #  If we want to have this action, it must also be implemented in
+  #  rbovirt at first
+  #end
+
+  #def subnets(credentials, opts={})
+  #  there is not any suitable entity in RHEV networking model
+  #end
+  def network_interfaces(credentials, opts={})
+    client = new_client(credentials)
+    nics = []
+    safely do
+      client.vms.each do |vm|
+        vm.interfaces.each do |vm_nic|
+          if opts[:id] && (vm_nic.id == opts[:id])
+            return [convert_nic(vm_nic)]
+          else
+            nics << convert_nic(vm_nic)
+          end
+        end
+      end
+    end
+    filter_on(nics, :id, opts)
+  end
+
+  #:network, :instance, :name
+  def create_network_interface(credentials, opts={})
+    client = new_client(credentials)
+    name = opts[:name] || "nic_#{Time.now.to_i}"
+    safely do
+      iface = client.add_interface(opts[:instance], {:name => name, :network => opts[:network]})
+      convert_nic(iface)
+    end
+  end
+
+  def destroy_network_interface(credentials, nic_id)
+    client = new_client(credentials)
+    safely do
+      #need to discover the instance for this nic first
+      nic = network_interface(credentials, {:id => nic_id})
+      client.destroy_interface(nic.instance, nic_id)
+    end
+  end
+
   private
 
   def new_client(credentials)
@@ -270,7 +335,8 @@ class RhevmDriver < Deltacloud::BaseDriver
     else
       actions = instance_actions_for(state)
     end
-
+    #get network_interfaces:
+    nics = inst.interfaces.inject([]){|res, cur| res << cur.id  ; res}
     Instance.new(
       :actions=>actions,
       :id => inst.id,
@@ -284,7 +350,8 @@ class RhevmDriver < Deltacloud::BaseDriver
       :hardware_profile_id => profile.id,
       :public_addresses => public_addresses,
       :private_addresses => [],
-      :create_image => can_create_image
+      :create_image => can_create_image,
+      :network_interfaces => nics
     )
   end
 
@@ -342,6 +409,23 @@ class RhevmDriver < Deltacloud::BaseDriver
       :state => dc.status.strip.upcase == 'UP' ? 'AVAILABLE' : 'DOWN',
       :limit => :unlimited
     )
+  end
+
+  def convert_network(n)
+    Network.new(
+      :id     => n.id,
+      :name   => n.name,
+      :state  => "UP" # only here if status is "operational"
+    )
+  end
+
+  def convert_nic(nic)
+    NetworkInterface.new({
+      :id => nic.id,
+      :name => nic.name,
+      :instance => nic.vm.id,
+      :network => nic.network || "n/a"
+    })
   end
 
   exceptions do
