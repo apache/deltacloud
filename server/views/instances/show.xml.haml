@@ -57,4 +57,7 @@
         - if instance.keyname
           %login
             %keyname #{instance.keyname}
-
+  - if instance.network_interfaces
+    %network_interfaces<
+      - instance.network_interfaces.each do |nic|
+        %network_interface{:href => network_interface_url(nic), :id => nic}

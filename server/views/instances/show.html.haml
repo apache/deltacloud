@@ -56,6 +56,11 @@
       -instance.storage_volumes.each do |vol|
         %li
           %a{ :href => storage_volume_url("#{vol.keys.first}"), :'data-ajax' => 'false'}=["#{vol.keys.first}", "#{vol.values.first}"].compact.reject{ |e| e.empty? }.join(' <---> ')
+    - if instance.network_interfaces
+      %li{ :'data-role' => 'list-divider'} Network Interfaces
+      -instance.network_interfaces.each do |nic|
+        %li
+          %a{ :href => network_interface_url("#{nic}"), :'data-ajax' => 'false'}="#{nic}"
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
