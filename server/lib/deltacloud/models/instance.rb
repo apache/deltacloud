@@ -34,6 +34,7 @@ module Deltacloud
     attr_accessor :create_image
     attr_accessor :firewalls
     attr_accessor :storage_volumes
+    attr_accessor :network_interfaces
 
     def to_hash(context)
       r = {
