@@ -1,0 +1,10 @@
+=header "Network Interfaces" do
+  %a{ :href => url_for('network_interfaces/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new Network Interface
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}
+    - @elements.each do |nic|
+      %li
+        %a{ :href => network_interface_url(nic.id), :'data-ajax' => 'false'}
+          %img{ :class => 'ui-link-thumb', :src => '/images/cloud.png'}
+          %h3=nic.id

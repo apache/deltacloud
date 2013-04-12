@@ -1,0 +1,4 @@
+!!!XML
+%network_interfaces
+  - @elements.each do |c|
+    = haml :'network_interfaces/show', :locals => { :network_interface => c, :subnets => subnets, :partial => true }

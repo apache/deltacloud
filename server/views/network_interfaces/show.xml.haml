@@ -1,0 +1,13 @@
+- unless defined?(partial)
+  !!! XML
+%network_interface{ :href => network_interface_url(network_interface.id), :id => network_interface.id }
+  %name=network_interface.name
+  %ip_address=network_interface.ip_address
+  -if subnets
+    %network{:href => subnet_url(network_interface.network), :rel => "subnet", :id => network_interface.network} #{network_interface.network}
+  -else
+    %network{:href => network_url(network_interface.network), :rel => "network", :id => network_interface.network} #{network_interface.network}
+  %instance{:href => instance_url(network_interface.instance), :id=>network_interface.instance} #{network_interface.instance}
+  %actions
+    - if driver.respond_to?(:destroy_network_interface)
+      %link{ :rel => "destroy", :method => "delete", :href => destroy_network_interface_url(network_interface.id)}

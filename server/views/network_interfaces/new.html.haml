@@ -1,0 +1,20 @@
+=header "Create new Network Interface"
+
+%div{ :'data-role' => :content, :'data-theme' => 'c', :class => 'middle-dialog'}
+  %form{ :action => network_interfaces_url, :method => :post}
+    %div{ 'data-role' => :fieldcontain }
+      %p
+        %label{ :for => :name} Name (optional):
+      %p
+        %input{ :type => :text, :id => :name, :name => :name, :value => '' }
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :instance, :class => 'ui-input-text'} Instance for attachment:
+      %select{:name => 'instance', :'data-native-menu' => "true" }
+        - instances.each do |inst|
+          %option{ :value => inst.id } #{inst.id}
+    %div{ 'data-role' => :fieldcontain }
+      %label{ :for => :network, :class => 'ui-input-text'} Network to attach to:
+      %select{:name => 'network', :'data-native-menu' => "true" }
+        - networks.each do |net|
+          %option{ :value => net.id } #{net.id}
+    %button{ :type => :submit} Create Network Interface

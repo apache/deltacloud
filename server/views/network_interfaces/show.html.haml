@@ -1,0 +1,29 @@
+=header "Network Interface"
+=subheader network_interface.id
+
+%div{ :'data-role' => :content, :'data-theme' => 'c'}
+  %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'd'}
+    %li{ :'data-role' => 'list-divider'} Identifier
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=network_interface.id
+    %li{ :'data-role' => 'list-divider'} Name
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=network_interface.name
+    %li{ :'data-role' => 'list-divider'} IP Address
+    %li
+      %p{ :'data-role' => 'fieldcontain'}=network_interface.ip_address
+    -if subnets
+      %li{ :'data-role' => 'list-divider'} Network (subnet)
+      %li
+        %a{ :href => subnet_url(network_interface.network), :'data-ajax'=>'false' }=network_interface.network
+    -else
+      %li{ :'data-role' => 'list-divider'} Network
+      %li
+        %a{ :href => network_url(network_interface.network), :'data-ajax'=>'false' }=network_interface.network
+    %li{ :'data-role' => 'list-divider'} Instance
+    %li
+      %a{ :href => instance_url(network_interface.instance), :'data-ajax'=>'false' }=network_interface.instance
+    %li{ :'data-role' => 'list-divider'} Actions
+    %li
+      %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
+        =link_to_action "Destroy", destroy_network_interface_url(network_interface.id), :delete
