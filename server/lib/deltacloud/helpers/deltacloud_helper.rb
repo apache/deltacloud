@@ -65,18 +65,19 @@ module Deltacloud::Helpers
       http_method || Deltacloud::Rabbit::BaseCollection.http_method_for(action)
     end
 
-    def filter_all(model)
+    def filter_all(model, opts={})
       begin
         @benchmark = Benchmark.measure { @elements = driver.send(model.to_sym, credentials, params) }
       rescue => e
         @exception = e
       end
+      locals = opts[:check] ? {:elements => @elements, opts[:check]=>driver.respond_to?(opts[:check])} : {:elements => @elements}
       if @elements
         headers['X-Backend-Runtime'] = @benchmark.real.to_s
         instance_variable_set(:"@#{model}", @elements)
         respond_to do |format|
-          format.html { haml :"#{model}/index", :locals => { :elements => @elements } }
-          format.xml { haml :"#{model}/index", :locals => { :elements => @elements } }
+          format.html { haml :"#{model}/index", :locals => locals}
+          format.xml  { haml :"#{model}/index", :locals => locals}
           format.json { JSON::dump({ model => @elements.map { |el| el.to_hash(self) }}) }
         end
       else
@@ -84,16 +85,18 @@ module Deltacloud::Helpers
       end
     end
 
-    def show(model)
+    def show(model, opts={})
       @benchmark = Benchmark.measure do
         @element = driver.send(model, credentials, { :id => params[:id]} )
       end
       headers['X-Backend-Runtime'] = @benchmark.real.to_s
       instance_variable_set("@#{model}", @element)
+      #checks for methods in opts:
+      locals = opts[:check] ? {model => @element, opts[:check]=>driver.respond_to?(opts[:check])} : {model => @element}
       if @element
         respond_to do |format|
-          format.html { haml :"#{model.to_s.pluralize}/show", :locals=>{model=>@element}}
-          format.xml { haml :"#{model.to_s.pluralize}/show" , :locals=>{model=>@element}}
+          format.html { haml :"#{model.to_s.pluralize}/show", :locals=>locals}
+          format.xml { haml :"#{model.to_s.pluralize}/show" , :locals=>locals}
           format.json { JSON::dump(model => @element.to_hash(self)) }
         end
       else

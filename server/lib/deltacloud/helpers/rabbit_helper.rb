@@ -18,15 +18,15 @@ Sinatra::Rabbit::Collection.class_eval do
 
   def self.standard_index_operation(opts={})
     collection_name = @collection_name
-    operation :index, :with_capability => opts[:capability] || collection_name do
-      control { filter_all collection_name }
+    operation :index, :with_capability => opts.delete(:capability) || collection_name do
+      control { filter_all collection_name, opts }
     end
   end
 
   def self.standard_show_operation(opts={})
     collection_name = @collection_name
-    operation :show, :with_capability => opts[:capability] || collection_name do
-      control { show collection_name.to_s.singularize.intern }
+    operation :show, :with_capability => opts.delete(:capability) || collection_name do
+      control { show collection_name.to_s.singularize.intern, opts}
     end
   end
 
