@@ -45,6 +45,7 @@ Gem::Specification.new do |s|
     'support/fedora/**',
     'support/condor/bash/**',
     'support/condor/config/**',
+    'lib/*.rb',
     'lib/**/*.rb',
     'lib/**/*.yml',
     'lib/**/*.haml',
