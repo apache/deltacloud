@@ -26,5 +26,21 @@ class Network < BaseModel
     self.subnets = [] unless self.subnets
   end
 
+  def to_hash(context)
+    {
+      :id => id,
+      :name => name,
+      :href => context.network_url(id),
+      :state => state,
+      :address_blocks => address_blocks,
+      :subnets => subnets.map do |s|
+        {
+          :id => s,
+          :href => context.subnet_url(s),
+        }
+      end,
+    }
+  end
+
 end
 end

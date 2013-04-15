@@ -23,5 +23,19 @@ class Subnet < BaseModel
   attr_accessor :state
   attr_accessor :type
 
+  def to_hash(context)
+    {
+      :id => id,
+      :name => name,
+      :href => context.subnet_url(id),
+      :state => state,
+      :address_block => address_block,
+      :network => {
+        :id => network,
+        :href => context.network_url(network),
+      },
+    }
+  end
+
 end
 end
