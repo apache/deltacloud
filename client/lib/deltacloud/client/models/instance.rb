@@ -21,6 +21,7 @@ module Deltacloud::Client
     include Deltacloud::Client::Methods::Realm
     include Deltacloud::Client::Methods::HardwareProfile
     include Deltacloud::Client::Methods::Image
+    include Deltacloud::Client::Methods::LoadBalancer
 
     attr_reader :realm_id
     attr_reader :owner_id
@@ -82,6 +83,14 @@ module Deltacloud::Client
     def create_image(create_opts={})
       return false unless can_create_image?
       super(_id, create_opts)
+    end
+
+    def register_instance(load_balancer_id)
+      super(load_balancer_id, _id)
+    end
+
+    def unregister_instance(load_balancer_id)
+      super(load_balancer_id, _id)
     end
 
     # Helper for is_STATE?
