@@ -30,19 +30,22 @@ module Deltacloud::Collections
       operation :show, :with_capability => :load_balancer do
         param :id, :string, :required
         control do
-          @load_balancer = driver.load_balancer(credentials, params)
-          @registered_instances = @load_balancer.instances.collect{|i| {:id => i.id, :name=> i.name}}
-          # if provider supports realm_filter and load balancer has only one realm (which is mostly the case), use optimization:
-          if @load_balancer.realms.size == 1 and driver.class.has_feature?(:instances, :realm_filter)
-            all_instances = driver.instances(credentials, :realm_id => @load_balancer.realms.first.id).collect{|i| {:id => i.id, :name => i.name}}
-          elsif
+          vars = {}
+          vars[:load_balancer] = driver.load_balancer(credentials, params)
+          vars[:registered_instances] = vars[:load_balancer].instances.map{ |i| {:id => i.id, :name=> i.name} }
+          # If provider supports realm_filter and load balancer has only one realm (which is mostly the case), use optimization:
+          if vars[:load_balancer].realms.size == 1 and driver.class.has_feature?(:instances, :realm_filter)
+            all_instances = driver.instances(credentials, :realm_id => vars[:load_balancer].realms.first.id).collect{ |i|
+              { :id => i.id, :name => i.name }
+            }
+          else
             all_instances = driver.instances(credentials).collect{|i| {:id => i.id, :name => i.name} }
           end
-          @unregistered_instances = all_instances - @registered_instances
+          vars[:unregistered_instances] = all_instances - vars[:registered_instances]
           respond_to do |format|
-            format.xml { haml :'load_balancers/show', :locals => { :load_balancer => @load_balancer } }
+            format.xml { haml :'load_balancers/show', :locals => vars }
             format.json { JSON::dump(:load_balancer => @load_balancer.to_hash(self)) }
-            format.html { haml :'load_balancers/show' } # FIXME: Fix the HTML view + instance variables
+            format.html { haml :'load_balancers/show', :locals => vars }
           end
         end
       end

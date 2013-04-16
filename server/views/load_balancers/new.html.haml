@@ -6,13 +6,6 @@
       %label
         Name:
       %input{ :name => 'name', :size => 30 }/
-    -if instances
-      %p
-        %label
-          Running instance:
-        %select{ :name => 'instance_id'}
-          - instances.select{|i| i.state=="RUNNING"}.each do |instance|
-            %option{ :value => instance.id } #{instance.id}
     %p
       %label
         Realm:
