@@ -40,6 +40,7 @@ module Deltacloud::Client
     include Deltacloud::Client::Methods::StorageSnapshot
     include Deltacloud::Client::Methods::StorageVolume
     include Deltacloud::Client::Methods::LoadBalancer
+    include Deltacloud::Client::Methods::Metric
 
     def initialize(opts={})
       @request_driver = opts[:driver]
