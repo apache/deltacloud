@@ -35,14 +35,15 @@ module Deltacloud::Collections
       standard_index_operation
 
       operation :create, :with_capability => :create_subnet do
-        param :network_id, :string, :required
-        param :address_block,  :string,  :required
+        param :network_id,     :string, :required
+        param :address_block,  :string, :required
+        param :name,           :string, :optional
         control do
-          @subnet = driver.create_subnet(credentials, { :network_id => params[:network_id], :address_block => params[:address_block]})
+          @subnet = driver.create_subnet(credentials, params)
           respond_to do |format|
             format.xml  { haml :"subnets/show"}
             format.html { haml :"subnets/show" }
-            format.json { xml_to_json("subnets/show")}
+            format.json { JSON::dump(:subnet => @subnet.to_hash(self))}
           end
         end
       end

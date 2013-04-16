@@ -36,11 +36,11 @@ module Deltacloud::Collections
         param :address_block, :string, :optional
         param :name,          :string, :optional
         control do
-          @network = driver.create_network(credentials, { :address_block => params[:address_block]})
+          @network = driver.create_network(credentials, params)
           respond_to do |format|
             format.xml  { haml :"networks/show" }
             format.html { haml :"networks/show" }
-            format.json { xml_to_json("networks/show")}
+            format.json { JSON::dump(:network => @network.to_hash(self))}
           end
         end
       end
