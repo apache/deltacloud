@@ -1,3 +1,33 @@
+1.1.3 - 2013-04-17
+  * Deltacloud
+    + We no longer support MRI 1.8
+    + Added Deltacloud namespace for all models and classes to avoid conflicts (DTACLOUD-517)
+    + Added possibility to pass :mock_initialize when using Deltacloud as Rack
+      middleware. (DTACLOUD-507)
+    + Fixed various dependency issues with excon, tilt and haml
+    + Added support for URL helper for Rabbit subcollections (DTACLOUD-526)
+    + Switch to use local variables instead of instance variables in HAML views (thanks to Francesco Vollero)
+    + Refactored driver source loading code (DTACLOUD-540)
+  * Client
+    + Complete rewrite from scratch using Faraday lib
+  * CIMI
+    + Fixed incorrect look up for DiskCollection (DTACLOUD-536)
+    + Added missing VolumeConfigurationCreate (DTACLOUD-524)
+    + Added initial support for System models (mock, fgcp) (thanks to Dies Koper)
+    + Refactored how we generate Rabbit collections (generate_operation_collection)
+    + Obsoleted CIMI HAML views were removed
+    + Fixed deltacloud-db-upgrade to work on Windows
+  * EC2
+    + Fixed logging for EC2 frontend
+  * Drivers
+    + RHEV-M
+      - Allow client to select the first boot device
+    + Mock
+      - Convert all stub URL's correctly
+  * Tests
+    + Added loadbalancer tests for EC2
+    + Added support for Extended Machine scenarios - user_data (thanks to Ronelle Landy)
+
 1.1.2 - 2013-03-13
   * Deltacloud
     + Introducing the 'deltacloud-db-upgrade' command for CIMI database
