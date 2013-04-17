@@ -41,7 +41,7 @@ module Deltacloud::Collections
           respond_to do |format|
             format.xml  { haml :"network_interfaces/show", :locals => {:network_interface=>@network_interface, :subnets=>driver.respond_to?(:subnets)}}
             format.html { haml :"network_interfaces/show", :locals => {:network_interface=>@network_interface, :subnets=>driver.respond_to?(:subnets)}}
-            format.json { xml_to_json("network_interfaces/show")}
+            format.json { JSON::dump(:network_interface => @network_interface.to_hash(self))}
           end
         end
       end

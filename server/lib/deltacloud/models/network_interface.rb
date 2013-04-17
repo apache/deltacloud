@@ -20,5 +20,22 @@ class NetworkInterface < BaseModel
   attr_accessor :network
   attr_accessor :ip_address
 
+  def to_hash(context)
+    {
+      :id => id,
+      :name => name,
+      :href => context.network_interface_url(id),
+      :network => {
+        :id => network,
+        :href => context.network_url(network),
+      },
+      :instance => {
+        :id => instance,
+        :href => context.instance_url(instance),
+      },
+      :ip_address => ip_address,
+    }
+  end
+
 end
 end
