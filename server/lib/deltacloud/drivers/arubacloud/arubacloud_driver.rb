@@ -26,7 +26,8 @@ module Deltacloud
 
 class ArubacloudDriver < Deltacloud::BaseDriver
 
-  DEFAULT_DC = 'dc1'
+  DEFAULT_REGION = 'dc1'
+
   feature :instances, :authentication_password
   feature :instances, :user_name
 
@@ -79,7 +80,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
     end
   end
 
-  def images(credentials, opts = {})
+  def images(credentials, opts={})
     client = new_client(credentials)
     safely do
       hvs = get_all client, :hypervisors
@@ -125,21 +126,71 @@ class ArubacloudDriver < Deltacloud::BaseDriver
 
   def create_instance(credentials, image_id, opts={})
     client = new_client(credentials, opts[:realm_id])
+   
     safely do
-      ram = opts[:hwp_memory].to_i / 1024
+
       if not opts[:password] or opts[:password] == ''
-        raise "Missing Parameter 'password'"
+        raise "Missing parameter 'password' for Administrative Password"
       end
+
+      if not opts[:image_id] or opts[:image_id] == ''
+        raise "Missing parameter 'image_id' for Image Template"
+      end
+
+      if not opts[:name] or opts[:name] == ''
+        o =  [('a'..'z')].map{|i| i.to_a}.flatten
+        name  = "Delta14-" + (0...8).map{ o[rand(o.length)] }.join
+      else
+        name = opts[:name]
+      end
+
+      image_info = get_image_info(client, opts[:image_id].to_s)
+
+      limits = {}
+
+      image_info[:resource_bounds].each do |k, bounds|
+        bounds.each do |bound|
+          if limits.has_key?(bound[:resource_type])
+            next
+          end
+
+          limits[bound[:resource_type]] = {
+            "default" => bound[:default],
+            "min" => bound[:min],
+            "max" => bound[:max]
+          }
+        end
+      end
+      
+      # test fro image and hypervisor consistency
+      if opts[:hwp_id] and opts[:hwp_id] != image_info[:hw]
+        raise "Chosen image is not consistent with chosen Hardware Profile (hwp_id)"
+      end
+
+      ram = opts[:hwp_memory] ? opts[:hwp_memory].to_i / 1024 : limits["Ram"]["default"].to_i
+      cpu = opts[:hwp_cpu] ? opts[:hwp_cpu].to_i : limits["Cpu"]["default"].to_i
+      disk0 = opts[:hwp_storage] ? opts[:hwp_storage].to_i : limits["HardDisk0"]["default"].to_i
+
+      # Check min/max
+      ram = ram < limits["Ram"]["min"].to_i ? limits["Ram"]["min"].to_i : (ram > limits["Ram"]["max"].to_i ? limits["Ram"]["max"].to_i : ram)
+      cpu = cpu < limits["Cpu"]["min"].to_i ? limits["Cpu"]["min"].to_i : (cpu > limits["Cpu"]["max"].to_i ? limits["Cpu"]["max"].to_i : cpu)
+      disk0 = disk0 < limits["HardDisk0"]["min"].to_i ? limits["HardDisk0"]["min"].to_i : (disk0 > limits["HardDisk0"]["max"].to_i ? limits["HardDisk0"]["max"].to_i : disk0)
+
+      #disk must be multiple of 10
+      if disk0 % 10 != 0
+        disk0 = (disk0 / 10 + 1) * 10
+      end
+      
       params = {
         :server => {
           "arub:AdministratorPassword" => opts[:password].to_s,
-          "arub:CPUQuantity" => opts[:hwp_cpu].to_s,
-          "arub:Name" => opts[:name],
-          "arub:OSTemplateId" => opts[:image_id].to_s,
+          "arub:CPUQuantity" => cpu.to_s,          
+          "arub:Name" => name,
+          "arub:OSTemplateId" => opts[:image_id].to_s,        
           "arub:RAMQuantity" => ram.to_s,
           "arub:VirtualDisks" => {
             "arub:VirtualDiskDetails" => {
-              "arub:Size" => opts[:hwp_storage]
+              "arub:Size" => disk0.to_s
             }
           }
         }
@@ -147,7 +198,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
       # since Aruba API does not return the new server id when calling
       # set_enqueue_server_creation, get the server_id from the job list
       prev_jobs = get_jobs(client, "AddVirtualMachine")
-      request(client, :enqueue_server_creation, params, "set")
+      res = request(client, :enqueue_server_creation, params, "set")
       jobs = get_jobs(client, "AddVirtualMachine") - prev_jobs
       convert_instance(client, jobs.sort_by {|j| j[:job_id].to_i}.reverse.first[:server_id])
     end
@@ -186,7 +237,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   end
 
   def configured_providers
-    Deltacloud::Drivers::driver_config[:aruba][:entrypoints]["compute"].keys
+    Deltacloud::Drivers::driver_config[:arubacloud][:entrypoints]["compute"].keys
   end
 
   def storage_volumes(credentials, opts={})
@@ -292,40 +343,18 @@ class ArubacloudDriver < Deltacloud::BaseDriver
 
   private
 
-  def new_client(credentials, realm_id=nil)
+  def new_client(credentials, realm_id=nil, log_request=false)
     safely do
-      wsdl = realm_id ? Deltacloud::Drivers::driver_config[:aruba][:entrypoints]["compute"]["dc#{realm_id}"] : endpoint
-      client = Savon.client({wsdl: wsdl, log: false})
-      client.wsse.credentials credentials.user, credentials.password
-      client.request :get_user_authentication_token
+      wsdl = realm_id ? Deltacloud::Drivers::driver_config[:arubacloud][:entrypoints]["compute"]["dc#{realm_id}"] : endpoint
+      namespaces = {
+        "xmlns:arub" => "http://schemas.datacontract.org/2004/07/Aruba.Cloud.Provisioning.Entities",
+        "xmlns:arr" => "http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+      }
+      client = Savon.client({wsdl: wsdl, log: log_request, namespaces:namespaces, 
+                             wsse_auth: [credentials.user, credentials.password]})
+      client.call(:get_user_authentication_token)
       client
     end
-  end
-
-  def get_all(client, entity, field = nil)
-    method = "get_#{entity}".to_sym
-    field = field ? field : entity.to_s.chomp("s").to_sym
-    response = client.request method
-    result = response.body["#{method}_response".to_sym]["#{method}_result".to_sym][:value][field]
-    result = result.nil? ? [] : result.kind_of?(Array) ? result : [result]
-    result
-  end
-
-  def request(client, entity, params, verb="get")
-    meth = verb ? "#{verb}_#{entity}".to_sym : entity.to_sym
-    opts = {}
-    params.map{ |k, v| opts["tns:#{k}"] = v }
-    response = client.request meth do
-      soap.namespaces["xmlns:arub"] = "http://schemas.datacontract.org/2004/07/Aruba.Cloud.Provisioning.Entities"
-      soap.namespaces["xmlns:arr"] = "http://schemas.microsoft.com/2003/10/Serialization/Arrays"
-      soap.body = opts
-    end
-    data = response.body["#{meth}_response".to_sym]["#{meth}_result".to_sym]
-    if not data[:success]
-      raise data[:result_message]
-    end
-
-    data [:value]
   end
 
   def get_jobs(client, type)
@@ -335,6 +364,43 @@ class ArubacloudDriver < Deltacloud::BaseDriver
       end
       res
     end
+  end
+
+  def get_all(client, entity, field = nil)
+    method = "get_#{entity}".to_sym
+    field = field ? field : entity.to_s.chomp("s").to_sym
+    response = client.call method
+    result = response.body["#{method}_response".to_sym]["#{method}_result".to_sym][:value][field]
+    result = result.nil? ? [] : result.kind_of?(Array) ? result : [result]
+    result
+  end
+
+  def get_image_info(client, image_id)
+    hvs = get_all client, :hypervisors
+    hvs.each do |hv|
+      hv[:templates][:template_details].each do |tpl|
+        if image_id != tpl[:id]
+          next
+        end
+
+        tpl[:hw] = hv[:hypervisor_type]
+        
+        return tpl
+
+      end
+    end
+  end
+
+  def request(client, entity, params, verb="get")
+    meth = verb ? "#{verb}_#{entity}".to_sym : entity.to_sym
+    opts = {}
+    params.map{ |k, v| opts["tns:#{k}"] = v }
+    response = client.call(meth, message: opts)
+    data = response.body["#{meth}_response".to_sym]["#{meth}_result".to_sym]
+    if not data[:success]
+      raise "Error from remote Backend: " + data[:result_message]
+    end
+    data [:value]
   end
 
   def convert_state(state)
@@ -407,8 +473,8 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   end
 
   def endpoint
-    endpoint = (api_provider || DEFAULT_DC)
-    Deltacloud::Drivers::driver_config[:aruba][:entrypoints]["compute"][endpoint] || endpoint
+    endpoint = (api_provider || DEFAULT_REGION)
+    Deltacloud::Drivers::driver_config[:arubacloud][:entrypoints]["compute"][endpoint] || endpoint
   end
 
   exceptions do
