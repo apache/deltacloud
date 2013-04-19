@@ -16,6 +16,10 @@
 #
 
 require "savon"
+require 'base64'
+require 'openssl'
+require "rest_client"
+require "xmlsimple"
 
 HTTPI.log = false
 
@@ -30,6 +34,8 @@ class ArubacloudDriver < Deltacloud::BaseDriver
 
   feature :instances, :authentication_password
   feature :instances, :user_name
+
+  feature :buckets, :bucket_location
 
   define_instance_states do
     start.to( :pending )         .automatically
@@ -60,6 +66,196 @@ class ArubacloudDriver < Deltacloud::BaseDriver
     memory      ( 1024 .. 16*1024 )
     storage     ( 10 .. 500)
     architecture ['x86_64', 'i386']
+  end
+
+  def generate_headers(method, credentials, bucket=nil, blob=nil, user_headers={})
+    headers = {
+      'x-amz-date' => Time.new.getgm.strftime("%a, %d %b %Y %H:%M:%S %Z"),
+      'Content-Md5'=>'', 
+      'Date'=>'', 
+      'Content-Type'=> ''
+    }
+
+    headers = headers.merge(user_headers)
+
+    signature = ["#{method}\n"]
+    headers.sort_by{|k, v| k}.each do |name, value|
+      lk = name.downcase
+      if lk.start_with? 'x-amz-'
+        signature << "#{name}:#{value}\n"
+      elsif lk == 'content-type' or lk == 'content-md5' or lk == 'date'
+        signature << "#{value}\n"
+      end
+    end
+
+    signature << "/"
+    if bucket
+      signature << "#{bucket}/"
+    end
+
+    if blob
+      signature << blob
+    end
+    
+    signed = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new("sha1"),
+                                                  credentials.password, signature.join("")))
+
+    headers['Authorization'] = "AWS #{credentials.user}:#{signed}"
+
+    headers.delete_if { |k, v| v.is_a? String and v.empty? }
+    
+    headers
+  end
+
+  def storage_request(credentials, request=:buckets, params={})
+    dc = params['realm_id'] ? "dc#{params['realm_id']}" : DEFAULT_REGION
+    host_base = Deltacloud::Drivers::driver_config[:arubacloud][:entrypoints]["storage"][dc]
+
+    begin
+      case request
+        when :bucket_info
+          headers = generate_headers("GET", credentials, params['bucket_name'])
+          response = RestClient.get "#{host_base}/#{params['bucket_name']}/", headers
+        when :bucket_create
+          headers = generate_headers("PUT", credentials, params['bucket_name'])
+          headers['Content-Length'] = 0
+          response = RestClient.put host_base.sub("//", "//#{params['bucket_name']}."), nil, headers
+        when :bucket_delete
+          headers = generate_headers("DELETE", credentials, params['bucket_name'])
+          response = RestClient.delete "#{host_base}/#{params['bucket_name']}/", headers
+        when :buckets
+          headers = generate_headers("GET", credentials)
+          response = RestClient.get host_base, headers
+        when :blob_info
+          headers = generate_headers("HEAD", credentials, params['bucket_name'], params['blob_name'])
+          host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"
+          response = RestClient.head host, headers
+        when :blob_create
+          base_headers = {'Content-Type'=> params['content_type'],
+                          'x-amz-acl' => 'private',
+                          'Content-Length' => File.size(params['tmp'])}
+          params.each do |k,v|
+            if k.start_with? "x-amz-meta-"
+              base_headers[k] = v
+            end
+          end
+
+          headers = generate_headers("PUT", credentials, params['bucket_name'], params['blob_name'], base_headers)
+          host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"
+          
+          response = RestClient.put host, File.read(params['tmp']) , headers
+        when :blob_data
+          headers = generate_headers("GET", credentials, params['bucket_name'], params['blob_name'])
+          host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"
+          response = RestClient.get host, headers
+        when :blob_delete
+          headers = generate_headers("DELETE", credentials, params['bucket_name'], params['blob_name'])
+          host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"          
+          response = RestClient.delete host, headers
+        else
+          raise("Unknown request: " + request.to_s)
+      end
+
+    rescue RestClient::UnprocessableEntity, RestClient::BadRequest => e
+      raise("FAILED: #{e.response}")
+    rescue RestClient::Unauthorized
+      raise("Authentication failure")
+    rescue RestClient::Forbidden
+      raise("Remote Error: Forbidden")
+    rescue RestClient::Conflict
+      raise("Remote Error: Conflict")
+    end
+
+    response
+
+  end
+
+  def buckets(credentials, opts={})    
+    buckets = []
+    
+    unless (opts[:id].nil?)
+      blob_list = []
+      response = storage_request(credentials, :bucket_info, {'bucket_name'=>opts[:id]})
+      data = XmlSimple.xml_in(response.body)
+      if data['Contents']
+        data['Contents'].each do |blob|
+          blob_list << blob["Key"][0]
+        end
+      end
+      buckets << Bucket.new({:id => opts[:id], :name => opts[:id],
+                             :size => blob_list.length,
+                             :blob_list => blob_list})
+    else
+      response = storage_request(credentials, :buckets)
+      data = XmlSimple.xml_in(response.body)
+      data['Buckets'].each do |bucket|
+        if not bucket["Bucket"]
+          next
+        end
+        bucket['Bucket'].each do |item|
+          buckets << Bucket.new({:name => item["Name"][0], :id => item["Name"][0]})
+        end
+      end
+    end
+
+    filter_on(buckets, :id, opts)
+  end
+
+  def create_bucket(credentials, name, opts={})
+    response = storage_request(credentials, :bucket_create, {'bucket_name'=>name})
+    Bucket.new({:id => name, :name => name, :size => 0, :blob_list => []})
+  end
+
+  def delete_bucket(credentials, name, opts={})
+    storage_request(credentials, :bucket_delete, {'bucket_name'=>name})
+  end
+
+  def blobs(credentials, opts={})
+    blobs = []
+    #safely do
+      if(opts[:id])
+        response = storage_request(credentials, :blob_info, {'bucket_name'=>opts['bucket'], "blob_name"=>opts[:id]})
+        h = response.headers
+        blobs << Blob.new(
+          :id => opts[:id],
+          :bucket => opts['bucket'],
+          :content_length => response.headers[:content_length],
+          :content_type => response.headers[:content_type],
+          :last_modified => response.headers[:last_modified],
+          :user_metadata => []
+        )
+      end
+    #end
+    blobs = filter_on(blobs, :id, opts)
+    blobs
+
+  end
+
+  def create_blob(credentials, bucket_id, blob_id, data=nil, opts={})
+    params = {'bucket_name'=>bucket_id, 'blob_name'=>blob_id, 
+              'tmp'=>data[:tempfile], 'content_type'=>data[:type]}
+    opts_meta = opts.select{|k,v| k.match(/^x-amz-meta-/i)}
+
+    response = storage_request(credentials, :blob_create, params.merge(opts_meta))
+
+    Blob.new({ :id => blob_id,
+               :bucket => bucket_id,
+               :content_length => ((data && data[:tempfile]) ? data[:tempfile].length : nil),
+               :content_type => ((data && data[:type]) ? data[:type] : nil),
+               :last_modified => '',
+               :user_metadata => opts_meta
+             })
+
+  end
+
+  def delete_blob(credentials, bucket_id, blob_id, opts={})
+    response = storage_request(credentials, :blob_delete, {'bucket_name'=>bucket_id, "blob_name"=>blob_id})
+  end
+
+  def blob_data(credentials, bucket_id, blob_id, opts={})
+    response = storage_request(credentials, :blob_data, {'bucket_name'=>bucket_id, "blob_name"=>blob_id})
+    # Aruba doesn't provides methods for stream data
+    yield response
   end
 
   def realms(credentials, opts=nil)
@@ -125,7 +321,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   end
 
   def create_instance(credentials, image_id, opts={})
-    client = new_client(credentials, opts[:realm_id])
+    client = new_client(credentials, opts[:realm_id], true)
    
     safely do
 
@@ -139,7 +335,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
 
       if not opts[:name] or opts[:name] == ''
         o =  [('a'..'z')].map{|i| i.to_a}.flatten
-        name  = "Delta14-" + (0...8).map{ o[rand(o.length)] }.join
+        name  = "deltacloud-" + (0...12).map{ o[rand(o.length)] }.join
       else
         name = opts[:name]
       end

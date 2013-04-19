@@ -6,4 +6,8 @@
       dc2: https://api.dc2.computing.cloud.it/WsEndUser/v2.4/WsEndUser.svc?wsdl
       dc3: https://api.dc3.computing.cloud.it/WsEndUser/v2.4/WsEndUser.svc?wsdl
       dc4: https://api.dc4.computing.cloud.it/WsEndUser/v2.4/WsEndUser.svc?wsdl
+    storage:
+      dc1: https://r1-it.storage.cloud.it
+      dc3: https://r1-cz.storage.forpsicloud.cz
+      dc4: https://r1-fr.storage.arubacloud.fr
   :name: Arubacloud
