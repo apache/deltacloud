@@ -32,7 +32,7 @@ module CIMI::Collections
         control do
           system = System.find(params[:id], self)
           action = Action.parse(self)
-          system.perform(action, self) do |operation|
+          system.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -44,12 +44,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           system = System.find(params[:id], self)
-          if  grab_content_type(request.content_type, request.body) == :json
-            action = Action.from_json(request.body.read.gsub("restart", "reboot"))
-          else
-            action = Action.from_xml(request.body.read.gsub("restart", "reboot"))
-          end
-          system.perform(action, self) do |operation|
+          action = Action.parse(self)
+          system.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -61,12 +57,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           system = System.find(params[:id], self)
-          if  grab_content_type(request.content_type, request.body) == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          system.perform(action, self) do |operation|
+          action = Action.parse(self)
+          system.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -78,12 +70,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           system = System.find(params[:id], self)
-          if  grab_content_type(request.content_type, request.body) == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          system.perform(action, self) do |operation|
+          action = Action.parse(self)
+          system.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
@@ -95,12 +83,8 @@ module CIMI::Collections
         param :id,          :string,    :required
         control do
           system = System.find(params[:id], self)
-          if  grab_content_type(request.content_type, request.body) == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          system.perform(action, self) do |operation|
+          action = Action.parse(self)
+          system.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end

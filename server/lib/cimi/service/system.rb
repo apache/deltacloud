@@ -14,7 +14,6 @@
 # under the License.
 
 class CIMI::Service::System < CIMI::Service::Base
-
   def self.find(id, context)
     if id == :all
       systems = context.driver.systems(context.credentials, {:env=>context})
@@ -25,14 +24,16 @@ class CIMI::Service::System < CIMI::Service::Base
     end
   end
 
-  def perform(action, context, &block)
+  def perform(action, &block)
     begin
-      if context.driver.send(:"#{action.name}_system", context.credentials, self.id.split("/").last)
+      op = action.operation
+      if context.driver.send(:"#{op}_system", context.credentials, ref_id(id))
         block.callback :success
       else
-        raise "Operation failed to execute on given System"
+        raise "Operation #{op} failed to execute on given System #{ref_id(id)}"
       end
     rescue => e
+      raise
       block.callback :failure, e.message
     end
   end
