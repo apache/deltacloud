@@ -286,6 +286,12 @@ module CIMI::Test::Methods
       end
     end
 
+    #convenience method for checking if collection :foo is supported:
+    def collection_supported(name)
+      api.collections.include?(name.to_sym)
+    end
+
+
     def need_capability(op, collection)
       before :each do
         begin
@@ -330,6 +336,19 @@ module CIMI::Test::Methods
     def teardown(created_resources, api_basic_auth)
       @@created_resources = created_resources
       puts "CLEANING UP... resources for deletion: #{@@created_resources.inspect}"
+      #systems:
+      if @@created_resources[:systems]
+        @@created_resources[:systems].each do |sys_id|
+          sys = get(sys_id, :accept=>:json)
+          delete_op = sys.json["operations"].find { |op| op["rel"] =~ /delete$/ }
+          if delete_op
+              delete_res = RestClient.delete( delete_op["href"],
+                  {'Authorization' => api_basic_auth, :accept => :json} )
+              @@created_resources[:systems].delete(sys_id)  if (200..207).include? delete_res.code
+              @@created_resources.delete(:systems) if @@created_resources[:systems].empty?
+          end
+        end
+      end
 
       # machines:
       if not @@created_resources[:machines].nil?

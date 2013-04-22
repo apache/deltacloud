@@ -42,4 +42,8 @@ namespace :test do
     t.test_files = FileList["cimi/part*_test.rb", "cimi/cep_test.rb"]
   end
 
+  Rake::TestTask.new(:cimiplan_pf2) do |t|
+    t.test_files =FileList["cimi/system1_test.rb", "cimi/rmd*_test.rb", "cimi/machex*_test.rb"]
+  end
+
 end
