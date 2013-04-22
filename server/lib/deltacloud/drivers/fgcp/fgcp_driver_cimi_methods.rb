@@ -17,6 +17,8 @@
 #Definition of CIMI methods for the Fgcp driver - separation from deltacloud
 #API Fgcp driver methods
 
+require 'cgi'
+
 module Deltacloud::Drivers::Fgcp
 
   class FgcpDriver < Deltacloud::BaseDriver
@@ -37,7 +39,7 @@ module Deltacloud::Drivers::Fgcp
           vsys_id = vsys['vsysId'][0]
           vsys_description_el = vsys['description']
           CIMI::Model::System.new(
-            :id          => vsys_id,
+            :id          => context.system_url(vsys_id),
             :name        => vsys['vsysName'][0],
             :description => vsys_description_el ? vsys_description_el[0] : nil,
             :machines    => { :href => context.system_machines_url(vsys_id) },
@@ -47,25 +49,26 @@ module Deltacloud::Drivers::Fgcp
             :operations  => []
           )
         end
-        systems = systems.select { |s| opts[:id] == s[:id] } if opts[:id]
+        systems = systems.select { |s| context.system_url(opts[:id]) == s[:id] } if opts[:id]
 
         # now add system state and advertise operations
         systems.each do |system|
-          vservers = client.list_vservers(system[:id])['vservers'][0]['vserver']
+          vsys_id = system[:id].split('/').last
+          vservers = client.list_vservers(vsys_id)['vservers'][0]['vserver']
           if vservers.nil?
-            system[:state] = client.get_vsys_status(system[:id])['vsysStatus'][0] == 'DEPLOYING' ? 'CREATING' : 'MIXED'
+            system[:state] = client.get_vsys_status(vsys_id)['vsysStatus'][0] == 'DEPLOYING' ? 'CREATING' : 'MIXED'
           else
             vservers.each do |vserver|
               state = @@MACHINE_STATE_MAP[client.get_vserver_status(vserver['vserverId'][0])['vserverStatus'][0]]
               system[:state] ||= state
-              system[:operations] << { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" } if state == 'STOPPED'
-              system[:operations] << { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" } if state == 'STARTED'
+              system[:operations] << { :href => context.system_url("#{vsys_id}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" } if state == 'STOPPED'
+              system[:operations] << { :href => context.system_url("#{vsys_id}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" } if state == 'STARTED'
               if system[:state] != state
                 system[:state] = 'MIXED'
                 # this case could have been caused by one machine in capturing state and one in e.g. creating,
                 # but just advertise both operations to cut it short
-                system[:operations] << { :href => context.system_url("#{system[:id]}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" }
-                system[:operations] << { :href => context.system_url("#{system[:id]}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" }
+                system[:operations] << { :href => context.system_url("#{vsys_id}/start"), :rel => "http://schemas.dmtf.org/cimi/1/action/start" }
+                system[:operations] << { :href => context.system_url("#{vsys_id}/stop"), :rel => "http://schemas.dmtf.org/cimi/1/action/stop" }
                 break
               end
             end
@@ -73,8 +76,8 @@ module Deltacloud::Drivers::Fgcp
           end
           # check for special case: in destroy_system the FW is stopped before the system is deleted
           system[:state] = 'DELETING' if ((vservers.nil? and system[:state] != 'CREATING') or system[:state] == 'STOPPED') and
-                                         ['STOPPED', 'STOPPING'].include? client.get_efm_status("#{system[:id]}-S-0001")['efmStatus'][0]
-          system[:operations] << { :href => context.system_url(system[:id]), :rel => "delete" } if system[:state] == 'STOPPED'
+                                         ['STOPPED', 'STOPPING'].include? client.get_efm_status("#{vsys_id}-S-0001")['efmStatus'][0]
+          system[:operations] << { :href => context.system_url(vsys_id), :rel => "delete" } if system[:state] == 'STOPPED'
         end
         systems
       end
@@ -85,7 +88,7 @@ module Deltacloud::Drivers::Fgcp
         client = new_client(credentials)
         name = opts[:name] || "system_#{Time.now.to_s}"
         template = opts[:system_template]
-        template_id = template.id || template.href.to_s.gsub(/.*\/([^\/]+)$/, '\1')
+        template_id = CGI.unescape(template.id.split('/').last)
         vsys_id = client.create_vsys(template_id, name)['vsysId'][0]
         opts[:id] = vsys_id
         systems(credentials, opts).first
@@ -286,14 +289,15 @@ module Deltacloud::Drivers::Fgcp
               }
             end
           end
+          description = desc['description'][0].empty? ? "" : desc['description'][0]
           CIMI::Model::SystemTemplate.new(
-            :id                    => desc['vsysdescriptorId'][0],
+            :id                    => context.system_template_url(CGI.escape(desc['vsysdescriptorId'][0])),
             :name                  => desc['vsysdescriptorName'][0],
-            :description           => desc['description'][0],
+            :description           => description,
             :component_descriptors => components.compact
           )
         end
-        templates = templates.select { |t| opts[:id] == t[:id] } if opts[:id]
+        templates = templates.select { |t| context.system_template_url(CGI.escape(opts[:id])) == t[:id] } if opts[:id]
         templates
       end
     end
