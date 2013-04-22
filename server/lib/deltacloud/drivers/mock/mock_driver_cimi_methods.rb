@@ -33,45 +33,115 @@ module Deltacloud::Drivers::Mock
         end
       end
       systems.map{|sys| convert_urls(sys, opts[:env])}.flatten
+      systems
     end
 
     def create_system(credentials, opts={})
       check_credentials(credentials)
+      create_system_components_for(opts[:name], opts[:system_template].component_descriptors, opts[:env])
       id = "#{opts[:env].send("systems_url")}/#{opts[:name]}"
       sys_hsh = { "id"=> id,
                   "name" => opts[:name],
                   "description" => opts[:description],
                   "created" => Time.now,
-                  "state" => "STOPPED",
-                  "systemTemplate"=> { "href" => opts[:system_template].id },
-                  "operations" => [{"rel"=>"http://schemas.dmtf.org/cimi/1/action/start", "href"=> "#{id}/start"},
+                  "state" => "STARTED",
+                  "operations" => [{"rel"=>"http://schemas.dmtf.org/cimi/1/action/stop",  "href"=> "#{id}/stop"},
                                    {"rel"=>"edit", "href"=> id},
-                                   {"rel"=>"delete", "href"=> id}]    }
+                                   {"rel"=>"delete", "href"=> id}]}
       system = CIMI::Model::System.from_json(JSON.generate(sys_hsh))
-
       @client.store_cimi(:system, system)
       system
     end
 
+    def create_system_components_for(system_id, component_descriptors, context)
+      component_descriptors.each do |cd|
+        cd_type = cd.type.split("/").last
+        model = CIMI::Model.const_get("#{cd_type}Create").new
+        #assign the template from the component descriptor
+        model.send("#{cd_type.underscore}_template=".to_sym, cd.send("#{cd_type.underscore}_template".to_sym))
+        #also the name, description from the component descriptor for the new resource:
+        model.send(:name=, cd.name)
+        model.send(:description=, cd.description)
+        resource = CIMI::Service.const_get("#{cd_type}Create").new(context, :model=>model)
+        #create quantity number of resources, obeying naming rules
+        if cd.quantity && cd.quantity > 1
+          cd.quantity.times do |t|
+            resource.model.send(:name=, "#{cd.name}#{t+1}")
+            created_sys_comp = resource.create.model
+            store_created_system_component(created_sys_comp, cd_type, system_id, context)
+          end
+        else
+          created_sys_comp = resource.create.model
+          store_created_system_component(created_sys_comp, cd_type, system_id, context)
+        end
+      end
+    end
+
+    def store_created_system_component(component, type, system_id, context)
+      seq_id = generate_system_component_id(type.underscore)
+      id = "#{context.send("system_url")}/#{system_id}/#{type.pluralize.underscore}/#{seq_id}"
+      system_component_hash = { :id => id,
+                                :name =>component.name,
+                                :description =>component.description,
+                                :created => Time.now,
+                                "#{type.underscore}".to_sym => {:href => component.id},
+                                :operations=> [{"rel"=>"edit", "href"=> id},
+                                               {"rel"=>"delete", "href"=> id}]
+                               }
+      system_component = CIMI::Model.const_get("System#{type}").from_json(JSON.generate(system_component_hash))
+      @client.store_cimi("system_#{type.underscore}".to_sym, system_component, seq_id)
+    end
+
+    def generate_system_component_id(type)
+      ids = @client.cimi_members("system_#{type}".to_sym)
+      count, next_id = 1, ''
+      loop do
+        break unless ids.include?(next_id = "sys_#{type}_#{count}")
+        count = count + 1
+      end
+      next_id
+    end
+
     def destroy_system(credentials, id)
       check_credentials(credentials)
+      #retrieve the system_machines to delete them
+      sys_machines = system_machines(credentials, {:system_id => id})
+      sys_machines.each do |mach|
+        inst_id = mach.machine.href.split("/").last
+        @client.destroy(:instances, inst_id)
+        mach_id = mach.id.split("/").last
+        @client.destroy_cimi(:system_machine, mach_id)
+      end
       @client.destroy_cimi(:system, id)
     end
 
     def start_system(credentials, id)
       check_credentials(credentials)
+      sys_machines = system_machines(credentials, {:system_id => id})
+      sys_machines.each do |mach|
+        inst_id = mach.machine.href.split("/").last
+        update_instance_state(credentials, inst_id , "RUNNING") #deltacloud instance, not machine
+      end
+      #retrieve system machines:
       update_object_state(id, "System", "STARTED")
     end
 
     def stop_system(credentials, id)
       check_credentials(credentials)
+      sys_machines = system_machines(credentials, {:system_id => id})
+      sys_machines.each do |mach|
+        inst_id = mach.machine.href.split("/").last
+        update_instance_state(credentials, inst_id , "STOPPED")
+      end
       update_object_state(id, "System", "STOPPED")
     end
 
     def system_machines(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        machines = @client.load_all_cimi(:system_machine).map{|mach| CIMI::Model::SystemMachine.from_json(mach)}
+        all_machines = @client.load_all_cimi(:system_machine).map{|mach| CIMI::Model::SystemMachine.from_json(mach)}
+        #grab only ones for system_id:
+        machines = all_machines.inject([]){|res,cur| res << cur if cur.id =~ /^.*\/systems\/#{opts[:system_id]}\/machines/  ;res}
       else
         begin
           machines = [CIMI::Model::SystemMachine.from_json(@client.load_cimi(:system_machine, opts[:id]))]
@@ -85,7 +155,8 @@ module Deltacloud::Drivers::Mock
     def system_volumes(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
-        volumes = @client.load_all_cimi(:system_volume).map{|vol| CIMI::Model::SystemVolume.from_json(vol)}
+        all_volumes = @client.load_all_cimi(:system_volume).map{|vol| CIMI::Model::SystemVolume.from_json(vol)}
+        volumes = all_volumes.inject([]){|res,cur| res << cur if cur.id =~ /^.*\/systems\/#{opts[:system_id]}\/volumes/  ;res}
       else
         begin
           volumes = [CIMI::Model::SystemVolume.from_json(@client.load_cimi(:system_volume, opts[:id]))]

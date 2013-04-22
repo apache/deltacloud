@@ -96,9 +96,9 @@ module Deltacloud::Drivers::Mock
       FileUtils.rm(fname) if File::exists?(fname)
     end
 
-    def store_cimi(collection, obj)
-      raise "Why no obj.name?" unless obj.name
-      File::open(cimi_file(collection, obj.name), "w") { |f| f.write(obj.to_json) }
+    def store_cimi(collection, obj, id=nil)
+      raise "Why no obj.name?" unless obj.name || id
+      File::open(cimi_file(collection, (id || obj.name)), "w") { |f| f.write(obj.to_json) }
     end
 
     def destroy_cimi(collection, id)
@@ -122,6 +122,11 @@ module Deltacloud::Drivers::Mock
 
     def cimi_dir(collection)
       File::join(@storage_root, "cimi", collection.to_s)
+    end
+
+    def cimi_members(collection)
+      model_files = Dir[File::join(cimi_dir(collection), "*.json")]
+      model_files.map { |f| File::basename(f, ".json") }
     end
 
     private
