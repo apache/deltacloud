@@ -1,0 +1,8 @@
+{ "id": "http://cimi.example.org/systems/system1/volumes/sys_volume_1",
+  "name": "sysvol1",
+  "created": "Fri Feb 08 12:15:15 EET 2013",
+  "volume": { "href": "http://cimi.example.org/volumes/vol1" },
+  "operations": [
+    { "rel": "delete", "href": "http://cimi.example.org/systems/system1/volumes/sys_volume_1" }
+  ]
+}

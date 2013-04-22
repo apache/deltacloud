@@ -3,6 +3,13 @@
   "description": "the first system",
   "created": "Fri Feb 08 15:25:41 EET 2013",
   "state": "STOPPED",
+  "machines": { "href": "http://cimi.example.org/systems/system1/machines"},
+  "credentials": { "href": "http://cimi.example.org/systems/system1/credentials"},
+  "volumes": { "href": "http://cimi.example.org/systems/system1/volumes"},
+  "networks": { "href": "http://cimi.example.org/systems/system1/networks"},
+  "networkPorts": { "href": "http://cimi.example.org/systems/system1/network_ports"},
+  "addresses": { "href": "http://cimi.example.org/systems/system1/addresses"},
+  "forwardingGroups": { "href": "http://cimi.example.org/systems/system1/forwarding_groups"},
   "operations": [
     { "rel": "http://schemas.dmtf.org/cimi/1/action/start", "href": "http://cimi.example.org/systems/system1/start" },
     { "rel": "edit", "href": "http://cimi.example.org/systems/system1" },

@@ -1,0 +1,8 @@
+{ "id": "http://cimi.example.org/systems/system1/machines/sys_machine_1",
+  "name": "sysmach1",
+  "created": "Fri Feb 08 12:15:15 EET 2013",
+  "machine": { "href": "http://cimi.example.org/machines/inst0" },
+  "operations": [
+    { "rel": "delete", "href": "http://cimi.example.org/systems/system1/machines/sys_machine_1" }
+  ]
+}
