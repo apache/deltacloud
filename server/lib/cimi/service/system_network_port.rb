@@ -18,16 +18,17 @@ class CIMI::Service::SystemNetworkPort < CIMI::Service::Base
   def self.find(system_id, context, id=:all)
     if id == :all
       ports = context.driver.system_network_ports(context.credentials, {:env=>context, :system_id=>system_id})
+      ports.collect {|e| CIMI::Service::SystemNetworkPort.new(context, :model => e)}
     else
       ports = context.driver.system_network_ports(context.credentials, {:env=>context, :system_id=>system_id, :id=>id})
       raise CIMI::Model::NotFound if ports.empty?
-      ports.first
+      CIMI::Service::SystemNetworkPort.new(context, :model => ports.first)
     end
   end
 
   def self.collection_for_system(system_id, context)
     system_network_ports = self.find(system_id, context)
-    network_ports_url = context.url("/system/#{system_id}/network_ports") if context.driver.has_capability? :add_network_ports_to_system
+    network_ports_url = context.system_network_ports_url(system_id) if context.driver.has_capability? :add_network_ports_to_system
     CIMI::Model::SystemNetworkPort.list(network_ports_url, system_network_ports, :add_url => network_ports_url)
   end
 

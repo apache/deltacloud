@@ -18,10 +18,11 @@ class CIMI::Service::SystemTemplate < CIMI::Service::Base
   def self.find(id, context)
     if id == :all
       templates = context.driver.system_templates(context.credentials, {:env=>context})
+      templates.collect {|e| CIMI::Service::SystemTemplate.new(context, :model => e)}
     else
       templates = context.driver.system_templates(context.credentials, {:env=>context, :id=>id})
-      raise CIMI::Model::NotFound unless templates.first
-      templates.first
+      raise CIMI::Model::NotFound if templates.empty?
+      CIMI::Service::SystemTemplate.new(context, :model => templates.first)
     end
   end
 

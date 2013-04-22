@@ -18,16 +18,17 @@ class CIMI::Service::SystemForwardingGroup < CIMI::Service::Base
   def self.find(system_id, context, id=:all)
     if id == :all
       groups = context.driver.system_forwarding_groups(context.credentials, {:env=>context, :system_id=>system_id})
+      groups.collect {|e| CIMI::Service::SystemForwardingGroup.new(context, :model => e)}
     else
       groups = context.driver.system_forwarding_groups(context.credentials, {:env=>context, :system_id=>system_id, :id=>id})
       raise CIMI::Model::NotFound if groups.empty?
-      groups.first
+      CIMI::Service::SystemForwardingGroup.new(context, :model => groups.first)
     end
   end
 
   def self.collection_for_system(system_id, context)
     system_forwarding_groups = self.find(system_id, context)
-    forwarding_groups_url = context.url("/system/#{system_id}/forwarding_groups") if context.driver.has_capability? :add_forwarding_groups_to_system
+    forwarding_groups_url = context.system_forwarding_groups_url(system_id) if context.driver.has_capability? :add_forwarding_groups_to_system
     CIMI::Model::SystemForwardingGroup.list(forwarding_groups_url, system_forwarding_groups, :add_url => forwarding_groups_url)
   end
 

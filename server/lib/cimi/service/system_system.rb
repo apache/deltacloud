@@ -18,16 +18,17 @@ class CIMI::Service::SystemSystem < CIMI::Service::Base
   def self.find(system_id, context, id=:all)
     if id == :all
       systems = context.driver.system_systems(context.systems, {:env=>context, :system_id=>system_id})
+      systems.collect {|e| CIMI::Service::SystemSystem.new(context, :model => e)}
     else
       systems = context.driver.system_systems(context.systems, {:env=>context, :system_id=>system_id, :id=>id})
       raise CIMI::Model::NotFound if systems.empty?
-      systems.first
+      CIMI::Service::SystemSystem.new(context, :model => systems.first)
     end
   end
 
   def self.collection_for_system(system_id, context)
     system_systems = self.find(system_id, context)
-    systems_url = context.url("/system/#{system_id}/systems") if context.driver.has_capability? :add_systems_to_system
+    systems_url = context.system_systems_url(system_id) if context.driver.has_capability? :add_systems_to_system
     CIMI::Model::SystemSystem.list(systems_url, system_systems, :add_url => systems_url)
   end
 

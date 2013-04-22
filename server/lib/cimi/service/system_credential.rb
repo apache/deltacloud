@@ -18,16 +18,17 @@ class CIMI::Service::SystemCredential < CIMI::Service::Base
   def self.find(system_id, context, id=:all)
     if id == :all
       credentials = context.driver.system_credentials(context.credentials, {:env=>context, :system_id=>system_id})
+      credentials.collect {|e| CIMI::Service::SystemCredential.new(context, :model => e)}
     else
       credentials = context.driver.system_credentials(context.credentials, {:env=>context, :system_id=>system_id, :id=>id})
       raise CIMI::Model::NotFound if credentials.empty?
-      credentials.first
+      CIMI::Service::SystemCredential.new(context, :model => credentials.first)
     end
   end
 
   def self.collection_for_system(system_id, context)
     system_credentials = self.find(system_id, context)
-    credentials_url = context.url("/system/#{system_id}/credentials") if context.driver.has_capability? :add_credentials_to_system
+    credentials_url = context.system_credentials_url(system_id) if context.driver.has_capability? :add_credentials_to_system
     CIMI::Model::SystemCredential.list(credentials_url, system_credentials, :add_url => credentials_url)
   end
 

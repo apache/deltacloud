@@ -18,16 +18,17 @@ class CIMI::Service::SystemNetwork < CIMI::Service::Base
   def self.find(system_id, context, id=:all)
     if id == :all
       networks = context.driver.system_networks(context.credentials, {:env=>context, :system_id=>system_id})
+      networks.collect {|e| CIMI::Service::SystemNetwork.new(context, :model => e)}
     else
       networks = context.driver.system_networks(context.credentials, {:env=>context, :system_id=>system_id, :id=>id})
       raise CIMI::Model::NotFound if networks.empty?
-      networks.first
+      CIMI::Service::SystemNetwork.new(context, :model => networks.first)
     end
   end
 
   def self.collection_for_system(system_id, context)
     system_networks = self.find(system_id, context)
-    networks_url = context.url("/system/#{system_id}/networks") if context.driver.has_capability? :add_networks_to_system
+    networks_url = context.system_networks_url(system_id) if context.driver.has_capability? :add_networks_to_system
     CIMI::Model::SystemNetwork.list(networks_url, system_networks, :add_url => networks_url)
   end
 
