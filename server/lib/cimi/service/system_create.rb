@@ -23,7 +23,7 @@ class CIMI::Service::SystemCreate < CIMI::Service::Base
       # tries to override some aspect of the system template ?
     end
     params = {
-      :system_template => system_template,
+      :system_template => template,
       :name => name,
       :description => description,
       :env => context
