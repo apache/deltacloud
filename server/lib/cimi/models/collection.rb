@@ -122,6 +122,16 @@ module CIMI::Model
     # Return a collection of entities
     def list(id, entries, params = {})
       params[:id] = id
+      if params[:system]
+        entries.each do |sys|
+          entry_id = sys.model.id
+          sys.model.attribute_values.each do |k,v|
+            if v.is_a? CIMI::Model::Collection
+              v.href ||= "#{entry_id}/#{k.to_s}"
+            end
+          end
+        end
+      end
       params[:entries] = entries
       params[:count] = params[:entries].size
       if params[:add_url]

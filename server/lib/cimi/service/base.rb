@@ -124,6 +124,9 @@ module CIMI::Service
       params = {}
       params[:desc] = "#{self.name.split("::").last} Collection for the #{ctx.driver.name.capitalize} driver"
       params[:add_url] = create_url(ctx)
+      if model_class == CIMI::Model::System
+        params[:system] = id
+      end
       model_class.list(id, entries, params).select_by(ctx.params['$select']).filter_by(ctx.params['$filter'])
     end
 

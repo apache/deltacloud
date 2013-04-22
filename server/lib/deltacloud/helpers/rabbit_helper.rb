@@ -81,6 +81,7 @@ module Sinatra::Rabbit
           path = operation.full_path
         end
         path.slice!(root_url) if path.start_with?(root_url)
+        path.chop! if path.end_with?("/")
         url(path)
       end unless respond_to?(helper_method_name)
     end, helper_method_name]
