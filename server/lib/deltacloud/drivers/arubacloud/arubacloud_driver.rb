@@ -68,7 +68,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
     architecture ['x86_64', 'i386']
   end
 
-  def generate_headers(method, credentials, bucket=nil, blob=nil, user_headers={})
+  def generate_headers(method, credentials, bucket=nil, blob=nil, user_headers={}, query=nil)
     headers = {
       'x-amz-date' => Time.new.getgm.strftime("%a, %d %b %Y %H:%M:%S %Z"),
       'Content-Md5'=>'', 
@@ -96,6 +96,10 @@ class ArubacloudDriver < Deltacloud::BaseDriver
     if blob
       signature << blob
     end
+
+    if query
+      signature << "?#{query}"
+    end
     
     signed = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new("sha1"),
                                                   credentials.password, signature.join("")))
@@ -108,7 +112,14 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   end
 
   def storage_request(credentials, request=:buckets, params={})
-    dc = params['realm_id'] ? "dc#{params['realm_id']}" : DEFAULT_REGION
+    if params['location']
+      dc = params['location']
+    elsif params['realm_id']
+      dc = "dc#{params['realm_id']}"
+    else
+      dc = DEFAULT_REGION
+    end
+
     host_base = Deltacloud::Drivers::driver_config[:arubacloud][:entrypoints]["storage"][dc]
 
     begin
@@ -116,20 +127,25 @@ class ArubacloudDriver < Deltacloud::BaseDriver
         when :bucket_info
           headers = generate_headers("GET", credentials, params['bucket_name'])
           response = RestClient.get "#{host_base}/#{params['bucket_name']}/", headers
+        
         when :bucket_create
           headers = generate_headers("PUT", credentials, params['bucket_name'])
           headers['Content-Length'] = 0
           response = RestClient.put host_base.sub("//", "//#{params['bucket_name']}."), nil, headers
+        
         when :bucket_delete
           headers = generate_headers("DELETE", credentials, params['bucket_name'])
           response = RestClient.delete "#{host_base}/#{params['bucket_name']}/", headers
+        
         when :buckets
           headers = generate_headers("GET", credentials)
           response = RestClient.get host_base, headers
+        
         when :blob_info
           headers = generate_headers("HEAD", credentials, params['bucket_name'], params['blob_name'])
           host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"
           response = RestClient.head host, headers
+        
         when :blob_create
           base_headers = {'Content-Type'=> params['content_type'],
                           'x-amz-acl' => 'private',
@@ -144,14 +160,21 @@ class ArubacloudDriver < Deltacloud::BaseDriver
           host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"
           
           response = RestClient.put host, File.read(params['tmp']) , headers
+        
         when :blob_data
           headers = generate_headers("GET", credentials, params['bucket_name'], params['blob_name'])
           host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"
           response = RestClient.get host, headers
+        
         when :blob_delete
           headers = generate_headers("DELETE", credentials, params['bucket_name'], params['blob_name'])
           host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}"          
           response = RestClient.delete host, headers
+        
+        when :blob_acl
+          headers = generate_headers("GET", credentials, params['bucket_name'], params['blob_name'], {}, 'acl')
+          host = host_base.sub("//", "//#{params['bucket_name']}.") + "/#{params['blob_name']}?acl"          
+          response = RestClient.get host, headers
         else
           raise("Unknown request: " + request.to_s)
       end
@@ -172,10 +195,13 @@ class ArubacloudDriver < Deltacloud::BaseDriver
 
   def buckets(credentials, opts={})    
     buckets = []
+
+    params = opts
     
     unless (opts[:id].nil?)
       blob_list = []
-      response = storage_request(credentials, :bucket_info, {'bucket_name'=>opts[:id]})
+      params['bucket_name'] = opts[:id]
+      response = storage_request(credentials, :bucket_info, params)
       data = XmlSimple.xml_in(response.body)
       if data['Contents']
         data['Contents'].each do |blob|
@@ -186,7 +212,7 @@ class ArubacloudDriver < Deltacloud::BaseDriver
                              :size => blob_list.length,
                              :blob_list => blob_list})
     else
-      response = storage_request(credentials, :buckets)
+      response = storage_request(credentials, :buckets, params)
       data = XmlSimple.xml_in(response.body)
       data['Buckets'].each do |bucket|
         if not bucket["Bucket"]
@@ -202,19 +228,26 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   end
 
   def create_bucket(credentials, name, opts={})
-    response = storage_request(credentials, :bucket_create, {'bucket_name'=>name})
+    params = opts
+    params['bucket_name'] = name
+    response = storage_request(credentials, :bucket_create, params)
     Bucket.new({:id => name, :name => name, :size => 0, :blob_list => []})
   end
 
   def delete_bucket(credentials, name, opts={})
-    storage_request(credentials, :bucket_delete, {'bucket_name'=>name})
+    params = opts
+    params['bucket_name'] = name
+    storage_request(credentials, :bucket_delete, params)
   end
 
   def blobs(credentials, opts={})
     blobs = []
-    #safely do
+    params = opts
+    params['bucket_name'] = opts['bucket']
+    params['blob_name'] = opts[:id]
+    safely do
       if(opts[:id])
-        response = storage_request(credentials, :blob_info, {'bucket_name'=>opts['bucket'], "blob_name"=>opts[:id]})
+        response = storage_request(credentials, :blob_info, params)
         h = response.headers
         blobs << Blob.new(
           :id => opts[:id],
@@ -225,15 +258,16 @@ class ArubacloudDriver < Deltacloud::BaseDriver
           :user_metadata => []
         )
       end
-    #end
+    end
     blobs = filter_on(blobs, :id, opts)
     blobs
 
   end
 
   def create_blob(credentials, bucket_id, blob_id, data=nil, opts={})
-    params = {'bucket_name'=>bucket_id, 'blob_name'=>blob_id, 
-              'tmp'=>data[:tempfile], 'content_type'=>data[:type]}
+    params = opts
+    params = params.merge({'bucket_name'=>bucket_id, 'blob_name'=>blob_id, 
+              'tmp'=>data[:tempfile], 'content_type'=>data[:type]})
     opts_meta = opts.select{|k,v| k.match(/^x-amz-meta-/i)}
 
     response = storage_request(credentials, :blob_create, params.merge(opts_meta))
@@ -249,15 +283,54 @@ class ArubacloudDriver < Deltacloud::BaseDriver
   end
 
   def delete_blob(credentials, bucket_id, blob_id, opts={})
-    response = storage_request(credentials, :blob_delete, {'bucket_name'=>bucket_id, "blob_name"=>blob_id})
+    params = opts
+    params['bucket_name'] = bucket_id
+    params['blob_name'] = blob_id
+    safely do
+      response = storage_request(credentials, :blob_delete, params)
+    end
   end
 
   def blob_data(credentials, bucket_id, blob_id, opts={})
-    response = storage_request(credentials, :blob_data, {'bucket_name'=>bucket_id, "blob_name"=>blob_id})
-    # Aruba doesn't provides methods for stream data
-    yield response
+    params = opts
+    params['bucket_name'] = bucket_id
+    params['blob_name'] = blob_id
+    safely do
+      response = storage_request(credentials, :blob_data, params)
+      yield response
+    end
+  end
+  #####################################################################################
+  #-
+  # Blob Metadada
+  #-
+  def blob_metadata(credentials, opts={})
+    params = opts
+    params['bucket_name'] = opts['bucket']
+    params['blob_name'] = opts[:id]
+    meta = {}
+    safely do
+      response = storage_request(credentials, :blob_acl, params)
+      data = XmlSimple.xml_in(response.body)
+      meta = data['AccessControlList']
+    end
+    meta
   end
 
+  #-
+  # Update Blob Metahash
+  #-
+  def update_blob_metadata(credentials, opts={})
+    cf = cloudfiles_client(credentials)
+    meta_hash = opts['meta_hash']
+    #the set_metadata method actually places the 'X-Object-Meta-' prefix for us:
+    BlobHelper::rename_metadata_headers(meta_hash, '')
+    safely do
+      blob = cf.container(opts['bucket']).object(opts[:id])
+      blob.set_metadata(meta_hash)
+    end
+  end
+  ############################################################################################
   def realms(credentials, opts=nil)
     client = new_client(credentials)
     safely do
