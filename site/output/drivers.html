@@ -478,6 +478,17 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
+    <tr>
+      <td class="provider">
+        <strong>Arubacloud</strong>
+      </td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+    </tr>
   </tbody>
 </table>
 <p><br></p>
@@ -651,7 +662,7 @@ The following table gives details about the credentials that must be provided fo
       <td>arubacloud</td>
       <td>Username</td>
       <td>Password</td>
-      <td></td>
+      <td>Username and password used for log-in to <a href="https://admin.dc1.computing.cloud.it/Login.aspx" target="_blank">Arubacloud web panel</a> are valid for compute functionality. For storage functionality you have to generate (from the admin panel) a region-bounded username password pair. Within a single (master) account you can have many storage accounts for each region, the only constraint being that username must be unique in the region</td>
     </tr>
     <tr>
       <td>
@@ -862,6 +873,20 @@ In order to connect to vSphere, you need to set the API_PROVIDER environment var
 <p>
 The username and password in 401 challenge should be the same as you use in the vSphere Control Center.
 </p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#specific" href="#ec2">
+        Arubacloud
+      </a>
+    </div>
+    <div id="ec2" class="accordion-body collapse in">
+      <div class="accordion-inner">
+      Arubacloud services are provided from 4 datacenters, which are mapped to providers (and realms). The regions of storage services are related to datacenters; compute services are available in all datacenters, while storage is not present in DC2
+      <br>
+      Since storage accounts (specific username and passowrd to access storgae functionalities) are bounded to a certain datacenter (chosen during credentials creation), when using Arubacloud driver for storage functionalities you have to pass as params the location (datacenter name) or the realm_id (1 for DC1, 3 for DC3, 4 for DC4), otherwise the driver will assume that you are operting in the default region (which is DC1)
       </div>
     </div>
   </div>
