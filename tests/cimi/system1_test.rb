@@ -71,10 +71,10 @@ class SystemTemplate < CIMI::Test::Spec
     system_add_uri = discover_uri_for("add", "systems")
   # 1.4 Create a new system from the systemTemplate
     system_created = post(system_add_uri,
-      "<systemCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
+      "<SystemCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
       "<name>test_system</name>" +
       "<systemTemplate href=\"" + get_a(cep_json, "systemTemplate") + "\"/>" +
-      "</systemCreate>", :content_type => :xml)
+      "</SystemCreate>", :content_type => :xml)
   end
 
   model :systems do |fmt|
@@ -137,7 +137,7 @@ class SystemTemplate < CIMI::Test::Spec
       uri = discover_uri_for("start", "", test_system_created.json["operations"])
       response = post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
-              "<action> http://http://schemas.dmtf.org/cimi/1/action/start</action>" +
+              "<action>http://schemas.dmtf.org/cimi/1/action/start</action>" +
             "</Action>",
             :accept => :xml, :content_type => :xml)
       response.code.must_equal 202
