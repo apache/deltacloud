@@ -99,12 +99,10 @@ module Deltacloud::Drivers::Fgcp
       delete_firewall(credentials, :id => "#{id}-S-0001")
     end
 
-    def start_system(credentials, opts={})
+    def start_system(credentials, id)
       safely do
         client = new_client(credentials)
-        context = opts[:env]
-        vsys_id = opts[:id]
-        xml = client.list_vservers(vsys_id)['vservers']
+        xml = client.list_vservers(id)['vservers']
         return unless xml and xml[0]['vserver']
 
         # FIXME: maybe this should be done in a separate thread (in case of gigantic number of servers)
@@ -119,12 +117,10 @@ module Deltacloud::Drivers::Fgcp
       end
     end
 
-    def stop_system(credentials, opts={})
+    def stop_system(credentials, id)
       safely do
         client = new_client(credentials)
-        context = opts[:env]
-        vsys_id = opts[:id]
-        xml = client.list_vservers(vsys_id)['vservers']
+        xml = client.list_vservers(id)['vservers']
         return unless xml and xml[0]['vserver']
 
         # FIXME: maybe this should be done in a separate thread (in case of gigantic number of servers)
