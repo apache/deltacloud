@@ -13,13 +13,47 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+# JoeV - If I don't include these here the associated CIMI::Service::<x>
+# JoeV   class referenced below is undefined even though these are specified
+# JoeV   in service.rb.
+require_relative './resource_metadata'
+require_relative './credential'
+require_relative './network_template'
+require_relative './network_port_template'
+require_relative './address'
+require_relative './address_template'
+
 class CIMI::Service::CloudEntryPoint < CIMI::Service::Base
 
   metadata :driver, :type => 'text'
   metadata :provider, :type => 'text'
 
-  def self.create(context)
-    self.new(context, :values => entities(context).merge({
+  SERVICES = {
+    "resource_metadata" => CIMI::Service::ResourceMetadata,
+    "systems" =>  CIMI::Service::System,
+    "system_templates" => CIMI::Service::SystemTemplate,
+    "machines" => CIMI::Service::Machine,
+    "machine_templates" => CIMI::Service::MachineTemplate,
+    "machine_configurations" => CIMI::Service::MachineConfiguration,
+    "machine_images" => CIMI::Service::MachineImage,
+    "credentials" => CIMI::Service::Credential,
+    "volumes" => CIMI::Service::Volume,
+    "volume_templates" => CIMI::Service::VolumeTemplate,
+    "volume_configurations" => CIMI::Service::VolumeConfiguration,
+    "volume_images" => CIMI::Service::VolumeImage,
+    "networks" =>  CIMI::Service::Network,
+    "network_templates" => CIMI::Service::NetworkTemplate,
+    "network_configurations" => CIMI::Service::NetworkPortConfiguration,
+    "network_port_template" =>  CIMI::Service::NetworkPortTemplate,
+    "network_port_configurations" => CIMI::Service::NetworkPortConfiguration,
+    "addresses" => CIMI::Service::Address,
+    "address_templates" =>  CIMI::Service::AddressTemplate,
+    "forwarding_groups" => CIMI::Service::ForwardingGroup,
+    "forwarding_group_templates" => CIMI::Service::ForwardingGroupTemplate
+  }
+
+  def initialize(context)
+    super(context, :values => {
       :name => context.driver.name,
       :description => "Cloud Entry Point for the Deltacloud #{context.driver.name} driver",
       :driver => context.driver.name,
@@ -27,27 +61,38 @@ class CIMI::Service::CloudEntryPoint < CIMI::Service::Base
       :id => context.cloudEntryPoint_url,
       :base_uri => context.base_uri + "/",
       :created => Time.now.xmlschema
-    }))
+    })
+    fill_entities context
   end
 
-  # Return an Hash of the CIMI root entities used in CloudEntryPoint
-  def self.entities(context)
+  private
+  def fill_entities(context)
     CIMI::Collections.modules(:cimi).inject({}) do |supported_entities, m|
       m.collections.each do |c|
         if c.operation(:index).nil?
           warn "#{c} does not have :index operation."
           next
         end
+        if c.collection_name == :cloudEntryPoint
+          warn "#{c} is cloudEntryPoint"
+          next
+        end
+
         index_operation_capability = c.operation(:index).required_capability
-        next if m.settings.respond_to?(:capability) and !m.settings.capability(index_operation_capability)
-        supported_entities[c.collection_name.to_s] = { :href => context.send(:"#{c.collection_name}_url") }
+        next if  m.settings.respond_to?(:capability) and \
+                !m.settings.capability(index_operation_capability)
+
+        coll = self[c.collection_name]
+        coll.href = context.send(:"#{c.collection_name.to_s}_url")
+
+        if context.expand? c.collection_name.to_s.camelize(:lower).to_sym
+          coll[c.collection_name] = \
+            SERVICES[c.collection_name.to_s].find(:all, context)
+        end
+
       end
-      supported_entities
     end
   end
 
-  def entities
-    @attribute_values.clone.delete_if { |key, value| !value.respond_to? :href }
-  end
-
 end
+

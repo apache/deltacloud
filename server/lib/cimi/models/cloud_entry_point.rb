@@ -13,32 +13,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
-  text :driver
-  text :provider
-
-  # All possible CIMI collections, in the order in which they should appear
-  # in the CEP
-  COLLECTIONS = [ "resourceMetadata", "systems", "systemTemplates",
-            "machines" , "machineTemplates", "machineConfigs",
-            "machineImages", "credentials", "credentialTemplates",
-            "volumes", "volumeTemplates", "volumeConfigs", "volumeImages",
-            "networks", "networkTemplates", "networkConfigs", "networkPorts",
-            "networkPortTemplates", "networkPortConfigs",
-            "addresses", "addressTemplates", "forwardingGroups",
-            "forwardingGroupTemplates",
-            "jobs", "meters", "meterTemplates", "meterConfigs",
-            "eventLogs", "eventLogTemplates" ]
-
-  text  :base_uri, :xml_name => "baseURI", :json_name => "baseURI"
-
-  COLLECTIONS.each do |coll|
-    href coll.underscore
-  end
+  text :driver, :required => true
+  text :provider, :required => true
+  text :base_uri, :xml_name => "baseURI", :json_name => "baseURI"
 
   private
-
   def self.href_defined?(resource)
     true if schema.attribute_names.include? resource.underscore
   end
