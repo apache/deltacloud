@@ -15,8 +15,8 @@
 
 class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
 
-  text :driver, :required => true
-  text :provider, :required => true
+  text :driver
+  text :provider
 
   # All possible CIMI collections, in the order in which they should appear
   # in the CEP
