@@ -1536,6 +1536,11 @@ eofwopxml
       status 409 # Conflict
     end
 
+    # trying to create a system with a name that's already taken
+    on /SYSTEM_NAME_ALREADY_EXISTS/ do
+      status 409 # Conflict
+    end
+
     # reached maximum number of attempts while polling for an update
     on /Server did not include public IP address in FW NAT rules/ do
       status 504 # Gateway Timeout
