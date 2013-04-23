@@ -30,6 +30,17 @@ For now we're using an <a href="http://etherpad.deltacloud.org/p/Weekly">etherpa
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/A2qOr16GZ30">Deltacloud Community Call #19</a>
+
+<ul>
+<li>bundle/gem install/ locking gem versions... discussion and solution</li>
+<li> Release 1.1.3 - release candidate for review</li>
+<li>Rename github.com/deltacloud/core to github.com/deltacloud/deltacloud?</li>
+<li>Open session - "what's new" - "what I'm working on" etc - Networks API @ https://github.com/deltacloud/core/pull/10</li>
+<li>Questions/discussion - onapp driver request for help - http://onapp.com/cloud/technology/api/ </li>
+</ul>
+
+<br>
 <a href="http://youtu.be/NHUS-mzkd00">Deltacloud Community Call #18</a>
 
 <ul>
