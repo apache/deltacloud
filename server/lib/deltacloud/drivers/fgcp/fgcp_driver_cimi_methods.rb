@@ -297,7 +297,7 @@ module Deltacloud::Drivers::Fgcp
             :component_descriptors => components.compact
           )
         end
-        templates = templates.select { |t| context.system_template_url(CGI.escape(opts[:id])) == t[:id] } if opts[:id]
+        templates = templates.select { |t| context.system_template_url(opts[:id]) == t[:id] } if opts[:id]
         templates
       end
     end
