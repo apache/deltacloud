@@ -88,7 +88,9 @@ module CIMI
       private
       def xml
         unless @xml
-          @xml = RestClient.get(cep_url, "Accept" => "application/xml").xml
+          h = auth_header
+          h['Accept'] = 'application/xml'
+          @xml = RestClient.get(cep_url, h).xml
         end
         @xml
       end
