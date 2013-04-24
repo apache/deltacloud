@@ -162,7 +162,7 @@ class SystemTemplate < CIMI::Test::Spec
       uri = discover_uri_for("stop", "", test_system_created.json["operations"])
       response = post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
-              "<action> http://http://schemas.dmtf.org/cimi/1/action/stop</action>" +
+              "<action>http://schemas.dmtf.org/cimi/1/action/stop</action>" +
             "</Action>",
             :accept => :xml, :content_type => :xml)
       response.code.must_equal 202
