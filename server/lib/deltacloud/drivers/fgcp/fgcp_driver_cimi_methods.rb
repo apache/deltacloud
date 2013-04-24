@@ -254,7 +254,7 @@ module Deltacloud::Drivers::Fgcp
               )
             end if vserver['vdisks']
             {
-              :name             => desc['vsysdescriptorName'][0],
+              :name             => vserver['vserverName'][0],
               :description      => '',
               :type             => "http://schemas.dmtf.org/cimi/1/Machine",
               :machine_template => CIMI::Model::MachineTemplate.new(
