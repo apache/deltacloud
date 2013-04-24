@@ -132,6 +132,8 @@ class SystemTemplate < CIMI::Test::Spec
   # 1.10 Starting the new System
   it "should be able to start the system", :only => :json  do
     test_system_created = get(fetch(system_created.headers[:location]).id, :accept => :json)
+    # ensure the system has reached a stable state (STOPPED, MIXED or STARTED)
+    poll_state(fetch(system_created.headers[:location]), "STARTED", "STOPPED", "MIXED")
     unless test_system_created.json["state"].eql?("STARTED")
       uri = discover_uri_for("start", "", test_system_created.json["operations"])
       response = post( uri,
@@ -157,7 +159,9 @@ class SystemTemplate < CIMI::Test::Spec
   # 1.12 Stop the new System
   it "should be able to stop the system", :only => :json  do
     test_system_created = get(fetch(system_created.headers[:location]).id, :accept => :json)
-    unless test_system_created.json["state"].eql?("STOPPED")
+    # ensure the system has reached a stable state (STOPPED, MIXED or STARTED)
+    poll_state(fetch(system_created.headers[:location]), "STARTED", "STOPPED", "MIXED")
+    unless test_system_created.json["state"].upcase.eql?("STOPPED")
       uri = discover_uri_for("stop", "", test_system_created.json["operations"])
       response = post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +

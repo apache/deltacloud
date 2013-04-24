@@ -256,10 +256,9 @@ module CIMI::Test::Methods
       log.debug "/#{method.to_s.upcase} #{absolute_url(path)}"
     end
 
-    def poll_state(res, state)
-      while not res.state.upcase.eql?(state)
-        puts state
-        log.info "waiting for resource #{res.id} to be #{state}"
+    def poll_state(res, *states)
+      while not states.include?(res.state.upcase)
+        log.info "waiting for resource #{res.id} to go from #{res.state} to #{states}"
         sleep(10)
         res = fetch(res.id)
       end
