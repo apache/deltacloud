@@ -256,12 +256,12 @@ module CIMI::Test::Methods
       log.debug "/#{method.to_s.upcase} #{absolute_url(path)}"
     end
 
-    def poll_state(machine, state)
-      while not machine.state.upcase.eql?(state)
+    def poll_state(res, state)
+      while not res.state.upcase.eql?(state)
         puts state
-        puts 'waiting for machine to be: ' + state.to_s()
+        log.info "waiting for resource #{res.id} to be #{state}"
         sleep(10)
-        machine = machine(:refetch => true)
+        res = fetch(res.id)
       end
     end
 
