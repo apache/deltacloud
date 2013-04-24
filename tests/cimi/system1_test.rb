@@ -62,7 +62,7 @@ class SystemTemplate < CIMI::Test::Spec
       model.attribute_values[r][0].id.must_be_uri
 
        # 1.3 Select or Create a System Template
-       puts "System Template: " + get_a(cep_json, "systemTemplate")
+       log.info "Picked SystemTemplate " + get_a(cep_json, "systemTemplate")
      end
   rescue RuntimeError =>e
   end
@@ -98,11 +98,10 @@ class SystemTemplate < CIMI::Test::Spec
 
   # 1.5 Query the new System
   it "should return a representation of a system", :only => :json do
-    puts fetch(system_created.headers[:location]).id
-    #test_system_created
-    test_system_created = get(fetch(system_created.headers[:location]).id, :accept => :json)
-    test_system_created.code.must_equal 200
-    test_system_created.json["resourceURI"].must_equal RESOURCE_URI
+    test_system_created = fetch(system_created.headers[:location]).id
+    log.info "Created system #{test_system_created}"
+    last_response.code.must_equal 200
+    last_response.json["resourceURI"].must_equal RESOURCE_URI
   end
 
   # 1.6 Query the System SystemMachine collection
