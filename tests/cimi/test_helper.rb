@@ -509,8 +509,6 @@ class CIMI::Test::Spec < MiniTest::Spec
           @_memoized[k] = retrieve(k, &block)
         end
       end
-      @@_cache[:last_response] ||= {}
-      @@_cache[:last_response][@format] = resp
       parse(resp)
     end
   end
@@ -543,6 +541,9 @@ class CIMI::Test::Spec < MiniTest::Spec
         response.xml.namespaces["xmlns"].must_equal CIMI::Test::CIMI_NAMESPACE
       end
     end
+    @@_cache ||= {}
+    @@_cache[:last_response] ||= {}
+    @@_cache[:last_response][@format] = response
     response
   end
 end
