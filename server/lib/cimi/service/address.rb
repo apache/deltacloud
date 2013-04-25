@@ -13,6 +13,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+require 'ipaddr'
+
 class CIMI::Service::Address < CIMI::Service::Base
 
   def self.find(id, context)
