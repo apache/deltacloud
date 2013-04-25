@@ -72,7 +72,7 @@ class SystemTemplate < CIMI::Test::Spec
   # 1.4 Create a new system from the systemTemplate
     system_created = post(system_add_uri,
       "<SystemCreate xmlns=\"#{CIMI::Test::CIMI_NAMESPACE}\">" +
-      "<name>test_system</name>" +
+                          "<name>dc_test_system_#{Time.now.to_i}</name>" +
       "<systemTemplate href=\"" + get_a(cep_json, "systemTemplate") + "\"/>" +
       "</SystemCreate>", :content_type => :xml)
   end
@@ -131,20 +131,20 @@ class SystemTemplate < CIMI::Test::Spec
 
   # 1.10 Starting the new System
   it "should be able to start the system", :only => :json  do
-    test_system_created = get(fetch(system_created.headers[:location]).id, :accept => :json)
+    sys = fetch(system_created.headers[:location])
     # ensure the system has reached a stable state (STOPPED, MIXED or STARTED)
-    poll_state(fetch(system_created.headers[:location]), "STARTED", "STOPPED", "MIXED")
-    unless test_system_created.json["state"].eql?("STARTED")
-      uri = discover_uri_for("start", "", test_system_created.json["operations"])
+    sys = poll_state(sys, "STARTED", "STOPPED", "MIXED")
+    unless sys.state.eql?("STARTED")
+      uri = discover_uri_for("start", nil, sys.operations)
       response = post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
               "<action>http://schemas.dmtf.org/cimi/1/action/start</action>" +
             "</Action>",
             :accept => :xml, :content_type => :xml)
       response.code.must_equal 202
-      poll_state(fetch(system_created.headers[:location]), "STARTED")
-      get(fetch(system_created.headers[:location]).id, :accept => :json).json["state"].upcase.must_equal "STARTED"
+      sys = poll_state(sys, "STARTED")
     end
+    sys.state.upcase.must_equal "STARTED"
   end
 
   # 1.11 Check that the machines are started
@@ -158,11 +158,11 @@ class SystemTemplate < CIMI::Test::Spec
 
   # 1.12 Stop the new System
   it "should be able to stop the system", :only => :json  do
-    test_system_created = get(fetch(system_created.headers[:location]).id, :accept => :json)
+    sys = fetch(system_created.headers[:location])
     # ensure the system has reached a stable state (STOPPED, MIXED or STARTED)
-    poll_state(fetch(system_created.headers[:location]), "STARTED", "STOPPED", "MIXED")
-    unless test_system_created.json["state"].upcase.eql?("STOPPED")
-      uri = discover_uri_for("stop", "", test_system_created.json["operations"])
+    sys = poll_state(sys, "STARTED", "STOPPED", "MIXED")
+    unless sys.state.upcase.eql?("STOPPED")
+      uri = discover_uri_for("stop", nil, sys.operations)
       response = post( uri,
             "<Action xmlns=\"http://schemas.dmtf.org/cimi/1\">" +
               "<action>http://schemas.dmtf.org/cimi/1/action/stop</action>" +

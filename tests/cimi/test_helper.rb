@@ -113,11 +113,16 @@ module CIMI::Test::Methods
     def cep(params = {})
       get(api.cep_url, params)
     end
+
     def discover_uri_for(op, collection, operations = nil)
       unless operations
-        cep_json = cep(:accept => :json)
-        #get the collection operations:
-        operations = get(cep_json.json["#{collection}"]["href"], {:accept=> :json}).json["operations"]
+        if collection
+          cep_json = cep(:accept => :json)
+          #get the collection operations:
+          operations = get(cep_json.json["#{collection}"]["href"], {:accept=> :json}).json["operations"]
+        else
+          operations = []
+        end
       end
       op_regex = Regexp.new(op, Regexp::IGNORECASE) # "add" == /add/i
       op_uri = operations.inject(""){|res,current| res = current["href"] if current["rel"] =~ op_regex; res} unless operations.nil?
@@ -262,6 +267,7 @@ module CIMI::Test::Methods
         sleep(10)
         res = fetch(res.id)
       end
+      return res
     end
 
     def machine_stop_start(machine, action, state)
