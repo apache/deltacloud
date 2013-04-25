@@ -779,7 +779,8 @@ class FgcpDriver < Deltacloud::BaseDriver
           # 2. for slbs, obtain all ids from list_efm
           if addrs_to_instance.keys.size < associated_ips.keys.size # only if associated ips left to process
 
-            if slbs = client.list_efm(vsys_id, 'SLB')['efms']
+            slbs = client.list_efm(vsys_id, 'SLB')['efms']
+            if slbs and slbs[0] and slbs[0]['efm']
               slbs[0]['efm'].find do |slb|
 
                 associated_ips.find do |pub,priv|
