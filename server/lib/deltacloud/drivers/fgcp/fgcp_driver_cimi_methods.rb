@@ -77,7 +77,7 @@ module Deltacloud::Drivers::Fgcp
           # check for special case: in destroy_system the FW is stopped before the system is deleted
           system[:state] = 'DELETING' if ((vservers.nil? and system[:state] != 'CREATING') or system[:state] == 'STOPPED') and
                                          ['STOPPED', 'STOPPING'].include? client.get_efm_status("#{vsys_id}-S-0001")['efmStatus'][0]
-          system[:operations] << { :href => context.system_url(vsys_id), :rel => "delete" } if system[:state] == 'STOPPED'
+          system[:operations] << { :href => context.system_url(vsys_id), :rel => "delete" } if system[:state] == 'STOPPED' or (vservers.nil? and system[:state] == 'MIXED')
         end
         systems
       end
