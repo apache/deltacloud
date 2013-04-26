@@ -24,7 +24,6 @@ describe CIMI::Collections::MachineTemplates do
     post root_url('/machine_templates'), json_body
     status.must_equal 400
     json['code'].must_equal 400
-    json['message'].must_equal "Bad request (expected ',' or '}' in object at '\"machineImage\": { \"h'!)"
   end
 
   it 'should return validation error when missing required attribute in JSON' do
