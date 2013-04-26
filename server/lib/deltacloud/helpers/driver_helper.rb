@@ -50,14 +50,10 @@ module Deltacloud::Helpers
     end
 
     def driver
-      $:.unshift File.join(File.dirname(__FILE__), '..', '..')
       begin
         driver_class
       rescue NameError => e
-        require_relative(driver_source_name) ? retry : raise(LoadError.new(e.message))
-      rescue LoadError => e
-        raise "[ERROR] The driver '#{driver_name}' is unknown or not installed (#{driver_source_name})\n" +
-          "\n#{e.message}\n"
+        raise "Driver '#{driver_name}' is not available (#{e.message})."
       end
     end
 

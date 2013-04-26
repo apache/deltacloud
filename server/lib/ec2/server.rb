@@ -20,8 +20,6 @@ require 'haml'
 require_relative '../sinatra'
 require_relative './helpers'
 require_relative './query_parser'
-require_relative '../deltacloud/models'
-require_relative '../deltacloud/drivers'
 
 module Deltacloud::EC2
   class API < Sinatra::Base

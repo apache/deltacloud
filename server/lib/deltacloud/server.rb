@@ -20,8 +20,6 @@ require 'sinatra/base'
 require 'sinatra/rabbit'
 
 require_relative '../sinatra'
-require_relative './models'
-require_relative './drivers'
 require_relative './helpers'
 require_relative './collections'
 

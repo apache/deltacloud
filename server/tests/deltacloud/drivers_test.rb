@@ -64,7 +64,7 @@ describe Deltacloud::Helpers::Drivers do
   it 'should throw an exception on unknown driver' do
     begin
       Thread.current[:driver] = 'unknown'
-      Proc.new { @helper.driver }.must_raise LoadError
+      Proc.new { @helper.driver }.must_raise RuntimeError
     ensure
       Thread.current[:driver] = 'mock'
     end

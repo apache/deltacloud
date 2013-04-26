@@ -92,13 +92,6 @@ describe "deltacloudd" do
     end
   end
 
-  it 'lists the available drivers' do
-    Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
-    output = `./bin/deltacloudd -l`
-    output.must_include 'Available drivers'
-    output.must_include 'mock'
-  end
-
   after do
     @pids.map { |pid| kill_process(pid) }
   end
