@@ -30,6 +30,25 @@ For now we're using an <a href="http://etherpad.deltacloud.org/p/Weekly">etherpa
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/cPnAiFc4wh4">Deltacloud Community Call #20</a>
+
+<ul>
+<li>Guidelines on how to review someone else's patch: what's enough to warrant an ACK? discussion</li>
+    <ul>
+      <li><a href="https://cwiki.apache.org/confluence/display/DTACLOUD/Deltacloud+API+code+style+guidelines">some older style guide</a></li>
+      <li>Action Item: update website - do we need to have discussion?</li>
+    </ul>
+    <li>Questions on the cimi tests - on mailing list (discussion/answers)</li>
+    <li>Questions - dependencies for debian squeeze - ubuntu - <distro> - website docs</li>
+    <ul>
+      <li>install script?(bootstrap - michal) </li>
+      <li> <a href="https://github.com/deltacloud/dev-tools">an older version of a 'boostrap' script - needs tlc</a></li>
+    </ul>
+    <li>renaming deltacloud repo on github from 'deltacloud/core' to 'detacloud/deltacloud-core'</li>
+    <li>NEWS: 1.1.3 release is out - https://github.com/deltacloud/core/blob/master/NEWS</li>
+</ul>
+
+<br>
 <a href="http://youtu.be/A2qOr16GZ30">Deltacloud Community Call #19</a>
 
 <ul>
