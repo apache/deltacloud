@@ -19,6 +19,9 @@ require 'ostruct'
 require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative 'core_ext'
+require_relative 'models'
+require_relative 'drivers'
+require_relative 'helpers/driver_helper'
 require_relative 'version'
 
 module TestPoller
