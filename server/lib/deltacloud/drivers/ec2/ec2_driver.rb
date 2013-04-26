@@ -268,14 +268,8 @@ module Deltacloud
           if opts[:metrics] and !opts[:metrics].empty?
             instance_options[:monitoring_enabled] = true
           end
-          if opts[:realm_id]
-            az, sn = opts[:realm_id].split(":")
-            if sn
-              instance_options[:subnet_id] = sn
-            else
-              instance_options[:availability_zone] = az
-            end
-          end
+          instance_options[:availability_zone] = opts[:realm_id] if opts[:realm_id]
+          instance_options[:subnet_id] = opts[:subnet_id] if opts[:subnet_id] #FIXME should we fail if no :network_id ? don't need it but need consistency in API...
           instance_options[:key_name] = opts[:keyname] if opts[:keyname]
           instance_options[:instance_type] = opts[:hwp_id] if opts[:hwp_id] && opts[:hwp_id].length > 0
           firewalls = opts.inject([]){|res, (k,v)| res << v if k =~ /firewalls\d+$/; res}
@@ -835,6 +829,91 @@ module Deltacloud
           end
         end
 
+        #Deltacloud Networks == Amazon VPC
+        def networks(credentials, opts={})
+          ec2 = new_client(credentials)
+          networks = []
+          safely do
+            subnets = subnets(credentials) #get all subnets once
+            (opts[:id] ? ec2.describe_vpcs(opts[:id]) : ec2.describe_subnets).each do |vpc|
+              vpc_subnets = subnets.inject([]){|res,cur| res<<cur if cur.network==vpc[:vpc_id]  ;res} #collect subnets for this.network
+              networks << convert_vpc(vpc, vpc_subnets)
+            end
+          end
+          networks = filter_on(networks, :id, opts)
+        end
+
+        def create_network(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            network = ec2.create_vpc(opts[:address_block]).first
+            convert_vpc(network)
+          end
+        end
+
+        def destroy_network(credentials, network_id)
+          ec2 = new_client(credentials)
+          safely do
+            ec2.delete_vpc(network_id)
+          end
+        end
+
+        def subnets(credentials, opts={})
+          ec2 = new_client(credentials)
+          subnets = []
+          safely do
+            (opts[:id] ? ec2.describe_subnets(opts[:id]) : ec2.describe_subnets).each do |sn|
+              subnets << convert_subnet(sn)
+            end
+          end
+          subnets = filter_on(subnets, :id, opts)
+        end
+
+        def create_subnet(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            subnet = ec2.create_subnet(opts[:network_id], opts[:address_block]).first
+            convert_subnet(subnet)
+          end
+        end
+
+        def destroy_subnet(credentials, subnet_id)
+          ec2 = new_client(credentials)
+          safely do
+            ec2.delete_subnet(subnet_id)
+          end
+        end
+
+        def network_interfaces(credentials, opts={})
+          ec2 = new_client(credentials)
+          nics = []
+          safely do
+            (opts[:id] ? ec2.describe_network_interfaces(opts[:id]) : ec2.describe_network_interfaces).each do |nic|
+              nics << convert_nic(nic)
+            end
+          end
+          filter_on(nics, :id, opts)
+        end
+
+        def create_network_interface(credentials, opts={})
+          ec2 = new_client(credentials)
+          safely do
+            #create a nic:
+            nic = ec2.create_network_interface(opts[:network])
+            #retrieve the instance to determine appropriate device_index?
+            #attach it:
+            ec2.attach_network_interface(nic[:network_interface_id], opts[:instance], 0)
+            convert_nic(nic)
+          end
+        end
+
+        def destroy_network_interface(credentials, nic_id)
+          client = new_client(credentials)
+          safely do
+            client.delete_network_interface(nic_id)
+          end
+        end
+
         def providers(credentials, opts={})
           ec2 = new_client(credentials)
           @providers ||= ec2.describe_regions.map{|r| Provider.new( {:id=>r, :name=>r,
@@ -966,7 +1045,7 @@ module Deltacloud
           unless instance[:subnet_id].empty?
             realm_id = "#{realm_id}:#{instance[:subnet_id]}"
           end
-         Instance.new(
+          inst_params = {
             :id => instance[:aws_instance_id],
             :name => instance[:aws_image_id],
             :state => convert_state(instance[:aws_state]),
@@ -981,8 +1060,11 @@ module Deltacloud
             :private_addresses => [InstanceAddress.new(instance[:private_dns_name], :type => :hostname)],
             :firewalls => instance[:aws_groups],
             :storage_volumes => instance[:block_device_mappings].map{|vol| {vol.values.first=>vol.keys.first } },
-            :create_image => can_create_image
-          )
+            :create_image => can_create_image }
+#          if instance[:vpc_id]
+#            inst_params.merge!(:network_bindings => [{:network=>instance[:vpc_id], :subnet=>instance[:subnet_id], :ip_address=> instance[:aws_private_ip_address]}])
+#          end
+          Instance.new(inst_params)
         end
 
         def convert_key(key)
@@ -1157,6 +1239,32 @@ module Deltacloud
             when "shutting-down"
               "STOPPED"
           end
+        end
+
+        def convert_vpc(vpc, subnets=[])
+          addr_blocks = subnets.inject([]){|res,cur| res << cur.address_block  ; res}
+          Network.new({ :id => vpc[:vpc_id],
+                        :name => vpc[:vpc_id],
+                        :state=> (vpc[:state] == "available" ? "UP" : "DOWN"),
+                        :subnets => subnets.inject([]){|res,cur| res << cur.id  ;res},
+                        :address_blocks=> (addr_blocks.empty? ? [vpc[:cidr_block]] : addr_blocks)  })
+        end
+
+        def convert_subnet(subnet)
+          Subnet.new({  :id => subnet[:subnet_id],
+                        :name => subnet[:subnet_id],
+                        :network =>subnet[:vpc_id],
+                        :address_block => subnet[:cidr_block],
+                        :state => (subnet[:state] == "available" ? "UP" : "DOWN" )})
+        end
+
+        def convert_nic(nic, instance_id=nil)
+          instance = instance_id || (nic[:attachment] ? nic[:attachment][:instance_id] : nil)
+          NetworkInterface.new({  :id => nic[:network_interface_id],
+                                  :name => nic[:network_interface_id],
+                                  :instance => instance,
+                                  :ip_address => nic[:private_ip_address]
+                                })
         end
 
         exceptions do
