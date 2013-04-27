@@ -15,8 +15,6 @@
 
 class CIMI::Model::VolumeTemplate < CIMI::Model::Base
 
-  acts_as_root_entity
-
   ref :volume_config, :required => true, :class => CIMI::Model::VolumeConfiguration
   ref :volume_image
 

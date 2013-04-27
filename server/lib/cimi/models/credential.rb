@@ -15,8 +15,6 @@
 
 class CIMI::Model::Credential < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :username, :password, :key
   text :password
   text :key

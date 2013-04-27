@@ -15,8 +15,6 @@
 
 class CIMI::Model::NetworkPort < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :state
 
   href :network

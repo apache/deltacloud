@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemVolume < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :volume
 
   array :operations do

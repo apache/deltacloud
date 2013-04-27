@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemNetwork < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :network
 
   array :operations do

@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemNetworkPort < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :network_port
 
   array :operations do

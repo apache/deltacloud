@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemSystem < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :system
 
   array :operations do

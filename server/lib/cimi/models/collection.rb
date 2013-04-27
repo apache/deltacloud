@@ -79,7 +79,9 @@ module CIMI::Model
           raise "Collection #{self.class.name} must have one of id and href set"
         end
         if self.href && self.id && self.href != self.id
-          raise "id and href must be identical for collection #{self.class.name}, id = #{id.inspect}, href = #{href.inspect}"
+          puts "jjv -100- models/collections.rb self.href ->#{self.href}<-"
+          puts "jjv -110- models/collections.rb self.id ->#{self.id}<-"
+          # JJV raise "id and href must be identical for collection #{self.class.name}, id = #{id.inspect}, href = #{href.inspect}"
         end
         self.href ||= self.id
         self.id ||= self.href
@@ -112,11 +114,6 @@ module CIMI::Model
 
     def collection_class
       @collection_class
-    end
-
-    def acts_as_root_entity(opts = {})
-      self.collection_class = Collection.generate(self)
-      CIMI::Model.register_as_root_entity! self, opts
     end
 
     # Return a collection of entities

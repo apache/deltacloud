@@ -15,8 +15,6 @@
 
 class CIMI::Model::MachineTemplate < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :initial_state
   ref :machine_config
   ref :machine_image

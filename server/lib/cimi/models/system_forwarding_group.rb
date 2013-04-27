@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemForwardingGroup < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :forwarding_group
 
   array :operations do

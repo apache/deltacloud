@@ -15,8 +15,6 @@
 
 class CIMI::Model::Network < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :state
 
   text :network_type

@@ -15,8 +15,6 @@
 
 class CIMI::Model::ForwardingGroup < CIMI::Model::Base
 
-  acts_as_root_entity
-
   array :networks do
     scalar :href
   end

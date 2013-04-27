@@ -15,8 +15,6 @@
 
 class CIMI::Model::System < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :state, :required => true
 
   collection :systems, :class => CIMI::Model::SystemSystem

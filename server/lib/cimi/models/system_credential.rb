@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemCredential < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :credential
 
   array :operations do

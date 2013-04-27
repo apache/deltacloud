@@ -15,8 +15,6 @@
 
 class CIMI::Model::MachineImage < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :state
   text :type
   text :image_location

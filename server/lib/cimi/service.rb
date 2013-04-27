@@ -14,16 +14,6 @@
 # under the License.
 #
 
-module CIMI
-  module Service
-    def self.root_entities
-      CIMI::Model::root_entities.map do |m|
-        CIMI::Service.const_get(m.name.split('::').last)
-      end
-    end
-  end
-end
-
 require_relative './models'
 require_relative './../db/provider'
 require_relative './../db/entity'
@@ -80,3 +70,37 @@ require_relative './service/network_template'
 require_relative './service/disk'
 require_relative './service/machine_volume'
 require_relative './service/resource_metadata'
+
+SERVICES = {
+  "cloud_entry_point" => CIMI::Service::CloudEntryPoint,
+  "resource_metadata" => CIMI::Service::ResourceMetadata,
+  "systems" => CIMI::Service::System,
+  "system_templates" => CIMI::Service::SystemTemplate,
+  "system_addresses" => CIMI::Service::SystemAddress,
+  "system_credentials" => CIMI::Service::SystemCredential,
+  "system_forwarding_groups" => CIMI::Service::SystemForwardingGroup,
+  "system_machines" => CIMI::Service::SystemMachine,
+  "system_networks" => CIMI::Service::SystemNetwork,
+  "system_network_ports" => CIMI::Service::SystemNetworkPort,
+  "system_systems" => CIMI::Service::SystemSystem,
+  "system_volumes" => CIMI::Service::SystemVolume,
+  "machines" => CIMI::Service::Machine,
+  "machine_templates" => CIMI::Service::MachineTemplate,
+  "machine_configurations" => CIMI::Service::MachineConfiguration,
+  "machine_images" => CIMI::Service::MachineImage,
+  "credentials" => CIMI::Service::Credential,
+  "volumes" => CIMI::Service::Volume,
+  "volume_templates" => CIMI::Service::VolumeTemplate,
+  "volume_configurations" => CIMI::Service::VolumeConfiguration,
+  "volume_images" => CIMI::Service::VolumeImage,
+  "networks" => CIMI::Service::Network,
+  "network_templates" => CIMI::Service::NetworkTemplate,
+  "network_configurations" => CIMI::Service::NetworkConfiguration,
+  "network_port" => CIMI::Service::NetworkPort,
+  "network_port_template" => CIMI::Service::NetworkPortTemplate,
+  "network_port_configurations" => CIMI::Service::NetworkPortConfiguration,
+  "addresses" => CIMI::Service::Address,
+  "address_templates" => CIMI::Service::AddressTemplate,
+  "forwarding_groups" => CIMI::Service::ForwardingGroup,
+  "forwarding_group_templates" => CIMI::Service::ForwardingGroupTemplate
+}

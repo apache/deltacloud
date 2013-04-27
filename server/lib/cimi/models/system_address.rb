@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemAddress < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :address
 
   array :operations do

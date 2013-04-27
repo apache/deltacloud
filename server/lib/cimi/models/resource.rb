@@ -169,9 +169,16 @@ module CIMI
       #
       def prepare
         self.class.schema.collections.map { |coll| coll.name }.each do |n|
+          next if self[n].nil?
+          next if self[n].kind_of? Array
           if @select_attrs.empty? or @select_attrs.include?(n)
             self[n].href = "#{self.base_id}/#{n}" if !self[n].href
             self[n].id = "#{self.base_id}/#{n}" if !self[n].entries.empty?
+
+            self[n].href["cloudEntryPoint/"] = "" \
+              if self[n].href and self[n].href.include? "cloudEntryPoint/"
+            self[n].id["cloudEntryPoint/"] = "" \
+              if self[n].id and self[n].id.include? "cloudEntryPoint/"
           else
             self[n] = nil
           end

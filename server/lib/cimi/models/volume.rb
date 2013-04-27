@@ -15,8 +15,6 @@
 
 class CIMI::Model::Volume < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :state
 
   text :type

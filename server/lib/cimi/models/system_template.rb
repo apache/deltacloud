@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemTemplate < CIMI::Model::Base
 
-  acts_as_root_entity
-
   array :component_descriptors do
     text :name, :description
     hash_map :properties

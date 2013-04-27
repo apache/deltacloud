@@ -14,27 +14,6 @@
 # under the License.
 #
 
-module CIMI
-  module Model
-    def self.register_as_root_entity!(klass, opts = {})
-      @root_entities ||= [CIMI::Model::CloudEntryPoint]
-      @root_entities << klass
-      name = klass.name.split("::").last.pluralize
-      unless CIMI::Model::CloudEntryPoint.href_defined?(name)
-        params = {}
-        if opts[:as]
-          params[:xml_name] = params[:json_name] = opts[:as]
-        end
-        CIMI::Model::CloudEntryPoint.send(:href, name.underscore, params)
-      end
-    end
-
-    def self.root_entities
-      @root_entities || []
-    end
-  end
-end
-
 require 'require_relative' if RUBY_VERSION < '1.9'
 
 require_relative './models/schema'
@@ -48,9 +27,6 @@ require_relative './models/disk'
 
 require_relative './models/resource_metadata'
 require_relative './models/cloud_entry_point'
-
-CIMI::Model::ResourceMetadata.acts_as_root_entity
-
 require_relative './models/credential'
 require_relative './models/credential_template'
 require_relative './models/credential_create'

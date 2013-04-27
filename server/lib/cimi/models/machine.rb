@@ -15,8 +15,6 @@
 
 class CIMI::Model::Machine < CIMI::Model::Base
 
-  acts_as_root_entity
-
   # DC-specific Extension
   text :realm, :required => false
   # DC-specific extension

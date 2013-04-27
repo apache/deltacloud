@@ -17,7 +17,12 @@ class CIMI::Service::ResourceMetadata < CIMI::Service::Base
 
   def self.find(id, context)
     if id == :all
-      CIMI::Service.root_entities.map do |svc_class|
+      service_array = []
+      SERVICES.each_value do |svc_class|
+        service_array << svc_class
+      end
+     
+      service_array.each.map do |svc_class|
         resource_metadata_for(svc_class, context)
       end.reject { |metadata| metadata.none_defined? }
     else

@@ -15,8 +15,6 @@
 
 class CIMI::Model::SystemMachine < CIMI::Model::Base
 
-  acts_as_root_entity
-
   href :machine
 
   array :operations do

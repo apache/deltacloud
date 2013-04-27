@@ -15,8 +15,6 @@
 
 class CIMI::Model::VolumeConfiguration < CIMI::Model::Base
 
-  acts_as_root_entity :as => "volumeConfigs"
-
   href :type
   text :format
   text :capacity

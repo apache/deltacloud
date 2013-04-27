@@ -15,8 +15,6 @@
 
 class CIMI::Model::AddressTemplate < CIMI::Model::Base
 
-  acts_as_root_entity
-
   text :ip, :required => true
   text :hostname, :allocation, :default_gateway, :dns, :protocol, :mask
   href :network
