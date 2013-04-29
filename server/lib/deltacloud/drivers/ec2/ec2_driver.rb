@@ -132,8 +132,9 @@ module Deltacloud
           running.to( :running )        .on( :reboot )
           running.to( :stopping )       .on( :stop )
           stopping.to(:stopped)         .automatically
-          stopping.to(:finish)          .automatically
-          stopped.to( :finish )         .automatically
+
+          stopped.to(:finish)         .on( :destroy)
+
         end
 
         # We do not allow users to set the endpoint through environment
@@ -319,6 +320,16 @@ module Deltacloud
           end
         end
 
+        def stop_instance(credentials, instance_id)
+          ec2 = new_client(credentials)
+          if ec2.stop_instances([instance_id])
+            instance(credentials, :id => instance_id)
+          else
+            raise Deltacloud::BackendError.new(500, "Instance", "Instance stop failed", "")
+          end
+        end
+
+
         def destroy_instance(credentials, instance_id)
           ec2 = new_client(credentials)
           if ec2.terminate_instances([instance_id])
@@ -327,8 +338,6 @@ module Deltacloud
             raise Deltacloud::BackendError.new(500, "Instance", "Instance cannot be terminated", "")
           end
         end
-
-        alias :stop_instance :destroy_instance
 
         def metrics(credentials, opts={})
           cw = new_client(credentials, :mon)
