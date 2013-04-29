@@ -26,14 +26,13 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     "machineTemplates" => CIMI::Model::MachineTemplate,
     "machineImages" => CIMI::Model::MachineImage,
     "credentials" => CIMI::Model::Credential,
-    "credentialTemplates" => CIMI::Model::CredentialTemplate,
     "volumes" => CIMI::Model::Volume,
     "volumeTemplates" => CIMI::Model::VolumeTemplate,
     "volumeImages" => CIMI::Model::VolumeImage,
     "networks" => CIMI::Model::Network,
     "networkTemplates" => CIMI::Model::NetworkTemplate,
     "networkPorts" => CIMI::Model::NetworkPort,
-    "networkPortTemplates" => CIMI::Model::NetworkTemplate,
+    "networkPortTemplates" => CIMI::Model::NetworkPortTemplate,
     "addresses" => CIMI::Model::Address,
     "addressTemplates" => CIMI::Model::AddressTemplate,
     "forwardingGroups" => CIMI::Model::ForwardingGroup,
@@ -50,9 +49,8 @@ class CIMI::Model::CloudEntryPoint < CIMI::Model::Base
     "eventLogTemplates" => nil
   }
 
-  COLLECTIONS.each do |coll|
-    coll_entry = coll
-    collection coll_entry[0].underscore.to_sym, :class => coll_entry[1] unless coll_entry[1] == nil
+  COLLECTIONS.each do |name, klass|
+    collection name.underscore.to_sym, :class => klass unless klass == nil
   end
 
 end
