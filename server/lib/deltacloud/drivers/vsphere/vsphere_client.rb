@@ -16,7 +16,7 @@
 
 module Deltacloud::Drivers::VSphere
 
-  require 'deltacloud/drivers/vsphere/vsphere_filemanager'
+  require_relative './vsphere_filemanager'
 
   module Helper
 

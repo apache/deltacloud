@@ -15,7 +15,7 @@
 # under the License.
 #
 
-require 'deltacloud/drivers/opennebula/occi_client'
+require_relative './occi_client'
 
 require 'erb'
 # TBD Nokogiri support

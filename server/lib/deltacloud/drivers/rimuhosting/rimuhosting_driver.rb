@@ -16,7 +16,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require "deltacloud/drivers/rimuhosting/rimuhosting_client"
+require_relative "./rimuhosting_client"
 
 module Deltacloud
   module Drivers

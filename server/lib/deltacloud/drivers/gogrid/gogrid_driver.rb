@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'deltacloud/drivers/gogrid/gogrid_client'
+require_relative './gogrid_client'
 
 class Instance
   attr_accessor :username

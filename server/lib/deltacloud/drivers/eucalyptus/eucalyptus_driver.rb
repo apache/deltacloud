@@ -14,7 +14,7 @@
 # under the License.
 #
 
-require 'deltacloud/drivers/ec2/ec2_driver.rb'
+require_relative './../ec2/ec2_driver'
 
 module Deltacloud
   module Drivers

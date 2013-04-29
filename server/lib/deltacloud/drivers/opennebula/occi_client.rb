@@ -19,7 +19,7 @@ require 'rubygems'
 require 'rexml/document'
 require 'uri'
 
-require 'deltacloud/drivers/opennebula/cloud_client'
+require_relative './cloud_client'
 
 
 module OCCIClient

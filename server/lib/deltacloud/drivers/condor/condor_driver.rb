@@ -25,7 +25,7 @@ class Instance
   end
 end
 
-require 'deltacloud/drivers/condor/condor_client'
+require_relative './condor_client'
 
 module Deltacloud
 

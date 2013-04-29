@@ -19,8 +19,9 @@ require 'etc'
 require 'tempfile'
 require 'yaml'
 require 'time'
-require 'deltacloud/drivers/condor/ip_agents/default'
-require 'deltacloud/drivers/condor/ip_agents/confserver'
+
+require_relative './ip_agents/default'
+require_relative './ip_agents/confserver'
 
 module CondorCloud
 
