@@ -297,6 +297,16 @@ module Deltacloud
           end
         end
 
+
+        def start_instance(credentials, instance_id)
+          ec2 = new_client(credentials)
+          if ec2.start_instances([instance_id])
+            instance(credentials, :id => instance_id)
+          else
+            raise Deltacloud::BackendError.new(500, "Instance", "Instance start failed", "")
+          end
+        end
+
         def run_on_instance(credentials, opts={})
           target = instance(credentials, :id => opts[:id])
           param = {}
