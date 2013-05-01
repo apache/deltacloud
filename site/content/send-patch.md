@@ -14,6 +14,9 @@ title: Send a Patch
 
 <h3>Formatting and sending patches</h3>
 
+<p><b>Using patches for contributions has been deprecated. Please 
+<a href="/send-pull-request.html#how">Send a pull requests</a> from a fork instead.
+</p>
 <p>
 The Deltacloud community works with <a href="http://book.git-scm.com/">Git</a>. The process of contributing to the project we prefer contains these steps: <strong>local_branch → patch → review → accept → commit</strong> process for contributing to the project. This is how the typical workflow used by the core developers looks like:
 </p>

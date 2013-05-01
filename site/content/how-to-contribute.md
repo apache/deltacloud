@@ -12,7 +12,10 @@ Deltacloud project is a free open source software licensed under the <a href="ht
 <ul class="nav nav-list">
   <li class="nav-header"></li>
   <li>
-    <a href="/send-patch.html">Send a patch</a>
+    <a href="/send-pull-request.html">Send a pull request (preferred)</a>
+  </li>
+  <li>
+    <a href="/send-patch.html">Send a patch (deprecated)</a>
   </li>
   <li>
     <a href="/write-new-driver.html">Write a provider driver</a>
