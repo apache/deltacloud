@@ -47,4 +47,38 @@ describe CIMI::Collections::Systems do
     status.must_equal 404
   end
 
+  it 'returns list of system machines in various formats with index operation' do
+    formats.each do |format|
+      header 'Accept', format
+      get root_url '/systems/system1/machines'
+      status.must_equal 200
+    end
+  end
+
+  it 'returns list of system machines with ids' do
+    get root_url '/systems/system1/machines'
+    xml.root.name.must_equal 'Collection'
+    (xml/'Collection/count').inner_text.must_equal '1'
+    (xml/'Collection/SystemMachine').each do |s|
+      (s/'id').wont_be_empty
+    end
+  end
+
+  it 'returns list of system volumes in various formats with index operation' do
+    formats.each do |format|
+      header 'Accept', format
+      get root_url '/systems/system1/volumes'
+      status.must_equal 200
+    end
+  end
+
+  it 'returns list of system volumes with ids' do
+    get root_url '/systems/system1/volumes'
+    xml.root.name.must_equal 'Collection'
+    (xml/'Collection/count').inner_text.must_equal '1'
+    (xml/'Collection/SystemVolume').each do |s|
+      (s/'id').wont_be_empty
+    end
+  end
+
 end
