@@ -26,8 +26,6 @@ module Deltacloud
     module Fgcp
 class FgcpDriver < Deltacloud::BaseDriver
 
-  CERT_DIR = ENV['FGCP_CERT_DIR'] || File::expand_path('~/.deltacloud/drivers/fgcp')
-
   feature :instances, :user_name
   feature :instances, :metrics
   feature :instances, :realm_filter
@@ -1594,7 +1592,8 @@ eofwopxml
 
   def convert_credentials(credentials)
     begin
-      cert_file = File.open(File::join(CERT_DIR, credentials.user, 'UserCert.p12'), 'rb')
+      cert_dir = ENV['FGCP_CERT_DIR'] || File::expand_path('~/.deltacloud/drivers/fgcp')
+      cert_file = File.open(File::join(cert_dir, credentials.user, 'UserCert.p12'), 'rb')
     rescue Errno::ENOENT => e # file not found
       raise "AuthFailure: No certificate registered under name \'#{credentials.user}\'"
 #      raise Deltacloud::ExceptionHandler::AuthenticationFailure.new(e, "No certificate registered under name #{credentials.user}")
