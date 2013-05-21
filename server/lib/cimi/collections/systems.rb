@@ -18,6 +18,11 @@ module CIMI::Collections
 
     set :capability, lambda { |m| driver.respond_to? m }
 
+    post '/systems/import' do
+      CIMI::Service::SystemImport.parse(self).import
+      no_content_with_status(202)
+    end
+
     collection :systems do
       description 'List all systems'
 
@@ -86,6 +91,20 @@ module CIMI::Collections
           action = Action.parse(self)
           system.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
+            # Handle errors using operation.failure?
+          end
+        end
+      end
+
+      action :export, :with_capability => :export_system do
+        description "Export specific system."
+        param :id,          :string,    :required
+        control do
+          location = CIMI::Service::SystemExport.parse(self).export(params[:id])
+          if location
+            header_for_location(location)
+          else
+            no_content_with_status(202)
             # Handle errors using operation.failure?
           end
         end

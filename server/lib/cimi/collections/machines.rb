@@ -127,7 +127,7 @@ module CIMI::Collections
             volume_to_attach, location = MachineVolume.find_to_attach_from_xml(request.body.read, self)
           end
           machine_volume = Machine.attach_volume(volume_to_attach,location, self)
-          headers_for_create machine_volume
+          header_for_location machine_volume.id
           respond_to do |format|
             format.json{ machine_volume.to_json}
             format.xml{machine_volume.to_xml}

@@ -6,6 +6,7 @@
   "machines": { "href": "http://cimi.example.org/systems/system2/machines"},
   "operations": [
     { "rel": "http://schemas.dmtf.org/cimi/1/action/start", "href": "http://cimi.example.org/systems/system2/start" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/export", "href": "http://cimi.example.org/systems/system2/export" },
     { "rel": "edit", "href": "http://cimi.example.org/systems/system2" },
     { "rel": "delete", "href": "http://cimi.example.org/systems/system2" }
   ]

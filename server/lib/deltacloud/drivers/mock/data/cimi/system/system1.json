@@ -12,6 +12,7 @@
   "forwardingGroups": { "href": "http://cimi.example.org/systems/system1/forwarding_groups"},
   "operations": [
     { "rel": "http://schemas.dmtf.org/cimi/1/action/start", "href": "http://cimi.example.org/systems/system1/start" },
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/export", "href": "http://cimi.example.org/systems/system1/export" },
     { "rel": "edit", "href": "http://cimi.example.org/systems/system1" },
     { "rel": "delete", "href": "http://cimi.example.org/systems/system1" }
   ]

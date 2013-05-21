@@ -27,6 +27,7 @@
     }
   ],
   "operations": [
+    { "rel": "http://schemas.dmtf.org/cimi/1/action/export", "href": "http://cimi.example.org/system_templates/template1/export" },
     { "rel": "edit", "href": "http://cimi.example.org/system_templates/template1" },
     { "rel": "delete", "href": "http://cimi.example.org/system_templates/template1" }
   ]

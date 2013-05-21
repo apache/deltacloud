@@ -18,12 +18,31 @@ module CIMI::Collections
 
     set :capability, lambda { |m| driver.respond_to? m }
 
+    post '/system_templates/import' do
+      CIMI::Service::SystemTemplateImport.parse(self).import
+      no_content_with_status(202)
+    end
+
     collection :system_templates do
 
       generate_index_operation :with_capability => :system_templates
       generate_show_operation :with_capability => :system_templates
       generate_create_operation :with_capability => :create_system_template
       generate_delete_operation :with_capability => :destroy_system_template
+
+      action :export, :with_capability => :export_system_template do
+        description "Export specific system template."
+        param :id,          :string,    :required
+        control do
+          location = CIMI::Service::SystemTemplateExport.parse(self).export(params[:id])
+          if location
+            header_for_location(location)
+          else
+            no_content_with_status(202)
+            # Handle errors using operation.failure?
+          end
+        end
+      end
 
     end
 

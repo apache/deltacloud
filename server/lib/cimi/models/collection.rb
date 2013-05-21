@@ -130,6 +130,10 @@ module CIMI::Model
         params[:operations] ||= []
         params[:operations] << { :rel => "add", :href => params.delete(:add_url) }
       end
+      if params[:import_url]
+        params[:operations] ||= []
+        params[:operations] << { :rel => "http://schemas.dmtf.org/cimi/1/action/import", :href => params.delete(:import_url) }
+      end
       collection_class.new(params)
     end
   end

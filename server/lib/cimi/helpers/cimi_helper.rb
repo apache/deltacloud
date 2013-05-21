@@ -39,9 +39,9 @@ module CIMI
     end
 
     # Set status to 201 and a Location header
-    def headers_for_create(resource)
+    def header_for_location(location)
       status 201
-      headers 'Location' => resource.id
+      headers 'Location' => location
     end
 
     def href_id(href, entity)

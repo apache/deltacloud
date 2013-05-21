@@ -18,7 +18,7 @@ module CIMI
         description "Create new #{collection_name} entity"
         control do
           ent = CIMI::Service.const_get("#{collection_name}Create").parse(self).create
-          headers_for_create ent
+          header_for_location ent.id
           respond_to do |format|
             format.json { ent.to_json }
             format.xml { ent.to_xml }
@@ -72,7 +72,7 @@ module CIMI
         description "Add specified #{collection_name} entity to System"
         control do
           ent = CIMI::Service.const_get("#{collection_name}Create").parse(params[:id], self).create
-          headers_for_create ent
+          header_for_location ent.id
           respond_to do |format|
             format.json { ent.to_json }
             format.xml { ent.to_xml }

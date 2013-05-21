@@ -124,6 +124,9 @@ module CIMI::Service
       params[:add_url] = create_url(ctx)
       if model_class == CIMI::Model::System
         params[:system] = id
+        params[:import_url] = import_url(ctx)
+      elsif model_class == CIMI::Model::SystemTemplate
+        params[:import_url] = import_url(ctx)
       end
       model_class.list(id, entries, params).select_by(ctx.params['$select']).filter_by(ctx.params['$filter'])
     end
@@ -134,6 +137,14 @@ module CIMI::Service
       if(ctx.respond_to?(cimi_create) &&
          ctx.driver.respond_to?(dcloud_create)) || provides?(model_name)
         ctx.send(cimi_create)
+      end
+    end
+
+    # used for system and system template import
+    def self.import_url(ctx)
+      if ctx.driver.respond_to?("import_#{model_name}") || provides?(model_name)
+        base_url = ctx.send("#{model_name}_url")
+        "#{base_url}/import"
       end
     end
 
