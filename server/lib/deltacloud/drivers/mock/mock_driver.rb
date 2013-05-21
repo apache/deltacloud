@@ -257,7 +257,7 @@ module Deltacloud::Drivers::Mock
       inst = @client.load_collection(:instances, id)
       inst[:network_interfaces].each do |network_interface|
         destroy_network_interface(credentials, network_interface)
-      end
+      end if inst[:network_interfaces]
       @client.destroy(:instances, id)
     end
 
