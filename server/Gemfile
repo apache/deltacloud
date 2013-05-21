@@ -9,7 +9,7 @@ end
 
 group :development do
   gem "rack-test"
-  gem "minitest"
+  gem "minitest", '< 5.0.0'
   gem "simplecov"
   gem "webmock", '< 1.10'  # VCR wants that version
   gem "vcr"
