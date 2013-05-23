@@ -241,6 +241,143 @@ class FgcpDriver < Deltacloud::BaseDriver
   end
 
   ######################################################################
+  # Networks
+  ######################################################################
+  def networks(credentials, opts={})
+    opts ||= {}
+    safely do
+      client = new_client(credentials)
+
+      if opts[:id]
+        vsys_ids = [client.extract_vsys_id(opts[:id])]
+      else
+        xml = client.list_vsys['vsyss']
+        vsys_ids = xml ? xml[0]['vsys'].collect { |vsys| vsys['vsysId'][0] } : []
+      end
+
+      vsys_ids.collect do |vsys_id|
+        begin
+          vsys = client.get_vsys_configuration(vsys_id)['vsys'][0]
+        rescue Exception => ex
+          return [] if ex.message =~ /VALIDATION_ERROR.*A wrong value is set/ # invalid vsys id
+          raise ex if not ex.message =~ /RESOURCE_NOT_FOUND.*/ # in case vsys was just destroyed since lists_vsys call
+        end
+
+        # retrieve network segment (subnet) info
+        vnets = vsys['vnets'][0]['vnet'].collect {|vnet| vnet['networkId'][0]}
+
+        # retrieve address blocks from firewall vnics
+        fw = vsys['vservers'][0]['vserver'].find {|v| determine_server_type(v) == 'FW'}
+        address_blocks = fw['vnics'][0]['vnic'].collect do |vnic|
+          vnic['privateIp'][0].sub(/^((\d+\.){3}).*/, '\10/24') if vnic['privateIp'] # converts 1.2.3.4 to 1.2.3.0/24
+        end
+        address_blocks.compact!
+
+        Network.new(
+          :id             => vsys_id + '-N',
+          :name           => 'Network for ' + vsys['vsysName'][0],
+          :address_blocks => address_blocks,
+          :subnets        => vnets,
+          :state          => 'STARTED' # base on FW status? (DEPLOYING, RUNNING, etc.)
+        )
+      end
+    end
+  end
+
+  ######################################################################
+  # Subnets
+  ######################################################################
+  def subnets(credentials, opts={})
+    opts ||= {}
+    subnets = []
+    safely do
+      client = new_client(credentials)
+
+      if opts[:id]
+        vsys_ids = [client.extract_vsys_id(opts[:id])]
+      else
+        xml = client.list_vsys['vsyss']
+        return [] if xml.nil?
+        vsys_ids = xml[0]['vsys'].collect { |vsys| vsys['vsysId'][0] }
+      end
+
+      subnets = vsys_ids.collect do |vsys_id|
+        begin
+          vsys = client.get_vsys_configuration(vsys_id)['vsys'][0]
+        rescue Exception => ex
+          return [] if ex.message =~ /VALIDATION_ERROR.*A wrong value is set/ # invalid vsys id
+          raise ex if not ex.message =~ /RESOURCE_NOT_FOUND.*/ # in case vsys was just destroyed since lists_vsys call
+        end
+
+        # retrieve network segment (subnet) info from fw
+        fw = vsys['vservers'][0]['vserver'].find {|v| determine_server_type(v) == 'FW'}
+        fw['vnics'][0]['vnic'].collect do |vnic|
+
+          subnet_name = vnic['networkId'][0].sub(/^.*\b(\w+)$/, "#{vsys['vsysName'][0]} [\\1]") # vsys name + network [DMZ/SECURE1/SECURE2]
+          address_block = vnic['privateIp'][0].sub(/^((\d+\.){3}).*/, '\10/24') if vnic['privateIp'] # converts 1.2.3.4 to 1.2.3.0/24
+          Subnet.new(
+            :id            => vnic['networkId'][0],
+            :name          => subnet_name,
+            :network       => vsys_id + '-N',
+            :address_block => address_block,
+            :type          => 'PRIVATE',
+            :state         => 'STARTED' # base on vsys status? (DEPLOYING, NORMAL, etc.)
+          )
+        end
+      end
+    end
+    subnets.flatten!
+    subnets.delete_if { |s| opts[:id] and opts[:id] != s.id }
+    subnets
+  end
+
+  ######################################################################
+  # Network interfaces
+  ######################################################################
+  def network_interfaces(credentials, opts={})
+    opts ||= {}
+    nics = []
+    safely do
+      client = new_client(credentials)
+
+      if opts[:id]
+        vsys_ids = [client.extract_vsys_id(opts[:id])]
+      else
+        xml = client.list_vsys['vsyss']
+        vsys_ids = xml ? xml[0]['vsys'].collect { |vsys| vsys['vsysId'][0] } : []
+      end
+
+      vsys_ids.collect do |vsys_id|
+        begin
+          vsys_config = client.get_vsys_configuration(vsys_id)['vsys'][0]
+        rescue Exception => ex
+          return [] if ex.message =~ /VALIDATION_ERROR.*A wrong value is set/ # invalid vsys id
+          raise ex if not ex.message =~ /RESOURCE_NOT_FOUND.*/ # in case vsys was just destroyed since lists_vsys call
+        end
+
+        vsys_config['vservers'][0]['vserver'].each do |vserver|
+          vserver_id = vserver['vserverId'][0]
+          vserver['vnics'][0]['vnic'].each do |vnic|
+            network_id = vnic['networkId'][0]
+            nic_no = vnic['nicNo'][0]
+            ip_address = vnic['privateIp'][0] if vnic['privateIp']
+
+            nics << NetworkInterface.new({
+              :id             => "#{vserver_id}-NIC-#{nic_no}",
+              :name           => "Network interface #{nic_no} on #{vserver['vserverName'][0]}",
+              :instance       => vserver_id,
+              :ip_address     => ip_address,
+              :network        => network_id
+            })
+          end if determine_server_type(vserver) == 'vserver'
+        end
+      end
+    end
+
+    filter_on(nics, :id, opts)
+  end
+
+  ######################################################################
   # Instances
   ######################################################################
   def instances(credentials, opts={})
@@ -370,7 +507,7 @@ class FgcpDriver < Deltacloud::BaseDriver
     name = (opts[:name] && opts[:name].length > 0)? opts[:name] : "server_#{Time.now.to_s}"
     # default to 'economy' or obtain latest hardware profiles and pick the lowest spec profile?
     hwp = opts[:hwp_id] || 'economy'
-    network_id = opts[:realm_id]
+    network_id = opts[:subnet_id] || opts[:realm_id]
     safely do
       client = new_client(credentials)
       if not network_id
@@ -908,7 +1045,7 @@ class FgcpDriver < Deltacloud::BaseDriver
       fw_id = "#{vsys_id}-S-0001"
       nat_rules = client.get_efm_configuration(fw_id, 'FW_NAT_RULE')['efm'][0]['firewall'][0]['nat'][0]['rules'][0]
 
-	# TODO: if no IP address enabled yet
+      # TODO: if no IP address enabled yet
       if nat_rules and not nat_rules.empty? and nat_rules['rule'].find { |rule| rule['publicIp'][0] == opts[:id] }
 
         nat_rules['rule'].each do |rule|
@@ -1680,9 +1817,10 @@ eofwopxml
     state_data ||= {}
 
     private_ips = []
-    vserver['vnics'][0]['vnic'].each do |vnic|
+    nics = vserver['vnics'][0]['vnic'].collect do |vnic|
       # when an instance is being created, the private ip is not known yet
       private_ips << InstanceAddress.new(vnic['privateIp'][0], :type => :ipv4) if vnic['privateIp']
+      "#{vserver['vserverId'][0]}-NIC-#{vnic['nicNo'][0]}"
     end
 
     instance_profile = InstanceProfile::new(vserver['vserverType'][0])
@@ -1724,6 +1862,7 @@ eofwopxml
       :realm_id => realm_id,
       :instance_profile => instance_profile,
       :image_id => vserver['diskimageId'][0],
+      :network_interfaces => nics,
       :private_addresses => private_ips,
       :storage_volumes => storage_volumes.collect { |v| {v.id => v.device} },
       :firewalls => server != 'FW' ? [client.extract_vsys_id(vserver['vserverId'][0]) + '-S-0001'] : nil,

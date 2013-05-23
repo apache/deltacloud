@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gU3RhbmRhcmQgVGltZSYxMzY5MzcyMTMzMDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSConfiguration&Locale=en&Signature=tsVppz1To0kzoobR7YH70aNHY4oiQGqVgQGnb7uY7iXg2SwNaREendlxAhv8%0A9FYs1BxtJ/7oe91lF9tDG%2Bi6eE%2BIpXHIWQ6ZVOY4I1D33xb/jOFF9KxPjjae%0AM0uWn84yq0F/tprzBAornKijPJowLepZfacvLJN6AMTEUTHWHXblGR8qpdPF%0AGrHCy13%2BqGpvsa6GzaA1i5LrWf%2BTOpFsRyJnfUcM2phNq/weiz1ASDJOvrPm%0A513N4F6FLBKKEJENUc9/xITekKtRFqRLn9IItgUCsKRMQbJW2gha2Dn17tFu%0A8q4si%2BJMcH7sNqY3%2B1moTuvvn2O8R3qV3dIWhz4m/A==%0A&Version=2011-01-31&vsysId=UZXC0GRT-ZG8ZJCJ07
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - text/xml
+      User-Agent:
+      - OViSS-API-CLIENT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 24 May 2013 05:08:53 GMT
+      Set-Cookie:
+      - JSESSIONID=552214C3F0A8013A015ADAF346C7A2AB; Path=/ovisspxy; Secure
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<GetVSYSConfigurationResponse
+        xmlns=\"http://apioviss.jp.fujitsu.com\">\r\n  <responseMessage>Processing
+        was completed.</responseMessage>\r\n  <responseStatus>SUCCESS</responseStatus>\r\n
+        \ <vsys>\r\n    <baseDescriptor>2-tier Skeleton</baseDescriptor>\r\n    <cloudCategory>PUBLIC</cloudCategory>\r\n
+        \   <creator>UZXC0GRT</creator>\r\n    <description>2-tier Skeleton</description>\r\n
+        \   <publicips>\r\n      <publicip>\r\n        <address>137.172.209.220</address>\r\n
+        \       <v4v6Flag>IPv4</v4v6Flag>\r\n      </publicip>\r\n    </publicips>\r\n
+        \   <vnets>\r\n      <vnet>\r\n        <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>\r\n
+        \     </vnet>\r\n      <vnet>\r\n        <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>\r\n
+        \     </vnet>\r\n    </vnets>\r\n    <vservers>\r\n      <vserver>\r\n        <creator>UZXC0GRT</creator>\r\n
+        \       <diskimageId>FW_EX2000AIN20130125</diskimageId>\r\n        <vdisks
+        />\r\n        <vnics>\r\n          <vnic>\r\n            <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>\r\n
+        \           <nicNo>4</nicNo>\r\n            <privateIp>192.168.0.11</privateIp>\r\n
+        \         </vnic>\r\n          <vnic>\r\n            <networkId>UZXC0GRT-ZG8ZJCJ07-N-SECURE1</networkId>\r\n
+        \           <nicNo>5</nicNo>\r\n            <privateIp>192.168.1.11</privateIp>\r\n
+        \         </vnic>\r\n        </vnics>\r\n        <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0001</vserverId>\r\n
+        \       <vserverName>Firewall</vserverName>\r\n        <vserverType>firewall</vserverType>\r\n
+        \     </vserver>\r\n      <vserver>\r\n        <creator>UZXC0GRT</creator>\r\n
+        \       <diskimageId>IMG_3c9820_S24FWXU0Q9VH0JK</diskimageId>\r\n        <vdisks
+        />\r\n        <vnics>\r\n          <vnic>\r\n            <networkId>UZXC0GRT-ZG8ZJCJ07-N-DMZ</networkId>\r\n
+        \           <nicNo>0</nicNo>\r\n            <privateIp>192.168.0.12</privateIp>\r\n
+        \         </vnic>\r\n        </vnics>\r\n        <vserverId>UZXC0GRT-ZG8ZJCJ07-S-0547</vserverId>\r\n
+        \       <vserverName>sdf</vserverName>\r\n        <vserverType>economy</vserverType>\r\n
+        \     </vserver>\r\n    </vservers>\r\n    <vsysId>UZXC0GRT-ZG8ZJCJ07</vsysId>\r\n
+        \   <vsysName>Dies-DC-test</vsysName>\r\n  </vsys>\r\n</GetVSYSConfigurationResponse>\r\n\r\n"
+    http_version: 
+  recorded_at: Fri, 24 May 2013 05:08:54 GMT
+- request:
+    method: get
+    uri: https://api.globalcloud.fujitsu.com.au/ovissapi/endpoint?AccessKeyId=QVVTIEVhc3Rlcm4gU3RhbmRhcmQgVGltZSYxMzY5MzcyMTM0MDAwJjEuMCZT%0ASEExd2l0aFJTQQ==%0A&Action=GetVSYSConfiguration&Locale=en&Signature=GKBxZAfmyLk/dMBn%2BYHnjF7B%2BIOJ/mn4bZMK5VGWPo15weRjlPRcT7gbi2Yb%0AiVcZxJB%2BrANgxUSHo47J%2Bf46KgWVAUPX2vEHG888UJA4%2BPmBZELGTlkpPkjc%0AGN4EtExqJwiMfJS/%2BhZuhNx5SBlN695XiVtFg7xFQxlfh5WUJVUirtjYoZ2q%0AUTTJJTq1zYQgkDFCzEqcodlXuUsYmYyS28GSm1zPfGyaB8Lpi7S7MGqVETak%0A225cjiK0EiY60YH1fKLZuabWGnzMTml9RNadaF7ZIVleSZxvbURBWv%2BXjDy5%0At7iGXgnncn9j/dpVnYwaz3ahL9JDhWnGK0iHaCxv6w==%0A&Version=2011-01-31&vsysId=
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - text/xml
+      User-Agent:
+      - OViSS-API-CLIENT
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 24 May 2013 05:08:54 GMT
+      Set-Cookie:
+      - JSESSIONID=8E36D1D0E62D63323A2954BE7C40A3F5; Path=/ovisspxy; Secure
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<OViSSResponse xmlns=\"http://apioviss.jp.fujitsu.com\">\r\n
+        \ <responseMessage>A wrong value is set.:[vsysId]</responseMessage>\r\n  <responseStatus>VALIDATION_ERROR</responseStatus>\r\n</OViSSResponse>\r\n\r\n"
+    http_version: 
+  recorded_at: Fri, 24 May 2013 05:08:54 GMT
+recorded_with: VCR 2.5.0
