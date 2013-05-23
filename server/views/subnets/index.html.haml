@@ -1,5 +1,6 @@
 =header "Subnets" do
-  %a{ :href => url_for('subnets/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new subnet
+  - if driver.respond_to?(:create_subnet)
+    %a{ :href => url_for('subnets/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new subnet
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}

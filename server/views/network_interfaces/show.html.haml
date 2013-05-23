@@ -26,4 +26,5 @@
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        =link_to_action "Destroy", destroy_network_interface_url(network_interface.id), :delete
+        - if driver.respond_to?(:destroy_network_interface)
+          =link_to_action "Destroy", destroy_network_interface_url(network_interface.id), :delete

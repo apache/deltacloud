@@ -1,5 +1,6 @@
 =header "Networks" do
-  %a{ :href => url_for('networks/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new network
+  - if driver.respond_to?(:create_network)
+    %a{ :href => url_for('networks/new'), :'data-icon' => :plus, :'data-role' => :button, :class => 'ui-btn-right'} Create new network
 
 %div{ :'data-role' => :content, :'data-theme' => 'c'}
   %ul{ :'data-role' => :listview , :'data-inset' => :true, :'data-divider-theme' => 'a'}

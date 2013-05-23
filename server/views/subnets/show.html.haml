@@ -21,4 +21,5 @@
     %li{ :'data-role' => 'list-divider'} Actions
     %li
       %div{ :'data-role' => 'controlgroup', :'data-type' => "horizontal" }
-        =link_to_action "Destroy", destroy_subnet_url(@subnet.id), :delete
+        - if driver.respond_to?(:destroy_subnet)
+          =link_to_action "Destroy", destroy_subnet_url(@subnet.id), :delete
