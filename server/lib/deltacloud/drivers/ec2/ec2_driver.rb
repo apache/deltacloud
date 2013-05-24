@@ -123,22 +123,17 @@ module Deltacloud
         end
 
         define_instance_states do
+
           start.to( :pending )          .automatically
           pending.to( :running )        .automatically
           running.to( :running )        .on( :reboot )
           running.to( :stopping )       .on( :stop )
           stopping.to(:stopped)         .automatically
           stopped.to( :running )        .on( :start )
-          stopped.to(:finish)         .on( :destroy)
+          stopped.to(:finish)           .on( :destroy)
 
           #pending.to( :stopping )       .on( :stop )
           #pending.to( :stopped )        .automatically
-
-          
-         
-          
-
-          
 
         end
 
@@ -337,6 +332,7 @@ module Deltacloud
 
         def stop_instance(credentials, instance_id)
           ec2 = new_client(credentials)
+          #TODO: If image root is ebs (or persistent) then stop instance otherwise need to run "destroy_instance"
           if ec2.stop_instances([instance_id])
             instance(credentials, :id => instance_id)
           else
