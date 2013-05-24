@@ -50,6 +50,7 @@ describe "deltacloudd" do
   end
 
   it 'starts the deltacloud server gracefully' do
+    skip if windows?
     pid = Process.fork
     if pid.nil? then
       Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
@@ -64,6 +65,7 @@ describe "deltacloudd" do
   end
 
   it 'starts the deltacloud server gracefully with multiple frontends' do
+    skip if windows?
     pid = Process.fork
     if pid.nil? then
       Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
@@ -79,6 +81,7 @@ describe "deltacloudd" do
   end
 
   it 'starts the deltacloud server gracefully when using webrick' do
+    skip if windows?
     pid = Process.fork
     if pid.nil? then
       Dir.chdir(File.join(File.dirname(__FILE__), '..', '..'))
