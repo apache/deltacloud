@@ -28,8 +28,8 @@ class CIMI::Service::SystemVolume < CIMI::Service::Base
 
   def self.collection_for_system(system_id, context)
     system_volumes = self.find(system_id, context)
-    volumes_url = context.system_volumes_url(system_id) if context.driver.has_capability? :add_volumes_to_system
-    CIMI::Model::SystemVolume.list(volumes_url, system_volumes, :add_url => volumes_url)
+    volumes_url = context.system_volumes_url(system_id)
+    CIMI::Model::SystemVolume.list(volumes_url, system_volumes, :add_url => (context.driver.has_capability?(:create_system_volume) ? volumes_url : nil))
   end
 
 end

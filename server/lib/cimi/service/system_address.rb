@@ -28,8 +28,9 @@ class CIMI::Service::SystemAddress < CIMI::Service::Base
 
   def self.collection_for_system(system_id, context)
     system_addresses = self.find(system_id, context)
-    addresses_url = context.system_addresses_url(system_id) if context.driver.has_capability? :add_addresses_to_system
-    CIMI::Model::SystemAddress.list(addresses_url, system_addresses, :add_url => addresses_url)
+    addresses_url = context.system_addresses_url(system_id)
+    CIMI::Model::SystemAddress.list(addresses_url, system_addresses, :add_url =>(context.driver.has_capability?(:create_system_address) ? addresses_url : nil))
+
   end
 
 end

@@ -28,8 +28,9 @@ class CIMI::Service::SystemForwardingGroup < CIMI::Service::Base
 
   def self.collection_for_system(system_id, context)
     system_forwarding_groups = self.find(system_id, context)
-    forwarding_groups_url = context.system_forwarding_groups_url(system_id) if context.driver.has_capability? :add_forwarding_groups_to_system
-    CIMI::Model::SystemForwardingGroup.list(forwarding_groups_url, system_forwarding_groups, :add_url => forwarding_groups_url)
+    forwarding_groups_url = context.system_forwarding_groups_url(system_id)
+    CIMI::Model::SystemForwardingGroup.list(forwarding_groups_url, system_forwarding_groups, :add_url => (context.driver.has_capability?(:create_system_forwarding_group) ? forwarding_groups_url : nil))
+
   end
 
 end

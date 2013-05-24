@@ -28,8 +28,9 @@ class CIMI::Service::SystemNetwork < CIMI::Service::Base
 
   def self.collection_for_system(system_id, context)
     system_networks = self.find(system_id, context)
-    networks_url = context.system_networks_url(system_id) if context.driver.has_capability? :add_networks_to_system
-    CIMI::Model::SystemNetwork.list(networks_url, system_networks, :add_url => networks_url)
+    networks_url = context.system_networks_url(system_id)
+    CIMI::Model::SystemNetwork.list(networks_url, system_networks, :add_url => (context.driver.has_capability?(:create_system_network) ? networks_url : nil))
+
   end
 
 end
