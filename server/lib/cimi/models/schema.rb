@@ -16,6 +16,11 @@
 
 require_relative "../../deltacloud/core_ext"
 
+module CIMI
+  module Model
+  end
+end
+
 # The smarts of converting from XML and JSON into internal objects
 class CIMI::Model::Schema
 
