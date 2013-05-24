@@ -8,7 +8,7 @@ Each test can be run manually using:
 
 $ bundle exec ruby tests/drivers/ec2/realms_test.rb
 
-In addition to manual run, you can use one of there Rake tasks:
+In addition to manual run, you can use one of the Rake tasks:
 
 $ rake test                 # Run all tests
 
@@ -45,7 +45,7 @@ Some driver tests may use VCR gem to record and then mock the real communication
 with the backend server. In that case, the fixtures produced by this recording
 are stored in the 'tests/drivers/DRIVER/fixtures' directory.
 
-For more informations about recording, look into 'tests/drivers/ec2/common.rb'
+For more information about recording, look into 'tests/drivers/ec2/common.rb'
 file.
 
 The 'base' directory contain tests for Deltacloud::Driver class and the Library
@@ -84,7 +84,7 @@ provide Amazon EC2 driver tests.
 
 * cimi/
 
-This directory provides tests for the CIMI frotend. They make sure that
+This directory provides tests for the CIMI frontend. They make sure that
 JSON/XML serialization of the CIMI models works correctly. Also there are tests
 to make sure the output provided by CIMI collections is correct.
 
@@ -108,7 +108,7 @@ Bug/feature in the Deltacloud driver
 
 * Steps:    1. Open 'tests/drivers/ec2/images_tests.rb'
             2. Since the current tests did not capture this bug, go to the end
-               of this file and add yoru code there:
+               of this file and add your code there:
 
                it 'should provide correct output' do
                 # assertions go here
@@ -121,7 +121,7 @@ Bug/feature in the Deltacloud driver
             3. Write all collection operations tests here ^^
 
 
-Bug/feature in the Deltacloud frontnend
+Bug/feature in the Deltacloud frontend
 ------------------------------------
 
 * Scenario: The '/api/images/123/create' operation does not provide correct
