@@ -27,7 +27,6 @@ class Instance
   def authn_feature_failed?
     return true unless authn_error.nil?
   end
-
 end
 
 module Deltacloud
@@ -126,14 +125,20 @@ module Deltacloud
         define_instance_states do
           start.to( :pending )          .automatically
           pending.to( :running )        .automatically
-          pending.to( :stopping )       .on( :stop )
-          pending.to( :stopped )        .automatically
-          stopped.to( :running )        .on( :start )
           running.to( :running )        .on( :reboot )
           running.to( :stopping )       .on( :stop )
           stopping.to(:stopped)         .automatically
-
+          stopped.to( :running )        .on( :start )
           stopped.to(:finish)         .on( :destroy)
+
+          #pending.to( :stopping )       .on( :stop )
+          #pending.to( :stopped )        .automatically
+
+          
+         
+          
+
+          
 
         end
 
@@ -1248,11 +1253,13 @@ module Deltacloud
         def convert_state(ec2_state)
           case ec2_state
             when "terminated"
-              "STOPPED"
+              "FINISH"
             when "stopped"
               "STOPPED"
             when "running"
               "RUNNING"
+            when "stopping"
+              "STOPPING"
             when "pending"
               "PENDING"
             when "shutting-down"
