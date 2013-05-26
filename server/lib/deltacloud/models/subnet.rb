@@ -28,6 +28,7 @@ class Subnet < BaseModel
       :id => id,
       :name => name,
       :href => context.subnet_url(id),
+      :type => type,
       :state => state,
       :address_block => address_block,
       :network => {

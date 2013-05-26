@@ -21,60 +21,32 @@ module CIMI::Collections
     collection :networks do
       description 'A Network represents an abstraction of a layer 2 broadcast domain'
 
-      generate_show_operation :with_capability => :networks
-      generate_index_operation :with_capability => :networks
-      generate_delete_operation :with_capability => :destroy_network
-      generate_create_operation :with_capability => :create_network
+      generate_show_operation :with_capability => :subnet
+      generate_index_operation :with_capability => :subnets
+      generate_delete_operation :with_capability => :destroy_subnet
+      generate_create_operation :with_capability => :create_subnet
 
 
-      action :start, :with_capability => :start_network do
+      action :start, :with_capability => :start_subnet do
         description "Start specific network."
         param :id, :string, :required
         control do
           network = Network.find(params[:id], self)
-          report_error(404) unless network
-          if current_content_type == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          network.perform(action, self) do |operation|
+          action = Action.parse(self)
+          network.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end
         end
       end
 
-      action :stop, :with_capability => :stop_network do
+      action :stop, :with_capability => :stop_subnet do
         description "Stop specific network."
         param :id, :string, :required
         control do
           network = Network.find(params[:id], self)
-          report_error(404) unless network
-          if current_content_type == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          network.perform(action, self) do |operation|
-            no_content_with_status(202) if operation.success?
-            # Handle errors using operation.failure?
-          end
-        end
-      end
-
-      action :suspend, :with_capability => :suspend_network do
-        description "Suspend specific network."
-        param :id, :string, :required
-        control do
-          network = Network.find(params[:id], self)
-          report_error(404) unless network
-          if current_content_type == :json
-            action = Action.from_json(request.body.read)
-          else
-            action = Action.from_xml(request.body.read)
-          end
-          network.perform(action, self) do |operation|
+          action = Action.parse(self)
+          network.perform(action) do |operation|
             no_content_with_status(202) if operation.success?
             # Handle errors using operation.failure?
           end

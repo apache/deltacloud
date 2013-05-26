@@ -19,8 +19,8 @@ module CIMI::Collections
 
     collection :forwarding_groups do
 
-      generate_index_operation :with_capability => :forwarding_groups
-      generate_show_operation :with_capability => :forwarding_groups
+      generate_index_operation :with_capability => :networks
+      generate_show_operation :with_capability => :network
 
     end
 

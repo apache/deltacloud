@@ -223,59 +223,6 @@ module Deltacloud::Drivers::Mock
       system_templates.map{|sys_templ| convert_urls(sys_templ, opts[:env])}.flatten
     end
 
-    def networks(credentials, opts={})
-      check_credentials(credentials)
-      if opts[:id].nil?
-        networks = @client.load_all_cimi(:network).map{|net| CIMI::Model::Network.from_json(net)}
-        networks.map{|net| convert_urls(net, opts[:env])}.flatten
-      else
-        network = CIMI::Model::Network.from_json(@client.load_cimi(:network, opts[:id]))
-        convert_urls(network, opts[:env])
-      end
-    end
-
-    def create_network(credentials, opts={})
-      check_credentials(credentials)
-      id = "#{opts[:env].send("networks_url")}/#{opts[:name]}"
-      net_hsh = { "id"=> id,
-                  "name" => opts[:name],
-                  "description" => opts[:description],
-                  "created" => Time.now,
-                  "state" => "STARTED",
-                  "networkType" => opts[:network_config].network_type,
-                  "mtu" =>  opts[:network_config].mtu,
-                  "classOfService" => opts[:network_config].class_of_service,
-
-
-                  "forwardingGroup"=> { "href" => opts[:forwarding_group].id },
-                  "operations" => [{"rel"=>"edit", "href"=> id},
-                                   {"rel"=>"delete", "href"=> id}]    }
-      network = CIMI::Model::Network.from_json(JSON.generate(net_hsh))
-
-      @client.store_cimi(:network, network)
-      network
-    end
-
-    def delete_network(credentials, id)
-      check_credentials(credentials)
-      @client.destroy_cimi(:network, id)
-    end
-
-    def start_network(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "Network", "STARTED")
-    end
-
-    def stop_network(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "Network", "STOPPED")
-    end
-
-    def suspend_network(credentials, id)
-      check_credentials(credentials)
-      update_object_state(id, "Network", "SUSPENDED")
-    end
-
     def network_configurations(credentials, opts={})
       check_credentials(credentials)
       if opts[:id].nil?
@@ -295,17 +242,6 @@ module Deltacloud::Drivers::Mock
       else
         network_template = CIMI::Model::NetworkTemplate.from_json(@client.load_cimi(:network_template, opts[:id]))
         convert_urls(network_template, opts[:env])
-      end
-    end
-
-    def forwarding_groups(credentials, opts={})
-      check_credentials(credentials)
-      if opts[:id].nil?
-        forwarding_groups = @client.load_all_cimi(:forwarding_group).map{|fg| CIMI::Model::ForwardingGroup.from_json(fg)}
-        forwarding_groups.map{|fg| convert_urls(fg, opts[:env])}.flatten
-      else
-        forwarding_group = CIMI::Model::ForwardingGroup.from_json(@client.load_cimi(:forwarding_group, opts[:id]))
-        convert_urls(forwarding_group, opts[:env])
       end
     end
 

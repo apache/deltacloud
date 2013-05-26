@@ -278,7 +278,7 @@ class FgcpDriver < Deltacloud::BaseDriver
           :name           => 'Network for ' + vsys['vsysName'][0],
           :address_blocks => address_blocks,
           :subnets        => vnets,
-          :state          => 'STARTED' # base on FW status? (DEPLOYING, RUNNING, etc.)
+          :state          => 'UP' # base on FW status? (DEPLOYING, RUNNING, etc.)
         )
       end
     end
@@ -321,7 +321,7 @@ class FgcpDriver < Deltacloud::BaseDriver
             :network       => vsys_id + '-N',
             :address_block => address_block,
             :type          => 'PRIVATE',
-            :state         => 'STARTED' # base on vsys status? (DEPLOYING, NORMAL, etc.)
+            :state         => 'UP' # base on vsys status? (DEPLOYING, NORMAL, etc.)
           )
         end
       end

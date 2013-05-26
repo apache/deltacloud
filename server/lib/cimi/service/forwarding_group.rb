@@ -17,10 +17,27 @@ class CIMI::Service::ForwardingGroup < CIMI::Service::Base
 
   def self.find(id, context)
     if id==:all
-      context.driver.forwarding_groups(context.credentials, {:env=>context})
+      networks = context.driver.networks(context.credentials)
+      networks.map { |network| from_network(network, context) }.compact
     else
-      context.driver.forwarding_groups(context.credentials, {:env=>context, :id=>id})
+      network = context.driver.network(context.credentials, :id=>id)
+      raise CIMI::Model::NotFound unless network and network.subnets.size > 1
+      from_network(network, context)
     end
+  end
+
+  def self.delete!(id, context)
+    context.driver.destroy_network(context.credentials, id)
+  end
+
+  def self.from_network(network, context)
+    network_spec = {
+      :id               => context.forwarding_group_url(network.id),
+      :name             => network.name,
+      :description      => network.description || "No description set for Forwarding Group #{network.name}",
+      :networks         => network.subnets.collect {|s| {:href=>context.network_url(s)} }
+    }
+    self.new(context, :values => network_spec) if network.subnets.size > 1
   end
 
 end

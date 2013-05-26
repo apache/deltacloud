@@ -3,4 +3,5 @@
 :name: subnet3
 :network: net2
 :address_block: 10.1.0.0/16
+:type: PRIVATE
 :state: UP
