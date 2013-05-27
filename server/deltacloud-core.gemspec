@@ -77,14 +77,16 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh', '>= 2.0.0')
   s.add_dependency('nokogiri', '>= 1.4.3')
   s.add_dependency('require_relative') if RUBY_VERSION < '1.9'
-  s.add_dependency('sequel', '<= 3.42.0')
 
+  s.add_dependency('sequel')
   s.add_dependency('tilt')
   s.add_dependency('sinatra')
 
 
   if RUBY_PLATFORM == 'java'
     s.add_dependency('jdbc-sqlite3')
+    s.add_dependency('jruby-openssl')
+    s.add_dependency('puma')
   else
     s.add_dependency('sqlite3')
     s.add_dependency('thin', '>= 1.2.5')

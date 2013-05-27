@@ -18,9 +18,6 @@
 #
 # By default the database backend is sqlite3
 
-require 'sequel'
-require 'logger'
-
 require_relative '../db'
 
 # We want to enable validation plugin for all database models
@@ -47,11 +44,6 @@ unless location = ENV['DATABASE_LOCATION']
     sequel_driver = (RUBY_PLATFORM=='java') ? 'jdbc:sqlite:' : 'sqlite://'
     location = "#{sequel_driver}#{File.join(BASE_STORAGE_DIR, 'db.sqlite')}"
   end
-end
-
-if RUBY_PLATFORM == 'java'
-  require 'jdbc/sqlite3'
-  Jdbc::SQLite3.load_driver
 end
 
 database = Deltacloud::initialize_database(location)

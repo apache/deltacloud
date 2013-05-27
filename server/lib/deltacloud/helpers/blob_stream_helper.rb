@@ -14,7 +14,6 @@
 # under the License.
 
 begin
-  require 'eventmachine'
   #--
   # based on the example from
   #   http://macournoyer.com/blog/2009/06/04/pusher-and-async-with-thin/
@@ -137,8 +136,6 @@ module Thin
   end
 end
 
-require 'net/http'
-require 'net/https'
 #monkey patch for Net:HTTP
 module Net
   class HTTP
@@ -178,7 +175,6 @@ module Net
 
 end
 
-require 'base64'
 class BlobStreamIO
 
   attr_accessor :size, :provider, :sock

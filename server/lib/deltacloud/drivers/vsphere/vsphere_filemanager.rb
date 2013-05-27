@@ -138,7 +138,6 @@ module VSphere
         res = http.request(request)
         Nokogiri::HTML(res.body).css("table tr a").map { |f| f.text.strip }.reject { |f| f == 'Parent Directory'}
       rescue
-        puts "[ERROR]: Unable to list deltacloud folder"
         []
       end
     end

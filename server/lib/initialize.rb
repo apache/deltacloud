@@ -15,7 +15,12 @@
 
 # Deltacloud server initialization scripts:
 
+require 'rubygems'
 require 'require_relative' if RUBY_VERSION < '1.9'
+require_relative './deltacloud/core_ext'
+
+# Initialize dependencies
+require_relative './initializers/dependencies_initialize'
 
 # Initialize storage for mock and CIMI database
 require_relative './initializers/mock_initialize'

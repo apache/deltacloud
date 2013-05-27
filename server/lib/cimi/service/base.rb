@@ -13,8 +13,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'xmlsimple'
-
 require_relative '../helpers/database_helper'
 
 # Service objects implement the server functionality of CIMI resources; in

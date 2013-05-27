@@ -41,7 +41,7 @@ module CIMI
         # the $select parameter is used and :id is filtered out
         #
         @base_id = values[:base_id] || values[:id]
-        @attribute_values = names.inject(OrderedHash.new) do |hash, name|
+        @attribute_values = names.inject(::Hash.new) do |hash, name|
           hash[name] = self.class.schema.convert(name, values[name])
           hash
         end

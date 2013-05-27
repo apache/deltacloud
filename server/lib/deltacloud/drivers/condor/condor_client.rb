@@ -13,13 +13,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'pp'
 require 'nokogiri'
 require 'etc'
-require 'tempfile'
-require 'yaml'
-require 'time'
-
 require_relative './ip_agents/default'
 require_relative './ip_agents/confserver'
 
@@ -261,9 +256,6 @@ module CondorCloud
             :launch_time => Time.at((c/'a[@n="JobStartDate"]/i').text.to_i)
           )
         rescue Exception => e
-          puts "Caught exception (may be safe to ignore if other jobs present): #{e}"
-          puts e.message
-          puts e.backtrace
           # Be nice to log something here in case we start getting silent failures.
         end
       end

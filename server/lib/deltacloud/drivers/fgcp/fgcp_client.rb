@@ -15,13 +15,7 @@
 #
 # Author: Dies Koper <diesk@fast.au.fujitsu.com>
 
-require 'net/http'
-require 'net/https'
-require 'rubygems'
 require 'xmlsimple'
-require 'base64'
-require 'cgi'
-require 'uri'
 
 module Deltacloud
   module Drivers

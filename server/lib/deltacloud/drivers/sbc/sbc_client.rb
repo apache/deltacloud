@@ -14,10 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'base64'
-require 'net/https'
-require 'digest/md5'
-
 module Deltacloud
   module Drivers
     module Sbc
@@ -198,7 +194,6 @@ class SBCClient
   def read_fake_url(filename)
     fixture_file = "../tests/sbc/support/fixtures/#{filename}"
     if File.exists?(fixture_file)
-      puts "Using fixture: #{fixture_file}"
       return JSON::parse(File.read(fixture_file))
     else
       raise FixtureNotFound.new
@@ -212,7 +207,6 @@ class SBCClient
     http_method, request_uri, params, headers = args[0].to_sym, args[1], args[2], args[3]
     params ||= {}
     fixture_filename = fixture_filename = "#{Digest::MD5.hexdigest("#{http_method}#{request_uri}#{params.inspect}#{headers.reject{|key, value| key == "Authorization"}}")}.fixture"
-    puts "fixture filename: " + fixture_filename
     begin
       return read_fake_url(fixture_filename)[2]["body"]
     rescue FixtureNotFound
@@ -232,7 +226,6 @@ class SBCClient
       }
       fixtures_dir = "../tests/sbc/support/fixtures/"
       FileUtils.mkdir_p(fixtures_dir)
-      puts "Saving fixture #{fixture_filename}"
       File.open(File::join(fixtures_dir, fixture_filename), 'w') do |f|
         f.puts [request_uri, http_method, response].to_json
       end

@@ -14,8 +14,6 @@
 # under the License.
 #
 
-require 'require_relative' if RUBY_VERSION < '1.9'
-
 require_relative './core_ext/array'
 require_relative './core_ext/hash'
 require_relative './core_ext/integer'

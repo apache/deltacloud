@@ -17,8 +17,6 @@
 
 module Rack
 
-  require 'cgi'
-
   class MatrixParams
     def initialize(app)
       @app = app

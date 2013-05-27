@@ -16,8 +16,6 @@
 module Deltacloud::Helpers
   module Application
 
-    require 'benchmark'
-
     def current_provider
       Thread.current[:provider] || ENV['API_PROVIDER'] || 'default'
     end

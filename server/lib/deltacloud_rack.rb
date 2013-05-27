@@ -13,6 +13,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+# The requires are here because this file could be used to initialize
+# the Deltacloud Rack middleware
+#
 require 'require_relative' if RUBY_VERSION < '1.9'
 require 'json/pure'
 
@@ -68,11 +71,6 @@ module Deltacloud
       result[Deltacloud[frontend].root_url] = Deltacloud[frontend].klass
       result
     end
-  end
-
-  def self.frontends
-    ENV['API_FRONTEND'] ||= 'deltacloud'
-    ENV['API_FRONTEND'].split(',')
   end
 
   def self.need_database?

@@ -13,8 +13,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'fileutils'
-
 # This will create the directory we use for storing Mock driver
 # data and also CIMI database file
 #

@@ -19,9 +19,6 @@
 
 module Deltacloud::Drivers::Mock
 
-  require 'yaml'
-  require 'fileutils'
-
   class Client
 
     include Deltacloud

@@ -16,7 +16,6 @@
 require_relative 'drivers/exceptions'
 require_relative 'drivers/base_driver'
 require_relative 'drivers/features'
-require 'yaml'
 
 module Deltacloud
   module Drivers

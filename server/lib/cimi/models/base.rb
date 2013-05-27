@@ -13,8 +13,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'xmlsimple'
-
 # The base class for any CIMI object that we either read from a request or
 # write as a response. This class handles serializing/deserializing XML and
 # JSON into a common form.

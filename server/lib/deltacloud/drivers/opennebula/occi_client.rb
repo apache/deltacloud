@@ -15,12 +15,9 @@
 # under the License.
 #
 
-require 'rubygems'
 require 'rexml/document'
 require 'uri'
-
 require_relative './cloud_client'
-
 
 module OCCIClient
 

@@ -32,10 +32,6 @@ module Deltacloud
   module Drivers
     module Condor
 
-      require 'base64'
-      require 'uuidtools'
-      require 'fileutils'
-
       class CondorDriver < Deltacloud::BaseDriver
 
         feature :instances, :user_data
@@ -210,7 +206,6 @@ module Deltacloud
           begin
             File.open(File.join(CONDOR_MAPPER_DIR, key.to_s, id)).read.strip
           rescue Errno::ENOENT
-            puts "Warning: Could not find entry for #{key} #{id} (#{File.join(CONDOR_MAPPER_DIR, key.to_s, id)})"
             nil
           end
         end
@@ -220,7 +215,6 @@ module Deltacloud
             FileUtils::rm(File.join(CONDOR_MAPPER_DIR, key.to_s, id))
           rescue
             # We should probably check for specific error conditions here.  Some we will want to log or throw an error for.
-            puts "Warning: Cannot remove #{key} mapping for instance #{id} (#{File.join(CONDOR_MAPPER_DIR, key.to_s, id)})"
             nil
           end
         end

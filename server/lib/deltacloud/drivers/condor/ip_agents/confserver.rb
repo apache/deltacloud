@@ -18,7 +18,7 @@
 module CondorCloud
 
   require 'nokogiri'
-  require 'rest-client'
+  require 'restclient'
 
   class ConfServerIPAgent < IPAgent
 
@@ -37,7 +37,6 @@ module CondorCloud
       rescue RestClient::ResourceNotFound
         '127.0.0.1'
       rescue
-        puts 'ERROR: Could not query ConfServer for an IP'
       end
     end
 

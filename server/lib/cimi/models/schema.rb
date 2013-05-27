@@ -151,7 +151,7 @@ class CIMI::Model::Schema
     end
 
     def convert_to_xml(model)
-      xml = OrderedHash.new
+      xml = ::Hash.new
       @schema.to_xml(model, xml)
       xml
     end
@@ -394,7 +394,7 @@ class CIMI::Model::Schema
   end
 
   def to_xml(model, xml = nil)
-    xml ||= OrderedHash.new
+    xml ||= ::Hash.new
     @attributes.freeze
     model.prepare if model.respond_to?(:prepare)
     @attributes.each { |attr| attr.to_xml(model, xml) }

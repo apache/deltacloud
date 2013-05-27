@@ -1,17 +1,11 @@
 require 'rubygems'
-require 'logger'
-require 'minitest/autorun'
-require 'rack/test'
-require 'nokogiri'
-require 'pp'
-require 'require_relative' if RUBY_VERSION < '1.9'
-
-require 'singleton'
+require 'require_relative' if RUBY_VERSION < "1.9"
 
 ENV['RACK_ENV'] = 'test'
-
 require_relative '../lib/initialize'
-require_relative '../lib/deltacloud/api.rb'
+
+require 'minitest/autorun'
+require_relative '../lib/deltacloud/api'
 
 if ENV['COVERAGE']
   begin

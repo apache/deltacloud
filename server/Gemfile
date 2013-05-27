@@ -1,22 +1,36 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gemspec
+gem 'rack-accept', :require => 'rack/accept'
+gem 'sinatra', :require => 'sinatra/base'
+gem 'sinatra-rabbit', :require => 'sinatra/rabbit'
+gem 'json_pure', :require => 'json/pure'
 
-platforms :jruby do
-  gem 'jruby-openssl'
-  gem 'puma'
+platform :jruby do
+  gem 'jdbc-sqlite3', :require => 'jdbc/sqlite3'
 end
 
-group :development do
-  gem "rack-test"
+group :test do
+  gem "rake"
+  gem "rack-test", :require => 'rack/test'
   gem "minitest", '< 5.0.0'
-  gem "simplecov"
   gem "webmock", '< 1.10'  # VCR wants that version
   gem "vcr"
   gem "aws"
+  gem 'pry'
+  gem 'nokogiri'
+end
+
+group :ruby18 do
+  gem 'require_relative'
+end
+
+group :coverage do
+  gem 'simplecov'
 end
 
 group :jenkins do
   gem 'turn'
   gem 'minitest-reporters', :platform => "ruby_19"
 end
+
+gemspec

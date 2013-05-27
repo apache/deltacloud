@@ -15,12 +15,6 @@
 # under the License.
 #
 
-require 'rubygems'
-require 'uri'
-
-require 'digest/sha1'
-require 'net/https'
-
 require "rexml/document"
 
 begin

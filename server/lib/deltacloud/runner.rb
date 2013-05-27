@@ -13,10 +13,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'net/ssh'
-require 'socket'
-require 'tempfile'
-
 module Deltacloud
 
   module Runner

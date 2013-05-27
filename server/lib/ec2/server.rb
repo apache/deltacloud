@@ -13,10 +13,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'rubygems'
-require 'sinatra/base'
-require 'haml'
-
 require_relative '../sinatra'
 require_relative './helpers'
 require_relative './query_parser'

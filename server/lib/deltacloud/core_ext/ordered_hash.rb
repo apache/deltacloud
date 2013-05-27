@@ -1,8 +1,6 @@
 # Code from ActiveSupport, https://github.com/rails/rails/tree/3-2-stable/activesupport
 # MIT licensed
 
-require 'yaml'
-
 YAML.add_builtin_type("omap") do |type, val|
   OrderedHash[val.map{ |v| v.to_a.first }]
 end

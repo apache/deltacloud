@@ -17,9 +17,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require "net/http"
-require "net/https"
-
 module Deltacloud::Drivers::RimuHosting
 
   class RimuHostingClient

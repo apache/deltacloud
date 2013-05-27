@@ -15,7 +15,6 @@
 #
 
 require 'openstack'
-require 'tempfile'
 
 module Deltacloud
   module Drivers

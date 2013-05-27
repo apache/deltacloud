@@ -20,15 +20,6 @@
 require 'rake'
 require 'rake/testtask'
 require 'rubygems/package_task'
-
-begin
-  require "bundler"
-  Bundler.setup
-rescue LoadError
-  $stderr.puts "Please install bundler with 'gem install bundler'"
-  exit(1)
-end
-
 require 'require_relative' if RUBY_VERSION < '1.9'
 
 $top_srcdir = File.dirname(__FILE__)
@@ -50,7 +41,8 @@ end
 
 # Not meant for enduser consumption; make sure we run our initializers
 task :initialize do
-  require_relative 'lib/initialize.rb'
+  require_relative 'lib/initialize'
+  Bundler.require(:default, :test)
 end
 
 namespace :db do
@@ -190,9 +182,7 @@ namespace :test do
   end
 
   Rake::TestTask.new(:base) do |t|
-    unless RUBY_VERSION < '1.9.0'
-      t.loader = :testrb
-    end
+    t.ruby_opts = ['-r./tests/test_helper']
     t.test_files = FileList[
       'tests/helpers/core_ext/*test.rb',        # Deltacloud extensions (core_ext) and other helpers
       'tests/helpers/rack/*test.rb',            # Rack extensions Deltacloud use

@@ -38,7 +38,6 @@ class CIMI::Service::Machine < CIMI::Service::Base
     begin
       op = action.operation
       op = :reboot if op == :restart
-      puts "PERFORM #{op.inspect} on #{ref_id(id)}"
       if context.driver.send(:"#{op}_instance", context.credentials, ref_id(id))
         block.callback :success
       else

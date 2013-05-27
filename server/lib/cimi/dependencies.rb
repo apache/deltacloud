@@ -17,7 +17,6 @@
 #this file defines all the required components for dmtf implementation.
 #if new dependencies are needed, please make changes to this file.
 
-require 'sinatra'
 require 'deltacloud/drivers'
 require 'deltacloud/core_ext'
 require 'deltacloud/base_driver'
@@ -38,18 +37,10 @@ require 'deltacloud/models/blob'
 require 'deltacloud/models/load_balancer'
 require 'deltacloud/models/firewall'
 require 'deltacloud/models/firewall_rule'
-
 require 'sinatra/rack_accept'
 require 'sinatra/rack_cimi'
 require 'sinatra/static_assets'
-require 'sinatra/rabbit'
 require 'sinatra/lazy_auth'
-require 'erb'
-require 'haml'
-require 'open3'
-require 'uuidtools'
-require 'xmlsimple'
-require 'benchmark'
 require 'deltacloud/helpers/blob_stream'
 require 'sinatra/rack_driver_select'
 require 'sinatra/rack_runtime'

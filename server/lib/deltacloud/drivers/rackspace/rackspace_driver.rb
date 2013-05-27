@@ -16,7 +16,7 @@
 
 require 'cloudfiles'
 require 'cloudservers'
-require 'base64'
+
 require_relative 'anti_cache_monkey_patch'
 
 module Deltacloud

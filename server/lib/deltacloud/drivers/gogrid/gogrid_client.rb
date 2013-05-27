@@ -14,10 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-require 'digest/md5'
-require 'cgi'
 require 'open-uri'
-require 'json/pure'
 
 module Kernel
   def suppress_warnings
