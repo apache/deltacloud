@@ -114,64 +114,64 @@ module CIMI::Collections
         description 'List system\'s systems'
         generate_system_subcollection_index_operation :with_capability => :system_systems
         generate_system_subcollection_show_operation :with_capability => :system_systems
-        generate_add_to_system_operation :with_capability => :add_system_to_system
-        generate_remove_from_system_operation :with_capability => :remove_system_from_system
+        generate_add_to_system_operation :with_capability => :create_system_system
+        generate_remove_from_system_operation :with_capability => :destroy_system_system
       end
 
       collection :machines, :with_id => :ent_id do
         description 'List system\'s machines'
         generate_system_subcollection_index_operation :with_capability => :system_machines
         generate_system_subcollection_show_operation :with_capability => :system_machines
-        generate_add_to_system_operation :with_capability => :add_machine_to_system
-        generate_remove_from_system_operation :with_capability => :remove_machine_from_system
+        generate_add_to_system_operation :with_capability => :create_system_machine
+        generate_remove_from_system_operation :with_capability => :destroy_system_machine
       end
 
       collection :credentials, :with_id => :ent_id do
         description 'List system\'s credentials'
         generate_system_subcollection_index_operation :with_capability => :system_credentials
         generate_system_subcollection_show_operation :with_capability => :system_credentials
-        generate_add_to_system_operation :with_capability => :add_credential_to_system
-        generate_remove_from_system_operation :with_capability => :remove_credential_from_system
+        generate_add_to_system_operation :with_capability => :create_system_credential
+        generate_remove_from_system_operation :with_capability => :destroy_system_credential
       end
 
       collection :volumes, :with_id => :ent_id do
         description 'List system\'s volumes'
         generate_system_subcollection_index_operation :with_capability => :system_volumes
         generate_system_subcollection_show_operation :with_capability => :system_volumes
-        generate_add_to_system_operation :with_capability => :add_volume_to_system
-        generate_remove_from_system_operation :with_capability => :remove_volume_from_system
+        generate_add_to_system_operation :with_capability => :create_system_volume
+        generate_remove_from_system_operation :with_capability => :destroy_system_volume
       end
 
       collection :networks, :with_id => :ent_id do
         description 'List system\'s networks'
         generate_system_subcollection_index_operation :with_capability => :system_networks
         generate_system_subcollection_show_operation :with_capability => :system_networks
-        generate_add_to_system_operation :with_capability => :add_network_to_system
-        generate_remove_from_system_operation :with_capability => :remove_network_from_system
+        generate_add_to_system_operation :with_capability => :create_system_network
+        generate_remove_from_system_operation :with_capability => :destroy_system_network
       end
 
       collection :network_ports, :with_id => :ent_id do
         description 'List system\'s network ports'
         generate_system_subcollection_index_operation :with_capability => :system_network_ports
         generate_system_subcollection_show_operation :with_capability => :system_network_ports
-        generate_add_to_system_operation :with_capability => :add_network_port_to_system
-        generate_remove_from_system_operation :with_capability => :remove_network_port_from_system
+        generate_add_to_system_operation :with_capability => :create_system_network_port
+        generate_remove_from_system_operation :with_capability => :destroy_system_network_port
       end
 
       collection :addresses, :with_id => :ent_id do
         description 'List system\'s addresses'
         generate_system_subcollection_index_operation :with_capability => :system_addresses
         generate_system_subcollection_show_operation :with_capability => :system_addresses
-        generate_add_to_system_operation :with_capability => :add_addresses_to_system
-        generate_remove_from_system_operation :with_capability => :remove_addresses_from_system
+        generate_add_to_system_operation :with_capability => :create_system_addresses
+        generate_remove_from_system_operation :with_capability => :destroy_system_addresses
       end
 
       collection :forwarding_groups, :with_id => :ent_id do
         description 'List system\'s forwarding groups'
         generate_system_subcollection_index_operation :with_capability => :system_forwarding_groups
         generate_system_subcollection_show_operation :with_capability => :system_forwarding_groups
-        generate_add_to_system_operation :with_capability => :add_forwarding_groups_to_system
-        generate_remove_from_system_operation :with_capability => :remove_forwarding_groups_from_system
+        generate_add_to_system_operation :with_capability => :create_system_forwarding_groups
+        generate_remove_from_system_operation :with_capability => :destroy_system_forwarding_groups
       end
 
     end

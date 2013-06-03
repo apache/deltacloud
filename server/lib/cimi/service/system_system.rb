@@ -28,8 +28,8 @@ class CIMI::Service::SystemSystem < CIMI::Service::Base
 
   def self.collection_for_system(system_id, context)
     system_systems = self.find(system_id, context)
-    systems_url = context.system_systems_url(system_id) if context.driver.has_capability? :add_systems_to_system
-    CIMI::Model::SystemSystem.list(systems_url, system_systems, :add_url => systems_url)
+    systems_url = context.system_systems_url(system_id)
+    CIMI::Model::SystemSystem.list(systems_url, system_systems, :add_url => (context.driver.has_capability?(:create_system_system) ? systems_url : nil))
   end
 
 end
