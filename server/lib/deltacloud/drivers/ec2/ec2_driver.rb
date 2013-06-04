@@ -333,11 +333,18 @@ module Deltacloud
         def stop_instance(credentials, instance_id)
           ec2 = new_client(credentials)
           #TODO: If image root is ebs (or persistent) then stop instance otherwise need to run "destroy_instance"
-          if ec2.stop_instances([instance_id])
-            instance(credentials, :id => instance_id)
+          #ec2_instance = ec2.instances[:instance_id]
+          #if ec2_instance.root_device_type == "ebs"
+          ec2_inst = ec2.describe_instances([instance_id]).first
+          if ec2_inst[:root_device_type] == "ebs"
+            if ec2.stop_instances([instance_id])
+              instance(credentials, :id => instance_id)
+            else
+              raise Deltacloud::BackendError.new(500, "Instance", "Instance stop failed", "")
+            end
           else
-            raise Deltacloud::BackendError.new(500, "Instance", "Instance stop failed", "")
-          end
+            destroy_instance(credentials,instance_id)
+          end  
         end
 
 
