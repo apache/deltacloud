@@ -5,7 +5,7 @@ gem 'nokogiri'
 
 group :development do
   gem 'rake'
-  gem 'minitest'
+  gem 'minitest', "<5.0"
   gem 'vcr'
   gem 'pry'
   gem 'turn'
