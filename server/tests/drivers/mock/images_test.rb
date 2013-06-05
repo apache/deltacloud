@@ -43,7 +43,7 @@ describe 'MockDriver Images' do
     @driver.image(:id => 'img1-test').id.must_equal 'img1-test'
     @driver.image(:id => 'img1-test').name.must_equal 'img1-test'
     @driver.image(:id => 'img1-test').description.must_equal 'Test1'
-    Proc.new { @driver.create_image(:id => 'unknown-instance', :name => 'test') }.must_raise Deltacloud::Exceptions::BackendError, 'CreateImageNotSupported'
+    Proc.new { @driver.create_image(:id => 'unknown-instance', :name => 'test') }.must_raise Deltacloud::Exceptions::ObjectNotFound
     @driver.image(:id => 'test').must_be_nil
   end
 

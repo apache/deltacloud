@@ -2,7 +2,7 @@
 :instance_profile: !ruby/object:Deltacloud::InstanceProfile
   id: m1-large
 :realm_id: us
-:owner_id: anotheruser
+:owner_id: mockuser
 :public_addresses:
 - !ruby/object:Deltacloud::InstanceAddress
   address: img1.inst2.public.com
