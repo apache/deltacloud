@@ -17,7 +17,7 @@
 :instance_profile: !ruby/object:Deltacloud::InstanceProfile
   id: m1-small
 :realm_id: eu
-:create_image: true
+:create_image: false
 :actions:
 - :reboot
 - :stop
