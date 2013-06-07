@@ -137,6 +137,31 @@ module Deltacloud
 
         end
 
+        def instance_actions_for(state, instance = nil)
+          if instance
+            ebs = (instance[:root_device_type] == "ebs") ? true : false
+          end
+          actions = []
+          states = instance_state_machine.states()
+          current_state = states.find{|e| e.name == state.underscore.to_sym }
+          if ( current_state )
+            actions = current_state.transitions.collect{|e|e.action}
+            actions.reject!{|e| e.nil?}
+          end
+          if ebs
+            actions
+          else
+            # hax :( :stop becomes :destroy, :start is not possible
+            actions.inject([]) do |res, cur|
+              res << cur unless [:stop, :start].include? cur
+              if cur == :stop
+                res << :destroy
+              end
+              res
+            end
+          end
+        end
+
         # We do not allow users to set the endpoint through environment
         # variables. That that would work is an implementation detail.
         ENV.delete("EC2_URL")
@@ -342,7 +367,7 @@ module Deltacloud
             end
           else
             destroy_instance(credentials,instance_id)
-          end  
+          end
         end
 
         def destroy_instance(credentials, instance_id)
@@ -1075,7 +1100,7 @@ module Deltacloud
             :state => convert_state(instance[:aws_state]),
             :image_id => instance[:aws_image_id],
             :owner_id => instance[:aws_owner],
-            :actions => instance_actions_for(convert_state(instance[:aws_state])),
+            :actions => instance_actions_for(convert_state(instance[:aws_state]), instance),
             :keyname => instance[:ssh_key_name],
             :launch_time => instance[:aws_launch_time],
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type], inst_profile_opts),

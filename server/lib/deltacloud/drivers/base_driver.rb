@@ -135,7 +135,7 @@ module Deltacloud
       self.class.instance_state_machine
     end
 
-    def instance_actions_for(state)
+    def instance_actions_for(state, instance = nil)
       actions = []
       states = instance_state_machine.states()
       current_state = states.find{|e| e.name == state.underscore.to_sym }
