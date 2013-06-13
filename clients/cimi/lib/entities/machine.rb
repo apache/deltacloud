@@ -38,18 +38,18 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
   get '/cimi/machines' do
     # We need to include this stuff for new Machine Form
     machine_image_xml = get_entity_collection('machine_images', credentials)
-    @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
+    @machine_images = collection_class_for(:machine_image).from_xml(machine_image_xml)
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
-    @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
+    @machine_configurations = collection_class_for(:machine_configuration).from_xml(machine_conf_xml)
     begin
       machine_admins_xml = get_entity_collection('machine_admins', credentials)
-      @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admins_xml)
+      @machine_admins = collection_class_for(:machine_admin).from_xml(machine_admins_xml)
       # In case backend does not support MachineAdmin collection
     rescue RestClient::ResourceNotFound
       @machine_admins = []
     end
     machine_xml = get_entity_collection('machines', credentials)
-    @machines = CIMI::Model::MachineCollection.from_xml(machine_xml)
+    @machines = collection_class_for(:machine).from_xml(machine_xml)
     haml :'machines/index'
   end
 

@@ -39,6 +39,12 @@ module CIMI
         obj.class.name.split('::').last
       end
 
+      # Generate the CIMI collection class for given model
+      #
+      def collection_class_for(model_name)
+        CIMI::Model::Collection.generate(CIMI::Model.const_get(model_name.to_s.camelize))
+      end
+
       def flash_block_for(message_type)
         return unless flash[message_type]
         capture_haml do
