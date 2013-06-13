@@ -31,6 +31,7 @@ module Deltacloud
   #
   def self.is_production?
     current_path = File.expand_path(File.dirname(__FILE__))
+    return true if ENV['API_PRODUCTION']
     return true if Gem.path[0..Gem.path.length] == current_path
     return true if current_path[0..10] == '/usr/share'
     false

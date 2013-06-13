@@ -35,5 +35,10 @@ require 'deltacloud/core_ext'
 require 'json/pure'
 
 require 'initializers/mock_initialize'
+
+ENV['API_PRODUCTION'] = '1'
+ENV['API_FRONTEND'] = 'cimi'
+
+require 'initializers/dependencies_initialize'
 require 'initializers/database_initialize'
 require 'cimi/models'

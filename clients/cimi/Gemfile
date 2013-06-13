@@ -7,3 +7,5 @@ gem 'json'
 #gem 'xmlsimple'
 gem 'rest-client'
 gem 'nokogiri'
+
+gemspec :path => File.join(File.dirname(__FILE__), '..', '..', 'server')
