@@ -25,7 +25,7 @@ describe 'MockDriver Instances' do
     @driver.instances(:id => 'inst1').must_be_kind_of Array
     @driver.instances(:id => 'inst1').size.must_equal 1
     @driver.instances(:id => 'inst1').first.id.must_equal 'inst1'
-    @driver.instances(:owner_id => 'mockuser').size.must_equal 3
+    @driver.instances(:owner_id => 'mockuser').size.must_equal 4
     @driver.instances(:owner_id => 'mockuser').first.owner_id.must_equal 'mockuser'
     @driver.instances(:id => 'unknown').must_be_empty
   end
