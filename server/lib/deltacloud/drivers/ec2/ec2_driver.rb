@@ -137,9 +137,9 @@ module Deltacloud
 
         end
 
-        def instance_actions_for(state, instance = nil)
-          if instance
-            ebs = (instance[:root_device_type] == "ebs") ? true : false
+        def instance_actions_for(state, params={})
+          unless params.empty?
+            ebs = is_ebs_instance?(params)
           end
           actions = []
           states = instance_state_machine.states()
@@ -1084,6 +1084,14 @@ module Deltacloud
           type == 'ebs' ? 'persistent' : 'transient'
         end
 
+        #params: {:image_id => 123, :persistent_image=>true, :credentials => creds}
+        def is_ebs_instance?(params)
+          return params[:persistent_image] unless params[:persistent_image].nil?
+          (image(params[:credentials], {:id=>params[:image_id]}).root_type == "persistent") ? true : false
+        end
+
+
+
         def convert_instance(instance)
           can_create_image = 'ebs'.eql?(instance[:root_device_type]) and 'RUNNING'.eql?(convert_state(instance[:aws_state]))
           inst_profile_opts={}
@@ -1100,7 +1108,7 @@ module Deltacloud
             :state => convert_state(instance[:aws_state]),
             :image_id => instance[:aws_image_id],
             :owner_id => instance[:aws_owner],
-            :actions => instance_actions_for(convert_state(instance[:aws_state]), instance),
+            :actions => instance_actions_for(convert_state(instance[:aws_state]), {:persistent_image => (instance[:root_device_type] == "ebs")}),
             :keyname => instance[:ssh_key_name],
             :launch_time => instance[:aws_launch_time],
             :instance_profile => InstanceProfile.new(instance[:aws_instance_type], inst_profile_opts),

@@ -150,7 +150,7 @@ module Deltacloud::Helpers
 
       # If original instance doesn't include called action
       # return with 405 error (Method is not Allowed)
-      unless driver.instance_actions_for(original_instance.state).include?(name.to_sym)
+      unless driver.instance_actions_for(original_instance.state, {:image_id=>original_instance.image_id, :credentials=>credentials}).include?(name.to_sym)
         return report_error(405)
       end
 
