@@ -23,6 +23,7 @@ require_relative '../db'
 # We want to enable validation plugin for all database models
 #
 Sequel::Model.plugin :validation_class_methods
+Sequel::Model.plugin :after_initialize
 
 # Enable Sequel migrations extension
 Sequel.extension :migration
