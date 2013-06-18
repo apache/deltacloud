@@ -145,7 +145,8 @@ module Deltacloud::Drivers::Mock
       instance = instance(credentials, opts)
 
       safely do
-        raise 'CreateImageNotSupported' unless instance and instance.can_create_image?
+        raise 'NotFound' unless instance
+        raise 'CreateImageNotSupported' unless instance.can_create_image?
         image = {
           :id => opts[:name],
           :name => opts[:name],
@@ -727,6 +728,10 @@ module Deltacloud::Drivers::Mock
         message "Authentication Failure"
       end
 
+      on /CreateImageNotSupported/ do
+        status 500
+      end
+
       on /BucketNotEmpty/ do
         status 403
         message "Delete operation not valid for non-empty bucket"
@@ -745,12 +750,8 @@ module Deltacloud::Drivers::Mock
         status 403
       end
 
-      on /(BucketNotExist || NotFound)/ do
+      on /(BucketNotExist|NotFound)/ do
         status 404
-      end
-
-      on /CreateImageNotSupported/ do
-        status 500
       end
 
       on /NotExistentBlob/ do
