@@ -1,1 +1,1 @@
-@ruby "%~dp0deltacloudd" %*
+@ruby -C%~dp0.. "%~dp0deltacloudd" %*

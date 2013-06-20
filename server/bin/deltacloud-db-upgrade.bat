@@ -1,1 +1,1 @@
-@ruby "%~dp0deltacloud-db-upgrade" %*
+@ruby -C%~dp0.. "%~dp0deltacloud-db-upgrade" %*
