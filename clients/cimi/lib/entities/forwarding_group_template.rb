@@ -23,7 +23,7 @@ class CIMI::Frontend::ForwardingGroupTemplate < CIMI::Frontend::Entity
 
   get '/cimi/forwarding_group_templates' do
     fg_templates_xml = get_entity_collection('forwarding_group_templates', credentials)
-    @fg_templates = CIMI::Model::ForwardingGroupTemplateCollection.from_xml(fg_templates_xml)
+    @fg_templates = collection_class_for(:forwarding_group_template).from_xml(fg_templates_xml)
     haml :'forwarding_group_templates/index'
   end
 

@@ -23,7 +23,7 @@ class CIMI::Frontend::AddressTemplate < CIMI::Frontend::Entity
 
   get '/cimi/address_templates' do
     address_template_xml = get_entity_collection('address_templates', credentials)
-    @address_templates = CIMI::Model::AddressTemplateCollection.from_xml(address_template_xml)
+    @address_templates = collection_class_for(:address_template).from_xml(address_template_xml)
     haml :'address_templates/index'
   end
 

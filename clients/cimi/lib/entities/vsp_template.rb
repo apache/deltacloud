@@ -23,7 +23,7 @@ class CIMI::Frontend::VSPTemplate < CIMI::Frontend::Entity
 
   get '/cimi/vsp_templates' do
     vsp_templates_xml = get_entity_collection('vsp_templates', credentials)
-    @vsp_templates = CIMI::Model::VSPTemplateCollection.from_xml(vsp_templates_xml)
+    @vsp_templates = collection_class_for(:vsp_template).from_xml(vsp_templates_xml)
     haml :'vsp_templates/index'
   end
 

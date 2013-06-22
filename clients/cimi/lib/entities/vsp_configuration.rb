@@ -23,7 +23,7 @@ class CIMI::Frontend::VSPConfiguration < CIMI::Frontend::Entity
 
   get '/cimi/vsp_configurations' do
     vsp_configs_xml = get_entity_collection('vsp_configurations', credentials)
-    @vsp_configs = CIMI::Model::VSPConfigurationCollection.from_xml(vsp_configs_xml)
+    @vsp_configs = collection_class_for(:vsp_configuration).from_xml(vsp_configs_xml)
     haml :'vsp_configurations/index'
   end
 

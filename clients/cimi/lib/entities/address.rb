@@ -23,9 +23,9 @@ class CIMI::Frontend::Address < CIMI::Frontend::Entity
 
   get '/cimi/addresses' do
     address_template_xml = get_entity_collection('address_templates', credentials)
-    @address_templates = CIMI::Model::AddressTemplateCollection.from_xml(address_template_xml)
+    @address_templates = collection_class_for(:address_template).from_xml(address_template_xml)
     addresses_xml = get_entity_collection('addresses', credentials)
-    @addresses = CIMI::Model::AddressCollection.from_xml(addresses_xml)
+    @addresses = collection_class_for(:address).from_xml(addresses_xml)
     haml :'addresses/index'
   end
 
@@ -39,7 +39,7 @@ class CIMI::Frontend::Address < CIMI::Frontend::Entity
     end.to_xml
     begin
       result = create_entity('addresses', address_xml, credentials)
-      address = CIMI::Model::AddressCollection.from_xml(result)
+      address = collection_class_for(:address).from_xml(result)
       flash[:success] = "Address was successfully created."
       redirect "/cimi/addresses/#{address.name}", 302
     rescue => e

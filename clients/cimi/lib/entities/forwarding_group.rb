@@ -23,7 +23,7 @@ class CIMI::Frontend::ForwardingGroup < CIMI::Frontend::Entity
 
   get '/cimi/forwarding_groups' do
     fgs_xml = get_entity_collection('forwarding_groups', credentials)
-    @fgs = CIMI::Model::ForwardingGroupCollection.from_xml(fgs_xml)
+    @fgs = collection_class_for(:forwarding_group).from_xml(fgs_xml)
     haml :'forwarding_groups/index'
   end
 

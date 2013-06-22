@@ -23,7 +23,7 @@ class CIMI::Frontend::VSP < CIMI::Frontend::Entity
 
   get '/cimi/vsps' do
     vsps_xml = get_entity_collection('vsps', credentials)
-    @vsps = CIMI::Model::VSPCollection.from_xml(vsps_xml)
+    @vsps = collection_class_for(:vsp).from_xml(vsps_xml)
     haml :'vsps/index'
   end
 

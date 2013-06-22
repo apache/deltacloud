@@ -23,7 +23,7 @@ class CIMI::Frontend::Volume < CIMI::Frontend::Entity
 
   get '/cimi/volumes' do
     volumes_xml = get_entity_collection('volumes', credentials)
-    @volumes = CIMI::Model::VolumeCollection.from_xml(volumes_xml)
+    @volumes = collection_class_for(:volume).from_xml(volumes_xml)
     haml :'volumes/index'
   end
 

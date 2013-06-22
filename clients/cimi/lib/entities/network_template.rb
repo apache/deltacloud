@@ -23,7 +23,7 @@ class CIMI::Frontend::NetworkTemplate < CIMI::Frontend::Entity
 
   get '/cimi/network_templates' do
     network_templates_xml = get_entity_collection('network_templates', credentials)
-    @network_templates = CIMI::Model::NetworkTemplateCollection.from_xml(network_templates_xml)
+    @network_templates = collection_class_for(:network_template).from_xml(network_templates_xml)
     haml :'network_templates/index'
   end
 

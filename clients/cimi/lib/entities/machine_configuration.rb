@@ -23,7 +23,7 @@ class CIMI::Frontend::MachineConfiguration < CIMI::Frontend::Entity
 
   get '/cimi/machine_configurations' do
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
-    @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
+    @machine_configurations = collection_class_for(:machine_configuration).from_xml(machine_conf_xml)
     haml :'machine_configurations/index'
   end
 

@@ -23,11 +23,11 @@ class CIMI::Frontend::MachineTemplate < CIMI::Frontend::Entity
 
   get '/cimi/machine_templates' do
     machine_image_xml = get_entity_collection('machine_images', credentials)
-    @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
+    @machine_images = collection_class_for(:machine_image).from_xml(machine_image_xml)
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
-    @machine_configurations = CIMI::Model::MachineConfigurationCollection.from_xml(machine_conf_xml)
+    @machine_configurations = collection_class_for(:machine_configuration).from_xml(machine_conf_xml)
     machine_template_xml = get_entity_collection('machine_templates', credentials)
-    @machine_templates = CIMI::Model::MachineTemplateCollection.from_xml(machine_template_xml)
+    @machine_templates = collection_class_for(:machine_template).from_xml(machine_template_xml)
     haml :'machine_templates/index'
   end
 
@@ -42,7 +42,7 @@ class CIMI::Frontend::MachineTemplate < CIMI::Frontend::Entity
     end.to_xml
     begin
       result = create_entity('machine_templates', machine_template_xml, credentials)
-      machine_template = CIMI::Model::MachineTemplateCollection.from_xml(result)
+      machine_template = collection_class_for(:machine_template).from_xml(result)
       flash[:success] = "Machine Template was successfully created."
       redirect "/cimi/machine_templates/#{machine_template.name}", 302
     rescue => e

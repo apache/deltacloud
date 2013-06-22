@@ -23,7 +23,7 @@ class CIMI::Frontend::NetworkPortConfiguration < CIMI::Frontend::Entity
 
   get '/cimi/network_port_configurations' do
     network_port_configs_xml = get_entity_collection('network_port_configurations', credentials)
-    @network_port_configs = CIMI::Model::NetworkPortConfigurationCollection.from_xml(network_port_configs_xml)
+    @network_port_configs = collection_class_for(:network_port_configuration).from_xml(network_port_configs_xml)
     haml :'network_port_configurations/index'
   end
 

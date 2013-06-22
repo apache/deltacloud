@@ -23,11 +23,11 @@ class CIMI::Frontend::Network < CIMI::Frontend::Entity
 
   get '/cimi/networks' do
     forwarding_groups_xml = get_entity_collection('forwarding_groups', credentials)
-    @forwarding_groups = CIMI::Model::ForwardingGroupCollection.from_xml(forwarding_groups_xml)
+    @forwarding_groups = collection_class_for(:forwarding_group).from_xml(forwarding_groups_xml)
     network_config_xml = get_entity_collection('network_configurations', credentials)
-    @network_configurations = CIMI::Model::NetworkConfigurationCollection.from_xml(network_config_xml)
+    @network_configurations = collection_class_for(:network_configuration).from_xml(network_config_xml)
     networks_xml = get_entity_collection('networks', credentials)
-    @networks = CIMI::Model::NetworkCollection.from_xml(networks_xml)
+    @networks = collection_class_for(:network).from_xml(networks_xml)
     haml :'networks/index'
   end
 
@@ -44,7 +44,7 @@ class CIMI::Frontend::Network < CIMI::Frontend::Entity
     end.to_xml
     begin
       result = create_entity('networks', network_xml, credentials)
-      network = CIMI::Model::NetworkCollection.from_xml(result)
+      network = collection_class_for(:network).from_xml(result)
       flash[:success] = "Network was successfully created."
       redirect "/cimi/networks/#{network.name}", 302
     rescue => e

@@ -23,7 +23,7 @@ class CIMI::Frontend::MachineImage < CIMI::Frontend::Entity
 
   get '/cimi/machine_images' do
     machine_image_xml = get_entity_collection('machine_images', credentials)
-    @machine_images = CIMI::Model::MachineImageCollection.from_xml(machine_image_xml)
+    @machine_images = collection_class_for(:machine_image).from_xml(machine_image_xml)
     haml :'machine_images/index'
   end
 

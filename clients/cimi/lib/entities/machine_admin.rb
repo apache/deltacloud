@@ -37,7 +37,7 @@ class CIMI::Frontend::MachineAdmin < CIMI::Frontend::Entity
 
   get '/cimi/machine_admins' do
     machine_admin_xml = get_entity_collection('machine_admins', credentials)
-    @machine_admins = CIMI::Model::MachineAdminCollection.from_xml(machine_admin_xml)
+    @machine_admins = collection_class_for(:machine_admin).from_xml(machine_admin_xml)
     haml :'machine_admins/index'
   end
 
@@ -53,7 +53,7 @@ class CIMI::Frontend::MachineAdmin < CIMI::Frontend::Entity
     end.to_xml
     begin
       result = create_entity('machine_admins', machine_admin_xml, credentials)
-      machine_admin = CIMI::Model::MachineAdminCollection.from_xml(result)
+      machine_admin = collection_class_for(:machine_admin).from_xml(result)
       flash[:success] = "MachineAdmin was successfully created."
       redirect "/cimi/machine_admins/#{machine_admin.name}", 302
     rescue => e

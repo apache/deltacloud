@@ -23,7 +23,7 @@ class CIMI::Frontend::VolumeConfiguration < CIMI::Frontend::Entity
 
   get '/cimi/volume_configurations' do
     volume_conf_xml = get_entity_collection('volume_configurations', credentials)
-    @volume_configurations = CIMI::Model::VolumeConfigurationCollection.from_xml(volume_conf_xml)
+    @volume_configurations = collection_class_for(:volume_configuration).from_xml(volume_conf_xml)
     haml :'volume_configurations/index'
   end
 

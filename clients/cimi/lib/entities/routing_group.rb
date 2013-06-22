@@ -23,7 +23,7 @@ class CIMI::Frontend::RoutingGroup < CIMI::Frontend::Entity
 
   get '/cimi/routing_groups' do
     routing_groups_xml = get_entity_collection('routing_groups', credentials)
-    @routing_groups = CIMI::Model::RoutingGroupCollection.from_xml(routing_groups_xml)
+    @routing_groups = collection_class_for(:routing_group).from_xml(routing_groups_xml)
     haml :'routing_groups/index'
   end
 

@@ -23,7 +23,7 @@ class CIMI::Frontend::VolumeImage < CIMI::Frontend::Entity
 
   get '/cimi/volume_images' do
     volume_images_xml = get_entity_collection('volume_images', credentials)
-    @volume_images = CIMI::Model::VolumeImageCollection.from_xml(volume_images_xml)
+    @volume_images = collection_class_for(:volume_image).from_xml(volume_images_xml)
     haml :'volume_images/index'
   end
 

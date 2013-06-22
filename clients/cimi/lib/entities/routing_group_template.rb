@@ -23,7 +23,7 @@ class CIMI::Frontend::RoutingGroupTemplate < CIMI::Frontend::Entity
 
   get '/cimi/routing_group_templates' do
     rg_templates_xml = get_entity_collection('routing_group_templates', credentials)
-    @rg_templates = CIMI::Model::RoutingGroupTemplateCollection.from_xml(rg_templates_xml)
+    @rg_templates = collection_class_for(:routing_group_template).from_xml(rg_templates_xml)
     haml :'routing_group_templates/index'
   end
 
