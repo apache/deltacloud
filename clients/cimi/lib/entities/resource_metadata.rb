@@ -13,29 +13,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-module CIMI
-  module Frontend
-  end
-end
+class CIMI::Frontend::ResourceMetadata < CIMI::Frontend::Entity
 
-require 'entities/base_entity'
-require 'entities/cloud_entry_point'
-require 'entities/address'
-require 'entities/address_template'
-require 'entities/credential'
-require 'entities/forwarding_group'
-require 'entities/forwarding_group_template'
-require 'entities/machine_configuration'
-require 'entities/machine_image'
-require 'entities/machine'
-require 'entities/machine_template'
-require 'entities/volume_configuration'
-require 'entities/volume_image'
-require 'entities/volume'
-require 'entities/network'
-require 'entities/network_configuration'
-require 'entities/network_port'
-require 'entities/network_port_configuration'
-require 'entities/network_port_template'
-require 'entities/network_template'
-require 'entities/resource_metadata'
+  get '/cimi/resource_metadata/:id' do
+    resource_metadata_xml = get_entity('resource_metadata', params[:id], credentials)
+    @resource_metadata = CIMI::Model::ResourceMetadata.from_xml(resource_metadata_xml)
+    haml :'resource_metadata/show'
+  end
+
+  get '/cimi/resource_metadata' do
+    resource_metadata_xml = get_entity_collection('resource_metadata', credentials)
+    @resource_metadata = collection_class_for(:resource_metadata).from_xml(resource_metadata_xml)
+    haml :'resource_metadata/index'
+  end
+
+end

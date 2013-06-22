@@ -1,0 +1,76 @@
+- @title="#{@resource_metadata.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/resource_metadata"} ResourceMetadataCollection
+      %span.divider="/"
+    %li.active
+      = @resource_metadata.name
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@resource_metadata.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@resource_metadata.id}?format=json", :class => 'label warning' } JSON
+
+- details do
+  - row 'ID', @resource_metadata.id
+  - row 'Name', @resource_metadata.name
+  - row 'TypeURI', @resource_metadata.type_uri
+
+%h5 Attributes
+%table{ :class => 'table table-bordered table-striped' }
+  %thead
+    %tr
+      %th Name
+      %th Namespace
+      %th Type
+      %th Required
+      %th Constraints
+  %tbody
+    - @resource_metadata.attributes.each do |attribute|
+      %tr
+        %td=attribute.name
+        %td=attribute.namespace||'N/A'
+        %td=attribute.type||'N/A'
+        %td=attribute.required||'false'
+        %td=attribute.constraints.collect {|c| c.value}.join ', '
+
+%h5 Capabilities
+%table{ :class => 'table table-bordered table-striped' }
+  %thead
+    %tr
+      %th Name
+      %th URI
+      %th Description
+      %th Value
+  %tbody
+    - @resource_metadata.capabilities.each do |capability|
+      %tr
+        %td=capability.name
+        %td=capability.uri
+        %td=capability.description
+        %td=capability.value||'true'
+
+%h5 Actions
+%table{ :class => 'table table-bordered table-striped' }
+  %thead
+    %tr
+      %th Name
+      %th URI
+      %th Description
+      %th Method
+      %th InputMessage
+      %th OutputMessage
+  %tbody
+    - @resource_metadata.actions.each do |action|
+      %tr
+        %td=action.name
+        %td=action.uri
+        %td=action.description
+        %td=action.method
+        %td=action.inputMessage
+        %td=action.outputMessage

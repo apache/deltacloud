@@ -1,0 +1,24 @@
+- @title=collection_name @resource_metadata
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      ResourceMetadataCollection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@resource_metadata.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@resource_metadata.id}?format=json", :class => 'label warning' } JSON
+
+%h3 ResourceMetadataCollection
+%ul
+  - @resource_metadata.resource_metadata.each do |meta|
+    %li
+      %a{ :href => "/cimi/resource_metadata/#{href_to_id(meta.id)}"}=href_to_id(meta.id)
+
+- details do
+  - row 'ID', @resource_metadata.id
+  - row 'Count', @resource_metadata.count
