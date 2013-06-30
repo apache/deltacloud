@@ -27,7 +27,20 @@ module CIMI
       end
 
       def get_entity_collection(entity_type, credentials)
-        client[entity_type].get(auth_header(credentials))
+        return client[entity_type].get(auth_header(credentials)) if entity_type == 'cloudEntryPoint'
+        entity_href = get_entity_collection_href(entity_type, credentials)
+        raise RestClient::ResourceNotFound if not entity_href
+        RestClient::Resource.new(entity_href).get(auth_header(credentials))
+      end
+
+      # look up entity collection url from cloud entry point
+      # returns nil if entity not in cloud entry point (i.e. not supported)
+      def get_entity_collection_href(entity_type, credentials)
+        entity_type.sub!('configurations', 'configs')
+        entity_type = entity_type.camelize.uncapitalize
+        entry_point_xml = client['cloudEntryPoint'].get(auth_header(credentials))
+        entity_el = XmlSimple.xml_in(entry_point_xml)[entity_type]
+        entity_href = entity_el ? entity_el[0]['href'] : nil
       end
 
       def create_entity(entity_type, body, credentials)
