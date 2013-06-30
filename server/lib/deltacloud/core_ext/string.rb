@@ -56,7 +56,6 @@ class String
 
   unless method_defined? 'underscore'
     def underscore
-      return self.downcase if self =~ /VSPs$/i
       gsub(/::/, '/').
         gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
         gsub(/([a-z\d])([A-Z])/,'\1_\2').

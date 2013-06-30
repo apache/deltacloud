@@ -38,11 +38,6 @@ module CIMI::Frontend
     use CIMI::Frontend::NetworkPortTemplate
     use CIMI::Frontend::NetworkTemplate
     use CIMI::Frontend::NetworkPort
-    use CIMI::Frontend::RoutingGroup
-    use CIMI::Frontend::RoutingGroupTemplate
-    use CIMI::Frontend::VSP
-    use CIMI::Frontend::VSPConfiguration
-    use CIMI::Frontend::VSPTemplate
     use Rack::Session::Cookie
 
     helpers CIMI::Frontend::Helper
