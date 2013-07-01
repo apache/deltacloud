@@ -18,6 +18,7 @@ module CIMI
     module Client
 
       def client
+        RestClient.proxy = ENV['http_proxy']
         RestClient::Resource.new(ENV['CIMI_API_URL'])
       end
 
