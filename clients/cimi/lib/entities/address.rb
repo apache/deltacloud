@@ -22,10 +22,12 @@ class CIMI::Frontend::Address < CIMI::Frontend::Entity
   end
 
   get '/cimi/addresses' do
-    address_template_xml = get_entity_collection('address_templates', credentials)
-    @address_templates = collection_class_for(:address_template).from_xml(address_template_xml)
     addresses_xml = get_entity_collection('addresses', credentials)
     @addresses = collection_class_for(:address).from_xml(addresses_xml)
+    if @addresses.operations.find {|o| o.rel == 'add'}
+      address_template_xml = get_entity_collection('address_templates', credentials)
+      @address_templates = collection_class_for(:address_template).from_xml(address_template_xml)
+    end
     haml :'addresses/index'
   end
 

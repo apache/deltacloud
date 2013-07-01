@@ -9,34 +9,37 @@
 
       NetworkCollection
 
-- content_for :actions do
+- if @networks.operations.find {|o| o.rel == 'add'}
+  - content_for :actions do
 
-  %p
-    %a{ :href => '#networkModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Network
+    %p
+      %a{ :href => '#networkModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Network
 
-  %div{ :id => :networkModal, :class => 'modal hide fade' }
-    .modal-header
-      %h3 Create new Network entity
-    .modal-body
-      %form{ :action => "/cimi/networks", :method => :post }
-        %fieldset
-          .control-group
-            %label.control-label{ :for => 'network[name]' } Network Name
-            .controls
-              %input{ :type => :text, :name => 'network[name]' }
-            %label.control-label{ :for => 'network[forwarding_group]' } Forwarding Group
-            .controls
-              %select{ :name => 'network[forwarding_group]' }
-                - @forwarding_groups.forwarding_groups.each do |group|
-                  %option{ :value => group.id }=href_to_id(group.id)
-            %label.control-label{ :for => 'network[network_configuration]' } Network Configuration
-            .controls
-              %select{ :name => 'network[network_configuration]' }
-                - @network_configurations.network_configurations.each do |configuration|
-                  %option{ :value => configuration.id }=href_to_id(configuration.id)
-    .modal-footer
-      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Network...', :onclick => "postModalForm(this, 'networkModal')"} Continue
-      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+    %div{ :id => :networkModal, :class => 'modal hide fade' }
+      .modal-header
+        %h3 Create new Network entity
+      .modal-body
+        %form{ :action => "/cimi/networks", :method => :post }
+          %fieldset
+            .control-group
+              %label.control-label{ :for => 'network[name]' } Network Name
+              .controls
+                %input{ :type => :text, :name => 'network[name]' }
+              - if @forwarding_groups
+                %label.control-label{ :for => 'network[forwarding_group]' } Forwarding Group
+                .controls
+                  %select{ :name => 'network[forwarding_group]' }
+                    - @forwarding_groups.forwarding_groups.each do |group|
+                      %option{ :value => group.id }=href_to_id(group.id)
+              - if @network_configurations
+                %label.control-label{ :for => 'network[network_configuration]' } Network Configuration
+                .controls
+                  %select{ :name => 'network[network_configuration]' }
+                    - @network_configurations.network_configurations.each do |configuration|
+                      %option{ :value => configuration.id }=href_to_id(configuration.id)
+      .modal-footer
+        %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Network...', :onclick => "postModalForm(this, 'networkModal')"} Continue
+        %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
   %p
     %a{ :href => "#{@networks.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@networks.id}?format=json", :class => 'label warning' } JSON

@@ -8,28 +8,29 @@
     %li.active
       AddressCollection
 
-- content_for :actions do
-  %p
-    %a{ :href => '#addressModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Address
+- if @addresses.operations.find {|o| o.rel == 'add'}
+  - content_for :actions do
+    %p
+      %a{ :href => '#addressModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New Address
 
-  %div{ :id => :addressModal, :class => 'modal hide fade' }
-    .modal-header
-      %h3 Create new Address entity
-    .modal-body
-      %form{ :action => "/cimi/addresses", :method => :post }
-        %fieldset
-          .control-group
-            %label.control-label{ :for => 'address[name]' } Address Name
-            .controls
-              %input{ :type => :text, :name => 'address[name]' }
-            %label.control-label{ :for => 'address[address_template]' } Address Image
-            .controls
-              %select{ :name => 'address[address_template]' }
-                - @address_templates.address_templates.each do |template|
-                  %option{ :value => template.id }=href_to_id(template.id)
-    .modal-footer
-      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Address...', :onclick => "postModalForm(this, 'addressModal')"} Continue
-      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+    %div{ :id => :addressModal, :class => 'modal hide fade' }
+      .modal-header
+        %h3 Create new Address entity
+      .modal-body
+        %form{ :action => "/cimi/addresses", :method => :post }
+          %fieldset
+            .control-group
+              %label.control-label{ :for => 'address[name]' } Address Name
+              .controls
+                %input{ :type => :text, :name => 'address[name]' }
+              %label.control-label{ :for => 'address[address_template]' } Address Image
+              .controls
+                %select{ :name => 'address[address_template]' }
+                  - @address_templates.address_templates.each do |template|
+                    %option{ :value => template.id }=href_to_id(template.id)
+      .modal-footer
+        %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Address...', :onclick => "postModalForm(this, 'addressModal')"} Continue
+        %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
   %p
     %a{ :href => "#{@addresses.id}?format=xml", :class => 'label warning' } XML
     %a{ :href => "#{@addresses.id}?format=json", :class => 'label warning' } JSON

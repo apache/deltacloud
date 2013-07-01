@@ -22,12 +22,22 @@ class CIMI::Frontend::Network < CIMI::Frontend::Entity
   end
 
   get '/cimi/networks' do
-    forwarding_groups_xml = get_entity_collection('forwarding_groups', credentials)
-    @forwarding_groups = collection_class_for(:forwarding_group).from_xml(forwarding_groups_xml)
-    network_config_xml = get_entity_collection('network_configurations', credentials)
-    @network_configurations = collection_class_for(:network_configuration).from_xml(network_config_xml)
     networks_xml = get_entity_collection('networks', credentials)
     @networks = collection_class_for(:network).from_xml(networks_xml)
+    if @networks.operations.find {|o| o.rel == 'add'}
+      # note that even if 'add' is supported, both forwarding group and
+      # network config are optional in network template
+      begin
+        forwarding_groups_xml = get_entity_collection('forwarding_groups', credentials)
+        @forwarding_groups = collection_class_for(:forwarding_group).from_xml(forwarding_groups_xml)
+      rescue RestClient::ResourceNotFound
+      end
+      begin
+        network_config_xml = get_entity_collection('network_configurations', credentials)
+        @network_configurations = collection_class_for(:network_configuration).from_xml(network_config_xml)
+      rescue RestClient::ResourceNotFound
+      end
+    end
     haml :'networks/index'
   end
 
