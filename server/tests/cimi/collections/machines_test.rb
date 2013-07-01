@@ -113,7 +113,7 @@ describe CIMI::Collections::Machines do
       (xml/'Collection/Machine').wont_be_empty
       (xml/'Collection/Machine').size.must_equal 3
       xml.at('Collection/count').text.must_equal '3'
-      xml.at('Collection/Machine/name').text.must_equal 'Mock Instance With Profile Change'
+      xml.at('Collection/Machine/name').text.wont_equal 'MockUserInstance'
     end
 
   end
