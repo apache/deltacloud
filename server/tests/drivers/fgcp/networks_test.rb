@@ -46,7 +46,7 @@ describe 'FgcpDriver Networks' do
   it 'must be starter' do
     networks = @driver.networks
     networks.wont_be_empty
-	networks.each { |network| network.state.must_equal 'STARTED'}
+	networks.each { |network| network.state.must_equal 'UP'}
   end
 
   it 'must have subnets' do
