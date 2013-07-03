@@ -33,14 +33,14 @@
               %select{ :name => 'machine[machine_configuration]' }
                 - @machine_configurations.machine_configurations.each do |configuration|
                   %option{ :value => configuration.id }=href_to_id(configuration.id)
-            - unless @machine_admins.kind_of?(Array)
-              %label.control-label{ :for => 'machine[machine_admin]' } Machine Admin
+            - unless @creds.kind_of?(Array)
+              %label.control-label{ :for => 'machine[credential]' } Credential
               .controls
-                %select{ :name => 'machine[machine_admin]' }
-                  - @machine_admins.machine_admins.each do |admin|
-                    %option{ :value => admin.id }=href_to_id(admin.id)
+                %select{ :name => 'machine[credential]' }
+                  - @creds.credentials.each do |cred|
+                    %option{ :value => cred.id }=href_to_id(cred.id)
     .modal-footer
-      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating MachineAdmin...', :onclick => "postModalForm(this, 'machineModal')"} Continue
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Credential...', :onclick => "postModalForm(this, 'machineModal')"} Continue
       %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
   %p{:style => 'text-align:right;'}
     %a{ :href => "#{@machines.id}?format=xml", :class => 'label warning' } XML

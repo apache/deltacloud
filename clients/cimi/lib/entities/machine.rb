@@ -42,11 +42,11 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
     machine_conf_xml = get_entity_collection('machine_configurations', credentials)
     @machine_configurations = collection_class_for(:machine_configuration).from_xml(machine_conf_xml)
     begin
-      machine_admins_xml = get_entity_collection('machine_admins', credentials)
-      @machine_admins = collection_class_for(:machine_admin).from_xml(machine_admins_xml)
-      # In case backend does not support MachineAdmin collection
+      credentials_xml = get_entity_collection('credentials', credentials)
+      @creds = collection_class_for(:credential).from_xml(credentials_xml)
+      # In case backend does not support Credential collection
     rescue RestClient::ResourceNotFound
-      @machine_admins = []
+      @creds = []
     end
     machine_xml = get_entity_collection('machines', credentials)
     @machines = collection_class_for(:machine).from_xml(machine_xml)
@@ -104,7 +104,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         xml.machineTemplate {
           xml.machineConfig( :href => params[:machine][:machine_configuration] )
           xml.machineImage( :href => params[:machine][:machine_image] )
-          xml.machineAdmin( :href => params[:machine][:machine_admin] ) unless params[:machine][:machine_admin].nil?
+          xml.credential( :href => params[:machine][:credential] ) unless params[:machine][:credential].nil?
         }
       }
     end.to_xml
