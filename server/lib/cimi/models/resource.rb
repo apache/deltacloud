@@ -172,9 +172,14 @@ module CIMI
           next if self[n].nil?
           next if self[n].kind_of? Array
           if @select_attrs.empty? or @select_attrs.include?(n)
-            self[n].href = "#{self.base_id}/#{n}" if !self[n].href
-            self[n].id = "#{self.base_id}/#{n}" if !self[n].entries.empty?
-
+            if n.to_s =~ /config/
+              fixed_name = (n.to_s.singularize + "uration").pluralize
+              self[n].href = "#{self.base_id}/#{fixed_name}" if !self[n].href
+              self[n].id = "#{self.base_id}/#{fixed_name}" if !self[n].entries.empty?
+            else
+              self[n].href = "#{self.base_id}/#{n}" if !self[n].href
+              self[n].id = "#{self.base_id}/#{n}" if !self[n].entries.empty?
+            end
             self[n].href["cloudEntryPoint/"] = "" \
               if self[n].href and self[n].href.include? "cloudEntryPoint/"
             self[n].id["cloudEntryPoint/"] = "" \
