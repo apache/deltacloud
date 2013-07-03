@@ -16,8 +16,6 @@
 class CIMI::Model::Credential < CIMI::Model::Base
 
   text :username, :password, :key
-  text :password
-  text :key
 
   array :operations do
     scalar :rel, :href
