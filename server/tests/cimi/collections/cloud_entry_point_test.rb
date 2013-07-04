@@ -29,6 +29,15 @@ describe CIMI::Collections::CloudEntryPoint do
     json['id'].wont_be_empty
   end
 
+  it 'advertises CIMI collections in spec order' do
+    get root_url + '/cloudEntryPoint?format=json'
+    json.wont_be_empty
+
+    resources_with_href = ['resourceMetadata', 'systems', 'systemTemplates', 'machines', 'machineTemplates', 'machineConfigs', 'machineImages', 'credentials', 'credentialTemplates', 'volumes', 'volumeTemplates', 'volumeConfigs', 'volumeImages', 'networks', 'networkTemplates', 'networkConfigs', 'networkPorts', 'networkPortTemplates', 'networkPortConfigs', 'addresses', 'addressTemplates', 'forwardingGroups', 'forwardingGroupTemplates']
+
+    (resources_with_href & json.keys).must_equal(json.keys & resources_with_href)
+  end
+
   it 'allow to force authentication using force_auth parameter in URI' do
     get root_url + '/cloudEntryPoint?force_auth=1'
     status.must_equal 401
