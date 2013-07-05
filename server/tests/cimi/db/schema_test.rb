@@ -34,7 +34,7 @@ describe "Deltacloud::Database" do
     provider = Deltacloud::Database::Provider
     lambda {
       new_provider = provider.create(:driver => nil, :url => 'test1')
-    }.must_raise Sequel::InvalidValue
+    }.must_raise Sequel::InvalidValue, Sequel::NotNullConstraintViolation
   end
 
   it 'allow creation of simple entity' do
