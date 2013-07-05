@@ -13,4 +13,4 @@
 %ul
   - entry_point.select { |k, v| !v.kind_of?(String) and v.first['href'] }.each do |k, v|
     %li
-      %a{ :href => '/cimi/'+href_to_id(v.first['href']) }=k
+      %a{ :href => '/cimi/'+id_to_href(k) }=k

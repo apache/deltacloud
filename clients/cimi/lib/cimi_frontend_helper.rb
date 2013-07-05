@@ -35,6 +35,11 @@ module CIMI
         href.split('/').last.strip
       end
 
+      def id_to_href(id)
+        return '' unless id
+        id.gsub(/([A-Z])/, '_\1').sub('Configs', 'Configurations').downcase
+      end
+
       def collection_name(obj)
         obj.class.name.split('::').last
       end
