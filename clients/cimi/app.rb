@@ -39,6 +39,8 @@ module CIMI::Frontend
     use CIMI::Frontend::NetworkTemplate
     use CIMI::Frontend::NetworkPort
     use CIMI::Frontend::ResourceMetadata
+    use CIMI::Frontend::System
+    use CIMI::Frontend::SystemTemplate
     use Rack::Session::Cookie
 
     helpers CIMI::Frontend::Helper

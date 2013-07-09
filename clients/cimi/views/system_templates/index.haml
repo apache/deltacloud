@@ -1,0 +1,49 @@
+- @title=collection_name @system_templates
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      SystemTemplateCollection
+
+- content_for :actions do
+
+  - if @system_templates.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/import'}
+    %p
+      %a{ :href => '#systemTemplateModal', :class => 'btn btn-primary', :'data-toggle' => :modal} Import System Template
+
+    %div{ :id => :systemTemplateModal, :class => 'modal hide fade' }
+      .modal-header
+        %h3 Import a System Template
+      .modal-body
+        %form{ :action => "/cimi/system_templates/import", :method => :post }
+          %fieldset
+            .control-group
+              %label.control-label{ :for => 'system_template[source]' } Source URI
+              .controls
+                %input{ :type => :text, :name => 'system_template[source]' }
+      .modal-footer
+        %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating System Template...', :onclick => "postModalForm(this, 'systemTemplateModal')"} Continue
+        %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+
+  %p{:style => 'text-align:right;'}
+    %a{ :href => "#{@system_templates.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@system_templates.id}?format=json", :class => 'label warning' } JSON
+
+%blockquote
+  %p
+    A System Template Collection entity represents the collection of
+    System Template entities within a Provider. This entity can be used to
+    create systems.
+
+%h3 SystemTemplateCollection
+%ul
+  - @system_templates.system_templates.each do |temp|
+    %li
+      %a{ :href => "/cimi/system_templates/#{href_to_id(temp.id)}"}=href_to_id(temp.id)
+
+- details do
+  -row 'id',@system_templates.id
+  -row 'Count',@system_templates.count

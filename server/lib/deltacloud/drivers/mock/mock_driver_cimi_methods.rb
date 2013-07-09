@@ -142,6 +142,7 @@ module Deltacloud::Drivers::Mock
 
     def export_system(credentials, opts={})
       puts "export_system(#{opts})"
+      "http://cimi.example.org/ovf-packages/#{opts[:id]}" unless opts[:destination]
     end
 
     def system_machines(credentials, opts={})
@@ -237,6 +238,7 @@ module Deltacloud::Drivers::Mock
 
     def export_system_template(credentials, opts={})
       puts "export_system(#{opts})"
+      "http://cimi.example.org/ovf-packages/#{opts[:id]}" unless opts[:destination]
     end
 
     def networks(credentials, opts={})

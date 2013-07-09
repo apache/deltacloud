@@ -1,0 +1,34 @@
+- @title=collection_name @resource_collection
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/systems"} SystemCollection
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/systems/#{href_to_id(@system.id)}"}= href_to_id(@system.id)
+      %span.divider="/"
+    %li.active=collection_name @resource_collection
+
+- content_for :actions do
+  %p
+    %a{ :href => "#{@resource_collection.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@resource_collection.id}?format=json", :class => 'label warning' } JSON
+
+%ul
+  - resources = @resources[collection_name(@resource_collection).sub(/Collection/,'')]
+  - if resources and not resources.empty?
+    - @resources[collection_name(@resource_collection).sub(/Collection/,'')].each do |c|
+      %li
+        %a{ :href => "#{id_to_href(collection_name(@resource_collection).sub(/System(.+)Collection/,'\1'))[1..-1].pluralize}/#{href_to_id(c['id'][0])}"}=href_to_id(c['id'][0])
+  - else
+    .alert-message.block-message.warning
+      %p
+        There are no #{collection_name(@resource_collection).sub(/Collection/,'').pluralize} defined for this system.
+
+-details do
+  -row 'ID', @resources['id'][0]
+  -row 'Count', @resources['count'][0]

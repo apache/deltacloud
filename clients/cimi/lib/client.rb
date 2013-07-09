@@ -23,7 +23,9 @@ module CIMI
       end
 
       def get_entity(entity_type, id, credentials)
-        client['%s/%s' % [entity_type, id]].get(auth_header(credentials))
+        entity_href = get_entity_collection_href(entity_type, credentials)
+        raise RestClient::ResourceNotFound if not entity_href
+        RestClient::Resource.new('%s/%s' % [entity_href, id]).get(auth_header(credentials))
       end
 
       def get_entity_collection(entity_type, credentials)
@@ -31,6 +33,10 @@ module CIMI
         entity_href = get_entity_collection_href(entity_type, credentials)
         raise RestClient::ResourceNotFound if not entity_href
         RestClient::Resource.new(entity_href).get(auth_header(credentials))
+      end
+
+      def get_sub_entity_collection(parent_href, credentials)
+        RestClient::Resource.new(parent_href).get(auth_header(credentials))
       end
 
       # look up entity collection url from cloud entry point
@@ -52,7 +58,7 @@ module CIMI
       end
 
       def entity_action(entity_type, action, id, body, credentials)
-        client["%s/%s/%s" % [entity_type, id, action.to_s]].post(body, auth_header(credentials))
+        client["%s/%s/%s" % [entity_type, id, action.to_s]].post(body, auth_header(credentials).merge(:content_type => 'application/xml'))
       end
 
       def provider_header(credentials)

@@ -1,0 +1,70 @@
+- @title=collection_name @systems
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li.active
+      SystemCollection
+
+- content_for :actions do
+
+  - if @systems.operations.find {|o| o.rel == 'add'} and @system_templates
+    %p
+      %a{ :href => '#systemModal', :class => 'btn btn-primary', :'data-toggle' => :modal} New System
+
+    %div{ :id => :systemModal, :class => 'modal hide fade' }
+      .modal-header
+        %h3 Create new System entity
+      .modal-body
+        %form{ :action => "/cimi/systems", :method => :post }
+          %fieldset
+            .control-group
+              %label.control-label{ :for => 'system[name]' } System Name
+              .controls
+                %input{ :type => :text, :name => 'system[name]' }
+              %label.control-label{ :for => 'system[system_template]' } System Template
+              .controls
+                %select{ :name => 'system[system_template]' }
+                  - @system_templates.system_templates.each do |template|
+                    %option{ :value => template.id }=href_to_id(template.id)
+      .modal-footer
+        %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating System...', :onclick => "postModalForm(this, 'systemModal')"} Continue
+        %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+
+  - if @systems.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/import'}
+    %p
+      %a{ :href => '#systemImportModal', :class => 'btn btn-primary', :'data-toggle' => :modal} Import System
+
+    %div{ :id => :systemImportModal, :class => 'modal hide fade' }
+      .modal-header
+        %h3 Import system
+      .modal-body
+        %form{ :action => "/cimi/systems/import", :method => :post }
+          %fieldset
+            .control-group
+              %label.control-label{ :for => 'system[source]' } Source URI
+              .controls
+                %input{ :type => :text, :name => 'system[source]' }
+      .modal-footer
+        %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Import...', :onclick => "postModalForm(this, 'systemImportModal')"} Continue
+        %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+
+  %p{:style => 'text-align:right;'}
+    %a{ :href => "#{@systems.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@systems.id}?format=json", :class => 'label warning' } JSON
+
+%ul
+  - if @systems.systems and not @systems.systems.empty?
+    - @systems.systems.each do |system|
+      %li
+        %a{ :href => "/cimi/systems/#{href_to_id(system.id)}"}=href_to_id(system.id)
+  - else
+    .alert-message.block-message.warning
+      %p
+        There are no System entities defined for this collection.
+
+- details do
+  - row 'ID', @systems.id
+  - row 'Count', @systems.count

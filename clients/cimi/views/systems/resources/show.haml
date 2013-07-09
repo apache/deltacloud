@@ -1,0 +1,31 @@
+- @title="#{@resource['name'][0]}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/systems"} SystemCollection
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/systems/#{href_to_id(@system.id)}"}= href_to_id(@system.id)
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/systems/#{href_to_id(@system.id)}/#{@resource_type.pluralize}"}= collection_name @resource_collection
+      %span.divider="/"
+    %li.active
+      = @resource['name'][0]
+
+- content_for :actions do
+
+  %p{:style => 'margin-top:1em;'}
+    %a{ :href => "#{@resource['id'][0]}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@resource['id'][0]}?format=json", :class => 'label warning' } JSON
+
+- details do
+  -row 'ID', @resource['id'][0]
+  -row 'Name', @resource['name'][0]
+  -row 'Description', @resource['description'] ? @resource['description'][0] : 'N/A'
+  -row 'Created', @resource['created'] ? @resource['created'][0] : 'N/A'
+  -row collection_name(@resource_collection).sub(/System(.+)Collection/,'\1'), url("/cimi/#{@resource_type.pluralize}/#{href_to_id @resource[@resource_type][0]['href']}")

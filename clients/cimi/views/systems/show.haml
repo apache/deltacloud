@@ -1,0 +1,81 @@
+- @title="#{@system.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/systems"} SystemCollection
+      %span.divider="/"
+    %li.active
+      = @system.name
+
+- content_for :actions do
+
+  %div{:class => 'btn-group btn-group-vertical'}
+    %form{ :action => "/cimi/systems/#{href_to_id @system.id}/stop", :method => :post, :style => 'display:inline', :id => 'frm_stop'}
+    %form{ :action => "/cimi/systems/#{href_to_id @system.id}/start", :method => :post, :style => 'display:inline', :id => 'frm_start'}
+    %form{ :action => "/cimi/systems/#{href_to_id @system.id}/restart", :method => :post, :style => 'display:inline', :id => 'frm_restart'}
+    %form{ :action => "/cimi/systems/#{href_to_id @system.id}/delete", :method => :post, :style => 'display:inline', :id => 'frm_delete'}
+      %input{ :type => :hidden, :name => '_method', :value => 'delete'}
+    - if @system.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/stop'}
+      %button{ :class => 'btn btn-warning', :type => :button, :onclick => '$("#frm_stop").submit()'} Stop
+    - if @system.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/start'}
+      %button{ :class => 'btn btn-success', :type => :button, :onclick => '$("#frm_start").submit()'} Start
+    - if @system.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/restart'}
+      %button{ :class => 'btn btn-info', :type => :button, :onclick => '$("#frm_restart").submit()'} Reboot
+    - if @system.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/export'}
+      %a{ :class => 'btn btn-primary', :href => '#systemModal', :'data-toggle' => :modal} Export
+    - if @system.operations.find {|o| o.rel == 'delete'}
+      %button{ :class => 'btn btn-danger', :type => :button, :onclick => '$("#frm_delete").submit()'} Destroy
+
+  %div{ :id => :systemModal, :class => 'modal hide fade' }
+    .modal-header
+      %h3 Export System entity
+    .modal-body
+      %form{ :action => "/cimi/systems/#{href_to_id @system.id}/export", :method => :post }
+        %fieldset
+          .control-group
+            %label.control-label{ :for => 'system[format]' } Media Type
+            .controls
+              %input{ :type => :text, :name => 'system[format]' }
+            %label.control-label{ :for => 'system[destination]' } Location to Put Exported Data
+            .controls
+              %input{ :type => :text, :name => 'system[destination]' }
+    .modal-footer
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'System Export Initiated...', :onclick => "postModalForm(this, 'systemModal')"} Continue
+      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+
+  %p{:style => 'margin-top:1em;'}
+    %a{ :href => "#{@system.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@system.id}?format=json", :class => 'label warning' } JSON
+
+- details do
+  -row 'ID', @system.id
+  -row 'Name',@system.name
+  -row 'Description',@system.description
+  -row 'Created', @system.created
+  -row 'State',state_span_for(@system.state)
+  -row 'Systems', @system.systems.href
+  -row 'Machines', @system.machines.href
+  -row 'Credentials', @system.credentials.href
+  -row 'Volumes', @system.volumes.href
+  -row 'Networks', @system.networks.href
+  -row 'NetworkPorts', @system.network_ports.href
+  -row 'Addresses', @system.addresses.href
+  -row 'ForwardingGroups', @system.forwarding_groups.href
+  -row 'Meters', (@system.meters.empty? ? "No meters" : ( @system.meters.each{|meter| meters.id}))
+
+%h5 Properties
+%table{ :class => 'table table-bordered table-striped' }
+  %thead
+    %tr
+      %th Name
+      %th Value
+  %tbody
+    - @system.property.each do |name, value|
+      %tr
+        %td
+          %code=name
+        %td=convert_urls value

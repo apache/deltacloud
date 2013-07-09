@@ -1,0 +1,74 @@
+- @title="#{@system_template.name}"
+
+- content_for :breadcrumb do
+  %ul.breadcrumb
+    %li
+      %a{ :href => "/cimi/cloudEntryPoint"} CloudEntryPoint
+      %span.divider="/"
+    %li
+      %a{ :href => "/cimi/system_templates"} SystemTemplateCollection
+      %span.divider="/"
+    %li.active
+      = @system_template.name
+
+- content_for :actions do
+
+  %div{:class => 'btn-group btn-group-vertical'}
+    %form{ :action => "/cimi/system_templates/#{href_to_id @system_template.id}/delete", :method => :post, :style => 'display:inline', :id => 'frm_delete'}
+      %input{ :type => :hidden, :name => '_method', :value => 'delete'}
+    - if @system_template.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/export'}
+      %a{ :class => 'btn btn-primary', :href => '#systemModal', :'data-toggle' => :modal} Export
+    - if @system_template.operations.find {|o| o.rel == 'delete'}
+      %button{ :class => 'btn btn-danger', :type => :button, :onclick => '$("#frm_delete").submit()'} Destroy
+
+  %div{ :id => :systemModal, :class => 'modal hide fade' }
+    .modal-header
+      %h3 Export System Template entity
+    .modal-body
+      %form{ :action => "/cimi/system_templates/#{href_to_id @system_template.id}/export", :method => :post }
+        %fieldset
+          .control-group
+            %label.control-label{ :for => 'system_template[format]' } Media Type
+            .controls
+              %input{ :type => :text, :name => 'system_template[format]' }
+            %label.control-label{ :for => 'system_template[destination]' } Location to Put Exported Data
+            .controls
+              %input{ :type => :text, :name => 'system_template[destination]' }
+    .modal-footer
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'System Template Export Initiated...', :onclick => "postModalForm(this, 'systemModal')"} Continue
+      %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
+
+  %p{:style => 'margin-top:1em;'}
+    %a{ :href => "#{@system_template.id}?format=xml", :class => 'label warning' } XML
+    %a{ :href => "#{@system_template.id}?format=json", :class => 'label warning' } JSON
+
+-details 'SystemTemplate details' do
+  -row 'ID',@system_template.id
+  -row 'Name',@system_template.name
+  -row 'Description',@system_template.description
+  -row 'Created',@system_template.created
+
+%h5 Component Descriptors
+%table{ :class => 'table table-bordered table-striped' }
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Type
+      %th Component Template
+      %th Quantity
+  %tbody
+    - @system_template.component_descriptors.each do |compo|
+      %tr
+        %td=compo.name
+        %td=compo.description
+        %td=compo.type
+        -descriptors = [:machine_template,:system_template,:credential_template,:volume_template,:network_template,:network_port_template,:forwarding_group_template,:address_template]
+        -value = nil
+        -unless descriptors.find {|d| value = compo.send(d)[:href]}
+          -descriptors.find do |d|
+            - values = compo.send(d).attribute_values.collect do |k, v|
+              - "#{k} => #{v.attribute_values[:href]}" if v and v.respond_to? 'attribute_values' and v.attribute_values[:href]
+            - value = values.compact.join(' <br> ')
+        %td=value ? convert_urls(value) : 'N/A'
+        %td=compo.quantity ? compo.quantity : 1

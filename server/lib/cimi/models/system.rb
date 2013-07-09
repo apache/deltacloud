@@ -26,13 +26,9 @@ class CIMI::Model::System < CIMI::Model::Base
   collection :addresses, :class => CIMI::Model::SystemAddress
   collection :forwarding_groups, :class => CIMI::Model::SystemForwardingGroup
 
-  #TODO: implement the attributes commented out
-
-  #  array :meters do
-  #    scalar :href
-  #  end
-
-  #  href :event_log
+  array :meters do
+    scalar :href
+  end
 
   array :operations do
     scalar :rel, :href
