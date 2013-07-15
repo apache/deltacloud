@@ -60,8 +60,10 @@ module CIMI
       def entity_action(entity_type, action, body, credentials, id=nil)
         entity_href = get_entity_collection_href(entity_type, credentials)
         raise RestClient::ResourceNotFound if not entity_href
-        url = id ? '%s/%s/%s' % [entity_href, id, action.to_s] : '%s/%s' % [entity_href, action.to_s]
-        RestClient::Resource.new(url).post(body, auth_header(credentials).merge(:content_type => 'application/xml'))
+        url = id ? '%s/%s' % [entity_href, id] : '%s' % [entity_href]
+        response_xml = RestClient::Resource.new(url).get(auth_header(credentials))
+        op_url = XmlSimple.xml_in(response_xml)['operation'].find {|o| o['rel'] == "http://schemas.dmtf.org/cimi/1/action/#{action}" }['href']
+        RestClient::Resource.new(op_url).post(body, auth_header(credentials).merge(:content_type => 'application/xml'))
       end
 
       def provider_header(credentials)
