@@ -125,6 +125,9 @@ class CIMI::Frontend::System < CIMI::Frontend::Entity
     if result.code == 200
       flash[:success] = "System '#{params[:id]}' was successfully destroyed."
       redirect '/cimi/systems'
+    elsif result.code == 202
+      flash[:success] = "Deletion of System '#{params[:id]}' was successfully initiated."
+      redirect '/cimi/systems'
     else
       flash[:error] = "Unable to destroy system #{params[:id]}"
     end
