@@ -40,7 +40,7 @@
                   - @creds.credentials.each do |cred|
                     %option{ :value => cred.id }=href_to_id(cred.id)
     .modal-footer
-      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Credential...', :onclick => "postModalForm(this, 'machineModal')"} Continue
+      %a{ :href => '#', :class => 'btn btn-primary', :'data-loading-text' => 'Creating Machine...', :onclick => "postModalForm(this, 'machineModal')"} Continue
       %a{ :href => '#', :class => 'btn', :'data-dismiss' => 'modal'} Cancel
   %p{:style => 'text-align:right;'}
     %a{ :href => "#{@machines.id}?format=xml", :class => 'label warning' } XML
