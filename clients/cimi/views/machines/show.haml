@@ -19,12 +19,14 @@
     %form{ :action => "/cimi/machines/#{href_to_id @machine.id}/restart", :method => :post, :style => 'display:inline', :id => 'frm_restart'}
     %form{ :action => "/cimi/machines/#{href_to_id @machine.id}/delete", :method => :post, :style => 'display:inline', :id => 'frm_delete'}
       %input{ :type => :hidden, :name => '_method', :value => 'delete'}
-    - if @machine.state == 'STARTED'
+    - if @machine.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/stop'}
       %button{ :class => 'btn btn-warning', :type => :button, :onclick => '$("#frm_stop").submit()'} Stop
-    - if @machine.state == 'STOPPED'
+    - if @machine.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/start'}
       %button{ :class => 'btn btn-success', :type => :button, :onclick => '$("#frm_start").submit()'} Start
-    %button{ :class => 'btn btn-info', :type => :button, :onclick => '$("#frm_restart").submit()'} Reboot
-    %button{ :class => 'btn btn-danger', :type => :button, :onclick => '$("#frm_delete").submit()'} Destroy
+    - if @machine.operations.find {|o| o.rel == 'http://schemas.dmtf.org/cimi/1/action/restart'}
+      %button{ :class => 'btn btn-info', :type => :button, :onclick => '$("#frm_restart").submit()'} Reboot
+    - if @machine.operations.find {|o| o.rel == 'delete'}
+      %button{ :class => 'btn btn-danger', :type => :button, :onclick => '$("#frm_delete").submit()'} Destroy
 
   %p{:style => 'margin-top:1em;'}
     %a{ :href => "#{@machine.id}?format=xml", :class => 'label warning' } XML
