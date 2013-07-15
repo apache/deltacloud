@@ -21,7 +21,7 @@
   - row 'Name', @machine_configuration.name
   - row 'Description', @machine_configuration.description
   - row 'Created', @machine_configuration.created
-  - row 'Num of CPUs', @machine_configuration.cpu
-  - row 'Memory (RAM)', @machine_configuration.memory
+  - row 'CPU', @machine_configuration.cpu
+  - row 'Memory (RAM)', "#{@machine_configuration.memory} KiB"
   - row 'Storage (disks)', @machine_configuration.disks.map { |d| [d.capacity, d.format].join('&nbsp;') }.join(',')
 

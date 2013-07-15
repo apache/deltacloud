@@ -38,7 +38,7 @@
   -row 'Description',@machine.description
   -row 'State',state_span_for(@machine.state)
   -row 'CPU', boolean_span_for(@machine.cpu)
-  -row 'RAM', @machine.memory
+  -row 'Memory (RAM)', "#{@machine.memory} KiB"
   -row 'Meters', (@machine.meters.empty? ? "No meters" : ( @machine.meters.each{|meter| meters.id}))
   -row 'Created', @machine.created
   -row 'Disks', url("/cimi/machines/#{href_to_id @machine.id}/disks")
