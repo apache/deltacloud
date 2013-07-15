@@ -55,7 +55,7 @@ class CIMI::Frontend::Credential < CIMI::Frontend::Entity
       result = create_entity('credentials', credential_xml, credentials)
       cred = collection_class_for(:credential).from_xml(result)
       flash[:success] = "Credential was successfully created."
-      redirect "/cimi/credentials/#{cred.name}", 302
+      redirect "/cimi/credentials/#{href_to_id(cred.id)}", 302
     rescue => e
       flash[:error] = "Credential could not be created: #{e.message}"
       redirect(back)

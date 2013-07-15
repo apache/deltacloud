@@ -43,7 +43,7 @@ class CIMI::Frontend::Address < CIMI::Frontend::Entity
       result = create_entity('addresses', address_xml, credentials)
       address = collection_class_for(:address).from_xml(result)
       flash[:success] = "Address was successfully created."
-      redirect "/cimi/addresses/#{address.name}", 302
+      redirect "/cimi/addresses/#{href_to_id(address.id)}", 302
     rescue => e
       flash[:error] = "Address cannot be created: #{e.message}"
     end

@@ -56,7 +56,7 @@ class CIMI::Frontend::Network < CIMI::Frontend::Entity
       result = create_entity('networks', network_xml, credentials)
       network = collection_class_for(:network).from_xml(result)
       flash[:success] = "Network was successfully created."
-      redirect "/cimi/networks/#{network.name}", 302
+      redirect "/cimi/networks/#{href_to_id(network.id)}", 302
     rescue => e
       flash[:error] = "Network cannot be created: #{e.message}"
     end

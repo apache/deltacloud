@@ -112,7 +112,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
       result = create_entity('machines', machine_xml, credentials)
       machine = collection_class_for(:machine).from_xml(result)
       flash[:success] = "Machine was successfully created."
-      redirect "/cimi/machines/#{machine.name}", 302
+      redirect "/cimi/machines/#{href_to_id machine.id}", 302
     rescue => e
       flash[:error] = "Machine cannot be created: #{e.message}"
     end

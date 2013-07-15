@@ -44,7 +44,7 @@ class CIMI::Frontend::MachineTemplate < CIMI::Frontend::Entity
       result = create_entity('machine_templates', machine_template_xml, credentials)
       machine_template = collection_class_for(:machine_template).from_xml(result)
       flash[:success] = "Machine Template was successfully created."
-      redirect "/cimi/machine_templates/#{machine_template.name}", 302
+      redirect "/cimi/machine_templates/#{href_to_id(machine_template.id)}", 302
     rescue => e
       flash[:error] = "Machine Template cannot be created: #{e.message}"
     end

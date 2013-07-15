@@ -29,7 +29,7 @@ class CIMI::Service::MachineImage < CIMI::Service::Base
   def self.from_image(image, context)
     self.new(context, :values => {
       :id => context.machine_image_url(image.id),
-      :name => image.id,
+      :name => image.name,
       :description => image.description,
       :state => image.state || 'UNKNOWN',
       :type => "IMAGE",
