@@ -244,6 +244,7 @@ module Deltacloud::Drivers::Fgcp
       safely do
         client = new_client(credentials)
         context = opts[:env]
+        images = nil #lazy load
         templates = client.list_vsys_descriptor['vsysdescriptors'][0]['vsysdescriptor'].collect do |desc|
           conf = client.get_vsys_descriptor_configuration(desc['vsysdescriptorId'][0])['vsysdescriptor'][0]
           components = conf['vservers'][0]['vserver'].collect do |vserver|
@@ -253,13 +254,15 @@ module Deltacloud::Drivers::Fgcp
                 :volume_config => CIMI::Model::VolumeConfiguration.new(:capacity => vdisk['size'][0].to_i * 1024 * 1024)
               )
             end if vserver['vdisks']
+            images = images(credentials) if not images
+            this_image = images.find {|img| img.id == vserver['diskimageId'][0] }
             {
               :name             => vserver['vserverName'][0],
-              :description      => '',
+              :description      => this_image ? this_image.description : '',
               :type             => "http://schemas.dmtf.org/cimi/1/Machine",
               :machine_template => CIMI::Model::MachineTemplate.new(
                 :name             => vserver['vserverName'][0],
-                :description      => '',
+                :description      => this_image ? this_image.description : '',
                 :machine_config   => CIMI::Service::MachineConfiguration.find(vserver['vserverType'][0], context),
                 :machine_image    => { :href => context.machine_image_url(vserver['diskimageId'][0]) },
                 :volume_templates => volume_templates
