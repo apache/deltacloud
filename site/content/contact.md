@@ -30,6 +30,16 @@ For now we're using an <a href="http://etherpad.deltacloud.org/p/Weekly">etherpa
 <h3>Past Calls:</h3>
 
 <br>
+<a href="http://youtu.be/TWf0o8n16uk">Deltacloud Community Call #21</a>
+
+<ul>
+<li>News: <a href="http://mail-archives.apache.org/mod_mbox/deltacloud-dev/201305.mbox/%3C518D0F79.4000901%40redhat.com%3E">Red Hat Announcement</a> </li>
+<li> OpenStack driver update: changing from <a href="https://github.com/ruby-openstack/ruby-openstack">ruby-openstack</a> to <a href="https://github.com/fog/fog">fog</a></li>
+
+</ul>
+
+
+<br>
 <a href="http://youtu.be/cPnAiFc4wh4">Deltacloud Community Call #20</a>
 
 <ul>
