@@ -58,6 +58,9 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
     if result.code == 200
       flash[:success] = "Machine '#{params[:id]}' was successfully destroyed."
       redirect '/cimi/machines'
+    elsif result.code == 202
+      flash[:success] = "Deletion of Machine '#{params[:id]}' was successfully initiated."
+      redirect '/cimi/machines'
     else
       flash[:error] = "Unable to destroy machine #{params[:id]}"
     end
@@ -91,7 +94,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
         xml.action "http://schemas.dmtf.org/cimi/1/action/restart"
       }
     end.to_xml
-    entity_action 'machines', 'restart', action_xml, credentials, action_xml
+    entity_action 'machines', 'restart', action_xml, credentials, params[:id]
     flash[:success] = "Machine successfully restarted."
     redirect '/cimi/machines/%s' % params[:id]
   end

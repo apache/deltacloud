@@ -175,9 +175,14 @@ class CIMI::Frontend::System < CIMI::Frontend::Entity
     end.to_xml
     begin
       result = create_entity('systems', system_xml, credentials)
-      system = collection_class_for(:system).from_xml(result)
       flash[:success] = "System create was successfully initiated."
-      redirect "/cimi/systems/#{href_to_id(system.id)}"
+      location = result.headers[:location]
+      if location
+        redirect "/cimi/systems/#{href_to_id location}"
+      else
+        system = collection_class_for(:system).from_xml(result)
+        redirect "/cimi/systems/#{href_to_id system.id}"
+      end
     rescue => e
       flash[:error] = "System cannot be created: #{e.message}"
     end
