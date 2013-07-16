@@ -43,7 +43,7 @@ class CIMI::Frontend::Credential < CIMI::Frontend::Entity
 
   post '/cimi/credential' do
     credential_xml = Nokogiri::XML::Builder.new do |xml|
-      xml.Credential(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+      xml.CredentialCreate(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:credential][:name]
         xml.description params[:credential][:description]
         xml.username params[:credential][:username]

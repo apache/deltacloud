@@ -43,7 +43,7 @@ class CIMI::Frontend::Network < CIMI::Frontend::Entity
 
   post '/cimi/networks' do
     network_xml = Nokogiri::XML::Builder.new do |xml|
-      xml.Network(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+      xml.NetworkCreate(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:network][:name]
         xml.description params[:network][:description]
         xml.networkTemplate {

@@ -98,7 +98,7 @@ class CIMI::Frontend::Machine < CIMI::Frontend::Entity
 
   post '/cimi/machines' do
     machine_xml = Nokogiri::XML::Builder.new do |xml|
-      xml.Machine(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+      xml.MachineCreate(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:machine][:name]
         xml.description params[:machine][:description]
         xml.machineTemplate {

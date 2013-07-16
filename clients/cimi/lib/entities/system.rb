@@ -168,7 +168,7 @@ class CIMI::Frontend::System < CIMI::Frontend::Entity
 
   post '/cimi/systems' do
     system_xml = Nokogiri::XML::Builder.new do |xml|
-      xml.System(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+      xml.SystemCreate(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:system][:name]
         xml.systemTemplate( :href => params[:system][:system_template])
       }

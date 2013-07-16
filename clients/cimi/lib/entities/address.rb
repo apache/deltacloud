@@ -33,7 +33,7 @@ class CIMI::Frontend::Address < CIMI::Frontend::Entity
 
   post '/cimi/addresses' do
     address_xml = Nokogiri::XML::Builder.new do |xml|
-      xml.Address(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
+      xml.AddressCreate(:xmlns => CIMI::Frontend::CMWG_NAMESPACE) {
         xml.name params[:address][:name]
         xml.description params[:address][:description]
         xml.addressTemplate( :href => params[:address][:address_template] )
