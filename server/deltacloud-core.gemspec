@@ -124,6 +124,7 @@ Gem::Specification.new do |s|
   # VSphere
   s.add_dependency('rbvmomi')
 
-
+  # Profitbricks
+  s.add_dependency('profitbricks')
 
 end

@@ -152,7 +152,7 @@ end
 if RUBY_PLATFORM == 'java'
   DRIVERS = [:mock, :ec2, :rhevm, :gogrid, :openstack, :fgcp]
 else
-  DRIVERS = [:mock, :ec2, :rhevm, :google, :gogrid, :openstack, :fgcp]
+  DRIVERS = [:mock, :ec2, :rhevm, :google, :gogrid, :openstack, :fgcp, :profitbricks]
 end
 
 desc 'Run all tests'

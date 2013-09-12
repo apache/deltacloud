@@ -18,6 +18,8 @@
     %p
       %label
         Realm ID:
-      %input{ :name => "realm_id", :size => 10, :value => driver.realms(credentials).first.id}
+      %select{ :name => 'realm_id' }
+        - driver.realms(credentials).each do |i|
+          %option{ :value => "#{i.id}"} #{i.name}
     %p
       %input{ :type => :submit, :name => "commit", :value => "Create" }/

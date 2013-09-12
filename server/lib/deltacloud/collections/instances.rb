@@ -30,7 +30,7 @@ module Deltacloud::Collections
       if params[:realm_id]
         @opts[:realms] = [ Deltacloud::Realm.new(:id => params[:realm_id]) ] if params[:realm_id]
       else
-        @opts[:realms] = driver.realms(credentials)
+        @opts[:realms] = driver.realms(credentials, :image => @opts[:image])
       end
       if driver.class.has_feature?(:instances, :firewalls)
         @opts[:firewalls] = driver.firewalls(credentials)

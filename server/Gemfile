@@ -23,6 +23,7 @@ gem 'openstack', '>=1.0.9'
 gem 'savon'
 gem 'rbvmomi'
 gem 'rbovirt', '>=0.0.19'
+gem "profitbricks", '~> 1.0.3'
 
 platform :mri do
   gem 'sqlite3'

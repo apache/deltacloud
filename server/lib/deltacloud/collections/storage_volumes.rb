@@ -24,9 +24,9 @@ module Deltacloud::Collections
     new_route_for(:storage_volumes)
 
     get "/storage_volumes/:id/attach_instance" do
-      @opts[:instances] = driver.instances(credentials)
+      @instances = driver.instances(credentials, :storage_id => params[:id])
       respond_to do |format|
-        format.html{ haml :"storage_volumes/attach"}
+        format.html{ haml :"storage_volumes/attach", :locals => { :instances=> @instances }}
       end
     end
 

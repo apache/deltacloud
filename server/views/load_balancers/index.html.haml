@@ -8,6 +8,9 @@
       %li
         %a{ :href => load_balancer_url(balancer.id), :'data-ajax' => 'false'}
           %img{ :class => 'ui-link-thumb', :src => '/images/balancer.png'}
-          %h3=balancer.id
+          - if balancer.name
+            %h3="#{balancer.name} (#{balancer.id})"
+          - else
+            %h3=balancer.id
           %p=balancer.public_addresses.join(', ')
           %span{ :class => 'ui-li-count'}=balancer.realms.first.id
