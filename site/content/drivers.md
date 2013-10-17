@@ -289,6 +289,20 @@ The driver and provider can be selected through the request headers <strong> X-D
       <td style="text-align:center">yes</td>
       <td style="text-align:center">yes</td>
     </tr>
+    <tr>
+      <td class='provider'>
+        <strong>ProfitBricks</strong>
+      </td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+      <td style="text-align:center">yes</td>
+    </tr>
   </tbody>
 </table>
 
@@ -581,6 +595,15 @@ The following table gives details about the credentials that must be provided fo
       <td>API Key</td>
       <td>Obtain these credentials from the <a href="https://www.digitalocean.com/api_access">API access</a> page of your digitalocean account.</td>
     </tr>
+    <tr>
+      <td>
+        <strong>ProfitBricks</strong>
+      </td>
+      <td>profitbricks</td>
+      <td>Username (email)</td>
+      <td>Password</td>
+      <td>The same credientals used for log-in to the <a href="https://my.profitbricks.com/dashboard/">Profitbricks DCD</a>.</td>
+    </tr>
   </tbody>
 </table>
 
@@ -794,6 +817,19 @@ The username and password in 401 challenge should be the same as you use in the 
       Arubacloud services are provided from 4 datacenters, which are mapped to providers (and realms). The regions of storage services are related to datacenters; compute services are available in all datacenters, while storage is not present in DC2
       <br/>
       Since storage accounts (specific username and passowrd to access storgae functionalities) are bounded to a certain datacenter (chosen during credentials creation), when using Arubacloud driver for storage functionalities you have to pass as params the location (datacenter name) or the realm_id (1 for DC1, 3 for DC3, 4 for DC4), otherwise the driver will assume that you are operting in the default region (which is DC1)
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#specific" href="#ec2">
+        ProfitBricks
+      </a>
+    </div>
+    <div id="ec2" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        ProfitBricks is different from other cloud providers because it does not have fixed Realms. Realms, called Datacenters at ProfitBricks, can be created and deleted by the user. Because this functionality is not implemented in Deltacloud you first have to create a Datacenter via the <a href="https://my.profitbricks.com/dashboard/dcd/">ProfitBricks DCD</a>.
+      <br/>
       </div>
     </div>
   </div>
